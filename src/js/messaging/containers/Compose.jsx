@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -13,7 +14,6 @@ import {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
-  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
@@ -21,7 +21,6 @@ import {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 } from '../actions';
 
 export class Compose extends React.Component {
@@ -46,7 +45,6 @@ export class Compose extends React.Component {
     }
 
     this.props.resetMessage();
-    this.props.fetchRecipients();
   }
 
   componentDidUpdate() {
@@ -134,7 +132,7 @@ export class Compose extends React.Component {
               onClick={this.props.toggleConfirmDelete}>
             Cancel
           </a>
-          <h2>New message</h2>
+          <h3>New message</h3>
           <button
               className="messaging-send-button"
               type="button"
@@ -174,7 +172,7 @@ export class Compose extends React.Component {
 }
 
 Compose.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -194,7 +192,6 @@ const mapDispatchToProps = {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
-  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
@@ -202,7 +199,6 @@ const mapDispatchToProps = {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

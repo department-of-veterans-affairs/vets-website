@@ -1,3 +1,6 @@
+import createCommonStore from './common/store';
+import createLoginWidget from './login/login-entry';
+
 // No-react styles.
 require('../sass/no-react.scss');
 
@@ -5,14 +8,15 @@ require('./common');
 
 // Bring in foundation and custom libraries.
 require('foundation-sites');
-require('./legacy/components.js');
-
-// Only used in facility-locator index and some playbook examples.
-require('jquery-accessible-simple-tooltip-aria/jquery-accessible-simple-tooltip-aria.js');
 
 // Used in the footer.
 require('./legacy/menu.js');
-require('./legacy/toggle-veterans-crisis-line.js');
 require('./common/utils/sticky-action-box.js');
 
-require('./login/login-entry.jsx');
+// New navigation menu
+require('./legacy/mega-menu.js');
+
+// New sidebar menu
+require('./legacy/sidebar-navigation.js');
+
+createLoginWidget(createCommonStore());

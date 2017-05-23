@@ -36,7 +36,27 @@ module.exports = {
       }
     ]
   },
-
+  errorCodes: {
+    acceptTerms: [
+      'RX135',
+      'VA900',
+    ],
+    registration: [
+      'RX106',
+      'RX105',
+      'RX104',
+      'RX3',
+    ],
+    prescriptions: [
+      'RX101',
+      'RX102',
+      'RX901',
+      'RX500',
+      'RX503',
+      'RX117',
+      'RX99',
+    ],
+  },
   rxStatuses: {
     active: 'Active',
     deleted: 'Unknown',

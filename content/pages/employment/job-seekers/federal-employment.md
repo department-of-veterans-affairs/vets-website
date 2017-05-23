@@ -5,7 +5,11 @@ concurrence: incomplete
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Federal jobs, including those at VA, offer outstanding opportunities to Veterans and their spouses. Skills learned in the military are easily transferrable to many positions, and by working for a federal agency, you can continue to serve your country. In addition, your military service counts toward a civilian pension.
+
+</div>
 
 The federal job-application process is very detailed compared with most civilian organizations. Federal positions are listed, with very few exceptions, on [USAJobs](http://www.usajobs.gov).
 
@@ -14,7 +18,7 @@ One-on-one assistance in applying for federal jobs is available at local [Employ
 ### Veterans’ Preference
 The Veterans’ Preference program awards points to you during the application process, giving you an advantage in job placement. This program assists you only when you are applying to competitive positions—those announced publicly to a pool of job seekers.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for federal Veterans’ Preference?
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
@@ -47,7 +48,6 @@ export default class EmploymentHistoryFields extends React.Component {
     );
 
     const formView = (<fieldset className="edu-growable-form">
-      <legend className="hide-for-small-only">Employment history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ExpandingGroup open={this.props.data.hasNonMilitaryJobs.value === 'Y'} additionalClass="edu-benefits-employ-group">
@@ -108,7 +108,7 @@ export default class EmploymentHistoryFields extends React.Component {
 }
 
 EmploymentHistoryFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeFields: React.PropTypes.func.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeFields: PropTypes.func.isRequired
 };

@@ -2,6 +2,7 @@
 title: Send a message to your provider
 layout: page-react.html
 entryname: messaging
+gatePage: true
 ---
 
 <div id="main">

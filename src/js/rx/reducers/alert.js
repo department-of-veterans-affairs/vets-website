@@ -19,15 +19,34 @@ export default function alert(state = initialState, action) {
     case 'CLOSE_ALERT':
       return initialState;
 
-    case 'REFILL_FAILURE': {
-      const rx = action.prescription;
+    case 'RX_LOADING_PREFERENCES':
+    case 'RX_SAVING_PREFERENCES':
+      return initialState;
 
+    case 'RX_SAVE_PREFERENCES_FAILURE': {
+      const { errors } = action;
+      const error = errors.length && `${errors[0].title}.`;
+      return {
+        content: <b>Failed to save changes. {error}</b>,
+        status: 'error',
+        visible: true
+      };
+    }
+
+    case 'RX_SAVE_PREFERENCES_SUCCESS':
+      return {
+        content: <b>Your changes have been saved.</b>,
+        status: 'success',
+        visible: true
+      };
+
+    case 'REFILL_FAILURE': {
       return {
         content: (
-          <b>
-            Could not request a refill for <Link to={`/${rx.prescriptionId}`}>
-            {rx.prescriptionName}</Link>.
-          </b>
+          <div>
+            <h5 className="va-alert-title">Prescription refill unsuccessful</h5>
+            <p>We couldn't process this request. Please try again or <a href="/healthcare/messaging">message your provider</a>.</p>
+          </div>
         ),
         status: 'error',
         visible: true

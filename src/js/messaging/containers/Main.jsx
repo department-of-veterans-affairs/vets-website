@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -11,6 +12,7 @@ import {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchRecipients,
   fetchFolders,
   openCreateFolderModal,
   setNewFolderName,
@@ -34,6 +36,7 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.fetchFolders();
+    this.props.fetchRecipients();
   }
 
   handleFolderChange() {
@@ -105,7 +108,7 @@ export class Main extends React.Component {
           <ButtonClose
               className="messaging-folder-nav-close"
               onClick={this.props.toggleFolderNav}/>
-          <ComposeButton/>
+          <ComposeButton disabled={_.isEmpty(this.props.recipients)}/>
           <FolderNav
               currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}
@@ -141,7 +144,7 @@ export class Main extends React.Component {
 }
 
 Main.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 };
 
 const mapStateToProps = (state) => {
@@ -161,7 +164,8 @@ const mapStateToProps = (state) => {
     folders,
     isVisibleAdvancedSearch: msgState.search.advanced.visible,
     loading: msgState.loading,
-    nav: msgState.folders.ui.nav
+    nav: msgState.folders.ui.nav,
+    recipients: msgState.recipients.data,
   };
 };
 
@@ -172,6 +176,7 @@ const mapDispatchToProps = {
   createFolderAndMoveMessage,
   createNewFolder,
   fetchFolders,
+  fetchRecipients,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,

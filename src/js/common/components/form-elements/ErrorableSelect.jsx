@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -98,7 +99,7 @@ class ErrorableSelect extends React.Component {
             autoComplete={this.props.autocomplete}
             value={selectedValue}
             onChange={this.handleChange}>
-          <option value="">{this.props.emptyDescription}</option>
+          {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
         </select>
         {toolTip}
@@ -108,28 +109,33 @@ class ErrorableSelect extends React.Component {
 }
 
 ErrorableSelect.propTypes = {
-  errorMessage: React.PropTypes.string,
-  name: React.PropTypes.string,
-  autocomplete: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string }),
+  errorMessage: PropTypes.string,
+  name: PropTypes.string,
+  autocomplete: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.number }),
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string }),
     ])).isRequired,
-  required: React.PropTypes.bool,
-  value: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  required: PropTypes.bool,
+  includeBlankOption: PropTypes.bool,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  additionalClass: React.PropTypes.string,
-  emptyDescription: React.PropTypes.string
+  onValueChange: PropTypes.func.isRequired,
+  additionalClass: PropTypes.string,
+  emptyDescription: PropTypes.string
+};
+
+ErrorableSelect.defaultProps = {
+  includeBlankOption: true
 };
 
 export default ErrorableSelect;

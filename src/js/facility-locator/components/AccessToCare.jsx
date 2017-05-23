@@ -54,10 +54,16 @@ export default class AccessToCare extends Component {
       return null;
     }
 
+    const {
+      health: {
+        effective_date_range: effectiveDateRange
+      }
+    } = facility.attributes.feedback;
+
     return (
       <div className="mb2">
         <h4 className="highlight">Satisfaction Score</h4>
-        <p>Current as of <strong>Feb 2016 - Jul 2016</strong></p>
+        {effectiveDateRange ? (<p>Current as of <strong>{effectiveDateRange}</strong></p>) : null}
         <div>
           <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
             <thead>

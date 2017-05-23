@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -96,28 +97,28 @@ class FullName extends React.Component {
 }
 
 FullName.propTypes = {
-  required: React.PropTypes.bool,
-  name: React.PropTypes.shape({
-    first: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+  required: PropTypes.bool,
+  name: PropTypes.shape({
+    first: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    middle: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    middle: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    last: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    last: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    suffix: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    suffix: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
   }).isRequired,
-  customValidation: React.PropTypes.func,
-  customErrorMessage: React.PropTypes.string,
-  onUserInput: React.PropTypes.func.isRequired,
+  customValidation: PropTypes.func,
+  customErrorMessage: PropTypes.string,
+  onUserInput: PropTypes.func.isRequired,
 };
 
 export default FullName;

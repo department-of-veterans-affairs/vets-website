@@ -2,14 +2,11 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
-export const basename = '/disability-benefits/track-claims';
+export const basename = '/track-claims';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 export function scrollToTop() {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollToTop(getScrollOptions());
 }
 
 export function setFocus(selector) {
@@ -38,4 +35,3 @@ export function isTab(url) {
   return url &&
     (url.endsWith('status') || url.endsWith('files') || url.endsWith('details'));
 }
-

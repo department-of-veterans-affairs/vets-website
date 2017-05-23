@@ -2,8 +2,10 @@
 table {
   border: none;
   text-align: left;
-  @media #{$small-only} {
-    font-size: .85em;
+  font-size: .85em;
+
+  @include media($medium-screen) {
+    font-size: 1em;
   }
 }
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -54,16 +55,16 @@ class VaMedicalFacility extends React.Component {
 }
 
 VaMedicalFacility.propTypes = {
-  required: React.PropTypes.bool,
-  value: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  required: PropTypes.bool,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  facilityState: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  facilityState: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
+  onValueChange: PropTypes.func.isRequired,
 };
 
 export default VaMedicalFacility;

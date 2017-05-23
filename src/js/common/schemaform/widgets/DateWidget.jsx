@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
@@ -9,14 +10,21 @@ export default class DateWidget extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.state = { value: parseISODate(this.props.value), touched: { month: false, day: false, year: false } };
+    this.state = {
+      value: parseISODate(this.props.value),
+      touched: {
+        month: false,
+        day: false,
+        year: false
+      }
+    };
   }
 
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
     this.setState(newState, () => {
       if (newState.touched.year && newState.touched.month && newState.touched.day) {
-        this.props.onBlur(this.props.id, formatISOPartialDate(newState.value));
+        this.props.onBlur(this.props.id);
       }
     });
   }
@@ -26,7 +34,9 @@ export default class DateWidget extends React.Component {
     newState = _.set(['touched', field], true, newState);
 
     this.setState(newState, () => {
-      if (!this.props.required || newState.value.month && newState.value.day && newState.value.year) {
+      if (this.props.required && (!newState.value.month || !newState.value.day || !newState.value.year)) {
+        this.props.onChange();
+      } else {
         this.props.onChange(formatISOPartialDate(newState.value));
       }
     });
@@ -85,8 +95,8 @@ export default class DateWidget extends React.Component {
 }
 
 DateWidget.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string
+  id: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  value: PropTypes.string
 };

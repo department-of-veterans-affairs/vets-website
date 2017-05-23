@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { truncate } from 'lodash';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
+import { benefitsServices } from '../config';
 
 class SearchControls extends Component {
 
@@ -16,6 +17,7 @@ class SearchControls extends Component {
 
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
+    this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -82,16 +84,18 @@ class SearchControls extends Component {
   }
 
   handleFacilityFilterSelect(facilityType) {
-    if (facilityType === 'benefits') {
-      this.props.updateSearchQuery({
-        facilityType,
-      });
-    } else {
-      this.props.updateSearchQuery({
-        facilityType,
-        serviceType: null,
-      });
-    }
+    return () => {
+      if (facilityType === 'benefits') {
+        this.props.updateSearchQuery({
+          facilityType,
+        });
+      } else {
+        this.props.updateSearchQuery({
+          facilityType,
+          serviceType: null,
+        });
+      }
+    };
   }
 
   renderServiceFilterOptions() {
@@ -102,26 +106,9 @@ class SearchControls extends Component {
         return (
           <ul className="dropdown">
             {
-              [
-                'All',
-                'ApplyingForBenefits',
-                'BurialClaimAssistance',
-                'DisabilityClaimAssistance',
-                'eBenefitsRegistrationAssistance',
-                'EducationAndCareerCounseling',
-                'EducationClaimAssistance',
-                'FamilyMemberClaimAssistance',
-                'HomelessAssistance',
-                'VAHomeLoanAssistance',
-                'InsuranceClaimAssistanceAndFinancialCounseling',
-                'IntegratedDisabilityEvaluationSystemAssistance',
-                'PreDischargeClaimAssistance',
-                'TransitionAssistance',
-                'UpdatingDirectDepositInformation',
-                'VocationalRehabilitationAndEmploymentAssistance',
-              ].map(e => {
-                return (<li key={e} value={e} onClick={this.handleServiceFilterSelect.bind(this, e)}>
-                  {e.split(/(?=[A-Z])/).join(' ')}
+              Object.keys(benefitsServices).map(k => {
+                return (<li key={k} value={k} onClick={this.handleServiceFilterSelect.bind(this, k)}>
+                  {benefitsServices[k]}
                 </li>);
               })
             }
@@ -135,13 +122,29 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     switch (facilityType) {
       case 'health':
-        return (<span className="flex-center"><span className="legend health-icon"></span>Health</span>);
+        return (
+          <button type="button" className="facility-option">
+            <span className="flex-center"><span className="legend health-icon"></span>Health</span>
+          </button>
+        );
       case 'benefits':
-        return (<span className="flex-center"><span className="legend benefits-icon"></span>Benefits</span>);
+        return (
+          <button type="button" className="facility-option">
+            <span className="flex-center"><span className="legend benefits-icon"></span>Benefits</span>
+          </button>
+        );
       case 'cemetery':
-        return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
+        return (
+          <button type="button" className="facility-option">
+            <span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>
+          </button>
+        );
       default:
-        return (<span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>);
+        return (
+          <button type="button" className="facility-option">
+            <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
+          </button>
+        );
     }
   }
 
@@ -149,7 +152,7 @@ class SearchControls extends Component {
     const { isMobile } = this.props;
 
     return (
-      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: (isMobile ? 38 : 27) })}</span>
+      <span className="flex-center">{truncate((benefitsServices[serviceType] || 'All'), { length: (isMobile ? 38 : 27) })}</span>
     );
   }
 
@@ -170,25 +173,25 @@ class SearchControls extends Component {
     return (
       <div className="search-controls-container clearfix">
         <form>
-          <div className="columns medium-4">
+          <div className="columns usa-width-one-third medium-4">
             <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
-          <div className="columns medium-3">
+          <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown}>
               <div className="flex-center">
                 {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               </div>
               <ul className="dropdown">
-                <li onClick={this.handleFacilityFilterSelect.bind(this, null)}>{this.renderSelectOptionWithIcon()}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'health')}>{this.renderSelectOptionWithIcon('health')}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
+                <li onClick={this.handleFacilityFilterSelect()}>{this.renderSelectOptionWithIcon()}</li>
+                <li onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
               </ul>
             </div>
           </div>
-          <div className="columns medium-3">
+          <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
             <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'benefits' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
@@ -197,7 +200,7 @@ class SearchControls extends Component {
               {this.renderServiceFilterOptions()}
             </div>
           </div>
-          <div className="columns medium-2">
+          <div className="columns usa-width-one-sixth medium-2">
             <input type="submit" value="Search" onClick={this.handleSearch}/>
           </div>
         </form>

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -68,11 +69,11 @@ class PrescriptionTable extends React.Component {
 }
 
 PrescriptionTable.propTypes = {
-  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  glossaryModalHandler: React.PropTypes.func.isRequired,
-  refillModalHandler: React.PropTypes.func.isRequired,
-  handleSort: React.PropTypes.func.isRequired,
-  currentSort: React.PropTypes.object.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  glossaryModalHandler: PropTypes.func.isRequired,
+  refillModalHandler: PropTypes.func.isRequired,
+  handleSort: PropTypes.func.isRequired,
+  currentSort: PropTypes.object.isRequired,
 };
 
 export default PrescriptionTable;

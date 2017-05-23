@@ -6,6 +6,7 @@ import {
   ADD_FILE,
   REMOVE_FILE,
   SET_UPLOADING,
+  SET_UPLOADER,
   SET_PROGRESS,
   DONE_UPLOADING,
   SET_UPLOAD_ERROR,
@@ -68,6 +69,17 @@ describe('Uploads reducer', () => {
     expect(state.uploading).to.be.true;
     expect(state.uploadError).to.be.false;
     expect(state.uploadComplete).to.be.false;
+    expect(state.uploader).to.eql(uploader);
+  });
+
+  it('set uploader in state', () => {
+    const uploader = {};
+    const state = uploads({
+    }, {
+      type: SET_UPLOADER,
+      uploader
+    });
+
     expect(state.uploader).to.eql(uploader);
   });
 

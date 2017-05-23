@@ -9,29 +9,26 @@ describe('<DisabilityBenefitsApp>', () => {
     const tree = SkinDeep.shallowRender(
       <DisabilityBenefitsApp
           available
-          authorized
-          synced>
+          authorized>
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
 
     expect(tree.everySubTree('.test-child')).not.to.be.empty;
     expect(tree.everySubTree('RequiredLoginView')).not.to.be.empty;
-    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.equal('disability-benefits');
+    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.equal('evss-claims');
     expect(tree.subTree('RequiredLoginView').props.authRequired).to.equal(3);
   });
   it('should render children', () => {
     const tree = SkinDeep.shallowRender(
       <AppContent
           available
-          authorized
-          synced>
+          authorized>
         <div className="test-child"/>
       </AppContent>
     );
 
     expect(tree.everySubTree('.test-child')).not.to.be.empty;
-    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
     expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
   });
   it('should render unavailable when app is not allowed', () => {
@@ -39,28 +36,13 @@ describe('<DisabilityBenefitsApp>', () => {
       <AppContent
           available
           authorized
-          synced
           isDataAvailable={false}>
         <div className="test-child"/>
       </AppContent>
     );
 
-    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
     expect(tree.everySubTree('MviRecordsUnavailable')).not.to.be.empty;
     expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
-  });
-  it('should render sync warning', () => {
-    const tree = SkinDeep.shallowRender(
-      <AppContent
-          authorized
-          available>
-        <div className="test-child"/>
-      </AppContent>
-    );
-
-    expect(tree.everySubTree('.test-child')).not.to.be.empty;
-    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
-    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
   });
   it('should render unavailable', () => {
     const tree = SkinDeep.shallowRender(
@@ -70,7 +52,6 @@ describe('<DisabilityBenefitsApp>', () => {
     );
 
     expect(tree.everySubTree('.test-child')).to.be.empty;
-    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
     expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
   });
   it('should render unauthorized', () => {
@@ -80,7 +61,6 @@ describe('<DisabilityBenefitsApp>', () => {
       </AppContent>
     );
     expect(tree.everySubTree('.test-child')).to.be.empty;
-    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
     expect(tree.everySubTree('ClaimsUnauthorized')).not.to.be.empty;
   });
 });

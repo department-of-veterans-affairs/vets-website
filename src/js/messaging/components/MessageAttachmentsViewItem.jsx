@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -65,8 +66,8 @@ class MessageAttachmentsViewItem extends React.Component {
 }
 
 MessageAttachmentsViewItem.propTypes = {
-  name: React.PropTypes.string,
-  url: React.PropTypes.string
+  name: PropTypes.string,
+  url: PropTypes.string
 };
 
 export default MessageAttachmentsViewItem;

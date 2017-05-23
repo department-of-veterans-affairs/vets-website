@@ -9,8 +9,14 @@
 
 
 #messaging-app-header {
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     padding: 0 1.5rem;
+  }
+
+  @include media($medium-screen) {
+    .va-alert {
+      margin: 0 0 1.5rem;
+    }
   }
 }
 
@@ -19,6 +25,25 @@
   padding-top: 1.75rem;
   padding-bottom: 1.75rem;
   width: 100%;
+}
+
+.messaging-warning-banner {
+  margin: 1em 0 2em;
+}
+
+#messaging-app-title {
+  position: relative;
+
+  .msg-btn-settings {
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
 }
 
 // TODO: Refactor these styles so that they're
@@ -42,7 +67,11 @@
     width: 100%;
   }
 
-  @media (max-width: $medium-screen) {
+  .msg-btn-settings {
+    display: none;
+  }
+
+  @include media-maxwidth($medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
@@ -65,6 +94,10 @@
     }
 
     .messaging-folder-nav-close {
+      display: block;
+    }
+
+    .msg-btn-settings {
       display: block;
     }
   }
@@ -186,7 +219,7 @@
 }
 
 .msg-btn-back {
-  @extend %messaging-rectangular-button;
+  @include messaging-rectangular-button;
 
   i {
     margin-right: .5rem;

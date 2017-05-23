@@ -11,10 +11,12 @@ import { loadPrescription } from '../actions/prescriptions';
 import ContactCard from '../components/ContactCard';
 import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
-import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import SettingsButton from '../components/SettingsButton';
 import SubmitRefill from '../components/SubmitRefill';
+import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -154,11 +156,7 @@ export class Detail extends React.Component {
   }
 
   scrollToOrderHistory() {
-    scroller.scrollTo('orderHistory', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('orderHistory', getScrollOptions());
   }
 
   render() {
@@ -181,15 +179,15 @@ export class Detail extends React.Component {
         <div>
           {header}
           <div className="row">
-            <div className="columns medium-8">
+            <div className="columns usa-width-two-thirds medium-8 small-12">
               {rxInfo}
             </div>
-            <div className="columns medium-4">
+            <div className="columns usa-width-one-third medium-4 small-12">
               {contactCard}
             </div>
           </div>
           <div className="row">
-            <div className="columns medium-8">
+            <div className="columns usa-width-two-thirds medium-8 small-12">
               {orderHistory}
             </div>
           </div>
@@ -214,7 +212,10 @@ export class Detail extends React.Component {
             onCloseAlert={this.props.closeAlert}
             scrollOnShow
             status={this.props.alert.status}/>
-        <h1>Prescription Refill</h1>
+        <div className="rx-app-title">
+          <h1>Prescription Refill</h1>
+          <SettingsButton/>
+        </div>
         {content}
       </div>
     );

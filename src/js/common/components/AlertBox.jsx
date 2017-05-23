@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -33,7 +34,7 @@ class AlertBox extends React.Component {
 
   render() {
     if (!this.props.isVisible) {
-      return <div/>;
+      return <div aria-live="assertive"/>;
     }
 
     const alertClass = classNames(
@@ -45,20 +46,21 @@ class AlertBox extends React.Component {
     let closeButton;
     if (this.props.onCloseAlert) {
       closeButton = (
-        <button className="va-alert-close" onClick={this.props.onCloseAlert}>
-          <i className="fa fa-close"></i>
+        <button className="va-alert-close" aria-label="Close notification" onClick={this.props.onCloseAlert}>
+          <i className="fa fa-close" aria-label="Close icon"></i>
         </button>
       );
     }
 
     return (
       <div
+          aria-live="assertive"
           className={alertClass}
           ref={(ref) => { this._ref = ref; }}>
         <div className="va-alert-body usa-alert-body">
-          <p className="va-alert-text usa-alert-heading">
+          <div className="va-alert-text usa-alert-heading">
             {this.props.content}
-          </p>
+          </div>
         </div>
         {closeButton}
         <div className="cf"></div>
@@ -68,11 +70,11 @@ class AlertBox extends React.Component {
 }
 
 AlertBox.propTypes = {
-  content: React.PropTypes.node.isRequired,
-  isVisible: React.PropTypes.bool.isRequired,
-  onCloseAlert: React.PropTypes.func,
-  scrollOnShow: React.PropTypes.bool,
-  status: React.PropTypes.oneOf([
+  content: PropTypes.node.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onCloseAlert: PropTypes.func,
+  scrollOnShow: PropTypes.bool,
+  status: PropTypes.oneOf([
     'info',
     'error',
     'success',

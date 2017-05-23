@@ -41,8 +41,7 @@ class AdditionalInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        {/* TODO: Change the headings to something related to the questions. */}
-        <legend>Additional Information</legend>
+        <h5>VA Facility</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableCheckbox

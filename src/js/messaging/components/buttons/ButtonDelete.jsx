@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -8,7 +9,7 @@ class ButtonDelete extends React.Component {
   }
 
   handleClick() {
-    this.props.onClickHandler();
+    this.props.onClick();
   }
 
   render() {
@@ -27,8 +28,8 @@ class ButtonDelete extends React.Component {
 }
 
 ButtonDelete.propTypes = {
-  className: React.PropTypes.string,
-  onClickHandler: React.PropTypes.func.isRequired
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonDelete;

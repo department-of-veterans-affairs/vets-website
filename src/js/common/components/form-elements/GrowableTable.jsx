@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import { focusElement } from '../../utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -90,36 +91,21 @@ class GrowableTable extends React.Component {
     setTimeout(() => {
       const errorEl = document.querySelector(`#${this.getRowId(key)} .usa-input-error, #${this.getRowId(key)} .input-error-date`);
       if (errorEl) {
-        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, {
-          duration: 500,
-          delay: 0,
-          smooth: true
-        });
-        focusElement(errorEl);
+        scrollAndFocus(errorEl);
       }
     }, 100);
   }
 
   scrollToTop() {
+    const options = getScrollOptions({ offset: -60 });
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable${this.tableId}`, {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: -60
-      });
+      scroller.scrollTo(`topOfTable${this.tableId}`, options);
     }, 100);
   }
 
   scrollToRow(key) {
     setTimeout(() => {
-      scroller.scrollTo(this.getRowId(key), {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
+      scroller.scrollTo(this.getRowId(key), getScrollOptions());
     }, 100);
   }
   createNewElement() {
@@ -276,21 +262,21 @@ class GrowableTable extends React.Component {
 }
 
 GrowableTable.propTypes = {
-  component: React.PropTypes.func.isRequired,
-  createRow: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeCurrentElement: React.PropTypes.func.isRequired,
-  onRowsUpdate: React.PropTypes.func.isRequired,
-  path: React.PropTypes.string.isRequired,
-  rows: React.PropTypes.array.isRequired,
-  isValidSection: React.PropTypes.func.isRequired,
-  addNewMessage: React.PropTypes.string,
-  rowTitle: React.PropTypes.string,
-  alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
-  showSingleRowExpanded: React.PropTypes.bool,
-  showEditButton: React.PropTypes.bool,
-  showAddAnotherButton: React.PropTypes.bool,
-  createRowIfEmpty: React.PropTypes.bool
+  component: PropTypes.func.isRequired,
+  createRow: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeCurrentElement: PropTypes.func.isRequired,
+  onRowsUpdate: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+  rows: PropTypes.array.isRequired,
+  isValidSection: PropTypes.func.isRequired,
+  addNewMessage: PropTypes.string,
+  rowTitle: PropTypes.string,
+  alwaysShowUpdateRemoveButtons: PropTypes.bool,
+  showSingleRowExpanded: PropTypes.bool,
+  showEditButton: PropTypes.bool,
+  showAddAnotherButton: PropTypes.bool,
+  createRowIfEmpty: PropTypes.bool
 };
 
 GrowableTable.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -13,7 +14,7 @@ class ClaimComplete extends React.Component {
 }
 
 ClaimComplete.propTypes = {
-  completedDate: React.PropTypes.string
+  completedDate: PropTypes.string
 };
 
 export default ClaimComplete;

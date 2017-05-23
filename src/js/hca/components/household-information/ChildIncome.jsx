@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
@@ -42,8 +43,8 @@ class ChildIncome extends React.Component {
 }
 
 ChildIncome.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  onValueChange: PropTypes.func.isRequired
 };
 
 export default ChildIncome;

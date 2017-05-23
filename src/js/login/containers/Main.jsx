@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, logOut } from '../actions';
-import SignInProfileButton from '../components/SignInProfileButton';
+import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl } from '../actions';
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
+    this.getLoginUrl = this.getLoginUrl.bind(this);
+    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -25,58 +26,89 @@ class Main extends React.Component {
     if (sessionStorage.userToken) {
       this.getLogoutUrl();
     }
-
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
-    });
-
+    this.getLoginUrl();
+    this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
-
     window.onload = this.checkTokenStatus();
   }
 
   componentWillUnmount() {
-    this.serverRequest.abort();
+    this.loginUrlRequest.abort();
+    this.verifyUrlRequest.abort();
+    this.logoutUrlRequest.abort();
+  }
+
+  getLoginUrl() {
+    this.loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateLoginUrl(json.authenticate_via_get);
+    });
+  }
+
+  getVerifyUrl() {
+    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateVerifyUrl(json.authenticate_via_get);
+    });
   }
 
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
-      this.getUserData();
+      this.getUserData(this.props.dispatch);
       this.getLogoutUrl();
     }
   }
 
   getLogoutUrl() {
-    $.ajax({
-      url: `${environment.API_URL}/v0/sessions`,
-      type: 'DELETE',
-      headers: {
+    this.logoutUrlRequest = fetch(`${environment.API_URL}/v0/sessions`, {
+      method: 'DELETE',
+      headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
-      },
-      success: (result) => {
-        this.setState({ logoutUrl: result.logout_via_get });
-      }
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateLogoutUrl(json.logout_via_get);
     });
   }
 
   handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    window.dataLayer.push({ event: 'login-link-clicked' });
+    const myLoginUrl = this.props.login.loginUrl;
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'login-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+      this.getLoginUrl();
+    }
   }
 
   handleSignup() {
-    const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    window.dataLayer.push({ event: 'register-link-clicked' });
+    const myLoginUrl = this.props.login.loginUrl;
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleLogout() {
-    const myLogoutUrl = this.state.logoutUrl;
-    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    window.dataLayer.push({ event: 'logout-link-clicked' });
+    const myLogoutUrl = this.props.login.logoutUrl;
+    if (myLogoutUrl) {
+      window.dataLayer.push({ event: 'logout-link-opened' });
+      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   checkTokenStatus() {
@@ -89,8 +121,9 @@ class Main extends React.Component {
           this.handleLogout();
         }
       } else {
-        this.props.onUpdateLoggedInStatus(true);
-        this.getUserData();
+        if (this.getUserData(this.props.dispatch)) {
+          this.props.onUpdateLoggedInStatus(true);
+        }
       }
     } else {
       this.props.onUpdateLoggedInStatus(false);
@@ -98,7 +131,12 @@ class Main extends React.Component {
   }
 
   render() {
-    return <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>;
+    return (
+      <SearchHelpSignIn
+          onUserLogin={this.handleLogin}
+          onUserSignup={this.handleSignup}
+          onUserLogout={this.handleLogout}/>
+    );
   }
 }
 
@@ -113,15 +151,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (field, update) => {
-      dispatch(updateLogInUrl(field, update));
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    },
+    onUpdateVerifyUrl: (update) => {
+      dispatch(updateVerifyUrl(update));
+    },
+    onUpdateLogoutUrl: (update) => {
+      dispatch(updateLogoutUrl(update));
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
-    onClearUserData: () => {
-      dispatch(logOut());
-    }
+    dispatch
   };
 };
 

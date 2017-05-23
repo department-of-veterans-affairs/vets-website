@@ -1,5 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
+import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
@@ -7,6 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
+import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -23,12 +25,8 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  Scroll.scroller.scrollTo('uploadError', {
-    duration: 500,
-    offset: -25,
-    delay: 0,
-    smooth: true
-  });
+  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  Scroll.scroller.scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 
@@ -87,14 +85,14 @@ class DocumentRequestPage extends React.Component {
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
-                  <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
+                  <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
                   <li className="active">{trackedItem.displayName}</li>
                 </ul>
               </nav>
             </div>
           </div>
           <div className="row">
-            <div className="medium-8 columns">
+            <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 {message &&
                   <div>
@@ -129,7 +127,7 @@ class DocumentRequestPage extends React.Component {
                     onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="small-12 usa-width-one-third medium-4 columns">
               <AskVAQuestions/>
             </div>
           </div>

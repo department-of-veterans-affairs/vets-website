@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import MessageWrite from './MessageWrite';
@@ -16,6 +17,7 @@ class MessageWriteGroup extends React.Component {
     return (
       <div className={errItemClass}>
         <MessageWrite
+            disabled={this.props.disabled}
             cssClass="msg-write"
             errorMessage={this.props.errorMessage}
             onValueChange={this.props.onTextChange}
@@ -25,7 +27,7 @@ class MessageWriteGroup extends React.Component {
             files={this.props.files}
             onClose={this.props.onAttachmentsClose}/>
         <MessageSend
-            disabled={!this.props.messageText.value.length}
+            disabled={!this.props.messageText.value.length || this.props.disabled}
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
             maxFiles={this.props.maxFiles}
@@ -42,24 +44,25 @@ class MessageWriteGroup extends React.Component {
 }
 
 MessageWriteGroup.propTypes = {
-  allowedMimeTypes: React.PropTypes.array,
-  errorMessage: React.PropTypes.string,
-  files: React.PropTypes.array,
-  maxFiles: React.PropTypes.number,
-  maxFileSize: React.PropTypes.number,
-  maxTotalFileSize: React.PropTypes.number,
-  messageText: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
-  }),
-  onAttachmentsClose: React.PropTypes.func,
-  onAttachmentUpload: React.PropTypes.func,
-  onAttachmentsError: React.PropTypes.func,
-  onDelete: React.PropTypes.func,
-  onSave: React.PropTypes.func,
-  onSend: React.PropTypes.func,
-  onTextChange: React.PropTypes.func,
-  placeholder: React.PropTypes.string,
+  disabled: PropTypes.bool,
+  allowedMimeTypes: PropTypes.array,
+  errorMessage: PropTypes.string,
+  files: PropTypes.array,
+  maxFiles: PropTypes.number,
+  maxFileSize: PropTypes.number,
+  maxTotalFileSize: PropTypes.number,
+  messageText: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
+  }).isRequired,
+  onAttachmentsClose: PropTypes.func,
+  onAttachmentUpload: PropTypes.func,
+  onAttachmentsError: PropTypes.func,
+  onDelete: PropTypes.func,
+  onSave: PropTypes.func,
+  onSend: PropTypes.func,
+  onTextChange: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default MessageWriteGroup;

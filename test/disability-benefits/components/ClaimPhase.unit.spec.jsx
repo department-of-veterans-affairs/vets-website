@@ -17,7 +17,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -36,7 +36,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={3}
           activity={activity}/>
@@ -55,7 +55,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -75,7 +75,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -120,7 +120,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -140,7 +140,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -175,7 +175,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('Your claim is complete');
+      expect(descTree.text()).to.equal('Your claim is closed');
     });
     it('should show received from you reviewed description', () => {
       const output = instance.getEventDescription({

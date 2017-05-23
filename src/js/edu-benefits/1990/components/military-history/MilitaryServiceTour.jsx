@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
@@ -76,7 +77,7 @@ export default class MilitaryServiceTour extends React.Component {
 }
 
 MilitaryServiceTour.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };

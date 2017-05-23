@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
@@ -5,6 +6,7 @@ import _ from 'lodash';
 
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus } from '../actions';
 import { isValidSection } from '../utils/validations';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -29,11 +31,8 @@ class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollReviewPanel', {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo('topScrollReviewPanel', options);
   }
 
   handleSave() {
@@ -106,7 +105,7 @@ class ReviewCollapsiblePanel extends React.Component {
     if (sectionsVerified) {
       hiddenSection = (<div></div>);
       buttonGroup = (<div>
-        <div className="medium-6 medium-offset-6 columns">
+        <div className="usa-width-one-half medium-6 medium-offset-6 columns">
           {buttonEdit}
         </div>
       </div>
@@ -134,10 +133,10 @@ class ReviewCollapsiblePanel extends React.Component {
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix" aria-expanded="true" aria-controls={`collapsible-${this.id}`}>
-              <div className="medium-5 columns section-label">
+              <div className="usa-width-five-twelfths medium-5 columns section-label">
                 {this.props.sectionLabel}
               </div>
-              <div className="medium-7 columns">
+              <div className="usa-width-seven-twelfths medium-7 columns">
                 {buttonGroup}
               </div>
             </div>
@@ -150,9 +149,9 @@ class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
-  sectionLabel: React.PropTypes.string.isRequired,
-  updatePath: React.PropTypes.string.isRequired,
-  component: React.PropTypes.object.isRequired
+  sectionLabel: PropTypes.string.isRequired,
+  updatePath: PropTypes.string.isRequired,
+  component: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

@@ -76,7 +76,7 @@
 
   &:after {
     clear: both;
-    content: '';
+    content: "";
     display: block;
   }
 
@@ -156,6 +156,14 @@
     .messaging-thread-header {
       display: block;
     }
+  }
+}
+
+.messaging-notice-box-light {
+  padding: 0 1.25em;
+
+  p {
+    margin-top: 0;
   }
 }
 

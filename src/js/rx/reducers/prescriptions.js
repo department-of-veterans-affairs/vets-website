@@ -80,7 +80,8 @@ export default function prescriptions(state = initialState, action) {
     case 'LOAD_PRESCRIPTIONS_FAILURE': {
       const section = action.active ? 'active' : 'history';
       const loadingState = set(`${section}.loading`, false, state);
-      return set('items', null, loadingState);
+      const errorState = set(`${section}.errors`, action.errors || [], loadingState);
+      return set('items', null, errorState);
     }
 
     case 'LOAD_PRESCRIPTION_SUCCESS': {

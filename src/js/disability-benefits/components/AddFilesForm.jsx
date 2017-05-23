@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
@@ -10,29 +11,22 @@ import Modal from '../../common/components/Modal';
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { getScrollOptions } from '../../common/utils/helpers';
 import { validateIfDirty, isNotBlank, isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
 
 const scrollToFile = (position) => {
-  Scroll.scroller.scrollTo(`documentScroll${position}`, {
-    duration: 500,
-    delay: 0,
-    offset: -25,
-    smooth: true
-  });
+  const options = getScrollOptions({ offset: -25 });
+  Scroll.scroller.scrollTo(`documentScroll${position}`, options);
 };
 const scrollToError = () => {
   const errors = document.querySelectorAll('.usa-input-error');
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
-    Scroll.animateScroll.scrollTo(errorPosition, {
-      duration: 500,
-      delay: 0,
-      offset: -15,
-      smooth: true
-    });
+    const options = getScrollOptions({ offset: -25 });
+    Scroll.animateScroll.scrollTo(errorPosition, options);
     errors[0].querySelector('label').focus();
   }
 };
@@ -86,6 +80,9 @@ class AddFilesForm extends React.Component {
         <div className="mail-or-fax-files">
           <p><a href onClick={(evt) => {
             evt.preventDefault();
+            window.dataLayer.push({
+              event: 'claims-mailfax-modal',
+            });
             this.props.onShowMailOrFax(true);
           }}>Need to mail or fax your files</a>?</p>
         </div>
@@ -165,17 +162,17 @@ class AddFilesForm extends React.Component {
 }
 
 AddFilesForm.propTypes = {
-  files: React.PropTypes.array.isRequired,
-  field: React.PropTypes.object.isRequired,
-  uploading: React.PropTypes.bool,
-  showMailOrFax: React.PropTypes.bool,
-  backUrl: React.PropTypes.string,
-  onSubmit: React.PropTypes.func.isRequired,
-  onAddFile: React.PropTypes.func.isRequired,
-  onRemoveFile: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired,
-  onCancel: React.PropTypes.func.isRequired,
-  onDirtyFields: React.PropTypes.func.isRequired
+  files: PropTypes.array.isRequired,
+  field: PropTypes.object.isRequired,
+  uploading: PropTypes.bool,
+  showMailOrFax: PropTypes.bool,
+  backUrl: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  onAddFile: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onDirtyFields: PropTypes.func.isRequired
 };
 
 export default AddFilesForm;

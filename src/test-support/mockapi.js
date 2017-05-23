@@ -15,7 +15,7 @@ const winston = require('winston');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 4000) },
+  { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -40,7 +40,7 @@ function makeMockApiRouter(opts) {
     const verb = (req.body.verb || 'get').toLowerCase();
     const path = stripTrailingSlash(req.body.path);
 
-    opts.logger.info(`mock: ${auth} ${verb} ${path}`);
+    opts.logger.verbose(`mock: ${auth} ${verb} ${path}`);
 
     mockResponses[auth] = mockResponses[auth] || {};
     mockResponses[auth][verb] = mockResponses[auth][verb] || {};
@@ -67,7 +67,7 @@ function makeMockApiRouter(opts) {
       res.status(500);
       result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
     }
-    opts.logger.info(auth, verb, path, result);
+    opts.logger.verbose(auth, verb, path, result);
     res.json(result);
   });
 

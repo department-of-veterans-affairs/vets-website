@@ -1,33 +1,55 @@
 import React from 'react';
 
+import ExpandingGroup from '../../components/form-elements/ExpandingGroup';
+
 export default function RadioWidget({
   options,
   value,
   disabled,
-  onChange
+  onChange,
+  id
 }) {
-  // Generating a unique field name to identify this set of radio buttons
-  const name = Math.random().toString();
-  const { enumOptions } = options;
+  const { enumOptions, labels = {}, nestedContent = {} } = options;
+
+  // nested content could be a component or just jsx/text
+  let content = nestedContent[value];
+  if (typeof content === 'function') {
+    const NestedContent = content;
+    content = <NestedContent/>;
+  }
+
   return (
     <div>{
       enumOptions.map((option, i) => {
         const checked = option.value === value;
-        return (
-          <div className="form-radio-buttons" key={i}>
+        const radioButton = (
+          <div className="form-radio-buttons" key={option.value}>
             <input type="radio"
                 autoComplete="false"
                 checked={checked}
-                id={name}
-                name={name}
+                id={`${id}_${i}`}
+                name={`${id}_${i}`}
                 value={option.value}
                 disabled={disabled}
                 onChange={_ => onChange(option.value)}/>
-            <label htmlFor={`${name}-${i}`}>
-              {option.label}
+            <label htmlFor={`${id}_${i}`}>
+              {labels[option.value] || option.label}
             </label>
           </div>
         );
+
+        if (!!nestedContent[option.value]) {
+          return (
+            <ExpandingGroup open={checked} key={option.value}>
+              {radioButton}
+              <div className="schemaform-radio-indent">
+                {content}
+              </div>
+            </ExpandingGroup>
+          );
+        }
+
+        return radioButton;
       })
     }</div>
   );

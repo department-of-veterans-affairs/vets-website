@@ -13,22 +13,23 @@ describe('<YourClaimsPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims
           route={routeParams}
           claims={claims}/>
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });
-
-  it('should not render tabs', () => {
+  it('should render sort select ', () => {
     const claims = [];
-
+    const routeParams = {
+      showClosedClaims: true
+    };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims={false}
+          route={routeParams}
           claims={claims}/>
     );
-    expect(tree.everySubTree('MainTabNav').length).to.equal(0);
+    const sortDiv = tree.subTree('claims-list-sort');
+    expect(sortDiv).to.exist;
   });
   it('should render loading div', () => {
     const changePage = sinon.spy();
@@ -40,7 +41,6 @@ describe('<YourClaimsPage>', () => {
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
           loading
-          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
@@ -49,7 +49,25 @@ describe('<YourClaimsPage>', () => {
     );
     expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
   });
+  it('should render sync warning', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
 
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          claims={claims}
+          page={page}
+          pages={pages}
+          getClaims={getClaims}
+          route={{ showClosedClaims: false }}
+          synced={false}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
+  });
   it('should render no claims message', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();
@@ -59,11 +77,11 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
+          route={{ showClosedClaims: false }}
           changePage={changePage}/>
     );
     expect(tree.everySubTree('NoClaims').length).to.equal(1);
@@ -78,11 +96,11 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
+          route={{ showClosedClaims: false }}
           changePage={changePage}/>
     );
     expect(tree.everySubTree('ClaimsListItem').length).to.equal(2);
@@ -98,7 +116,6 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims
           claims={claims}
           page={page}
           pages={pages}
@@ -118,12 +135,29 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          allClaims
           claims={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
           route={{}}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
+  });
+  it('should not render 30 day notice if on closed tab', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [{}, {}];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          claims={claims}
+          page={page}
+          pages={pages}
+          getClaims={getClaims}
+          route={{ showClosedClaims: true }}
           changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;

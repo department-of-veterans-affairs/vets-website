@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -23,12 +24,19 @@ class Modal extends React.Component {
     this.state = { lastFocus: null, focusListener: null };
   }
 
+  componentDidMount() {
+    if (this.props.visible) {
+      document.body.classList.add('modal-open');
+    }
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.visible && !this.props.visible) {
       this.setState({ lastFocus: document.activeElement, focusListener: focusListener(newProps.focusSelector) });
     } else if (!newProps.visible && this.props.visible) {
       document.removeEventListener('focus', this.state.focusListener, true);
       this.state.lastFocus.focus();
+      document.body.classList.remove('modal-open');
     }
   }
 
@@ -39,6 +47,10 @@ class Modal extends React.Component {
         focusableElement.focus();
       }
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('focus', this.state.focusListener, true);
   }
 
   handleClose() {
@@ -69,12 +81,12 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={title}>
+      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={this.props.title}>
         <div className="va-modal-inner">
           {title}
           {closeButton}
           <div className="va-modal-body">
-            {this.props.contents}
+            {this.props.contents || this.props.children}
           </div>
         </div>
       </div>
@@ -83,14 +95,14 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  contents: React.PropTypes.node.isRequired,
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func.isRequired,
-  title: React.PropTypes.string,
-  visible: React.PropTypes.bool.isRequired,
-  hideCloseButton: React.PropTypes.bool,
-  focusSelector: React.PropTypes.string
+  contents: PropTypes.node, /* alternatively used child nodes */
+  cssClass: PropTypes.string,
+  id: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  visible: PropTypes.bool.isRequired,
+  hideCloseButton: PropTypes.bool,
+  focusSelector: PropTypes.string
 };
 
 Modal.defaultProps = {

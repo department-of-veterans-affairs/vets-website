@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 import React from 'react';
 import Perf from 'react-addons-perf';
 
@@ -13,10 +14,14 @@ class PerfPanel extends React.Component {
   handleStop() {
     Perf.stop();
     const measurements = Perf.getLastMeasurements();
+    console.log('Inclusive');
     Perf.printInclusive(measurements);
+    console.log('Exclusive');
     Perf.printExclusive(measurements);
+    console.log('Wasted');
     Perf.printWasted(measurements);
-    Perf.printDOM(measurements);
+    console.log('DOM');
+    Perf.printOperations(measurements);
   }
 
   render() {

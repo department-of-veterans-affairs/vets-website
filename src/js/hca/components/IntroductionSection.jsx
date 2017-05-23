@@ -6,12 +6,6 @@ class IntroductionSection extends React.Component {
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <h3>Apply online for health care with the 10-10ez (OMB No. 2900-0091)</h3>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="small-12 columns">
             <p>
               Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
             </p>

@@ -1,0 +1,73 @@
+{% comment %}
+=====================
+ Links List
+=====================
+
+Used for lists of links to content within a particular channel or section. Also
+used for lists of Related Links when the `isRelated` property is set in the
+include tag, e.g.:
+
+{% include "content/components/navigation-links-list.html" with isRelated = true %}
+
+Links should use the following pattern:
+
+linkgroupname:
+  - heading:
+    links:
+    - url:
+      title:
+      description:
+
+where linkgroupname is relatedlinks or majorlinks
+
+majorlinks = no background color.
+relatedlinks = box with a gray background color.
+
+{% endcomment %}
+
+{% if isRelated == true %}
+  {% assign linklist = relatedlinks %}
+{% else %}
+  {% assign linklist = majorlinks %}
+{% endif %}
+
+<div class="row">
+  <aside class="va-nav-linkslist usa-content columns {% if isRelated %}va-nav-linkslist--related{% endif %}">
+  {% for group in linklist %}
+
+    {% comment %}
+      Only add <section> if there are heading titles.
+    {% endcomment %}
+
+    {% if group.heading != empty %}
+      <section>
+        <h3 class="va-nav-linkslist-heading">{{ group.heading }}</h3>
+    {% endif %}
+
+    {% if group.links.length > 0 %}
+      <ul class="va-nav-linkslist-list">
+      {% for link in group.links %}
+        {% if link.url != empty %}
+          <li>
+            <a href="{{link.url}}">
+            {% if link.title != empty %}
+              <h4 class="va-nav-linkslist-title">{{ link.title }}</h4>
+            {% endif %}
+
+            {% if link.description != empty %}
+              <p class="va-nav-linkslist-description">{{ link.description }}</p>
+            {% endif %}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+  {% endfor %}
+
+  {% if link.heading != empty %}
+    </section>
+  {% endif %}
+  </aside>
+</div>

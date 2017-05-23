@@ -33,13 +33,13 @@ class FinancialDisclosureSection extends React.Component {
           <tr>
             <td>I understand VA is not currently enrolling new applicants who decline to
             provide their financial information unless they have other qualifying eligibility factors: </td>
-            <td>{`${this.props.data.discloseFinancialInformation.value ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.discloseFinancialInformation.value === 'Y' ? 'Yes' : 'No'}`}</td>
           </tr>
         </tbody>
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Financial Disclosure</legend>
+        <h5>Financial Disclosure</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <p>Next, we'll ask you to provide your financial information from the most recent

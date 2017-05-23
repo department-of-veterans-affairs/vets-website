@@ -145,7 +145,8 @@ function isValidBirthInformationSection(data) {
 }
 
 function isValidDemographicInformation(data) {
-  return isNotBlank(data.gender.value);
+  return isNotBlank(data.gender.value) &&
+      isNotBlank(data.maritalStatus.value);
 }
 
 function isValidVaInformation(data) {
@@ -316,6 +317,15 @@ function isValidServiceInformation(data) {
 }
 
 function isValidForm(data) {
+  let isValidFinancialDisclosureSections = true;
+
+  if (data.discloseFinancialInformation.value === 'Y') {
+    isValidFinancialDisclosureSections = isValidSpouseInformation(data) &&
+        isValidChildren(data) &&
+        isValidAnnualIncome(data) &&
+        isValidDeductibleExpenses(data);
+  }
+
   return isValidPersonalInfoSection(data) &&
   isValidBirthInformationSection(data) &&
   isValidDemographicInformation(data) &&
@@ -324,10 +334,7 @@ function isValidForm(data) {
   isValidServiceInformation(data) &&
   isValidVaInformation(data) &&
   isValidFinancialDisclosure(data) &&
-  isValidSpouseInformation(data) &&
-  isValidChildren(data) &&
-  isValidAnnualIncome(data) &&
-  isValidDeductibleExpenses(data) &&
+  isValidFinancialDisclosureSections &&
   isValidVAFacility(data) &&
   isValidGeneralInsurance(data) &&
   isValidMedicareMedicaid(data);

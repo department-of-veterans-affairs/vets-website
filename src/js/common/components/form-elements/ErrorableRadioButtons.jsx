@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -99,7 +100,9 @@ class ErrorableRadioButtons extends React.Component {
               type="radio"
               value={optionValue}
               onChange={this.handleChange}/>
-          <label htmlFor={`${this.inputId}-${index}`}>
+          <label
+              name={`${this.props.name}-${index}-label`}
+              htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
           {matchingSubSection}
@@ -141,30 +144,33 @@ class ErrorableRadioButtons extends React.Component {
 }
 
 ErrorableRadioButtons.propTypes = {
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.bool
+  errorMessage: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element,
         ]),
-        additional: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.element
+        value: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.bool
+        ]),
+        additional: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
         ])
       })
     ])).isRequired,
-  value: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool,
+  onValueChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
 };
 
 export default ErrorableRadioButtons;

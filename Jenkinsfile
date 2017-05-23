@@ -1,14 +1,17 @@
 def envNames = ['development', 'staging', 'production']
 
-def isContentTeamUpdate = {
-  env.BRANCH_NAME ==~ /^content\/wip\/.*/
+def isReviewable = {
+  env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'master' &&
+    env.BRANCH_NAME != 'kudos-launch'
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production') &&
+    env.BRANCH_NAME == 'production' ||
+    env.BRANCH_NAME == 'kudos-launch') &&
     !env.CHANGE_TARGET
 }
 
@@ -35,16 +38,15 @@ node('vets-website-linting') {
     sh "mkdir -p logs/selenium"
     sh "mkdir -p coverage"
 
-    dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
-    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+    def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+
+    dockerImage = docker.build("vets-website:${imageTag}")
+    args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
   // Check package.json for known vulnerabilities
 
   stage('Security') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     dockerImage.inside(args) {
       sh "cd /application && nsp check"
@@ -54,9 +56,6 @@ node('vets-website-linting') {
   // Check source for syntax issues
 
   stage('Lint') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     dockerImage.inside(args) {
       sh "cd /application && npm --no-color run lint"
@@ -64,34 +63,30 @@ node('vets-website-linting') {
   }
 
   stage('Unit') {
-    if (isContentTeamUpdate()) {
+
+    dockerImage.inside(args) {
+      sh "cd /application && npm --no-color run test:coverage"
+      sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+    }
+  }
+
+  stage('Review') {
+    if (!isReviewable()) {
       return
     }
 
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-      }
-    } finally {
-      publishHTML(target: [
-        reportName           : "Coverage Report",
-        reportDir            : 'coverage/',
-        reportFiles          : 'index.html',
-        keepAll              : true,
-        alwaysLinkToLastBuild: true,
-        allowMissing         : false
-      ])
-    }
+    build job: 'deploys/vets-review-instance-deploy', parameters: [
+      stringParam(name: 'devops_branch', value: 'master'),
+      stringParam(name: 'api_branch', value: 'master'),
+      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+      stringParam(name: 'source_repo', value: 'vets-website'),
+    ], wait: false
   }
 
   // Perform a build for each required build type
 
   stage('Build') {
     def buildList = ['production']
-
-    if (isContentTeamUpdate()) {
-      buildList = ['development']
-    }
 
     if (env.BRANCH_NAME == 'master') {
       buildList << 'development'
@@ -107,7 +102,7 @@ node('vets-website-linting') {
         builds[envName] = {
           dockerImage.inside(args) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt" 
+            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
           }
         }
       } else {
@@ -123,21 +118,18 @@ node('vets-website-linting') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     try {
       parallel (
         e2e: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:e2e"
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
         accessibility: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:accessibility"
+            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
           }
         }
       )
@@ -147,15 +139,17 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
-    return // Remove when Travis is no longer performing the deployment
 
     if (!isDeployable()) {
       return
     }
 
     def targets = [
-      'master': [
+      'kudos-launch': [
         [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
+      ],
+
+      'master': [
         [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
       ],
 

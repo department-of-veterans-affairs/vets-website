@@ -31,7 +31,6 @@ class ReviewPage extends React.Component {
     } else {
       const chapters = _.groupBy(
         routes
-          .map(route => route.props)
           .filter(route => {
             return route.chapter &&
               route.path !== 'review-and-submit' &&

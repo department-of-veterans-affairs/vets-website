@@ -171,8 +171,17 @@ function isValidPartialMonthYearInPast(month, year) {
     throw new Error('Pass a month and a year to function');
   }
   const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
-
   return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
+}
+
+function isValidCurrentOrPastDate(day, month, year) {
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
+}
+
+function isValidFutureDate(day, month, year) {
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isAfter(moment().endOf('day'), 'day');
 }
 
 function isBlankMonthYear(field) {
@@ -233,7 +242,7 @@ function isValidSSN(value) {
     return false;
   }
 
-  return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
+  return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
 function isValidMonetaryValue(value) {
@@ -298,6 +307,20 @@ function isBlankAddress(address) {
     && isBlank(address.postalCode.value);
 }
 
+// Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
+function isValidRoutingNumber(value) {
+  if (/^\d{9}$/.test(value)) {
+    const digits = value.split('').map(val => parseInt(val, 10));
+    const weighted =
+      3 * (digits[0] + digits[3] + digits[6]) +
+      7 * (digits[1] + digits[4] + digits[7]) +
+      (digits[2] + digits[5] + digits[8]);
+
+    return (weighted % 10) === 0;
+  }
+  return false;
+}
+
 export {
   isBlank,
   isBlankDateField,
@@ -310,6 +333,8 @@ export {
   isValidAnyDate,
   isValidCanPostalCode,
   isValidCurrentOrPastYear,
+  isValidCurrentOrPastDate,
+  isValidFutureDate,
   isValidDate,
   isValidDateField,
   isValidDateOver17,
@@ -335,4 +360,5 @@ export {
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
+  isValidRoutingNumber
 };

@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 
@@ -82,9 +84,14 @@ class ErrorableTextarea extends React.Component {
       requiredSpan = <span className="hca-required-span">*</span>;
     }
 
+    const classes = classNames(this.props.additionalClass, {
+      'input-disabled': this.props.disabled,
+    });
+
     return (
       <div className={inputErrorClass}>
         <label
+            id={`${this.inputId}-label`}
             className={labelErrorClass}
             htmlFor={this.inputId}>
               {this.props.label}
@@ -92,8 +99,10 @@ class ErrorableTextarea extends React.Component {
         </label>
         {errorSpan}
         <textarea
-            className={this.props.additionalClass}
+            disabled={this.props.disabled}
+            className={classes}
             aria-describedby={errorSpanId}
+            aria-labelledby={`${this.inputId}-label`}
             id={this.inputId}
             placeholder={this.props.placeholder}
             name={this.props.name}
@@ -110,19 +119,20 @@ class ErrorableTextarea extends React.Component {
 }
 
 ErrorableTextarea.propTypes = {
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  name: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  field: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  disabled: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  name: PropTypes.string,
+  required: PropTypes.bool,
+  field: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  additionalClass: React.PropTypes.string,
-  charMax: React.PropTypes.number,
-  onValueChange: React.PropTypes.func.isRequired,
-  toolTipText: React.PropTypes.string
+  additionalClass: PropTypes.string,
+  charMax: PropTypes.number,
+  onValueChange: PropTypes.func.isRequired,
+  toolTipText: PropTypes.string
 };
 
 export default ErrorableTextarea;

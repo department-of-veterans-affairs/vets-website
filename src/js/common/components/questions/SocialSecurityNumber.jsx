@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
@@ -48,13 +49,13 @@ class SocialSecurityNumber extends React.Component {
 }
 
 SocialSecurityNumber.propTypes = {
-  label: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  ssn: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool,
+  label: PropTypes.string,
+  required: PropTypes.bool,
+  ssn: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool,
   }).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
+  onValueChange: PropTypes.func.isRequired,
 };
 
 

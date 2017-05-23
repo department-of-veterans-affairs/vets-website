@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Modal from '../../../common/components/Modal';
@@ -42,11 +43,11 @@ class ModalConfirmDelete extends React.Component {
 }
 
 ModalConfirmDelete.propTypes = {
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
-  visible: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  id: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalConfirmDelete;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Address from '../../../../common/components/questions/Address';
@@ -27,8 +28,8 @@ export default class ContactInformationFields extends React.Component {
     const isPhoneRequired = this.props.data.preferredContactMethod.value === 'phone';
     return (
       <fieldset>
-        <p><span className="form-required-span">*</span>Indicates a required field</p>
         <legend>Contact information</legend>
+        <p><span className="form-required-span">*</span>Indicates a required field</p>
         <div className="input-section">
           <ErrorableRadioButtons
               label="How would you prefer to be contacted if VA has questions about your application?"
@@ -78,6 +79,6 @@ export default class ContactInformationFields extends React.Component {
 }
 
 ContactInformationFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

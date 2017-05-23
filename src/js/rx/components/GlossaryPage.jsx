@@ -1,6 +1,8 @@
 import React from 'react';
-import GlossaryList from '../components/GlossaryList';
+
 import { glossary } from '../config.js';
+import GlossaryList from '../components/GlossaryList';
+import SettingsButton from '../components/SettingsButton';
 
 class GlossaryPage extends React.Component {
   componentDidMount() {
@@ -18,7 +20,10 @@ class GlossaryPage extends React.Component {
 
     return (
       <section>
-        <h1>Glossary</h1>
+        <div className="rx-app-title">
+          <h1>Glossary</h1>
+          <SettingsButton/>
+        </div>
         {sections}
       </section>
     );

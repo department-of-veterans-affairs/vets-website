@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Address from '../Address';
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import FullName from '../../../common/components/questions/FullName';
 import Phone from '../../../common/components/questions/Phone';
@@ -92,22 +92,20 @@ class SpouseInformationSection extends React.Component {
               ssn={this.props.data.spouseSocialSecurityNumber}
               onValueChange={(update) => {this.props.onStateChange('spouseSocialSecurityNumber', update);}}/>
 
-          <DateInput required
+          <ErrorableCurrentOrPastDate required
               label="Spouse’s date of birth"
               name="spouseBirth"
-              day={this.props.data.spouseDateOfBirth.day}
-              month={this.props.data.spouseDateOfBirth.month}
-              year={this.props.data.spouseDateOfBirth.year}
+              date={this.props.data.spouseDateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
 
-          <DateInput required
-              errorMessage="Date of marriage cannot be before the Veteran's or the spouse's date of birth"
-              validation={isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth)}
+          <ErrorableCurrentOrPastDate required
+              validation={{
+                valid: isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth),
+                message: "Date of marriage cannot be before the Veteran's or the spouse's date of birth"
+              }}
               label="Date of marriage"
               name="marriage"
-              day={this.props.data.dateOfMarriage.day}
-              month={this.props.data.dateOfMarriage.month}
-              year={this.props.data.dateOfMarriage.year}
+              date={this.props.data.dateOfMarriage}
               onValueChange={(update) => {this.props.onStateChange('dateOfMarriage', update);}}/>
 
           <ErrorableRadioButtons required
@@ -199,7 +197,7 @@ class SpouseInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Spouse's Information</legend>
+        <h5>Spouse's Information</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <p>Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.</p>
         <div className="input-section">

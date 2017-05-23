@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import ClaimPage from './containers/ClaimPage.jsx';
@@ -9,9 +9,13 @@ import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import AdditionalEvidencePage from './containers/AdditionalEvidencePage.jsx';
-import ClaimEstimationPage from './components/ClaimEstimationPage.jsx';
+import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
 
 const routes = [
+  <Redirect
+      key="/track-claims/your-claims"
+      from="/disability-benefits/track-claims*"
+      to="/your-claims"/>,
   <Route
       component={YourClaimsPage}
       key="/your-claims"

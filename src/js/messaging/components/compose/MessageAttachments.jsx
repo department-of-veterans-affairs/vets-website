@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -54,10 +55,10 @@ class MessageAttachments extends React.Component {
 }
 
 MessageAttachments.propTypes = {
-  cssClass: React.PropTypes.string,
-  files: React.PropTypes.array.isRequired,
-  hidden: React.PropTypes.bool,
-  onClose: React.PropTypes.func.isRequired
+  cssClass: PropTypes.string,
+  files: PropTypes.array.isRequired,
+  hidden: PropTypes.bool,
+  onClose: PropTypes.func.isRequired
 };
 
 export default MessageAttachments;

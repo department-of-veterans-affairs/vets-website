@@ -1,38 +1,54 @@
 ---
 layout: page-breadcrumbs.html
-title: Waters in the Vicinity of Vietnam
+title: Waters in or near Vietnam
 concurrence: incomplete
+plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
-If you served on a Blue Water Navy ship on the coastal or inland waterways of Vietnam between January 9, 1962, and May 7, 1975—and ever came ashore—VA presumes you were exposed to Agent Orange.
+<div class="va-introtext">
+If you served on a Blue Water Navy ship on the **inland waterways** of Vietnam between January 9, 1962, and May 7, 1975—or you ever came ashore in Vietnam—you likely had contact with Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange. 
 
-<div class="call-out" markdown="1">
+If you served on the **coastal waterways** of Vietnam between January 9, 1962, and May 7, 1975—and you can prove you came ashore—you also likely had contact with Agent Orange, and you may be able to get disability benefits. 
 
-### Are you eligible for compensation?
-Yes, if:
-
-  - You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
-  - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
-  - You came ashore.
-
-### Who is covered
-You and your survivors
 </div>
 
-### Available benefits:
+<div class="feature" markdown="1">
 
-- Compensation
+### Can I get disability benefits from VA?
+
+Yes, if you have 1 or more illnesses believed to be caused by Agent Orange and either of these is true:
+- Your military record shows that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways, **or**
+- You came ashore in Vietnam
+
+[See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+
+[Learn more about U.S. Navy and Coast Guard ships in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
+
+### Who's covered?
+
+- Veterans
+- Qualified survivors
+</div>
+
+### What kind of disability benefits can I get?
+
 - Health care
-- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
+- Compensation (payments)
+- [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
 
-### How it works:
+### How do I get these benefits?
 
-You must prove you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you must be able to prove that you went ashore.
+You’ll need to apply for benefits. When you apply, you’ll have to show that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you'll have to show that you went ashore. If you didn’t go ashore or serve aboard a ship that entered the inland waterways of Vietnam, you’ll have to show that you had contact with Agent Orange in another way while serving in the military. We decide these claims on a case-by-case basis. [Apply for benefits](/disability-benefits/apply/).
 
-If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to Agent Orange during your military service in order to receive disability compensation for diseases related to this exposure. These claims are decided on a case-by-case basis.
+**Exception:** If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma (a type of cancer), you don’t need to show where you came into contact with Agent Orange. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange through service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
-**Exception:**
-If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship means you likely had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+
+
+### Get more information
+
+[Learn more about Blue Water Veterans and Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf).
+

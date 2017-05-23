@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* Component that lets a veteran sort by prescription name,
  * facility, or last submit date.
 */
@@ -81,30 +82,32 @@ class SortMenu extends React.Component {
     });
 
     return (
-      <form className="rx-sort va-dnp">
-        <label htmlFor={this.selectId}>Sort by</label>
-        <select
-            id={this.selectId}
-            value={this.props.selected.value}
-            onChange={this.handleChange}>
-          {sortOptions}
-        </select>
-        {this.renderSortLinks()}
-      </form>
+      <div>
+        <form className="rx-sort va-dnp">
+          <label htmlFor={this.selectId}>Sort by</label>
+          <select
+              id={this.selectId}
+              value={this.props.selected.value}
+              onChange={this.handleChange}>
+            {sortOptions}
+          </select>
+          {this.renderSortLinks()}
+        </form>
+      </div>
     );
   }
 }
 
 SortMenu.propTypes = {
-  onChange: React.PropTypes.func,
-  onClick: React.PropTypes.func,
-  options: React.PropTypes.arrayOf(React.PropTypes.shape({
-    label: React.PropTypes.string,
-    value: React.PropTypes.string
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
   })),
-  selected: React.PropTypes.shape({
-    order: React.PropTypes.string,
-    value: React.PropTypes.string
+  selected: PropTypes.shape({
+    order: PropTypes.string,
+    value: PropTypes.string
   })
 };
 

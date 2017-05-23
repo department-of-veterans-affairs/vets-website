@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableMonthYear from '../../../../common/components/form-elements/ErrorableMonthYear';
@@ -88,7 +89,7 @@ export default class EducationPeriod extends React.Component {
 }
 
 EducationPeriod.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };

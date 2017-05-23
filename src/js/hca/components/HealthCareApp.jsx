@@ -1,15 +1,22 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
+import environment from '../../common/helpers/environment';
+
 import IntroductionSection from './IntroductionSection.jsx';
-import Nav from '../../common/components/Nav.jsx';
+import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
+import NavHeader from '../../common/components/NavHeader';
+import FormTitle from '../../common/schemaform/FormTitle.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp, setAttemptedSubmit } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
+import { getScrollOptions, getCurrentFormStep } from '../../common/utils/helpers';
 import * as validations from '../utils/validations';
 import { chapters } from '../routes';
 
@@ -100,11 +107,7 @@ class HealthCareApp extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollElement', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('topScrollElement', getScrollOptions());
   }
 
   handleContinue() {
@@ -129,23 +132,34 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
+    const apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
+    const submissionPost = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000, // 10 seconds
+      body: veteranToApplication(veteran)
+    };
+
+    submissionPost.body = JSON.stringify({ form: submissionPost.body });
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
+
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      submissionPost.headers.Authorization = `Token token=${userToken}`;
+    }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000, // 10 seconds
-        body: veteranToApplication(veteran)
-      }).then(response => {
+      fetch(apiUrl, submissionPost).then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -156,12 +170,12 @@ class HealthCareApp extends React.Component {
         response.json().then(data => {
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
-          this.props.onUpdateSubmissionId(data.response.formSubmissionId);
-          this.props.onUpdateSubmissionTimestamp(data.response.timeStamp);
+          this.props.onUpdateSubmissionId(data.formSubmissionId);
+          this.props.onUpdateSubmissionTimestamp(data.timestamp);
 
           window.dataLayer.push({
             event: 'submission-successful',
-            submissionID: data.response.formSubmissionId
+            submissionID: data.formSubmissionId
           });
         });
 
@@ -261,10 +275,10 @@ class HealthCareApp extends React.Component {
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {submitButton}
           </div>
           <div className="small-1 medium-1 end columns">
@@ -280,7 +294,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
                 buttonText="Get Started"
@@ -292,7 +306,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -303,10 +317,10 @@ class HealthCareApp extends React.Component {
     } else {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             {nextButton}
           </div>
         </div>
@@ -329,19 +343,35 @@ class HealthCareApp extends React.Component {
     //   }
     // }
 
+    let contentClass = classNames(
+      'progress-box',
+      'progress-box-schemaform',
+      // Align the intro and confirmation content with the title
+      { 'intro-content': _.includes(['/introduction', '/submit-message'], this.props.location.pathname) }
+    );
+
     return (
       <div>
         <div className="row">
           <Element name="topScrollElement"/>
-          <div className="medium-4 columns show-for-medium-up">
+          {/*
+          <div className="usa-width-one-third medium-4 columns show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
                 chapters={chapters}
                 currentUrl={this.props.location.pathname}/>
           </div>
-          <div className="medium-8 columns">
-            <div className="progress-box">
+          */}
+          <div className="usa-width-two-thirds medium-8 columns">
+            <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
+            <div>
+              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, this.props.location.pathname)}/>}
+              <div className="schemaform-chapter-progress">
+                <NavHeader path={this.props.location.pathname} chapters={chapters} className="nav-header-schemaform"/>
+              </div>
+            </div>
+            <div className={contentClass}>
             {/* TODO: Figure out why <form> adds fields to url, and change action to reflect actual action for form submission. */}
               <div className="form-panel">
                 {children}
@@ -357,7 +387,7 @@ class HealthCareApp extends React.Component {
 }
 
 HealthCareApp.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

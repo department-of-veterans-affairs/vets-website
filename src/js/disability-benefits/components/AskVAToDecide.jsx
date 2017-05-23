@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -25,5 +26,5 @@ export default class AskVAToDecide extends React.Component {
 }
 
 AskVAToDecide.propTypes = {
-  id: React.PropTypes.string.isRequired
+  id: PropTypes.string.isRequired
 };

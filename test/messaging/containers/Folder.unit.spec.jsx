@@ -7,7 +7,9 @@ import { Folder } from '../../../src/js/messaging/containers/Folder';
 const props = {
   attributes: {
     folderId: 0,
-    name: 'Inbox'
+    name: 'Inbox',
+    unreadCount: 0,
+    count: 3
   },
   filter: {},
   folders: new Map([
@@ -43,9 +45,14 @@ const props = {
     value: 'sentDate',
     order: 'DESC'
   },
-
-  // No-op function to override dispatch
-  dispatch: () => {}
+  moveMessageToFolder: () => {},
+  openMoveToNewFolderModal: () => {},
+  toggleAdvancedSearch: () => {},
+  setSearchParam: () => {},
+  setDateRange: () => {},
+  openAlert: () => {},
+  dispatch: () => {},
+  router: () => {}
 };
 
 describe('Folder', () => {
@@ -103,7 +110,7 @@ describe('Folder', () => {
             totalEntries: 0
           }}/>
     );
-    expect(tree.dive(['h2']).text()).to.equal('Inbox');
+    expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
     expect(tree.subTree('MessageNav')).to.be.false;
@@ -123,7 +130,7 @@ describe('Folder', () => {
             totalEntries: 0
           }}/>
     );
-    expect(tree.dive(['h2']).text()).to.equal('Inbox');
+    expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.be.false;
@@ -134,7 +141,7 @@ describe('Folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
     );
-    expect(tree.dive(['h2']).text()).to.equal('Inbox');
+    expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
@@ -155,7 +162,7 @@ describe('Folder', () => {
             totalEntries: 2
           }}/>
     );
-    expect(tree.dive(['h2']).text()).to.equal('Inbox');
+    expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;

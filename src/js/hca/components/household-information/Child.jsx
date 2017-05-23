@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import DateInput from '../../../common/components/form-elements/DateInput';
 import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
@@ -40,7 +41,6 @@ class Child extends React.Component {
     } else {
       content = (
         <fieldset>
-          <legend>Child's Name</legend>
           <div className="row">
             <div className="small-12 columns">
               <FullName required
@@ -74,26 +74,24 @@ class Child extends React.Component {
 
           <div className="row">
             <div className="small-12 columns">
-              <DateInput required
+              <ErrorableCurrentOrPastDate required
                   label="Child’s date of birth"
                   name="childBirth"
-                  day={this.props.data.childDateOfBirth.day}
-                  month={this.props.data.childDateOfBirth.month}
-                  year={this.props.data.childDateOfBirth.year}
+                  date={this.props.data.childDateOfBirth}
                   onValueChange={(update) => {this.props.onValueChange('childDateOfBirth', update);}}/>
             </div>
           </div>
 
           <div className="row">
             <div className="small-12 columns">
-              <DateInput required
-                  errorMessage="Child cannot be a dependent before child's date of birth"
-                  validation={isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth)}
+              <ErrorableCurrentOrPastDate required
+                  validation={{
+                    valid: isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth),
+                    message: 'This date must come after the child\'s birth date'
+                  }}
                   label="Date child became dependent"
                   name="childBecameDependent"
-                  day={this.props.data.childBecameDependent.day}
-                  month={this.props.data.childBecameDependent.month}
-                  year={this.props.data.childBecameDependent.year}
+                  date={this.props.data.childBecameDependent}
                   onValueChange={(update) => {this.props.onValueChange('childBecameDependent', update);}}/>
             </div>
           </div>
@@ -162,9 +160,9 @@ class Child extends React.Component {
 }
 
 Child.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };
 
 export default Child;

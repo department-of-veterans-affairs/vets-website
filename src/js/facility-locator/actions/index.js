@@ -83,20 +83,37 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   };
 }
 
-export function searchWithAddress(query) {
+export function searchWithAddress(query, currentMapBounds) {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
+    let types = 'place,address,region,postcode,locality';
+    // check for postcode search
+    if (query.searchString.match(/^\s*\d{5}\s*$/)) {
+      types = 'postcode';
+    }
     mapboxClient.geocodeForward(query.searchString, {
-      country: 'us,vi,pr,ph,gu,as,mp',
-      types: 'place,address,region,postcode,locality',
+      country: 'us,pr,ph,gu,as,mp',
+      types,
     }, (err, res) => {
       const coordinates = res.features[0].center;
       const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
       }) || {}).text || res.features[0].place_name;
+      let modifiedBox;
+
+      if (currentMapBounds) {
+        const latDelta = Math.abs(currentMapBounds[0] - currentMapBounds[2]);
+        const lngDelta = Math.abs(currentMapBounds[1] - currentMapBounds[3]);
+        modifiedBox = [
+          coordinates[0] - lngDelta,
+          coordinates[1] - latDelta,
+          coordinates[0] + lngDelta,
+          coordinates[1] + latDelta,
+        ];
+      }
 
       if (!err) {
         dispatch({
@@ -108,7 +125,7 @@ export function searchWithAddress(query) {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
-            bounds: res.features[0].bbox || [
+            bounds: modifiedBox || res.features[0].bbox || [
               coordinates[0] - 0.5,
               coordinates[1] - 0.5,
               coordinates[0] + 0.5,

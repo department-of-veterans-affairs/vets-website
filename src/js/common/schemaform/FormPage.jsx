@@ -1,38 +1,27 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import Form from 'react-jsonschema-form';
-import { uiSchemaValidate, transformErrors } from './validation';
-import FieldTemplate from './FieldTemplate';
-import widgets from './widgets/index';
+
+import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
-import ObjectField from './ObjectField';
+import { focusElement, getActivePages } from '../utils/helpers';
+import { setData } from './actions';
 
-import { focusElement } from '../utils/helpers';
+function focusForm() {
+  const legend = document.querySelector('.form-panel legend');
+  if (legend && legend.getBoundingClientRect().height > 0) {
+    focusElement(legend);
+  } else {
+    focusElement('.nav-header');
+  }
+}
 
-const fields = {
-  ObjectField
-};
-
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 const scroller = Scroll.scroller;
-
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
     duration: 500,
     delay: 0,
     smooth: true,
@@ -40,121 +29,122 @@ const scrollToTop = () => {
 };
 
 /*
- * Each page uses this component and passes in config. This is where most of the page level
- * form logic should live.
+ * Component for regular form pages (i.e. not on the review page). Handles moving back
+ * and forward through pages
  */
 class FormPage extends React.Component {
   constructor(props) {
     super(props);
-    this.validate = this.validate.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onError = this.onError.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
-    this.transformErrors = this.transformErrors.bind(this);
-    this.state = this.getEmptyState(props.route.pageConfig);
+    this.getEligiblePages = this.getEligiblePages.bind(this);
   }
+
   componentDidMount() {
     scrollToTop();
+    focusForm();
   }
-  componentWillReceiveProps(newProps) {
-    if (newProps.route.pageConfig !== this.props.route.pageConfig) {
-      this.setState(this.getEmptyState(newProps.route.pageConfig));
-    }
-  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig !== this.props.route.pageConfig) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       scrollToTop();
+      focusForm();
     }
   }
-  onBlur(id) {
-    const formContext = _.set(['touched', id], true, this.state.formContext);
-    this.setState({ formContext });
+
+  onChange(formData) {
+    this.props.setData(this.props.route.pageConfig.pageKey, formData);
   }
-  onChange({ formData }) {
-    this.setState({ formData });
-  }
-  onError() {
-    const formContext = _.set('submitted', true, this.state.formContext);
-    this.setState({ formContext });
-    scrollToFirstError();
-  }
+
   onSubmit() {
-    const { pageList, pageConfig } = this.props.route;
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-    this.props.router.push(pageList[pageIndex + 1].path);
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex + 1].path);
   }
-  getEmptyState(pageConfig) {
-    return { formData: pageConfig.initialData, formContext: { touched: {}, submitted: false } };
+
+  /*
+   * Returns the page list without conditional pages that have not satisfied
+   * their dependencies and therefore should be skipped.
+   */
+  getEligiblePages() {
+    const { form, route: { pageConfig, pageList } } = this.props;
+    const eligiblePageList = getActivePages(pageList, form.data);
+    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
+    return { eligiblePageList, pageIndex };
   }
+
   goBack() {
-    const { pageList, pageConfig } = this.props.route;
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-    this.props.router.push(pageList[pageIndex - 1].path);
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    // if we found the current page, go to previous one
+    // if not, go back to the beginning because they shouldn't be here
+    const page = pageIndex >= 0 ? pageIndex - 1 : 0;
+    this.props.router.push(eligiblePageList[page].path);
   }
-  transformErrors(errors) {
-    return transformErrors(errors, this.props.route.pageConfig.errorMessages);
-  }
-  validate(formData, errors) {
-    const { uiSchema } = this.props.route.pageConfig;
-    if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, formData);
-    }
-    return errors;
-  }
+
   render() {
-    const { schema, uiSchema } = this.props.route.pageConfig;
+    const { route } = this.props;
+    const {
+      schema,
+      uiSchema
+    } = this.props.form.pages[route.pageConfig.pageKey];
+    const data = this.props.form.data;
     return (
-      <Form
-          FieldTemplate={FieldTemplate}
-          formContext={this.state.formContext}
-          liveValidate
-          noHtml5Validate
-          onError={this.onError}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          schema={schema}
-          uiSchema={uiSchema}
-          validate={this.validate}
-          showErrorList={false}
-          formData={this.state.formData}
-          widgets={widgets}
-          fields={fields}
-          transformErrors={this.transformErrors}>
-        <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
-            <ProgressButton
-                onButtonClick={this.goBack}
-                buttonText="Back"
-                buttonClass="usa-button-outline"
-                beforeText="«"/>
+      <div className="form-panel">
+        <SchemaForm
+            name={route.pageConfig.pageKey}
+            title={route.pageConfig.title}
+            data={data}
+            schema={schema}
+            uiSchema={uiSchema}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}>
+          <div className="row form-progress-buttons schemaform-buttons">
+            <div className="small-6 usa-width-five-twelfths medium-5 columns">
+              <ProgressButton
+                  onButtonClick={this.goBack}
+                  buttonText="Back"
+                  buttonClass="usa-button-outline"
+                  beforeText="«"/>
+            </div>
+            <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+              <ProgressButton
+                  submitButton
+                  buttonText="Continue"
+                  buttonClass="usa-button-primary"
+                  afterText="»"/>
+            </div>
           </div>
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-                submitButton
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>
-      </Form>
+        </SchemaForm>
+      </div>
     );
   }
 }
 
-FormPage.propTypes = {
-  route: React.PropTypes.shape({
-    pageConfig: React.PropTypes.shape({
-      schema: React.PropTypes.object.isRequired,
-      uiSchema: React.PropTypes.object.isRequired,
-      initialData: React.PropTypes.object.isRequired,
-      errorMessages: React.PropTypes.object
-    }),
-    pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
-      path: React.PropTypes.string.isRequired
-    }))
-  })
+function mapStateToProps(state) {
+  return {
+    form: state.form
+  };
+}
+
+const mapDispatchToProps = {
+  setData
 };
 
-export default withRouter(FormPage);
+FormPage.propTypes = {
+  form: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    pageConfig: PropTypes.shape({
+      pageKey: PropTypes.string.isRequired,
+      schema: PropTypes.object.isRequired,
+      uiSchema: PropTypes.object.isRequired
+    }),
+    pageList: PropTypes.arrayOf(PropTypes.shape({
+      path: PropTypes.string.isRequired
+    }))
+  }),
+  setData: PropTypes.func
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+
+export { FormPage };

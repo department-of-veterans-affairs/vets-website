@@ -1,9 +1,14 @@
 import React from 'react';
 
 export default function TextWidget(props) {
+  let inputType = props.options.inputType;
+  if (!inputType) {
+    inputType = props.schema.type === 'number' ? 'number' : props.type;
+  }
   return (
-    <input type={props.schema.type === 'number' ? 'number' : props.type}
+    <input type={inputType}
         id={props.id}
+        name={props.id}
         disabled={props.disabled}
         maxLength={props.schema.maxLength}
         autoComplete={props.options.autocomplete || false}

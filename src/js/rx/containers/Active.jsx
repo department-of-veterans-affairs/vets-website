@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -22,6 +23,9 @@ import { sortOptions } from '../config';
 class Active extends React.Component {
   constructor(props) {
     super(props);
+
+    const viewPref = sessionStorage.getItem('rxView');
+
     this.handleSort = this.handleSort.bind(this);
     this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
 
@@ -33,11 +37,15 @@ class Active extends React.Component {
         this.setState({
           view: 'card',
         });
+      } else if (viewPref) {
+        this.setState({
+          view: viewPref,
+        });
       }
     }, 200);
 
     this.state = {
-      view: 'card',
+      view: viewPref || 'card',
     };
   }
 
@@ -96,14 +104,28 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div
+          className="rx-view-toggle"
+          ref={(elem) => { this.viewToggle = elem; }}>
+        View:
         <ul>
           {toggles.map(t => {
             const classes = classnames({
               active: this.state.view === t.key,
             });
+
+            const onClick = () => {
+              this.setState(
+                { view: t.key },
+                () => {
+                  this.pushAnalyticsEvent();
+                  sessionStorage.setItem('rxView', t.key);
+                }
+              );
+            };
+
             return (
-              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
+              <li key={t.key} className={classes} onClick={onClick}>{t.value}</li>
             );
           })}
         </ul>
@@ -118,9 +140,10 @@ class Active extends React.Component {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
       const currentSort = this.props.sort;
+      let prescriptionsView;
 
       if (this.state.view === 'list') {
-        content = (
+        prescriptionsView = (
           <PrescriptionTable
               handleSort={this.handleSort}
               currentSort={currentSort}
@@ -129,29 +152,33 @@ class Active extends React.Component {
               glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       } else {
-        content = (
-          <div>
-            <p className="rx-tab-explainer">Your active VA prescriptions.</p>
-            <SortMenu
-                onChange={this.handleSort}
-                onClick={this.handleSort}
-                options={sortOptions}
-                selected={currentSort}/>
-            <PrescriptionList
-                items={this.props.prescriptions}
-                // If we're sorting by facility, tell PrescriptionList to group 'em.
-                grouped={currentSort.value === 'facilityName'}
-                refillModalHandler={this.props.openRefillModal}
-                glossaryModalHandler={this.props.openGlossaryModal}/>
-          </div>
+        prescriptionsView = (
+          <PrescriptionList
+              items={this.props.prescriptions}
+              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              grouped={currentSort.value === 'facilityName'}
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       }
+
+      content = (
+        <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions</p>
+          {this.renderViewSwitch()}
+          {this.state.view === 'list' || <SortMenu
+              onChange={this.handleSort}
+              onClick={this.handleSort}
+              options={sortOptions}
+              selected={currentSort}/>}
+          {prescriptionsView}
+        </div>
+      );
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
-          Please refresh this page or try again later.
-          If this problem persists, please call the Vets.gov Help Desk
+          Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
@@ -159,7 +186,6 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {this.renderViewSwitch()}
         {content}
       </div>
     );
@@ -167,7 +193,7 @@ class Active extends React.Component {
 }
 
 Active.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

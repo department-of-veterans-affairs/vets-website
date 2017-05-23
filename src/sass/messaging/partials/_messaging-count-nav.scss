@@ -8,7 +8,7 @@
 }
 
 .messaging-message-nav button {
-  @extend %messaging-rectangular-button;
+  @include messaging-rectangular-button;
 
   &:first-of-type {
     border-right: none;

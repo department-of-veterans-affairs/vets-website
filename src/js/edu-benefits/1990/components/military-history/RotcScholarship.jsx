@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
@@ -58,7 +59,7 @@ export default class RotcScholarship extends React.Component {
 }
 
 RotcScholarship.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };

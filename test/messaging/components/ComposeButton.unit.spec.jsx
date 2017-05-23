@@ -11,9 +11,21 @@ describe('<ComposeButton>', () => {
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  it('should have the expected default classname', () => {
     const tree = SkinDeep.shallowRender(<ComposeButton/>);
 
-    expect(tree.props.className).to.equal('va-button-primary messaging-compose-button');
+    expect(tree.props.className).to.equal('messaging-compose-button va-button-primary');
+  });
+
+  it('should have the expected classname when disabled', () => {
+    const tree = SkinDeep.shallowRender(<ComposeButton disabled/>);
+
+    expect(tree.props.className).to.equal('messaging-compose-button usa-button-disabled');
+  });
+
+  it('should render disabled button when disabled', () => {
+    const tree = SkinDeep.shallowRender(<ComposeButton disabled/>);
+
+    expect(tree.subTree('button').props.disabled).to.equal(true);
   });
 });

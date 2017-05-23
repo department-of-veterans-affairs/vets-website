@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
@@ -8,7 +9,6 @@ import ExpandingGroup from '../../../../common/components/form-elements/Expandin
 export default class BenefitsSelectionFields extends React.Component {
   render() {
     return (<fieldset>
-      <legend className="hide-for-small-only">Benefits eligibility</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <div className="usa-alert usa-alert-info">
@@ -60,6 +60,6 @@ export default class BenefitsSelectionFields extends React.Component {
 }
 
 BenefitsSelectionFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

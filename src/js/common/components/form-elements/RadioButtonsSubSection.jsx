@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class RadioButtonsSubSection extends React.Component {
@@ -8,5 +9,5 @@ export default class RadioButtonsSubSection extends React.Component {
 }
 
 RadioButtonsSubSection.propTypes = {
-  showIfValueChosen: React.PropTypes.string.isRequired
+  showIfValueChosen: PropTypes.string.isRequired
 };

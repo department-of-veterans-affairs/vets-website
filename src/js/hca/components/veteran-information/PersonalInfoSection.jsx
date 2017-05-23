@@ -30,7 +30,6 @@ class PersonalInfoSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Personal Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <FullName required

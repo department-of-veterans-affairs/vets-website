@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
 
@@ -54,8 +53,13 @@ class AuthApp extends React.Component {
           this.setMyToken(myToken);
         } else {
           sessionStorage.setItem('mfa_start', true);
-          this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
-            window.location.href = result.authenticate_via_get;
+
+          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+            method: 'GET',
+          }).then(response => {
+            return response.json();
+          }).then(innerJson => {
+            window.location.href = innerJson.authenticate_via_get;
           });
         }
       } else {
@@ -80,7 +84,7 @@ class AuthApp extends React.Component {
         <div>
           <h3>We are sorry that we could not successfully log you in.</h3>
           <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
-          <button onClick={window.close()}>Close</button>
+          <button onClick={window.close}>Close</button>
         </div>
       );
     }

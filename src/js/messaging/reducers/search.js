@@ -37,7 +37,7 @@ const initialState = {
   }
 };
 
-export default function modals(state = initialState, action) {
+export default function search(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDER_SUCCESS: {
       const { filter } = action.messages.meta;

@@ -5,31 +5,29 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import MviRecordsUnavailable from '../components/MviRecordsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
-import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 const unavailableView = (
   <div className="row">
-    <div className="columns medium-8"><ClaimsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+    <div className="columns usa-width-two-thirds medium-8"><ClaimsUnavailable/></div>
+    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
   </div>
 );
 
 const unavailableMviRecords = (
   <div className="row">
-    <div className="columns medium-8"><MviRecordsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+    <div className="columns usa-width-two-thirds medium-8"><MviRecordsUnavailable/></div>
+    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
   </div>
 );
 
-// this needs to be a React component for RequiredLoginView to pass down props
-function AppContent({ authorized, available, synced, children, isDataAvailable }) {
-  // prop is only passed on failure
+// This needs to be a React component for RequiredLoginView to pass down
+// the isDataAvailable prop, which is only passed on failure.
+function AppContent({ authorized, available, children, isDataAvailable }) {
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
-      {available && authorized && canUseApp && !synced && <ClaimSyncWarning/>}
-      {!authorized && <div className="row"><div className="columns medium-8"><ClaimsUnauthorized/></div></div>}
+      {!authorized && <div className="row"><div className="columns usa-width-two-thirds medium-8"><ClaimsUnauthorized/></div></div>}
       {authorized && !available && unavailableView}
       {authorized && !canUseApp && available && unavailableMviRecords}
       {available && authorized && canUseApp &&
@@ -42,14 +40,18 @@ function AppContent({ authorized, available, synced, children, isDataAvailable }
 
 class DisabilityBenefitsApp extends React.Component {
   render() {
-    const { available, synced, authorized } = this.props;
+    const { available, authorized } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"evss-claims"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent
             authorized={authorized}
-            available={available}
-            synced={synced}>
+            available={available}>
           {this.props.children}
         </AppContent>
       </RequiredLoginView>
@@ -59,10 +61,13 @@ class DisabilityBenefitsApp extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const userState = state.user;
   return {
     available: claimsState.claimSync.available,
-    synced: claimsState.claimSync.synced,
-    authorized: claimsState.claimSync.authorized
+    authorized: claimsState.claimSync.authorized,
+    profile: userState.profile,
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 }
 

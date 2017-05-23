@@ -14,6 +14,7 @@ function testGroup(conditions, index, result) {
   const tree = SkinDeep.shallowRender(
     <ContributionsFields
         data={data}
+        initializeFields={f => f}
         onStateChange={onStateChange}/>
   );
   expect(tree.everySubTree('ExpandingGroup')[index].props.open).to.be[result];

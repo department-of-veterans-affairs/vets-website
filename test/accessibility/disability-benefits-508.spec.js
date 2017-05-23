@@ -1,7 +1,7 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const DisabilityHelpers = require('../util/disability-helpers');
-const LoginHelpers = require('../util/login-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const DisabilityHelpers = require('../e2e/disability-helpers');
+const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -10,17 +10,26 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimsListMock(token);
     DisabilityHelpers.initClaimDetailMocks(token, false, false, false, 3);
 
+    LoginHelpers.logIn(token, client, '/track-claims', 3);
+
     // Claim list page
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
+    client
+      .url(`${E2eHelpers.baseUrl}/track-claims`);
+
+    E2eHelpers.overrideSmoothScrolling(client);
+
+    // Click consolidated claims button
+    client
       .waitForElementVisible('a.claim-list-item', Timeouts.slow)
       .axeCheck('.main');
 
     client
       .click('a.claims-combined')
-      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal)
+      .axeCheck('.main');
 
     client
-      .axeCheck('.main');
+      .click('.va-modal-inner button.usa-button');
 
     // Claim status tab
     client
@@ -31,7 +40,6 @@ module.exports = E2eHelpers.createE2eTest(
     // claim estimation page
     client
       // have to scroll to trigger all phases to show up
-      .resizeWindow(800, 1200)
       .execute('window.scrollTo(0,8000)')
       .pause(500)
       .waitForElementPresent('.claim-completion-estimation', Timeouts.normal)
@@ -40,17 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
-      .waitForElementVisible('.claim-title', Timeouts.normal);
-
-    // Ask VA page
-    client
-      .click('.usa-alert-info a')
-      .waitForElementVisible('.request-decision-button', Timeouts.normal)
-      .axeCheck('.main');
-
-    client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // files tab
@@ -59,6 +57,18 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.file-request-list-item', Timeouts.normal)
       .axeCheck('.main');
 
+    // Ask VA page
+    client
+      .click('.usa-alert-info a')
+      .waitForElementVisible('.request-decision-button', Timeouts.normal)
+      .axeCheck('.main');
+
+    client
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
+      .waitForElementVisible('.claim-title', Timeouts.normal)
+      .click('.va-tabs li:nth-child(2) > a')
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal);
+
     // document request page
     client
       .click('.file-request-list-item a')
@@ -66,7 +76,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // turn in evidence page
@@ -76,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // details tab

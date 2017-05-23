@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Work and Learn
 concurrence: complete
+plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /education/work-learn/workstudy/
@@ -22,4 +23,8 @@ relatedlinks:
 
 ---
 
-You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
+<div class="va-introtext">
+
+Are you looking for education and job training options other than college? We can help. Find out if you qualify for a non-traditional education program.
+
+</div>

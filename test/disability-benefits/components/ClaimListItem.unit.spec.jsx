@@ -22,6 +22,34 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.communications').text()).to.equal('');
   });
+  it('should show closed status', () => {
+    const claim = {
+      id: 1,
+      attributes: {
+        phase: 8
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimsListItem
+          claim={claim}/>
+    );
+    expect(tree.subTree('.status').text()).to.equal('Status: Closed');
+  });
+  it('should show the status', () => {
+    const claim = {
+      id: 1,
+      attributes: {
+        phase: 2
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimsListItem
+          claim={claim}/>
+    );
+    expect(tree.subTree('.status').text()).to.equal('Status: Initial review');
+  });
   it('should show development letter flag', () => {
     const claim = {
       id: 1,

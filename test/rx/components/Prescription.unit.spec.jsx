@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Prescription from '../../../src/js/rx/components/Prescription.jsx';
+import Prescription from '../../../src/js/rx/components/Prescription';
 
 const samplePrescription = {
   id: '746575',

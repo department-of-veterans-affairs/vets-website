@@ -2,6 +2,7 @@
 title: Track Claims
 entryname: disability-benefits
 layout: page-react.html
+gatePage: true
 ---
 <div id="main">
   <div class="section">

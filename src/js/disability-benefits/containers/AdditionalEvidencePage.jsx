@@ -7,7 +7,9 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
+import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 import {
   addFile,
@@ -23,12 +25,8 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  Scroll.scroller.scrollTo('uploadError', {
-    duration: 500,
-    offset: -25,
-    delay: 0,
-    smooth: true
-  });
+  const options = getScrollOptions({ offset: -25 });
+  Scroll.scroller.scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 
@@ -70,8 +68,9 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading claim information"/>;
     } else {
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
+      const claim = this.props.claim;
+      const filesPath = `your-claims/${claim.id}/files`;
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -81,14 +80,14 @@ class AdditionalEvidencePage extends React.Component {
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
-                  <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
+                  <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
                   <li className="active">Additional evidence</li>
                 </ul>
               </nav>
             </div>
           </div>
           <div className="row">
-            <div className="medium-8 columns">
+            <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 {message &&
                   <div>
@@ -117,7 +116,7 @@ class AdditionalEvidencePage extends React.Component {
                     onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="small-12 usa-width-one-third medium-4 columns">
               <AskVAQuestions/>
             </div>
           </div>

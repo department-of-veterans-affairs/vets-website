@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { focusElement } from '../../../common/utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -91,34 +92,22 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, options);
   }
 
   scrollToFirstError(path) {
     setTimeout(() => {
       const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
-        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, {
-          duration: 500,
-          delay: 0,
-          smooth: true
-        });
-        focusElement(errorEl);
+        scrollAndFocus(errorEl);
       }
     }, 100);
   }
 
   scrollToPage(path) {
-    scroller.scrollTo(`${path}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo(`${path}ScrollElement`, options);
   }
 
   toggleChapter() {
@@ -189,12 +178,12 @@ export default class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
-  chapter: React.PropTypes.string.isRequired,
-  pages: React.PropTypes.array.isRequired,
-  data: React.PropTypes.object.isRequired,
-  uiData: React.PropTypes.object.isRequired,
-  onFieldsInitialized: React.PropTypes.func.isRequired,
-  onStateChange: React.PropTypes.func.isRequired,
-  onUpdateEditStatus: React.PropTypes.func.isRequired,
-  urlPrefix: React.PropTypes.string.isRequired
+  chapter: PropTypes.string.isRequired,
+  pages: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
+  uiData: PropTypes.object.isRequired,
+  onFieldsInitialized: PropTypes.func.isRequired,
+  onStateChange: PropTypes.func.isRequired,
+  onUpdateEditStatus: PropTypes.func.isRequired,
+  urlPrefix: PropTypes.string.isRequired
 };

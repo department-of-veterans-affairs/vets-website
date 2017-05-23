@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -75,6 +76,7 @@ class ErrorableCheckbox extends React.Component {
             onChange={this.handleChange}/>
         <label
             className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+            name={`${this.props.name}-label`}
             htmlFor={this.inputId}>
               {this.props.label}
               {requiredSpan}
@@ -87,12 +89,15 @@ class ErrorableCheckbox extends React.Component {
 }
 
 ErrorableCheckbox.propTypes = {
-  checked: React.PropTypes.bool,
-  errorMessage: React.PropTypes.string,
-  name: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool,
+  checked: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  name: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]).isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
 };
 
 export default ErrorableCheckbox;

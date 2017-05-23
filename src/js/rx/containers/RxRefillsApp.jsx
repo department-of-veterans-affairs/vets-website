@@ -1,13 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { closeDisclaimer } from '../actions/disclaimer';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
-import Disclaimer from '../components/Disclaimer';
 import GlossaryModal from '../components/GlossaryModal';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -28,23 +27,29 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="rx-app">{view}</div>;
+  return (
+    <div className="rx-app">
+      <div className="row">
+        <div className="columns small-12">
+          {view}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 class RxRefillsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"rx"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div className="row">
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-          </div>
-          <div className="row">
-            <Disclaimer
-                isOpen={this.props.disclaimer.open}
-                handleClose={this.props.closeDisclaimer}/>
-            {this.props.children}
-          </div>
+          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+          {this.props.children}
           <ConfirmRefillModal
               prescription={this.props.refillModal.prescription}
               isLoading={this.props.refillModal.loading}
@@ -62,23 +67,25 @@ class RxRefillsApp extends React.Component {
 }
 
 RxRefillsApp.propTypes = {
-  children: React.PropTypes.element
+  children: PropTypes.element
 };
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   const modals = rxState.modals;
+  const userState = state.user;
 
   return {
-    disclaimer: rxState.disclaimer,
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
+    profile: userState.profile,
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 
 const mapDispatchToProps = {
-  closeDisclaimer,
   closeGlossaryModal,
   closeRefillModal,
   refillPrescription
