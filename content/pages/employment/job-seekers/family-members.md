@@ -1,23 +1,26 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Resources for Military and Veteran Family Members
+display_title: Resources for Family Members
 concurrence: complete
-template: 1-topic-landing
-relatedlinks:
-  - url: /employment/job-seekers/one-on-one/
-    title: One-on-One Assistance
-  - url: /employment/job-seekers/interest-profiler/
-    title: Interest Profiler
-  - url: /employment/job-seekers/create-resume
-    title: Résumé Builder
-  - url: /employment/commitments
-    title: View Employer Commitments to Hire Veterans
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Veterans Job Bank
-  - url: /employment/job-seekers/career-fairs/
-    title: Career Fairs
-  - url: /employment/job-seekers/unemployment-support/
-    title: Unemployment Support
+majorlinks:
+  - heading:  Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/one-on-one/
+      title: One-on-One Assistance
+    - url: /employment/job-seekers/interest-profiler/
+      title: Interest Profiler
+    - url: /employment/job-seekers/create-resume
+      title: Résumé Builder
+    - url: /employment/commitments
+      title: View Employer Commitments to Hire Veterans
+    - url: /employment/job-seekers/search-jobs
+      title: Search the Veterans Job Bank
+    - url: /employment/job-seekers/career-fairs/
+      title: Career Fairs
+    - url: /employment/job-seekers/unemployment-support/
+      title: Unemployment Support
 ---
 
 <div class="va-introtext">

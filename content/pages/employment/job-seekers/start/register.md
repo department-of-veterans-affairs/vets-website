@@ -1,13 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Registering Your Business
 concurrence: complete
-template: 1-topic-landing
-relatedlinks:
-  - url: https://www.vip.vetbiz.gov/Public/Logon.aspx
-    title: Registering Your Business
-  - url: /employment/job-seekers/start/counseling/
-    title: Entrepreneurship Counseling
+order: 1
 ---
 
 <div class="va-introtext">
@@ -25,6 +21,8 @@ You also get:
 
 VA’s committed to supporting small businesses owned by Veterans.
 
+<div class="feature">
+
 ### Are you eligible?
 Yes, if:
 
@@ -35,6 +33,8 @@ Yes, if:
 
 ### Who can apply
 You
+
+</div>
 
 ### How it works
 [Apply online](https://www.vip.vetbiz.gov/).

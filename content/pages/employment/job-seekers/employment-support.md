@@ -1,27 +1,29 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Veteran Employment Support
 concurrence: complete
-template: 1-topic-landing
-relatedlinks:
-  - url: /employment/job-seekers/one-on-one/
-    title: One-on-One Assistance
-  - url: /employment/job-seekers/skills-translator
-    title: Military Skills Translator
-  - url: /employment/job-seekers/create-resume
-    title: Resume Builder
-  - url: /employment/job-seekers/alternative/
-    title: Alternative Ways to Start Your Career
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Jobs Bank
-  - url: /employment/job-seekers/interest-profiler/
-    title: Interest Profiler
-  - url: /employment/job-seekers/military-transcripts/
-    title: Military Transcripts
-  - url: /employment/job-seekers/career-fairs/
-    title: Career Fairs
-  - url: /employment/job-seekers/veci/
-    title: VECI
+majorlinks:
+  - heading: Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/one-on-one/
+      title: One-on-One Assistance
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+    - url: /employment/job-seekers/create-resume
+      title: Resume Builder
+    - url: /employment/job-seekers/alternative/
+      title: Alternative Ways to Start Your Career
+    - url: /employment/job-seekers/search-jobs
+      title: Search the Jobs Bank
+    - url: /employment/job-seekers/interest-profiler/
+      title: Interest Profiler
+    - url: /employment/job-seekers/military-transcripts/
+      title: Military Transcripts
+    - url: /employment/job-seekers/career-fairs/
+      title: Career Fairs
+    - url: /employment/job-seekers/veci/
+      title: VECI
 ---
 
 <div class="va-introtext">

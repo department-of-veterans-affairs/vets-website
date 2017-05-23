@@ -1,21 +1,24 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Employment Support for Service-Disabled Veterans
+display_title: Service-Disabled Veteran Support
 concurrence: complete
-template: 1-topic-landing
-relatedlinks:
-  - url: /employment/job-seekers/one-on-one/
-    title: One-on-One Assistance
-  - url: /employment/job-seekers/skills-translator
-    title: Military Skills Translator
-  - url: /employment/job-seekers/create-resume
-    title: Résumé Builder
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Veterans Job Bank
-  - url: /employment/job-seekers/interest-profiler/
-    title: Interest Profiler
-  - url: /employment/job-seekers/military-transcripts/
-    title: Military Transcripts
+majorlinks:
+  - heading: Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/one-on-one/
+      title: One-on-One Assistance
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+    - url: /employment/job-seekers/create-resume
+      title: Résumé Builder
+    - url: /employment/job-seekers/search-jobs
+      title: Search the Veterans Job Bank
+    - url: /employment/job-seekers/interest-profiler/
+      title: Interest Profiler
+    - url: /employment/job-seekers/military-transcripts/
+      title: Military Transcripts
 ---
 
 <div class="va-introtext">

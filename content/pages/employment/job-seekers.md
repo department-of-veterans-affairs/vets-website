@@ -1,7 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Job Seekers
-template: 4-action-page
+children: employmentJobSeekers
+relatedlinks:
+  - heading: Online Resources
+    links:
+    - url: https://www.surveymonkey.com/r/QSGQRFN
+      title: Coursera
+      description: Take a class with free resources.
+    - url: https://veterans.linkedin.com/
+      title: LinkedIn&#153; Learning
+      description: Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses.
 ---
 
 <div class="va-introtext">

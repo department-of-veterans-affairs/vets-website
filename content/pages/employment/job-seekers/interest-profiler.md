@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Interest Profiler
 concurrence: incomplete
-template: 1-topic-landing
 ---
 
 <div class="va-introtext">
