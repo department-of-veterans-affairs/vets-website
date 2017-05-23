@@ -105,7 +105,7 @@ export function transformErrors(errors, uiSchema) {
  *   Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '', currentIndex = null) {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -123,7 +123,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') 
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath);
+        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath, index);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -142,7 +142,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') 
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath, currentIndex);
         });
     }
 
@@ -151,9 +151,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') 
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], currentIndex);
         } else {
-          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options, currentIndex);
         }
       });
     }
@@ -248,7 +248,7 @@ export function validateAddress(errors, address, formData, schema) {
   // USA, Canada, or Mexico
   if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
     && address.state === undefined
-    && schema.required) {
+    && schema.required.length) {
     errors.state.addError('Please select a state or province');
   }
 
@@ -272,7 +272,7 @@ export function validateRoutingNumber(errors, routingNumber, formData, schema, e
   }
 }
 
-function convertToDateField(dateStr) {
+export function convertToDateField(dateStr) {
   const date = parseISODate(dateStr);
   return Object.keys(date).reduce((dateField, part) => {
     const datePart = {};

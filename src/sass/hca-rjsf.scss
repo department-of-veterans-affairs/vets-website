@@ -9,3 +9,22 @@
 @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
+.hca-success-icon {
+  color: $color-green;
+  font-size: 8rem;
+}
+
+.hca-alert-copy {
+  color: $color-secondary-dark;
+}
+
+.success-copy {
+  color: $color-green;
+  font-weight: 600;
+}
+
+.success-alert-box {
+  border: 1px solid $color-green;
+  text-align: center;
+}
+

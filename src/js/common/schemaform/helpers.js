@@ -331,6 +331,66 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
   return !deepEquals(props, nextProps);
 });
 
+/**
+ * Recursively checks to see if the schema is valid.
+ *
+ * Note: This only returns true. If the schema is invalid, an error is thrown to
+ *  stop everything.
+ *
+ * @param {Object} schema - The schema in question
+ * @return {bool}         - true if we succeed
+ * @throws {Error}        - If the schema is invalid
+ */
+export function checkValidSchema(schema, errors = [], path = ['root']) {
+  if (typeof schema.type !== 'string') {
+    errors.push(`Missing type in ${path.join('.')} schema.`);
+  }
+
+  if (schema.type === 'object') {
+    if (typeof schema.properties !== 'object') {
+      errors.push(`Missing object properties in ${path.join('.')} schema.`);
+    } else {
+      Object.keys(schema.properties).forEach((propName) => {
+        checkValidSchema(schema.properties[propName], errors, [...path, propName]);
+      });
+    }
+  }
+
+  if (schema.type === 'array') {
+    // We check this both before items is turned into additionalItems and after,
+    //  so we need to account for it being both an object and an array.
+    if (Array.isArray(schema.items)) {
+      if (!schema.additionalItems) {
+        errors.push(`${path.join('.')} should contain additionalItems when items is an array.`);
+      }
+      schema.items.forEach((item, index) => {
+        checkValidSchema(item, errors, [...path, 'items', index]);
+      });
+    } else if (typeof schema.items === 'object') {
+      if (schema.additionalItems) {
+        errors.push(`${path.join('.')} should not contain additionalItems when items is an object.`);
+      }
+      checkValidSchema(schema.items, errors, [...path, 'items']);
+    } else {
+      errors.push(`Missing items schema in ${path.join('.')}.`);
+    }
+
+    // Check additionalItems
+    if (schema.additionalItems) {
+      checkValidSchema(schema.additionalItems, errors, [...path, 'additionalItems']);
+    }
+  }
+
+  // We've recursed all the way back down to ['root']; throw an error containing
+  //  all the error messages.
+  if (path.length === 1 && errors.length > 0) {
+    // console.log(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')} -- ${path.join('.')}`);
+    throw new Error(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')}`);
+  } else {
+    return true;
+  }
+}
+
 export function setItemTouched(prefix, index, idSchema) {
   const fields = Object.keys(idSchema).filter(field => field !== '$id');
   if (!fields.length) {

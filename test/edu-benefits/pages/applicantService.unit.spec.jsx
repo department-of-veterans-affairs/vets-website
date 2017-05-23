@@ -5,15 +5,17 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import applicantServicePage from '../../../src/js/edu-benefits/pages/applicantService';
+import formConfig5495 from '../../../src/js/edu-benefits/5495/config/form';
+import formConfig5490 from '../../../src/js/edu-benefits/5490/config/form';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-describe('Edu default applicantService page', () => {
-  const formConfig = applicantServicePage();
-  const { schema, uiSchema } = formConfig;
+const pageTests = (page) => {
+  const { schema, uiSchema } = page;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={commonDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -26,6 +28,7 @@ describe('Edu default applicantService page', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={commonDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -49,6 +52,7 @@ describe('Edu default applicantService page', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={commonDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -70,6 +74,7 @@ describe('Edu default applicantService page', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={commonDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -94,6 +99,7 @@ describe('Edu default applicantService page', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={commonDefinitions}
           onSubmit={onSubmit}
           data={{}}
           uiSchema={uiSchema}/>
@@ -134,4 +140,9 @@ describe('Edu default applicantService page', () => {
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Army');
   });
+};
+
+describe('Edu applicantServicePage', () => {
+  describe('5495', () => pageTests(formConfig5495.chapters.applicantInformation.pages.applicantService));
+  describe('5490', () => pageTests(formConfig5490.chapters.applicantInformation.pages.applicantService));
 });

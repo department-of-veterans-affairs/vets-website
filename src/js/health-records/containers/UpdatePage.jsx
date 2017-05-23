@@ -10,37 +10,39 @@ export class UpdatePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pollRefresh = () => {
-      setInterval(() => {
-        props.checkRefreshStatus();
-      }, 30000);
-    };
     this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
+    this.submitAndDownload = this.submitAndDownload.bind(this);
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.checkRefreshStatus();
-    this.pollRefresh();
+    this.pollRefresh = setInterval(this.props.checkRefreshStatus, 30000);
+    this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
   componentWillReceiveProps(nextProps) {
-    const erroredUpdates = nextProps.refresh.statuses.failed;
-    if (erroredUpdates.length === 0) {
-      this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    }
-    if (nextProps.form.ready) {
-      this.props.router.push('/download');
+    const incompleteUpdates = nextProps.refresh.statuses.incomplete;
+    // automatically go to Download page when all statuses have resolved
+    // in either success or failure
+    if (incompleteUpdates.length === 0) {
+      this.submitAndDownload();
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.pollRefresh);
+    clearTimeout(this.refreshTimeout);
+  }
+
+  submitAndDownload() {
+    this.props.router.push('/download');
+    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
   }
 
   handleSkipToDownload(e) {
     e.preventDefault();
-    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    this.props.router.push('/download');
+    this.submitAndDownload();
   }
 
   render() {

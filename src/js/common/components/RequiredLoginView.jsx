@@ -9,39 +9,34 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
-    this.setUserLevel = this.setUserLevel.bind(this);
     this.state = {
       loading: true
     };
   }
 
   componentDidMount() {
-    if (sessionStorage.userToken) {
-      this.setUserLevel();
-    }
-
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setUserLevel() {
+  isServiceAvailable() {
     const requiredApp = this.props.serviceRequired;
     const userServices = this.props.userProfile.services;
-    if (userServices) {
-      this.setState(
-        {
-          isServiceAvailableForUse: userServices.includes(requiredApp),
-        }
-      );
-    }
+    // Checks that
+    // 1) session has a valid authentication token, and
+    // 2) the application being loaded (requiredApp) is in the list of
+    //    applications/services the user is authorized to use (userServices)
+    // TODO: replace indexOf() once NodeJS versions in all environments support includes()
+    return sessionStorage.userToken && userServices &&
+           userServices.indexOf(requiredApp) !== -1;
   }
 
   render() {
     let view;
 
     const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
-    const verifyComponent = <VerifyPrompt/>;
+    const verifyComponent = <VerifyPrompt verifyUrl={this.props.verifyUrl}/>;
 
     if (this.state.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
@@ -55,27 +50,29 @@ class RequiredLoginView extends React.Component {
       } else if (this.props.authRequired === 3) {
         if (this.props.userProfile.accountType === 3) {
           if (this.props.userProfile.status === 'SERVER_ERROR') {
-            // If va_profile is null, the system is down and we will show system down message.
+            // If va_profile is null, show a system down message.
             view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
           } else if (this.props.userProfile.status === 'NOT_FOUND') {
-            // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
+            // If va_profile is "not found", show message that we cannot find the user
+            // in our system.
             view = <SystemDownView messageLine1="We couldn't find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
           } else {
-            // If there is something in the va_profile attribute, continue on to check if this user can use this specific service.
-            if (this.state.isServiceAvailableForUse) {
-              // If you have the required service show the application view.
+            // If va_profile has any other value, continue on to check if this user can
+            // use this specific service.
+            if (this.isServiceAvailable()) {
+              // If you have the required service, show the application view.
               view = this.props.children;
             } else {
-              // If you do not have the required service in your `userServices` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
+              // If the required service is not available, the component will still be rendered,
+              // but we pass an `isDataAvailable` prop to child components indicating there is
+              // no data. (Only add this prop to React components (functions), and not ordinary
+              // DOM elements.)
               view = React.Children.map(this.props.children,
                 (child) => {
                   let props = null;
                   if (typeof child.type === 'function') {
-                    props = {
-                      isDataAvailable: this.state.isServiceAvailableForUse,
-                    };
+                    props = { isDataAvailable: false };
                   }
-
                   return React.cloneElement(child, props);
                 }
               );
@@ -104,6 +101,7 @@ RequiredLoginView.propTypes = {
   serviceRequired: PropTypes.string.isRequired,
   userProfile: PropTypes.object.isRequired,
   loginUrl: PropTypes.string,
+  verifyUrl: PropTypes.string
 };
 
 export default RequiredLoginView;

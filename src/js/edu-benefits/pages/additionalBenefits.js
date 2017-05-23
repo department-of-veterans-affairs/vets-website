@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { civilianBenefitsLabel } from '../utils/helpers';
+import { civilianBenefitsLabel } from '../utils/labels';
 
 const defaults = {
   fields: [

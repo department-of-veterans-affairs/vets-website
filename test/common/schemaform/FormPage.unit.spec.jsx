@@ -113,4 +113,50 @@ describe('Schemaform <FormPage>', () => {
       expect(router.push.calledWith('previous-page'));
     });
   });
+  it('should go back to the beginning if current page isn\'t found', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'first-page'
+        },
+        {
+          path: 'previous-page'
+        },
+        {
+          path: 'testing',
+          pageKey: 'testPage'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          depends: () => false,
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+          router={router}
+          form={form} route={route}/>
+    );
+
+    tree.getMountedInstance().goBack();
+
+    expect(router.push.calledWith('first-page'));
+  });
 });
