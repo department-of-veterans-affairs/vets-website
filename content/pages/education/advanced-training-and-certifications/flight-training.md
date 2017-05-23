@@ -2,51 +2,53 @@
 layout: page-breadcrumbs.html
 title: Flight Training
 template: 1-topic-landing
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
 <div class="va-introtext">
 
-If you want to pursue a career in the aviation industry as a pilot, VA offers benefits to help you achieve your goal.
+Want to become a pilot? Find out how your VA education benefits can help pay for flight training.
 
 </div>
 
 
 <div class="feature" markdown="1">
+  
+### Can I get benefits for flight training if I have remaining entitlement under the GI Bill?
 
-### Are you eligible to receive benefits for vocational flight training and have remaining entitlement under the GI Bill?
+You can get benefits for flight training if you:
+- Have at least a private pilot’s license.
+- Have at least a second-class medical certificate valid for second-class privileges—or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
 
-Yes, if:
+### Who's covered?
 
-- You have at least a private pilot’s license.
-- You have at least a second-class medical certificate valid for second-class privileges—or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
+Anyone who qualifies for any of the GI Bill programs. <br />
+**Exception:** You aren't covered if you're using Survivors’ and Dependents’ Educational Assistance (DEA).  
 
-### Who is covered
-
-Anyone eligible under any of the GI Bill programs except for Dependents’ Educational Assistance (Chapter 35)
 </div>
 
-### Available benefits
-Under all eligible chapters except the Post-9/11 GI Bill, we reimburse you for a portion of the costs of flight training at an approved pilot school.
+### What benefits can I get? 
 
-Under the Post-9/11 GI Bill, we pay the pilot school the full cost of your flight training, up to a yearly limit (in proportion to your level of eligibility). If flight training is part of your college degree at an approved college or university, we pay the cost of required tuition and fees as well as a monthly housing allowance and a books-and-supplies stipend.
+The benefits depend on the benefit program you use:
 
-------
+**If you use the Montgomery GI Bill Active Duty (MGIB-AD) or the Reserve Educational Assistance Program (REAP)**, we'll pay you back for 60% of the approved fees.<br />
+[Learn about MGIB-AD](/education/gi-bill/montgomery-active-duty/).<br />
+[Learn about REAP](/education/other-educational-assistance-programs/reap/).<br />
+[Get more information about payments](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). 
 
-### How it works
+**If you use the Post-9/11 GI Bill**, your payment depends on the program and the type of school you're going to: 
+- If your school is a stand-alone Part 141 pilot school, we’ll pay the school for the net cost of training up to a yearly limit.\* [See the annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you're enrolled in a degree program that consists of flight training at a public college or university, we’ll pay back the school for the net cost of tuition and fees.\*
+- If you're enrolled in a degree program that consists of flight training at a private college or university, we’ll pay back the school for the net cost of tuition and fees up to a yearly limit.\* [See the annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
-#### Flight training is available for the following licenses and ratings (this list is not all inclusive):
+\*Your level of eligibility and/or your remaining entitlement limits the payment amount. 
 
-Commercial pilot, instrument rating, certified flight instructor (airplane, instrument, multi-engine), multi-engine rating, flight engineer certification, fixed wing and rotorcraft.
+[Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
 
-#### The requirements and benefits vary according to the benefit program you use:
 
-- If you use the Montgomery GI Bill (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/other-educational-assistance-programs/reap/), VA reimburses eligible beneficiaries for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
-- If you use the Post-9/11 GI Bill, your payment varies depending on the specific flight course and what type of school you're attending.
-    - If your school is a standalone Part 141 pilot school, VA pays the school the full cost of training up to a yearly limit*. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
-    - If your school is a public college or university, VA reimburses the school the full cost of tuition and fees*.
-    - If your school is a private college or university, VA reimburses the school the full cost of tuition and fees up to a yearly limit*.
+### How do I get these benefits? 
 
-*All payments limited by your level of eligibility and remaining entitlement.
+You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/).
 
-Get more details about the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
+

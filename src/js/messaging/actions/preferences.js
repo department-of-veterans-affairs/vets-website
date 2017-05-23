@@ -21,9 +21,9 @@ export function fetchPreferences() {
     apiRequest(
       baseUrl,
       null,
-      data => dispatch({
+      response => dispatch({
         type: SM_FETCH_PREFERENCES_SUCCESS,
-        preferences: data.data.attributes
+        preferences: response.data.attributes
       }),
       () => dispatch({ type: SM_FETCH_PREFERENCES_FAILURE })
     );
@@ -44,7 +44,10 @@ export function savePreferences(preferences) {
       baseUrl,
       settings,
       () => dispatch({ type: SM_SAVE_PREFERENCES_SUCCESS }),
-      () => dispatch({ type: SM_SAVE_PREFERENCES_FAILURE })
+      response => dispatch({
+        type: SM_SAVE_PREFERENCES_FAILURE,
+        errors: response.errors
+      })
     );
   };
 }

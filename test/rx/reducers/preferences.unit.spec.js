@@ -18,6 +18,11 @@ describe('preferencesducer', () => {
     expect(state.saving).to.be.true;
   });
 
+  it('should handle failure to load preferences', () => {
+    const state = preferencesReducer(undefined, { type: 'RX_FETCH_PREFERENCES_FAILURE' });
+    expect(state.loading).to.be.false;
+  });
+
   it('should handle successfully loading preferences', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_FETCH_PREFERENCES_SUCCESS',
@@ -29,6 +34,11 @@ describe('preferencesducer', () => {
     expect(state.email.value).to.eql('test@vets.gov');
     expect(state.flag.value).to.eql('true');
     expect(state.loading).to.be.false;
+  });
+
+  it('should handle failure to save preferences', () => {
+    const state = preferencesReducer(undefined, { type: 'RX_SAVE_PREFERENCES_FAILURE' });
+    expect(state.saving).to.be.false;
   });
 
   it('should handle successfully saving preferences', () => {

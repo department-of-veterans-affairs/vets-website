@@ -175,7 +175,10 @@ describe('alert reducer', () => {
   });
 
   it('should alert when failing to save preferences', () => {
-    const state = alertReducer(initialState, { type: SM_SAVE_PREFERENCES_FAILURE });
+    const state = alertReducer(initialState, {
+      type: SM_SAVE_PREFERENCES_FAILURE,
+      errors: [{ title: 'Email address is invalid' }]
+    });
     expect(state.visible).to.be.true;
     expect(state.status).to.eql('error');
   });

@@ -1,33 +1,47 @@
 import _ from 'lodash/fp';
-import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
-import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import ssnUI from '../../common/schemaform/definitions/ssn';
+import { validateDependentDate } from '../validation';
 
+const incomeFields = [
+  'grossIncome',
+  'netIncome',
+  'otherIncome'
+];
 
-export const schema = (hcaSchema) => {
-  return _.merge(_.omit(
-      // Seems we don't need these properties...
-      ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
-      hcaSchema.definitions.child
-    ), {
-      required: [
-        'childRelation',
-        'childSocialSecurityNumber',
-        'childDateOfBirth',
-        'childBecameDependent',
-        'childEducationExpenses'
-      ],
-      properties: {
-        'view:childSupportDescription': {
-          type: 'object',
-          properties: {}
-        },
-        childRelation: {
-          // Missing in the schema
-          type: 'string'
-        }
+export const createChildSchema = (hcaSchema) => {
+  const s = _.merge(hcaSchema.definitions.child, {
+    required: [
+      'childRelation',
+      'childSocialSecurityNumber',
+      'childDateOfBirth',
+      'childBecameDependent',
+      'childEducationExpenses'
+    ],
+    properties: {
+      'view:childSupportDescription': {
+        type: 'object',
+        properties: {}
+      },
+      childRelation: {
+        // Missing in the schema -- not needed after vets-json-schema is upgraded to v2.7.0
+        type: 'string'
       }
     }
-  );
+  });
+
+  s.properties = _.omit(incomeFields, s.properties);
+
+  return s;
+};
+
+export const createChildIncomeSchema = (hcaSchema) => {
+  const child = hcaSchema.definitions.child;
+  return _.assign(child, {
+    properties: _.pick(incomeFields, child.properties),
+    required: incomeFields
+  });
 };
 
 export const uiSchema = {
@@ -52,12 +66,12 @@ export const uiSchema = {
   childSocialSecurityNumber: _.merge(ssnUI, {
     'ui:title': 'Child’s social security number'
   }),
-  childDateOfBirth: {
-    'ui:title': 'Child’s date of birth'
-  },
-  childBecameDependent: {
-    'ui:title': 'Date child became dependent'
-  },
+  childDateOfBirth: currentOrPastDateUI('Child’s date of birth'),
+  childBecameDependent: _.assign(currentOrPastDateUI('Date child became dependent'), {
+    'ui:validations': [
+      validateDependentDate
+    ]
+  }),
   childDisabledBefore18: {
     'ui:title': 'Was child permanently and totally disabled before the age of 18?',
     'ui:widget': 'yesNo'
@@ -86,6 +100,30 @@ export const uiSchema = {
       // Not being invoked until the data is changed...which means this is open
       //  by default
       hideIf: (formData, index) => formData.children[index].childCohabitedLastYear !== false
+    }
+  },
+};
+
+export const childIncomeUiSchema = {
+  grossIncome: {
+    'ui:title': 'Gross annual income from employment'
+  },
+  netIncome: {
+    'ui:title': 'Net Income from Farm, Ranch, Property or Business'
+  },
+  otherIncome: {
+    'ui:title': 'Other Income Amount'
+  },
+  'ui:options': {
+    updateSchema: (formData, schema, ui, index) => {
+      const name = _.get(`children.[${index}].childFullName`, formData);
+      if (name) {
+        return {
+          title: `${name.first} ${name.last} income`
+        };
+      }
+
+      return schema;
     }
   }
 };

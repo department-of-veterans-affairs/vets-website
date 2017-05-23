@@ -23,7 +23,7 @@ secondarylinks:
 relatedlinkstitle: "Learn new skills using online resources"
 relatedlinks:
   - url: https://veterans.linkedin.com/
-    title: Get a Free 1-Year Subscription for Online Classes with Lynda from LinkedIn Premium
+    title: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
     description: ""
 ---
 

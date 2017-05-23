@@ -20,13 +20,16 @@ describe('schemaform createSchemaFormReducer', () => {
               schema: {
                 type: 'object',
                 properties: {
-                  field: {}
+                  field: { type: 'string' }
                 }
               }
             },
             page2: {
               initialData: {},
-              schema: {}
+              schema: {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -50,7 +53,7 @@ describe('schemaform createSchemaFormReducer', () => {
               schema: {
                 type: 'object',
                 properties: {
-                  field: {}
+                  field: { type: 'string' }
                 }
               }
             },
@@ -64,7 +67,10 @@ describe('schemaform createSchemaFormReducer', () => {
       const state = reducer({
         pages: {
           page1: {
-            schema: {},
+            schema: {
+              type: 'object',
+              properties: {}
+            },
             uiSchema: {},
           }
         },

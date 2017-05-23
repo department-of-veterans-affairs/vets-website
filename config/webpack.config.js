@@ -26,7 +26,8 @@ const entryFiles = {
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  auth: './src/js/auth/auth-entry.jsx'
+  auth: './src/js/auth/auth-entry.jsx',
+  'va-letters': './src/js/va-letters/va-letters-entry.jsx',
 };
 
 const configGenerator = (options) => {
