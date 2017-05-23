@@ -1,11 +1,11 @@
-import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import sinon from 'sinon';
 
+import createCommonStore from '../../../src/js/common/store';
 import { LandingPage } from '../../../src/js/gi/containers/LandingPage';
 import reducer from '../../../src/js/gi/reducers';
-import createCommonStore from '../../../src/js/common/store';
 
 const defaultProps = createCommonStore(reducer).getState();
 
