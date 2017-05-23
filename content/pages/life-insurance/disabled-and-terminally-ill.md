@@ -26,7 +26,7 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 <div class="feature">
 
-#### Can my spouse and I get life insurance benefits early if either of us becomes terminally ill?
+#### Can my spouse or I get life insurance benefits early if either of us becomes terminally ill?
  
 You or your spouse may be able to get benefits early if:
 -	You have SGLI, Family SGLI, or VGLI life insurance, **and**
@@ -43,34 +43,33 @@ You or your spouse may be able to get benefits early if:
 </div>
 
 
-#### What benefits can I get?
+#### What benefits can my spouse and I get?
  
 Up to 50% of the face value of your coverage in increments of $5,000—paid to you before death
 
 
-#### How do I get these benefits?
+#### How do we get these benefits?
  
-Only the insured may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
+Only the insured Servicemember or Veteran may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
  
-**If you’re an SGLI or VGLI policyholder**, fill out VA Form SGLV 8284 (Claim for Accelerated Benefits). [Download VA Form SGLV 8284](http://benefits.va.gov/INSURANCE/forms/8284.htm).
+**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284.htm).
 
-- If you’re still on active duty or you're a Reservist, your service branch must also fill out part of the form. 
+- If you’re still on active duty or you're a Reservist, turn in the form to your service branch. They will need to fill in part of the form. 
 
-- If you're a Veteran, send the completed form to:
+- If you're a Veteran, have your doctor fill in their part of the form, then send the completed form to:
 
 <dl class="va-address-block">
 <dd>The Prudential Insurance Company of America</dd>
-<dd>PO Box 70173</dd>
+<dd>P.O. Box 70173</dd>
 <dd>Philadelphia, PA 19176-0173</dd>
 </dl>
 
 Or, fax the form to 877-832-4943.
 
 
-**If you’re covered under Family SGLI**, fill out VA Form SGLV 8284A (Claim for Accelerated Benefits). [Download VA Form SGLV 8284A](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
+**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of the application.
- 
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
@@ -107,55 +106,9 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to:
+To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form.
 
-<dl class="va-address-block">
-<dd>Department of Veterans Affairs Regional Office and Insurance Center (WP)</dd>
-<dd>P.O. Box 7208</dd>
-<dd>Philadelphia, PA 19101</dd>
-</dl>
 
 [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
-<hr>
 
-### Total disability income provision (TDIP) rider for policyholders who become totally disabled
-
-<br>
-
-<div class="feature">
-
-#### Can I get life insurance payments if I become totally disabled?
-
-You may be able to get monthly payments if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
--	Happens before you’re 65 years old—but on or after the effective date of your TDIP rider or within 1 year of when the rider ends, **and**
--	Continues for at least 6 months in a row
-
-</div>
-
-
-#### What life insurance benefits can I get with a TDIP rider?
-
--	Monthly payments to be paid to you starting on the 1st day of the 7th month of your continued total disability and continuing as long as you remain totally disabled
--	A waiver of premiums so you won’t need to pay your premium (monthly payments) for your life insurance coverage
-
-
-#### How do I get these benefits?
-
-To get these benefits, you’ll need to have had a TDIP rider on your existing life insurance plan before you became totally disabled. 
-
-To get a TDIP rider, you’ll need to:
--	Have an NSLI policy on which the TDIP rider is available (which is all policies except S-DVI [RH] and VRI [JR and JS]), **and** 
--	Be under 55 years of age when you apply, **and**
--	Be in good health when you apply
-
-If you have a TDIP rider on your policy and you become totally disabled, you’ll need to file a claim for TDIP payments. To do this, fill out VA Form 29-357 (Claim for Disability Insurance) and mail it to:
-
-<dl class="va-address-block">
-<dd>Department of Veterans Affairs</dd>
-<dd>Regional Office and Insurance Center (WP)</dd>
-<dd>P.O. Box 7208</dd>
-<dd>Philadelphia, PA 19101</dd>
-</dl>
-
-[Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
