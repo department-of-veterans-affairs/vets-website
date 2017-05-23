@@ -126,6 +126,7 @@ const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/rjsf/*');
   ignoreList.push('va-letters/*');
+  ignoreList.push('education/apply-wizard/*');
 }
 smith.use(ignore(ignoreList));
 
