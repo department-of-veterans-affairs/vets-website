@@ -5,13 +5,14 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Form from 'react-jsonschema-form';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/bankAccount';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/bankAccount';
+import { bankAccount } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
+          schema={bankAccount}
           uiSchema={uiSchema}/>
     );
 
@@ -29,7 +30,7 @@ describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount with routing number error', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
+          schema={bankAccount}
           uiSchema={uiSchema}/>
     );
 

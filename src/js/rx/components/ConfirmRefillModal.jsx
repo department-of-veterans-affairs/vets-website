@@ -61,7 +61,7 @@ class ConfirmRefillModal extends React.Component {
 
     return (
       <Modal
-          cssClass="va-modal rx-modal"
+          cssClass="rx-modal"
           contents={innerElement}
           hideCloseButton
           id="rx-confirm-refill"

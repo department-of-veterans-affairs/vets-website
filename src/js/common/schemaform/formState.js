@@ -1,5 +1,7 @@
 import _ from 'lodash/fp';
 
+import { checkValidSchema } from './helpers';
+
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
@@ -65,6 +67,16 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   return schema;
 }
 
+export function isContentExpanded(data, matcher) {
+  if (typeof matcher === 'undefined') {
+    return !!data;
+  } else if (typeof matcher === 'function') {
+    return matcher(data);
+  }
+
+  return data === matcher;
+}
+
 /*
  * This steps through a schema and sets any fields to hidden, based on a
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
@@ -95,7 +107,8 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !containingObject[expandUnder]) {
+  const expandUnderCondition = _.get(['ui:options', 'expandUnderCondition'], uiSchema);
+  if (expandUnder && !isContentExpanded(containingObject[expandUnder], expandUnderCondition)) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -185,7 +198,7 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null) {
+export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null, path = []) {
   if (!uiSchema) {
     return schema;
   }
@@ -194,7 +207,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
 
   if (currentSchema.type === 'object') {
     const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index);
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index, path.concat(next));
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -212,7 +225,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = currentSchema.items.map((item, idx) =>
-      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx)
+      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx, path.concat(idx))
     );
 
     if (newItemSchemas.some((newItem, idx) => newItem !== currentSchema.items[idx])) {
@@ -223,7 +236,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index);
+    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index, path);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -369,6 +382,8 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
 
   // We need to do this again because array data might have been removed
   newSchema = updateItemsSchema(newSchema, newData);
+
+  checkValidSchema(newSchema);
 
   return {
     data: newData,

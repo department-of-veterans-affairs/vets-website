@@ -7,7 +7,21 @@ Used for lists of links to content within a particular channel or section. Also
 used for lists of Related Links when the `isRelated` property is set in the
 include tag, e.g.:
 
-{% include "content/includes/navigation-links-list.html" with isRelated = true %}
+{% include "content/components/navigation-links-list.html" with isRelated = true %}
+
+Links should use the following pattern:
+
+linkgroupname:
+  - heading:
+    links:
+    - url:
+      title:
+      description:
+
+where linkgroupname is relatedlinks or majorlinks
+
+majorlinks = no background color.
+relatedlinks = box with a gray background color.
 
 {% endcomment %}
 

@@ -9,11 +9,11 @@ import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../page
 import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
-import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
+import dateUi from '../../../common/schemaform/definitions/date';
+import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -107,7 +107,7 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix',
               }
             }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
+            'view:veteranId': _.merge(personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': 'Sponsor Social Security number'
               },
@@ -128,8 +128,8 @@ const formConfig = {
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
-              veteranAddress: address.schema(),
+              'view:veteranId': personId.schema(fullSchema1990e),
+              veteranAddress: address.schema(fullSchema1990e),
               serviceBranch
             }
           }
@@ -197,7 +197,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
+        contactInformation: createContactInformationPage(fullSchema1990e, 'relativeAddress'),
         directDeposit: createDirectDepositPage(fullSchema1990e)
       }
     }

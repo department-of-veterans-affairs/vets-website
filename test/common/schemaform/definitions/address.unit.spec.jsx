@@ -5,10 +5,17 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/address';
+import { address } from 'vets-json-schema/dist/definitions.json';
+
+const addressSchema = {
+  definitions: {
+    address
+  }
+};
 
 describe('Schemaform definition address', () => {
   it('should render address', () => {
-    const s = schema(false);
+    const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -33,7 +40,7 @@ describe('Schemaform definition address', () => {
   }).timeout(4000);
 
   it('should have required inputs if required', () => {
-    const s = schema(true);
+    const s = schema(addressSchema, true);
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -51,7 +58,7 @@ describe('Schemaform definition address', () => {
   }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
-    const s = schema(false);
+    const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -120,7 +127,7 @@ describe('Schemaform definition address', () => {
   }).timeout(4000);
 
   it('should update address field', () => {
-    const s = schema(false);
+    const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -140,7 +147,7 @@ describe('Schemaform definition address', () => {
   }).timeout(4000);
 
   it('should update country field in empty address', () => {
-    const s = schema(false);
+    const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

@@ -49,6 +49,10 @@ class Modal extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('focus', this.state.focusListener, true);
+  }
+
   handleClose() {
     this.props.onClose();
   }
