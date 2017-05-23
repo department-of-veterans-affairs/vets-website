@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Yellow Ribbon Program
-template: 1-topic-landing
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---

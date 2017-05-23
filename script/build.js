@@ -225,10 +225,17 @@ smith.use(collections({
     }
   },
   education: {
-    pattern: 'education/*.md',
+    pattern: '',
     sortBy: 'order',
     metadata: {
       name: 'Education Benefits'
+    }
+  },
+  educationAdvancedTraining: {
+    pattern: 'education/advanced-training-and-certifications/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Advanced Training and Certifications'
     }
   },
   educationGIBill: {
@@ -237,7 +244,42 @@ smith.use(collections({
     metadata: {
       name: 'GI Bill'
     }
-  }
+  },
+  educationGIBillSurvivors: {
+    pattern: 'education/gi-bill/survivors-dependent-assistance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Survivors and Dependents'
+    }
+  },
+  educationNonTraditional: {
+    pattern: 'education/work-learn/non-traditional/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Non-Traditional Options'
+    }
+  },
+  educationOtherPrograms: {
+    pattern: 'education/other-educational-assistance-programs/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Other Educational Assistance Programs'
+    }
+  },
+  educationToolsPrograms: {
+    pattern: 'education/tools-programs/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Career Counseling'
+    }
+  },
+  educationWorkLearn: {
+    pattern: 'education/work-learn/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Work and Learn'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));

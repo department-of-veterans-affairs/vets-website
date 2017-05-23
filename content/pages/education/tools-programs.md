@@ -1,23 +1,27 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Career Counseling
 concurrence: incomplete
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-relatedlinks:
-  - url: /education/tools-programs/education-career-counseling/
-    title: Educational and Career Counseling
-    description: ""
-  - url: /education/tools-programs/careerscope/
-    title: CareerScope®
-    description: ""
-  - url: /education/tools-programs/principles-excellence-program/
-    title: Principles of Excellence Program
-    description: ""
-  - url: /education/tools-programs/locate-a-school/
-    title: Locate a School
-    description: ""
-
+collection: education
+children: educationToolsPrograms
+order: 5
+majorlinks:
+  - heading:
+    links:
+    - url: /education/tools-programs/education-career-counseling/
+      title: Educational and Career Counseling
+      description: ""
+    - url: /education/tools-programs/careerscope/
+      title: CareerScope®
+      description: ""
+    - url: /education/tools-programs/principles-excellence-program/
+      title: Principles of Excellence Program
+      description: ""
+    - url: /education/tools-programs/locate-a-school/
+      title: Locate a School
+      description: ""
 ---
 
 <div class="va-introtext">

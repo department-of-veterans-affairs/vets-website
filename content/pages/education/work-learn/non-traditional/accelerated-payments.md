@@ -1,7 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Accelerated Payments for High-Technology Programs
-template: 4-action-page-pending
+display_title: High-Technology Programs
 concurrence: incomplete
 ---
 

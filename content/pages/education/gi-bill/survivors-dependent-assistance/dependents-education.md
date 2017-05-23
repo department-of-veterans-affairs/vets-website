@@ -1,9 +1,11 @@
 ---
 layout: page-breadcrumbs.html
-title: Survivors' and Dependents' Educational Assistance Program
-template: 1-topic-landing
+template: detail-page
+title: Survivors’ and Dependents’ Educational Assistance Program
+display_title: Educational Assistance Program
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 2
 ---
 
 <div class="va-introtext">

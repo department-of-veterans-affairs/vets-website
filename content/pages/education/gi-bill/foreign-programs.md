@@ -1,13 +1,16 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Foreign Programs
-template: 4-action-page-pending
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 1
 ---
 
 <div class="va-introtext">
+
 If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
+
 </div>
 
 <div class="feature" markdown=“1”>

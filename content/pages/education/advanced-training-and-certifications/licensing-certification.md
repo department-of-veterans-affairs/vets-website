@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
 title: Licensing and Certification
-template: 4-action-page-pending
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+template: detail-page
 ---
 
 <div class="va-introtext">
