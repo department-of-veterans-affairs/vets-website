@@ -3,7 +3,7 @@ const Timeouts = require('../../e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-helpers');
 const testData = require('./schema/maximal-test.json');
 
-const runTest = E2eHelpers.createE2eTest(
+module.exports = E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock('1990n');
 
@@ -21,7 +21,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Applicant information page
     client.waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, testData.applicantInformation.data);
+    EduHelpers.completeVeteranInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -29,15 +29,15 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Additional benefits page
     client.waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData.additionalBenefits.data, false);
+    EduHelpers.completeAdditionalBenefits(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
     // Applicant service page
-    client.waitForElementVisible('label[for="root_view:applicantServed"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.applicantService.data, false, 'view:applicantServed');
+    client.waitForElementVisible('input[id="root_toursOfDuty_0_serviceBranch"]', Timeouts.slow);
+    EduHelpers.completeServicePeriods(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -45,7 +45,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Benefits selection page
     client.waitForElementVisible('label[for="root_payHighestRateBenefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -53,7 +53,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // School selection page
     client.waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
-    EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data, true);
+    EduHelpers.completeSchoolSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -61,7 +61,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Contact information page
     client.waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.contactInformation.data, false);
+    EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -69,7 +69,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Direct deposit page
     client.waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
+    EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -92,7 +92,3 @@ const runTest = E2eHelpers.createE2eTest(
       .end();
   }
 );
-
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = runTest;
-}

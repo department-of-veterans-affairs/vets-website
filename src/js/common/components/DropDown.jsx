@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -38,13 +39,13 @@ class DropDown extends React.Component {
 }
 
 DropDown.propTypes = {
-  buttonText: React.PropTypes.string,
-  clickHandler: React.PropTypes.func.isRequired,
-  cssClass: React.PropTypes.string,
-  contents: React.PropTypes.node.isRequired,
-  icon: React.PropTypes.node, /* Should be SVG markup */
-  id: React.PropTypes.string,
-  isOpen: React.PropTypes.bool.isRequired
+  buttonText: PropTypes.string,
+  clickHandler: PropTypes.func.isRequired,
+  cssClass: PropTypes.string,
+  contents: PropTypes.node.isRequired,
+  icon: PropTypes.node, /* Should be SVG markup */
+  id: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired
 };
 
 export default DropDown;

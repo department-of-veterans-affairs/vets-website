@@ -10,7 +10,7 @@ body.va-pos-fixed {
   overflow-y: scroll;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 
   @include media($medium-large-screen) {
     margin-top: 1rem;
@@ -29,7 +29,7 @@ body.va-pos-fixed {
   height: 62rem;
   list-style: none;
   margin: 1rem 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-left: 0;
 
   @include media($medium-large-screen) {

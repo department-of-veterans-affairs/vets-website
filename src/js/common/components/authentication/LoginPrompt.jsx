@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class LoginPrompt extends React.Component {
@@ -8,20 +9,27 @@ class LoginPrompt extends React.Component {
   }
 
   componentDidMount() {
-    // event for google analytics that we prompted for login
     window.dataLayer.push({ event: 'login-prompt-displayed' });
   }
 
   handleLogin() {
+    window.dataLayer.push({ event: 'login-link-clicked' });
     const myLoginUrl = this.props.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'login-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleSignup() {
+    window.dataLayer.push({ event: 'register-link-clicked' });
     const myLoginUrl = this.props.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   render() {
@@ -49,7 +57,7 @@ class LoginPrompt extends React.Component {
 }
 
 LoginPrompt.propTypes = {
-  loginUrl: React.PropTypes.string
+  loginUrl: PropTypes.string
 };
 
 export default LoginPrompt;

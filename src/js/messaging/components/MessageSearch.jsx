@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
@@ -68,19 +69,19 @@ class MessageSearch extends React.Component {
 }
 
 MessageSearch.propTypes = {
-  cssClass: React.PropTypes.string,
-  hasRecipientField: React.PropTypes.bool,
-  isAdvancedVisible: React.PropTypes.bool.isRequired,
-  onAdvancedSearch: React.PropTypes.func.isRequired,
-  onError: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired,
-  onDateChange: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func,
-  params: React.PropTypes.shape({
-    subject: React.PropTypes.shape({
-      field: React.PropTypes.shape({
-        value: React.PropTypes.string,
-        dirty: React.PropTypes.bool
+  cssClass: PropTypes.string,
+  hasRecipientField: PropTypes.bool,
+  isAdvancedVisible: PropTypes.bool.isRequired,
+  onAdvancedSearch: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
+  params: PropTypes.shape({
+    subject: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
       })
     })
   }).isRequired

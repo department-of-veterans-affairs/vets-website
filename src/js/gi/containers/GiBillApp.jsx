@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -18,7 +19,7 @@ const Disclaimer = () => {
   );
 };
 
-class GiBillApp extends React.Component {
+export class GiBillApp extends React.Component {
   constructor(props) {
     super(props);
     this.exitPreviewMode = this.exitPreviewMode.bind(this);
@@ -92,7 +93,7 @@ class GiBillApp extends React.Component {
 }
 
 GiBillApp.propTypes = {
-  children: React.PropTypes.element.isRequired
+  children: PropTypes.element.isRequired
 };
 
 const mapStateToProps = (state) => {

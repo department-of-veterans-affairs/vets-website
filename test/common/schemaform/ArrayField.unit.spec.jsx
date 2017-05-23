@@ -24,7 +24,8 @@ describe('Schemaform <ArrayField>', () => {
     };
     const schema = {
       type: 'array',
-      items: {
+      items: [],
+      additionalItems: {
         type: 'object',
         properties: {
           field: {
@@ -59,7 +60,8 @@ describe('Schemaform <ArrayField>', () => {
     };
     const schema = {
       type: 'array',
-      items: {
+      items: [],
+      additionalItems: {
         type: 'object',
         properties: {
           field: {
@@ -104,7 +106,8 @@ describe('Schemaform <ArrayField>', () => {
       };
       const schema = {
         type: 'array',
-        items: {
+        items: [],
+        additionalItems: {
           type: 'object',
           properties: {
             field: {
@@ -202,7 +205,8 @@ describe('Schemaform <ArrayField>', () => {
     const idSchema = {};
     const schema = {
       type: 'array',
-      items: {
+      items: [],
+      additionalItems: {
         type: 'object',
         properties: {
           field: {

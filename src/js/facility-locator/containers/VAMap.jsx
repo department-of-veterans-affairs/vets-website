@@ -10,6 +10,7 @@ import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
@@ -17,7 +18,7 @@ import MobileSearchResult from '../components/MobileSearchResult';
 
 class VAMap extends Component {
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   };
 
   constructor(props) {

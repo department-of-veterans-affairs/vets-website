@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5495/config/form.js';
@@ -54,6 +54,6 @@ describe('Edu 5495 applicantInformation', () => {
     });
 
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelector('#root_vaFileNumber')).not.to.be.null;
+    expect(formDOM.querySelector('#root_relativeVaFileNumber')).not.to.be.null;
   });
 });

@@ -1,10 +1,10 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 
-import _ from 'lodash';
-
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
+
+import { isInProgress } from '../utils/helpers';
 
 const Element = Scroll.Element;
 
@@ -25,9 +25,11 @@ export default class FormApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const endpoint = this.props.currentLocation.pathname.split('/').pop();
+    const { currentLocation } = this.props;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+
     let message;
-    if (!_.includes(['introduction', 'confirmation'], endpoint)) {
+    if (isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -41,16 +43,16 @@ export default class FormApp extends React.Component {
 
   render() {
     const { currentLocation, formConfig, children } = this.props;
-    const isIntro = currentLocation.pathname.endsWith('introduction');
-    const isConfirmation = currentLocation.pathname.endsWith('confirmation');
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
 
     let content;
-    if (isIntro || isConfirmation) {
+    if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
       content = (
         <div>
-          <FormNav formConfig={formConfig} currentPath={currentLocation.pathname}/>
+          <FormNav formConfig={formConfig} currentPath={trimmedPathname}/>
           <div className="progress-box progress-box-schemaform">
             {children}
           </div>
@@ -63,12 +65,12 @@ export default class FormApp extends React.Component {
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="usa-width-two-thirds medium-8 columns">
-          {formConfig.title && !isIntro && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+          {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
         <div className="usa-width-one-third medium-4 columns show-for-medium-up">
         </div>
-        <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
+        <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );
   }

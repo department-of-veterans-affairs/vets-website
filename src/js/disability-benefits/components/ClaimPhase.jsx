@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
@@ -168,8 +169,8 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  activity: React.PropTypes.object,
-  phase: React.PropTypes.number.isRequired,
-  current: React.PropTypes.number,
-  id: React.PropTypes.string.isRequired
+  activity: PropTypes.object,
+  phase: PropTypes.number.isRequired,
+  current: PropTypes.number,
+  id: PropTypes.string.isRequired
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -15,7 +16,7 @@ import FormTitle from '../../common/schemaform/FormTitle.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp, setAttemptedSubmit } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions, getCurrentFormStep } from '../../common/utils/helpers';
 import * as validations from '../utils/validations';
 import { chapters } from '../routes';
 
@@ -342,15 +343,6 @@ class HealthCareApp extends React.Component {
     //   }
     // }
 
-    // Until we come up with a common code base between this and the schemaform
-    //  forms, the following is borrowed from NavHeader
-    let step;
-    chapters.forEach((chapter, index) => {
-      if (chapter.pages.some(page => page.path === this.props.location.pathname)) {
-        step = index + 1;
-      }
-    });
-
     let contentClass = classNames(
       'progress-box',
       'progress-box-schemaform',
@@ -374,7 +366,7 @@ class HealthCareApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
             <div>
-              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={step}/>}
+              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, this.props.location.pathname)}/>}
               <div className="schemaform-chapter-progress">
                 <NavHeader path={this.props.location.pathname} chapters={chapters} className="nav-header-schemaform"/>
               </div>
@@ -395,7 +387,7 @@ class HealthCareApp extends React.Component {
 }
 
 HealthCareApp.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

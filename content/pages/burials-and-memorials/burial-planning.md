@@ -23,10 +23,9 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this:
 
-Fill out the Application for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+**Fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
 
-Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
-- Email it to [eligibility.preneed@va.gov](mailto:eligibility.preneed@va.gov)
+**Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 
   
 <dl class="va-address-block">
@@ -35,7 +34,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-  - Fax it to 855-840-8299
+- Fax it to 855-840-8299
 
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you've died. 
@@ -55,7 +54,7 @@ You don’t need to do anything else except prepare yourself and your family for
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 ##### Gather these documents and other information you'll need to identify the deceased:
 
@@ -73,7 +72,7 @@ You may also need:
  
  </li>
  
- <li class="step two">
+ <li class="process-step list-two">
 
 ##### Decide on the burial details and gather all related information, including:
 
@@ -87,7 +86,7 @@ You may also need:
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 
 ##### Contact the National Cemetery Scheduling Office
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -118,20 +119,20 @@ class ErrorableTextarea extends React.Component {
 }
 
 ErrorableTextarea.propTypes = {
-  disabled: React.PropTypes.bool,
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  name: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  field: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  disabled: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  name: PropTypes.string,
+  required: PropTypes.bool,
+  field: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  additionalClass: React.PropTypes.string,
-  charMax: React.PropTypes.number,
-  onValueChange: React.PropTypes.func.isRequired,
-  toolTipText: React.PropTypes.string
+  additionalClass: PropTypes.string,
+  charMax: PropTypes.number,
+  onValueChange: PropTypes.func.isRequired,
+  toolTipText: PropTypes.string
 };
 
 export default ErrorableTextarea;

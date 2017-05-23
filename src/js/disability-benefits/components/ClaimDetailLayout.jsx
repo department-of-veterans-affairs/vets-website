@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
@@ -77,9 +78,9 @@ export default class ClaimDetailLayout extends React.Component {
 }
 
 ClaimDetailLayout.propTypes = {
-  claim: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  message: React.PropTypes.object,
-  clearNotification: React.PropTypes.func,
-  synced: React.PropTypes.bool
+  claim: PropTypes.object,
+  loading: PropTypes.bool,
+  message: PropTypes.object,
+  clearNotification: PropTypes.func,
+  synced: PropTypes.bool
 };

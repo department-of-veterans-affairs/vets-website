@@ -26,7 +26,9 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      privacyAgreementAccepted: false
+      data: {
+        privacyAgreementAccepted: false
+      }
     };
 
     const tree = SkinDeep.shallowRender(
@@ -83,15 +85,13 @@ describe('Schemaform review: ReviewPage', () => {
       },
       page1: {
         schema: {},
-        data: {
-        }
       },
       page2: {
         schema: {},
-        data: {
-        }
       },
-      privacyAgreementAccepted: true
+      data: {
+        privacyAgreementAccepted: true
+      }
     };
 
     const tree = SkinDeep.shallowRender(
@@ -132,17 +132,17 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {
-        schema: {},
-        data: {
-        }
+      pages: {
+        page1: {
+          schema: {},
+        },
+        page2: {
+          schema: {},
+        },
       },
-      page2: {
-        schema: {},
-        data: {
-        }
-      },
-      privacyAgreementAccepted: true
+      data: {
+        privacyAgreementAccepted: true
+      }
     };
 
     const submitForm = sinon.spy();
@@ -184,13 +184,13 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {
-        data: {}
+      pages: {
+        page1: {},
+        page2: {},
       },
-      page2: {
-        data: {}
-      },
-      privacyAgreementAccepted: false
+      data: {
+        privacyAgreementAccepted: false
+      }
     };
 
     const submitForm = sinon.spy();
@@ -231,13 +231,13 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {
-        isValid: true
+      pages: {
+        page1: {},
+        page2: {},
       },
-      page2: {
-        isValid: true
-      },
-      privacyAgreementAccepted: false
+      data: {
+        privacyAgreementAccepted: false
+      }
     };
 
     const submitForm = sinon.spy();
@@ -278,7 +278,9 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      privacyAgreementAccepted: false
+      data: {
+        privacyAgreementAccepted: false
+      }
     };
 
     const router = {
@@ -302,7 +304,9 @@ describe('Schemaform review: ReviewPage', () => {
         submission: {
           status: 'applicationSubmitted'
         },
-        privacyAgreementAccepted: false
+        data: {
+          privacyAgreementAccepted: false
+        }
       }
     });
 

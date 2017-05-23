@@ -7,7 +7,15 @@ import MessageWriteGroup from '../../../../src/js/messaging/components/compose/M
 const props = {
   messageText: {
     value: 'messageTextValue',
-  }
+  },
+  onAttachmentsClose: () => {},
+  onAttachmentUpload: () => {},
+  onAttachmentsError: () => {},
+  onSend: () => {},
+  onSave: () => {},
+  onDelete: () => {},
+  onTextChange: () => {},
+  files: []
 };
 
 describe('<MessageWriteGroup>', () => {

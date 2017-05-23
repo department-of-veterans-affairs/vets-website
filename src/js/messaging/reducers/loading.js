@@ -14,12 +14,15 @@ import {
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDERS_SUCCESS,
+  SM_FETCH_PREFERENCES_FAILURE,
+  SM_FETCH_PREFERENCES_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   LOADING_FOLDER,
   LOADING_FOLDERS,
+  SM_LOADING_PREFERENCES,
   LOADING_RECIPIENTS,
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
@@ -27,7 +30,10 @@ import {
   MOVING_MESSAGE,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SM_SAVE_PREFERENCES_FAILURE,
+  SM_SAVE_PREFERENCES_SUCCESS,
   SAVING_DRAFT,
+  SM_SAVING_PREFERENCES,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
   SENDING_MESSAGE,
@@ -36,6 +42,7 @@ import {
 const initialState = {
   folder: false,
   folders: false,
+  preferences: false,
   recipients: false,
   thread: false,
   creatingFolder: false,
@@ -43,6 +50,7 @@ const initialState = {
   deletingMessage: false,
   movingMessage: false,
   savingDraft: false,
+  savingPreferences: false,
   sendingMessage: false
 };
 
@@ -84,6 +92,12 @@ export default function loading(state = initialState, action) {
     case LOADING_RECIPIENTS:
       return set('recipients', true, state);
 
+    case SM_FETCH_PREFERENCES_FAILURE:
+    case SM_FETCH_PREFERENCES_SUCCESS:
+      return set('preferences', false, state);
+    case SM_LOADING_PREFERENCES:
+      return set('preferences', true, state);
+
     case FETCH_THREAD_FAILURE:
     case FETCH_THREAD_SUCCESS:
       return set('thread', false, state);
@@ -101,6 +115,12 @@ export default function loading(state = initialState, action) {
       return set('savingDraft', false, state);
     case SAVING_DRAFT:
       return set('savingDraft', true, state);
+
+    case SM_SAVE_PREFERENCES_FAILURE:
+    case SM_SAVE_PREFERENCES_SUCCESS:
+      return set('savingPreferences', false, state);
+    case SM_SAVING_PREFERENCES:
+      return set('savingPreferences', true, state);
 
     case SEND_MESSAGE_FAILURE:
     case SEND_MESSAGE_SUCCESS:

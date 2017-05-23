@@ -1,9 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig1995 from '../../../src/js/edu-benefits/1995/config/form';
 import formConfig5495 from '../../../src/js/edu-benefits/5495/config/form';
 
@@ -38,7 +38,7 @@ const pageTests = (page) => {
 
     expect(formDOM.querySelector('.edu-dd-warning')).to.not.be.null;
   });
-  it('should render bank account fields', () => {
+  it('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -54,6 +54,10 @@ const pageTests = (page) => {
     });
 
     expect(formDOM.querySelectorAll('input').length).to.equal(7);
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
   it('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -71,8 +75,6 @@ const pageTests = (page) => {
     });
     const routingNumber = formDOM.querySelector('#root_bankAccount_routingNumber');
     ReactTestUtils.Simulate.blur(routingNumber);
-
-    expect(formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber')).to.be.null;
 
     ReactTestUtils.Simulate.change(routingNumber, {
       target: {

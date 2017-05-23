@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -34,7 +35,12 @@ function AppContent({ children, isDataAvailable }) {
 export class HealthRecordsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"health-records"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"health-records"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent>
           <div>
             <div className="row">
@@ -58,7 +64,7 @@ export class HealthRecordsApp extends React.Component {
 }
 
 HealthRecordsApp.propTypes = {
-  children: React.PropTypes.element
+  children: PropTypes.element
 };
 
 const mapStateToProps = (state) => {
@@ -68,7 +74,8 @@ const mapStateToProps = (state) => {
   return {
     modal: hrState.modal,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 const mapDispatchToProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -13,6 +13,9 @@ const props = {
   maxFiles: 1,
   maxFileSize: 1000000,
   maxTotalFileSize: 10000000,
+  onSave: () => {},
+  onSend: () => {},
+  onDelete: () => {}
 };
 
 describe('<MessageSend>', () => {

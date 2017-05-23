@@ -278,6 +278,19 @@
         height: 2.4em;
       }
 
+      button.facility-option {
+        height: 2.4em;
+        padding: 0;
+        margin: 0;
+        background: inherit;
+        color: inherit;
+        font-weight: normal;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
       ul.dropdown {
         padding: 0;
       }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 
@@ -20,22 +21,22 @@ class MessageCategory extends React.Component {
 }
 
 MessageCategory.propTypes = {
-  cssClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  onValueChange: React.PropTypes.func,
-  categories: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string }),
+  cssClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  onValueChange: PropTypes.func,
+  categories: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.number }),
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string }),
     ])).isRequired,
-  category: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  category: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired
 };
 

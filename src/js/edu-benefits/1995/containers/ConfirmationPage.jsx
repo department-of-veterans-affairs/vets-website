@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 
-import { benefitsLabels } from '../../utils/helpers';
+import { benefitsLabels } from '../../utils/labels';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -37,8 +37,8 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.veteranInformation.data.veteranFullName;
-    const benefit = form.benefitSelection.data.benefit;
+    const name = form.data.veteranFullName;
+    const benefit = form.data.benefit;
 
     const docExplanation = this.state.isExpanded
       ? (<div className="usa-accordion-content">
@@ -98,6 +98,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
+        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
         <p>Need help? If you have questions, call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">

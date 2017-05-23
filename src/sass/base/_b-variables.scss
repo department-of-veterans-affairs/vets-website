@@ -1,7 +1,13 @@
+//++++++++++++++++++++++++++++++++++++
+// NOTE:
+//
+// For breakpoint variable values,
+// see b-breakpoints.scss
+//++++++++++++++++++++++++++++++++++++
+
 //===================================
 // Typography
 //===================================
-
 // These variables override values set in either
 // ~uswds/src/stylesheets/core/defaults" or 
 // ~uswds/src/stylesheets/core/variables"
@@ -16,10 +22,6 @@ $font-serif:          "Roboto Slab", serif;
 // Note: USWDS value is 53rem;
 $text-max-width:      70rem;
 $usa-form-width:      32em;
-
-// Additional breakpoints 
-$xsmall-screen:       320px; // QVGA display
-$medium-large-screen: 768px;
 
 //===================================
 // USWDS variables
@@ -59,6 +61,8 @@ $color-inset-bg:             #e0f3f8;
 $color-gibill-accent:        #fff1d2; // TODO: Replace with $color-gold-lightest;
 
 $color-white-alpha70:        rgba(255,255,255,.7);
+
+$color-sidebar-nav-bg:   rgba($color-black, 0.25);
 
 //===================================
 // Deprecated Colors; 

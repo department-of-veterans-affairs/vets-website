@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
@@ -13,6 +13,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           state={{
             benefitSelection: {
@@ -38,6 +39,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           data={{}}
           state={{
@@ -63,6 +65,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           data={{}}
           state={{

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { apiRequest } from '../utils/helpers';
@@ -10,15 +11,27 @@ class DownloadLink extends React.Component {
     this.state = { downloading: false };
   }
 
-  downloadHealthRecord(e) {
+  downloadHealthRecord(e, stopPropagation = true) {
     e.preventDefault();
 
+    if (this.props.onClick && stopPropagation) {
+      this.props.onClick(e);
+      return;
+    }
+
     if (this.state.downloading) return;
+
+    window.dataLayer.push({
+      event: 'health-record-download',
+      'hr-record-type': this.props.docType,
+    });
 
     if (this.downloadUrl) {
       window.open(this.downloadUrl, '_blank');
       return;
     }
+
+    const downloadWindow = window.open();
 
     this.setState({ downloading: true });
     const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;
@@ -30,7 +43,7 @@ class DownloadLink extends React.Component {
           const downloadUrl = URL.createObjectURL(blob);
           this.downloadUrl = downloadUrl;
           this.setState({ downloading: false });
-          window.open(this.downloadUrl, '_blank');
+          downloadWindow.location.href = this.downloadUrl;
         });
       },
       () => { this.setState({ downloading: false }); }
@@ -50,8 +63,9 @@ class DownloadLink extends React.Component {
 }
 
 DownloadLink.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  docType: React.PropTypes.oneOf(['pdf', 'txt']),
+  name: PropTypes.string.isRequired,
+  docType: PropTypes.oneOf(['pdf', 'txt']),
+  onClick: PropTypes.func,
 };
 
 export default DownloadLink;

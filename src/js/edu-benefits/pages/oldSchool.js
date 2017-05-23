@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as address from '../../common/schemaform/definitions/address';
-import { uiSchema as dateUI } from '../../common/schemaform/definitions/date';
+import dateUI from '../../common/schemaform/definitions/date';
 
 export default function createOldSchoolPage(schema) {
   const { trainingEndDate, reasonForChange } = schema.properties;
@@ -33,7 +33,7 @@ export default function createOldSchoolPage(schema) {
         date
       },
       properties: {
-        oldSchool: _.set('properties.address', address.schema(), school),
+        oldSchool: _.set('properties.address', address.schema(schema), school),
         trainingEndDate,
         reasonForChange
       }

@@ -3,7 +3,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
@@ -16,7 +16,6 @@ describe('Edu 5490 sponsorInformation', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           data={{}}
-          state={{}}
           uiSchema={uiSchema}/>
     );
 
@@ -30,8 +29,7 @@ describe('Edu 5490 sponsorInformation', () => {
       <DefinitionTester
           schema={schema}
           definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{ relationship: 'spouse' }}
+          data={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
 

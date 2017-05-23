@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { getLabel } from '../../../utils/helpers';
 import { contactOptions } from '../../utils/options-for-select';
@@ -50,5 +51,5 @@ export default class ContactInformationReview extends React.Component {
 }
 
 ContactInformationReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

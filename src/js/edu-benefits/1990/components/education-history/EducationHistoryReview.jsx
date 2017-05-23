@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { displayMonthYearIfValid } from '../../../utils/helpers';
 
@@ -30,5 +31,5 @@ export default class EducationHistoryReview extends React.Component {
 }
 
 EducationHistoryReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

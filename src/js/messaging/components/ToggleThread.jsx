@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -26,8 +27,8 @@ class ToggleThread extends React.Component {
 }
 
 ToggleThread.propTypes = {
-  messagesCollapsed: React.PropTypes.bool,
-  onClick: React.PropTypes.func
+  messagesCollapsed: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default ToggleThread;

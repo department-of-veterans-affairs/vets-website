@@ -1,9 +1,6 @@
 import React from 'react';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = commonDefinitions.serviceBefore1977;
-
-export const uiSchema = {
+const uiSchema = {
   married: {
     'ui:title': 'Are you currently married?',
     'ui:widget': 'yesNo'
@@ -24,3 +21,5 @@ export const uiSchema = {
     'ui:widget': 'yesNo'
   }
 };
+
+export default uiSchema;

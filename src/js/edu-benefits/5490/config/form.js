@@ -16,7 +16,7 @@ import {
 import {
   stateLabels,
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 import {
   validateDate,
@@ -24,14 +24,14 @@ import {
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as date from '../../../common/schemaform/definitions/date';
-import * as phone from '../../../common/schemaform/definitions/phone';
-import * as veteranId from '../../definitions/veteranId';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import dateUI from '../../../common/schemaform/definitions/date';
+import phoneUI from '../../../common/schemaform/definitions/phone';
+import * as personId from '../../definitions/personId';
 
-import { uiSchema as dateRangeUi } from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
+import fullNameUi from '../../../common/schemaform/definitions/fullName';
+import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
@@ -55,20 +55,21 @@ const {
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath,
+  benefitsRelinquishedDate
 } = fullSchema5490.properties;
 
 const {
   nonMilitaryJobs,
   secondaryContact,
+  date,
   dateRange,
   educationType,
   fullName,
   postHighSchoolTrainings,
-  vaFileNumber
+  vaFileNumber,
+  phone,
+  ssn
 } = fullSchema5490.definitions;
-
-const dateSchema = fullSchema5490.definitions.date;
-const ssnSchema = fullSchema5490.definitions.ssn;
 
 const nonRequiredFullName = _.assign(fullName, {
   required: []
@@ -84,11 +85,11 @@ const formConfig = {
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
-    date: dateSchema,
+    date,
     educationType,
     dateRange,
     fullName,
-    ssn: ssnSchema,
+    ssn,
     vaFileNumber
   },
   chapters: {
@@ -101,7 +102,7 @@ const formConfig = {
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
         }),
-        applicantService: applicantServicePage(),
+        applicantService: applicantServicePage(fullSchema5490),
       }
     },
     benefitSelection: {
@@ -130,13 +131,13 @@ const formConfig = {
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
                 labels: survivorBenefitsLabels,
-                updateSchema: (data, form, schema) => {
-                  const relationship = _.get('applicantInformation.data.relationship', form);
+                updateSchema: (form, schema, uiSchema) => {
+                  const relationship = _.get('relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
                     chapter35: benefitSelectionWarning('chapter35', relationship),
                   };
-                  const uiOptions = _.get('benefitSelection.uiSchema.benefit.ui:options', form);
+                  const uiOptions = _.get('ui:options', uiSchema);
                   uiOptions.nestedContent = nestedContent;
                   return schema;
                 }
@@ -164,18 +165,14 @@ const formConfig = {
           path: 'benefits/relinquishment',
           initialData: {},
           depends: {
-            applicantInformation: {
-              data: {
-                relationship: 'child'
-              }
-            }
+            relationship: 'child'
           },
           uiSchema: {
             'ui:title': 'Benefit relinquishment',
             'view:benefitsRelinquishedInfo': {
               'ui:description': benefitsRelinquishedInfo,
             },
-            benefitsRelinquishedDate: currentOrPastDate.uiSchema('Effective date'),
+            benefitsRelinquishedDate: currentOrPastDateUI('Effective date'),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
             }
@@ -188,7 +185,7 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefitsRelinquishedDate: dateSchema,
+              benefitsRelinquishedDate,
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
@@ -271,8 +268,8 @@ const formConfig = {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
-                  updateSchema: (data, form) => {
-                    if (_.get('benefitHistory.data.previousBenefits.view:claimedSponsorService', form)) {
+                  updateSchema: (form) => {
+                    if (_.get('previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -284,7 +281,7 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
@@ -321,7 +318,7 @@ const formConfig = {
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
-                    'view:veteranId': veteranId.schema
+                    'view:veteranId': personId.schema(fullSchema5490)
                   }
                 }
               )
@@ -347,7 +344,7 @@ const formConfig = {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
-              remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
+              remarriageDate: _.assign(dateUI('Date you got remarried'), {
                 'ui:options': {
                   expandUnder: 'remarried',
                 },
@@ -369,8 +366,8 @@ const formConfig = {
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
-                  updateSchema: (data, form) => {
-                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                  updateSchema: (form) => {
+                    if (!_.get('view:currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -390,7 +387,7 @@ const formConfig = {
                   'ui:title': 'Sponsor suffix'
                 }
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
@@ -404,8 +401,8 @@ const formConfig = {
                 }
               })
             },
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
+            veteranDateOfBirth: currentOrPastDateUI('Sponsor date of birth'),
+            veteranDateOfDeath: currentOrPastDateUI('Sponsor date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
@@ -421,7 +418,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   veteranFullName: fullName,
-                  'view:veteranId': veteranId.schema,
+                  'view:veteranId': personId.schema(fullSchema5490),
                 }
               },
               veteranDateOfBirth,
@@ -474,15 +471,12 @@ const formConfig = {
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                date.uiSchema(null), {
+                dateUI(null), {
                   'ui:options': {
-                    hideIf: form => {
-                      const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'graduationExpected';
-                    },
+                    expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
-                    updateSchema: (pageData, form) => {
-                      const status = _.get('educationHistory.data.highSchool.status', form);
+                    updateSchema: (form) => {
+                      const status = _.get('highSchool.status', form);
 
                       if (status === 'graduationExpected') {
                         return { title: 'When do you expect to earn your high school diploma?' };
@@ -499,10 +493,7 @@ const formConfig = {
               ),
               'view:hasHighSchool': {
                 'ui:options': {
-                  hideIf: form => {
-                    const status = _.get('highSchool.status', form);
-                    return status !== 'discontinued';
-                  },
+                  expandUnderCondition: status => status === 'discontinued',
                   expandUnder: 'status'
                 },
                 name: {
@@ -522,7 +513,13 @@ const formConfig = {
             },
             'view:hasTrainings': {
               'ui:title': 'Do you have any training after high school?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
+              }
             },
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
@@ -537,7 +534,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
+                  highSchoolOrGedCompletionDate: date,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -601,8 +598,8 @@ const formConfig = {
                     // and creating a new object unless either benefit or
                     // relationship has changed
                     const filterEducationType = createSelector(
-                      _.get('benefitSelection.data.benefit'),
-                      _.get('applicantInformation.data.relationship'),
+                      _.get('benefit'),
+                      _.get('relationship'),
                       (benefitData, relationshipData) => {
                         // Remove tuition top-up
                         const filterOut = ['tuitionTopUp'];
@@ -618,7 +615,7 @@ const formConfig = {
                         return { 'enum': _.without(filterOut, edTypes) };
                       });
 
-                    return (pageData, form) => filterEducationType(form);
+                    return (form) => filterEducationType(form);
                   })()
                 }
               }
@@ -630,7 +627,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage(fullSchema5490, 'relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
@@ -642,7 +639,7 @@ const formConfig = {
               fullName: {
                 'ui:title': 'Name'
               },
-              phone: phone.uiSchema('Telephone number'),
+              phone: phoneUI('Telephone number'),
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine'
               },
@@ -660,9 +657,9 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   fullName: secondaryContact.properties.fullName,
-                  phone: phone.schema,
+                  phone,
                   sameAddress: secondaryContact.properties.sameAddress,
-                  address: address.schema(),
+                  address: address.schema(fullSchema5490),
                 }
               }
             }

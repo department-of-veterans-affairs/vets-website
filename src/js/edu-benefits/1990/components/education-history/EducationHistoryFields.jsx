@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableMonthYear from '../../../../common/components/form-elements/ErrorableMonthYear';
@@ -107,7 +108,7 @@ export default class EducationHistoryFields extends React.Component {
 }
 
 EducationHistoryFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeFields: React.PropTypes.func.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeFields: PropTypes.func.isRequired
 };

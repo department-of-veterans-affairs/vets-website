@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -261,21 +262,21 @@ class GrowableTable extends React.Component {
 }
 
 GrowableTable.propTypes = {
-  component: React.PropTypes.func.isRequired,
-  createRow: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeCurrentElement: React.PropTypes.func.isRequired,
-  onRowsUpdate: React.PropTypes.func.isRequired,
-  path: React.PropTypes.string.isRequired,
-  rows: React.PropTypes.array.isRequired,
-  isValidSection: React.PropTypes.func.isRequired,
-  addNewMessage: React.PropTypes.string,
-  rowTitle: React.PropTypes.string,
-  alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
-  showSingleRowExpanded: React.PropTypes.bool,
-  showEditButton: React.PropTypes.bool,
-  showAddAnotherButton: React.PropTypes.bool,
-  createRowIfEmpty: React.PropTypes.bool
+  component: PropTypes.func.isRequired,
+  createRow: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeCurrentElement: PropTypes.func.isRequired,
+  onRowsUpdate: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+  rows: PropTypes.array.isRequired,
+  isValidSection: PropTypes.func.isRequired,
+  addNewMessage: PropTypes.string,
+  rowTitle: PropTypes.string,
+  alwaysShowUpdateRemoveButtons: PropTypes.bool,
+  showSingleRowExpanded: PropTypes.bool,
+  showEditButton: PropTypes.bool,
+  showAddAnotherButton: PropTypes.bool,
+  createRowIfEmpty: PropTypes.bool
 };
 
 GrowableTable.defaultProps = {

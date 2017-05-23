@@ -56,13 +56,26 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
+      .click('.va-nav-breadcrumbs a[href="/healthcare/prescriptions/"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)
       .waitForElementVisible('.rx-table', Timeouts.slow)
       .axeCheck('.main')
       .expect.element('.rx-tab-explainer').to.be.visible;
+
+    // Ensure settings page renders
+    client
+      .click('.rx-settings-button')
+      .waitForElementVisible('#rx-settings', Timeouts.slow)
+      .axeCheck('.main');
+
+    // Update preferences successfully.
+    client.click('.form-radio-buttons:first-of-type input')
+      .clearValue('input[name="email"]')
+      .setValue('input[name="email"]', 'user@vets.gov')
+      .click('.rx-notifications-save button:first-child')
+      .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
     client.end();
   }

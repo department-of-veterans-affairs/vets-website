@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -31,8 +32,8 @@ class ComposeButton extends React.Component {
 }
 
 ComposeButton.contextTypes = {
-  router: React.PropTypes.object.isRequired,
-  disabled: React.PropTypes.bool,
+  router: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default ComposeButton;

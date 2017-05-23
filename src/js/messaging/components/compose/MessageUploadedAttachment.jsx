@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -28,11 +29,11 @@ class MessageUploadedAttachment extends React.Component {
 }
 
 MessageUploadedAttachment.propTypes = {
-  attachmentIndex: React.PropTypes.number.isRequired,
-  cssClass: React.PropTypes.string,
-  fileName: React.PropTypes.string.isRequired,
-  fileSize: React.PropTypes.string.isRequired,
-  onClose: React.PropTypes.func.isRequired
+  attachmentIndex: PropTypes.number.isRequired,
+  cssClass: PropTypes.string,
+  fileName: PropTypes.string.isRequired,
+  fileSize: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default MessageUploadedAttachment;

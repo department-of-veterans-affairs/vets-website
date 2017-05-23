@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -177,12 +178,12 @@ export default class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
-  chapter: React.PropTypes.string.isRequired,
-  pages: React.PropTypes.array.isRequired,
-  data: React.PropTypes.object.isRequired,
-  uiData: React.PropTypes.object.isRequired,
-  onFieldsInitialized: React.PropTypes.func.isRequired,
-  onStateChange: React.PropTypes.func.isRequired,
-  onUpdateEditStatus: React.PropTypes.func.isRequired,
-  urlPrefix: React.PropTypes.string.isRequired
+  chapter: PropTypes.string.isRequired,
+  pages: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
+  uiData: PropTypes.object.isRequired,
+  onFieldsInitialized: PropTypes.func.isRequired,
+  onStateChange: PropTypes.func.isRequired,
+  onUpdateEditStatus: PropTypes.func.isRequired,
+  urlPrefix: PropTypes.string.isRequired
 };

@@ -17,13 +17,17 @@ describe('<ReviewCollapsibleChapter>', () => {
     }];
     const chapterKey = 'test';
     const chapter = {};
-    const data = {
-      test: {
-        editMode: false,
-        schema: {
-          properties: {}
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          editMode: false,
+          schema: {
+            properties: {}
+          }
         }
-      }
+      },
+      data: {}
     };
 
     const tree = SkinDeep.shallowRender(
@@ -32,7 +36,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           pages={pages}
           chapterKey={chapterKey}
           chapter={chapter}
-          data={data}/>
+          form={form}/>
     );
 
     expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
@@ -50,9 +54,17 @@ describe('<ReviewCollapsibleChapter>', () => {
     }];
     const chapterKey = 'test';
     const chapter = {};
-    const data = {
-      test: {
-        editMode: false
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            properties: {}
+          },
+          editMode: false,
+        }
+      },
+      data: {
       }
     };
 
@@ -62,7 +74,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           pages={pages}
           chapterKey={chapterKey}
           chapter={chapter}
-          data={data}/>
+          form={form}/>
     );
 
     tree.getMountedInstance().handleEdit('test', true);
@@ -84,34 +96,32 @@ describe('<ReviewCollapsibleChapter>', () => {
       pageKey: 'test2',
       title: '',
       depends: {
-        test1: {
-          data: {
-            condition1: true,
-            condition2: true
-          }
-        }
+        condition1: true,
+        condition2: true
       },
       schema: {}
     }];
     const chapterKey = 'test';
     const chapter = {};
-    const data = {
-      test1: {
-        editMode: false,
-        schema: {
-          properties: {
-            condition1: 'boolean',
-            condition2: 'boolean'
+    const form = {
+      pages: {
+        test1: {
+          editMode: false,
+          schema: {
+            properties: {
+              condition1: 'boolean',
+              condition2: 'boolean'
+            }
           }
         },
-        data: {
-          condition1: true,
-          condition2: false
+        test2: {
+          editMode: false,
+          schema: {}
         }
       },
-      test2: {
-        editMode: false,
-        schema: {}
+      data: {
+        condition1: true,
+        condition2: false
       }
     };
 
@@ -121,7 +131,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           pages={pages}
           chapterKey={chapterKey}
           chapter={chapter}
-          data={data}/>
+          form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();
@@ -143,40 +153,31 @@ describe('<ReviewCollapsibleChapter>', () => {
       pageKey: 'test2',
       title: '',
       depends: {
+        condition1: true,
+      },
+      schema: {}
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
         test1: {
+          editMode: false,
           schema: {
             properties: {
               condition1: 'boolean',
               condition2: 'boolean'
             }
           },
-          data: {
-            condition1: true,
-            condition2: true
-          }
-        }
-      },
-      schema: {}
-    }];
-    const chapterKey = 'test';
-    const chapter = {};
-    const data = {
-      test1: {
-        editMode: false,
-        schema: {
-          properties: {
-            condition1: 'boolean',
-            condition2: 'boolean'
-          }
         },
-        data: {
-          condition1: true,
-          condition2: true
+        test2: {
+          editMode: false,
+          schema: {}
         }
       },
-      test2: {
-        editMode: false,
-        schema: {}
+      data: {
+        condition1: true,
+        condition2: true
       }
     };
 
@@ -186,7 +187,7 @@ describe('<ReviewCollapsibleChapter>', () => {
           pages={pages}
           chapterKey={chapterKey}
           chapter={chapter}
-          data={data}/>
+          form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();

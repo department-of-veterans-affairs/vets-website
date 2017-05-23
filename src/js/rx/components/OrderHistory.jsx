@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDate } from '../utils/helpers';
@@ -48,8 +49,8 @@ class OrderHistory extends React.Component {
 }
 
 OrderHistory.propTypes = {
-  className: React.PropTypes.string,
-  items: React.PropTypes.array.isRequired
+  className: PropTypes.string,
+  items: PropTypes.array.isRequired
 };
 
 export default OrderHistory;

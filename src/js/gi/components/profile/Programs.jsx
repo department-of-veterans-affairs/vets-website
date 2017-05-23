@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export class Programs extends React.Component {
@@ -105,8 +106,8 @@ export class Programs extends React.Component {
 }
 
 Programs.propTypes = {
-  institution: React.PropTypes.object,
-  onShowModal: React.PropTypes.func
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func
 };
 
 export default Programs;

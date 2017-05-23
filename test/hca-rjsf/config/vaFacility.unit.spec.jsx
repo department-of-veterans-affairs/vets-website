@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/hca-rjsf/config/form';
@@ -50,13 +50,9 @@ describe('Hca VA facility', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
-          state={{
-            vaFacility: {
-              data: {
-                'view:preferredFacility': {
-                  'view:facilityState': 'MA'
-                }
-              }
+          data={{
+            'view:preferredFacility': {
+              'view:facilityState': 'MA'
             }
           }}
           uiSchema={uiSchema}/>
@@ -74,14 +70,10 @@ describe('Hca VA facility', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
-          state={{
-            vaFacility: {
-              data: {
-                'view:preferredFacility': {
-                  'view:facilityState': 'MA',
-                  vaMedicalFacility: '631'
-                }
-              }
+          data={{
+            'view:preferredFacility': {
+              'view:facilityState': 'MA',
+              vaMedicalFacility: '631'
             }
           }}
           uiSchema={uiSchema}/>

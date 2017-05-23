@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
@@ -415,10 +416,10 @@ class CalculatorForm extends React.Component {
 }
 
 CalculatorForm.propTypes = {
-  inputs: React.PropTypes.object,
-  displayedInputs: React.PropTypes.object,
-  onShowModal: React.PropTypes.func,
-  onInputChange: React.PropTypes.func
+  inputs: PropTypes.object,
+  displayedInputs: PropTypes.object,
+  onShowModal: PropTypes.func,
+  onInputChange: PropTypes.func
 };
 
 export default CalculatorForm;
