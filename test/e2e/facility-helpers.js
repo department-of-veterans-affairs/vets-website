@@ -197,54 +197,6 @@ const resultsData = {
   }
 };
 
-const facilityData = {
-  data: {
-    id: 'vba_343z',
-    type: 'va_facilities',
-    attributes: {
-      unique_id: '343z',
-      name: 'VetSuccess on Campus at Los Angeles City College',
-      facility_type: 'va_benefits_facility',
-      classification: 'VETSUCCESS ON CAMPUS',
-      website: null,
-      lat: 34.08751109,
-      'long': -118.2917626,
-      address: {
-        physical: {
-          address_1: '855 North Vermont',
-          address_2: '',
-          address_3: null,
-          city: 'Los Angeles',
-          state: 'CA',
-          zip: '90029'
-        },
-        mailing: {}
-      },
-      phone: {
-        main: '323-953-4000 Ext 1253',
-        fax: ''
-      },
-      hours: {
-        monday: 'Closed',
-        tuesday: 'Closed',
-        wednesday: '9:00AM-4:00PM',
-        thursday: 'Closed',
-        friday: 'Closed',
-        saturday: 'Closed',
-        sunday: 'Closed'
-      },
-      services: {
-        benefits: {
-          other: '',
-          standard: []
-        }
-      },
-      feedback: {},
-      access: {}
-    }
-  }
-};
-
 /* eslint-enable camelcase */
 
 // Create API routes
@@ -258,7 +210,9 @@ function initApplicationMock(token) {
   mock(token, {
     path: '/v0/facilities/va/vba_343z',
     verb: 'get',
-    value: facilityData,
+    value: {
+      data: resultsData[0]
+    },
   });
 }
 
