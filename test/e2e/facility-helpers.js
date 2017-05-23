@@ -211,7 +211,7 @@ function initApplicationMock(token) {
     path: '/v0/facilities/va/vba_343z',
     verb: 'get',
     value: {
-      data: resultsData[0]
+      data: resultsData.data[0]
     },
   });
 }
