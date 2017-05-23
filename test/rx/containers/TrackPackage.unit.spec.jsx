@@ -29,10 +29,14 @@ describe('<TrackPackage>', () => {
 
     expect(table).to.be.ok;
     rows.forEach((row, rowIndex) => {
-      const attrs = trackings.data[rowIndex].attributes;
+      const {
+        attributes: attrs,
+        links: { trackingUrl }
+      } = trackings.data[rowIndex];
 
-      expect(row.dive(['TrackPackageLink']).text())
-        .to.equal(attrs.trackingNumber);
+      const link = row.dive(['TrackPackageLink']);
+      expect(link.text()).to.equal(attrs.trackingNumber);
+      expect(link.props.href).to.equal(trackingUrl);
 
       rows[rowIndex].everySubTree('div').forEach((div, divIndex) => {
         if (divIndex === 0) {
