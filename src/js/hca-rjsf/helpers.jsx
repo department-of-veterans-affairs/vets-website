@@ -3,8 +3,31 @@ import _ from 'lodash/fp';
 import { transformForSubmit } from '../common/schemaform/helpers';
 import { vaMedicalFacilities } from '../common/utils/options-for-select.js';
 
+function changePostalToZip(address) {
+  if (address.country === 'USA') {
+    const newAddress = _.set('zipcode', address.postalCode, address);
+    delete newAddress.postalCode;
+    return newAddress;
+  }
+
+  return address;
+}
+
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  let updatedForm = _.set(
+    'data.veteranAddress',
+    changePostalToZip(form.data.veteranAddress),
+    form
+  );
+  if (_.get('data.view:spouseContactInformation.spouseAddress', form)) {
+    updatedForm = _.set(
+      'data.view:spouseContactInformation.spouseAddress',
+      changePostalToZip(form.data['view:spouseContactInformation'].spouseAddress),
+      updatedForm
+    );
+  }
+  const formData = transformForSubmit(formConfig, updatedForm);
+
   return JSON.stringify({
     form: formData
   });

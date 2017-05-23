@@ -1,10 +1,10 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
+import createCommonStore from '../../../src/js/common/store';
 import { Modals } from '../../../src/js/gi/containers/Modals';
 import reducer from '../../../src/js/gi/reducers';
-import createCommonStore from '../../../src/js/common/store';
 
 const defaultProps = createCommonStore(reducer).getState();
 
