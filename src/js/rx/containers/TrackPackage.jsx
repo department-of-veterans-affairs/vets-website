@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 
+import { rxStatuses } from '../config';
 import SortableTable from '../../common/components/SortableTable';
 import { formatDate } from '../utils/helpers';
 import TrackPackageLink from '../components/TrackPackageLink';
@@ -10,6 +11,7 @@ import TrackPackageLink from '../components/TrackPackageLink';
 class TrackPackage extends React.Component {
   constructor(props) {
     super(props);
+    this.renderTable = this.renderTable.bind(this);
 
     this.state = {
       currentSort: {
@@ -19,7 +21,7 @@ class TrackPackage extends React.Component {
     };
   }
 
-  render() {
+  renderTable() {
     const data = this.props.items.map(item => {
       const {
         id,
@@ -82,8 +84,8 @@ class TrackPackage extends React.Component {
     );
 
     return (
-      <div id="rx-track-package" className="va-tab-content">
-        <p className="rx-tab-explainer">* Tracking information for each order expires 30 days after shipment.</p>
+      <div>
+        <p className="rx-tab-explainer">Tracking information for each order expires 30 days after shipment.</p>
         <SortableTable
             className={tableClass}
             currentSort={this.state.currentSort}
@@ -97,11 +99,47 @@ class TrackPackage extends React.Component {
       </div>
     );
   }
+
+  render() {
+    const { isPending, items } = this.props;
+    let content;
+
+    if (items && items.length) {
+      content = this.renderTable();
+    } else if (isPending) {
+      content = (
+        <p className="rx-tab-explainer">
+          You recently submitted a refill, and the tracking information isn't available yet.
+        </p>
+      );
+    } else {
+      content = (
+        <p className="rx-tab-explainer">
+          Your prescription shipped more than 30 days ago, and tracking information is no longer available.
+        </p>
+      );
+    }
+
+    return (
+      <div id="rx-track-package" className="va-tab-content">
+        {content}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
-  return { items: rxState.prescriptions.currentItem.trackings };
+  const { submitted, refillinprocess } = rxStatuses;
+  const {
+    rx: { attributes: { refillStatus } },
+    trackings
+  } = rxState.prescriptions.currentItem;
+
+  return {
+    isPending: [submitted, refillinprocess].includes(refillStatus),
+    items: trackings
+  };
 };
 
 export default connect(mapStateToProps, null)(TrackPackage);
