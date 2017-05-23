@@ -11,7 +11,7 @@ import {
 import AcceptTermsPrompt from './AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
-class RequiredTermsAcceptanceView extends React.Component {
+export class RequiredTermsAcceptanceView extends React.Component {
   componentWillMount() {
     if (!this.props.terms.acceptance) {
       this.props.checkAcceptance(this.props.termsName);
