@@ -14,7 +14,7 @@ import {
   TOGGLE_MANAGED_FOLDERS
 } from '../../../src/js/messaging/utils/constants';
 
-import { folders, messages } from '../../util/messaging-helpers';
+import { folders, messages } from '../../e2e/messaging-helpers';
 
 const initialState = {
   data: {

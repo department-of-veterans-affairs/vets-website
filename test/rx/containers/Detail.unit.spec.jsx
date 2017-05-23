@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import { Detail } from '../../../src/js/rx/containers/Detail';
-import { prescriptions, trackings } from '../../util/rx-helpers.js';
+import { prescriptions, trackings } from '../../e2e/rx-helpers.js';
 
 const item = prescriptions.data[0];
 

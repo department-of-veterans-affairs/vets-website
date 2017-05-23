@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
@@ -58,9 +59,9 @@ class Provider extends React.Component {
 }
 
 Provider.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };
 
 export default Provider;

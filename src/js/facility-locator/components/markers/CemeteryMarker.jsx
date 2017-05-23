@@ -1,5 +1,6 @@
 import DivMarker from './DivMarker';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class CemeteryMarker extends Component {
   render() {

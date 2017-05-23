@@ -12,7 +12,7 @@
 .rx-table-list {
   tr.no-refills {
     td:nth-child(5) {
-      color: red;
+      color: $color-secondary;
     }
   }
 

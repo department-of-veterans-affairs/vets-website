@@ -21,5 +21,5 @@ export const uiSchema = {
 // we also may need to add required attributes
 export function schema(localSchema, required = []) {
   const withRequiredSchema = _.set('required', required, localSchema.definitions.educationProgram);
-  return _.set('properties.address', address.schema(), withRequiredSchema);
+  return _.set('properties.address', address.schema(localSchema), withRequiredSchema);
 }

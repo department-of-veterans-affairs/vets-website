@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -21,9 +22,9 @@ class ButtonClose extends React.Component {
 }
 
 ButtonClose.propTypes = {
-  args: React.PropTypes.string,
-  className: React.PropTypes.string,
-  onClick: React.PropTypes.func.isRequired
+  args: PropTypes.string,
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonClose;

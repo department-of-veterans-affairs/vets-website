@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -26,20 +27,29 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="rx-app">{view}</div>;
+  return (
+    <div className="rx-app">
+      <div className="row">
+        <div className="columns small-12">
+          {view}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 class RxRefillsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"rx"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"rx"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div className="row">
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-          </div>
-          <div className="row">
-            {this.props.children}
-          </div>
+          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+          {this.props.children}
           <ConfirmRefillModal
               prescription={this.props.refillModal.prescription}
               isLoading={this.props.refillModal.loading}
@@ -57,7 +67,7 @@ class RxRefillsApp extends React.Component {
 }
 
 RxRefillsApp.propTypes = {
-  children: React.PropTypes.element
+  children: PropTypes.element
 };
 
 const mapStateToProps = (state) => {
@@ -70,7 +80,8 @@ const mapStateToProps = (state) => {
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 

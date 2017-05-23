@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -65,9 +66,9 @@ class SearchMenu extends React.Component {
 }
 
 SearchMenu.propTypes = {
-  cssClass: React.PropTypes.string,
-  isOpen: React.PropTypes.bool.isRequired,
-  clickHandler: React.PropTypes.func
+  cssClass: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired,
+  clickHandler: PropTypes.func
 };
 
 export default SearchMenu;

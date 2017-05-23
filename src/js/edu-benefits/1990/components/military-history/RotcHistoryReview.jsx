@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { yesNoNA } from '../../utils/options-for-select';
@@ -48,5 +49,5 @@ export default class RotcHistoryReview extends React.Component {
 }
 
 RotcHistoryReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

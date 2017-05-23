@@ -50,4 +50,4 @@ To apply, fill out VA Form 10-8678: Application for Annual Clothing Allowance, a
 
 Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/). 
 
-For more information, call us at <span class="tel">800-827-1000</span>. We collect applications throughout the year and hold them until the August 1 closing date.
+For more information, call us at <a href="tel:+18008271000">800-827-1000</a>. We collect applications throughout the year and hold them until the August 1 closing date.

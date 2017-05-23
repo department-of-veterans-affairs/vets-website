@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
@@ -87,6 +88,7 @@ export default class SubmitMessage extends React.Component {
             </div>
           </ExpandingGroup>
         </div>
+        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
         <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
       </div>
     );
@@ -94,11 +96,11 @@ export default class SubmitMessage extends React.Component {
 }
 
 SubmitMessage.propTypes = {
-  name: React.PropTypes.object,
-  claimedBenefits: React.PropTypes.array,
-  relinquishedBenefits: React.PropTypes.string,
-  claimType: React.PropTypes.string,
-  confirmation: React.PropTypes.string,
-  date: React.PropTypes.string,
-  address: React.PropTypes.string
+  name: PropTypes.object,
+  claimedBenefits: PropTypes.array,
+  relinquishedBenefits: PropTypes.string,
+  claimType: PropTypes.string,
+  confirmation: PropTypes.string,
+  date: PropTypes.string,
+  address: PropTypes.string
 };

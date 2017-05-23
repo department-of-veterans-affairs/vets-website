@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
@@ -192,7 +193,7 @@ class Active extends React.Component {
 }
 
 Active.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

@@ -23,6 +23,14 @@ function setupJSDom() {
   global.document = doc;
   global.window = win;
 
+  win.VetsGov = {
+    scroll: {
+      duration: 0,
+      delay: 0,
+      smooth: false
+    }
+  };
+
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
   function propagateToGlobal(window) {
     for (const key in window) {

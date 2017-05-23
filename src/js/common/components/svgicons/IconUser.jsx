@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class IconUser extends React.Component {
@@ -49,9 +50,9 @@ class IconUser extends React.Component {
 }
 
 IconUser.propTypes = {
-  color: React.PropTypes.string, /* Should be a CSS color */
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string
+  color: PropTypes.string, /* Should be a CSS color */
+  cssClass: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default IconUser;

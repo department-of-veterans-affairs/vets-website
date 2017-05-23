@@ -31,6 +31,8 @@ describe('Schemaform review <ArrayField>', () => {
     };
     const uiSchema = {
       'ui:title': 'List of things',
+      items: {
+      },
       'ui:options': {
         viewField: f => f
       }
@@ -46,6 +48,7 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
+          pageTitle=""
           requiredSchema={requiredSchema}/>
     );
 
@@ -67,6 +70,8 @@ describe('Schemaform review <ArrayField>', () => {
     };
     const uiSchema = {
       'ui:title': 'List of things',
+      items: {
+      },
       'ui:options': {
         viewField: f => f
       }
@@ -82,6 +87,7 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
+          pageTitle=""
           requiredSchema={requiredSchema}/>
     );
 
@@ -91,7 +97,22 @@ describe('Schemaform review <ArrayField>', () => {
     const idSchema = {};
     const schema = {
       type: 'array',
-      items: {
+      items: [{
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }, {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }],
+      additionalItems: {
         type: 'object',
         properties: {
           field: {
@@ -102,6 +123,8 @@ describe('Schemaform review <ArrayField>', () => {
     };
     const uiSchema = {
       'ui:title': 'List of things',
+      items: {
+      },
       'ui:options': {
         viewField: f => f,
         itemName: 'Item name'
@@ -118,6 +141,7 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
+          pageTitle=""
           requiredSchema={requiredSchema}/>
     );
 
@@ -131,7 +155,15 @@ describe('Schemaform review <ArrayField>', () => {
     beforeEach(() => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string'
+            }
+          }
+        }],
+        additionalItems: {
           type: 'object',
           properties: {
             field: {
@@ -142,6 +174,8 @@ describe('Schemaform review <ArrayField>', () => {
       };
       const uiSchema = {
         'ui:title': 'List of things',
+        items: {
+        },
         'ui:options': {
           viewField: f => f
         }
@@ -158,6 +192,7 @@ describe('Schemaform review <ArrayField>', () => {
             uiSchema={uiSchema}
             registry={registry}
             formContext={formContext}
+            pageTitle=""
             requiredSchema={requiredSchema}/>
       );
     });

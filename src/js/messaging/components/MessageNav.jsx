@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class MessageNav extends React.Component {
@@ -49,14 +50,14 @@ class MessageNav extends React.Component {
 }
 
 MessageNav.propTypes = {
-  currentRange: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  currentRange: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ]).isRequired,
-  messageCount: React.PropTypes.number.isRequired,
-  onItemSelect: React.PropTypes.func,
-  itemNumber: React.PropTypes.number.isRequired,
-  totalItems: React.PropTypes.number.isRequired
+  messageCount: PropTypes.number.isRequired,
+  onItemSelect: PropTypes.func,
+  itemNumber: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired
 };
 
 export default MessageNav;

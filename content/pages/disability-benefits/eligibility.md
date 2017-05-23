@@ -5,10 +5,10 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability-benefits/claims-process/ratings/
+ - url: /disability-benefits/eligibility/ratings/
    title: How VA Assigns Disability Ratings
    description: "Learn how VA assigns severity ratings and how they affect your disability payments."
- - url: /disability-benefits/claims-process/presumed-disability/
+ - url: /disability-benefits/eligibility/presumed-disability/
    title: Presumed Disability
    description: "Find out why some chronic (long-lasting) conditions may qualify you for disability benefits." 
 ---

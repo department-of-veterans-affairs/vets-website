@@ -7,7 +7,9 @@ import { Folder } from '../../../src/js/messaging/containers/Folder';
 const props = {
   attributes: {
     folderId: 0,
-    name: 'Inbox'
+    name: 'Inbox',
+    unreadCount: 0,
+    count: 3
   },
   filter: {},
   folders: new Map([
@@ -43,9 +45,14 @@ const props = {
     value: 'sentDate',
     order: 'DESC'
   },
-
-  // No-op function to override dispatch
-  dispatch: () => {}
+  moveMessageToFolder: () => {},
+  openMoveToNewFolderModal: () => {},
+  toggleAdvancedSearch: () => {},
+  setSearchParam: () => {},
+  setDateRange: () => {},
+  openAlert: () => {},
+  dispatch: () => {},
+  router: () => {}
 };
 
 describe('Folder', () => {

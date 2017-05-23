@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -79,32 +80,32 @@ class SortableTable extends React.Component {
 }
 
 SortableTable.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 
   // Field value to sort by in either ascending or descending order.
   // The `value` must be one of the values in the `fields` prop.
-  currentSort: React.PropTypes.shape({
-    value: React.PropTypes.string.isRequired,
-    order: React.PropTypes.oneOf(['ASC', 'DESC'])
+  currentSort: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    order: PropTypes.oneOf(['ASC', 'DESC'])
   }).isRequired,
 
   // Mappings of header labels to properties on the objects in `data`.
-  fields: React.PropTypes.arrayOf(React.PropTypes.shape({
-    label: React.PropTypes.string.isRequired,
-    value: React.PropTypes.string.isRequired
+  fields: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
   })).isRequired,
 
   // Each object represents data for a row.
   // An optional class may be provided to style specific rows.
-  data: React.PropTypes.arrayOf(React.PropTypes.shape({
-    id: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
     ]).isRequired,
-    rowClass: React.PropTypes.string
+    rowClass: PropTypes.string
   })).isRequired,
 
-  onSort: React.PropTypes.func
+  onSort: PropTypes.func
 };
 
 export default SortableTable;

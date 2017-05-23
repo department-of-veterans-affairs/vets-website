@@ -14,6 +14,7 @@ describe('<SchoolSelectionFields>', () => {
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
           data={data}
+          initializeFields={f => f}
           onStateChange={onStateChange}/>
     );
 
@@ -28,6 +29,7 @@ describe('<SchoolSelectionFields>', () => {
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
           data={data}
+          initializeFields={f => f}
           onStateChange={onStateChange}/>
     );
 

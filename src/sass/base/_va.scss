@@ -13,6 +13,10 @@ body {
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 // Skip link
@@ -72,12 +76,12 @@ a {
           transition-property: color, background-color, border-color;
 
   &:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: $color-link-default-hover;
     color: inherit;
     text-decoration: underline;
   }
   &:active {
-    background: rgba(0,0,0,.1);
+    background: $color-link-default-hover;
   }
   &:visited {
     color: $color-visited;
@@ -204,33 +208,26 @@ hr {
     position: relative;
   }
 
- .va-notice--banner {
-    display: none !important;
-
-    @include media($medium-screen) {
-      display: block !important;
-    }
-  }
-}
-
 .login-container {
   background: $color-primary-darkest;
   flex-wrap: wrap;
   white-space: nowrap;
-  
+
   .row {
     padding: 0;
   }
+
    @include media($medium-large-screen) {
     flex: 1 0 100%;
   }
 }
-  
+
+}
 
 #va-header-logo-menu {
   flex-wrap: wrap;
   padding: 1em 0.75em 0;
-  
+
   @include media($medium-large-screen) {
     padding-bottom: 0;
   }
@@ -238,7 +235,7 @@ hr {
 
 .va-header-logo-wrapper {
   flex: 1 0 164px;
-  
+
   @include media($medium-large-screen) {
     flex-basis: 6rem;
   }
@@ -289,17 +286,18 @@ hr {
 h1, h2 {
   font-family: $font-sans;
 }
+
+h1:first-child {
+  margin-top: 0;
+}
+
 h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0 0 .5em 0;
 }
 
 h2 {
-  line-height: 1.2em;
-}
-
-h1:first-child {
-  margin-top: 0;
+  @include heading-2;
 }
 
 h3, h4, h5, h6 {
@@ -307,27 +305,19 @@ h3, h4, h5, h6 {
 }
 
 h3 {
-  font-size: 1.8em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-3;
 }
 
 h4 {
-  font-size: 1.35em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-4;
 }
 
 h5 {
-  font-size: 1.15em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-5;
 }
 
 h6 {
-  font-size: 0.9em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-6;
 }
 
 .text-center {
@@ -343,7 +333,7 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific. 
+// TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
   text-align: center;
@@ -356,16 +346,15 @@ h6 {
     @include media($medium-large-screen) {
       margin: auto;
     }
-    
+
     @include media-maxwidth($small-screen) {
       display: block;
-    }    
+    }
   }
 
   .va-h-ruled--a {
-    margin-left: 1.6rem;
-    margin-right: 1.6rem;
-    
+    margin: 2.4rem 1.6rem 0;
+
     @include media($medium-large-screen) {
       max-width: 41%;
       margin: 2.4rem auto;
@@ -387,7 +376,7 @@ h6 {
   text-decoration: none;
   margin: .8rem;
   padding: 2rem;
-  
+
   &:hover {
     background: transparent;
     border: $color-primary-darker solid 2px;
@@ -431,6 +420,7 @@ h6 {
   background: $color-white;
   color: $color-primary-darker;
   display: inline-block;
+  font-weight: bold;
   font-size: 2.5rem;
   line-height: 1.3;
   margin: 0 auto;
@@ -455,7 +445,7 @@ h6 {
 }
 
 
-// TODO(css): Remove .feature-list ul once it's
+// TODO(css): Remove .feature-list ul once it"s
 // refactored from the Markdown
 .feature-list ul,
 .va-list--feature {
@@ -464,7 +454,7 @@ h6 {
   list-style: none outside;
 
   li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $color-gray-light;
     padding: 1em 0;
 
     &:last-of-type {
@@ -481,15 +471,6 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-  }
-
-  li p:first-of-type,
-  ul+p
-   {
-    font-weight: normal !important;
-    color: $color-gray-dark;
-    font-size: 1em;
-    padding-bottom: 0;
   }
 }
 
@@ -530,12 +511,6 @@ h6 {
     font: inherit !important;
     margin-bottom: 0;
     padding-bottom: .5em;
-
-    &:nth-child(1) {
-      font-size: 1.25em !important;
-      color: $color-gray-dark !important;
-      padding-bottom: inherit;
-    }
   }
 
   h3 {
@@ -575,7 +550,7 @@ h6 {
 }
 
 // Usually call out boxes will be definition lists, but
-// sometimes they're unordered lists.
+// sometimes they"re unordered lists.
 ul, ol {
   &.va-callout {
     li {
@@ -590,7 +565,7 @@ ul, ol {
 
 .navigation--major {
   .va-cards--2across {
-    display:block;
+    display: block;
   }
 
   .home & {
@@ -673,7 +648,7 @@ ul, ol {
   padding: 2em 0;
   background: $color-primary;
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  p {color: rgba(255,255,255,1);}
+  p {color: $color-white;}
   a {color: $color-white;}
   ul li {list-style: square;}
 }
@@ -713,6 +688,10 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
+  // Gate / Sign-in pages only
+  &--gate {
+    margin-bottom: -2em;
+  }
 
   li {
     display: inline-block;
@@ -721,7 +700,7 @@ ul, ol {
     vertical-align: middle;
 
     &:after {
-      content: ' › ';
+      content: " › ";
       display: inline-block;
       padding: 0 .35em;
     }
@@ -731,7 +710,7 @@ ul, ol {
       padding: .3em 0;
 
       &:after {
-        content: '';
+        content: "";
       }
     }
   }
@@ -741,7 +720,7 @@ ul, ol {
     padding: 2px;
 
     &:hover {
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
     }
   }
 }
@@ -781,7 +760,7 @@ ul, ol {
     margin: 0 0 .75em 0;
 
     &:after {
-      content:' › ';
+      content: " › ";
       display: inline-block;
       color: $color-white;
       padding: 0 .5em;
@@ -800,7 +779,7 @@ ul, ol {
     }
 
     &:before {
-      content: '';
+      content: "";
       padding: 0;
       margin: 0;
     }
@@ -812,7 +791,7 @@ ul, ol {
     color: $color-white;
     &:hover {
       text-decoration: none;
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
       border-bottom: 3px solid $color-gold;
     }
   }
@@ -828,7 +807,7 @@ li {
     display: inline-block;
     padding: .5em;
     color: $color-primary-darkest;
-    background: rgba($color-primary-darkest,.05);
+    background: $color-link-default-hover;
     font-weight: bold;
     float: right;
     margin: .5em 0 1em 1em;
@@ -852,33 +831,14 @@ li {
   margin: 0 auto;
 }
 
-.draft {
-  position: absolute;
-  top: -3.5em;
-  right: -5em;
-  z-index: 1000;
-  background: rgba($color-secondary-darkest, .9);
-  color: $color-white;
-  font-size: .85em;
-  position: fixed;
-  padding: 2.5em 4em 1em 4em;
-  -ms-transform: rotate(45deg); /* IE 9 */
-  -ms-transform-origin: 20% 40%; /* IE 9 */
-  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-  -webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
-  transform: rotate(45deg);
-  transform-origin: 20% 40%;
-}
-
 // Cards
-
-[class*='block-grid-'] > li {
+[class*="block-grid-"] > li {
   padding: 0 0.625rem 1.25rem 0.625rem;
 }
 
 // Telephone numbers
 .tel {
-  background: rgba(0,0,0,.05);
+  background: $color-link-default-hover;
   padding: .2em;
   display: inline-block;
 }
@@ -897,12 +857,12 @@ li {
 
   div {
     background: $color-gray-lightest;
-    background: rgba(0,0,0,.05);
+    background: $color-link-default-hover;
     margin: 0 0 .5em 0;
     padding: .75em;
 
     &:hover, &:focus, &:active {
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
     }
   }
   a {
@@ -913,145 +873,6 @@ li {
 
 .text-right {
   text-align: right;
-}
-
-// Footer
-.footer {
-  color: $color-white;
-  margin: 0 auto;
-  background: $color-primary-darkest;
-  position: relative;
-  overflow: hidden;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-  }
-
-  .va-flex {
-    flex-wrap: wrap;
-
-    @include media($medium-large-screen) {
-      flex-wrap: nowrap;
-    }
-  }
-}
-
-.footer-inner {
-  padding: 2rem 1rem 0;
-}
-
-.footer-seal {
-  background:url(/img/design/sprites/sprite.png)  no-repeat 0 -23px;
-  background-size: 215px 72px;
-  width: 215px;
-  height: 49px;
-  text-indent: -999em;
-  overflow: hidden;
-  margin-bottom: 3rem;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-    margin-bottom: 0;
-  }
-}
-
-[class^=va-footer-linkgroup] {
-  a {
-    background: none;
-    color: #fff;
-    font-size: 1em;
-    font-weight: 400;
-    margin: .25em 0;
-    text-decoration: underline;
-
-    &:hover {
-      color: $color-gold;
-    }
-  }
-}
-
-.va-footer-linkgroup {
-  margin: 2em 0 0 0;
-  flex: 0 1 100%;
-
-  @include media($medium-large-screen) {
-    flex: 0 1 25%;
-    margin: 2em 0 1.5em 0;
-  }
-
-  dd {
-    padding: .25em 0;
-  }
-
-  a {
-    display: inline-block;
-  }
-}
-
-[id=footer-contact] {
-  order: -1;
-
-  @include media($medium-large-screen) {
-    flex: 2 0 50%;
-  }
-}
-
-.va-footer-linkgroup-title {
-  -webkit-font-smoothing: antialiased;
-  color: $color-white;
-  font-weight: 700;
-  font-size: 1em;
-  margin: 0;
-  padding: 0 0 1em 0;
-}
-
-.va-footer-linkgroup--inline {
-  list-style: none;
-  margin: 0 auto .5rem;
-  padding: 0;
-
-  li {
-    padding: 0;
-    display: inline-block;
-
-    &:not(:last-child):after {
-      content:'|';
-      padding: 0 1rem;
-    }
-
-    a {
-      background: none;
-      padding: 0;
-    }
-  }
-}
-
-[id=va-footer-supplementallinks] {
-  align-items: flex-end;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10rem;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-  }
-
-  > div {
-      &:first-child {
-        @include media($medium-large-screen) {
-          flex: 0 1 60%;
-        }
-      }
-
-      &:last-child {
-        order: -1;
-
-        @include media($medium-large-screen) {
-          order: 1;
-          flex: 1 1 40%;
-        }
-      }
-  }
 }
 
 .primary blockquote {
@@ -1075,14 +896,15 @@ li {
   }
 }
 
-.va-wip--wide {
-  background: $color-gray-lightest;
+.va-wip {
+  background: $color-white;
   color: $color-gray-dark;
   display: none;
   font-size: 1.152rem;
   margin: auto;
 
   @include media($medium-large-screen) {
+    background: $color-gray-lightest;
     display: block;
   }
 }
@@ -1100,10 +922,14 @@ li {
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-gray-lightest;
+  background: $color-white;
   margin: 0 0 .75em 0;
   padding: 0;
   font-weight: 400;
+
+  @include media($medium-large-screen) {
+    background: $color-gray-lightest;
+  }
 
   &-inner {
     margin: auto;
@@ -1141,6 +967,13 @@ li {
   color: $color-white;
   padding: 1.25em 0;
   margin: 1.5em 0 0 0;
+
+  @include media($medium-large-screen) {
+    .usa-grid {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
 }
 
  // Feedback widget
@@ -1149,22 +982,16 @@ li {
   text-align: center;
   overflow: hidden;
 
+  &:hover {
+    color: $color-gold;
+  }
+
   @include media($medium-large-screen) {
     text-align: left;
   }
 
-  // Works with <= IE8
-  &:last-child {
-    opacity: 0.6;
-    padding-left: 1em;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
   .icon {
-    background: url('/img/design/sprites/sprite.png') no-repeat -43px 0;
+    background: url("/img/design/sprites/sprite.png") no-repeat -43px 0;
     background-size: 215px 72px;
     display: inline-block;
     width: 19px;
@@ -1209,7 +1036,7 @@ li {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: ' ';
+    content: " ";
     clear: both;
     height: 0;
   }
@@ -1249,7 +1076,7 @@ li {
   }
 
   &.information {
-    background: rgba(0,0,0,.05);
+    background: $color-link-default-hover;
     padding: 1em;
   }
 
@@ -1281,142 +1108,16 @@ li {
     margin-bottom: 1em;
   }
   &.top {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid $color-gray-lightest;
   }
   &.bottom {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid $color-gray-lightest;
   }
-}
-
-// Process line
-
-.va-process,
-.process {
-  list-style: none;
-  padding: 1em 0;
-  position: relative;
-
-  h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
-  h5 {
-    font-size: 1.3em;
-    margin: 0;
-    padding: 0 0 .5em 0;
-  }
-  h6, &-subtitle {
-    font-size: 1.1em;
-    margin: 0;
-    padding: 0;
-  }
-
-  p:nth-child(1) {
-    font-size: 1em;
-    color: $color-gray-dark;
-    padding-bottom: 0;
-  }
-
-  li {
-    list-style: none;
-
-    p:nth-child(1) {
-      padding-bottom: inherit;
-    }
-
-    ol {
-      margin: 0 0 1em 1.5em;
-      padding: 0;
-      li {list-style: decimal; padding: .25em 0;}
-    }
-    ul {
-      margin: 0 0 1em 1.25em !important;
-      padding: 0;
-      li {list-style: square;}
-    }
-  &.step {
-    border-left: 8px solid #ccc;
-    padding: 0 0 2em 2em;
-    margin: 0 !important;
-  &.last {
-    border-left: 0;
-    padding-left: calc(2em + 8px);
-  }
-
-  }
-  &.step.three.last,
-  &.step.four.last,
-  &.step.five.last,
-  &.step.six.last,
-  &.step.seven.last
-   {
-    &:before {
-    margin-left: -2.7em
-    }
-  }
-
-  ul {
-    margin: .25em 0 1em 0;
-    padding: 0;
-    li {
-      margin: 0;
-      padding: .1em 0;
-
-    }
-  }
-  ol {
-    margin-top: .25em;
-    margin-bottom: 1em;
-    li {
-      margin-left: .2em;
-    }
-  }
-
-  &:before {
-    color:$color-white;
-    float: left;
-    font-size: 1.3em;
-    font-weight: 700;
-    text-align: center;
-    width: 2em;
-    top: -.2em;
-    margin-left: -2.7em;
-    display: block;
-    border: 4px solid $color-white;
-    background: $olso-gray;
-    border-radius: 4em;
-    position: relative;
-  }
-}
-
-#content.interior .primary .process li p:nth-child(1) {
-  font-size: 1em;
-  color: $color-gray-dark !important;
-  padding-bottom: 0;
-}
-
-li.one:before {content: '1';}
-li.two:before {content: '2';}
-li.three:before {content: '3';}
-li.four:before {content: '4';}
-li.five:before {content: '5';}
-li.six:before {content: '6';}
-li.seven:before {content: '7';}
-li.eight:before {content: '8';}
-li.nine:before {content: '9';}
-li.ten:before {content: '10';}
-li.eleven:before {content: '11';}
-li.twelve:before {content: '12';}
-li.thirteen:before {content: '13';}
-li.fourteen:before {content: '14';}
-li.fifteen:before {content: '15';}
-li.sixteen:before {content: '16';}
-li.seventeen:before {content: '17';}
-li.eighteen:before {content: '18';}
-li.nineteen:before {content: '19';}
-li.twenty:before {content: '20';}
 }
 
 // Panel list
 .panel-list {
-  background: rgba(0,0,0,.05);
+  background: $color-link-default-hover;
   padding: 1em;
   position: relative;
   min-height: 12em;
@@ -1455,16 +1156,42 @@ li.twenty:before {content: '20';}
   border-bottom: $color-va-accent solid 2px;
 }
 
+// If this divider gets reused and with text in the middle
+// you should create a variation of this rule that accounts
+// for the size of the text.
 .va-h-ruled--stars {
+  display: flex;
+  justify-content: center;
+
+  // Flexbox magic means that setting a margin on ::before
+  // applies the same margin to ::after
+  &::before {
+    margin-right: 12rem;
+  }
+
+  &::before,
+  &::after {
+    border-top: 1px solid $color-gray-light;
+    content: " ";
+    display: inline-block;
+    flex: 1 1 50%;
+    margin-top: -4rem;
+  }
+
   background: url(/img/stars.png) no-repeat top center;
-  background-size: 20rem auto;
+  background-size: 11rem auto;
   margin: 2.4rem auto auto;
   padding: 4.8rem 1.6rem 0;
   text-align: center;
+
+  @include media($medium-screen) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 // Action bars
-[class^='va-action-bar'] {
+[class^="va-action-bar"] {
   background: $color-gray-lightest;
 }
 
@@ -1556,94 +1283,6 @@ li.twenty:before {content: '20';}
   }
 }
 
-// Mobile menu
-/* Overlay style */
-
-.va-overlay-close {
-  &--icon {
-    display: inline;
-    margin: 0;
-    padding: 1rem;
-    width: auto;
-
-    &:hover {
-      background: transparent;
-    }
-  }
-}
-
-.va-overlay {
-  background: rgba($color-primary-darkest, .95);
-  height: 100%;
-  left: 0;
-  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  transition: opacity 0.5s, visibility 0s 0.5s;
-  visibility: hidden;
-  width: 100%;
-  z-index: 800;
-
-  input[type='text'] {
-    -webkit-appearance: none;
-    border-radius: 3px 0 0 3px;
-  }
-  @include media($medium-large-screen) {
-    display: none;
-  }
-}
-
-.va-mobile-searchclose  {
-  border-radius: 0;
-  display: block !important;
-  width: 100% !important;
-  margin: 0;
-  width: auto;
-  background: $color-primary;
-}
-
-.va-overlay--open {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
-
-  .columns {
-    padding: 0;
-  }
-}
-
-.va-overlay .menu {
-  -webkit-perspective: 1200px;
-  perspective: 1200px;
-  padding: 1em 1em;
-}
-
-.va-overlay form {
-  opacity: 0.4;
-  -webkit-transform: translateY(-25%) rotateX(35deg);
-  transform: translateY(-25%) rotateX(35deg);
-  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-  transition: transform 0.5s, opacity 0.5s;
-}
-
-.va-overlay--open form {
-  opacity: 1;
-  -webkit-transform: rotateX(0deg);
-  transform: rotateX(0deg);
-}
-
-.va-overlay-body {
-  margin: 1rem auto;
-}
-
-@media (max-height: 30.5em) {
-  .overlay form {
-    height: 70%;
-  }
-}
-
 // List overrides
 
 ul li p {
@@ -1661,22 +1300,22 @@ ul li p {
 
 // Tooltip
 .js-simple-tooltip {
-  font-family: 'Courier New', 'Courier', serif;
-  font-weight:bold;
+  font-family: "Courier New", "Courier", serif;
+  font-weight: bold;
   cursor: pointer;
-  display:inline-block;
+  display: inline-block;
   padding: 0;
   border-radius: 1.75em;
   background: $color-gray-dark;
   margin: 0 0 0 .5em;
-  color: white;
+  color: $color-white;
   height: 1.75em;
   font-size: .8em;
   width: 1.75em;
   text-align: center;
   vertical-align: middle;
 }
-.simpletooltip[aria-hidden='true'] {
+.simpletooltip[aria-hidden="true"] {
   display: none;
 }
 .simpletooltip_container {
@@ -1706,14 +1345,14 @@ ul li p {
     border-bottom: 10px solid transparent;  // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content: '';
+    content: "";
     font-size: 0;
     position: absolute;
     left: 0px;
     line-height: 0;
     margin-left: -10px;
-    width:0;
-    height:0;
+    width: 0;
+    height: 0;
     top: 39%;
   }
 }
@@ -1775,8 +1414,8 @@ html.touchevents {
 }
 
 .va-code-block,
-code[class*='language-'],
-pre[class*='language-']  {
+code[class*="language-"],
+pre[class*="language-"]  {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
   line-height: inherit !important;
@@ -1889,10 +1528,20 @@ p.info-message {
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid #f1f1f1;
+  border-top: 2px solid $color-gray-light;
   padding: 1em 0;
   p {
     font-size: 1em !important;
-    color: #323a45 !important;
+    color: $color-gray-dark !important;
   }
+}
+
+
+// ----------------------
+// Fixes an overly-broad ul selector 
+// ----------------------
+
+.usa-sidenav-sub_list {
+  padding-left: 0;
+  list-style: none;
 }

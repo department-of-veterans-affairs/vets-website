@@ -12,6 +12,7 @@ const props = {
     recipient: {},
     subject: {},
   },
+  onAttachmentsClose: () => {},
   onSaveMessage: () => {},
   onSendMessage: () => {},
   toggleConfirmDelete: () => {},

@@ -4,7 +4,7 @@ title: Privacy
 
 ---
 <div class="main">
-<div class="section one">
+<div class="section">
 <div class="row" markdown="1">
 
 #### Vets.gov Privacy Policy

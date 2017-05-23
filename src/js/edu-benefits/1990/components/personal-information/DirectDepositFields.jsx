@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
@@ -41,6 +42,6 @@ export default class DirectDepositFields extends React.Component {
 }
 
 DirectDepositFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

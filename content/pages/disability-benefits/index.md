@@ -13,16 +13,13 @@ majorlinks:
   - url: /disability-benefits/apply/
     title: Application Process
     description: Apply online now, or find out how to apply in person or get help from a trained professional.
-  - url: /disability-benefits/track-claims/
+  - url: /track-claims/
     title: Check Claim Status
     description: Track the status of your disability claim.
   - url: /disability-benefits/conditions/
     title: Conditions
     description: Discover which illnesses or injuries qualify you for benefits.
 relatedlinks:
-  - url: /disability-benefits/claims-process/
-    title: Claims Process
-    description: Understand the process and prepare carefully before applying.
   - url: /disability-benefits/claims-appeal/
     title: Appeals
     description: Find out what to do if you disagree with your disability rating decision.

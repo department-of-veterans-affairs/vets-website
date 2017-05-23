@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableCurrentOrPastDate from '../../../../common/components/form-elements/ErrorableCurrentOrPastDate';
@@ -44,6 +45,6 @@ export default class PersonalInformationFields extends React.Component {
 }
 
 PersonalInformationFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -20,7 +21,6 @@ import {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 } from '../actions';
 
 export class Compose extends React.Component {
@@ -172,7 +172,7 @@ export class Compose extends React.Component {
 }
 
 Compose.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -199,7 +199,6 @@ const mapDispatchToProps = {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

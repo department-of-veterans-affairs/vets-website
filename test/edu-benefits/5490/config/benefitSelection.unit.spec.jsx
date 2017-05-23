@@ -2,55 +2,18 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
 describe('Edu 5490 benefitSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('should render inputs for child relationship', () => {
+  it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
-                }
-              }
-            }
-          }}
-          formData={{ relationship: 'child' }}
-          uiSchema={uiSchema}/>
-    );
-    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
-      ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
-    );
-
-    expect(fields.length)
-      .to.equal(5);
-  });
-
-  it('should render inputs for spouse relationship', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
-                }
-              }
-            }
-          }}
-          formData={{ relationship: 'spouse' }}
+          data={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
@@ -137,7 +100,6 @@ describe('Edu 5490 benefitSelection', () => {
               }
             }
           }}
-          formData={{ relationship: 'child' }}
           uiSchema={uiSchema}/>
     );
 
@@ -149,22 +111,6 @@ describe('Edu 5490 benefitSelection', () => {
         checked: true
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateMonth'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateDay'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateYear'), {
-      target: {
-        value: 1980
-      }
-    });
-
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;

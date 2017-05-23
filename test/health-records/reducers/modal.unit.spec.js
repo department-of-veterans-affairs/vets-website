@@ -5,7 +5,7 @@ import modalReducer from '../../../src/js/health-records/reducers/modal';
 describe('modal reducer', () => {
   it('should close modal', () => {
     const state = modalReducer(undefined, {
-      type: 'GLOSSARY_MODAL_CLOSED'
+      type: 'MODAL_CLOSED'
     });
 
     expect(state.visible).to.be.false;
@@ -13,7 +13,7 @@ describe('modal reducer', () => {
 
   it('should open modal', () => {
     const state = modalReducer(undefined, {
-      type: 'GLOSSARY_MODAL_OPENED',
+      type: 'MODAL_OPENED',
       title: 'Title',
       content: 'Content'
     });

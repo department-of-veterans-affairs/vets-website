@@ -49,7 +49,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
 
 Recovery time from either a surgery or the immobilization of a joint by a cast without surgery requires a temporary 100% disability rating for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months—depending on your unique case. You may be able to get an extension for up to 3 more months if your case is severe.
 

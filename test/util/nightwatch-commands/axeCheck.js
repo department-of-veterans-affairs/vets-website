@@ -46,16 +46,19 @@ export function command(context, config, _callback) {
       return;
     }
 
-    const { violations, passes } = results;
+    const { violations } = results;
 
     const scope = (config || {}).scope || '[n/a]';
 
-    passes.forEach(pass => {
-      this.assert.ok(true, `${scope}: ${pass.help}`);
-    });
-
     violations.forEach(violation => {
-      this.verify.fail(`${scope}: ${JSON.stringify(violation, null, 4)}`);
+      const nodeInfo = violation.nodes.reduce((str, node) => {
+        const { html, target } = node;
+        return [str, html, ...target].join('\n');
+      }, '');
+      const message = `${scope}: [${violation.impact}] ${violation.help}
+See ${violation.helpUrl}
+${nodeInfo}`;
+      this.verify.fail(message);
     });
   });
 }

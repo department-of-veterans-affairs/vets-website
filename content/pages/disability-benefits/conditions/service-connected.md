@@ -38,7 +38,7 @@ You may also be able to get benefits for mental health conditions linked to mili
 
 ### How do I get these benefits? 
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 [See the full list of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
 </div>

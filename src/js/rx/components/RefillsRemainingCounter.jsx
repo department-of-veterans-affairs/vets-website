@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -28,7 +29,7 @@ class RefillsRemainingCounter extends React.Component {
 }
 
 RefillsRemainingCounter.propTypes = {
-  remaining: React.PropTypes.number
+  remaining: PropTypes.number
 };
 
 export default RefillsRemainingCounter;

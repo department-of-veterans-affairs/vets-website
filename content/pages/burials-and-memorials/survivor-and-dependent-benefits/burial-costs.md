@@ -44,8 +44,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - To get paid back for transportation costs, attach receipts that show how much you paid.
 - Mail the application form and other paperwork to your local Regional Benefits Office. [Find your local regional benefits office](/facilities).
 
-- If you have questions, call <span class="tel">800-827-1000</span> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
-
+- If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
 
 #### What are the burial allowance amounts for a service-connected death?
 

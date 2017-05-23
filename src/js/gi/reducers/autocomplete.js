@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { AUTOCOMPLETE_TERM_CHANGED, AUTOCOMPLETE_STARTED, AUTOCOMPLETE_FAILED, AUTOCOMPLETE_SUCCEEDED } from '../actions';
+import { AUTOCOMPLETE_TERM_CHANGED, AUTOCOMPLETE_STARTED, AUTOCOMPLETE_FAILED, AUTOCOMPLETE_SUCCEEDED, SEARCH_STARTED } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
@@ -54,6 +54,11 @@ export default function (state = INITIAL_STATE, action) {
         suggestions,
         previewVersion: camelPayload.meta.version,
         inProgress: false
+      };
+    case SEARCH_STARTED:
+      return {
+        ...state,
+        searchTerm: action.name,
       };
     default:
       return state;

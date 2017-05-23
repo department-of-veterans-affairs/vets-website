@@ -16,6 +16,7 @@ describe('<EmploymentHistoryFields>', () => {
       <EmploymentHistoryFields
           data={veteran}
           onStateChange={onStateChange}
+          onEdit={f => f}
           initializeFields={initializeFields}/>
     );
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'hasNonMilitaryJobs')).to.be.true;
@@ -29,6 +30,7 @@ describe('<EmploymentHistoryFields>', () => {
     const tree = SkinDeep.shallowRender(
       <EmploymentHistoryFields
           data={veteran}
+          onEdit={f => f}
           onStateChange={onStateChange}
           initializeFields={initializeFields}/>
     );

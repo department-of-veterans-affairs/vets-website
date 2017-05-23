@@ -1,4 +1,4 @@
-@import 'style';
+@import "style";
 
 .overlay {
   height: 100%;
@@ -7,7 +7,7 @@
   z-index: 9999;
   left: 0;
   top: 0;
-  background-color: #ffffff;
+  background-color: $color-white;
   overflow: hidden;
   display: flex;
   align-items: center;

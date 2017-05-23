@@ -6,13 +6,13 @@ const initialState = {
 
 export default function modal(state = initialState, action) {
   switch (action.type) {
-    case 'GLOSSARY_MODAL_OPENED':
+    case 'MODAL_OPENED':
       return {
         visible: true,
         title: action.title,
         content: action.content,
       };
-    case 'GLOSSARY_MODAL_CLOSED':
+    case 'MODAL_CLOSED':
       return {
         visible: false,
         title: '',

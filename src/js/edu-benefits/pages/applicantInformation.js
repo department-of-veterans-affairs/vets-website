@@ -1,26 +1,30 @@
 import _ from 'lodash/fp';
 
-import * as currentOrPastDate from '../../common/schemaform/definitions/currentOrPastDate';
-import * as fullName from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 
-import { relationshipLabels, genderLabels } from '../utils/helpers';
+import { relationshipLabels, genderLabels } from '../utils/labels';
+import * as personId from '../definitions/personId';
 
-const defaults = {
-  fields: [
-    'relativeFullName',
-    'relativeSocialSecurityNumber',
-    'view:noSSN',
-    'relativeDateOfBirth',
-    'gender',
-    'relationship'
-  ],
-  required: [
-    'relativeFullName',
-    'relativeDateOfBirth',
-    'relationship'
-  ],
-  labels: {}
+
+const defaults = (prefix) => {
+  return {
+    fields: [
+      `${prefix}FullName`,
+      `${prefix}SocialSecurityNumber`,
+      'view:noSSN',
+      `${prefix}DateOfBirth`,
+      'gender',
+      'relationship'
+    ],
+    required: [
+      `${prefix}FullName`,
+      `${prefix}DateOfBirth`,
+      'relationship'
+    ],
+    labels: {},
+    isVeteran: false
+  };
 };
 
 
@@ -32,34 +36,24 @@ const defaults = {
  */
 export default function applicantInformation(schema, options) {
   // Use the defaults as necessary, but override with the options given
-  const mergedOptions = _.assign(defaults, options);
+  const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
+  const mergedOptions = _.assign(defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
 
-  const possibleProperties = {
-    relativeFullName: schema.definitions.fullName,
-    relativeSocialSecurityNumber: schema.definitions.ssn,
+  const possibleProperties = _.assign(schema.properties, {
     'view:noSSN': {
       type: 'boolean'
-    },
-    relativeDateOfBirth: schema.definitions.date,
-    gender: schema.definitions.gender,
-    relationship: schema.definitions.relationship
-  };
+    }
+  });
 
   return {
     path: 'applicant/information',
     title: 'Applicant information',
     initialData: {},
-    uiSchema: {
+    uiSchema: _.assign({
       'ui:order': fields,
-      relativeFullName: fullName.uiSchema,
-      relativeSocialSecurityNumber: _.assign(ssn.uiSchema, {
-        'ui:required': (formData) => !_.get('view:noSSN', formData)
-      }),
-      'view:noSSN': {
-        'ui:title': 'I don’t have a Social Security number',
-      },
-      relativeDateOfBirth: _.assign(currentOrPastDate.uiSchema('Date of birth'),
+      [`${prefix}FullName`]: fullNameUI,
+      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
           'ui:errorMessages': {
             pattern: 'Please provide a valid date',
@@ -81,9 +75,17 @@ export default function applicantInformation(schema, options) {
           labels: labels.relationship || relationshipLabels
         }
       }
-    },
+    }, personId.uiSchema(prefix, 'view:noSSN')),
     schema: {
       type: 'object',
+      definitions: _.pick([
+        'fullName',
+        'relationship',
+        'ssn',
+        'gender',
+        'date',
+        'vaFileNumber'
+      ], schema.definitions),
       required,
       properties: _.pick(fields, possibleProperties)
     }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -143,7 +144,7 @@ export class Main extends React.Component {
 }
 
 Main.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 };
 
 const mapStateToProps = (state) => {

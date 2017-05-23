@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { setPageTitle } from '../actions';
+
+import {
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
+  setPageTitle,
+  updateAutocompleteSearchTerm
+} from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -15,13 +21,19 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle('GI Bill Comparison Tool: Vets.gov');
+    this.props.setPageTitle('GI Bill® Comparison Tool: Vets.gov');
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { searchTerm: name } = this.props.autocomplete;
-    const query = name ? { name } : null;
+
+    const query = {
+      name: this.props.autocomplete.searchTerm,
+      version: this.props.location.query.version
+    };
+
+    if (!query.name) { delete query.name; }
+    if (!query.version) { delete query.version; }
     this.props.router.push({ pathname: 'search', query });
   }
 
@@ -30,20 +42,25 @@ export class LandingPage extends React.Component {
       <span className="landing-page">
         <div className="row">
 
-          <div className="small-12 medium-8 columns">
-            <h1>GI Bill Comparison Tool</h1>
-            <p className="subheading">Compare programs based on what benefits they can offer you.</p>
+          <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <h1>GI Bill® Comparison Tool</h1>
+            <p className="subheading">Learn about education programs and compare benefits by school.</p>
 
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm/>
-              <KeywordSearch/>
+              <KeywordSearch
+                  autocomplete={this.props.autocomplete}
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <button className="usa-button-big" type="submit" id="search-button">
                 <span>Search Schools</span>
               </button>
             </form>
           </div>
 
-          <div className="small-12 medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar/>
           </div>
 
@@ -55,12 +72,15 @@ export class LandingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    autocomplete: state.autocomplete,
-  };
+  const { autocomplete } = state;
+  return { autocomplete };
 };
+
 const mapDispatchToProps = {
-  setPageTitle
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
+  setPageTitle,
+  updateAutocompleteSearchTerm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LandingPage));

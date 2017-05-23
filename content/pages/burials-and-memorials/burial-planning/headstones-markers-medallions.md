@@ -50,7 +50,7 @@ You can apply for this benefit if you’re:
 
 - Make a copy of the Veteran's discharge documents. Don’t send the originals, because we can’t return them.
 
-- Fax the documents to <span class="tel">800-455-7143</span>. Or, mail the discharge papers and the form to this address: 
+- Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address: 
 
 <dl class="va-address-block">
     <dd>Memorial Products Service (41B)</dd>
@@ -75,4 +75,4 @@ We provide memorial headstones and markers for qualified Veterans when their rem
 
 For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
 
-Get help applying for a headstone, marker, niche cover, or medallion by calling <span class="tel">800-697-6947</span>.
+Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">800-697-6947</a>.

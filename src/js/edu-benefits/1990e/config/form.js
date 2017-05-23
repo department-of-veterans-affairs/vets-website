@@ -1,19 +1,19 @@
 import _ from 'lodash/fp';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
-import directDeposit from '../../pages/directDeposit';
+import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
-import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
+import dateUi from '../../../common/schemaform/definitions/date';
+import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -52,7 +52,7 @@ const formConfig = {
     educationType
   },
   title: 'Apply to use transferred education benefits',
-  subTitle: 'Form 22-1990e',
+  subTitle: 'Form 22-1990E',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -68,9 +68,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           title: 'Benefits eligibility',
           uiSchema: {
-            'view:benefitDescription': {
-              'ui:description': eligibilityDescription
-            },
+            'ui:description': eligibilityDescription,
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that has been transferred to you.',
@@ -82,10 +80,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:benefitDescription': {
-                type: 'object',
-                properties: {}
-              },
               benefit
             }
           },
@@ -113,7 +107,7 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix',
               }
             }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
+            'view:veteranId': _.merge(personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': 'Sponsor Social Security number'
               },
@@ -134,8 +128,8 @@ const formConfig = {
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
-              veteranAddress: address.schema(),
+              'view:veteranId': personId.schema(fullSchema1990e),
+              veteranAddress: address.schema(fullSchema1990e),
               serviceBranch
             }
           }
@@ -197,20 +191,14 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
-          fields: [
-            'educationProgram',
-            'educationObjective'
-          ],
-          required: ['educationType']
-        })
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, schoolSelectionOptionsFor['1990e'])
       }
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
-        directDeposit
+        contactInformation: createContactInformationPage(fullSchema1990e, 'relativeAddress'),
+        directDeposit: createDirectDepositPage(fullSchema1990e)
       }
     }
   }

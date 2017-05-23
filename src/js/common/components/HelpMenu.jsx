@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import DropDown from './DropDown';
 import IconHelp from './svgicons/IconHelp';
@@ -10,6 +11,7 @@ class HelpMenu extends React.Component {
       <div>
         <p><b>Call the Vets.gov Help Desk</b></p>
         <p><a href="tel:18555747286">1-855-574-7286</a></p>
+        <p>TTY: <a href="tel:18008294833">1-800-829-4833</a></p>
         <p>Monday &ndash; Friday</p>
         <p>8:00am &ndash; 8:00pm <abbr title="Eastern Time">ET</abbr></p>
       </div>
@@ -29,9 +31,9 @@ class HelpMenu extends React.Component {
 }
 
 HelpMenu.propTypes = {
-  cssClass: React.PropTypes.string,
-  clickHandler: React.PropTypes.func.isRequired,
-  isOpen: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  clickHandler: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired
 };
 
 export default HelpMenu;

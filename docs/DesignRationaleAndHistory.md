@@ -4,7 +4,7 @@
 
 *tl;dr:* React apps became the primary development churn. Webpack is the most natural tool
 which forced Node.js into the system. The site was migrated to Metalsmith from Jekyll for
-static content creationg to allow keeping things in one langauge. A single repository was
+static content creation to allow keeping things in one langauge. A single repository was
 chosen to facilitate easier code sharing.
 
 The MVP of www.vets.gov was a 100% static content site built using Jekyll and deployed on to
@@ -25,7 +25,7 @@ pushes making it easy to desynchronize parts of the site.
 
 A decision was made around August 2016 to create a single frontend build for easier code sharing
 and more consistent deploys. Metalsmith was chosen as a replacement for Jekyll because it was
-written in Node.js and seemed reasonably well supported.
+written in Node.js and seemed reasonably well supported. Liquid, the templating language used by Jekyll, was retained since a JavaScript implentation (tinyliquid) was available.
 
 Initially the site used grunt as the task runner, but during the migration, it became clear
 that Metalsmith itself was enough of a dependency manager and task marshaller to not require
@@ -34,3 +34,4 @@ grunt. In fact, grunt caused more problems with file watching.
 And thus we ended up with one repository for content and Javascript code where Metalsmith is
 the top-level task runner that builds all the static pages from `content/*` and delgates to
 Webpack for Javscript and Sass compilation.
+

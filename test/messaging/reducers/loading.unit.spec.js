@@ -16,12 +16,15 @@ import {
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDERS_SUCCESS,
+  SM_FETCH_PREFERENCES_FAILURE,
+  SM_FETCH_PREFERENCES_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   LOADING_FOLDER,
   LOADING_FOLDERS,
+  SM_LOADING_PREFERENCES,
   LOADING_RECIPIENTS,
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
@@ -29,7 +32,10 @@ import {
   MOVING_MESSAGE,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SM_SAVE_PREFERENCES_FAILURE,
+  SM_SAVE_PREFERENCES_SUCCESS,
   SAVING_DRAFT,
+  SM_SAVING_PREFERENCES,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
   SENDING_MESSAGE,
@@ -156,6 +162,30 @@ describe('loading reducer', () => {
     expect(state.folders).to.be.false;
   });
 
+  it('should trigger a loader when fetching preferences', () => {
+    const state = loadingReducer(
+      { folders: false },
+      { type: SM_LOADING_PREFERENCES }
+    );
+    expect(state.preferences).to.be.true;
+  });
+
+  it('should not trigger a loader after failing to fetch preferences', () => {
+    const state = loadingReducer(
+      { folders: true },
+      { type: SM_FETCH_PREFERENCES_FAILURE }
+    );
+    expect(state.preferences).to.be.false;
+  });
+
+  it('should not trigger a loader after successfully fetching preferences', () => {
+    const state = loadingReducer(
+      { folders: true },
+      { type: SM_FETCH_PREFERENCES_SUCCESS }
+    );
+    expect(state.preferences).to.be.false;
+  });
+
   it('should trigger a loader when fetching recipients', () => {
     const state = loadingReducer(
       { recipients: false },
@@ -250,6 +280,30 @@ describe('loading reducer', () => {
       { type: SAVE_DRAFT_SUCCESS }
     );
     expect(state.savingDraft).to.be.false;
+  });
+
+  it('should trigger a loader when saving preferences', () => {
+    const state = loadingReducer(
+      { savingPreferences: false },
+      { type: SM_SAVING_PREFERENCES }
+    );
+    expect(state.savingPreferences).to.be.true;
+  });
+
+  it('should not trigger a loader after failing to save preferences', () => {
+    const state = loadingReducer(
+      { savingPreferences: true },
+      { type: SM_SAVE_PREFERENCES_FAILURE }
+    );
+    expect(state.savingPreferences).to.be.false;
+  });
+
+  it('should not trigger a loader after successfully saving preferences', () => {
+    const state = loadingReducer(
+      { savingPreferences: true },
+      { type: SM_SAVE_PREFERENCES_SUCCESS }
+    );
+    expect(state.savingPreferences).to.be.false;
   });
 
   it('should trigger a loader when sending a message', () => {

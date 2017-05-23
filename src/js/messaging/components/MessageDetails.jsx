@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -107,13 +108,13 @@ class MessageDetails extends React.Component {
 }
 
 MessageDetails.propTypes = {
-  attrs: React.PropTypes.shape({
-    messageId: React.PropTypes.number.isRequired,
-    category: React.PropTypes.string.isRequired,
-    subject: React.PropTypes.string.isRequired,
-    sentDate: React.PropTypes.string,
-    senderName: React.PropTypes.string.isRequired,
-    recipientName: React.PropTypes.string.isRequired,
+  attrs: PropTypes.shape({
+    messageId: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    subject: PropTypes.string.isRequired,
+    sentDate: PropTypes.string,
+    senderName: PropTypes.string.isRequired,
+    recipientName: PropTypes.string.isRequired,
   }).isRequired,
 };
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /*
 * Table row with a header as its first cell.
 * headerText: string, required
@@ -20,8 +21,8 @@ class TableRowVerticalHeader extends React.Component {
 }
 
 TableRowVerticalHeader.propTypes = {
-  headerText: React.PropTypes.string.isRequired,
-  cellText: React.PropTypes.node
+  headerText: PropTypes.string.isRequired,
+  cellText: PropTypes.node
 };
 
 export default TableRowVerticalHeader;

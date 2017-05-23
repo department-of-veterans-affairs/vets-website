@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
@@ -161,17 +162,17 @@ class AddFilesForm extends React.Component {
 }
 
 AddFilesForm.propTypes = {
-  files: React.PropTypes.array.isRequired,
-  field: React.PropTypes.object.isRequired,
-  uploading: React.PropTypes.bool,
-  showMailOrFax: React.PropTypes.bool,
-  backUrl: React.PropTypes.string,
-  onSubmit: React.PropTypes.func.isRequired,
-  onAddFile: React.PropTypes.func.isRequired,
-  onRemoveFile: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired,
-  onCancel: React.PropTypes.func.isRequired,
-  onDirtyFields: React.PropTypes.func.isRequired
+  files: PropTypes.array.isRequired,
+  field: PropTypes.object.isRequired,
+  uploading: PropTypes.bool,
+  showMailOrFax: PropTypes.bool,
+  backUrl: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  onAddFile: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onDirtyFields: PropTypes.func.isRequired
 };
 
 export default AddFilesForm;

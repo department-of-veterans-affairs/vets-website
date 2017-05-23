@@ -99,13 +99,13 @@ class FacilityDetail extends Component {
 
     return (
       <div className="row facility-detail">
-        <div className="medium-8 columns">
+        <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility}/>
           </div>
         </div>
-        <div className="medium-4 columns">
+        <div className="usa-width-one-third medium-4 columns">
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">

@@ -37,7 +37,7 @@ Compensation
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to show that the added disability happened because of VA medical care or a VA program designed to help you find, get, or keep a job. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. When you apply, you'll have to show that the added disability happened because of VA medical care or a VA program designed to help you find, get, or keep a job. [Apply for benefits](/disability-benefits/apply/).
 
 We'll award any compensation payments in the same way we would if your disability was related to your military service (a service-connected disability).
 

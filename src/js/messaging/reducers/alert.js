@@ -18,6 +18,8 @@ import {
   OPEN_ALERT,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SM_SAVE_PREFERENCES_FAILURE,
+  SM_SAVE_PREFERENCES_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
   UPDATE_ROUTE
@@ -120,6 +122,21 @@ export default function alert(state = initialState, action) {
         alertStatus.SUCCESS
       );
     }
+
+    case SM_SAVE_PREFERENCES_FAILURE: {
+      const { errors } = action;
+      const error = errors.length && `${errors[0].title}.`;
+      return createAlert(
+        <b>Failed to save changes. {error}</b>,
+        alertStatus.ERROR
+      );
+    }
+
+    case SM_SAVE_PREFERENCES_SUCCESS:
+      return createAlert(
+        <b>Your changes have been saved.</b>,
+        alertStatus.SUCCESS
+      );
 
     case SEND_MESSAGE_FAILURE:
       return createAlert(

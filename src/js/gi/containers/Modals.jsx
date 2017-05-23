@@ -193,14 +193,14 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('accredited')}>
           <h2>Is your school accredited</h2>
           <p>Accreditation matters if you plan to start school at one institution and transfer to another to complete your degree. Be sure to ask any potential school about their credit transfer policy. The U.S. Department of Education (ED) maintains a&nbsp;<a href="http://ope.ed.gov/accreditation/" id="anch_384" target="_blank">database</a>&nbsp;of accredited postsecondary institutions and programs. Accreditation is a recognized credential for schools and some programs. As stated by the ED, the goal of accreditation is to ensure that the education provided by institutions of higher education meets acceptable levels of quality.</p>
-          <p>To learn more about accreditaion, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"> about this tool</a> page. </p>
+          <p>To learn more about accreditation, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"> about this tool</a> page. </p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('typeAccredited')}>
           <h2>Accreditation types (Regional vs. National vs Hybrid)</h2>
           <p>Is the school regionally or nationally accredited at the institution level?</p>
           <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
-          <p> To learn more about accreditaion, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
+          <p>To learn more about accreditation types, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('tuitionPolicy')}>
@@ -278,9 +278,16 @@ export class Modals extends React.Component {
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuition')}>
           <h2>Tuition and fees per year</h2>
-          <p>Enter the total tuition/fees, you will be charged for the academic year.</p>
+          <p>Enter the total tuition/fees you will be charged for the academic year.</p>
           <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
           <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
+        </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcInStateTuition')}>
+          <h2>In-state tuition and fees per year</h2>
+          <p>Enter the amount of tuition/fees your school charges in-state students.</p>
+          <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
+          <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
@@ -328,7 +335,8 @@ export class Modals extends React.Component {
           </p>
           <p>
             For more information about MHA increases or decreases,
-            visit <a href="For more information about MHA increases or decreases click here"
+            visit <a title="For more information about MHA increases or decreases click here"
+                href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
                 target="_blank">this page</a>.
           </p>
         </Modal>
@@ -346,6 +354,13 @@ export class Modals extends React.Component {
             is a bonus on top of any GI Bill payments paid directly to the Veteran. To learn more,
             visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
                 target="_blank">this page</a>.</p>
+        </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
+          <h2>Will be working</h2>
+          <p>
+            How many hours per week will you be working on your OJT / Apprenticeship? Beneficiaries working less than 120 hours/month (or approximately 30 hours/week) receive a prorated monthly housing allowance.
+          </p>
         </Modal>
       </span>
     );
@@ -393,7 +408,7 @@ export class Modals extends React.Component {
             served (2 year enlistment vs. 3+ year enlistment) will impact your
             monthly payment amount when using the Montgomery GI Bill. To learn
             more about MGIB please visit
-            <a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
+            &nbsp;<a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
                 id="anch_399" target="_blank">
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>.
@@ -410,7 +425,7 @@ export class Modals extends React.Component {
             based on length of consecutive days of active duty service with
             rates increasing at one year and again at two years of consecutive
             service. To learn more about REAP please visit
-            <a href="http://www.benefits.va.gov/gibill/reap.asp"
+            &nbsp;<a href="http://www.benefits.va.gov/gibill/reap.asp"
                 id="anch_403" target="_blank">
               http://www.benefits.va.gov/gibill/reap.asp
             </a>.

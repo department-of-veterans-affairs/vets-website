@@ -26,7 +26,8 @@ const props = {
 
   // No-op function to override dispatch
   setMessageField: () => {},
-  dispatch: () => {}
+  dispatch: () => {},
+  router: {}
 };
 
 describe('Compose', () => {

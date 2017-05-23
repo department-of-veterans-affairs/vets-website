@@ -6,8 +6,8 @@
   // at QVGA widths in portrait orientation.
   margin-bottom: -1px;
   min-width: 260px;
-  padding-left: 0; 
-  
+  padding-left: 0;
+
   > li {
     background: $color-gray-lightest;
     border-width: 1px 0px 0 1px;
@@ -20,7 +20,7 @@
   }
 }
 
-.va-tab-trigger { 
+.va-tab-trigger {
   border-width: 5px 1px 1px;
   border-style: solid;
   border-color: transparent;
@@ -30,7 +30,7 @@
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
-  
+
   &:hover,
   &:focus,
   &--current {
@@ -38,15 +38,15 @@
     border-color: $color-primary;
     border-bottom-color: $color-white;
   }
-  
+
   &:visited {
     color: inherit;
   }
-  
+
   @media (min-width: $small-screen) {
     padding-left: 2rem;
     padding-right: 2rem;
-  } 
+  }
 }
 
 .va-tab-content {

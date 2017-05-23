@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -47,11 +48,11 @@ class ErrorableGroup extends React.Component {
 }
 
 ErrorableGroup.propTypes = {
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  validation: React.PropTypes.bool,
-  required: React.PropTypes.bool,
-  isDirty: React.PropTypes.bool
+  errorMessage: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  validation: PropTypes.bool,
+  required: PropTypes.bool,
+  isDirty: PropTypes.bool
 };
 
 export default ErrorableGroup;

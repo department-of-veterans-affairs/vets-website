@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -98,33 +99,33 @@ class ThreadHeader extends React.Component {
 }
 
 ThreadHeader.propTypes = {
-  currentFolder: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired
+  currentFolder: PropTypes.shape({
+    name: PropTypes.string.isRequired
   }),
-  currentMessageNumber: React.PropTypes.number.isRequired,
-  folderMessageCount: React.PropTypes.number.isRequired,
-  folders: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      folderId: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequired,
-      count: React.PropTypes.number.isRequired,
-      unreadCount: React.PropTypes.number.isRequired
+  currentMessageNumber: PropTypes.number.isRequired,
+  folderMessageCount: PropTypes.number.isRequired,
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      folderId: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      unreadCount: PropTypes.number.isRequired
     })
   ).isRequired,
-  isNewMessage: React.PropTypes.bool,
-  message: React.PropTypes.shape({
-    messageId: React.PropTypes.number,
-    subject: React.PropTypes.string
+  isNewMessage: PropTypes.bool,
+  message: PropTypes.shape({
+    messageId: PropTypes.number,
+    subject: PropTypes.string
   }).isRequired,
-  messagesCollapsed: React.PropTypes.bool,
-  moveToIsOpen: React.PropTypes.bool,
-  onChooseFolder: React.PropTypes.func,
-  onCreateFolder: React.PropTypes.func,
-  onDeleteMessage: React.PropTypes.func,
-  onMessageSelect: React.PropTypes.func,
-  onToggleThread: React.PropTypes.func,
-  onToggleMoveTo: React.PropTypes.func,
-  threadMessageCount: React.PropTypes.number
+  messagesCollapsed: PropTypes.bool,
+  moveToIsOpen: PropTypes.bool,
+  onChooseFolder: PropTypes.func,
+  onCreateFolder: PropTypes.func,
+  onDeleteMessage: PropTypes.func,
+  onMessageSelect: PropTypes.func,
+  onToggleThread: PropTypes.func,
+  onToggleMoveTo: PropTypes.func,
+  threadMessageCount: PropTypes.number
 };
 
 export default ThreadHeader;
