@@ -5,7 +5,7 @@ display_title: ""
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
-lastupdate_override: ""
+lastupdate: 2012-06-01
 relatedlinks:
   - url: /healthcare/apply/
     title: Health Care Application Process
