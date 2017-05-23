@@ -1,16 +1,20 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Health Care Benefits Eligibility
+display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
+collection: healthcare
+order: 1
 relatedlinks:
- - url: /disability-benefits/eligibility
-   title: Disability Benefits Eligibility
-   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
- - url: /track-claims
-   title: Check Claim Status
-   description: "Track the status of your disability claim."
+  - heading: Other VA Benefits
+    links:
+    - url: /disability-benefits/eligibility
+      title: Disability Benefits Eligibility
+      description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
+    - url: /track-claims
+      title: Check Claim Status
+      description: "Track the status of your disability claim."
 ---
 
 <div class="va-introtext">

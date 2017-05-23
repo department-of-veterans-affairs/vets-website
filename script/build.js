@@ -294,6 +294,13 @@ smith.use(collections({
       name: 'Start or Grow Your Own Business'
     }
   },
+  healthcare: {
+    pattern: '',
+    sortBy: 'order',
+    metadata: {
+      name: 'Health Care'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
