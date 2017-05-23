@@ -62,7 +62,7 @@ Spouses who remarry can't get the Fry Scholarship.
 
 ##### Apply for benefits
 
-- Fill out VA Form 22-5490 (Dependents' Application for VA Education Benefits) and send it to the VA regional office where you want to go to school. [Download VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490).
+- Apply online with VA Form 22-5490 (Dependents' Application for VA Education Benefits). [Find out how to apply](/education/apply/).
 - If you aren't legally an adult, your parent or guardian must sign the application.
 - If you've already started your educational program, ask a certifying official from your school or your employer to fill out VA Form 22-1999 (Enrollment Certification). They'll need to submit it online using VA Online Certification (VA-ONCE). [Download VA Form 22-1999 (Enrollment Certification)](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
 
