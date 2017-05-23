@@ -33,7 +33,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('left').equals('auto');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/1990n/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990n/introduction');
 
     // Select non-veteran
     client
@@ -51,7 +51,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('left').equals('auto');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/5490/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490/introduction');
 
     // Select non-dependent
     client
@@ -69,7 +69,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('left').equals('auto');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/1990e/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
 
     // Select non-transfer
     client
@@ -81,7 +81,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#transfer-warning').to.have.css('left').equals('auto');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/1990e/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
 
     // Update an existing application
     client
@@ -102,7 +102,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#transfer-warning').to.have.css('left').equals('-9999px');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/5495/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495/introduction');
 
     // Select non-dependent
     client
@@ -111,7 +111,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('left').equals('auto');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').contains('/education/apply-for-education-benefits/application/1995/introduction');
+      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995/introduction');
 
     // Navigate to application
     client
