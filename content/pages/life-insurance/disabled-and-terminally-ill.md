@@ -14,7 +14,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you or your spouse becomes totally disabled or terminally ill, you may be able to get certain benefits. Being totally disabled means you’re totally unable to do everyday tasks, including meaningful work. Being terminally ill means you’re sick with an illness that can’t be cured and that will likely result in death within a short period of time. Find out what benefits you qualify for—and how to get them.
+If you become totally disabled or terminally ill, you may be able to get certain benefits. Your spouse may also be able to get certain benefits if diagnosed with a terminal illness. Being totally disabled means you’re totally unable to do everyday tasks, including meaningful work. Being terminally ill means you’re sick with an illness that can’t be cured and that will likely result in death within a short period of time. Find out what benefits you qualify for—and how to get them.
 
 </div>
 
@@ -26,11 +26,11 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 
 <div class="feature">
 
-#### Can I get my life insurance benefits early if I’m terminally ill?
+#### Can my spouse and I get life insurance benefits early if either of us becomes terminally ill?
  
-You may be able to get your benefits early if:
+You or your spouse may be able to get benefits early if:
 -	You have SGLI, Family SGLI, or VGLI life insurance, **and**
--	You or a covered spouse has a written statement from a doctor saying you have 9 months or less to live
+-	You or a covered spouse has a written statement from a doctor saying you have (or your spouse has) 9 months or less to live
 
 <br>
 
@@ -38,7 +38,7 @@ You may be able to get your benefits early if:
 
 -	Veterans
 -	Servicemembers
--	Covered spouses of Veterans and Servicemembers
+-	Covered spouses of Servicemembers
 
 </div>
 
@@ -52,19 +52,25 @@ Up to 50% of the face value of your coverage in increments of $5,000—paid to y
  
 Only the insured may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
  
-- **If you’re an SGLI or VGLI policyholder**, fill out VA Form SGLV 8284 (Claim for Accelerated Benefits). If you’re still on active duty, your service branch must also fill out part of the form. [Download VA Form SGLV 8284](http://benefits.va.gov/INSURANCE/forms/8284.htm).
+**If you’re an SGLI or VGLI policyholder**, fill out VA Form SGLV 8284 (Claim for Accelerated Benefits). [Download VA Form SGLV 8284](http://benefits.va.gov/INSURANCE/forms/8284.htm).
 
-- **If you’re covered under Family SGLI**, fill out VA Form SGLV 8284A (Claim for Accelerated Benefits). [Download VA Form SGLV 8284A](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
- 
-You’ll need to fill out 1 part of the application, and your doctor will need to fill out another part of the application.
- 
-Send the completed form to:
+- If you’re still on active duty or you're a Reservist, your service branch must also fill out part of the form. 
+
+- If you're a Veteran, send the completed form to:
 
 <dl class="va-address-block">
-<dd>Office of Servicemembers' Group Life Insurance</dd>
-<dd>80 Livingston Avenue</dd>
-<dd>Roseland, NJ 07068-1733</dd>
+<dd>The Prudential Insurance Company of America</dd>
+<dd>PO Box 70173</dd>
+<dd>Philadelphia, PA 19176-0173</dd>
 </dl>
+
+Or, fax the form to 877-832-4943.
+
+
+**If you’re covered under Family SGLI**, fill out VA Form SGLV 8284A (Claim for Accelerated Benefits). [Download VA Form SGLV 8284A](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
+ 
+You’ll need to fill out one part of the application, and your doctor will need to fill out another part of the application.
+ 
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
