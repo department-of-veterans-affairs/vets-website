@@ -1,5 +1,6 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-alert";
 @import "../modules/va-pagination";
 @import "../modules/va-tabs";
 
@@ -7,19 +8,20 @@
 @import "partials/rx-contact-card";
 @import "partials/rx-prescriptions";
 @import "partials/rx-detail";
-@import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
+@import "partials/rx-breadcrumbs";
+@import "partials/rx-view-toggle";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
 .cf {
   &::before,
   &::after {
-    content: ' ';
+    content: " ";
     display: table;
     clear: both;
   }
@@ -31,46 +33,24 @@
 }
 
 .rx-app {
-  background: $color-white;
-  padding: 3rem 1.5rem;
-  margin: auto;
-  max-width: $site-max-width;
-
-  .va-alert {
-    margin-bottom: 2rem;
-  }
-}
-
-// Enhances a USWDS style that has higher specificity.
-// Do not refactor.
-button.usa-button-outline {
-  font-weight: bold;
-}
-
-// Enhances a USWDS style that has higher specificity.
-// Do not refactor.
-button.usa-button-outline {
-  font-weight: bold;
-}
-
-.rx-header {
   margin-bottom: 3rem;
-}
 
-.rx-title {
-  margin-bottom: 0;
-  + p {
-    margin: 0 0 3rem;
+  // TODO: Move to core?
+  .va-alert {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    & + .rx-app-title {
+      margin-top: 2.5rem;
+    }
   }
 }
 
-.rx-active-disclaimer {
-  margin: 0 0 3rem;
-}
-
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
+// Enhances a USWDS style that has higher specificity.
+// Do not refactor.
+button.usa-button-outline {
+  font-weight: bold;
 }
 
 // Used to make functional buttons look like links.
@@ -87,14 +67,58 @@ button.usa-button-outline {
   width: auto !important;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: $color-link-default-hover;
     color: $color-link-default;
     text-decoration: inherit;
   }
 }
 
-.rx-heading {
-  border-bottom: 4px solid #112e51;
-  margin-bottom: 1rem !important;
-  padding-bottom: .5rem !important;
+.rx-app-error {
+  p {
+    margin: 0;
+    font-size: initial !important;
+  }
+}
+
+.rx-tab-explainer {
+  display: inline-block;
+  margin: 3rem 0;
+}
+
+.rx-loading-error {
+  font-weight: bold;
+  width: 66%;
+}
+
+.rx-error-messages {
+  ul, li {
+    list-style-type: none;
+  }
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
+  }
+}
+
+#rx-settings {
+  .rx-tab-explainer {
+    margin-bottom: 0;
+  }
+
+  .rx-notifications-save {
+    margin: 3rem 0 0;
+  }
+}
+
+.rx-app-title {
+  align-items: flex-start;
+  display: flex;
+
+  h1 {
+    display: inline-block;
+    flex: 1;
+    vertical-align: top;
+  }
 }

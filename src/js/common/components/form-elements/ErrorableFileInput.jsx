@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -36,7 +37,7 @@ class ErrorableFileInput extends React.Component {
 
     return (
       <div className={this.props.additionalClass}>
-        <div className={inputErrorClass}>
+        <div className={inputErrorClass} role="alert">
           <label
               className={labelErrorClass}
               htmlFor={this.inputId}>
@@ -44,7 +45,7 @@ class ErrorableFileInput extends React.Component {
                 {requiredSpan}
           </label>
           {errorSpan}
-          <label htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
+          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
           <input
               multiple={this.props.multiple}
               style={{ display: 'none' }}
@@ -60,13 +61,13 @@ class ErrorableFileInput extends React.Component {
 }
 
 ErrorableFileInput.propTypes = {
-  multiple: React.PropTypes.bool,
-  buttonText: React.PropTypes.string,
-  additionalClass: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  accept: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
-  errorMessage: React.PropTypes.string
+  multiple: PropTypes.bool,
+  buttonText: PropTypes.string,
+  additionalClass: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  accept: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string
 };
 
 ErrorableFileInput.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
@@ -35,9 +36,9 @@ class FixedTable extends React.Component {
 }
 
 FixedTable.propTypes = {
-  component: React.PropTypes.func.isRequired,
-  onRowsUpdate: React.PropTypes.func.isRequired,
-  rows: React.PropTypes.array.isRequired
+  component: PropTypes.func.isRequired,
+  onRowsUpdate: PropTypes.func.isRequired,
+  rows: PropTypes.array.isRequired
 };
 
 export default FixedTable;

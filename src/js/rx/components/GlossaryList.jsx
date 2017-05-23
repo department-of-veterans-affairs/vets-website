@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class GlossaryList extends React.Component {
@@ -8,14 +9,20 @@ class GlossaryList extends React.Component {
 
     for (const o in terms) {
       if (terms.hasOwnProperty(o)) {
-        termsList.push(<dt key={++tKey}>{terms[o].term}</dt>);
+        let id = terms[o].term.toLowerCase().replace(/\s/g, '');
+        termsList.push(<dt id={id} key={++tKey}>{terms[o].term}</dt>);
         termsList.push(<dd key={++tKey}>{terms[o].definition}</dd>);
       }
     }
 
+    let title;
+    if (this.props.title) {
+      title = <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>;
+    }
+
     return (
-      <section>
-        <h2 className="rx-heading">{this.props.title}</h2>
+      <section className="rx-glossary-section">
+        {title}
         <dl className="rx-glossary">
           {termsList}
         </dl>
@@ -25,9 +32,10 @@ class GlossaryList extends React.Component {
 }
 
 GlossaryList.propTypes = {
-  terms: React.PropTypes.arrayOf(React.PropTypes.shape({
-    term: React.PropTypes.string.isRequired,
-    definition: React.PropTypes.string.isRequired
+  title: PropTypes.string,
+  terms: PropTypes.arrayOf(PropTypes.shape({
+    term: PropTypes.string.isRequired,
+    definition: PropTypes.string.isRequired
   })).isRequired,
 };
 

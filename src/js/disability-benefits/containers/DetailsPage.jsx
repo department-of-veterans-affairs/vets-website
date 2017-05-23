@@ -2,13 +2,36 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { getClaimType } from '../utils/helpers';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
-    document.title = 'Your Disability Compensation Claim';
+    this.setTitle();
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
+    }
+  }
+  setTitle() {
+    document.title = this.props.loading ? 'Details - Your Claim' :
+      `Details - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading } = this.props;
+    const { claim, loading, synced } = this.props;
 
     let content = null;
     if (!loading) {
@@ -18,9 +41,9 @@ class DetailsPage extends React.Component {
             <h6>Claim Type</h6>
             <p>{claim.attributes.claimType || 'Not Available'}</p>
           </div>
-          <div className="claim-conditions-list">
-            <h6>Your Claimed Conditions</h6>
-            {claim.attributes.contentionList
+          <div className="claim-contentions-list">
+            <h6>What you've claimed</h6>
+            {claim.attributes.contentionList && claim.attributes.contentionList.length
             ? claim.attributes.contentionList.map((contention, index) =>
               <li key={index}>{contention}</li>
               )
@@ -42,7 +65,9 @@ class DetailsPage extends React.Component {
     return (
       <ClaimDetailLayout
           claim={claim}
-          loading={loading}>
+          currentTab="Details"
+          loading={loading}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -50,9 +75,12 @@ class DetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 

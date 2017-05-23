@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import { yesNo } from '../../../common/utils/options-for-select';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
@@ -17,7 +17,6 @@ class MedicareMedicaidSection extends React.Component {
     let content;
     let medicarePartADateInput;
     let medicarePartADateReview;
-    let dateRequired;
 
     if (this.props.data.isEnrolledMedicarePartA.value === 'Y') {
       medicarePartADateReview = (<tr>
@@ -27,16 +26,11 @@ class MedicareMedicaidSection extends React.Component {
         {this.props.data.medicarePartAEffectiveDate.year.value}</td>
       </tr>);
 
-      dateRequired = true;
-
       medicarePartADateInput = (
-        <DateInput required={dateRequired}
-            errorMessage="Please enter a vaild date."
+        <ErrorableCurrentOrPastDate required
             label="If so, what is your Medicare Part A effective date?"
             name="medicarePartAEffective"
-            day={this.props.data.medicarePartAEffectiveDate.day}
-            month={this.props.data.medicarePartAEffectiveDate.month}
-            year={this.props.data.medicarePartAEffectiveDate.year}
+            date={this.props.data.medicarePartAEffectiveDate}
             onValueChange={(update) => {this.props.onStateChange('medicarePartAEffectiveDate', update);}}/>);
     }
 
@@ -56,7 +50,7 @@ class MedicareMedicaidSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Medicare/Medicaid</legend>
+        <h5>Medicaid or Medicare coverage</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableRadioButtons required

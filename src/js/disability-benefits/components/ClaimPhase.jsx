@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getHistoryPhaseDescription, getUserPhaseDescription, getMicroPhaseDescription } from '../utils/helpers';
+import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -16,7 +17,7 @@ const COMPLETE_PHASE = 5;
 const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
-  const processClass = 'step wow fadeIn animated';
+  const processClass = 'step';
   const stepClass = stepClasses[phase];
   if (phase === current) {
     return `${stepClass} ${processClass} section-current`;
@@ -39,40 +40,32 @@ export default class ClaimPhase extends React.Component {
   }
   getEventDescription(event) {
     const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
-    const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
       case 'phase_entered':
         return (
-          <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getHistoryPhaseDescription(this.props.phase)}
-          </div>
-        );
-
-      case 'micro_phase':
-        return (
-          <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getMicroPhaseDescription(event.phaseNumber)}
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+            Your claim moved to {getUserPhaseDescription(this.props.phase)}
           </div>
         );
 
       case 'filed':
-        return <div className="claims-evidence-item columns medium-9">Thank you. VA received your claim</div>;
+        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Thank you. VA received your claim</div>;
 
       case 'completed':
-        return <div className="claims-evidence-item columns medium-9">Your claim is complete</div>;
+        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Your claim is closed</div>;
 
       case 'still_need_from_you_list':
       case 'still_need_from_others_list':
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
-            <div className="claims-evidence-item columns medium-9">
-              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
         return (
-          <div className="claims-evidence-item columns medium-9">
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
           </div>
         );
@@ -81,21 +74,28 @@ export default class ClaimPhase extends React.Component {
       case 'received_from_others_list':
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
-            <div className="claims-evidence-item columns medium-9">
-              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
         return (
-          <div className="claims-evidence-item columns medium-9">
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
           </div>
         );
       case 'never_received_from_you_list':
       case 'never_received_from_others_list':
         return (
-          <div className="claims-evidence-item columns medium-9">
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We closed the notice for {event.displayName}
+          </div>
+        );
+
+      case 'other_documents_list':
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+            You or others submitted {event.fileType}. We will notify you when we've reviewed it.
           </div>
         );
 
@@ -113,7 +113,7 @@ export default class ClaimPhase extends React.Component {
 
       const activityListContent = limitedList.map((activity, index) =>
         <div key={index} className="claims-evidence row small-collapse">
-          <div className="claims-evidence-date columns medium-3">{moment(activity.date).format('MMM D, YYYY')}</div>
+          <div className="claims-evidence-date columns usa-width-one-fourth medium-3">{moment(activity.date).format('MMM D, YYYY')}</div>
           {this.getEventDescription(activity)}
         </div>);
 
@@ -140,6 +140,9 @@ export default class ClaimPhase extends React.Component {
     event.stopPropagation();
   }
   expandCollapse() {
+    window.dataLayer.push({
+      event: 'claims-expandcollapse',
+    });
     if (this.props.phase <= this.props.current) {
       this.setState({ open: !this.state.open });
     }
@@ -166,8 +169,8 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  activity: React.PropTypes.object,
-  phase: React.PropTypes.number.isRequired,
-  current: React.PropTypes.number,
-  id: React.PropTypes.string.isRequired
+  activity: PropTypes.object,
+  phase: PropTypes.number.isRequired,
+  current: PropTypes.number,
+  id: PropTypes.string.isRequired
 };

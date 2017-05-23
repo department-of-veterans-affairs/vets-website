@@ -1,19 +1,24 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
+import ButtonManageFolders from './buttons/ButtonManageFolders';
+import ButtonSettings from './buttons/ButtonSettings';
+import { folderUrl } from '../utils/helpers';
 
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
-    this.goToFolderSettings = this.goToFolderSettings.bind(this);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
+    this.handleCreateNewFolder = this.handleCreateNewFolder.bind(this);
   }
 
-  goToFolderSettings() {
-    this.context.router.push('/settings');
+  handleCreateNewFolder() {
+    this.props.toggleFolderNav();
+    this.props.onCreateNewFolder();
   }
 
   makeFolderLink(folder) {
@@ -25,20 +30,17 @@ class FolderNav extends React.Component {
       count = ` (${folder.count})`;
     }
 
-    // Using this to persist usa-current class when veteran
-    // enters a thread. Link does this automatically when the
-    // URL and href match.
-    const isPersistFolder = classNames({
+    const linkClass = classNames({
       'messaging-folder-nav-link': true,
-      'usa-current': this.props.persistFolder === folder.folderId
+      'usa-current': this.props.currentFolderId === folder.folderId
     });
 
     return (
       <Link
           activeClassName="usa-current"
-          className={isPersistFolder}
+          className={linkClass}
           data-folderid={folder.folderId}
-          to={`/folder/${folder.folderId}`}
+          to={folderUrl(folder.name)}
           onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
@@ -47,16 +49,12 @@ class FolderNav extends React.Component {
   }
 
   makeMyFolders(folderList) {
-    // Determine if 'My folders' needs to be displayed as active based on
-    // whether it contains the currently viewed folder.
+    // All folders with ids greater than 0 should be under 'My folders',
+    // so set this section to active if the current folder matches.
     const myFolderLinks = folderList.map(this.makeFolderLink);
-    const isLinkActive = (link) => {
-      return this.context.router.isActive(link.props.to, true);
-    };
-    const myFoldersActive = myFolderLinks.find(isLinkActive);
     const myFoldersClass = classNames({
       'messaging-my-folders': true,
-      'usa-current': myFoldersActive
+      'usa-current': this.props.currentFolderId > 0
     });
 
     /* Render 'My folders' as expanded or collapsed. */
@@ -83,7 +81,7 @@ class FolderNav extends React.Component {
 
     return (
       <li key="myFolders">
-        <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
+        <a role="button" tabIndex="0" className={myFoldersClass} onClick={this.props.onToggleFolders}>
           <span>My folders</span>
           <i className={iconClass}></i>
         </a>
@@ -115,11 +113,9 @@ class FolderNav extends React.Component {
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <button onClick={this.goToFolderSettings}>
-          <i className="fa fa-folder"></i>
-          &nbsp;Manage folders
-        </button>
-        <ButtonCreateFolder onClick={this.props.onCreateNewFolder}/>
+        <ButtonManageFolders onClick={this.props.toggleFolderNav}/>
+        <ButtonCreateFolder onClick={this.handleCreateNewFolder}/>
+        <ButtonSettings onClick={this.props.toggleFolderNav}/>
       </li>
     );
 
@@ -132,23 +128,20 @@ class FolderNav extends React.Component {
   }
 }
 
-FolderNav.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
 FolderNav.propTypes = {
-  persistFolder: React.PropTypes.number,
-  folders: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      folderId: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequired,
-      count: React.PropTypes.number.isRequired,
-      unreadCount: React.PropTypes.number.isRequired
+  currentFolderId: PropTypes.number,
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      folderId: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      unreadCount: PropTypes.number.isRequired
     })
   ).isRequired,
-  isExpanded: React.PropTypes.bool,
-  onCreateNewFolder: React.PropTypes.func,
-  onToggleFolders: React.PropTypes.func
+  isExpanded: PropTypes.bool,
+  onCreateNewFolder: PropTypes.func,
+  onToggleFolders: PropTypes.func,
+  toggleFolderNav: PropTypes.func,
 };
 
 export default FolderNav;

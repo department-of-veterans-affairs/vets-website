@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Modal from '../../../common/components/Modal';
@@ -6,7 +7,7 @@ class ModalAttachments extends React.Component {
   render() {
     const modalContents = (
       <div>
-        <h3 className="messaging-modal-title">
+        <h3>
           {this.props.title}
         </h3>
         <p>{this.props.text}</p>
@@ -30,12 +31,12 @@ class ModalAttachments extends React.Component {
 }
 
 ModalAttachments.propTypes = {
-  cssClass: React.PropTypes.string,
-  title: React.PropTypes.node,
-  text: React.PropTypes.node,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func.isRequired,
-  visible: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  title: PropTypes.node,
+  text: PropTypes.node,
+  id: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalAttachments;

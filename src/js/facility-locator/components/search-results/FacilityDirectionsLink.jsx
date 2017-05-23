@@ -1,5 +1,6 @@
 import { buildAddressArray } from '../../utils/facilityAddress';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class FacilityDirectionsLink extends Component {
   render() {
@@ -9,7 +10,7 @@ class FacilityDirectionsLink extends Component {
     return (
       <span>
         <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressArray.join(', ')}`} target="_blank">
-          <i className="fa fa-road" style={{ marginRight: '0.5rem' }}/> Directions
+          <i className="fa fa-road"/>Directions
         </a>
       </span>
     );

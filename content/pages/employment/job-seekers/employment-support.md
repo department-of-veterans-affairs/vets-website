@@ -24,7 +24,11 @@ relatedlinks:
     title: VECI
 ---
 
+<div class="va-introtext">
+
 As you navigate the civilian marketplace, you may encounter challenges. The Veterans Employment Center can help.
+
+</div>
 
 More private-sector businesses are committing each day to hire Veterans and military family members. Review the latest [commitments](/employment/commitments) and search the [Veterans Job Bank](/employment/job-seekers/search-jobs) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process.
 

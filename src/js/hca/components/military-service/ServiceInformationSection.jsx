@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../../common/utils/options-for-select.js';
-import { validateIfDirty, isNotBlank, isValidDischargeDateField, isValidEntryDateField } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { isValidDischargeDateField, isValidEntryDateField } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 import { displayLabel } from '../../store/calculated';
 
@@ -46,7 +47,7 @@ class ServiceInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Service Information</legend>
+        <h5>Service Periods</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableSelect required
@@ -57,29 +58,29 @@ class ServiceInformationSection extends React.Component {
               value={this.props.data.lastServiceBranch}
               onValueChange={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
 
-          <DateInput required
-              errorMessage="Entry date must be greater than 15 years of age"
-              validation={isValidEntryDateField(this.props.data.lastEntryDate, this.props.data.veteranDateOfBirth)}
-              label="Last entry date"
+          <ErrorableCurrentOrPastDate required
+              validation={{
+                valid: isValidEntryDateField(this.props.data.lastEntryDate, this.props.data.veteranDateOfBirth),
+                message: 'You must have been at least 15 years old when you entered the service'
+              }}
+              label="Start of service period"
               name="lastEntry"
-              day={this.props.data.lastEntryDate.day}
-              month={this.props.data.lastEntryDate.month}
-              year={this.props.data.lastEntryDate.year}
+              date={this.props.data.lastEntryDate}
               onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
 
-          <DateInput required
-              errorMessage="Discharge date must be after entry date and before today"
-              validation={isValidDischargeDateField(this.props.data.lastDischargeDate, this.props.data.lastEntryDate)}
-              label="Last discharge date"
+          <ErrorableCurrentOrPastDate required
+              validation={{
+                valid: isValidDischargeDateField(this.props.data.lastDischargeDate, this.props.data.lastEntryDate),
+                message: 'Discharge date must be after start of service period date and before today'
+              }}
+              label="Date of discharge"
               name="lastDischarge"
-              day={this.props.data.lastDischargeDate.day}
-              month={this.props.data.lastDischargeDate.month}
-              year={this.props.data.lastDischargeDate.year}
+              date={this.props.data.lastDischargeDate}
               onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
 
           <ErrorableSelect required
               errorMessage={validateIfDirty(this.props.data.dischargeType, isNotBlank) ? undefined : 'Please select a discharge type'}
-              label="Discharge Type"
+              label="Character of discharge"
               name="dischargeType"
               options={dischargeTypes}
               value={this.props.data.dischargeType}

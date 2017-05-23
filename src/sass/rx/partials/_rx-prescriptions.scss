@@ -1,13 +1,18 @@
 /* Prescription cards for Active page. */
+.rx-refill-form {
+  padding: 0;
+}
 
 .rx-prescription-items {
-  padding-top: 3rem;
+  margin-top: 2rem;
 }
 
 .rx-prescription {
   border-color: $color-white;
   border-style: solid;
   border-width: 1rem 0;
+  min-width: 25rem;
+  position: relative;
 
   @media (min-width: $medium-screen) {
     float: left;
@@ -25,9 +30,12 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
-  height: 25.7rem;
-  padding: 2rem;
+  height: 27rem;
   position: relative;
+}
+
+.rx-prescription-info {
+  margin: 2rem;
 }
 
 .rx-prescription-title {
@@ -42,7 +50,7 @@
 
   a {
     text-decoration: none;
-    
+
     &:hover {
       background: transparent;
       border-bottom: 2px solid currentColor;
@@ -50,20 +58,16 @@
   }
 }
 
-.rx-prescription-refilled {
-  margin-bottom: 5rem;
-}
-
-.rx-prescription-button {
-  white-space: nowrap;
-}
-
+// Because USWDS has high specificity
 button.rx-prescription-button,
 [type=submit].rx-prescription-button {
-  background: transparent;
   display: inline-block;
   font-weight: bold;
   margin: 0;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  white-space: nowrap;
+  width: 100%;
 
   @media (max-width: $small-screen) {
     padding: 1rem;
@@ -71,8 +75,8 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-count {
-  bottom: 0;
-  display: inline-block;
+  line-height: .85;
+  white-space: nowrap;
   &-zero {
     color: $color-secondary;
   }
@@ -82,21 +86,33 @@ button.rx-prescription-button,
   font-size: 3rem;
   font-weight: bold;
   &::after {
-    content: '\a0';
+    content: "\a0";
+  }
+}
+
+.rx-prescription-countaction {
+  bottom: 0;
+  padding: 2rem;
+  position: absolute;
+  width: 100%;
+
+  > div {
+    display: flex;
+    align-items: flex-end;
   }
 }
 
 .rx-prescription-action {
-  bottom: 0;
-  position: absolute;
-  right: 0;
+  flex: 0 0 35%;
 }
 
-.rx-prescription-countaction {
-  bottom: -2rem;
-  line-height: 2rem;
-  padding-top: 2rem;
-  position: relative;
+.rx-prescription-count {
+  flex: 1 1 65%;
+}
+
+.rx-prescription-status {
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .rx-prescription-status span,
@@ -106,18 +122,25 @@ button.rx-prescription-button,
 
 .rx-prescription-status,
 .rx-call-provider {
+  line-height: 1;
   margin-top: .75rem;
   text-align: right;
+}
+
+table .rx-prescription-status {
+  text-align: left;
 }
 
 .rx-prescription-refill-requested {
   margin-bottom: .75rem;
   text-align: right;
-} 
+}
 
 .rx-track-package-link {
   display: block;
-  margin: 0 0 1rem;  
+  margin: 0 0 1rem;
+  white-space: nowrap;
+  width: auto;
 }
 
 //====== Prescription group
@@ -146,7 +169,7 @@ button.rx-prescription-button,
 
   .va-header-logo a {
     background: none;
-    color: #000;
+    color: $color-black;
     text-indent: 0;
   }
 
@@ -163,7 +186,7 @@ button.rx-prescription-button,
     display: inline;
 
     &::after {
-      content: '\a0';
+      content: "\a0";
     }
   }
 }

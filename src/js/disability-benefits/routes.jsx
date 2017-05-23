@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-import Scroll from 'react-scroll';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import ClaimPage from './containers/ClaimPage.jsx';
@@ -9,30 +8,27 @@ import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
-import TurnInEvidencePage from './containers/TurnInEvidencePage.jsx';
-import ClaimEstimationPage from './components/ClaimEstimationPage.jsx';
-
-const scroller = Scroll.animateScroll;
-
-const scrollToTop = () => {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import AdditionalEvidencePage from './containers/AdditionalEvidencePage.jsx';
+import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
 
 const routes = [
+  <Redirect
+      key="/track-claims/your-claims"
+      from="/disability-benefits/track-claims*"
+      to="/your-claims"/>,
   <Route
       component={YourClaimsPage}
       key="/your-claims"
-      path="/your-claims"
-      onEnter={scrollToTop}/>,
+      path="/your-claims"/>,
+  <Route
+      component={YourClaimsPage}
+      showClosedClaims
+      key="/your-claims/closed"
+      path="/your-claims/closed"/>,
   <Route
       component={ClaimPage}
       key="/your-claims/:id"
-      path="/your-claims/:id"
-      onEnter={scrollToTop}>
+      path="/your-claims/:id">
     <IndexRedirect to="status"/>
     <Route
         component={StatusPage}
@@ -45,22 +41,18 @@ const routes = [
         path="details"/>,
     <Route
         component={AskVAPage}
-        path="ask-va-to-decide"
-        onEnter={scrollToTop}/>
+        path="ask-va-to-decide"/>
     <Route
-        component={TurnInEvidencePage}
-        key="turn-in-evidence"
-        path="turn-in-evidence"
-        onEnter={scrollToTop}/>,
+        component={AdditionalEvidencePage}
+        key="additional-evidence"
+        path="additional-evidence"/>,
     <Route
         component={DocumentRequestPage}
-        path="document-request/:trackedItemId"
-        onEnter={scrollToTop}/>
+        path="document-request/:trackedItemId"/>
     <Route
         component={ClaimEstimationPage}
         key="claim-estimate"
-        path="claim-estimate"
-        onEnter={scrollToTop}/>,
+        path="claim-estimate"/>,
   </Route>,
 ];
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
@@ -39,7 +40,7 @@ function getStepClassFromIndex(index, length) {
  */
 class Nav extends React.Component {
   render() {
-    const subnavStyles = 'step one wow fadeIn animated';
+    const subnavStyles = 'step one';
     const { data, pages, currentUrl, chapters } = this.props;
 
     return (
@@ -69,10 +70,10 @@ class Nav extends React.Component {
 }
 
 Nav.propTypes = {
-  currentUrl: React.PropTypes.string.isRequired,
-  pages: React.PropTypes.object.isRequired,
-  data: React.PropTypes.object,
-  chapters: React.PropTypes.array.isRequired
+  currentUrl: PropTypes.string.isRequired,
+  pages: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  chapters: PropTypes.array.isRequired
 };
 
 export default Nav;

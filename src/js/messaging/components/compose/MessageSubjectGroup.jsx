@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import MessageCategory from './MessageCategory';
@@ -12,7 +13,7 @@ class MessageSubjectGroup extends React.Component {
     let errMessage;
     if (hasErrorMsg) {
       errMessage = (
-        <div className="usa-input-error-message msg-compose-error-message">
+        <div className="usa-input-error-message">
           {this.props.errorMessage}
         </div>);
     }
@@ -25,51 +26,44 @@ class MessageSubjectGroup extends React.Component {
     );
 
     return (
-      <fieldset>
-        <div className={errItemClass}>
-          <div className="msg-subject-group-inner">
-            <legend>Subject line:</legend>
-            <div>
-              {errMessage}
-              <div className="msg-subject-line">
-                <MessageCategory
-                    categories={this.props.categories}
-                    category={this.props.category}
-                    cssClass="msg-category"
-                    onValueChange={this.props.onCategoryChange}/>
-                <MessageSubject
-                    charMax={this.props.charMax}
-                    cssClass="msg-subject"
-                    onValueChange={this.props.onSubjectChange}
-                    placeholder={this.props.subjectPlaceholder}
-                    required={this.props.subjectRequired}
-                    subject={this.props.subject}/>
-              </div>
-            </div>
-          </div>
+      <div className={errItemClass}>
+        {errMessage}
+        <div className="msg-subject-line">
+          <MessageCategory
+              categories={this.props.categories}
+              category={this.props.category}
+              cssClass="msg-category"
+              onValueChange={this.props.onCategoryChange}/>
+          <MessageSubject
+              charMax={this.props.charMax}
+              cssClass="msg-subject"
+              onValueChange={this.props.onSubjectChange}
+              placeholder={this.props.subjectPlaceholder}
+              required={this.props.subjectRequired}
+              subject={this.props.subject}/>
         </div>
-      </fieldset>
+      </div>
     );
   }
 }
 
 MessageSubjectGroup.propTypes = {
-  categories: React.PropTypes.array,
-  category: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  categories: PropTypes.array,
+  category: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }),
-  charMax: React.PropTypes.number,
-  cssErrorClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  errorType: React.PropTypes.string,
-  onCategoryChange: React.PropTypes.func,
-  onSubjectChange: React.PropTypes.func,
-  subject: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  charMax: PropTypes.number,
+  cssErrorClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  errorType: PropTypes.string,
+  onCategoryChange: PropTypes.func,
+  onSubjectChange: PropTypes.func,
+  subject: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }),
-  subjectPlaceholder: React.PropTypes.string
+  subjectPlaceholder: PropTypes.string
 };
 
 export default MessageSubjectGroup;

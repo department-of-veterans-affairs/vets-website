@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -39,18 +40,22 @@ class FullName extends React.Component {
     this.props.onUserInput(name);
   }
 
-  validateRequiredFields(field, isRequired) {
-    if (isRequired) {
+  validateRequiredFields(field, isRequired, customValidation) {
+    if (customValidation) {
+      return validateIfDirty(field, customValidation);
+    } else if (isRequired) {
       return validateIfDirty(field, isValidName);
     }
     return validateIfDirty(field, isBlank) || validateIfDirty(field, isValidName);
   }
 
   render() {
+    const errorMessage = this.props.customErrorMessage ? this.props.customErrorMessage : 'Please enter a valid name';
+
     return (
       <div>
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.first, this.props.required) ? undefined : 'Please enter a valid name'}
+            errorMessage={this.validateRequiredFields(this.props.name.first, this.props.required) ? undefined : errorMessage}
             label="First name"
             name="fname"
             autocomplete="given-name"
@@ -60,7 +65,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('first', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.middle, false) ? undefined : 'Please enter a valid name'}
+            errorMessage={this.validateRequiredFields(this.props.name.middle, false) ? undefined : errorMessage}
             label="Middle name"
             name="mname"
             autocomplete="additional-name"
@@ -69,7 +74,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('middle', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required) ? undefined : 'Please enter a valid name'}
+            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation) ? undefined : errorMessage}
             label="Last name"
             name="lname"
             autocomplete="family-name"
@@ -79,6 +84,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('last', update);}}/>
 
         <ErrorableSelect
+            autocomplete="false"
             additionalClass="form-select-medium"
             label="Suffix"
             name="suffix"
@@ -91,26 +97,28 @@ class FullName extends React.Component {
 }
 
 FullName.propTypes = {
-  required: React.PropTypes.bool,
-  name: React.PropTypes.shape({
-    first: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+  required: PropTypes.bool,
+  name: PropTypes.shape({
+    first: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    middle: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    middle: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    last: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    last: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    suffix: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    suffix: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
   }).isRequired,
-  onUserInput: React.PropTypes.func.isRequired,
+  customValidation: PropTypes.func,
+  customErrorMessage: PropTypes.string,
+  onUserInput: PropTypes.func.isRequired,
 };
 
 export default FullName;

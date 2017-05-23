@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableSelect from '../form-elements/ErrorableSelect';
@@ -35,12 +36,12 @@ class Gender extends React.Component {
 }
 
 Gender.propTypes = {
-  required: React.PropTypes.bool,
-  value: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool,
+  required: PropTypes.bool,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool,
   }).isRequired,
-  onUserInput: React.PropTypes.func.isRequired,
+  onUserInput: PropTypes.func.isRequired,
 };
 
 export default Gender;

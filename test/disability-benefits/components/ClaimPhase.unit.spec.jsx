@@ -17,7 +17,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -36,7 +36,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={3}
           activity={activity}/>
@@ -55,7 +55,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -75,7 +75,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -120,7 +120,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -140,7 +140,7 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id={2}
+          id="2"
           current={1}
           phase={1}
           activity={activity}/>
@@ -156,17 +156,6 @@ describe('<ClaimPhase>', () => {
       const descTree = SkinDeep.shallowRender(output);
 
       expect(descTree.text()).to.equal('Your claim moved to Claim received');
-    });
-    it('should show micro entered description', () => {
-      const output = instance.getEventDescription({
-        type: 'micro_phase',
-        phaseNumber: 4,
-        date: '2010-01-04'
-      });
-
-      const descTree = SkinDeep.shallowRender(output);
-
-      expect(descTree.text()).to.equal('Your claim moved to Review of evidence');
     });
     it('should show file description', () => {
       const output = instance.getEventDescription({
@@ -186,7 +175,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('Your claim is complete');
+      expect(descTree.text()).to.equal('Your claim is closed');
     });
     it('should show received from you reviewed description', () => {
       const output = instance.getEventDescription({
@@ -210,7 +199,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
     });
     it('should show received from others reviewed description', () => {
       const output = instance.getEventDescription({
@@ -234,7 +223,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('Others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
     });
     it('should show still need from you not reviewed description', () => {
       const output = instance.getEventDescription({
@@ -258,7 +247,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
     });
     it('should show still need from others reviewed description', () => {
       const output = instance.getEventDescription({
@@ -270,7 +259,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('Others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
     });
     it('should show still need from others not reviewed description', () => {
       const output = instance.getEventDescription({

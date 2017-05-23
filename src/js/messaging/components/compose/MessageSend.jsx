@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -38,47 +39,61 @@ class MessageSend extends React.Component {
     }
   }
 
-  render() {
-    const isDisabled = this.props.charCount < 0;
+  renderExtraActionButtons() {
+    if (this.props.disabled) {
+      return null;
+    }
 
     return (
-      <div className={this.props.cssClass}>
-        <button
-            disabled={isDisabled}
-            type="button"
-            onClick={this.props.onSend}>Send</button>
-        <button
-            disabled={isDisabled}
-            className="usa-button-outline msg-btn-save"
-            type="button"
-            value="save"
-            onClick={this.props.onSave}>Save As Draft</button>
+      <span>
         <MessageAddAttachment
             cssClass="msg-attach"
             allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments"
+            id="msg-attachments-input"
             label="Attach a file"
             name="messageAttachments"
             onChange={this.handleAttachmentsChange}/>
         <ButtonDelete
-            compact
-            onClickHandler={this.props.onDelete}/>
+            className="va-icon-link"
+            onClick={this.props.onDelete}/>
+      </span>
+    );
+  }
+
+  render() {
+    const isDisabled = this.props.disabled;
+
+    return (
+      <div className="msg-send-group">
+        <div className="msg-send-buttons">
+          <button
+              disabled={isDisabled}
+              type="button"
+              onClick={this.props.onSend}>Send</button>
+          <button
+              disabled={isDisabled}
+              className="usa-button-outline msg-btn-save"
+              type="button"
+              value="save"
+              onClick={this.props.onSave}>Save As Draft</button>
+        </div>
+        {this.renderExtraActionButtons()}
       </div>
     );
   }
 }
 
 MessageSend.propTypes = {
-  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  cssClass: React.PropTypes.string,
-  maxFiles: React.PropTypes.number,
-  maxFileSize: React.PropTypes.number,
-  maxTotalFileSize: React.PropTypes.number,
-  onAttachmentUpload: React.PropTypes.func.isRequired,
-  onAttachmentsError: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  onSend: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
+  allowedMimeTypes: PropTypes.arrayOf(PropTypes.string),
+  disabled: PropTypes.bool,
+  maxFiles: PropTypes.number,
+  maxFileSize: PropTypes.number,
+  maxTotalFileSize: PropTypes.number,
+  onAttachmentUpload: PropTypes.func.isRequired,
+  onAttachmentsError: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSend: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default MessageSend;

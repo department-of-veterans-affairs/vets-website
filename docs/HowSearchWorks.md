@@ -13,4 +13,4 @@ Current facts:
 
 Potential future state:
 
-- There is actually a search API (which we are not using currently) if we want to bring this to a vets.gov page and keep the vets.gov look and feel. The information about this can be found under Activate link on the left side and then "Search Resultes API Instructions."  Of note, this page says: to retrieve web results through this API, you must either use our indexes or you must purchase an API key from Bing or Google to use their results. We are not able to pass Bing results through APIs."  Currently we use Bing results, so this would need to be looked into. 
+- There is actually a search API (which we are not using currently) if we want to bring this to a vets.gov page and keep the vets.gov look and feel. The information about this can be found under Activate link on the left side and then "Search Results API Instructions."  Of note, this page says: to retrieve web results through this API, you must either use our indexes or you must purchase an API key from Bing or Google to use their results. We are not able to pass Bing results through APIs."  Currently we use Bing results, so this would need to be looked into. 

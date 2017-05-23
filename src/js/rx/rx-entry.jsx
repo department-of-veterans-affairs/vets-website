@@ -6,12 +6,15 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import { store } from './store';
+import reducer from './reducers';
+import createCommonStore from '../common/store';
+import createLoginWidget from '../login/login-entry';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/rx/rx.scss');
 
-require('../login/login-entry.jsx');
+const store = createCommonStore(reducer);
+createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/healthcare/prescriptions'

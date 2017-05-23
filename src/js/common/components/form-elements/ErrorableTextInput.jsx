@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -96,7 +97,7 @@ class ErrorableTextInput extends React.Component {
             name={this.props.name}
             tabIndex={this.props.tabIndex}
             autoComplete={this.props.autocomplete}
-            type="text"
+            type={this.props.type}
             maxLength={this.props.charMax}
             value={this.props.field.value}
             onChange={this.handleChange}
@@ -109,19 +110,24 @@ class ErrorableTextInput extends React.Component {
 }
 
 ErrorableTextInput.propTypes = {
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  placeholder: React.PropTypes.string,
-  name: React.PropTypes.string,
-  autocomplete: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  field: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  errorMessage: PropTypes.string,
+  label: PropTypes.any.isRequired,
+  placeholder: PropTypes.string,
+  name: PropTypes.string,
+  autocomplete: PropTypes.string,
+  required: PropTypes.bool,
+  field: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  additionalClass: React.PropTypes.string,
-  charMax: React.PropTypes.number,
-  onValueChange: React.PropTypes.func.isRequired,
+  additionalClass: PropTypes.string,
+  charMax: PropTypes.number,
+  onValueChange: PropTypes.func.isRequired,
+  type: PropTypes.string
+};
+
+ErrorableTextInput.defaultProps = {
+  type: 'text'
 };
 
 export default ErrorableTextInput;

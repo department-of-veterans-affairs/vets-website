@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -14,20 +15,43 @@ import MessageWriteGroup from '../compose/MessageWriteGroup';
 export class NewMessageForm extends React.Component {
   render() {
     const message = this.props.message;
+    let recipientsField;
 
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
+
+    if (this.props.recipients && this.props.recipients.length) {
+      recipientsField = (
+        <MessageRecipient
+            errorMessage={validations.isValidRecipient(message.recipient) ? undefined : composeMessage.errors.recipient}
+            cssClass="msg-recipient msg-field"
+            onValueChange={this.props.onRecipientChange}
+            options={this.props.recipients}
+            recipient={message.recipient}/>
+      );
+    } else {
+      // When there is no recipients list, it means the request has failed,
+      // so allow the user to retry. If the request returned an empty list
+      // for some reason, it could indicate a server-side issue.
+      const retryLink = !this.props.recipients && (
+        <a onClick={this.props.onFetchRecipients}>
+          Click here to retry loading recipients.
+        </a>
+      );
+
+      recipientsField = (
+        <p>
+          No recipients could be found.&nbsp;
+          {retryLink}
+        </p>
+      );
+    }
 
     return (
       <form
           id="msg-compose"
           onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-        <MessageRecipient
-            errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
-            cssClass="msg-recipient msg-field"
-            onValueChange={this.props.onRecipientChange}
-            options={this.props.recipients}
-            recipient={message.recipient}/>
+        {recipientsField}
         <MessageSubjectGroup
             categories={messageCategories}
             category={message.category}
@@ -59,47 +83,48 @@ export class NewMessageForm extends React.Component {
 }
 
 NewMessageForm.propTypes = {
-  message: React.PropTypes.shape({
-    recipient: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+  message: PropTypes.shape({
+    recipient: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    category: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    category: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    subject: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    subject: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    body: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    body: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    attachments: React.PropTypes.array
+    attachments: PropTypes.array
   }).isRequired,
 
-  recipients: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string })
-    ])).isRequired,
+  recipients: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.number }),
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string })
+    ])),
 
-  onAttachmentsClose: React.PropTypes.func,
-  onAttachmentUpload: React.PropTypes.func,
-  onAttachmentsError: React.PropTypes.func,
-  onBodyChange: React.PropTypes.func,
-  onCategoryChange: React.PropTypes.func,
-  onRecipientChange: React.PropTypes.func,
-  onSaveMessage: React.PropTypes.func.isRequired,
-  onSendMessage: React.PropTypes.func.isRequired,
-  onSubjectChange: React.PropTypes.func,
-  toggleConfirmDelete: React.PropTypes.func.isRequired,
+  onAttachmentsClose: PropTypes.func,
+  onAttachmentUpload: PropTypes.func,
+  onAttachmentsError: PropTypes.func,
+  onBodyChange: PropTypes.func,
+  onCategoryChange: PropTypes.func,
+  onFetchRecipients: PropTypes.func,
+  onRecipientChange: PropTypes.func,
+  onSaveMessage: PropTypes.func.isRequired,
+  onSendMessage: PropTypes.func.isRequired,
+  onSubjectChange: PropTypes.func,
+  toggleConfirmDelete: PropTypes.func.isRequired,
 };
 
 export default NewMessageForm;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
@@ -13,6 +14,8 @@ class MessageSearchAdvanced extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleFromExactChange = this.handleFromExactChange.bind(this);
+    this.handleToChange = this.handleToChange.bind(this);
+    this.handleToExactChange = this.handleToExactChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleSubjectExactChange = this.handleSubjectExactChange.bind(this);
   }
@@ -27,6 +30,14 @@ class MessageSearchAdvanced extends React.Component {
 
   handleFromExactChange(field) {
     this.props.onFieldChange('from.exact', field);
+  }
+
+  handleToChange(field) {
+    this.props.onFieldChange('to.field', field);
+  }
+
+  handleToExactChange(field) {
+    this.props.onFieldChange('to.exact', field);
   }
 
   handleSubjectChange(field) {
@@ -55,23 +66,43 @@ class MessageSearchAdvanced extends React.Component {
       'fa-chevron-down': !this.props.isVisible
     });
 
+    let senderOrRecipientField;
+
+    if (this.props.hasRecipientField) {
+      senderOrRecipientField = (
+        <div className="msg-search-advanced-group">
+          <ErrorableTextInput
+              field={this.props.params.to.field}
+              label="To"
+              onValueChange={this.handleToChange}/>
+          <ErrorableCheckbox
+              checked={this.props.params.to.exact}
+              label="Exact match"
+              onValueChange={this.handleToExactChange}/>
+        </div>
+      );
+    } else {
+      senderOrRecipientField = (
+        <div className="msg-search-advanced-group">
+          <ErrorableTextInput
+              field={this.props.params.from.field}
+              label="From"
+              onValueChange={this.handleFromChange}/>
+          <ErrorableCheckbox
+              checked={this.props.params.from.exact}
+              label="Exact match"
+              onValueChange={this.handleFromExactChange}/>
+        </div>
+      );
+    }
+
     if (this.props.isVisible) {
       advancedSearchForm = (
         <fieldset className="msg-search-advanced-controls">
           <legend className="usa-sr-only">Search using additional criteria</legend>
-          <div className="va-flex va-flex--ctr msg-search-advanced-group">
-            <ErrorableTextInput
-                field={this.props.params.from.field}
-                label="From"
-                onValueChange={this.handleFromChange}/>
+          {senderOrRecipientField}
 
-            <ErrorableCheckbox
-                checked={this.props.params.from.exact}
-                label="Exact match"
-                onValueChange={this.handleFromExactChange}/>
-          </div>
-
-          <div className="va-flex va-flex--ctr msg-search-advanced-group">
+          <div className="msg-search-advanced-group">
             <ErrorableTextInput
                 field={this.props.params.subject.field}
                 label="Subject line"
@@ -82,26 +113,28 @@ class MessageSearchAdvanced extends React.Component {
                 onValueChange={this.handleSubjectExactChange}/>
           </div>
 
-          <fieldset className="va-flex va-flex--ctr msg-search-advanced-group">
-            <legend className="msg-search-date-range-legend">Date range</legend>
-            <div className="msg-search-date-range">
-              <label
-                  className="usa-sr-only"
-                  htmlFor="msg-search-date-start">Start date range</label>
-              <DatePicker
-                  id="msg-search-date-start"
-                  onChange={this.handleStartDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={this.props.params.dateRange.start}/>
-              <span>to</span>
-              <label
-                  className="usa-sr-only"
-                  htmlFor="msg-search-date-end">End date range</label>
-              <DatePicker
-                  id="msg-search-date-end"
-                  onChange={this.handleEndDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={this.props.params.dateRange.end}/>
+          <fieldset className="msg-search-advanced-group">
+            <div>
+              <legend className="msg-search-date-range-legend">Date range</legend>
+              <div className="msg-search-date-range">
+                <label
+                    className="usa-sr-only"
+                    htmlFor="msg-search-date-start">Start date range</label>
+                <DatePicker
+                    id="msg-search-date-start"
+                    onChange={this.handleStartDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={this.props.params.dateRange.start}/>
+                <span>to</span>
+                <label
+                    className="usa-sr-only"
+                    htmlFor="msg-search-date-end">End date range</label>
+                <DatePicker
+                    id="msg-search-date-end"
+                    onChange={this.handleEndDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={this.props.params.dateRange.end}/>
+              </div>
             </div>
           </fieldset>
           <button
@@ -114,7 +147,7 @@ class MessageSearchAdvanced extends React.Component {
       <div className="msg-search-advanced">
         {advancedSearchForm}
         <button
-            className="msg-search-advanced-toggle usa-button-unstyled"
+            className="msg-search-advanced-toggle"
             onClick={this.props.onAdvancedSearch}
             type="button">
           <i className={toggleClass}></i> Advanced Search</button>
@@ -123,27 +156,36 @@ class MessageSearchAdvanced extends React.Component {
 }
 
 MessageSearchAdvanced.propTypes = {
-  endDateRange: React.PropTypes.object,
-  isVisible: React.PropTypes.bool.isRequired,
-  onAdvancedSearch: React.PropTypes.func.isRequired,
-  onDateChange: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired,
-  params: React.PropTypes.shape({
-    dateRange: React.PropTypes.shape({
-      start: React.PropTypes.object,
-      end: React.PropTypes.object
+  hasRecipientField: PropTypes.bool,
+  isVisible: PropTypes.bool.isRequired,
+  onAdvancedSearch: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  params: PropTypes.shape({
+    dateRange: PropTypes.shape({
+      start: PropTypes.object,
+      end: PropTypes.object
     }),
-    term: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    from: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
+      }),
+      exact: PropTypes.bool
     }),
-    from: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    to: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
+      }),
+      exact: PropTypes.bool
     }),
-    subject: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    subject: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
+      }),
+      exact: PropTypes.bool
     })
   }).isRequired
 };

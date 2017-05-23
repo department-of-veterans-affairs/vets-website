@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -8,29 +9,27 @@ class ButtonDelete extends React.Component {
   }
 
   handleClick() {
-    this.props.onClickHandler();
+    this.props.onClick();
   }
 
   render() {
-    const isTextVisible = classNames({
-      'usa-sr-only': this.props.compact
-    });
+    const buttonClass = classNames(this.props.className, 'msg-btn-delete');
 
     return (
       <button
           onClick={this.handleClick}
-          className="messaging-btn-delete"
+          className={buttonClass}
           type="button">
         <i className="fa fa-trash"></i>
-        <span className={isTextVisible}>Delete</span>
+        <span>Delete</span>
       </button>
     );
   }
 }
 
 ButtonDelete.propTypes = {
-  compact: React.PropTypes.bool,
-  onClickHandler: React.PropTypes.func.isRequired
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonDelete;

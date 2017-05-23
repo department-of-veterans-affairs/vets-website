@@ -24,6 +24,13 @@ describe('Disability benefits validation:', () => {
 
       expect(result).to.be.false;
     });
+    it('should check that file has a valid type regardless of case', () => {
+      const result = isValidFileType({
+        name: 'testing.JPG'
+      });
+
+      expect(result).to.be.true;
+    });
   });
   describe('isValidFile', () => {
     it('should validate file for size and type', () => {

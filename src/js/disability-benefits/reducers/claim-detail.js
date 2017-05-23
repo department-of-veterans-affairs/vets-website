@@ -13,7 +13,7 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL: {
-      return _.merge(state, {
+      return _.assign(state, {
         detail: action.claim,
         loading: false
       });

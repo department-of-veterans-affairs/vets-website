@@ -1,10 +1,21 @@
 .rx-table {
+  margin: 0;
+
   th, td {
     border-color: $color-gray-light;
+  }
+  th.sortable {
+    cursor: pointer;
   }
 }
 
 .rx-table-list {
+  tr.no-refills {
+    td:nth-child(5) {
+      color: $color-secondary;
+    }
+  }
+
   @media (max-width: $medium-screen) {
     tr {
       padding: 1.5rem 0;
@@ -16,4 +27,11 @@
       }
     }
   }
+}
+
+.rx-prescription-name {
+  color: $color-primary;
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
 }

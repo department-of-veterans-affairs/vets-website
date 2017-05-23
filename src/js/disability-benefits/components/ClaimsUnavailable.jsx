@@ -7,7 +7,7 @@ class ClaimsUnavailable extends React.Component {
         <h4 className="warning-title">
           <i className="fa fa-exclamation-triangle"></i>&nbsp;Claim status is unavailable
         </h4>
-        We are unable to retrieve your claim status at this time. Try refreshing this page or check back later.
+          We couldn't check your claim status. Please try again later.
       </div>
     );
   }

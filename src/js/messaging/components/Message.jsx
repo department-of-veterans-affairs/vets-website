@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -9,6 +10,20 @@ class Message extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+    this.handleMessageOnKeyPress = this.handleMessageOnKeyPress.bind(this);
+  }
+
+  componentDidUpdate() {
+    const { attrs, isCollapsed } = this.props;
+
+    const shouldFetchMessage =
+      !isCollapsed &&
+      attrs.attachment &&
+      !attrs.attachments;
+
+    if (shouldFetchMessage) {
+      this.props.fetchMessage(attrs.messageId);
+    }
   }
 
   handleToggleCollapsed() {
@@ -17,73 +32,89 @@ class Message extends React.Component {
     }
   }
 
+  handleMessageOnKeyPress(e) {
+    e.preventDefault();
+
+    if (e.which === 32 || e.which === 13) {
+      this.handleToggleCollapsed();
+    }
+  }
+
   render() {
+    const { attrs, isCollapsed } = this.props;
+    const { body, senderName, sentDate } = attrs;
+
     const messageClass = classNames({
       'messaging-thread-message': true,
-      'messaging-thread-message--collapsed': this.props.isCollapsed,
-      'messaging-thread-message--expanded': !this.props.isCollapsed
+      'messaging-thread-message--draft': !sentDate,
+      'messaging-thread-message--collapsed': isCollapsed,
+      'messaging-thread-message--expanded': !isCollapsed
     });
 
     let details;
     let headerOnClick;
     let messageOnClick;
+    let attachmentsView;
 
-    if (this.props.isCollapsed) {
+    if (isCollapsed) {
       messageOnClick = this.handleToggleCollapsed;
     } else {
+      const { attachment, attachments, recipientName } = attrs;
+
       details = (
         <div className="messaging-message-recipient">
-          to {this.props.attrs.recipientName}
-          <MessageDetails { ...this.props }/>
+          to {recipientName}
+          <MessageDetails attrs={attrs}/>
         </div>
       );
 
       headerOnClick = this.handleToggleCollapsed;
-    }
 
-    let attachments;
-    if (this.props.attrs.attachment) {
-      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+      attachmentsView = attachment && (
+        <MessageAttachmentsView attachments={attachments}/>
+      );
     }
 
     return (
-      <div className={messageClass} onClick={messageOnClick}>
+      <div tabIndex="0" role="button" aria-expanded={!this.props.isCollapsed} onKeyPress={this.handleMessageOnKeyPress} className={messageClass} onClick={messageOnClick}>
         <div
+            aria-live="assertive"
             className="messaging-message-header"
             onClick={headerOnClick}>
           <div className="messaging-message-sent-date">
-            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+            {sentDate && formattedDate(sentDate, { fromNow: true })}
           </div>
           <div className="messaging-message-sender">
-            {this.props.attrs.senderName}
+            {senderName}
           </div>
           {details}
         </div>
         <div className="messaging-message-body">
-          {this.props.attrs.body}
+          {body}
         </div>
-        {attachments}
+        {attachmentsView}
       </div>
     );
   }
 }
 
 Message.propTypes = {
-  attrs: React.PropTypes.shape({
-    messageId: React.PropTypes.number.isRequired,
-    category: React.PropTypes.string.isRequired,
-    subject: React.PropTypes.string.isRequired,
-    body: React.PropTypes.string.isRequired,
-    attachment: React.PropTypes.bool.isRequired,
-    sentDate: React.PropTypes.string.isRequired,
-    senderId: React.PropTypes.number.isRequired,
-    senderName: React.PropTypes.string.isRequired,
-    recipientId: React.PropTypes.number.isRequired,
-    recipientName: React.PropTypes.string.isRequired,
-    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
+  attrs: PropTypes.shape({
+    messageId: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    subject: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    attachment: PropTypes.bool.isRequired,
+    sentDate: PropTypes.string,
+    senderId: PropTypes.number.isRequired,
+    senderName: PropTypes.string.isRequired,
+    recipientId: PropTypes.number.isRequired,
+    recipientName: PropTypes.string.isRequired,
+    readReceipt: PropTypes.oneOf(['READ', 'UNREAD'])
   }).isRequired,
-  isCollapsed: React.PropTypes.bool,
-  onToggleCollapsed: React.PropTypes.func,
+  fetchMessage: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+  onToggleCollapsed: PropTypes.func
 };
 
 export default Message;

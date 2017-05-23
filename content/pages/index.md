@@ -2,38 +2,47 @@
 layout: home.html
 body_class: home
 title: Home
+plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
+  - url: /healthcare/
+    title: Health Care Benefits
+    description: Apply for and manage VA health care.
   - url: /disability-benefits/
     title: Disability Benefits
-    description: Help with service-related medical conditions.
+    description: Apply for disability compensation and other benefits for conditions related to your military service.
   - url: /education/
     title: Education Benefits
-    description: Tuition assistance, training programs, and more.
+    description: Apply for and manage benefits that help you pay for college and training programs.
+  - url: /burials-and-memorials/
+    title: Burials and Memorials
+    description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
   - url: /employment/
     title: Careers and Employment
-    description: Meaningful employment and career development for Veterans and their families.
-  - url: /healthcare/apply/
-    title: Health Care
-    description: Apply for VA health care, including preventive care, primary care, and more.
-
+    description: Get help building your career skills and finding a job.
 ---
+<div class="splash--home"> 
+  <div class="home-tagline">Get the VA services that you’ve earned.</div>
+</div>
 
-<div class="splash">
-<div class="row">
-<div class="small-12 columns">
-<div class="pitch">
-<h2 class="tagline"><span>How can we help?</span></h2>
-</div>
-</div>
-</div>
+<div class="popular-container row">
+  <h2 class="va-h-ruled--a">Get started with Vets.gov</h2>
+  <div class="row va-flex">   
+  <a href="/healthcare/apply/" class="outline-link-block">
+    Apply for health care
+  </a>
+
+  <a href="/facilities/" class="outline-link-block">
+    Find nearby VA locations
+  </a>
+
+  <a href="/track-claims/" class="outline-link-block">
+    Check your claim status
+  </a>
 </div>
 
 
 <div class="main" role="main">
+  <div class="va-h-ruled--stars"></div>
 
-<div class="section main-menu">
-{% include "content/includes/main-navigation.html" %}
-</div>
-
-{% include "content/includes/common-and-popular.html" %}
+  {% include "content/includes/main-navigation.html" %}
 </div>

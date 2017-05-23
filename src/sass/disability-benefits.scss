@@ -1,7 +1,8 @@
-@import 'style';
-@import 'modules/va-pagination';
-@import 'modules/m-modal';
-@import 'modules/m-progress-bar';
+@import "style";
+@import "modules/va-pagination";
+@import "modules/m-modal";
+@import "modules/m-progress-bar";
+@import "modules/va-tabs";
 
 .claim-alert-status {
   margin-top: 0;
@@ -39,7 +40,7 @@
   }
 
   > .past-due {
-    color: $color-secondary-dark;
+    color: $color-secondary-darkest;
     font-size: 0.9em;
   }
 
@@ -47,13 +48,18 @@
     display: inline-block;
     margin: 0;
     text-transform: none;
-    padding-right: 5px !important;
+    padding-right: 3px !important;
+    @include media($medium-large-screen) {
+      padding-right: 5px !important;
+    }
   }
 }
 
+.claims-requested-files-container {
+  margin-bottom: 1.5em;
+}
 
 .submitted-files-list {
-  margin-top: 1.5em;
   margin-bottom: 2em;
   .submitted-file-list-item {
     margin: 0.5em 0;
@@ -61,14 +67,14 @@
     h6 {
       display: inline-block;
       padding: 0;
-      text-transform: capitalize;
+      text-transform: none;
       i {
         margin-right: 6px;
       }
     }
-    p {
+    p, .submission-item {
       margin: 0;
-      padding: 0;
+      padding: 0 0 0.5em 0;
     }
     .submission-file-type {
       color: $color-primary-darkest;
@@ -76,6 +82,10 @@
       font-size: 1.15em;
       line-height: 1.5;
       font-weight: bold;
+      padding-bottom: 0;
+      &.additional-evidence {
+        padding-bottom: 0.5em;
+      }
     }
     .submission-item {
       display: block;
@@ -92,32 +102,38 @@
 
 .file-request-list-item {
   margin-top: 1.5em;
-  .item-container {
-    margin: 0.5em 0;
-    float: left;
-    h6 {
-      display: inline-block;
-      text-transform: none;
-      i {
-        margin-right: 6px;
-      }
-    }
-    p {
-      display: inline-block;
-      margin: 0;
-    }
-    button {
-      float: right;
-    }
-  }
-  .button-container {
-    float: right;
-  }
   &:last-child {
     border: none;
   }
   .file-request-title {
     padding-bottom: 0 !important;
+  }
+}
+
+.file-request-list-item-optional {
+  background-color: $color-gray-lightest;
+}
+
+.item-container {
+  margin: 0 0 0.5em 0;
+  float: left;
+  h6 {
+    display: inline-block;
+    text-transform: none;
+  }
+  p {
+    display: inline-block;
+    margin: 0;
+  }
+  @include media($medium-large-screen) {
+    width: 66%;
+  }
+}
+
+.past-due > i {
+  margin-right: 3px;
+  @include media($medium-large-screen) {
+    margin-right: 6px;
   }
 }
 
@@ -130,8 +146,6 @@
   .claims-evidence-date {
     font-weight: bold;
     padding-right: 10px;
-  }
-  .claims-evidence-item {
   }
   &:last-child {
     border: none;
@@ -148,7 +162,7 @@
     margin: 0;
   }
   .date-estimation {
-    display:inline-block;
+    display: inline-block;
     font-weight: bold;
     margin-right: 10px;
   }
@@ -173,7 +187,11 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714\fe0e";
+  content: "\2713\fe0e";
+
+  @include media($medium-large-screen) {
+    content: "\2714\fe0e";
+  }
 }
 
 .form-process li.section-current {
@@ -193,6 +211,10 @@
   }
 }
 
+.claim-item-label {
+  font-weight: bold;
+}
+
 .claim-list-item {
   background-color: $color-gray-lightest;
   padding: 1em;
@@ -202,9 +224,6 @@
   }
   p {
     margin: 0;
-  }
-  p.status {
-    font-weight: bold;
   }
   .communications, p.status {
     margin-bottom: 0.5em;
@@ -237,9 +256,8 @@ a.claim-list-item {
 }
 
 .ask-va-questions {
-  margin-top: 1.5em;
   .talk {
-    margin: .5em 0;
+    margin: 0.5em 0;
     padding: 0;
   }
   .phone-number {
@@ -252,11 +270,15 @@ a.claim-list-item {
   }
 }
 
+.ask-va-questions.claims-sidebar-box {
+  padding: 2em 0;
+  @include media($medium-large-screen) {
+    padding-top: 0.6em;
+  }
+}
+
 .claims-sidebar-box {
   padding-top: 0.3em;
-  .claims-sidebar-header {
-    border-bottom: 2px solid $color-primary;
-  }
 }
 
 .claim-title {
@@ -264,7 +286,7 @@ a.claim-list-item {
   display: inline-block;
 }
 
-.claim-conditions {
+.claim-contentions {
   margin-top: 0.5em;
   margin-bottom: 2em;
   p {
@@ -280,7 +302,7 @@ a.claim-list-item {
 }
 
 .claim-details {
-  .claim-conditions-list,
+  .claim-contentions-list,
   .claim-date-recieved,
   .claim-va-representative {
     margin-top: 1.5em;
@@ -302,70 +324,6 @@ a.claim-list-item {
   }
 }
 
-// CSS for Tab-based navigation
-// TODO: Move these to vets-website
-
-.va-tabs {
-  list-style: none;
-  // Prevents wrapping, forces horizontal scrolling
-  // at QVGA widths in portrait orientation.
-  margin-bottom: -1px;
-  min-width: 260px;
-  padding-left: 0;
-
-  > li {
-    background: $color-gray-lightest;
-    border-width: 1px 0px 0 1px;
-    &:last-child {
-      border-right-width: 1px;
-    }
-    border-color: $color-gray;
-    border-style: solid;
-    display: inline-block;
-  }
-
-  // Center navigation in viewports < 600px;
-  @media (max-width: $medium-screen) {
-    text-align: center;
-  }
-}
-
-.va-tab-trigger {
-  border-width: 5px 1px 1px;
-  border-style: solid;
-  border-color: transparent;
-  border-bottom-color: $color-gray;
-  color: $color-gray;
-  display: inline-block;
-  // font-size: 1.17rem;
-  padding: 1rem;
-  margin: 0px -1px;
-  text-decoration: none;
-
-  &:hover,
-  &:focus,
-  &--current {
-    background: $color-white;
-    border-color: $color-primary;
-    border-bottom-color: $color-white;
-  }
-
-  &:visited {
-    color: inherit;
-  }
-
-  @media (min-width: $small-screen) {
-    font-size: inherit;
-    padding-left: 4rem;
-    padding-right: 4rem;
-  }
-}
-
-.va-tab-content {
-  padding-top: 2em;
-  border-top: 1px solid $color-gray;
-}
-
 .clearfix:after {
   content: " ";
   visibility: hidden;
@@ -373,8 +331,6 @@ a.claim-list-item {
   height: 0;
   clear: both;
  }
-
-// TODO: Add media queries for responsiveness
 
 .loading-message-center-spinner {
   > img {
@@ -456,11 +412,8 @@ p.first-of-type {
   padding: 1em;
   margin-bottom: 1.5em;
   .document-title-text-container {
-    float: left;
+    padding-right: 1em;
     word-break: break-all;
-    .document-title-header {
-      width: 17.5em;
-    }
     .document-size-text {
       p {
         margin: 0;
@@ -468,11 +421,19 @@ p.first-of-type {
     }
   }
   .remove-document-button {
-    float: right;
     > button {
       margin: 0;
+      font-weight: bold;
     }
   }
+  &:focus {
+    outline: none;
+  }
+}
+
+.document-title-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 #content .section {
@@ -488,6 +449,7 @@ p.first-of-type {
 }
 
 .claims-unavailable {
+  margin-top: 0.6em;
   margin-bottom: 1.5em;
 }
 
@@ -545,13 +507,15 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  a.usa-button {
-    position: absolute;
-    top: .75em;
-    right: 1em;
-    width: auto;
-    margin: 0;
+  &:focus {
+    outline: none;
   }
+}
+
+.claims-alert.phase-back-alert {
+  margin-top: 0;
+  margin-bottom: 0;
+  background-position: 1rem 1.4rem;
 }
 
 .claims-alert-status {
@@ -568,5 +532,150 @@ p.first-of-type {
 }
 
 .claims-files-cancel {
-  margin-left: 32px;
+  margin-left: 0;
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+}
+
+.disability-benefits-content {
+  margin: 0 5px;
+}
+
+.usa-input-error {
+  padding-left: 1rem;
+  right: 0.9em;
+}
+
+.item-title-container {
+  float: none;
+  width: 100%;
+
+  @include media($medium-large-screen) {
+    float: left;
+    width: 63%;
+  }
+}
+.ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
+  position: relative;
+  padding-bottom: 3.5em;
+  @include media($medium-large-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.need-files-alert {
+  padding-bottom: 4em;
+  @include media($medium-large-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.view-details-button {
+  float: right;
+  margin: 0;
+  @media (max-width: $medium-screen) {
+    float: none;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    width: calc(100% - 2em) !important;
+  }
+}
+
+.db-tabs {
+  display: flex;
+}
+
+.tab-li {
+  @media (max-width: $small-screen) {
+    flex: 1 1 0;
+    text-align: center;
+  }
+  a {
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+.claims-optional-desc {
+  font-size: 0.9em;
+  line-height: 0.3em;
+  margin-top: 5px;
+}
+
+h1:focus {
+  outline: none;
+}
+
+.claim-h2 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+.va-nav-breadcrumbs:focus {
+  outline: none
+}
+
+.notification-close {
+  background-color: transparent;
+  @media (max-width: $small-screen) {
+    margin: -5px 5px 0 0;
+    width: 0;
+  }
+}
+
+.button-container.file-review {
+  display: flex;
+  align-items: center;
+}
+
+.db-tab-content {
+  padding-top: 2em;
+}
+
+.claims-list-sort {
+  margin: 2em 0;
+
+  label, select {
+    display: inline-block;
+  }
+
+  label {
+    margin-right: 1.5rem;
+  }
+
+  @media (max-width: $medium-screen) {
+    label {
+      display: block;
+      margin: 0;
+    }
+
+    select {
+      display: block;
+      margin: 1.4rem 0;
+    }
+  }
+}
+
+.claims-list-alert {
+  margin-bottom: 1em;
+  margin-top: 0;
+  &.usa-alert {
+    background-size: 3.4rem;
+    background-position: 1rem 1.9rem;
+  }
+  > .usa-alert-body {
+    padding-left: 3.7rem;
+  }
+  .va-alert-close .fa {
+    font-size: 1.1em !important;
+  }
+}
+
+.claims-closed-text {
+  margin-top: 1em;
 }

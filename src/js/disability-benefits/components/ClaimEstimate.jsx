@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
@@ -16,16 +17,16 @@ export default function ClaimEstimate({ maxDate, id }) {
 
   return (
     <div className="claim-completion-estimation">
-      <p className="date-estimation">Estimated {estimatedDate.format('MMM D, YYYY')}</p>
+      <p className="date-estimation">Estimated date: {estimatedDate.format('MMM D, YYYY')}</p>
       {estimatedDate.isBefore(today)
         ? <p>We estimated your claim would be completed by now but we need more time.</p>
-        : <p>This date is based on claims similar to yours and is not an exact date.</p>}
-      <p><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimation</Link></p>
+        : <p>We base this on claims similar to yours. It isn't an exact date.</p>}
+      <p><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</p>
     </div>
   );
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired
+  maxDate: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 };

@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Address from '../../../common/components/questions/Address';
-import DateInput from '../../../common/components/form-elements/DateInput';
-import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import Address from '../Address';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import FullName from '../../../common/components/questions/FullName';
 import Phone from '../../../common/components/questions/Phone';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
-import { maritalStatuses, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../../common/utils/validations';
+import { yesNo } from '../../../common/utils/options-for-select.js';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { isValidMarriageDate, isValidLastName } from '../../utils/validations';
 import { veteranUpdateField, updateSpouseAddress } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
@@ -83,6 +83,8 @@ class SpouseInformationSection extends React.Component {
         <div className="input-section">
           <FullName required
               name={this.props.data.spouseFullName}
+              customValidation={isValidLastName}
+              customErrorMessage="Please enter a valid name. Must be at least 2 characters."
               onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
 
           <SocialSecurityNumber required
@@ -90,22 +92,20 @@ class SpouseInformationSection extends React.Component {
               ssn={this.props.data.spouseSocialSecurityNumber}
               onValueChange={(update) => {this.props.onStateChange('spouseSocialSecurityNumber', update);}}/>
 
-          <DateInput required
+          <ErrorableCurrentOrPastDate required
               label="Spouse’s date of birth"
               name="spouseBirth"
-              day={this.props.data.spouseDateOfBirth.day}
-              month={this.props.data.spouseDateOfBirth.month}
-              year={this.props.data.spouseDateOfBirth.year}
+              date={this.props.data.spouseDateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
 
-          <DateInput required
-              errorMessage="Date of marriage cannot be before the Veteran's or the spouse's date of birth"
-              validation={isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth)}
+          <ErrorableCurrentOrPastDate required
+              validation={{
+                valid: isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth),
+                message: "Date of marriage cannot be before the Veteran's or the spouse's date of birth"
+              }}
               label="Date of marriage"
               name="marriage"
-              day={this.props.data.dateOfMarriage.day}
-              month={this.props.data.dateOfMarriage.month}
-              year={this.props.data.dateOfMarriage.year}
+              date={this.props.data.dateOfMarriage}
               onValueChange={(update) => {this.props.onStateChange('dateOfMarriage', update);}}/>
 
           <ErrorableRadioButtons required
@@ -138,6 +138,14 @@ class SpouseInformationSection extends React.Component {
               <tr>
                 <td>Street:</td>
                 <td>{this.props.data.spouseAddress.street.value}</td>
+              </tr>
+              <tr>
+                <td>Line 2:</td>
+                <td>{this.props.data.spouseAddress.street2.value}</td>
+              </tr>
+              <tr>
+                <td>Line 3:</td>
+                <td>{this.props.data.spouseAddress.street3.value}</td>
               </tr>
               <tr>
                 <td>City:</td>
@@ -183,30 +191,16 @@ class SpouseInformationSection extends React.Component {
     if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<div>
         <table className="review usa-table-borderless">
-          <tbody>
-            <tr>
-              <td>Martial Status:</td>
-              <td>{this.props.data.maritalStatus.value}</td>
-            </tr>
-          </tbody>
           {spouseInformationSummary}
         </table>
         {spouseAddressSummary}
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Spouse's Information</legend>
+        <h5>Spouse's Information</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <p>Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.</p>
         <div className="input-section">
-          <ErrorableSelect
-              errorMessage={validateIfDirty(this.props.data.maritalStatus, isNotBlank) ? undefined : 'Please select a marital status'}
-              label="Current marital status"
-              name="maritalStatus"
-              options={maritalStatuses}
-              required
-              value={this.props.data.maritalStatus}
-              onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
           {spouseInformationFields}
           {spouseAddressFields}
         </div>

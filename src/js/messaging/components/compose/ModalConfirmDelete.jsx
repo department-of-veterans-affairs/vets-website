@@ -1,17 +1,28 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Modal from '../../../common/components/Modal';
 
 class ModalConfirmDelete extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+    this.props.onDelete();
+  }
+
   render() {
     const modalContents = (
-      <form onSubmit={this.props.onDelete}>
-        <h3 className="messaging-modal-title">
+      <form>
+        <h3>
             Are you sure you want to delete this draft?
         </h3>
         <p>This draft will not be recoverable after deletion.</p>
         <div className="va-modal-button-group">
-          <button type="submit">Yes, delete forever</button>
+          <button type="submit" onClick={this.handleDelete}>Yes, delete forever</button>
           <button
               className="usa-button-outline"
               onClick={this.props.onClose}
@@ -32,11 +43,11 @@ class ModalConfirmDelete extends React.Component {
 }
 
 ModalConfirmDelete.propTypes = {
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
-  visible: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  id: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalConfirmDelete;

@@ -1,19 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MessageAttachmentsViewItem from './MessageAttachmentsViewItem';
 import _ from 'lodash';
 
 class MessageAttachmentsView extends React.Component {
   render() {
-    const attachments = this.props.attachments.map((attachment) => {
-      const key = _.uniqueId('msg-attachment-item-');
+    let attachments;
 
-      return (
-        <MessageAttachmentsViewItem
-            key={key}
-            name={attachment.attributes.name}
-            url={attachment.links.download}/>
-      );
-    });
+    if (this.props.attachments) {
+      attachments = this.props.attachments.map((attachment) => {
+        const key = _.uniqueId('msg-attachment-item-');
+
+        return (
+          <MessageAttachmentsViewItem
+              key={key}
+              name={attachment.attributes.name}
+              url={attachment.links.download}/>
+        );
+      });
+    } else {
+      attachments = <div>Loading...</div>;
+    }
 
     return (
       <div className="msg-attachments-received">
@@ -28,7 +35,7 @@ class MessageAttachmentsView extends React.Component {
 
 // TODO: Correct this type as necessary
 MessageAttachmentsView.propTypes = {
-  attachments: React.PropTypes.array
+  attachments: PropTypes.array
 };
 
 export default MessageAttachmentsView;

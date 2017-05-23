@@ -27,6 +27,10 @@ const blankChild = {
   childEducationExpenses: makeField(''),
   childCohabitedLastYear: makeField(''),
   childReceivedSupportLastYear: makeField(''),
+};
+
+// Keep these separate so that the initialization of the fields occurs on the right page for the income fields
+const blankChildIncome = {
   grossIncome: makeField(''),
   netIncome: makeField(''),
   otherIncome: makeField(''),
@@ -36,4 +40,4 @@ function createBlankChild() {
   return Object.assign({}, blankChild);
 }
 
-module.exports = { createBlankChild };
+module.exports = { createBlankChild, blankChildIncome };

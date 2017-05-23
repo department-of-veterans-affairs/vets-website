@@ -1,9 +1,17 @@
-{% if (majorlinks.length % 3) %}
+{% comment %}
+
+THIS FILE AND PATTERN IS DEPRECATED. 
+Please use navigation-link-list.html instead.
+
+TODO: Remove when this is no longer used on the site.
+{% endcomment %}
+
+
+{% if majorlinks.length === 3 %}
   {% assign gridnum = 3 %}
-{% else %} 
+{% else %}
   {% assign gridnum = 2 %}
 {% endif %}
-
 
 <div class="navigation--major">
   <div class="row">
@@ -24,3 +32,10 @@
     <br>
   {% endif %}
 </div>
+
+<br/>
+<br/>
+
+{% if path == 'employment' %}
+{% include "content/includes/employment-related-links.html" %}
+{% endif %}

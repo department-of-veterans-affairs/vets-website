@@ -1,10 +1,14 @@
-@import 'style';
-@import 'modules/va-pagination';
-
+@import "style";
+@import "modules/va-pagination";
 
 .facility-locator {
+  // TODO(css): Fix when #content .section h* is fixed
+  .highlight {
+    margin-bottom: 0.5em !important;
+  }
+
   .title-section {
-    padding: 0 1.5rem;
+    padding: 0.5rem 0;
   }
 
   .flex-center {
@@ -13,27 +17,41 @@
   }
 
   .leaflet-container {
-      height: 500px;
-      width: 100%;
+    height: 500px;
+    width: 100%;
   }
 
-  .facility-phone-table
-  {
-     border-collapse:collapse;
+  .facility-phone-table {
+     border-collapse: collapse;
   }
 
   .pointer {
     cursor: pointer;
   }
 
-  .facility-phone-table td
-  {
-     border:none;
-     outline:none;
+  .facility-phone-table td {
+     border: none;
+     outline: none;
+  }
+
+  .p1 {
+    padding: 0.5em 0;
   }
 
   label {
     margin-top: 0;
+  }
+
+  i.fa {
+    width: 18px;
+    text-align: center;
+    margin-right: 15px;
+    color: $color-link-default;
+  }
+
+  .desktop-container {
+    margin-bottom: 3em;
+    border-bottom: solid thin $color-gray-lightest;
   }
 
   .facility-result {
@@ -52,6 +70,12 @@
       color: $color-link-default;
       text-decoration: none;
 
+      &:focus {
+        h5 {
+          outline: $color-link-default solid thin;
+        }
+      }
+
       &:visited {
         color: $color-link-default;
       }
@@ -61,12 +85,8 @@
       color: $color-link-default;
     }
 
-    [href^=http] {
-      background: none;
-    }
-
     td {
-      vertical-align:top;
+      vertical-align: top;
     }
   }
 
@@ -95,17 +115,14 @@
   .tab {
     border-color: $color-black;
     text-align: center;
-    background: #eee;
-    border-top: solid 1px $color-black;
-    border-left: solid 1px $color-black;
-    border-right: solid 1px $color-black;
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
+    background: $color-gray-light-alt;
+    border: solid 1px $color-black;
+    border-radius: 0 !important;
 
     &.ReactTabs__Tab--selected {
-      border-top: solid 3px $color-primary-darker;
-      background: white;
+      border-top: solid 3px $color-primary;
+      background: $color-white;
+      border-bottom: none;
     }
   }
 
@@ -146,7 +163,7 @@
   }
 
   .mobile-search-result + .mobile-search-result {
-    border-top: solid 1px $color-va-gray-medium;
+    border-top: solid 1px $color-gray-light;
   }
 
   p {
@@ -155,13 +172,13 @@
 
   .map-marker {
     font-size: 15px;
-    height: 50px;
+    height: 60px;
     margin-left: -25px;
     margin-top: -25px;
-    text-align:center;
-    width: 50px;
+    text-align: center;
+    width: 60px;
     z-index: 999;
-    color: white;
+    color: $color-white;
   }
 
   .fa-cemetery {
@@ -170,21 +187,21 @@
   }
 
   .fa-cemetery:before {
-    content: url('/img/icons/cemetery.svg');
+    content: url("/img/icons/cemetery.svg");
   }
 
   .benefits-icon {
-    background: url('/img/icons/benefits-pin.svg') no-repeat center center;
+    background: url("/img/icons/benefits-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
   .cemetery-icon {
-    background: url('/img/icons/cemetery-pin.svg') no-repeat center center;
+    background: url("/img/icons/cemetery-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
   .health-icon {
-    background: url('/img/icons/health-pin.svg') no-repeat center center;
+    background: url("/img/icons/health-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
@@ -192,37 +209,29 @@
     height: 32px;
     margin-left: -12px;
     margin-top: -12px;
-    text-align:center;
+    text-align: center;
     padding-top: 3px;
     width: 32px;
     z-index: 999;
-    background: url('/img/icons/map-pin.svg') no-repeat center center;
+    background: url("/img/icons/map-pin.svg") no-repeat center center;
     background-size: contain;
-    color: white;
+    color: $color-white;
   }
 
   .current-position-icon {
-    height: 32px;
-    margin-left: -12px;
-    margin-top: -12px;
-    text-align:center;
-    padding-top: 3px;
-    width: 32px;
-    z-index: 999;
-    background: url('/img/icons/map-pin-current.svg') no-repeat center center;
+    background: url("/img/icons/current-location-pin.svg") no-repeat center center;
     background-size: contain;
-    color: white;
   }
 
   .clearfix {
-    content:"";
-    display:block;
-    clear:both;
+    content: "";
+    display: block;
+    clear: both;
   }
 
   .search-controls-container {
     padding: 1.5rem 1rem;
-    border: solid thin #eee;
+    border: solid thin $color-gray-lightest;
     margin-bottom: 2rem;
     background: $color-gray-lightest;
 
@@ -234,7 +243,7 @@
       position: relative;
       background: $color-white;
       cursor: pointer;
-      border: 1px solid #5b616b;
+      border: 1px solid $color-gray-light;
       border-radius: 0;
       box-sizing: border-box;
       color: $color-base;
@@ -260,12 +269,35 @@
         color: $color-black;
       }
 
+      &.disabled {
+        cursor: default;
+        background-color: $color-gray-lightest;
+      }
+
       span {
-        min-height: 2.4em;
+        height: 2.4em;
+      }
+
+      button.facility-option {
+        height: 2.4em;
+        padding: 0;
+        margin: 0;
+        background: inherit;
+        color: inherit;
+        font-weight: normal;
+
+        &:focus {
+          box-shadow: none;
+        }
       }
 
       ul.dropdown {
         padding: 0;
+      }
+
+      span.legend.spacer {
+        height: 2.4em;
+        width: 1px;
       }
 
       span.legend {
@@ -286,19 +318,22 @@
         list-style: none;
         opacity: 0;
         pointer-events: none;
-        z-index: 1001;
+        z-index: 1010;
 
         li {
           color: $color-black;
           display: block;
           padding: 0.25em 1em;
           text-decoration: none;
-          z-index: 1001;
+          z-index: 1011;
+          border-bottom: solid 1px $color-black;
+          border-left: solid 1px $color-black;
+          border-right: solid 1px $color-black;
         }
 
         li:hover {
           color: $color-white;
-          background: $color-link-default;
+          background: $color-primary-darker;
         }
       }
 
@@ -306,6 +341,19 @@
         .dropdown {
           opacity: 1;
           pointer-events: auto;
+        }
+
+        .all-facilities {
+          &:after {
+            display: inline-block;
+            font: normal normal normal 1em FontAwesome;
+            content: "\F077";
+            width: 0;
+            height: 0;
+            position: absolute;
+            right: 25px;
+            color: $color-black;
+          }
         }
       }
     }
@@ -315,14 +363,15 @@
     margin-bottom: 2rem;
   }
 
+  //TODO(css): Make this less specific
   #content .section h4 {
     padding: 0 0 .25em 0;
   }
 
   hr.light {
-    color: $color-va-gray-medium;
+    color: $color-gray-light;
     margin: 0;
-    border: 1px solid $color-va-gray-medium;
+    border: 1px solid $color-gray-light;
   }
 
   hr.title {
@@ -396,11 +445,7 @@
     hr.title {
       color: $color-primary-darker;
       margin: 0 0 2rem;
-      border: 1px solid #003E73;
+      border: 1px solid $color-primary-darker;
     }
-  }
-
-  [href^=http] {
-    background: none;
   }
 }

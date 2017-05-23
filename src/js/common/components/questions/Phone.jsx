@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
@@ -35,6 +36,7 @@ class Phone extends React.Component {
     return (
       <div>
         <ErrorableTextInput
+            type="tel"
             errorMessage={errorMessage}
             label={this.props.label}
             name={this.props.name}
@@ -49,16 +51,16 @@ class Phone extends React.Component {
 }
 
 Phone.propTypes = {
-  required: React.PropTypes.bool,
-  label: React.PropTypes.string,
-  value: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool,
+  required: PropTypes.bool,
+  label: PropTypes.string,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool,
   }).isRequired,
-  additionalClass: React.PropTypes.string,
-  additionalError: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string
+  additionalClass: PropTypes.string,
+  additionalError: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired,
+  name: PropTypes.string
 };
 
 Phone.defaultProps = {

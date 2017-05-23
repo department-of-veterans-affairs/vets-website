@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DocumentRequestPage } from '../../../src/js/disability-benefits/containers/DocumentRequestPage';
 
@@ -20,15 +20,73 @@ describe('<DocumentRequestPage>', () => {
       type: 'still_need_from_you_list',
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
+    };
+    const message = {
+      title: 'Test',
+      body: 'Testing'
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
           trackedItem={trackedItem}
           claim={claim}
-          uploadError/>
+          message={message}/>
     );
-    expect(tree.subTree('UploadError')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
+  });
+  it('should clear upload error when leaving', () => {
+    const claim = {
+      id: 1,
+      attributes: {}
+    };
+    const trackedItem = {
+      type: 'still_need_from_you_list',
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <DocumentRequestPage
+          trackedItem={trackedItem}
+          claim={claim}
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.true;
+  });
+  it('should not clear notification after completed upload', () => {
+    const claim = {
+      id: 1,
+      attributes: {}
+    };
+    const trackedItem = {
+      type: 'still_need_from_you_list',
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <DocumentRequestPage
+          trackedItem={trackedItem}
+          claim={claim}
+          uploadComplete
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.false;
   });
   it('should render due date info', () => {
     const trackedItem = {
@@ -36,7 +94,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
@@ -52,7 +111,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
@@ -67,7 +127,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -85,9 +146,13 @@ describe('<DocumentRequestPage>', () => {
       displayName: 'Testing'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const resetUploads = sinon.spy();
+    const mainDiv = document.createElement('div');
+    mainDiv.classList.add('va-nav-breadcrumbs');
+    document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <DocumentRequestPage
           claim={claim}
@@ -106,7 +171,8 @@ describe('<DocumentRequestPage>', () => {
       displayName: 'Testing'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const router = {
       push: sinon.spy()

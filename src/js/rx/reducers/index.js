@@ -1,15 +1,21 @@
 import { combineReducers } from 'redux';
 
-// TODO: Figure out why 'import * as...' isn't working here
-import prescriptions from './prescriptions';
 import alert from './alert';
-import modal from './modal';
 import disclaimer from './disclaimer';
+import errors from './errors';
+import modals from './modals';
+import preferences from './preferences';
+import prescriptions from './prescriptions';
 
-export default combineReducers({
-  prescriptions,
-  alert,
-  modal,
-  disclaimer
-});
-
+export default {
+  health: combineReducers({
+    rx: combineReducers({
+      alert,
+      disclaimer,
+      errors,
+      modals,
+      preferences,
+      prescriptions
+    })
+  })
+};

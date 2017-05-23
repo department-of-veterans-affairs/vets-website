@@ -16,3 +16,5 @@ config/config.proxy.js
 jsconfig.json
 typings.json
 typings/
+coverage
+.nyc_output

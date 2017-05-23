@@ -1,12 +1,10 @@
 import {
+  isBlank,
   isNotBlank,
   validateIfDirty
 } from '../../common/utils/validations';
 
-import {
-  makeField
-} from '../../common/model/fields';
-
+import { makeField } from '../../common/model/fields';
 
 export function validateNumAttachments(files, maxAttachments) {
   return files.length > maxAttachments;
@@ -83,4 +81,20 @@ export function validateFolderName(folderName, existingFolders = []) {
   }
 
   return err;
+}
+
+function isEmpty(value) {
+  return value === null || isBlank(value);
+}
+
+export function isEmptySearch(search) {
+  const isEmptyStartDate = isEmpty(search.dateRange.start);
+  const isEmptyEndDate = isEmpty(search.dateRange.end);
+  const isEmptyFrom = isEmpty(search.from.field.value);
+  const isEmptySubject = isEmpty(search.subject.field.value);
+
+  return isEmptyStartDate &&
+         isEmptyEndDate &&
+         isEmptyFrom &&
+         isEmptySubject;
 }

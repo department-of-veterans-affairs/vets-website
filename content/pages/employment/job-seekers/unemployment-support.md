@@ -24,9 +24,14 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible?
 Yes, if:
@@ -55,4 +60,4 @@ Receiving unemployment will not affect your wages, but if you receive separation
 
 - Current résumé or military job history
 
-If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help.
+If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facilities/) or Community Resource and Referral Center where VA staff are ready to help.

@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { paths } from '../../../src/js/messaging/config';
 import alertReducer from '../../../src/js/messaging/reducers/alert';
 
 import {
@@ -17,11 +16,13 @@ import {
   OPEN_ALERT,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SM_SAVE_PREFERENCES_FAILURE,
+  SM_SAVE_PREFERENCES_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
-import { testData } from '../../util/messaging-helpers';
+import { draft, folders } from '../../e2e/messaging-helpers';
 
 const initialState = {
   content: '',
@@ -86,7 +87,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when creating a folder succeeds', () => {
-    const folder = testData.folders.data[0].attributes;
+    const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
       folder
@@ -105,7 +106,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when deleting a folder succeeds', () => {
-    const folder = testData.folders.data[0].attributes;
+    const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: DELETE_FOLDER_SUCCESS,
       folder
@@ -136,7 +137,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when moving a message succeeds', () => {
-    const folder = testData.folders.data[0].attributes;
+    const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: MOVE_MESSAGE_SUCCESS,
       folder
@@ -155,7 +156,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when saving a draft succeeds', () => {
-    const message = testData.folderMessages.data[0].attributes;
+    const message = draft.data.attributes;
     const newState = alertReducer(initialState, {
       type: SAVE_DRAFT_SUCCESS,
       message
@@ -164,7 +165,7 @@ describe('alert reducer', () => {
     expect(newState.status).to.eql('success');
     // Check that a link to the draft exists.
     const link = SkinDeep.shallowRender(newState.content).subTree('Link');
-    expect(link.props.to).to.eql(`${paths.THREADS_URL}/${message.messageId}`);
+    expect(link.props.to).to.eql(`/drafts/${message.messageId}`);
   });
 
   it('should alert when saving a draft fails', () => {
@@ -173,8 +174,24 @@ describe('alert reducer', () => {
     expect(newState.status).to.eql('error');
   });
 
+  it('should alert when failing to save preferences', () => {
+    const state = alertReducer(initialState, {
+      type: SM_SAVE_PREFERENCES_FAILURE,
+      errors: [{ title: 'Email address is invalid' }]
+    });
+    expect(state.visible).to.be.true;
+    expect(state.status).to.eql('error');
+  });
+
+  it('should alert when successfully saving preferences', () => {
+    const state = alertReducer(initialState, { type: SM_SAVE_PREFERENCES_SUCCESS });
+    expect(state.visible).to.be.true;
+    expect(state.status).to.eql('success');
+  });
+
+
   it('should alert when sending a message succeeds', () => {
-    const message = testData.folderMessages.data[0].attributes;
+    const message = draft.data.attributes;
     const newState = alertReducer(initialState, {
       type: SEND_MESSAGE_SUCCESS,
       message
@@ -183,7 +200,7 @@ describe('alert reducer', () => {
     expect(newState.status).to.eql('success');
     // Check that a link to the message exists.
     const link = SkinDeep.shallowRender(newState.content).subTree('Link');
-    expect(link.props.to).to.eql(`${paths.THREADS_URL}/${message.messageId}`);
+    expect(link.props.to).to.eql(`/sent/${message.messageId}`);
   });
 
   it('should alert when sending a message fails', () => {

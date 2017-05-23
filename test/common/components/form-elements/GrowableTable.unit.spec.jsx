@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -10,6 +10,15 @@ class Row extends React.Component {
     return (
       <div/>
     );
+  }
+}
+
+function isValidPage(completePath) {
+  switch (completePath) {
+    case '':
+      return true;
+    default:
+      return true;
   }
 }
 
@@ -38,7 +47,8 @@ describe('<GrowableTable>', () => {
             initializeCurrentElement={initializeCurrentElement}
             rows={rows}
             onRowsUpdate={onRowsUpdate}
-            path=""/>
+            path=""
+            isValidSection={isValidPage}/>
       );
     });
 
@@ -46,7 +56,7 @@ describe('<GrowableTable>', () => {
       onRowsUpdate.reset();
     });
 
-    it('Add Button adds new row w/o distubing existing entries', () => {
+    it('Add Button adds new row w/o disturbing existing entries', () => {
       const buttons = ReactTestUtils.scryRenderedDOMComponentsWithTag(growableTable, 'button');
       const addButton = buttons.find((element) => { return element.textContent === 'Add Another'; });
       expect(addButton).to.not.be.undefined;

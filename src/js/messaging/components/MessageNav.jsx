@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class MessageNav extends React.Component {
@@ -30,6 +31,7 @@ class MessageNav extends React.Component {
         <button
             type="button"
             disabled={this.props.itemNumber <= 1}
+            aria-label="Previous"
             onClick={this.handleClickPrev}>
           <i className="fa fa-chevron-left"></i>
           <span>Previous</span>
@@ -37,6 +39,7 @@ class MessageNav extends React.Component {
         <button
             type="button"
             disabled={this.props.itemNumber >= this.props.totalItems}
+            aria-label="Next"
             onClick={this.handleClickNext}>
           <span>Next</span>
           <i className="fa fa-chevron-right"></i>
@@ -47,14 +50,14 @@ class MessageNav extends React.Component {
 }
 
 MessageNav.propTypes = {
-  currentRange: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  currentRange: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ]).isRequired,
-  messageCount: React.PropTypes.number.isRequired,
-  onItemSelect: React.PropTypes.func,
-  itemNumber: React.PropTypes.number.isRequired,
-  totalItems: React.PropTypes.number.isRequired
+  messageCount: PropTypes.number.isRequired,
+  onItemSelect: PropTypes.func,
+  itemNumber: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired
 };
 
 export default MessageNav;

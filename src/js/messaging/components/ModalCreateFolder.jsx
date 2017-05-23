@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import Modal from '../../common/components/Modal';
 import { makeField } from '../../common/model/fields';
@@ -35,30 +37,35 @@ class ModalCreateFolder extends React.Component {
     const newFolderName = this.props.newFolderName;
     const error = validateFolderName(newFolderName, foldersWeHave);
 
-    const modalContents = (
-      <form onSubmit={this.handleSubmit}>
-        <h3 className="messaging-modal-title">
-          Create new folder
-        </h3>
-        <ErrorableTextInput
-            errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
-            label="Please enter a new folder name:"
-            onValueChange={this.handleValueChange}
-            name="newFolderName"
-            charMax={createNewFolderSettings.maxLength}
-            field={this.props.newFolderName}/>
+    let modalContents;
 
-        <div className="va-modal-button-group">
-          <button
-              disabled={error.hasError}
-              type="submit">Create</button>
-          <button
-              className="usa-button-outline"
-              onClick={this.props.onClose}
-              type="button">Cancel</button>
-        </div>
-      </form>
-    );
+    if (this.props.loading) {
+      modalContents = <LoadingIndicator message="Creating your folder..."/>;
+    } else {
+      modalContents = (
+        <form onSubmit={this.handleSubmit}>
+          <h3>
+            Create new folder
+          </h3>
+          <ErrorableTextInput
+              errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
+              label="Please enter a new folder name:"
+              onValueChange={this.handleValueChange}
+              name="newFolderName"
+              charMax={createNewFolderSettings.maxLength}
+              field={this.props.newFolderName}/>
+          <div className="va-modal-button-group">
+            <button
+                disabled={error.hasError || !this.props.newFolderName.dirty}
+                type="submit">Create</button>
+            <button
+                className="usa-button-outline"
+                onClick={this.props.onClose}
+                type="button">Cancel</button>
+          </div>
+        </form>
+      );
+    }
 
     return (
       <Modal
@@ -72,15 +79,16 @@ class ModalCreateFolder extends React.Component {
 }
 
 ModalCreateFolder.propTypes = {
-  errorMessage: React.PropTypes.string,
-  cssClass: React.PropTypes.string,
-  folders: React.PropTypes.array,
-  newFolderName: React.PropTypes.object,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func,
-  onSubmit: React.PropTypes.func,
-  onValueChange: React.PropTypes.func,
-  visible: React.PropTypes.bool.isRequired
+  errorMessage: PropTypes.string,
+  cssClass: PropTypes.string,
+  folders: PropTypes.array,
+  newFolderName: PropTypes.object,
+  id: PropTypes.string,
+  loading: PropTypes.bool,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onValueChange: PropTypes.func,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalCreateFolder;

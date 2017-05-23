@@ -20,3 +20,4 @@
 - Emily Tavoulareas
 - Richard Wheeler, @richarduwheeler
 - Emily Wright, @emilyville
+- Ben Damman, @typesend

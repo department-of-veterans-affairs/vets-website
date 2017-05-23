@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
+import Modal from '../../common/components/Modal';
 import GlossaryList from './GlossaryList';
 
 class GlossaryModal extends React.Component {
@@ -15,40 +17,43 @@ class GlossaryModal extends React.Component {
 
   render() {
     let element;
-
     if (this.props.isVisible) {
       element = (
-        <section className="va-modal rx-modal" id="rx-glossary-modal">
-          <div className="va-modal-inner">
-            <h3 className="rx-modal-title">Glossary</h3>
-            <div className="va-modal-body rx-modal-body">
-              <GlossaryList terms={this.props.content}/>
-              <div className="va-modal-button-group cf">
-                <button type="button" onClick={this.handleCloseModal}>Close</button>
-                <Link
-                    to="/glossary"
-                    onClick={this.props.onCloseModal}>
-                  See all status definitions
-                </Link>
-              </div>
-            </div>
+        <div>
+          <GlossaryList terms={this.props.content}/>
+          <div className="va-modal-button-group cf">
+            <button type="button" onClick={this.handleCloseModal}>Close</button>
+            <Link
+                to="/glossary"
+                onClick={this.props.onCloseModal}>
+              See all status definitions
+            </Link>
           </div>
-        </section>
+        </div>
       );
     } else {
       element = (<div/>);
     }
 
-    return element;
+    return (
+      <Modal
+          cssClass="va-modal rx-modal"
+          contents={element}
+          hideCloseButton
+          id="rx-glossary-modal"
+          onClose={this.handleCloseModal}
+          title="Glossary"
+          visible={this.props.isVisible}/>
+      );
   }
 }
 
 GlossaryModal.propTypes = {
-  content: React.PropTypes.arrayOf(React.PropTypes.shape({
-    term: React.PropTypes.string,
-    definition: React.PropTypes.string
+  content: PropTypes.arrayOf(PropTypes.shape({
+    term: PropTypes.string,
+    definition: PropTypes.string
   })),
-  onCloseModal: React.PropTypes.func
+  onCloseModal: PropTypes.func
 };
 
 export default GlossaryModal;

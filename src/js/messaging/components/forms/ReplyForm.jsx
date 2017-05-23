@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 
 import { allowedMimeTypes, composeMessage } from '../../config';
 import * as validations from '../../utils/validations';
@@ -8,16 +10,21 @@ class ReplyForm extends React.Component {
   render() {
     const reply = this.props.reply;
 
-    let subject = !this.props.detailsCollapsed
-                ? <div><label>Subject line:</label> {this.props.subject}</div>
-                : null;
+    const detailsClass = classNames({
+      'msg-reply-details': true,
+      opened: !this.props.detailsCollapsed
+    });
 
     const replyDetails = (
       <div
-          className="msg-reply-details"
+          className={detailsClass}
           onClick={this.props.toggleDetails}>
-        <div><label>Reply to:</label> {this.props.recipient}</div>
-        {subject}
+        <div className="msg-reply-detail">
+          <label>Reply to:</label> {this.props.recipient}
+        </div>
+        <div className="msg-reply-detail">
+          <label>Subject line:</label> {this.props.subject}
+        </div>
       </div>
     );
 
@@ -25,6 +32,7 @@ class ReplyForm extends React.Component {
       <form id="msg-reply">
         {replyDetails}
         <MessageWriteGroup
+            disabled={this.props.disabled}
             allowedMimeTypes={allowedMimeTypes}
             errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
             files={reply.attachments}
@@ -46,26 +54,26 @@ class ReplyForm extends React.Component {
 }
 
 ReplyForm.propTypes = {
-  detailsCollapsed: React.PropTypes.bool,
-  recipient: React.PropTypes.string.isRequired,
-  subject: React.PropTypes.string.isRequired,
-
-  reply: React.PropTypes.shape({
-    body: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+  disabled: PropTypes.bool,
+  detailsCollapsed: PropTypes.bool,
+  recipient: PropTypes.string.isRequired,
+  subject: PropTypes.string.isRequired,
+  reply: PropTypes.shape({
+    body: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    attachments: React.PropTypes.array
+    attachments: PropTypes.array
   }).isRequired,
 
-  onAttachmentsClose: React.PropTypes.func,
-  onAttachmentUpload: React.PropTypes.func,
-  onAttachmentsError: React.PropTypes.func,
-  onBodyChange: React.PropTypes.func,
-  onSaveReply: React.PropTypes.func.isRequired,
-  onSendReply: React.PropTypes.func.isRequired,
-  toggleConfirmDelete: React.PropTypes.func,
-  toggleDetails: React.PropTypes.func
+  onAttachmentsClose: PropTypes.func,
+  onAttachmentUpload: PropTypes.func,
+  onAttachmentsError: PropTypes.func,
+  onBodyChange: PropTypes.func,
+  onSaveReply: PropTypes.func.isRequired,
+  onSendReply: PropTypes.func.isRequired,
+  toggleConfirmDelete: PropTypes.func,
+  toggleDetails: PropTypes.func
 };
 
 export default ReplyForm;

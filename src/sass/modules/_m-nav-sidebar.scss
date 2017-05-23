@@ -1,0 +1,75 @@
+//====================================
+// SCSS for content/components/navigation-sidebar.html 
+//====================================
+
+.va-sidebarnav {
+  li {
+    border-top-color: $color-gray-lighter;
+  }
+
+  @include media-maxwidth($medium-screen) {
+    left: 0;
+    height: 100%;
+    overflow: scroll;
+    padding: 1.6rem;
+    position: absolute;
+    top: 0;
+    transform: translateX(100%);
+    transition: transform ease-out 250ms;
+
+    // Necessary to override .usa-grid .usa-width-one-fourth
+    .va-l-detail-page & {
+       width: 100%;
+    }
+
+    &::before {
+      background: $color-link-default-hover;
+      content: "\00A0";
+      display: block;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    > div {
+      background: $color-white;
+      border-left: 1px solid $color-gray-light;
+      height: 100%;
+      max-width: 30rem;
+      overflow: auto;
+      padding: 3.2rem 1.6rem 1.6rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 80%;
+      z-index: 2;
+    }
+
+    &--opened {
+      transform: translateX(0);
+    }
+
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  @include media($medium-screen + 1) {
+    a {
+      padding-right: 1.6rem;
+    }
+
+    &-close {
+      display: none;
+    }
+
+    .usa-sidenav-list {
+      margin-right: 1.6rem;
+    }
+  }
+}

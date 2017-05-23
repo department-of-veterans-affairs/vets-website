@@ -14,13 +14,20 @@ const props = {
     subject: makeField('')
   },
   recipients: [],
+  loading: {
+    recipients: false
+  },
   deleteConfirmModal: {
+    visible: false
+  },
+  saveConfirmModal: {
     visible: false
   },
 
   // No-op function to override dispatch
   setMessageField: () => {},
-  dispatch: () => {}
+  dispatch: () => {},
+  router: {}
 };
 
 describe('Compose', () => {

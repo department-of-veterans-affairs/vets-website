@@ -4,26 +4,34 @@ import Folder from './containers/Folder';
 import Main from './containers/Main';
 import Thread from './containers/Thread';
 import Settings from './containers/Settings';
+import ManageFolders from './containers/ManageFolders';
+import EmailNotifications from './containers/EmailNotifications';
 
 const routes = {
   path: '/',
   component: MessagingApp,
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/folder/0')
+    onEnter: (nextState, replace) => replace('/inbox')
   },
   childRoutes: [
     {
       path: '',
       component: Main,
       childRoutes: [
-        {
-          path: 'folder',
-          onEnter: (nextState, replace) => { replace('/folder/0'); }
-        },
         { path: 'compose', component: Compose },
-        { path: 'folder/:id', component: Folder },
-        { path: 'thread/:id', component: Thread },
-        { path: 'settings', component: Settings }
+        {
+          path: 'settings',
+          component: Settings,
+          indexRoute: {
+            onEnter: (nextState, replace) => replace('/settings/folders')
+          },
+          childRoutes: [
+            { path: 'folders', component: ManageFolders },
+            { path: 'notifications', component: EmailNotifications },
+          ]
+        },
+        { path: ':folderName', component: Folder },
+        { path: ':folderName/:messageId', component: Thread },
       ]
     }
   ]

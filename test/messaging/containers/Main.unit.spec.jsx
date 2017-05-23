@@ -24,6 +24,14 @@ const props = {
     visible: false
   },
   persistFolder: 0,
+  loading: {
+    creatingFolder: false,
+    deletingFolder: false,
+    deletingMessage: false,
+    movingMessage: false,
+    savingDraft: false,
+    sendingMessage: false
+  },
 
   // No-op function to override dispatch
   dispatch: () => {}

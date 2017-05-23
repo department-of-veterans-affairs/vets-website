@@ -14,7 +14,11 @@ relatedlinks:
     title: Unemployment Support
 ---
 
+<div class="va-introtext">
+
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies.
+
+</div>
 
 ### Being well prepared is critical to your success
 

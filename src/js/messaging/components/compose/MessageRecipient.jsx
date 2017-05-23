@@ -1,18 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import classNames from 'classnames';
 
 class MessageRecipient extends React.Component {
   render() {
-    let error;
-
-    if (!!this.props.errorMessage) {
-      error = (
-        <p className="usa-input-error-message">
-          {this.props.errorMessage}
-        </p>);
-    }
-
     const fieldCss = classNames(
       this.props.cssClass,
       { 'usa-input-error': !!this.props.errorMessage },
@@ -21,9 +13,9 @@ class MessageRecipient extends React.Component {
 
     return (
       <div className={fieldCss}>
-        {error}
         <ErrorableSelect
-            label="To:"
+            errorMessage={this.props.errorMessage}
+            label="To"
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}
@@ -34,22 +26,22 @@ class MessageRecipient extends React.Component {
 }
 
 MessageRecipient.propTypes = {
-  cssClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  onValueChange: React.PropTypes.func,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string })
+  cssClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  onValueChange: PropTypes.func,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.number }),
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string })
     ])).isRequired,
-  recipient: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  recipient: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired
 };
 
