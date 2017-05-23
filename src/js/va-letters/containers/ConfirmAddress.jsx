@@ -17,7 +17,7 @@ class ConfirmAddress extends React.Component {
   }
 
   render() {
-    const buttons = this.props.letters.addressConfirmed !== false ?
+    const buttons = this.props.isAddressConfirmed !== false ?
         (<div className="form-progress-buttons">
           <div className="small-6 medium-3 columns">
             <ProgressButton
@@ -33,7 +33,7 @@ class ConfirmAddress extends React.Component {
           </div>
         </div>) : null;
 
-    const alert = this.props.letters.addressConfirmed === false ?
+    const alert = this.props.isAddressConfirmed === false ?
         (<div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">Your address on file is incorrect</h4>
@@ -60,11 +60,9 @@ class ConfirmAddress extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userState = state.user;
-  const lettersState = state.vaLetters;
+  const isAddressConfirmed = state.vaLetters.letters.isAddressConfirmed;
   return {
-    profile: userState.profile,
-    letters: lettersState.letters
+    isAddressConfirmed
   };
 }
 
