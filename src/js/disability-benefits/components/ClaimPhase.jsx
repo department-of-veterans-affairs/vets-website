@@ -17,15 +17,15 @@ const COMPLETE_PHASE = 5;
 const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
-  const processClass = 'step';
+  const processClass = 'process-step';
   const stepClass = stepClasses[phase];
   if (phase === current) {
-    return `${stepClass} ${processClass} section-current`;
+    return `${processClass} list-${stepClass} section-current`;
   } else if (current > phase) {
-    return `${stepClass} ${processClass} section-complete`;
+    return `${processClass} list-${stepClass} section-complete`;
   }
 
-  return `${stepClass} ${processClass}`;
+  return `${processClass} list-${stepClass}`;
 }
 
 
