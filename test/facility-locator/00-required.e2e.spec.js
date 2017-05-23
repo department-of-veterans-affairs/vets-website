@@ -20,13 +20,12 @@ module.exports = E2eHelpers.createE2eTest(
     .setValue('input[name="streetCityStateZip"]', 'Seattle, WA');
 
     client
-      .click('input[type="submit"]');
-
-    client
+      .click('input[type="submit"]')
+      .waitForElementVisible('.facility-result', Timeouts.normal)
       .axeCheck('.main');
 
+    // check detail pages
     client
-      .waitForElementVisible('.facility-result', Timeouts.normal)
       .click('.facility-result a')
       .waitForElementVisible('.facility-detail', Timeouts.normal)
       .axeCheck('.main');
