@@ -43,4 +43,18 @@ describe('<TrackPackage>', () => {
       });
     });
   });
+
+  it('should show a message when tracking info is not yet available', () => {
+    const tree = SkinDeep.shallowRender(<TrackPackage isPending items={[]}/>);
+    expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
+      'You recently submitted a refill, and the tracking information isn\'t available yet.'
+    );
+  });
+
+  it('should show a message when tracking info has expired', () => {
+    const tree = SkinDeep.shallowRender(<TrackPackage items={[]}/>);
+    expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
+      'Your prescription shipped more than 30 days ago, and tracking information is no longer available.'
+    );
+  });
 });
