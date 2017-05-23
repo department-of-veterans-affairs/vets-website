@@ -62,7 +62,7 @@ class Main extends React.Component {
 
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
-      this.getUserData();
+      this.getUserData(this.props.dispatch);
       this.getLogoutUrl();
     }
   }
@@ -121,7 +121,7 @@ class Main extends React.Component {
           this.handleLogout();
         }
       } else {
-        if (this.getUserData()) {
+        if (this.getUserData(this.props.dispatch)) {
           this.props.onUpdateLoggedInStatus(true);
         }
       }
@@ -162,7 +162,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    }
+    },
+    dispatch
   };
 };
 

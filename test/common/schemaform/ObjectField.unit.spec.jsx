@@ -159,7 +159,8 @@ describe('Schemaform: ObjectField', () => {
           type: 'boolean'
         },
         test2: {
-          type: 'string'
+          type: 'string',
+          'ui:collapsed': true
         }
       }
     };

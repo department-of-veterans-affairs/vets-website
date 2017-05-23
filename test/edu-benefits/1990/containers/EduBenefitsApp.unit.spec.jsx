@@ -1,12 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { createStore } from 'redux';
+import createCommonStore from '../../../../src/js/common/store';
 
 import EduBenefitsApp from '../../../../src/js/edu-benefits/1990/containers/EduBenefitsApp';
 import reducer from '../../../../src/js/edu-benefits/1990/reducers';
 
-const store = createStore(reducer);
+const store = createCommonStore(reducer);
 
 describe('<EduBenefitsApp>', () => {
   it('Sanity check the component renders', () => {

@@ -7,21 +7,23 @@ import { Provider } from 'react-redux';
 
 import VALettersApp from './containers/VALettersApp.jsx';
 import initReact from '../common/init-react';
-import { commonStore } from '../common/store';
 import routes from './routes.jsx';
+import reducer from './reducers';
+import createCommonStore from '../common/store';
+import createLoginWidget from '../login/login-entry';
 
-require('../common');  // Bring in the common javascript.
+require('../common');
 require('../../sass/va-letters.scss');
-require('../login/login-entry.jsx');
 
-
+const store = createCommonStore(reducer);
+createLoginWidget(store);
 const history = useRouterHistory(createHistory)({
   basename: '/va-letters'
 });
 
 function init() {
   ReactDOM.render((
-    <Provider store={commonStore}>
+    <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={VALettersApp}>
           <IndexRedirect to="/confirm-address"/>
