@@ -32,27 +32,27 @@ module.exports = E2eHelpers.createE2eTest(
 
     // timeline
     client
-      .expect.element('.five.last.step.section-current').to.be.present;
+      .expect.element('.list-five.section-current').to.be.present;
     client
-      .expect.element('.one.step.section-complete').to.be.present;
+      .expect.element('.list-one.section-complete').to.be.present;
     client
-      .expect.element('.two.step.section-complete').to.be.present;
+      .expect.element('.list-two.section-complete').to.be.present;
     client
-      .expect.element('.three.step.section-complete').to.be.present;
+      .expect.element('.list-three.section-complete').to.be.present;
     client
-      .expect.element('.four.step.section-complete').to.be.present;
+      .expect.element('.list-four.section-complete').to.be.present;
 
     // timeline expand
     client
-      .click('li.step.one')
-      .waitForElementVisible('li.step.one .claims-evidence', Timeouts.slow);
+      .click('li.list-one')
+      .waitForElementVisible('li.list-one .claims-evidence', Timeouts.slow);
     client
       .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is closed');
     client
       .expect.element('button.older-updates').to.be.present;
     client
-      .click('li.step.one')
-      .waitForElementNotPresent('li.step.one .claims-evidence', Timeouts.slow);
+      .click('li.list-one')
+      .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow);
 
     // files needed
     client

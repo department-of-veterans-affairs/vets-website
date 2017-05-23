@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import { createStore } from 'redux';
 import 'babel-polyfill';
 import { set } from 'lodash/fp';
 
 import { calculatorConstants } from '../../e2e/gibct-helpers';
+import createCommonStore from '../../../src/js/common/store';
 import reducer from '../../../src/js/gi/reducers';
 import { getCalculatedBenefits } from '../../../src/js/gi/selectors/calculator';
 
-const defaultState = createStore(reducer).getState();
+const defaultState = createCommonStore(reducer).getState();
 
 defaultState.constants = {
   constants: {},
