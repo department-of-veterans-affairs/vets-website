@@ -60,7 +60,7 @@ class ConfirmAddress extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const isAddressConfirmed = state.vaLetters.letters.isAddressConfirmed;
+  const isAddressConfirmed = state.vaLetters.lettersStore.isAddressConfirmed;
   return {
     isAddressConfirmed
   };
