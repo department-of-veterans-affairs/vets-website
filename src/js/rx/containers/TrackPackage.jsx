@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { rxStatuses } from '../config';
 import SortableTable from '../../common/components/SortableTable';
-import { formatDate } from '../utils/helpers';
 import TrackPackageLink from '../components/TrackPackageLink';
+import { rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
 
-class TrackPackage extends React.Component {
+export class TrackPackage extends React.Component {
   constructor(props) {
     super(props);
     this.renderTable = this.renderTable.bind(this);
