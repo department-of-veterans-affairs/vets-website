@@ -25,9 +25,9 @@
     return closeState(alternateQuestion);
   }
   function reInitWidget() {
-    const container = document.querySelector('.expander-container');
-    const button = container.querySelector('.expander-button');
-    const content = container.querySelector('.expander-content');
+    const container = document.querySelector('.wizard-container');
+    const button = container.querySelector('.wizard-button');
+    const content = container.querySelector('.wizard-content');
     const radios = container.querySelectorAll('input');
     const apply = container.querySelector('#apply-now-button');
     const warning = container.querySelector('#transfer-warning');
@@ -65,7 +65,7 @@
       });
     });
     button.addEventListener('click', () => {
-      toggleClass(content, 'expander-content-closed');
+      toggleClass(content, 'wizard-content-closed');
       toggleClass(button, 'va-button-primary');
     });
   }

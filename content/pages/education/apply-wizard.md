@@ -41,13 +41,13 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Ready to apply?
 
-<div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Apply for or Update Benefits</button>
+<div class="wizard-container">
+  <button class="usa-button-primary va-button-primary wizard-button">Apply for or Update Benefits</button>
 
   <p>
-    <div class="form-expanding-group-open expander-content expander-content-closed">
-      <div class="expander-content-inner">
-        <div class="expander-content-question" data-question="create-or-update" data-state="open">
+    <div class="form-expanding-group-open wizard-content wizard-content-closed">
+      <div class="wizard-content-inner">
+        <div class="wizard-content-question" data-question="create-or-update" data-state="open">
         <label>Are you applying for a new benefit or updating your current education benefits?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="create-or-update" id="new-application" value="new-application" data-next-question="create" data-alternate="existing-application">
@@ -56,7 +56,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="existing-application">Updating my current education benefits</label>
           </div>
         </div>
-        <div class="expander-content-question" data-question="create" data-alternate="update" data-state="closed">
+        <div class="wizard-content-question" data-question="create" data-alternate="update" data-state="closed">
         <label>Are you a Veteran or Servicemember claiming a benefit based on your own service?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="create" id="is-veteran" value="is-veteran" data-next-question="national-call-to-service" data-alternate="is-not-veteran">
@@ -65,7 +65,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="is-not-veteran">No</label>
           </div>
         </div>
-        <div class="expander-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
+        <div class="wizard-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
         <label>Are you claiming a National Call to Service education benefit and if so, have you completed <strong>each</strong> of the following steps:<br/>
           <ul>
             <li>Entered service 10/01/03 – 12/31/07</li>
@@ -79,7 +79,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="is-not-ncts">No</label>
           </div>
         </div>
-        <div class="expander-content-question" data-question="update" data-alternate="create" data-state="closed">
+        <div class="wizard-content-question" data-question="update" data-alternate="create" data-state="closed">
         <label>Are you receiving education benefits from a veteran who is deceased, permanently disabled, MIA or a POW?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
@@ -88,7 +88,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="is-not-dependent">No</label>
           </div>
         </div>
-        <div class="expander-content-question" data-question="create-dependent" data-alternate="national-call-to-service" data-state="closed">
+        <div class="wizard-content-question" data-question="create-dependent" data-alternate="national-call-to-service" data-state="closed">
         <label>Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="create-dependent" id="create-dependent" value="is-dependent" data-selected-form="5490" data-alternate="create-non-dependent">
@@ -97,7 +97,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="create-non-dependent">No</label>
           </div>
         </div>
-        <div class="expander-content-question" data-question="create-transfer" data-state="closed">
+        <div class="wizard-content-question" data-question="create-transfer" data-state="closed">
         <label>Has your sponsor transferred their benefits?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="create-transfer" id="create-transfer" value="is-transfer" data-selected-form="1990e" data-alternate="create-transfer">

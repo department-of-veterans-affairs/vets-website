@@ -9,8 +9,8 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/education/apply-wizard/`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Education Benefits Application Process: Vets.gov')
-      .waitForElementVisible('.expander-container', Timeouts.normal)
-      .click('.expander-button')
+      .waitForElementVisible('.wizard-container', Timeouts.normal)
+      .click('.wizard-button')
       .waitForElementVisible('[data-question="create-or-update"]', Timeouts.normal)
       .expect.element('[data-question="create-or-update"]').to.have.css('left').equals('auto');
 
@@ -116,7 +116,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Navigate to application
     client
       .click('#apply-now-button');
-    E2eHelpers.expectNavigateAwayFrom(client, `${E2eHelpers.baseUrl}/education/apply-wizard/`);
+    E2eHelpers.expectNavigateAwayFrom(client, '/education/apply-wizard/');
     client
       .end();
   }
