@@ -69,9 +69,23 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage—fill out the Servicemembers' Group Life Insurance Election and Certificate and give this form to your unit’s personnel officer.
+To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
 
-[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
+**If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
+
+- [Go to  www.dmdc.osd.mil/milconnect](www.dmdc.osd.mil/milconnect).
+- Sign in.
+- Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
+- Check your coverage and beneficiary info and make any needed updates.
+
+You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
+
+**If your branch of service hasn't yet started using SOES**, fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
+
+<br>
+
+[Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
+
 
 ### How much will I pay for these benefits?
 
