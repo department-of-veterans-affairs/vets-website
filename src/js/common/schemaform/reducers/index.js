@@ -39,6 +39,12 @@ function recalculateSchemaAndData(initialState) {
         newState = _.set(['pages', pageKey, 'schema'], schema, newState);
       }
 
+      if (page.pageType === 'array'
+        && page.editMode.length !== _.get(page.arrayPath, newState.data).length) {
+        const arrayData = _.get(page.arrayPath, newState.data);
+        newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+      }
+
       return newState;
     }, initialState);
 }
@@ -60,7 +66,9 @@ export default function createSchemaFormReducer(formConfig) {
           [page.pageKey]: {
             uiSchema: page.uiSchema,
             schema,
-            editMode: false
+            editMode: page.pageType === 'array' ? [] : false,
+            pageType: page.pageType,
+            arrayPath: page.arrayPath
           }
         },
         data
@@ -91,6 +99,9 @@ export default function createSchemaFormReducer(formConfig) {
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
+        if (state.pages[action.page].pageType === 'array') {
+          return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
+        }
         return _.set(['pages', action.page, 'editMode'], action.edit, state);
       }
       case SET_PRIVACY_AGREEMENT: {

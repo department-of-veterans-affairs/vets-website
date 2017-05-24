@@ -55,7 +55,11 @@ class FormPage extends React.Component {
   }
 
   onChange(formData) {
-    this.props.setData(formData);
+    let newData = formData;
+    if (this.props.route.pageConfig.pageType === 'array') {
+      newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+    }
+    this.props.setData(newData);
   }
 
   onSubmit() {
@@ -71,7 +75,9 @@ class FormPage extends React.Component {
     const { form, route: { pageConfig, pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form.data);
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
+    const pageIndex = pageConfig.pageType === 'array'
+      ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
+      : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
     return { pages: expandedPageList, pageIndex };
   }
 
@@ -89,7 +95,11 @@ class FormPage extends React.Component {
       schema,
       uiSchema
     } = this.props.form.pages[route.pageConfig.pageKey];
-    const data = this.props.form.data;
+
+    const data = route.pageConfig.pageType === 'array'
+      ? _.get([route.pageConfig.arrayPath, this.props.params.index], this.props.form.data)
+      : this.props.form.data;
+
     return (
       <div className="form-panel">
         <SchemaForm

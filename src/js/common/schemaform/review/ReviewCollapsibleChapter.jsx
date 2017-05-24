@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import SchemaForm from '../SchemaForm';
-import { getArrayFields, getNonArraySchema } from '../helpers';
+import { getArrayFields, getNonArraySchema, expandArrayPages } from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
@@ -21,22 +21,30 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.toggleChapter = this.toggleChapter.bind(this);
-    this.state = { open: false };
+    this.state = { open: false, pagesEditing: {} };
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
   }
 
-  focusOnPage(key) {
-    const pageDiv = document.querySelector(`#${key}`);
+  onChange(formData, path = null, index = null) {
+    let newData = formData;
+    if (path) {
+      newData = _.set([path, index], formData, this.props.form.data);
+    }
+    this.props.setData(newData);
+  }
+
+  focusOnPage(key, index) {
+    const pageDiv = document.querySelector(`#${key}${index}`);
     focusElement(pageDiv);
   }
 
-  handleEdit(key, editing) {
-    this.props.onEdit(key, editing);
-    this.scrollToPage(key);
-    this.focusOnPage(key);
+  handleEdit(key, editing, index) {
+    this.props.onEdit(key, editing, index);
+    this.scrollToPage(key, index);
+    this.focusOnPage(key, index);
   }
 
   scrollToTop() {
@@ -47,8 +55,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
     });
   }
 
-  scrollToPage(key) {
-    scroller.scrollTo(`${key}ScrollElement`, {
+  scrollToPage(key, index) {
+    scroller.scrollTo(`${key}${index}ScrollElement`, {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -70,11 +78,14 @@ export default class ReviewCollapsibleChapter extends React.Component {
     if (this.state.open) {
       const { form, pages } = this.props;
       const activePages = getActivePages(pages, form.data);
+      const expandedPages = expandArrayPages(activePages, form.data);
 
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-          {activePages.map(page => {
-            const editing = form.pages[page.pageKey].editMode;
+          {expandedPages.map(page => {
+            const editing = page.pageType === 'array'
+              ? form.pages[page.pageKey].editMode[page.index]
+              : form.pages[page.pageKey].editMode;
             // Our pattern is to separate out array fields (growable tables) from
             // the normal page and display them separately. The review version of
             // ObjectField will hide them in the main section.
@@ -82,21 +93,24 @@ export default class ReviewCollapsibleChapter extends React.Component {
             // This will be undefined if there are no fields other than an array
             // in a page, in which case we won't render the form, just the array
             const nonArraySchema = getNonArraySchema(form.pages[page.pageKey].schema);
+            const pageData = page.pageType === 'array'
+              ? _.get([page.arrayPath, page.index], form.data)
+              : form.data;
 
             return (
-              <div key={page.pageKey} className="form-review-panel-page">
-                <Element name={`${page.pageKey}ScrollElement`}/>
+              <div key={`${page.pageKey}${page.index}`} className="form-review-panel-page">
+                <Element name={`${page.pageKey}${page.index}ScrollElement`}/>
                 {nonArraySchema &&
                   <SchemaForm
                       name={page.pageKey}
                       title={page.title}
-                      data={form.data}
+                      data={pageData}
                       schema={nonArraySchema}
                       uiSchema={form.pages[page.pageKey].uiSchema}
-                      hideTitle={activePages.length === 1}
-                      onEdit={() => this.handleEdit(page.pageKey, !editing)}
-                      onSubmit={() => this.handleEdit(page.pageKey, false)}
-                      onChange={(formData) => this.props.setData(formData)}
+                      hideTitle={expandedPages.length === 1}
+                      onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+                      onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
+                      onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                       reviewMode={!editing}>
                     {!editing ? <div/> : <ProgressButton
                         submitButton
@@ -108,7 +122,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     <ArrayField
                         pageKey={page.pageKey}
                         pageTitle={page.title}
-                        arrayData={_.get(form.data, arrayField.path)}
+                        arrayData={_.get(arrayField.path, form.data)}
                         formData={form.data}
                         pageConfig={page}
                         schema={arrayField.schema}

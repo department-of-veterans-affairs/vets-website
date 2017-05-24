@@ -14,11 +14,12 @@ export function setData(data) {
   };
 }
 
-export function setEditMode(page, edit) {
+export function setEditMode(page, edit, index = null) {
   return {
     type: SET_EDIT_MODE,
     edit,
-    page
+    page,
+    index
   };
 }
 

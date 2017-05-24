@@ -145,7 +145,7 @@ class SchemaForm extends React.Component {
 
 SchemaForm.propTypes = {
   name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.any.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
   data: PropTypes.any,

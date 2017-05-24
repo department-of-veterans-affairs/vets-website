@@ -72,7 +72,7 @@ export function createRoutes(formConfig) {
     .map(page => {
       return {
         path: page.path,
-        component: page.component || FormPage,
+        component: FormPage,
         pageConfig: page,
         pageList
       };
@@ -412,11 +412,20 @@ export function createUSAStateLabels(states) {
 export function expandArrayPages(pageList, data) {
   return pageList.reduce((currentList, nextPage) => {
     if (nextPage.pageType === 'array') {
-      const arrayPages = _.get(nextPage.arrayPath, data).map((item, index) => {
-        return _.set('path', nextPage.path.replace(':index', index), nextPage);
-      });
+      const items = _.get(nextPage.arrayPath, data);
+      const arrayPages = items
+        .map((item, index) => {
+          return _.assign(nextPage, {
+            path: nextPage.path.replace(':index', index),
+            index
+          });
+        })
+        // doing this after the map so that we don't change indexes
+        .filter(page => page.itemFilter(items[page.index]));
+
       return currentList.concat(arrayPages);
     }
+
     return currentList.concat(nextPage);
   }, []);
 }

@@ -2,7 +2,6 @@ import _ from 'lodash/fp';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
 
-import ArrayPage from '../../common/schemaform/ArrayPage';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -182,7 +181,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createDisclosureTitle('spouseFullName', 'Expected income'),
-            'ui:description': 'Any income you expect to receive in the next 12 months',
+            'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: _.merge(expectedIncomeUI, {
               salary: {
                 'ui:required': () => true
@@ -198,18 +197,25 @@ const formConfig = {
         },
         dependentsNetWorth: {
           path: 'financial-disclosure/net-worth/dependents/:index',
-          title: 'Net worth',
+          title: item => `${item.childFullName.first} ${item.childFullName.last} net worth`,
           pageType: 'array',
           arrayPath: 'children',
-          component: ArrayPage,
-          itemFilter: (item) => item.childNotInHousehold,
+          itemFilter: (item) => !item.childNotInHousehold,
           initialData: {
-            children: [{
-              childFullName: {
-                first: 'First',
-                last: 'Child'
+            children: [
+              {
+                childFullName: {
+                  first: 'First',
+                  last: 'Child'
+                }
+              },
+              {
+                childFullName: {
+                  first: 'Second',
+                  last: 'Child'
+                }
               }
-            }]
+            ]
           },
           schema: {
             type: 'object',
@@ -222,6 +228,46 @@ const formConfig = {
             'ui:title': createDisclosureTitle('childFullName', 'Net worth'),
             'ui:description': 'Bank accounts, investments, and property',
             netWorth: netWorthUI
+          }
+        },
+        dependentsMonthlyIncome: {
+          path: 'financial-disclosure/monthly-income/dependents/:index',
+          title: item => `${item.childFullName.first} ${item.childFullName.last} monthly income`,
+          pageType: 'array',
+          arrayPath: 'children',
+          itemFilter: (item) => !item.childNotInHousehold,
+          initialData: {
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              monthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+            }
+          },
+          uiSchema: {
+            'ui:title': createDisclosureTitle('childFullName', 'Monthly income'),
+            'ui:description': 'Social Security or other pensions',
+            monthlyIncome: monthlyIncomeUI
+          }
+        },
+        dependentsExpectedIncome: {
+          path: 'financial-disclosure/expected-income/dependents/:index',
+          title: item => `${item.childFullName.first} ${item.childFullName.last} expected income`,
+          pageType: 'array',
+          arrayPath: 'children',
+          itemFilter: (item) => !item.childNotInHousehold,
+          initialData: {
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              expectedIncome: expectedIncomeSchema(fullSchemaPensions)
+            }
+          },
+          uiSchema: {
+            'ui:title': createDisclosureTitle('childFullName', 'Expected income'),
+            'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
+            expectedIncome: expectedIncomeUI
           }
         }
       }
