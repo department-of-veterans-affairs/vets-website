@@ -178,7 +178,6 @@ class VAMap extends Component {
       });
 
       this.props.searchWithAddress(currentQuery, currentBoundsArray);
-      this.centerMap();
     }
   }
 
