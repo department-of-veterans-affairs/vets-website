@@ -43,6 +43,8 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
 
       // The title of the page. This will show up only on the review page
       title: '',
+      // This can also be a function that receives the current data as a param
+      title: formData => `A title for ${formData.thing}`,
 
       // Any initial data that should be set for the form
       initialData: {

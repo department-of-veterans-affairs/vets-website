@@ -30,7 +30,7 @@ const formConfig = {
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
-          title: 'Net worth',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} net worth`,
           initialData: {
             veteranFullName: {
               first: 'Joe',
@@ -56,7 +56,7 @@ const formConfig = {
         },
         monthlyIncome: {
           path: 'financial-disclosure/monthly-income',
-          title: 'Monthly income',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} monthly income`,
           initialData: {
           },
           schema: {
@@ -74,7 +74,7 @@ const formConfig = {
         },
         expectedIncome: {
           path: 'financial-disclosure/expected-income',
-          title: 'Expected income',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expected income`,
           initialData: {
           },
           schema: {
@@ -92,7 +92,7 @@ const formConfig = {
         },
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
-          title: 'Spouse net worth',
+          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} net worth`,
           // TODO: Update with spouse check
           depends: () => true,
           initialData: {
@@ -131,7 +131,7 @@ const formConfig = {
         },
         spouseMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/spouse',
-          title: 'Spouse monthly income',
+          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} monthly income`,
           depends: () => true,
           initialData: {
           },
@@ -169,7 +169,7 @@ const formConfig = {
         },
         spouseExpectedIncome: {
           path: 'financial-disclosure/expected-income/spouse',
-          title: 'Spouse expected income',
+          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} expected income`,
           depends: () => true,
           initialData: {
           },
