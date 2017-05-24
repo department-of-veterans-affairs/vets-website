@@ -29,6 +29,7 @@ const entryFiles = {
   auth: './src/js/auth/auth-entry.jsx',
   'va-letters': './src/js/va-letters/va-letters-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
+  'post-911-gibs': './src/js/post-911-gibs/post-911-gibs-entry.jsx'
 };
 
 const configGenerator = (options) => {
