@@ -82,3 +82,64 @@ export function submitForm(formConfig, form) {
     );
   };
 }
+
+/**
+ * Loads the form data from the back end into the redux store.
+ *
+ * @param  {Object} formConfig The form's config
+ */
+export function loadFormData(formConfig) {
+  return dispatch => {
+    // Query the api
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
+      mode: 'cors', // Necessary?
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel'
+        // Token: // Get the auth token...
+      },
+    }).then((res) => {
+      if (res.ok) {
+        // Note: form_data !== formData
+        return JSON.parse(res.json()).form_data;
+      }
+      // Is this the right reject text?
+      return Promise.reject(res.statusText);
+    }).then((formData) => {
+      // If we've got valid form
+      // Update the formData if the version is less than the current
+      // Finally, set the data in the redux store
+      dispatch(setData(formData));
+    });
+  };
+}
+
+/**
+ * Saves the form data to the back end
+ * @param  {Object} formConfig The form's config
+ * @param  {Object} formData   The data the user has entered so far
+ */
+export function saveFormData(formConfig, form) {
+  const body = {
+    data: form.data,
+    version: formConfig.version
+  };
+  return dispatch => { // eslint-disable-line no-unused-vars
+    // Query the api
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
+      method: 'POST',
+      mode: 'cors', // Necessary?
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel'
+        // Token: // Get the auth token...
+      },
+      body
+    }).then((res) => {
+      if (res.ok) {
+        // Set save status = 'success'
+      }
+      // Set save status = 'fail' and cry about it
+    });
+  };
+}

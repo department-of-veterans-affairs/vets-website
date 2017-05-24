@@ -41,6 +41,8 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
+  formId: '1995',
+  version: 1,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -13,6 +13,8 @@ const formConfig = {
   urlPrefix: '/1990-rjsf/',
   submitUrl: '/v0/education_benefits_claims/1990',
   trackingPrefix: 'edu-',
+  formId: '1990',
+  version: 1,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

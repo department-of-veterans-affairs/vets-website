@@ -110,6 +110,8 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-rjsf-',
+  formId: 'hca',
+  version: 1,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
