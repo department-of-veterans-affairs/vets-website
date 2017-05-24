@@ -45,8 +45,6 @@ You may chose from the following:
 
 Apply online with VA Form 22-1990N. [Find out how to apply](/education/apply/). 
 
-<br>
-
 If you enlist under the National Call to Service program, you don't qualify for MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to see if you qualify and to enroll in the National Call to Service program. This benefit affects your service contract.
 
 ### Get more information 
