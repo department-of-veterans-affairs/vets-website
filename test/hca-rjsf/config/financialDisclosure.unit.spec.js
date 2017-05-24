@@ -61,4 +61,24 @@ describe('Hca financial disclosure', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+  it('should show a warning if No is selected', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={definitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+    expect(Array.from(formDOM.querySelectorAll('.usa-alert-info')).length).to.equal(1);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_discloseFinancialInformationNo'), {
+      target: {
+        value: 'N'
+      }
+    });
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-alert-info')).length).to.equal(2);
+  });
 });
