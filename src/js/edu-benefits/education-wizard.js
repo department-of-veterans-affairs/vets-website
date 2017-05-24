@@ -52,7 +52,6 @@ function reInitWidget() {
         openState(warning);
       }
       apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
-      return false;
     }
     if (radio.dataset.nextQuestion) {
       const nextQuestion = radio.dataset.nextQuestion;
@@ -60,7 +59,6 @@ function reInitWidget() {
       openState(nextQuestionElement);
       nextQuestionElement.querySelector('input').focus();
     }
-    return false;
   });
   button.addEventListener('click', () => {
     toggleClass(content, 'wizard-content-closed');
