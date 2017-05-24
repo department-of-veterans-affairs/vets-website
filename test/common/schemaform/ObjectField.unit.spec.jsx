@@ -149,6 +149,31 @@ describe('Schemaform: ObjectField', () => {
 
     expect(tree.everySubTree('TitleField')).is.not.empty;
   });
+  it('should render component title', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': () => <div className="test-class"/>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.text()).to.contain('uiTitle');
+  });
   it('should hide expand under items when false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
