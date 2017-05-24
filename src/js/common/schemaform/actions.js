@@ -7,11 +7,10 @@ export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 
-export function setData(page, data) {
+export function setData(data) {
   return {
     type: SET_DATA,
-    data,
-    page
+    data
   };
 }
 

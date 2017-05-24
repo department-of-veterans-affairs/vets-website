@@ -215,7 +215,7 @@ export function transformForSubmit(formConfig, form) {
   return JSON.stringify(withoutViewFields, (key, value) => {
     // an object with country is an address
     if (value && typeof value.country !== 'undefined' &&
-      (!value.street || !value.city || !value.postalCode)) {
+      (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
       return undefined;
     }
 
