@@ -42,7 +42,7 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
   formId: '1995',
-  version: 1,
+  version: 0,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -41,7 +41,7 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/5495',
   trackingPrefix: 'edu-5495-',
   formId: '5495',
-  version: 1,
+  version: 0,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
