@@ -158,6 +158,8 @@ We've also been adding some additional uiSchema functionality not found in the r
 {
   // We use this instead of the title property in the JSON Schema
   'ui:title': '',
+  // It can also be a component, which will have the current form data passed as prop
+  'ui:title': ({ formData }) => <legend>{`A ${formData.thing} title`}</legend>,
 
   // We use this instead of the description property in the JSON Schema. This can be
   // a string or a React component and would normally be used on object fields in the
