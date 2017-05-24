@@ -54,7 +54,7 @@ class FormPage extends React.Component {
   }
 
   onChange(formData) {
-    this.props.setData(this.props.route.pageConfig.pageKey, formData);
+    this.props.setData(formData);
   }
 
   onSubmit() {
