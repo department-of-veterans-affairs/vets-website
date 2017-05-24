@@ -125,6 +125,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
   ignoreList.push('education/apply-wizard/*');
 }

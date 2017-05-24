@@ -16,12 +16,25 @@ describe('hca schema tests', () => {
       it(`should validate ${file}`, () => {
         const contents = JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
         const submitData = JSON.parse(transform(formConfig, contents)).form;
+        const data = JSON.parse(submitData);
         const result = v.validate(
-          JSON.parse(submitData),
+          data,
           fullSchemaHca
         );
         if (!result.valid) {
           console.log(result.errors); // eslint-disable-line
+        }
+        if (data.veteranAddress.country === 'USA') {
+          expect(data.veteranAddress.zipcode).to.not.be.empty;
+          expect(data.veteranAddress.postalCode).not.to.be.defined;
+        }
+        if (data.veteranAddress.country !== 'USA') {
+          expect(data.veteranAddress.postalCode).to.not.be.empty;
+          expect(data.veteranAddress.zipcode).not.to.be.defined;
+        }
+        if (data.spouseAddress && data.spouseAddress.country === 'USA') {
+          expect(data.spouseAddress.zipcode).to.not.be.empty;
+          expect(data.spouseAddress.postalCode).not.to.be.defined;
         }
         expect(result.valid).to.be.true;
       });
