@@ -1,5 +1,4 @@
 const mock = require('./mock-helpers');
-const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 
 // Create API routes
 function initApplicationSubmitMock(form) {
@@ -201,9 +200,8 @@ function completeDirectDeposit(client, data) {
 }
 
 function completeSchoolSelection(client, data) {
-  selectDropdown(client, 'root_educationProgram_educationType', data.educationProgram.educationType);
-
   client
+    .selectDropdown('root_educationProgram_educationType', data.educationProgram.educationType)
     .fill('input[name="root_educationProgram_name"]', data.educationProgram.name)
     .fill('input[name="root_educationProgram_address_street"]', data.educationProgram.address.street)
     .fill('input[name="root_educationProgram_address_street2"]', data.educationProgram.address.street2)
