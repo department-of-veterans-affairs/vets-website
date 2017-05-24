@@ -1,5 +1,3 @@
-const selectDropdown = require('./e2e-helpers.js').selectDropdown;
-
 function completeEducationHistory(client, data) {
   const hsDateFields = data.highSchoolOrGedCompletionDate.split('-');
   const postHighSchoolTraining = data.postHighSchoolTrainings[0];
@@ -23,15 +21,15 @@ function completeEducationHistory(client, data) {
     .clearValue('input[name="root_postHighSchoolTrainings_0_major"]')
     .setValue('input[name="root_postHighSchoolTrainings_0_major"]', postHighSchoolTraining.major)
     .clearValue('textarea[id="root_faaFlightCertificatesInformation"]')
-    .setValue('textarea[id="root_faaFlightCertificatesInformation"]', data.faaFlightCertificatesInformation);
-  selectDropdown(client, 'root_highSchoolOrGedCompletionDateMonth', parseInt(hsDateFields[1], 10).toString());
-  selectDropdown(client, 'root_highSchoolOrGedCompletionDateDay', parseInt(hsDateFields[2], 10).toString());
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_state', postHighSchoolTraining.state);
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_hoursType', postHighSchoolTraining.hoursType);
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_dateRange_fromMonth', parseInt(fromDateFields[1], 10).toString());
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_dateRange_fromDay', parseInt(fromDateFields[2], 10).toString());
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_dateRange_toMonth', parseInt(toDateFields[1], 10).toString());
-  selectDropdown(client, 'root_postHighSchoolTrainings_0_dateRange_toDay', parseInt(toDateFields[2], 10).toString());
+    .setValue('textarea[id="root_faaFlightCertificatesInformation"]', data.faaFlightCertificatesInformation)
+    .selectDropdown('root_highSchoolOrGedCompletionDateMonth', parseInt(hsDateFields[1], 10).toString())
+    .selectDropdown('root_highSchoolOrGedCompletionDateDay', parseInt(hsDateFields[2], 10).toString())
+    .selectDropdown('root_postHighSchoolTrainings_0_state', postHighSchoolTraining.state)
+    .selectDropdown('root_postHighSchoolTrainings_0_hoursType', postHighSchoolTraining.hoursType)
+    .selectDropdown('root_postHighSchoolTrainings_0_dateRange_fromMonth', parseInt(fromDateFields[1], 10).toString())
+    .selectDropdown('root_postHighSchoolTrainings_0_dateRange_fromDay', parseInt(fromDateFields[2], 10).toString())
+    .selectDropdown('root_postHighSchoolTrainings_0_dateRange_toMonth', parseInt(toDateFields[1], 10).toString())
+    .selectDropdown('root_postHighSchoolTrainings_0_dateRange_toDay', parseInt(toDateFields[2], 10).toString());
 }
 
 module.exports = {
