@@ -1,6 +1,6 @@
 @import "style";
 @import "modules/va-pagination";
-@import '~react-tabs/style/react-tabs.scss';
+// @import "~react-tabs/style/react-tabs.scss";
 
 .facility-locator {
   // TODO(css): Fix when #content .section h* is fixed
@@ -143,6 +143,10 @@
   .react-tabs [role=tab][aria-selected=true] {
     border-left-color: $color-black;
     border-right-color: $color-black;
+  }
+
+  ul.react-tabs__tab-list {
+    padding: 0;
   }
 
   .react-tabs__tab + .react-tabs__tab {
