@@ -1,18 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Purchase Loan
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/va-backed-loans/nadl/
-    title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
-  - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
-    title: Interest Rate Reduction Refinance Loan (IRRRL)
-    description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-  - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance Loan
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
+order: 1
 ---
 
 <div class="va-introtext">
@@ -64,14 +55,14 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 #### Steps to finding a home
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 ##### Look at your current finances.
 Go over your credit score, income, expenses, and monthly budget. Make sure you’re ready to buy a home—and decide how much you want to spend on a mortgage. Don’t forget to include closing costs. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 ##### Find a lender.
 
@@ -79,7 +70,7 @@ You’ll go through a private bank or mortgage company—not through us—to get
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 ##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
@@ -91,7 +82,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 </li>
 
-<li class="step four">
+<li class="process-step list-four">
 
 ##### Find a real estate agent.
 
@@ -99,7 +90,7 @@ Read all agreements—and make sure you understand any charges, fees, and commis
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
 ##### Shop for a home.
 
@@ -113,7 +104,7 @@ Look at houses in your price range until you find one that works for you.
 Once you’ve found the house you want to buy:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 ##### Work with your agent to put together and sign a purchase agreement.
 
@@ -121,7 +112,7 @@ Be sure the sales contract includes the “VA Escape Clause.” This voids the c
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 ##### Have the house appraised and inspected.
 
@@ -129,7 +120,7 @@ A VA-approved appraiser will appraise the house to make sure it meets basic prop
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 ##### Read the Closing Disclosure.
 
@@ -137,7 +128,7 @@ Your lender must give you a Closing Disclosure at least 3 business days before c
 
 </li>
 
-<li class="step four">
+<li class="process-step list-four">
 
 ##### Complete all paperwork from your lender.
 
@@ -145,7 +136,7 @@ You may need to provide more information or documents to your lender during this
 
 </li>
 
-<li class="step five">
+<li class="process-step list-five">
 
 ##### Go to the closing meeting.
 
@@ -153,7 +144,7 @@ This may be held at a title company, escrow office, or attorney’s office. Be p
 
 </li>
 
-<li class="step last six">
+<li class="process-step list-six">
 
 ##### Move in.
 

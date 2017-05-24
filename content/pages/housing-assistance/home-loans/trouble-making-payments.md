@@ -1,15 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Trouble Making Payments?
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/eligibility/
-    title: Eligibility
-    description: Find out if you can get a Certificate of Eligibility (COE) for a VA-backed home loan based on your service history and duty status.
-  - url: /housing-assistance/home-loans/apply-for-certificate-of-eligibility/
-    title: Apply for Your COE
-    description: Find out how to apply for a COE—and what to do next to get a VA-backed home loan.
+order: 4
 ---
 
 <div class="va-introtext">

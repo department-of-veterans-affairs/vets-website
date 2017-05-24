@@ -1,21 +1,25 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Home Loans
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/va-backed-loans/
-    title: VA-Backed Loans
-    description: Learn how VA-backed home loans work—and find out which loan option may be right for you.
-  - url: /housing-assistance/home-loans/eligibility/
-    title: Eligibility
-    description: Find out if you can get a Certificate of Eligibility (COE) for a VA-backed home loan based on your service history and duty status.
-  - url: /housing-assistance/home-loans/apply-for-certificate-of-eligibility/
-    title: Apply for Your COE
-    description: Find out how to apply for a COE—and what to do next to get a VA-backed home loan.
-  - url: /housing-assistance/home-loans/trouble-making-payments/
-    title: Trouble Making Payments?
-    description: Get help to avoid foreclosure if you’re struggling to make your monthly mortgage payments.
+children: housingHomeLoans
+order: 1
+majorlinks:
+  - heading:
+    links:
+    - url: /housing-assistance/home-loans/va-backed-loans/
+      title: VA-Backed Loans
+      description: Learn how VA-backed home loans work—and find out which loan option may be right for you.
+    - url: /housing-assistance/home-loans/eligibility/
+      title: Eligibility
+      description: Find out if you can get a Certificate of Eligibility (COE) for a VA-backed home loan based on your service history and duty status.
+    - url: /housing-assistance/home-loans/apply-for-certificate-of-eligibility/
+      title: Apply for Your COE
+      description: Find out how to apply for a COE—and what to do next to get a VA-backed home loan.
+    - url: /housing-assistance/home-loans/trouble-making-payments/
+      title: Trouble Making Payments?
+      description: Get help to avoid foreclosure if you’re struggling to make your monthly mortgage payments.
 ---
 
 <div class="va-introtext">

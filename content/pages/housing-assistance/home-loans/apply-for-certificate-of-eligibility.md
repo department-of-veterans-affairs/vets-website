@@ -1,15 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Apply for Your COE
 concurrence: 
-template: 6-info-page
-relatedlinks:
-  - url: /housing-assistance/home-loans/eligibility/
-    title: Eligibility
-    description: Not sure if you qualify for a COE? Find out based on your service history and duty status.
-  - url: /housing-assistance/home-loans/trouble-making-payments/
-    title: Trouble Making Payments?
-    description: Get help to avoid foreclosure if you’re struggling to make your monthly mortgage payments.
+order: 3
 ---
 
 <div class="va-introtext">

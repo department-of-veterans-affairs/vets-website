@@ -1,21 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Cash-Out Refinance Loan
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/trouble-making-payments/
-    title: Trouble Making Payments?
-    description: Get help to avoid foreclosure if you’re struggling to make your monthly mortgage payments.
-  - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
-    title: Interest Rate Reduction Refinance Loan (IRRRL)
-    description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-  - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
-    title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a loan from a private lender. 
-  - url: /housing-assistance/home-loans/va-backed-loans/nadl/
-    title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
+order: 4
 ---
 
 <div class="va-introtext">
@@ -48,7 +36,7 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 ### How can I get a cash-out refinance loan?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 #### Find a lender.
 
@@ -56,7 +44,7 @@ You’ll go through a private bank or mortgage company—not directly through us
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 #### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
@@ -66,7 +54,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 #### Give your lender any needed information.
 
@@ -80,7 +68,7 @@ In addition to your COE, you’ll need to give your lender:
 
 </li>
 
-<li class="step last four">
+<li class="process-step list-four">
 
 #### Follow your lender’s process for closing on the loan, and pay your closing costs.
 

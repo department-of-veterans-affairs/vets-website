@@ -1,18 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Native American Direct Loan (NADL)
+display_title: Native American Direct Loan
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
-    title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed Purchase Loan and get better terms than with a private lender loan.
-  - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
-    title: Interest Rate Reduction Refinance Loan (IRRRL)
-    description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-  - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance Loan
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed Cash-Out Refinance loan.
+order: 2
 ---
 
 <div class="va-introtext">
@@ -51,9 +43,10 @@ A NADL often offers better terms than a home loan from a private bank or mortgag
 ### How do I get a NADL?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
-First, apply for a VA home loan Certificate of Eligibility (COE). This certification confirms that you qualify for the VA home loan benefit. <br />
+#### Apply for a VA home loan Certificate of Eligibility (COE).
+This certification confirms that you qualify for the VA home loan benefit. <br />
 [Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/). 
 <br />
 
@@ -61,9 +54,10 @@ First, apply for a VA home loan Certificate of Eligibility (COE). This certifica
 
 </li>
 
-<li class="step last two">
+<li class="process-step list-two">
 
-Then, contact the VA regional loan center for your state to begin the NADL process. [Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+#### Contact the VA regional loan center for your state to begin the NADL process.
+[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 </li>
 </ol>
