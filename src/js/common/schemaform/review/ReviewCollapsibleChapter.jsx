@@ -96,7 +96,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       hideTitle={activePages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing)}
                       onSubmit={() => this.handleEdit(page.pageKey, false)}
-                      onChange={(formData) => this.props.setData(page.pageKey, formData)}
+                      onChange={(formData) => this.props.setData(formData)}
                       reviewMode={!editing}>
                     {!editing ? <div/> : <ProgressButton
                         submitButton
@@ -152,4 +152,3 @@ ReviewCollapsibleChapter.propTypes = {
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };
-

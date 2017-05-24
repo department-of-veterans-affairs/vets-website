@@ -1,5 +1,6 @@
 const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
+const FacilityHelpers = require('../e2e/facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -7,6 +8,7 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/facilities/`);
 
     E2eHelpers.overrideSmoothScrolling(client);
+    FacilityHelpers.initApplicationMock();
 
     client
       .waitForElementVisible('body', Timeouts.normal)
@@ -18,10 +20,14 @@ module.exports = E2eHelpers.createE2eTest(
     .setValue('input[name="streetCityStateZip"]', 'Seattle, WA');
 
     client
-      .axeCheck('.main')
-      .click('input[type="submit"]');
+      .click('input[type="submit"]')
+      .waitForElementVisible('.facility-result', Timeouts.normal)
+      .axeCheck('.main');
 
+    // check detail pages
     client
+      .click('.facility-result a')
+      .waitForElementVisible('.facility-detail', Timeouts.normal)
       .axeCheck('.main');
 
     client.end();
