@@ -26,13 +26,14 @@ If you have a disability (damage to your body or mind that makes you unable to w
 
 <div class="feature">
 
-### Can I get S-DVI? 
+### Can I apply for S-DVI? 
 
-You may be able to get S-DVI if you’ve gotten a disability rating of 0% or more for a new service-connected condition (an illness or injury caused—or made worse—by service in the military) in the past 2 years, and you: 
+You can apply for S-DVI if you meet these 4 criteria:
 
-- Are in good health—except for your service-connected condition, **and**
-- Left the military on or after April 25, 1951, **and**
-- Were discharged under conditions other than dishonorable
+- You were released from active duty under other than dishonorable conditions on or after April 25, 1951
+- You were rated for a service-connected disability (even if only 0%)
+- You're in good health except for any service-connected conditions
+- You apply within 2 years from the date we grant your new service-connected disability
 
 **Note:** Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
 
@@ -67,7 +68,9 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - [Apply for basic S-DVI online](https://www.insurance.va.gov/portal/), **or**
 
- - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). Fax it to 888-748-5522, or mail it to: 
+ - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
+ 
+ Fax it to 888-748-5522, or mail it to: 
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
@@ -76,9 +79,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 <dd>Philadelphia, PA 19101</dd>
 </dl> 
 
-[Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
-
-To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemental Service-Disabled Veterans Insurance [SRH]) or send a letter requesting this insurance over your signature. You must apply for the coverage within 1 year from the date you receive notice of the grant of waiver of premiums.
+If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemental Service-Disabled Veterans Insurance [SRH]) or send a letter requesting this insurance over your signature. You must apply for the coverage within 1 year from the date you receive notice of the grant of waiver of premiums.
 
 [Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
