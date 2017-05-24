@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { isEmpty, compact } from 'lodash';
 
 import StatsBar from './StatsBar';
 
@@ -16,6 +17,26 @@ export default class AccessToCare extends Component {
 
     const healthFeedbackAttrs = facility.attributes.feedback.health;
 
+    if (isEmpty(compact(
+      [
+        healthFeedbackAttrs.primary_care_urgent,
+        healthFeedbackAttrs.specialty_care_urgent,
+        healthFeedbackAttrs.primary_care_routine,
+        healthFeedbackAttrs.specialty_care_routine,
+      ]
+    ))) { return null; }
+
+    const renderStat = (label, value) => {
+      if (!value) return null;
+
+      return (
+        <div>
+          <p><strong>{label}</strong></p>
+          <StatsBar percent={value * 100}/>
+        </div>
+      );
+    };
+
     return (
       <div className="mb2">
         <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
@@ -24,31 +45,19 @@ export default class AccessToCare extends Component {
           <h4>Urgent care appointments</h4>
           <p>% of Veterans who say they usually or always get an appointment when they need care right away</p>
           <div className="mb2">
-            <p><strong>Primary care at this location</strong></p>
-            <StatsBar percent={healthFeedbackAttrs.primary_care_urgent * 100}/>
-            <p><strong>National VA primary care average</strong></p>
-            <StatsBar percent={70} color="grey"/>
+            {renderStat('Primary care at this location', healthFeedbackAttrs.primary_care_urgent)}
           </div>
           <div className="mb2">
-            <p><strong>Specialty care at this location</strong></p>
-            <StatsBar percent={healthFeedbackAttrs.specialty_care_urgent * 100}/>
-            <p><strong>National VA specialty care average</strong></p>
-            <StatsBar percent={70} color="grey"/>
+            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialty_care_urgent)}
           </div>
 
           <h4>Routine care appointments</h4>
           <p>% of Veterans who say they usually or always get an appointment when they need it</p>
           <div className="mb2">
-            <p><strong>Primary care at this location</strong></p>
-            <StatsBar percent={healthFeedbackAttrs.primary_care_routine * 100}/>
-            <p><strong>National VA primary care average</strong></p>
-            <StatsBar percent={70} color="grey"/>
+            {renderStat('Primary care at this location', healthFeedbackAttrs.primary_care_routine)}
           </div>
           <div className="mb2">
-            <p><strong>Specialty care at this location</strong></p>
-            <StatsBar percent={healthFeedbackAttrs.specialty_care_routine * 100}/>
-            <p><strong>National VA specialty care average</strong></p>
-            <StatsBar percent={70} color="grey"/>
+            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialty_care_routine)}
           </div>
         </div>
       </div>
