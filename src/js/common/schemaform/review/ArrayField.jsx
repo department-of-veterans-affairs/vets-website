@@ -100,13 +100,13 @@ class ArrayField extends React.Component {
    * Clicking Remove when editing an item
    */
   handleRemove(indexToRemove) {
-    const { pageKey, path, formData } = this.props;
+    const { path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
       editing: this.state.editing.filter((val, index) => index !== indexToRemove),
     });
     this.setState(newState, () => {
-      this.props.setData(pageKey, _.set(path, this.state.items, formData));
+      this.props.setData(_.set(path, this.state.items, formData));
       this.scrollToTop();
     });
   }
@@ -118,10 +118,10 @@ class ArrayField extends React.Component {
    * we need to update the full page's form data and call the Redux setData action
    */
   handleSetData(index, data) {
-    const { pageKey, path, formData } = this.props;
+    const { path, formData } = this.props;
     const newArray = _.set(index, data, this.state.items);
     this.setState({ items: newArray }, () => {
-      this.props.setData(pageKey, _.set(path, newArray, formData));
+      this.props.setData(_.set(path, newArray, formData));
     });
   }
 
