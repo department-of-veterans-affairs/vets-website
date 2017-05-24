@@ -21,7 +21,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const time = this.props.form.submission.timestamp;
+    const time = this.props.form.submission.response.timestamp;
 
     return (
       <div>
