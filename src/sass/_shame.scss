@@ -10,8 +10,10 @@
 }
 
 
-.row {
-  max-width: 62.5em;
+body {
+  .row {
+    max-width: 62.5em;
+  }
 }
 
 .form-panel {
@@ -177,7 +179,7 @@
   .expander-content-inner {
     transition: opacity 150ms ease-in-out;
 
-    .usa-button-primary {
+    a.usa-button-primary {
       transition: opacity 150ms ease-in-out;
       transition-delay: 150ms;
     }
@@ -192,7 +194,7 @@
     .expander-content-inner {
       opacity: 0;
 
-      .usa-button-primary {
+      a.usa-button-primary {
         opacity: 0;
       }
     }
