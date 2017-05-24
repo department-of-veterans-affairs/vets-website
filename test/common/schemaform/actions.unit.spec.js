@@ -64,6 +64,13 @@ describe('Schemaform actions:', () => {
       expect(action.response).to.equal(response);
       expect(action.type).to.equal(SET_SUBMITTED);
     });
+    it('should return action with response.data', () => {
+      const response = { data: false };
+      const action = setSubmitted(response);
+
+      expect(action.response).to.equal(response.data);
+      expect(action.type).to.equal(SET_SUBMITTED);
+    });
   });
   describe('submitForm', () => {
     let fetchMock;
