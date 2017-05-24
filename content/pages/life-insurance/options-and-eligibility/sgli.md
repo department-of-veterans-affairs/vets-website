@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember who meets certain criteria, we may automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
+If you’re a Servicemember who meets certain criteria, we'll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -43,8 +43,9 @@ You may be able to get full-time SGLI coverage if you’re:
 You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
-- Drilling for points rather than pay, **and**
-- Paying premiums
+- Drilling for points rather than pay
+
+**Note:** You must pay your premiums directly.
 
 <br>
 
@@ -57,7 +58,7 @@ Servicemembers
 ### What kind of life insurance benefits can I get with SGLI?
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
-- 120 days of free coverage from the date you left the military (if you’re an active-duty member)
+- 120 days of free coverage from the date you left the military
 - Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. See below for information on the SGLI-Disability Extension.
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
@@ -73,7 +74,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
 
-- [Go to  www.dmdc.osd.mil/milconnect](www.dmdc.osd.mil/milconnect).
+- [Go to www.dmdc.osd.mil/milconnect](www.dmdc.osd.mil/milconnect).
 - Sign in.
 - Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
 - Check your coverage and beneficiary info and make any needed updates.
@@ -81,9 +82,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
 
 **If your branch of service hasn't yet started using SOES**, fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
-
 <br>
-
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 
@@ -110,11 +109,11 @@ When you leave the military, you can apply to convert to Veterans’ Group Life 
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
-### Can I keep my free life insurance if I’m disabled when I leave the military? 
+### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
 
-You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
-- You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
+- You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
   - Total loss of hearing in both ears
   - Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
@@ -126,11 +125,11 @@ You may be able to keep your free coverage for up to 2 years after the date you 
     - 1 foot and 1 eye, **or**
     - 1 hand and 1 eye
 
-### How do I get this SGLI disability extension? 
+### How do I apply for SGLI Disability Extension? 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out the SGLI Disability Extension Application and give it to your unit’s personnel officer. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
+To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
 
 If you do this, you’ll get a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
