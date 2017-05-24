@@ -148,6 +148,7 @@ export function loadFormData(formConfig) {
       const resBody = JSON.parse(json).form_data;
 
       try {
+        // Note: This may change to be updated in the back end before sent over
         const formData = getUpdatedFormData(resBody.formData, resBody.version, formConfig.migrations);
         // Finally, set the data in the redux store
         dispatch(setData(formData));
