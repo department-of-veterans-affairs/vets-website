@@ -214,7 +214,7 @@ label {
 .schemaform-currency-input .schemaform-widget-wrapper {
   position: relative;
   &:before {
-    content: '$';
+    content: "$";
     display: block;
     position: absolute;
     top: 9px;
