@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
 
-// import ArrayPage from '../../common/schemaform/ArrayPage';
+import ArrayPage from '../../common/schemaform/ArrayPage';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -196,16 +196,34 @@ const formConfig = {
             })
           }
         },
-        // dependentsNetWorth: {
-        //   path: '/financial-disclosure/net-worth/dependents/household/:index',
-        //   title: 'Net worth',
-        //   arrayPath: 'childrenInHousehold',
-        //   itemFilter: (item) => item.childNotInHousehold,
-        //   component: ArrayPage,
-        //   initialData: {
-        //     childrenInHousehold: [{}]
-        //   }
-        // }
+        dependentsNetWorth: {
+          path: 'financial-disclosure/net-worth/dependents/:index',
+          title: 'Net worth',
+          pageType: 'array',
+          arrayPath: 'children',
+          component: ArrayPage,
+          itemFilter: (item) => item.childNotInHousehold,
+          initialData: {
+            children: [{
+              childFullName: {
+                first: 'First',
+                last: 'Child'
+              }
+            }]
+          },
+          schema: {
+            type: 'object',
+            required: ['netWorth'],
+            properties: {
+              netWorth: netWorthSchema(fullSchemaPensions)
+            }
+          },
+          uiSchema: {
+            'ui:title': createDisclosureTitle('childFullName', 'Net worth'),
+            'ui:description': 'Bank accounts, investments, and property',
+            netWorth: netWorthUI
+          }
+        }
       }
     }
   }

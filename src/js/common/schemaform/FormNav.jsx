@@ -5,6 +5,10 @@ import SegmentedProgressBar from '../components/SegmentedProgressBar';
 
 import { createFormPageList, createPageList } from './helpers';
 
+function routesMatch(pagePath, currentPath) {
+  return pagePath.replace(/\/:[^\/]+$/, '').endsWith(currentPath.replace(/\/\d+$/, ''));
+}
+
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can
   shouldComponentUpdate(newProps) {
@@ -17,7 +21,7 @@ export default class FormNav extends React.Component {
     // finding the current page, then getting the chapter name using the key
     const formPages = createFormPageList(formConfig);
     const pageList = createPageList(formConfig, formPages);
-    const page = pageList.filter(p => p.path.endsWith(currentPath))[0];
+    const page = pageList.filter(p => routesMatch(p.path, currentPath))[0];
     const chapters = Object.keys(formConfig.chapters).concat('review');
     const current = chapters.indexOf(page.chapterKey) + 1;
     // The review page is always part of our forms, but isn't listed in chapter list

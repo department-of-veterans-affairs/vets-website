@@ -33,7 +33,7 @@ const scrollToTop = () => {
  * Component for regular form pages (i.e. not on the review page). Handles moving back
  * and forward through pages
  */
-class FormPage extends React.Component {
+class ArrayPage extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -55,12 +55,13 @@ class FormPage extends React.Component {
   }
 
   onChange(formData) {
-    this.props.setData(formData);
+    const newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+    this.props.setData(newData);
   }
 
   onSubmit() {
-    const { pages, pageIndex } = this.getEligiblePages();
-    this.props.router.push(pages[pageIndex + 1].path);
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex + 1].path);
   }
 
   /*
@@ -68,10 +69,10 @@ class FormPage extends React.Component {
    * their dependencies and therefore should be skipped.
    */
   getEligiblePages() {
-    const { form, route: { pageConfig, pageList } } = this.props;
+    const { form, route: { pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form.data);
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
+    const pageIndex = _.findIndex(item => item.path === this.props.location.pathname, expandedPageList);
     return { pages: expandedPageList, pageIndex };
   }
 
@@ -87,9 +88,9 @@ class FormPage extends React.Component {
     const { route } = this.props;
     const {
       schema,
-      uiSchema
+      uiSchema,
     } = this.props.form.pages[route.pageConfig.pageKey];
-    const data = this.props.form.data;
+    const data = _.get([route.pageConfig.arrayPath, this.props.params.index], this.props.form.data);
     return (
       <div className="form-panel">
         <SchemaForm
@@ -132,7 +133,7 @@ const mapDispatchToProps = {
   setData
 };
 
-FormPage.propTypes = {
+ArrayPage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
@@ -147,6 +148,6 @@ FormPage.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ArrayPage));
 
-export { FormPage };
+export { ArrayPage };

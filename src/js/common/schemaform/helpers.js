@@ -408,3 +408,16 @@ export function createUSAStateLabels(states) {
     return _.merge(current, { [value]: label });
   }, {});
 }
+
+export function expandArrayPages(pageList, data) {
+  return pageList.reduce((currentList, nextPage) => {
+    if (nextPage.pageType === 'array') {
+      const arrayPages = _.get(nextPage.arrayPath, data).map((item, index) => {
+        return _.set('path', nextPage.path.replace(':index', index), nextPage);
+      });
+      return currentList.concat(arrayPages);
+    }
+    return currentList.concat(nextPage);
+  }, []);
+}
+
