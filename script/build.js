@@ -147,6 +147,27 @@ smith.use(define({
 // property to the Markdown document.
 
 smith.use(collections({
+  burials: {
+    pattern: 'burials-and-memorials/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Burials and Memorials'
+    }
+  },
+  burialsPlanning: {
+    pattern: 'burials-and-memorials/burial-planning/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Burials and Memorials'
+    }
+  },
+  burialsSurvivors: {
+    pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Survivor and Dependent Benefits'
+    }
+  },
   disability: {
     pattern: 'disability-benefits/*.md',
     sortBy: 'order',
