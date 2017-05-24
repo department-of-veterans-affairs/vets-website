@@ -18,11 +18,9 @@ import {
 describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
-      const page = 'page';
       const data = {};
-      const action = setData(page, data);
+      const action = setData(data);
 
-      expect(action.page).to.equal(page);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_DATA);
     });
@@ -64,6 +62,13 @@ describe('Schemaform actions:', () => {
       const action = setSubmitted(response);
 
       expect(action.response).to.equal(response);
+      expect(action.type).to.equal(SET_SUBMITTED);
+    });
+    it('should return action with response.data', () => {
+      const response = { data: false };
+      const action = setSubmitted(response);
+
+      expect(action.response).to.equal(response.data);
       expect(action.type).to.equal(SET_SUBMITTED);
     });
   });

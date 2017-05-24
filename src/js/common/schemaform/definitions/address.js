@@ -39,7 +39,8 @@ export function schema(currentSchema, isRequired = false) {
       },
       state: {
         title: 'State',
-        type: 'string'
+        type: 'string',
+        maxLength: 51
       },
       postalCode: {
         type: 'string',

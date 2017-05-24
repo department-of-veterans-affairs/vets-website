@@ -19,7 +19,8 @@ import {
   medicalCentersByState,
   medicalCenterLabels,
   financialDisclosureText,
-  incomeDescription
+  incomeDescription,
+  disclosureWarning
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -473,13 +474,23 @@ const formConfig = {
             discloseFinancialInformation: {
               'ui:title': 'Do you want to provide your financial information?',
               'ui:widget': 'yesNo'
+            },
+            'view:noDiscloseWarning': {
+              'ui:description': disclosureWarning,
+              'ui:options': {
+                hideIf: (form) => form.discloseFinancialInformation !== false
+              }
             }
           },
           schema: {
             type: 'object',
             required: ['discloseFinancialInformation'],
             properties: {
-              discloseFinancialInformation
+              discloseFinancialInformation,
+              'view:noDiscloseWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
@@ -775,6 +786,9 @@ const formConfig = {
         vaFacility: {
           path: 'insurance-information/va-facility',
           title: 'VA Facility',
+          initialData: {
+            isEssentialAcaCoverage: false
+          },
           uiSchema: {
             'ui:title': 'VA Facility',
             isEssentialAcaCoverage: {
