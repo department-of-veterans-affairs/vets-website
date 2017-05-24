@@ -1,7 +1,8 @@
 import React from 'react';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
-export default function SubmitButtons({ submission, onSubmit, onBack }) {
+export default function SubmitButtons({ submission, onSubmit, onBack, errorMessage }) {
+  const Message = errorMessage;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
@@ -29,18 +30,18 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
           beforeText="&#10003;"/>
     );
   } else {
-    submitMessage = (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+    submitMessage = errorMessage
+      ? <Message/>
+      : (<div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We're sorry, your application didn't go through.</strong></p>
-          <p>You'll have to start over. We suggest you wait 1 day while we fix a few things.</p>
+          <p className="schemaform-warning-header"><strong>We're sorry, the application didn't go through.</strong></p>
+          <p>You'll have to start over. We suggest you wait 1 day while we fix this problem.</p>
         </div>
-      </div>
-    );
+      </div>);
 
     if (__BUILDTYPE__ !== 'production') {
       submitButton = (
-        <div className="small-6 medium-6 columns">
+        <div className="small-6 usa-width-one-half medium-6 columns">
           <a onClick={onSubmit}>Submit again</a>
         </div>
       );
@@ -54,7 +55,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
           </div>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 medium-6 columns">
+          <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
               <button className="usa-button-primary">Go Back to Vets.gov</button>
             </a>
@@ -67,14 +68,14 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
   return (
     <div>
       <div className="row form-progress-buttons">
-        <div className="small-6 medium-5 columns">
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
           <ProgressButton
               onButtonClick={onBack}
               buttonText="Back"
               buttonClass="usa-button-outline"
               beforeText="«"/>
         </div>
-        <div className="small-6 medium-5 columns">
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
           {submitButton}
         </div>
         <div className="small-1 medium-1 end columns">

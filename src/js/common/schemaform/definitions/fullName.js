@@ -1,8 +1,4 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-export const schema = commonDefinitions.fullName;
-
-export const uiSchema = {
+const uiSchema = {
   first: {
     'ui:title': 'First name'
   },
@@ -19,3 +15,5 @@ export const uiSchema = {
     }
   }
 };
+
+export default uiSchema;

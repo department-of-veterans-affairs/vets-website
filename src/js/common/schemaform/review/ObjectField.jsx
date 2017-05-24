@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
 import {
   getDefaultFormState,
   orderProperties,
-  retrieveSchema,
   shouldRender,
   getDefaultRegistry,
 } from 'react-jsonschema-form/lib/utils';
@@ -34,8 +34,7 @@ class ObjectField extends React.Component {
       // before rendering the fields
       properties => properties.filter(propName => {
         // skip arrays, we're going to handle those outside of the normal review page
-        const schema = retrieveSchema(this.props.schema, this.props.registry.definitions);
-        return schema.properties[propName].type !== 'array';
+        return this.props.schema.properties[propName].type !== 'array';
       }),
       _.groupBy((item) => {
         const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], this.props.uiSchema);
@@ -65,11 +64,10 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
+      schema,
       formContext
     } = this.props;
-    const { definitions, fields } = this.props.registry;
-    const { SchemaField } = fields;
-    const schema = retrieveSchema(this.props.schema, definitions);
+    const SchemaField = this.props.registry.fields.SchemaField;
 
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
@@ -128,22 +126,22 @@ class ObjectField extends React.Component {
 }
 
 ObjectField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  errorSchema: React.PropTypes.object,
-  idSchema: React.PropTypes.object,
-  formData: React.PropTypes.object,
-  required: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  readonly: React.PropTypes.bool,
-  registry: React.PropTypes.shape({
-    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-      React.PropTypes.func,
-      React.PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  formData: PropTypes.object,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
     ])).isRequired,
-    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-    definitions: React.PropTypes.object.isRequired,
-    formContext: React.PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   })
 };
 

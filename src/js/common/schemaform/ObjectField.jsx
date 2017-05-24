@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash/fp';
@@ -7,7 +8,6 @@ import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
-  retrieveSchema,
   getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
@@ -133,6 +133,7 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
+      schema,
       required,
       disabled,
       readonly,
@@ -141,7 +142,6 @@ class ObjectField extends React.Component {
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
     const SchemaField = this.SchemaField;
-    const schema = retrieveSchema(this.props.schema, definitions);
     const formData = Object.keys(this.props.formData || {}).length
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
@@ -202,17 +202,22 @@ class ObjectField extends React.Component {
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;
+              const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
               return (
-                <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
+                <ExpandingGroup open={visible.length > 0} key={index}>
                   {renderProp(first)}
-                  <div>
-                    {rest.map(renderProp)}
+                  <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
+                    {visible.map(renderProp)}
                   </div>
                 </ExpandingGroup>
               );
             }
 
-            return renderProp(objectFields[0], index);
+            // if fields have expandUnder, but are the only item, that means the
+            // field they're expanding under is hidden, and they should be hidden, too
+            return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
+              ? renderProp(objectFields[0], index)
+              : undefined;
           })
           }
         </div>
@@ -222,23 +227,23 @@ class ObjectField extends React.Component {
 }
 
 ObjectField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  errorSchema: React.PropTypes.object,
-  idSchema: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired,
-  formData: React.PropTypes.object,
-  required: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  readonly: React.PropTypes.bool,
-  registry: React.PropTypes.shape({
-    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-      React.PropTypes.func,
-      React.PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.object,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
     ])).isRequired,
-    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-    definitions: React.PropTypes.object.isRequired,
-    formContext: React.PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   })
 };
 

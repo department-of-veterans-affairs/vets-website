@@ -6,9 +6,14 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Did you spend time in a VA hospital or a VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating for the time you spent in the hospital. Find out if you can get this benefit.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -29,7 +34,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 **Note:** If you weren't in a VA hospital, when filing your claim you'll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
 

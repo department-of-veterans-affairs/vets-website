@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const DisabilityHelpers = require('../../util/disability-helpers');
-const LoginHelpers = require('../../util/login-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const DisabilityHelpers = require('../../e2e/disability-helpers');
+const LoginHelpers = require('../../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -10,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimsListMock(token);
 
     // Claim is visible
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
+    LoginHelpers.logIn(token, client, '/track-claims', 3)
       .assert.title('Track Claims: Vets.gov')
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
 

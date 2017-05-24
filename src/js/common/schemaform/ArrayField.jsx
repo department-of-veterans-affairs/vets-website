@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
@@ -6,7 +7,6 @@ import { scrollToFirstError } from '../utils/helpers';
 import { setItemTouched } from './helpers';
 
 import {
-  retrieveSchema,
   toIdSchema,
   getDefaultFormState,
   deepEquals
@@ -21,6 +21,10 @@ const scroller = Scroll.scroller;
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
+    // Throw an error if there's no viewField (should be React component)
+    if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
+      throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
+    }
 
     /*
      * We're keeping the editing state in local state because it's easier to manage and
@@ -36,9 +40,21 @@ export default class ArrayField extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.onItemBlur = this.onItemBlur.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+  }
+
+  // This fills in an empty item in the array if it has minItems set
+  // so that schema validation runs against the fields in the first item
+  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // that has not been released yet
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
+    if (schema.minItems > 0 && formData.length === 0) {
+      this.props.onChange(Array(schema.minItems).fill(
+        getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
+      ));
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -50,8 +66,13 @@ export default class ArrayField extends React.Component {
     this.props.onChange(newItems);
   }
 
-  onItemBlur(index, path = []) {
-    this.props.onBlur([index].concat(path));
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
@@ -119,7 +140,7 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(false)
       });
       this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.registry.definitions) || {});
+        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
@@ -155,10 +176,10 @@ export default class ArrayField extends React.Component {
       readonly,
       registry,
       formContext,
+      onBlur,
       schema
     } = this.props;
     const definitions = registry.definitions;
-    const itemsSchema = retrieveSchema(schema.items, definitions);
     const { TitleField, SchemaField } = registry.fields;
     const ViewField = uiSchema['ui:options'].viewField;
 
@@ -197,8 +218,9 @@ export default class ArrayField extends React.Component {
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
+            const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -214,13 +236,13 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemsSchema}
+                            schema={itemSchema}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={(path) => this.onItemBlur(index, path)}
+                            onBlur={onBlur}
                             registry={this.props.registry}
                             required={false}
                             disabled={disabled}
@@ -275,23 +297,23 @@ export default class ArrayField extends React.Component {
 }
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  errorSchema: React.PropTypes.object,
-  requiredSchema: React.PropTypes.object,
-  idSchema: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func,
-  formData: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  readonly: React.PropTypes.bool,
-  registry: React.PropTypes.shape({
-    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-      React.PropTypes.func,
-      React.PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  requiredSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  formData: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
     ])).isRequired,
-    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-    definitions: React.PropTypes.object.isRequired,
-    formContext: React.PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   })
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -78,16 +79,16 @@ class ModalCreateFolder extends React.Component {
 }
 
 ModalCreateFolder.propTypes = {
-  errorMessage: React.PropTypes.string,
-  cssClass: React.PropTypes.string,
-  folders: React.PropTypes.array,
-  newFolderName: React.PropTypes.object,
-  id: React.PropTypes.string,
-  loading: React.PropTypes.bool,
-  onClose: React.PropTypes.func,
-  onSubmit: React.PropTypes.func,
-  onValueChange: React.PropTypes.func,
-  visible: React.PropTypes.bool.isRequired
+  errorMessage: PropTypes.string,
+  cssClass: PropTypes.string,
+  folders: PropTypes.array,
+  newFolderName: PropTypes.object,
+  id: PropTypes.string,
+  loading: PropTypes.bool,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onValueChange: PropTypes.func,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalCreateFolder;

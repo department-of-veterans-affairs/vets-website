@@ -26,4 +26,8 @@ relatedlinks:
 ---
 
 
+<div class="va-introtext">
+
 Do you have a disability that isn't listed on this site as being linked to military service? You may still be able to get disability compensation or benefits. If you're a Veteran with a disability believed to be caused by your service in the military, you may be able to get special compensation to help with disabilities like the ones listed below.
+
+</div>

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableNumberInput from '../../../../common/components/form-elements/ErrorableNumberInput';
@@ -69,7 +70,7 @@ export default class RotcHistoryFields extends React.Component {
 }
 
 RotcHistoryFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  initializeFields: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  initializeFields: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

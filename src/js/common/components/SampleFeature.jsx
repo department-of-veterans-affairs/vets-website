@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class SampleFeature extends React.Component {
@@ -11,7 +12,7 @@ class SampleFeature extends React.Component {
 }
 
 SampleFeature.propTypes = {
-  isEnabled: React.PropTypes.bool,
+  isEnabled: PropTypes.bool,
 };
 
 SampleFeature.defaultProps = {

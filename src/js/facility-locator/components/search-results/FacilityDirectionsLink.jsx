@@ -1,5 +1,6 @@
 import { buildAddressArray } from '../../utils/facilityAddress';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class FacilityDirectionsLink extends Component {
   render() {

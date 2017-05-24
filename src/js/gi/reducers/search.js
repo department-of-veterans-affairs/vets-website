@@ -1,13 +1,19 @@
 /* eslint-disable no-case-declarations */
-import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
+import {
+  FILTER_TOGGLED,
+  SEARCH_STARTED,
+  SEARCH_FAILED,
+  SEARCH_SUCCEEDED
+} from '../actions';
+
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   facets: {
+    category: {},
     type: {},
-    typeName: {},
     state: {},
-    country: {},
+    country: [],
     cautionFlag: {},
     studentVetGroup: {},
     yellowRibbonScholarship: {},
@@ -23,6 +29,7 @@ const INITIAL_STATE = {
     totalPages: 1
   },
   inProgress: false,
+  filterOpened: false
 };
 
 function normalizedAttributes(attributes) {
@@ -48,14 +55,8 @@ function uppercaseKeys(obj) {
 
 function normalizedFacets(facets) {
   const state = uppercaseKeys(facets.state);
-  const country = uppercaseKeys(facets.country);
-  const typeName = uppercaseKeys(facets.typeName);
-  return {
-    ...facets,
-    state,
-    country,
-    typeName
-  };
+  const type = uppercaseKeys(facets.type);
+  return { ...facets, state, type };
 }
 
 function derivePaging(links) {
@@ -68,11 +69,10 @@ function derivePaging(links) {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
+    case FILTER_TOGGLED:
+      return { ...state, filterOpened: !state.filterOpened };
     case SEARCH_STARTED:
-      return {
-        ...state,
-        inProgress: true
-      };
+      return { ...state, inProgress: true };
     case SEARCH_FAILED:
       return {
         ...state,

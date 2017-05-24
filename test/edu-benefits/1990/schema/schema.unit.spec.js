@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Ajv from 'ajv';
-import { eduBenefits as schema } from 'vets-json-schema';
+import schema from 'vets-json-schema/dist/22-1990-schema.json';
 import qc from 'quick_check';
 import _ from 'lodash';
 

@@ -1,55 +1,24 @@
 {
-  "privacyAgreementAccepted": true,
-  "veteranInformation": {
-    "data": {
-      "veteranFullName": {
-        "first": "asdf",
-        "last": "asdf"
-      },
-      "veteranSocialSecurityNumber": "123333333"
-    }
-  },
-  "benefitSelection": {
-    "data": {}
-  },
-  "servicePeriods": {
-    "data": {}
-  },
-  "militaryHistory": {
-    "data": {}
-  },
-  "newSchool": {
-    "data": {
-      "newSchoolAddress": {
+  "data": {
+    "privacyAgreementAccepted": true,
+    "veteranFullName": {
+      "first": "asdf",
+      "last": "asdf"
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "newSchoolAddress": {
+      "country": "USA"
+    },
+    "oldSchool": {
+      "address": {
         "country": "USA"
       }
-    }
-  },
-  "oldSchool": {
-    "data": {
-      "oldSchool": {
-        "address": {
-          "country": "USA"
-        }
-      }
-    }
-  },
-  "contactInformation": {
-    "data": {
-      "veteranAddress": {
-        "country": "USA"
-      },
-      "view:otherContactInfo": {}
-    }
-  },
-  "dependents": {
-    "data": {
-      "serviceBefore1977": {}
-    }
-  },
-  "directDeposit": {
-    "data": {
-      "bankAccount": {}
-    }
+    },
+    "veteranAddress": {
+      "country": "USA"
+    },
+    "view:otherContactInfo": {},
+    "serviceBefore1977": {},
+    "bankAccount": {}
   }
 }

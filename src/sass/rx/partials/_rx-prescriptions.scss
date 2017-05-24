@@ -86,7 +86,7 @@ button.rx-prescription-button,
   font-size: 3rem;
   font-weight: bold;
   &::after {
-    content: '\a0';
+    content: "\a0";
   }
 }
 
@@ -169,7 +169,7 @@ table .rx-prescription-status {
 
   .va-header-logo a {
     background: none;
-    color: #000;
+    color: $color-black;
     text-indent: 0;
   }
 
@@ -186,7 +186,7 @@ table .rx-prescription-status {
     display: inline;
 
     &::after {
-      content: '\a0';
+      content: "\a0";
     }
   }
 }

@@ -1,9 +1,9 @@
 // Variables
 
-@import 'style';
-@import 'modules/m-form-process';
-@import 'modules/m-progress-bar';
-@import 'modules/m-schemaform';
+@import "style";
+@import "modules/m-form-process";
+@import "modules/m-progress-bar";
+@import "modules/m-schemaform";
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -13,10 +13,10 @@ $button-stroke: inset 0 0 0 1px;
   }
 }
 
-// TODO: Look into why svgs aren't rendering
+// TODO: Look into why svgs aren"t rendering
 select {
-  background-image: url('/img/arrow-down.svg');
-  background-image: url('/img/arrow-down.png');
+  background-image: url("/img/arrow-down.svg");
+  background-image: url("/img/arrow-down.png");
 }
 
 .loading-message {
@@ -25,7 +25,12 @@ select {
 }
 
 legend {
-  @extend h4;
+  color: $color-primary-darkest;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 0 .5em 0;
 }
 
 .hca-success-icon {
@@ -98,12 +103,12 @@ button.hca-button-disabled {
 .hca-review-panel {
   button {
     background-color: $color-primary;
-    color: $white;
+    color: $color-white;
     background-image: none;
     padding-right: 3rem;
     &:hover {
       background-color: $color-primary-darker;
-      color: $white;
+      color: $color-white;
     }
   }
   .edit-btn {

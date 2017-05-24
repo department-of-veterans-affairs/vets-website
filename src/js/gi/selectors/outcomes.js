@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { pick } from 'lodash';
+import { isFinite, pick } from 'lodash';
 
 const getConstants = (state) => state.constants.constants;
 
@@ -17,14 +17,14 @@ const getRequiredAttributes = (state) => {
   ]);
 };
 
-const isNumeric = (n) => (!Number.isNaN(parseFloat(n)));
-
 const whenDataAvailable = (n1, n2, obj) => {
-  if (isNumeric(n1) || isNumeric(n2)) return obj;
+  if (isFinite(n1) || isFinite(n2)) return obj;
   return {
     error: 'Data Not Available'
   };
 };
+
+const percentOrNull = (value) => (isFinite(value) ? value * 100 : null);
 
 export const outcomeNumbers = createSelector(
   [getConstants, getRequiredAttributes],
@@ -43,8 +43,8 @@ export const outcomeNumbers = createSelector(
       veteranRetentionRate,
       allStudentRetentionRate,
       {
-        rate: isNumeric(veteranRetentionRate) ? Number(veteranRetentionRate * 100) : null,
-        all: isNumeric(allStudentRetentionRate) ? Number(allStudentRetentionRate * 100) : null,
+        rate: percentOrNull(veteranRetentionRate),
+        all: percentOrNull(allStudentRetentionRate),
         average: constant.AVERETENTIONRATE,
       }
     );
@@ -53,8 +53,8 @@ export const outcomeNumbers = createSelector(
       institution.graduationRateVeteran,
       institution.graduationRateAllStudents,
       {
-        rate: Number(institution.graduationRateVeteran * 100),
-        all: Number(institution.graduationRateAllStudents * 100),
+        rate: percentOrNull(institution.graduationRateVeteran),
+        all: percentOrNull(institution.graduationRateAllStudents),
         average: constant.AVEGRADRATE,
       }
     );
@@ -73,7 +73,7 @@ export const outcomeNumbers = createSelector(
       institution.repaymentRateAllStudents,
       {
         rate: null,
-        all: Number(institution.repaymentRateAllStudents * 100),
+        all: percentOrNull(institution.repaymentRateAllStudents),
         average: constant.AVEREPAYMENTRATE,
       }
     );

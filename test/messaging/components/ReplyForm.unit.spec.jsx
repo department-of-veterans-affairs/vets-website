@@ -11,6 +11,7 @@ const props = {
   },
   recipient: '',
   subject: '',
+  onAttachmentsClose: () => {},
   onSaveReply: () => {},
   onSendReply: () => {},
 };

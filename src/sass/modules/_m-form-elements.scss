@@ -156,6 +156,11 @@ button.form-button-disabled {
 .form-expanding-group-open {
   padding-left: calc(2rem - 7px);
   border-left: 7px solid $color-primary-alt-light;
+
+  // Avoid nested expanding group borders
+  .form-expanding-group-open {
+    border-left-color: transparent;
+  }
 }
 
 .form-expanding-group-plus {

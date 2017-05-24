@@ -33,7 +33,7 @@ class FinancialDisclosureSection extends React.Component {
           <tr>
             <td>I understand VA is not currently enrolling new applicants who decline to
             provide their financial information unless they have other qualifying eligibility factors: </td>
-            <td>{`${this.props.data.discloseFinancialInformation.value ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.discloseFinancialInformation.value === 'Y' ? 'Yes' : 'No'}`}</td>
           </tr>
         </tbody>
       </table>);

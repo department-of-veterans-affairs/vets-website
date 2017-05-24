@@ -1,12 +1,11 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
-
 import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
+  isValidFutureDate,
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
@@ -83,7 +82,7 @@ export function transformErrors(errors, uiSchema) {
   return newErrors;
 }
 
-/*
+/**
  * This pulls custom validations specified in the uiSchema and validates the formData
  * against them.
  *
@@ -95,17 +94,26 @@ export function transformErrors(errors, uiSchema) {
  *   ]
  * }
  *
- * The function is passed errors, fieldData, formData, and otherData and
+ * The function is passed errors, fieldData, pageData, formData, and otherData and
  * should call addError to add the error.
+ *
+ * @param {Object} errors Errors object from rjsf, which includes an addError method
+ * @param {Object} uiSchema The uiSchema for the current field
+ * @param {Object} schema The schema for the current field
+ * @param {Object} formData The (flattened) data for the entire form
+ * @param {String} path The path to the current field relative to the root of the page.
+ *   Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '', currentIndex = null) {
   if (uiSchema && schema) {
-    const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
+        const currentSchema = index < schema.items.length
+          ? schema.items[index]
+          : schema.additionalItems;
         if (!_.get(newPath, errors)) {
           const currentErrors = path ? _.get(path, errors) : errors;
           currentErrors[index] = {
@@ -115,7 +123,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schemaWithDefinitions.items, definitions, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath, index);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -134,7 +142,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schemaWithDefinitions.properties[item], definitions, formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath, currentIndex);
         });
     }
 
@@ -143,9 +151,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], currentIndex);
         } else {
-          validation.validator(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options, currentIndex);
         }
       });
     }
@@ -163,23 +171,22 @@ export function errorSchemaIsValid(errorSchema) {
 
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  const validPages = Object.keys(pages)
+  const validPages = Object.keys(form.pages)
     .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && validPages.every(page => {
-    const { uiSchema, schema, data } = pages[page];
+  return form.data.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema } = form.pages[page];
 
     const result = v.validate(
-      data,
+      form.data,
       schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, data, {});
+      uiSchemaValidate(errors, uiSchema, schema, form.data);
 
       return errorSchemaIsValid(errors);
     }
@@ -202,11 +209,27 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateCurrentOrPastDate(errors, dateString) {
+/**
+ * Adds an error message to errors if a date is an invalid date or in the future.
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ */
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError('Please provide a valid current or past date');
+    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+  }
+}
+
+/**
+ * Adds an error message to errors if a date is an invalid date or in the past.
+ */
+export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
+  validateDate(errors, dateString);
+  const { day, month, year } = parseISODate(dateString);
+  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
+    errors.addError('Please provide a valid future date');
   }
 }
 
@@ -225,7 +248,7 @@ export function validateAddress(errors, address, formData, schema) {
   // USA, Canada, or Mexico
   if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
     && address.state === undefined
-    && schema.required) {
+    && schema.required.length) {
     errors.state.addError('Please select a state or province');
   }
 
@@ -243,13 +266,13 @@ export function validateMatch(field1, field2) {
   };
 }
 
-export function validateRoutingNumber(errors, routingNumber, formData, formContext, errorMessages) {
+export function validateRoutingNumber(errors, routingNumber, formData, schema, errorMessages) {
   if (!isValidRoutingNumber(routingNumber)) {
     errors.addError(errorMessages.pattern);
   }
 }
 
-function convertToDateField(dateStr) {
+export function convertToDateField(dateStr) {
   const date = parseISODate(dateStr);
   return Object.keys(date).reduce((dateField, part) => {
     const datePart = {};
@@ -260,11 +283,11 @@ function convertToDateField(dateStr) {
   }, date);
 }
 
-export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
+export function validateDateRange(errors, dateRange, formData, schema, errorMessages) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
+    errors.to.addError(errorMessages.pattern || 'To date must be after from date');
   }
 }

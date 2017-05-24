@@ -1,12 +1,12 @@
 export function closeModal() {
   return {
-    type: 'GLOSSARY_MODAL_CLOSED',
+    type: 'MODAL_CLOSED',
   };
 }
 
 export function openModal(title, content) {
   return {
-    type: 'GLOSSARY_MODAL_OPENED',
+    type: 'MODAL_OPENED',
     title,
     content,
   };

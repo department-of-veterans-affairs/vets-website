@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -17,7 +18,9 @@ function AppContent({ children, isDataAvailable }) {
       <div className="row">
         <div className="columns">
           <h4>
-            Placeholder message when data is not available
+            To download your health records, you need to be registered as a VA patient with a premium MyHealtheVet account.
+            To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
+            If you're registered but you still can't download your health records, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
           </h4>
         </div>
       </div>
@@ -32,7 +35,12 @@ function AppContent({ children, isDataAvailable }) {
 export class HealthRecordsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"health-records"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"health-records"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent>
           <div>
             <div className="row">
@@ -56,7 +64,7 @@ export class HealthRecordsApp extends React.Component {
 }
 
 HealthRecordsApp.propTypes = {
-  children: React.PropTypes.element
+  children: PropTypes.element
 };
 
 const mapStateToProps = (state) => {
@@ -66,7 +74,8 @@ const mapStateToProps = (state) => {
   return {
     modal: hrState.modal,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 const mapDispatchToProps = {

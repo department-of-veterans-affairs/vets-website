@@ -6,9 +6,14 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Do you have a disability related to your military service that prevents you from driving? If you do, you may be able to get disability compensation or benefits. 
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -35,7 +40,7 @@ You may be able to get disability benefits if you have a disability that's relat
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. [Apply for benefits](/disability-benefits/apply/).
 
 When you apply, you'll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 

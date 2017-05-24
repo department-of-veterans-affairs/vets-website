@@ -1,21 +1,16 @@
-import _ from 'lodash/fp';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { validateRoutingNumber } from '../validation';
 
-export const schema = _.set(
-  'properties.accountType.enumNames',
-  [
-    'Checking',
-    'Savings'
-  ],
-  commonDefinitions.bankAccount
-);
-
-export const uiSchema = {
+const uiSchema = {
   'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
   accountType: {
     'ui:title': 'Account type',
-    'ui:widget': 'radio'
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        checking: 'Checking',
+        savings: 'Savings'
+      }
+    }
   },
   accountNumber: {
     'ui:title': 'Account number'
@@ -30,3 +25,5 @@ export const uiSchema = {
     }
   }
 };
+
+export default uiSchema;

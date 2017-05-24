@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class LoadingIndicator extends React.Component {
@@ -24,8 +25,8 @@ export default class LoadingIndicator extends React.Component {
 }
 
 LoadingIndicator.propTypes = {
-  message: React.PropTypes.string.isRequired,
-  setFocus: React.PropTypes.bool
+  message: PropTypes.string.isRequired,
+  setFocus: PropTypes.bool
 };
 
 LoadingIndicator.defaultProps = {

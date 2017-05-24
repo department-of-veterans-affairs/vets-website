@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { showYesNo } from '../../../utils/helpers';
@@ -26,6 +27,6 @@ export default class EmploymentHistoryReview extends React.Component {
 }
 
 EmploymentHistoryReview.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired
 };

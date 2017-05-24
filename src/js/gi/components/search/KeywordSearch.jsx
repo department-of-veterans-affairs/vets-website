@@ -1,20 +1,54 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import Autosuggest from 'react-autosuggest';
-
-import {
-  fetchAutocompleteSuggestions,
-  clearAutocompleteSuggestions,
-  updateAutocompleteSearchTerm
-} from '../../actions';
+import Autosuggest from 'react-autosuggest-ie11-compatible';
+import { debounce } from 'lodash';
 
 export class KeywordSearch extends React.Component {
-
   constructor(props) {
     super(props);
     this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
+
+    this.handleFetchSuggestion = debounce(
+      this.handleFetchSuggestion.bind(this),
+      250, { trailing: true }
+    );
+  }
+
+  componentDidMount() {
+    const searchQuery = this.props.location && this.props.location.query;
+    if (searchQuery && searchQuery.name) {
+      this.handleChange(null, { newValue: searchQuery.name, method: 'enter' });
+    }
+  }
+
+  handleKeyUp(e) {
+    const { onFilterChange, autocomplete } = this.props;
+    if ((e.which || e.keyCode) === 13) {
+      e.target.blur();
+      onFilterChange('name', autocomplete.searchTerm);
+    }
+  }
+
+  handleChange(event, data) {
+    this.props.onUpdateAutocompleteSearchTerm(data.newValue);
+  }
+
+  handleFetchSuggestion({ value }) {
+    const { version } = this.props.location.query;
+    this.props.onFetchAutocompleteSuggestions(value, version);
+  }
+
+  handleSuggestionSelected(event, data) {
+    window.dataLayer.push({
+      event: 'gibct-autosuggest',
+      'gibct-autosuggest-value': data.suggestionValue,
+    });
+    this.props.onFilterChange('name', data.suggestionValue);
   }
 
   clickedSuggestionValue(suggestion) {
@@ -32,47 +66,47 @@ export class KeywordSearch extends React.Component {
   }
 
   render() {
+    const { suggestions, searchTerm } = this.props.autocomplete;
+
     return (
       <div className="keyword-search">
         <label
+            id="institution-search-label"
             className="institution-search-label"
             htmlFor="institution-search">
           {this.props.label}
         </label>
         <Autosuggest
-            suggestions={this.props.autocomplete.suggestions}
-            onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
             getSuggestionValue={this.clickedSuggestionValue}
+            highlightFirstSuggestion
+            onSuggestionsClearRequested={this.props.onClearAutocompleteSuggestions}
+            onSuggestionSelected={this.handleSuggestionSelected}
+            onSuggestionsFetchRequested={this.handleFetchSuggestion}
             renderSuggestion={this.renderSuggestion}
             shouldRenderSuggestions={this.shouldRenderSuggestions}
+            suggestions={suggestions}
             inputProps={{
-              value: this.props.autocomplete.searchTerm,
-              onChange: this.props.handleChange
+              value: searchTerm,
+              onChange: this.handleChange,
+              onKeyUp: this.handleKeyUp,
+              'aria-labelledby': 'institution-search-label',
             }}/>
       </div>
     );
   }
-
 }
 
 KeywordSearch.defaultProps = {
   label: 'Enter a city, school or employer name',
+  onFilterChange: () => {},
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSuggestionsFetchRequested: ({ value }) => {
-      dispatch(fetchAutocompleteSuggestions(value));
-    },
-    onSuggestionsClearRequested: () => {
-      dispatch(clearAutocompleteSuggestions());
-    },
-    handleChange: (event, { newValue }) => {
-      dispatch(updateAutocompleteSearchTerm(newValue));
-    }
-  };
+KeywordSearch.propTypes = {
+  label: PropTypes.string,
+  onClearAutocompleteSuggestions: PropTypes.func,
+  onFetchAutocompleteSuggestions: PropTypes.func,
+  onFilterChange: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(KeywordSearch);
+export default KeywordSearch;

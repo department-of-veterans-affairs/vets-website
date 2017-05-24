@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import MessageCategory from './MessageCategory';
@@ -47,22 +48,22 @@ class MessageSubjectGroup extends React.Component {
 }
 
 MessageSubjectGroup.propTypes = {
-  categories: React.PropTypes.array,
-  category: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  categories: PropTypes.array,
+  category: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }),
-  charMax: React.PropTypes.number,
-  cssErrorClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  errorType: React.PropTypes.string,
-  onCategoryChange: React.PropTypes.func,
-  onSubjectChange: React.PropTypes.func,
-  subject: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  charMax: PropTypes.number,
+  cssErrorClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  errorType: PropTypes.string,
+  onCategoryChange: PropTypes.func,
+  onSubjectChange: PropTypes.func,
+  subject: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }),
-  subjectPlaceholder: React.PropTypes.string
+  subjectPlaceholder: PropTypes.string
 };
 
 export default MessageSubjectGroup;

@@ -3,16 +3,14 @@ layout: page-breadcrumbs.html
 title: Disabilities Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
+template: 1-topic-landing
 ---
 
+<div class="va-introtext">
 
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+Do you have a disability caused by an illness or injury that happened—or got worse—while you were actively serving in the military? If you do, you may be able to get disability compensation or benefits, no matter when or where you served.
 
-
-Do you have a disability caused by an illness or injury that happened—or got worse—while you were actively serving in the military? If you do, you may be able to get disability compensation or benefits, no matter when or where you served. 
+</div>
 
 ### Can I get disability benefits from VA?
 
@@ -40,7 +38,7 @@ You may also be able to get benefits for mental health conditions linked to mili
 
 ### How do I get these benefits? 
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 [See the full list of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
 </div>

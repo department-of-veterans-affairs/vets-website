@@ -1,9 +1,6 @@
 import { validateDate } from '../validation';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = commonDefinitions.date;
-
-export const uiSchema = (title = 'Date') => {
+export default function uiSchema(title = 'Date') {
   return {
     'ui:title': title,
     'ui:widget': 'date',
@@ -14,4 +11,4 @@ export const uiSchema = (title = 'Date') => {
       pattern: 'Please provide a valid date'
     }
   };
-};
+}

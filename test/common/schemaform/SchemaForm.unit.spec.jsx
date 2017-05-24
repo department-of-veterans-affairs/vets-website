@@ -18,7 +18,7 @@ describe('Schemaform <SchemaForm>', () => {
           title={name}
           schema={schema}
           uiSchema={uiSchema}
-          data={data}/>
+          pageData={data}/>
     );
 
     expect(tree.everySubTree('Form')).not.to.be.empty;
@@ -35,7 +35,7 @@ describe('Schemaform <SchemaForm>', () => {
           title={name}
           schema={schema}
           uiSchema={uiSchema}
-          data={data}/>
+          pageData={data}/>
     );
 
     const errors = tree.getMountedInstance().transformErrors([
@@ -64,7 +64,7 @@ describe('Schemaform <SchemaForm>', () => {
           title={name}
           schema={schema}
           uiSchema={uiSchema}
-          data={data}/>
+          pageData={data}/>
     );
 
     const errors = tree.getMountedInstance().validate(data, {
@@ -98,7 +98,7 @@ describe('Schemaform <SchemaForm>', () => {
             uiSchema={uiSchema}
             onChange={onChange}
             onSubmit={onSubmit}
-            data={data}/>
+            pageData={data}/>
       );
     });
     it('change', () => {
@@ -130,7 +130,7 @@ describe('Schemaform <SchemaForm>', () => {
           title={name}
           schema={schema}
           uiSchema={uiSchema}
-          data={data}/>
+          pageData={data}/>
     );
 
     const instance = tree.getMountedInstance();

@@ -1,57 +1,63 @@
 import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import React from 'react';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
 import {
-  setHiddenFields,
-  removeHiddenData,
-  updateRequiredFields,
-  updateSchemaFromUiSchema
-} from '../../src/js/common/schemaform/helpers';
+  replaceRefSchemas,
+  updateSchemaAndData
+} from '../../src/js/common/schemaform/formState';
 
+function getDefaultData(schema) {
+  if (schema.type === 'array') {
+    return [];
+  } else if (schema.type === 'object') {
+    return {};
+  }
+
+  return undefined;
+}
 export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
-    const state = props.state;
-    const uiSchema = props.uiSchema;
-    const data = props.data;
-    let schema = updateRequiredFields(props.schema, uiSchema, data, state);
-    schema = _.merge({ definitions: props.definitions }, schema);
-    // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, data, state);
-    // Update the schema with any general updates based on the new data
-    schema = updateSchemaFromUiSchema(schema, uiSchema, data, state);
-    // Remove any data that's now hidden in the schema
-    const newData = removeHiddenData(schema, data);
+    const { data, uiSchema } = props;
+
+    const definitions = _.assign(props.definitions || {}, props.schema.definitions);
+    const schema = replaceRefSchemas(props.schema, definitions);
+
+    const {
+      data: newData,
+      schema: newSchema
+    } = updateSchemaAndData(schema, uiSchema, data || getDefaultData(schema));
 
     this.state = {
-      data: newData,
-      schema,
+      formData: newData,
+      schema: newSchema,
       uiSchema
     };
   }
   handleChange = (data) => {
-    const state = this.props.state;
-    const uiSchema = this.state.uiSchema;
-    let schema = updateRequiredFields(this.state.schema, uiSchema, data, state);
-    // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, data, state);
-    // Update the schema with any general updates based on the new data
-    schema = updateSchemaFromUiSchema(schema, uiSchema, data, state);
-    // Remove any data that's now hidden in the schema
-    const newData = removeHiddenData(schema, data);
+    const {
+      schema,
+      uiSchema
+    } = this.state;
+
+    const {
+      data: newData,
+      schema: newSchema
+    } = updateSchemaAndData(schema, uiSchema, data);
 
     this.setState({
-      data: newData,
-      schema,
+      formData: newData,
+      schema: newSchema,
       uiSchema
     });
   }
   render() {
-    const { schema, uiSchema, data } = this.state;
+    const { schema, uiSchema, formData } = this.state;
+
     return (
       <SchemaForm
           safeRenderCompletion
@@ -60,7 +66,7 @@ export class DefinitionTester extends React.Component {
           title="test"
           schema={schema}
           uiSchema={uiSchema}
-          data={data}
+          data={formData}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );

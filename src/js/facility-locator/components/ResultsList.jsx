@@ -7,7 +7,8 @@ import FacilityPhoneLink from './search-results/FacilityPhoneLink';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import MobileSearchResult from './MobileSearchResult';
 import Pagination from '../../common/components/Pagination';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class ResultsList extends Component {
 

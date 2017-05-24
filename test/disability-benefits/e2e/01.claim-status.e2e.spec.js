@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const DisabilityHelpers = require('../../util/disability-helpers');
-const LoginHelpers = require('../../util/login-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const DisabilityHelpers = require('../../e2e/disability-helpers');
+const LoginHelpers = require('../../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     DisabilityHelpers.initClaimDetailMocks(token, false, true, false, 8);
 
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
+    LoginHelpers.logIn(token, client, '/track-claims', 3)
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
 
     client
@@ -32,27 +32,27 @@ module.exports = E2eHelpers.createE2eTest(
 
     // timeline
     client
-      .expect.element('.five.last.step.section-current').to.be.present;
+      .expect.element('.list-five.section-current').to.be.present;
     client
-      .expect.element('.one.step.section-complete').to.be.present;
+      .expect.element('.list-one.section-complete').to.be.present;
     client
-      .expect.element('.two.step.section-complete').to.be.present;
+      .expect.element('.list-two.section-complete').to.be.present;
     client
-      .expect.element('.three.step.section-complete').to.be.present;
+      .expect.element('.list-three.section-complete').to.be.present;
     client
-      .expect.element('.four.step.section-complete').to.be.present;
+      .expect.element('.list-four.section-complete').to.be.present;
 
     // timeline expand
     client
-      .click('li.step.one')
-      .waitForElementVisible('li.step.one .claims-evidence', Timeouts.slow);
+      .click('li.list-one')
+      .waitForElementVisible('li.list-one .claims-evidence', Timeouts.slow);
     client
       .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is closed');
     client
       .expect.element('button.older-updates').to.be.present;
     client
-      .click('li.step.one')
-      .waitForElementNotPresent('li.step.one .claims-evidence', Timeouts.slow);
+      .click('li.list-one')
+      .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow);
 
     // files needed
     client

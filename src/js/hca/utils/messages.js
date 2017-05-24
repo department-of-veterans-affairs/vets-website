@@ -1,6 +1,6 @@
 import { isBlank, isValidMonetaryValue } from '../../common/utils/validations';
 
-const getMonetaryErrorMessage = (field) => {
+export const getMonetaryErrorMessage = (field) => {
   let result;
   if (field.dirty) {
     if (isBlank(field.value)) {
@@ -10,8 +10,4 @@ const getMonetaryErrorMessage = (field) => {
     }
   }
   return result;
-};
-
-module.exports = {
-  getMonetaryErrorMessage
 };

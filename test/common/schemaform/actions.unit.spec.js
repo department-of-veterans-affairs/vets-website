@@ -18,11 +18,9 @@ import {
 describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
-      const page = 'page';
       const data = {};
-      const action = setData(page, data);
+      const action = setData(data);
 
-      expect(action.page).to.equal(page);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_DATA);
     });
@@ -66,6 +64,13 @@ describe('Schemaform actions:', () => {
       expect(action.response).to.equal(response);
       expect(action.type).to.equal(SET_SUBMITTED);
     });
+    it('should return action with response.data', () => {
+      const response = { data: false };
+      const action = setSubmitted(response);
+
+      expect(action.response).to.equal(response.data);
+      expect(action.type).to.equal(SET_SUBMITTED);
+    });
   });
   describe('submitForm', () => {
     let fetchMock;
@@ -87,10 +92,11 @@ describe('Schemaform actions:', () => {
         chapters: {}
       };
       const form = {
-        testing: {
-          data: {
-            test: 1
-          }
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
         }
       };
       const thunk = submitForm(formConfig, form);
@@ -123,10 +129,11 @@ describe('Schemaform actions:', () => {
         chapters: {}
       };
       const form = {
-        testing: {
-          data: {
-            test: 1
-          }
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
         }
       };
       const thunk = submitForm(formConfig, form);

@@ -6,9 +6,13 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -46,4 +50,4 @@ To apply, fill out VA Form 10-8678: Application for Annual Clothing Allowance, a
 
 Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/). 
 
-For more information, call us at <span class="tel">800-827-1000</span>. We collect applications throughout the year and hold them until the August 1 closing date.
+For more information, call us at <a href="tel:+18008271000">800-827-1000</a>. We collect applications throughout the year and hold them until the August 1 closing date.

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
@@ -44,8 +45,8 @@ class ToolTip extends React.Component {
 }
 
 ToolTip.propTypes = {
-  tabIndex: React.PropTypes.number,
-  toolTipText: React.PropTypes.string,
+  tabIndex: PropTypes.number,
+  toolTipText: PropTypes.string,
 };
 
 export default ToolTip;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { displayDateIfValid } from '../../../utils/helpers';
@@ -42,6 +43,6 @@ export default class ServicePeriodsReview extends React.Component {
 }
 
 ServicePeriodsReview.propTypes = {
-  tour: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func
+  tour: PropTypes.object.isRequired,
+  onEdit: PropTypes.func
 };

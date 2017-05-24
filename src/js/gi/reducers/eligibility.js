@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     cumulativeService: true,
     enlistmentService: false,
     consecutiveService: false,
-    eligForPostGIBill: false,
+    eligForPostGiBill: false,
     numberOfDependents: false
   },
   militaryStatus: 'veteran',

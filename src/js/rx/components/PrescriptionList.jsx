@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -69,10 +70,10 @@ class PrescriptionList extends React.Component {
 }
 
 PrescriptionList.propTypes = {
-  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  glossaryModalHandler: React.PropTypes.func.isRequired,
-  grouped: React.PropTypes.bool,
-  refillModalHandler: React.PropTypes.func.isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  glossaryModalHandler: PropTypes.func.isRequired,
+  grouped: PropTypes.bool,
+  refillModalHandler: PropTypes.func.isRequired
 };
 
 export default PrescriptionList;

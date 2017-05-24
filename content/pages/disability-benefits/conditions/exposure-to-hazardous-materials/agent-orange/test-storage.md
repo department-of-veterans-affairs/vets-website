@@ -6,9 +6,13 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical the U.S. military used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -35,7 +39,7 @@ You may be able to get disability benefits if:
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. [Apply for benefits](/disability-benefits/apply/).
 
 ### Get more information
 

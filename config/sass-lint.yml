@@ -40,8 +40,8 @@ rules:
   empty-line-between-blocks: # TODO - Change this back to 1 later.
     - 0
     - ignore-single-line-rulesets: true
-  extends-before-declarations: 1
-  extends-before-mixins: 1
+  # extends-before-declarations: 0
+  # extends-before-mixins: 0
   final-newline: # TODO - Change this back to 1 later.
     - 0
     - include: true
@@ -71,17 +71,22 @@ rules:
     - 1
     - allow-leading-underscore: true
       convention: hyphenatedlowercase
-  mixins-before-declarations: 1
+  mixins-before-declarations:
+    - 2
+    -
+      exclude:
+        - media
+        - media-maxwidth
   nesting-depth: # TODO - Change this back to 1 later.
     - 0
     - max-depth: 3
-  no-color-keywords: 0 # TODO - Change this back to 1 later.
-  no-color-literals: 0 # TODO - Change this back to 1 later.
+  no-color-keywords: 1
+  no-color-literals: 1
   no-css-comments: 0 # TODO - Change this back to 1 later.
   no-debug: 1
   no-duplicate-properties: 0 # TODO - Change this back to 1 later.
   no-empty-rulesets: 1
-  no-extends: 0
+  no-extends: 2
   no-ids: 0 # TODO - Change this back to 1 later.
   no-important: 0 # TODO - Change this back to 1 later.
   no-invalid-hex: 1
@@ -94,6 +99,7 @@ rules:
     - allow-element-with-attribute: false
       allow-element-with-class: false
       allow-element-with-id: false
+  no-trailing-whitespace: 1
   no-trailing-zero: 0 # TODO - Change this back to 1 later.
   no-transition-all: 0
   no-url-protocols: 1
@@ -110,15 +116,15 @@ rules:
     - ignore-custom-properties: false
   quotes:
     - 1
-    - style: single
+    - style: double
   shorthand-values:
     - 0
   single-line-per-selector: 0 # TODO - Change this back to 1 later.
   space-after-bang: # TODO - Change this back to 1 later.
     - 0
     - include: false
-  space-after-colon: # TODO - Change this back to 1 later.
-    - 0 
+  space-after-colon:
+    - 1 
     - include: true
   space-after-comma: # TODO - Change this back to 1 later.
     - 0
@@ -129,7 +135,9 @@ rules:
   space-before-brace: # TODO - Change this back to 1 later.
     - 0
     - include: true
-  space-before-colon: 0 # TODO - Change this back to 1 later.
+  space-before-colon: 
+    - 1
+    - include: false
   space-between-parens: # TODO - Change this back to 1 later.
     - 0
     - include: false

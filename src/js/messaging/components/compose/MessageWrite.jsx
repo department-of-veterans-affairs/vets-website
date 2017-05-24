@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 
@@ -19,14 +20,14 @@ class MessageWrite extends React.Component {
 }
 
 MessageWrite.propTypes = {
-  disabled: React.PropTypes.bool,
-  cssClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string,
-  text: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  disabled: PropTypes.bool,
+  cssClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  text: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired
 };
 

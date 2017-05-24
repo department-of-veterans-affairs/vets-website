@@ -7,7 +7,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
-import { recipients } from '../../util/messaging-helpers';
+import { recipients } from '../../e2e/messaging-helpers';
 
 describe('recipients reducer', () => {
   it('should have no data when it fails to load recipients', () => {

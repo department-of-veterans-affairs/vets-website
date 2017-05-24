@@ -1,8 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/edu-benefits/definitions/postHighSchoolTrainings';
@@ -15,7 +14,6 @@ describe('Edu postHighSchoolTrainings', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={[]}
           definitions={definitions}
           uiSchema={uiSchema}/>
     );
@@ -25,12 +23,9 @@ describe('Edu postHighSchoolTrainings', () => {
   });
 
   it('should add another', () => {
-    const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          onSubmit={onSubmit}
-          data={[]}
           definitions={definitions}
           uiSchema={uiSchema}/>
     );

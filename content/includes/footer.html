@@ -8,12 +8,13 @@
       <dd><a href="https://www.vets.gov/education/">Education Benefits</a></dd>
       <dd><a href="https://www.vets.gov/employment/">Careers and Employment</a></dd>
       <dd><a href="https://www.vets.gov/healthcare/">Healthcare</a></dd>
+      <dd><a href="https://www.vets.gov/burials-and-memorials">Burials and Memorials</a></dd>
     </dl>
     <dl class="va-footer-linkgroup" id="footer-popular">
       <dt class="va-footer-linkgroup-title">Popular on Vets.gov</dt>
       <dd><a href="https://www.vets.gov/healthcare/apply/">Apply for health care</a></dd>
       <dd><a href="https://www.vets.gov/education/apply-for-education-benefits/">Apply for education benefits</a></dd>
-      <dd><a href="https://www.vets.gov/disability-benefits/track-claims/your-claims/">Check disability claim status</a></dd>
+      <dd><a href="https://www.vets.gov/track-claims/your-claims/">Check disability claim status</a></dd>
       <dd><a href="https://www.vets.gov/gi-bill-comparison-tool/">Education benefits by school</a></dd>
       <dd><a href="https://www.vets.gov/healthcare/prescriptions/">Refill prescriptions</a></dd>
     </dl>
@@ -22,16 +23,15 @@
       <li><a href="/facilities/">Find nearby VA locations</a></dt>
       <li>Call the Vets.gov Help Desk<br>
       <a href="tel:18555747286">1-855-574-7286</a><br>
+      TTY:&nbsp;<a href="tel:18008294833">1-800-829-4833</a><br>
 Monday &#8211; Friday, 8:00 am &#8211; 8:00 pm (<abbr title="eastern time">ET</abbr>)</li>
-      <li><p><a target="_blank" href="https://www.veteranscrisisline.net/">Get help from the Veterans Crisis Line</a></p></li>
+      <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
     <div>
       <ul class="va-footer-linkgroup--inline">
         <li><a href="/playbook/">Vets.gov Playbook</a></li>
-      </ul>
-      <ul class="va-footer-linkgroup--inline">
         <li><a target="_blank" href="http://www.va.gov/oig/">Inspector General</a></li>
         <li><a target="_blank" href="http://www.section508.va.gov/">Accessibility</a></li>
         <li><a href="/privacy">Privacy</a></li>
@@ -54,15 +54,11 @@ Monday &#8211; Friday, 8:00 am &#8211; 8:00 pm (<abbr title="eastern time">ET</a
 
 
   <div class="va-notice--banner va-notice--banner--alt">
-    <div class="row">
-      <div class="small-12 columns">
-        <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
-          <span class="icon"></span>
-          <span class="text">Provide feedback on vets.gov</span>
-        </a>
-
-        <a href="https://veterans.uservoice.com/" class="feedback-widget">Visit the feedback forum</a>
-      </div>
+    <div class="usa-grid">
+      <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
+        <span class="icon"></span>
+        <span class="text">Provide feedback on vets.gov</span>
+      </a>
     </div>
   </div>
 </footer>
@@ -70,7 +66,7 @@ Monday &#8211; Friday, 8:00 am &#8211; 8:00 pm (<abbr title="eastern time">ET</a
 <div id="modal-crisisline" class="va-overlay" role="dialog">
     <div class="va-crisis-panel va-crisis-panel--touch">
       <div class="va-overlay-body va-crisis-panel-body">
-        <h4 class="va-crisis-line">Get help from Veterans Crisis Line</h4>
+        <h4 class="va-crisis-panel-body-title">Get help from Veterans Crisis Line</h4>
 
         <ul>
           <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
@@ -106,6 +102,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
     dataLayer = [{
       'environment': '{{ buildtype }}'
     }];
+    // We want to know if we are being iframed
+    if ( self !== top ) {
+      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+    }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
   height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>

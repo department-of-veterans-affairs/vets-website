@@ -6,11 +6,16 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Find out if you can get disability compensation or benefits for illnesses—including some cancers—believed to be caused by contact with radiation during military service. 
 
 [Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -44,7 +49,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
 
 Your service records must show that you were part of 1 of the radiation risk activities described above. You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 

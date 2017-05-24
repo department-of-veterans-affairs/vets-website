@@ -7,9 +7,14 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Asbestos is a material that was once used in many buildings and products. If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have had contact with asbestos when old buildings got damaged, releasing toxic chemicals into the air. Or, you may have had contact with asbestos if you worked in certain jobs or settings, like shipyards, construction, or vehicle repair. Find out if you can get disability compensation or benefits for illnesses believed to be caused by asbestos.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -34,7 +39,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. [Apply for benefits](/disability-benefits/apply/).
 
 If you think you’ve had contact with asbestos, talk to your doctor about getting tested for certain illnesses that affect your lungs.
 

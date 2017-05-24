@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getLabel } from '../../../utils/helpers';
@@ -49,6 +50,6 @@ export default class EmploymentHistoryReview extends React.Component {
 }
 
 EmploymentHistoryReview.propTypes = {
-  period: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func
+  period: PropTypes.object.isRequired,
+  onEdit: PropTypes.func
 };

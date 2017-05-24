@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { checkRefreshStatus } from '../actions/refresh';
 import { submitForm } from '../actions/form';
 
@@ -10,37 +10,39 @@ export class UpdatePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pollRefresh = () => {
-      setInterval(() => {
-        props.checkRefreshStatus();
-      }, 30000);
-    };
     this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
+    this.submitAndDownload = this.submitAndDownload.bind(this);
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.checkRefreshStatus();
-    this.pollRefresh();
+    this.pollRefresh = setInterval(this.props.checkRefreshStatus, 30000);
+    this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
   componentWillReceiveProps(nextProps) {
-    const erroredUpdates = nextProps.refresh.statuses.failed;
-    if (erroredUpdates.length === 0) {
-      this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    }
-    if (nextProps.form.ready) {
-      this.context.router.push('/download');
+    const incompleteUpdates = nextProps.refresh.statuses.incomplete;
+    // automatically go to Download page when all statuses have resolved
+    // in either success or failure
+    if (incompleteUpdates.length === 0) {
+      this.submitAndDownload();
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.pollRefresh);
+    clearTimeout(this.refreshTimeout);
+  }
+
+  submitAndDownload() {
+    this.props.router.push('/download');
+    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
   }
 
   handleSkipToDownload(e) {
     e.preventDefault();
-    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    this.context.router.push('/download');
+    this.submitAndDownload();
   }
 
   render() {
@@ -48,7 +50,7 @@ export class UpdatePage extends React.Component {
     const completionPercentage = statuses.succeeded.length / (statuses.succeeded.length + statuses.failed.length) * 100;
 
     return (
-      <div className="updatePage medium-6">
+      <div className="updatePage usa-width-one-half medium-6">
         <ProgressBar percent={completionPercentage || 0}/>
         <h1>Updating your records</h1>
         <p>
@@ -61,10 +63,6 @@ export class UpdatePage extends React.Component {
     );
   }
 }
-
-UpdatePage.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
@@ -80,4 +78,4 @@ const mapDispatchToProps = {
   submitForm,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdatePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdatePage));

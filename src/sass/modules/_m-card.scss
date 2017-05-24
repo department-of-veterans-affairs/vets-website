@@ -51,7 +51,7 @@
   @include transition(all, 0.3s, ease-in-out);
   background: $color-primary-darker;
   border-radius: .2em;
-  color: #fff !important;
+  color: $color-white !important;
   display: block;
   font-weight: normal;
   height: 11em;
@@ -64,7 +64,7 @@
     color: inherit;
     cursor: pointer;
     text-decoration: inherit;
-    box-shadow: 0 0 5px rgba(0,0,0,0.35);
+    box-shadow: 0 0 5px $color-link-default-hover;
   }
 
   + ul,

@@ -7,9 +7,14 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Are you recovering from surgery or a disability related to your military service that's left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits if you have this kind of immobilizing  disability. Find out if you can get this benefit. 
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -44,7 +49,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
 
 Recovery time from either a surgery or the immobilization of a joint by a cast without surgery requires a temporary 100% disability rating for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months—depending on your unique case. You may be able to get an extension for up to 3 more months if your case is severe.
 

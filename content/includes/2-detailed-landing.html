@@ -1,17 +1,15 @@
-<div class="section one">
-  <div class="primary">
-    <div class="row">
-      <div class="small-12 columns usa-content">
-        <h1>{{ title }}</h1>
-        {{ contents }}
+<div class="primary">
+  <div class="row">
+    <div class="small-12 columns usa-content">
+      <h1>{{ title }}</h1>
+      {{ contents }}
 
-        <!-- Last updated -->
-        {% if lastupdate %}
-          {% include "content/includes/last-update.html" %}
-        {% endif %}
+      <!-- Last updated -->
+      {% if lastupdate %}
+        {% include "content/includes/last-update.html" %}
+      {% endif %}
 
-      </div>
-    </div><!-- end row-->
-    {% include "content/includes/main-navigation.html" %}
-  </div><!-- end primary-->
-</div><!-- end section one -->
+    </div>
+  </div><!-- end row-->
+  {% include "content/includes/main-navigation.html" %}
+</div><!-- end primary-->

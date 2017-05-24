@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { displayMonthYearIfValid } from '../../../utils/helpers';
 
@@ -65,6 +66,6 @@ export default class EducationPeriodReview extends React.Component {
 }
 
 EducationPeriodReview.propTypes = {
-  period: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func
+  period: PropTypes.object.isRequired,
+  onEdit: PropTypes.func
 };

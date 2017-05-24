@@ -1,14 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
-import AlertBox from '../../../common/components/AlertBox';
-import If from '../If';
 
-export class AdditionalInformation extends React.Component {
+import AlertBox from '../../../common/components/AlertBox';
+import AdditionalResources from '../content/AdditionalResources';
+import { formatNumber } from '../../utils/helpers';
+
+const IconWithInfo = ({ icon, children, present }) => {
+  if (!present) return null;
+  return (
+    <p className="icon-with-info">
+      <i className={`fa fa-${icon}`}/>&nbsp;{children}
+    </p>
+  );
+};
+
+class HeadingSummary extends React.Component {
 
   render() {
-    const it = this.props.profile.attributes;
+    const it = this.props.institution;
+    it.type = it.type && it.type.toLowerCase();
+
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
       if (enrollment <= 2000) {
@@ -18,55 +30,64 @@ export class AdditionalInformation extends React.Component {
       }
       return 'Large';
     };
-    const domestic = <span>{it.city}, {it.state}</span>;
-    const foreign = <span>{it.city}, {it.country}</span>;
-    const place = (it.country === 'usa' ? domestic : foreign);
-    const link = it.website ? <a href={it.website} target="_blank">{it.website}</a> : null;
+
     return (
       <div className="heading row">
-        <div className="small-12 column">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
-          <AlertBox
-              content={(<p>VA has concerns about this school. <a href="#viewWarnings">View warnings</a></p>)}
-              isVisible={!!it.cautionFlag}
-              status="warning"/>
-          <p style={{ marginBottom: '1.5em' }}>
-            <strong>{it.studentCount}</strong> GI Bill students
-            (<a onClick={this.props.showModal.bind(this, 'gibillstudents')}>Learn more</a>)
-          </p>
-          <div className="row">
-            <div className="small-3 large-4 column">
-              <p><i className="fa fa-map-marker"/> {place}</p>
-              <p style={{ display: 'block' }}><i className="fa fa-globe"/> {link}</p>
-              <If condition={it.type !== 'ojt' && (it.highestDegree === 2 || it.highestDegree === 4)}>
-                <p><i className="fa fa-calendar-o"/> {it.highestDegree} year program</p>
-              </If>
+          <div className="caution-flag">
+            <AlertBox
+                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+                isVisible={!!it.cautionFlag}
+                status="warning"/>
+          </div>
+          <div className="column">
+            <p>
+              <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
+              (<a onClick={this.props.onLearnMore}>Learn more</a>)
+            </p>
+          </div>
+          <div>
+            <div className="usa-width-one-half medium-6 small-12 column">
+              <IconWithInfo icon="map-marker" present={it.city && it.country}>
+                {it.city}, {it.state || it.country}
+              </IconWithInfo>
+              <IconWithInfo icon="globe" present={it.website}>
+                <a href={it.website} target="_blank">{it.website}</a>
+              </IconWithInfo>
+              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
+                {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
+              </IconWithInfo>
             </div>
-            <div className="small-3 large-4 column">
-              <If condition={it.type === 'ojt'}>
-                <p><i className="fa fa-briefcase"/></p>
-              </If>
-              <If condition={it.type !== 'ojt'}>
-                <span>
-                  <p><i className="fa fa-institution"/> {_.capitalize(it.type)} institution</p>
-                  <p><i className="fa fa-map"/> {_.capitalize(it.localeType)} locale</p>
-                  <p><i className="fa fa-group"/> {schoolSize(it.undergradEnrollment)} size</p>
-                </span>
-              </If>
+
+            <div className="usa-width-one-half medium-6 small-12 column">
+              <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
+                On-the-job training
+              </IconWithInfo>
+              <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
+                {_.capitalize(it.type)}&nbsp;
+                {it.type === 'for profit' ? 'school' : 'institution'}
+              </IconWithInfo>
+              <IconWithInfo icon="map" present={it.localeType && it.type && it.type !== 'ojt'}>
+                {_.capitalize(it.localeType)} locale
+              </IconWithInfo>
+              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
+                {schoolSize(it.undergradEnrollment)} size
+              </IconWithInfo>
             </div>
-            <div className="large-6 column"></div>
           </div>
         </div>
+        <AdditionalResources/>
       </div>
     );
   }
 
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+HeadingSummary.propTypes = {
+  institution: PropTypes.object,
+  onLearnMore: PropTypes.func,
+  onViewWarnings: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdditionalInformation);
+export default HeadingSummary;

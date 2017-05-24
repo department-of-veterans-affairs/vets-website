@@ -73,4 +73,52 @@ describe('Schemaform <RadioWidget>', () => {
     tree.everySubTree('input')[0].props.onChange();
     expect(onChange.calledWith('1')).to.be.true;
   });
+  it('should render nested content', () => {
+    const onChange = sinon.spy();
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: '1'
+      },
+      {
+        label: 'Testing2',
+        value: '2'
+      }
+    ];
+    const nestedContent = {
+      1: <span>Nested</span>
+    };
+    const tree = SkinDeep.shallowRender(
+      <RadioWidget
+          value="1"
+          onChange={onChange}
+          options={{ enumOptions, nestedContent }}/>
+    );
+
+    expect(tree.subTree('.schemaform-radio-indent').text()).to.equal('Nested');
+  });
+  it('should not render nested content if not selected', () => {
+    const onChange = sinon.spy();
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: '1'
+      },
+      {
+        label: 'Testing2',
+        value: '2'
+      }
+    ];
+    const nestedContent = {
+      1: <span>Nested</span>
+    };
+    const tree = SkinDeep.shallowRender(
+      <RadioWidget
+          value="2"
+          onChange={onChange}
+          options={{ enumOptions, nestedContent }}/>
+    );
+
+    expect(tree.text()).not.to.contain('Nested');
+  });
 });

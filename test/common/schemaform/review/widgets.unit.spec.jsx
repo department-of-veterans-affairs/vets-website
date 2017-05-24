@@ -19,6 +19,13 @@ describe('Schemaform review widgets', () => {
 
       expect(tree.text()).to.equal('True');
     });
+    it('should render empty for false', () => {
+      const tree = SkinDeep.shallowRender(
+        <CheckboxWidget/>
+      );
+
+      expect(tree.text()).to.equal('');
+    });
   });
   describe('<TextWidget>', () => {
     it('should render', () => {

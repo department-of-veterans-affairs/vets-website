@@ -1,7 +1,6 @@
 .gi-app {
-  
   .va-modal {
-    background-color: rgba($color-gray-dark, .8);
+    background-color: $color-va-modal-bg--gi;
     padding: 10px;
 
     .va-modal-inner {

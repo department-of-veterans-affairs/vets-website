@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
@@ -35,11 +36,23 @@ class ArrayField extends React.Component {
     this.handleSetData = this.handleSetData.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.isLocked = this.isLocked.bind(this);
+  }
+
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}`, {
+      // Hacky; won't work if the array field is used in two pages and one isn't
+      //  a BasicArrayField nor if the array field is used in three pages.
+      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -75,7 +88,7 @@ class ArrayField extends React.Component {
    */
   handleAdd() {
     const newState = {
-      items: this.state.items.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.schema.definitions) || {}),
+      items: this.state.items.concat(getDefaultFormState(this.getItemSchema(this.state.items.length), undefined, this.props.schema.definitions) || {}),
       editing: this.state.editing.concat(true)
     };
     this.setState(newState, () => {
@@ -87,13 +100,13 @@ class ArrayField extends React.Component {
    * Clicking Remove when editing an item
    */
   handleRemove(indexToRemove) {
-    const { pageKey, path, formData } = this.props;
+    const { path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
       editing: this.state.editing.filter((val, index) => index !== indexToRemove),
     });
     this.setState(newState, () => {
-      this.props.setData(pageKey, _.set(path, this.state.items, formData));
+      this.props.setData(_.set(path, this.state.items, formData));
       this.scrollToTop();
     });
   }
@@ -105,10 +118,10 @@ class ArrayField extends React.Component {
    * we need to update the full page's form data and call the Redux setData action
    */
   handleSetData(index, data) {
-    const { pageKey, path, formData } = this.props;
+    const { path, formData } = this.props;
     const newArray = _.set(index, data, this.state.items);
     this.setState({ items: newArray }, () => {
-      this.props.setData(pageKey, _.set(path, newArray, formData));
+      this.props.setData(_.set(path, newArray, formData));
     });
   }
 
@@ -126,6 +139,10 @@ class ArrayField extends React.Component {
     });
   }
 
+  isLocked() {
+    return this.props.uiSchema['ui:field'] === 'BasicArrayField';
+  }
+
   render() {
     const {
       schema,
@@ -136,35 +153,44 @@ class ArrayField extends React.Component {
     const fieldName = path[path.length - 1];
     const title = _.get('ui:title', uiSchema) || pageTitle;
     const arrayPageConfig = {
-      schema: _.assign(schema.items, { definitions: schema.definitions }),
       uiSchema: uiSchema.items,
       pageKey: fieldName
     };
+
+    // TODO: Make this better; it's super hacky for now.
+    const itemCountLocked = this.isLocked();
+    const items = itemCountLocked ? this.props.arrayData : this.state.items;
 
     return (
       <div>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
-            <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            {!itemCountLocked &&
+              <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            }
           </div>}
         <div className="va-growable va-growable-review">
-          <Element name={`topOfTable_${fieldName}`}/>
-          {this.state.items.map((item, index) => {
-            const isLast = this.state.items.length === (index + 1);
+          <Element name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}/>
+          {items.map((item, index) => {
+            const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
+            const showReviewButton = !itemCountLocked && (!schema.minItems || items.length > schema.minItems);
+            const itemSchema = this.getItemSchema(index);
+            const itemTitle = itemSchema ? itemSchema.title : '';
+
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && uiSchema['ui:options'].itemName && this.state.items.length > 1
+                      {isLast && uiSchema['ui:options'].itemName && items.length > 1
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
                           data={item}
-                          schema={arrayPageConfig.schema}
+                          schema={itemSchema}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -177,7 +203,7 @@ class ArrayField extends React.Component {
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            {showReviewButton && <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
                           </div>
                         </div>
                       </SchemaForm>
@@ -192,10 +218,9 @@ class ArrayField extends React.Component {
                   <SchemaForm
                       reviewMode
                       data={item}
-                      schema={arrayPageConfig.schema}
+                      schema={itemSchema}
                       uiSchema={arrayPageConfig.uiSchema}
-                      title={pageTitle}
-                      hideTitle
+                      title={itemTitle}
                       name={fieldName}
                       onChange={(data) => this.handleSetData(index, data)}
                       onEdit={() => this.handleEdit(index, !isEditing)}
@@ -215,12 +240,11 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  pageKey: React.PropTypes.string.isRequired,
-  path: React.PropTypes.array.isRequired,
-  formData: React.PropTypes.object,
-  arrayData: React.PropTypes.array,
-  pageTitle: React.PropTypes.string
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  pageKey: PropTypes.string.isRequired,
+  path: PropTypes.array.isRequired,
+  formData: PropTypes.object,
+  arrayData: PropTypes.array,
+  pageTitle: PropTypes.string
 };
-

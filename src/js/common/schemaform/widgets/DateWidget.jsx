@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 
@@ -94,8 +95,8 @@ export default class DateWidget extends React.Component {
 }
 
 DateWidget.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string
+  id: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  value: PropTypes.string
 };

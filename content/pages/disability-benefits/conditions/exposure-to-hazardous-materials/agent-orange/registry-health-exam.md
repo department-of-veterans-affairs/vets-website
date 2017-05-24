@@ -6,9 +6,13 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 If you think you had contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War, or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to illnesses that may be related to contact with herbicides. By being part of this registry, you're also helping your fellow Veterans by giving us information so we can better understand and serve those affected by Agent Orange–related illnesses.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get an Agent Orange Registry health exam?
 
@@ -47,7 +51,7 @@ A VA health care provider will go over your exam and test results with you. You'
 
 Please note that:
 
-- This exam isn't a VA claim exam (also known as a C&P exam). And you don't need to have this exam to get other VA benefits. To get disability benefits, you'll need to apply. [Apply for disability benefits now](/disability-benefits/apply-for-benefits/).
+- This exam isn't a VA claim exam (also known as a C&P exam). And you don't need to have this exam to get other VA benefits. To get disability benefits, you'll need to apply. [Apply for disability benefits now](/disability-benefits/apply/).
 - You don't need to sign up for the VA health care system to get a Registry exam.
 - The exam is based on your memory of service, not on your military records.
 - The exam will not confirm if you had contact with Agent Orange.

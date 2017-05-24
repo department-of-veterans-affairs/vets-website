@@ -13,16 +13,20 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 You have the right to appeal any disability benefits decision made by the Veterans Benefits Administration (VBA). The appeals process is set in law and is different from other judicial appeals processes. Keep reading below to find out how to file an appeal.  
 
-<div class="call-out" markdown="0">
+</div>
+
+<div class="feature" markdown="0">
 
 ### What if I don't agree with my benefits decision?  
 
 If you disagree with all or part of a VBA benefits decision, you can:
 
 - File a new claim with your regional office along with any missing evidence (supporting documents like doctor's reports or medical test results), **or**
-- Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply/help/index.html).
 </div>
 
 #### When do I file an NOD?
@@ -53,7 +57,7 @@ You'll need to file a Substantive Appeal within 60 days from the date on the let
 
 #### What's the status of my appeal?
 
-Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
+Check the status of your appeal by calling <a href="tel:+18008271000">800-827-1000</a> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
 
 #### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
 

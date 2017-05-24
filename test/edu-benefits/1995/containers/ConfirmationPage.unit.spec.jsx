@@ -10,18 +10,12 @@ const form = {
       attributes: {}
     }
   },
-  veteranInformation: {
-    data: {
-      veteranFullName: {
-        first: 'Jane',
-        last: 'Doe'
-      }
-    }
-  },
-  benefitSelection: {
-    data: {
-      benefit: 'chapter30'
-    }
+  data: {
+    veteranFullName: {
+      first: 'Jane',
+      last: 'Doe'
+    },
+    benefit: 'chapter30'
   }
 };
 
@@ -43,7 +37,7 @@ describe('<ConfirmationPage>', () => {
     // Check to see that div.usa-accordion-content doesn't exist
     expect(tree.subTree('.usa-accordion-content')).to.be.false;
 
-    tree.getMountedInstance().handleClick({ preventDefault: f => f });
+    tree.getMountedInstance().toggleExpanded({ preventDefault: f => f });
 
     // Check to see that div.usa-accordion-content exists after expanding
     expect(tree.subTree('.usa-accordion-content')).to.be.an('object');

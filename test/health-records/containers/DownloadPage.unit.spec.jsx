@@ -7,8 +7,9 @@ import { DownloadPage } from '../../../src/js/health-records/containers/Download
 const props = {
   refresh: {
     statuses: {
-      successful: [],
       failed: [],
+      incomplete: [],
+      successful: [],
     }
   },
   form: {
@@ -37,12 +38,22 @@ describe('<DownloadPage>', () => {
     const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
     const alertBox = tree.subTree('AlertBox');
     expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('warning');
+    expect(alertBox.props.status).to.equal('error');
   });
 
   it('should render report generation error correctly', () => {
     const errorProps = Object.assign({}, props);
     errorProps.form.ready = false;
+    const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
+    const alertBox = tree.subTree('AlertBox');
+    expect(alertBox).to.be.ok;
+    expect(alertBox.props.status).to.equal('error');
+  });
+
+  it('should render skipped update warning correctly', () => {
+    const errorProps = Object.assign({}, props);
+    errorProps.form.ready = true;
+    errorProps.refresh.statuses.incomplete.push({ id: 0 });
     const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
     const alertBox = tree.subTree('AlertBox');
     expect(alertBox).to.be.ok;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
@@ -155,36 +156,36 @@ class MessageSearchAdvanced extends React.Component {
 }
 
 MessageSearchAdvanced.propTypes = {
-  hasRecipientField: React.PropTypes.bool,
-  isVisible: React.PropTypes.bool.isRequired,
-  onAdvancedSearch: React.PropTypes.func.isRequired,
-  onDateChange: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired,
-  params: React.PropTypes.shape({
-    dateRange: React.PropTypes.shape({
-      start: React.PropTypes.object,
-      end: React.PropTypes.object
+  hasRecipientField: PropTypes.bool,
+  isVisible: PropTypes.bool.isRequired,
+  onAdvancedSearch: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  params: PropTypes.shape({
+    dateRange: PropTypes.shape({
+      start: PropTypes.object,
+      end: PropTypes.object
     }),
-    from: React.PropTypes.shape({
-      field: React.PropTypes.shape({
-        value: React.PropTypes.string,
-        dirty: React.PropTypes.bool
+    from: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
       }),
-      exact: React.PropTypes.bool
+      exact: PropTypes.bool
     }),
-    to: React.PropTypes.shape({
-      field: React.PropTypes.shape({
-        value: React.PropTypes.string,
-        dirty: React.PropTypes.bool
+    to: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
       }),
-      exact: React.PropTypes.bool
+      exact: PropTypes.bool
     }),
-    subject: React.PropTypes.shape({
-      field: React.PropTypes.shape({
-        value: React.PropTypes.string,
-        dirty: React.PropTypes.bool
+    subject: PropTypes.shape({
+      field: PropTypes.shape({
+        value: PropTypes.string,
+        dirty: PropTypes.bool
       }),
-      exact: React.PropTypes.bool
+      exact: PropTypes.bool
     })
   }).isRequired
 };
