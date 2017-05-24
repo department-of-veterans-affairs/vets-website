@@ -74,7 +74,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
 
-- Go to [milConnect](www.dmdc.osd.mil/milconnect).
+- Go to [milConnect](https://www.dmdc.osd.mil/milconnect).
 - Sign in.
 - Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
 - Check your coverage and beneficiary info and make any needed updates.
