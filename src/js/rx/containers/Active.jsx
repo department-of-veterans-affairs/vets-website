@@ -34,7 +34,7 @@ class Active extends React.Component {
       // the viewToggle element is hidden with CSS on the $small breakpoint
       // on small screens, the view toggle is hidden and list view disabled
       if (this.viewToggle && (toggleDisplayStyle === 'none')) {
-        this.setState({ view: 'list', });
+        this.setState({ view: 'card', });
       } else if (viewPref) {
         this.setState({ view: viewPref, });
       }
