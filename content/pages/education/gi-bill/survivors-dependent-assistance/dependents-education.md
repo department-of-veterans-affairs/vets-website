@@ -65,6 +65,7 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf). <br>
 [Find an RBO](http://www.benefits.va.gov/benefits/offices.asp).
 
+<br>
 
 #### If you haven't started school or a training program:
 - Get help from a trained professional trusted to help with VA-related claims. [Learn about accredited representatives](/disability-benefits/apply/help/index.html).
