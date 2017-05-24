@@ -1,17 +1,12 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Health Care Application Process
+display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-lastupdate_override: ""
-relatedlinks:
- - url: /healthcare/eligibility/
-   title: Health Care Benefits Eligibility
-   description: "Not sure if you qualify? Find out if you can get VA health care benefits."
- - url: /healthcare/after-you-apply/
-   title: After You Apply for Health Care Benefits
-   description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
+lastupdate_override: 
+collection: healthcare
+order: 3
 ---
 
 <div class="va-introtext">

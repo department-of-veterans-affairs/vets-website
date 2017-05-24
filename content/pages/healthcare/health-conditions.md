@@ -1,10 +1,13 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Health Needs and Conditions
-display_title: ""
-concurrence: ""
-template: 1-topic-landing
-lastupdate_override: ""
+display_title: 
+concurrence: 
+lastupdate_override: 
+collection: healthcare
+order: 4
+children: healthcareConditions
 relatedlinks:
   - url: /healthcare/about-va-health-care/
     title: About VA Health Care Coverage
