@@ -15,8 +15,14 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
 
-    // Ensure that prescription card renders
-    client.expect.element('.rx-prescription-card').to.be.visible;
+    // Ensure that list view renders
+    client
+      .expect.element('.rx-table-list').to.be.visible;
+
+    // Ensure that card view renders
+    client
+      .click('.rx-view-toggle li:first-child')
+      .expect.element('.rx-prescription-card').to.be.visible;
 
     // Ensure glossary modal triggers correctly
     client
