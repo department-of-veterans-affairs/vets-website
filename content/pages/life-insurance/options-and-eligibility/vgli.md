@@ -54,20 +54,19 @@ When you leave the military, you can sign up through VGLI for coverage up to the
 
 You’ll need to apply for these benefits. When you apply, you won't need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
 
-Apply in 1 of 2 ways:
+Apply in 1 of 3 ways:
 
-- [Apply through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management), **or**
+- Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. [Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
+- [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
+- Apply by mail or fax. Fill out VA Form SGLV 8714 (Application for Veterans’ Group Life Insurance). [Download VA Form SGLV 8714](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
-- Fill out VA Form SGLV 8714 (Application for Veterans’ Group Life Insurance). Fax the form to 800-236-6142, or mail it to: 
+Fax the form to 800-236-6142, or mail it to: 
 
 <dl class="va-address-block">
 <dd>OSGLI</dd>
 <dd>P.O. Box 41618</dd>
 <dd>Philadelphia, PA 19176-9913</dd>
 </dl>
-
-
-[Download VA Form SGLV 8714](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
 ### How much will I pay for these benefits? 
 
