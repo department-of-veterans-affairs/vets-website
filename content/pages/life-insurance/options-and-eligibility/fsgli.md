@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Family Servicemembers' Group Life Insurance (FSGLI)
+template: detail-page
+title: Family Servicemembers’ Group Life Insurance (FSGLI)
+display_title: Family
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/sgli/
-    title: Servicemembers’ Group Life Insurance (SGLI) 
-    description: Get group life insurance while you’re serving.
-  - url: /life-insurance/options-and-eligibility/tsgli/
-    title: Traumatic Injury Protection Program (TSGLI) 
-    description: Get short-term financial support to help you recover from a severe injury.
-  - url: /life-insurance/options-and-eligibility/vgli/
-    title: Veterans’ Group Life Insurance (VGLI)
-    description: Get group life insurance once you’ve ended your service. 
-  - url: /life-insurance/options-and-eligibility/s-dvi/
-    title: Service-Disabled Veterans Insurance (S-DVI)
-    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
+order: 2
 ---
 
 <div class="va-introtext">
@@ -253,6 +242,12 @@ You can’t convert other types of policies—such as term, variable, or univers
  - The Servicemember's FSGLI spousal declination
  - The Servicemember's SGLI declination
  - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
+
+### Need help?
+
+Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

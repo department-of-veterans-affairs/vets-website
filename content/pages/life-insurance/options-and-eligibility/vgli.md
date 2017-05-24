@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Veterans' Group Life Insurance (VGLI)
+template: detail-page
+title: Veterans’ Group Life Insurance (VGLI)
+display_title: Veterans
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/sgli/
-    title: Servicemembers’ Group Life Insurance (SGLI)
-    description: Get group life insurance while you’re serving.  
-  - url: /life-insurance/options-and-eligibility/fsgli/
-    title: Family Servicemembers’ Group Life Insurance (FSGLI)
-    description: Add coverage for spouse and dependent children (children who rely on you for financial support).     
-  - url: /life-insurance/options-and-eligibility/tsgli/
-    title: Traumatic Injury Protection Program (TSGLI)
-    description: Get short-term financial support to help you recover from a severe injury.      
-  - url: /life-insurance/options-and-eligibility/s-dvi/
-    title: Service-Disabled Veterans Insurance (S-DVI)
-    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
+order: 4
 ---
 
 <div class="va-introtext">
@@ -646,6 +635,12 @@ Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Co
 </ol>
 
 **Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like term, variable life, or universal life insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
+
+### Need help?
+
+Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

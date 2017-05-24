@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Traumatic Injury Protection Life Insurance (TSGLI)
+display_title: Traumatic Injury Protection
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/sgli/
-    title: Servicemembers’ Group Life Insurance (SGLI)
-    description: Get group life insurance while you’re serving.
-  - url: /life-insurance/options-and-eligibility/fsgli/
-    title: Family Servicemembers’ Group Life Insurance (FSGLI)
-    description: Add coverage for your spouse and dependent children (children who rely on you for financial support).
-  - url: /life-insurance/options-and-eligibility/vgli/
-    title: Veterans’ Group Life Insurance (VGLI)
-    description: Get group life insurance once you’ve ended your service. 
-  - url: /life-insurance/options-and-eligibility/s-dvi/
-    title: Service-Disabled Veterans Insurance (S-DVI)
-    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
+order: 3
 ---
 
 <div class="va-introtext">
@@ -88,3 +77,8 @@ If your letter says to complete this form, fill it out and submit it to your bra
 
 If you have SGLI coverage, your SGLI premium (which is automatically deducted from your base pay) includes a $1-per-month flat-rate premium for TSGLI. This is all you’ll pay for this benefit.
 
+### Need help?
+
+Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)

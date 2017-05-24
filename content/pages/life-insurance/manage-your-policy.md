@@ -1,15 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Managing Your Policy
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/
-    title: Options and Eligibility 
-    description: Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan. 
-  - url: /life-insurance/disabled-and-terminally-ill/
-    title: Claims for Disabled and Terminally Ill Policyholders
-    description: Learn how to file special life insurance claims if you or your spouse become totally disabled or terminally ill.
+order: 2
 ---
 
 <div class="va-introtext">

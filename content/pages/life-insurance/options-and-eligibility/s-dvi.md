@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Service-Disabled Veterans Life Insurance (S-DVI)
+display_title: Service-Disabled Veterans
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/sgli/
-    title: Servicemembers’ Group Life Insurance (SGLI)
-    description: Get group life insurance while you’re serving.
-  - url: /life-insurance/options-and-eligibility/fsgli/
-    title: Family Servicemembers’ Group Life Insurance (FSGLI)
-    description: Add coverage for spouse and dependent children (children who rely on you for financial support).
-  - url: /life-insurance/options-and-eligibility/tsgli/
-    title: Traumatic Injury Protection Program (TSGLI)
-    description: Get short-term financial support to help you recover from a severe injury. 
-  - url: /life-insurance/options-and-eligibility/vgli/
-    title: Veterans’ Group Life Insurance (VGLI)
-    description: Get group life insurance once you’ve ended your service. 
+order: 5
 ---
 
 <div class="va-introtext">
@@ -95,3 +84,9 @@ Get premium rates and a description of the plan options. [Download VA pamphlet 2
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
 
 You must pay your premiums for Supplemental S-DVI.
+
+### Need help?
+
+Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
