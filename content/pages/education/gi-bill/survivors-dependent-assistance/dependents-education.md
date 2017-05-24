@@ -61,7 +61,12 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 ### How do I get these benefits? 
 1. First, contact your school's certifying official to make sure your program is approved for VA benefits.
 2. Apply online with VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Find out how to apply](/education/apply/). 
-3. Apply by mail. You’ll need to [download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf) and mail it to the VA regional processing office (RPO) located near your school. [Find an RPO](http://www.benefits.va.gov/benefits/offices.asp#C).
+3. Apply by mail. You’ll need to fill out the Application for Survivors’ and Dependents’ Educational Assistance and mail it to the VA regional benefit office (RBO) located near your school. 
+
+<br>
+
+[Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf)
+[Find an RBO](http://www.benefits.va.gov/benefits/offices.asp).
 
 
 #### If you haven't started school or a training program:
