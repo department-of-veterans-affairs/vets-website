@@ -1,7 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-// import { set } from 'lodash/fp';
 
 import { TrackPackage } from '../../../src/js/rx/containers/TrackPackage';
 import { trackings } from '../../e2e/rx-helpers.js';
