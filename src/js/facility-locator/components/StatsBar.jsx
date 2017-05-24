@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class StatsBar extends React.Component {
   render() {
@@ -16,8 +17,8 @@ class StatsBar extends React.Component {
 }
 
 StatsBar.propTypes = {
-  percent: React.PropTypes.number.isRequired,
-  color: React.PropTypes.oneOf(['blue', 'grey']),
+  percent: PropTypes.number.isRequired,
+  color: PropTypes.oneOf(['blue', 'grey']),
 };
 
 StatsBar.defaultProps = {
