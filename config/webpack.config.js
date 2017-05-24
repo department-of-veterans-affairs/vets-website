@@ -200,7 +200,7 @@ const configGenerator = (options) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new webpack.optimize.CommonsChunkPlugin({
-        name: ['commons', 'vendor'],
+        names: ['commons', 'vendor'],
         filename: (options.buildtype === 'development') ? '[name].js' : `[name].[chunkhash]-${timestamp}.js`,
         minChunks: NUM_BUNDLES - 1
       }),
