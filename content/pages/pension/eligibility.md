@@ -1,22 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Eligibility
 concurrence: ""
-template: 1-topic-landing
-relatedlinks:
-  - url: /pension/apply/
-    title: Apply
-    description: Learn about the application process and apply for pension benefits.
-  - url: /pension/rates/
-    title: Veterans Pension Rates
-    description: Find out how much you may qualify for.
-  - url: /pension/survivors-pension/
-    title: Survivors Pension
-    description: Find out if you can get monthly payments as an unmarried surviving spouse or unmarried child of a deceased Veteran with wartime service
-  - url: /pension/pension-management-center/
-    title: Pension Management Centers
-    description: Find the location that serves you and your family. 
-
+children: pensionEligibility
+order: 1
 ---
 
 <div class="va-introtext">

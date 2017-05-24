@@ -1,27 +1,26 @@
 ---
 layout: page-breadcrumbs.html
+template: level2-index
 title: Pensions
-permalink: /pension/index.md
-template: L2-section-landing
-showactionbar: false
-extraspace: true
+permalink: /pension/index.html
 majorlinks:
-  - url: /pension/eligibility/
-    title: Eligibility
-    description: Find out if you can get monthly payments through our Veterans Pension program.
-  - url: /pension/apply/
-    title: Application Process
-    description: Find out how to apply by mail or in person.
-  - url: /pension/survivors-pension/
-    title: Survivors Pension
-    description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
-relatedlinks:
-  - url: /pension/rates/
-    title: Veterans Pension Rates
-    description: Find out how much you qualify for. 
-  - url: /pension/pension-management-center/
-    title: Pension Management Centers
-    description: Find the location that serves you and your family. 
+  - heading:
+    links:
+    - url: /pension/eligibility/
+      title: Eligibility
+      description: Find out if you can get monthly payments through our Veterans Pension program.
+    - url: /pension/apply/
+      title: Application Process
+      description: Find out how to apply by mail or in person.
+    - url: /pension/survivors-pension/
+      title: Survivors Pension
+      description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
+    - url: /pension/rates/
+      title: Veterans Pension Rates
+      description: Find out how much you qualify for. 
+    - url: /pension/pension-management-center/
+      title: Pension Management Centers
+      description: Find the location that serves you and your family. 
 ---
 
 <div class="va-introtext">

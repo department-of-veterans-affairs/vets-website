@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Find a Pension Management Center
+display_title: Find a PMC
 concurrence: "" 
-template: 1-topic-landing
-relatedlinks:
-  - url: /pension/eligibility/
-    title: Eligibility
-    description: Find out if you can get monthly payments through our Veterans Pension program.
-  - url: /pension/apply/
-    title: Application Process
-    description: Learn about the application process and apply for pension benefits.
-  - url: /pension/survivors-pension/
-    title: Survivors Pension
-    description: Find out if you can get monthly payments as a surviving spouse who’s not remarried, or as an unmarried child.
-  - url: /pension/rates/
-    title: Veterans Pension Rates 
-    description: Find out how much you qualify for.     
+order: 5
 ---
 
 <div class="va-introtext">
@@ -28,7 +17,7 @@ We have 3 Regional Pension Management Centers. Look at the lists below to find t
 
 This office serves:
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Connecticut</li>
 <li>Delaware</li>
@@ -42,7 +31,7 @@ This office serves:
 </ul>
 </div>
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>New York</li>
 <li>North Carolina</li>
@@ -73,7 +62,7 @@ To submit a pension application to this office, mail it to:
 
 This office serves:
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Alabama</li>
 <li>Arkansas</li>
@@ -84,7 +73,7 @@ This office serves:
 </ul>
 </div>
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Michigan</li>
 <li>Mississippi</li>
@@ -114,7 +103,7 @@ This office serves:
 
 <div class="usa-grid-full">
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Alaska</li>
 <li>Arizona</li>
@@ -130,7 +119,7 @@ This office serves:
 </ul>
 </div>
 
-<div class="small-12 usa-width-one-half medium-6 columns">
+<div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Nevada</li>
 <li>New Mexico</li>
