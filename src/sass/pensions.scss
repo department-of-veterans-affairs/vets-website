@@ -7,3 +7,14 @@
 @import "modules/m-schemaform";
 @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
+
+.pensions-disclosure-title {
+  padding-bottom: 0;
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.pensions-disclosure-name {
+  border-bottom: 3px solid $color-primary;
+  margin: 0 0 0.8em;
+}

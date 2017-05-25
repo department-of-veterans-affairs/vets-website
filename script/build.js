@@ -209,6 +209,7 @@ if (options.watch) {
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/va-letters(.*)', to: '/va-letters/' },
+        { from: '^/pensions/application(.*)', to: '/pensions/application/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
