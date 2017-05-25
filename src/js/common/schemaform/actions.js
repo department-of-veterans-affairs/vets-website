@@ -41,7 +41,7 @@ export function setPrivacyAgreement(privacyAgreementAccepted) {
 export function setSubmitted(response) {
   return {
     type: SET_SUBMITTED,
-    response
+    response: typeof response.data !== 'undefined' ? response.data : response
   };
 }
 
@@ -77,7 +77,7 @@ export function submitForm(formConfig, form) {
       return Promise.reject(res.statusText);
     })
     .then(
-      (resp) => dispatch(setSubmitted(resp.data)),
+      (resp) => dispatch(setSubmitted(resp)),
       () => dispatch(setSubmission('status', 'error'))
     );
   };

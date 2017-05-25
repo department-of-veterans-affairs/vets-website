@@ -6,7 +6,9 @@ import { ConfirmationPage } from '../../../src/js/hca-rjsf/containers/Confirmati
 
 const form = {
   submission: {
-    timestamp: '2010-01-01'
+    response: {
+      timestamp: '2010-01-01'
+    }
   }
 };
 

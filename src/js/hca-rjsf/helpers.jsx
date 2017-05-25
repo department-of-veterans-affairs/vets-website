@@ -127,3 +127,11 @@ export const incomeDescription = (
     <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
   </div>
 );
+
+export const disclosureWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
+    </div>
+  </div>
+);
