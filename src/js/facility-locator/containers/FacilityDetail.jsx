@@ -37,7 +37,7 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, facility_type: facilityType } = facility.attributes;
+    const { name, facilityType } = facility.attributes;
 
     /* eslint-disable camelcase */
     const facilityTypes = {

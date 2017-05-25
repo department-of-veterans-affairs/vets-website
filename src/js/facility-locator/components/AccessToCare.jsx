@@ -11,7 +11,7 @@ export default class AccessToCare extends Component {
       return null;
     }
 
-    if (facility.attributes.facility_type !== 'va_health_facility') {
+    if (facility.attributes.facilityType !== 'va_health_facility') {
       return null;
     }
 
@@ -19,10 +19,10 @@ export default class AccessToCare extends Component {
 
     if (isEmpty(compact(
       [
-        healthFeedbackAttrs.primary_care_urgent,
-        healthFeedbackAttrs.specialty_care_urgent,
-        healthFeedbackAttrs.primary_care_routine,
-        healthFeedbackAttrs.specialty_care_routine,
+        healthFeedbackAttrs.primaryCareUrgent,
+        healthFeedbackAttrs.specialtyCareUrgent,
+        healthFeedbackAttrs.primaryCareRoutine,
+        healthFeedbackAttrs.specialtyCareRoutine,
       ]
     ))) { return null; }
 
@@ -41,23 +41,23 @@ export default class AccessToCare extends Component {
       <div className="mb2">
         <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
         <div className="mb2">
-          <p>Current as of <strong>{healthFeedbackAttrs.effective_date_range}</strong></p>
+          <p>Current as of <strong>{healthFeedbackAttrs.effectiveDateRange}</strong></p>
           <h4>Urgent care appointments</h4>
           <p>% of Veterans who say they usually or always get an appointment when they need care right away</p>
           <div className="mb2">
-            {renderStat('Primary care at this location', healthFeedbackAttrs.primary_care_urgent)}
+            {renderStat('Primary care at this location', healthFeedbackAttrs.primaryCareUrgent)}
           </div>
           <div className="mb2">
-            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialty_care_urgent)}
+            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialtyCareUrgent)}
           </div>
 
           <h4>Routine care appointments</h4>
           <p>% of Veterans who say they usually or always get an appointment when they need it</p>
           <div className="mb2">
-            {renderStat('Primary care at this location', healthFeedbackAttrs.primary_care_routine)}
+            {renderStat('Primary care at this location', healthFeedbackAttrs.primaryCareRoutine)}
           </div>
           <div className="mb2">
-            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialty_care_routine)}
+            {renderStat('Specialty care at this location', healthFeedbackAttrs.specialtyCareRoutine)}
           </div>
         </div>
       </div>

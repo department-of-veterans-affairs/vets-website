@@ -10,16 +10,16 @@ export default class AppointmentInfo extends Component {
       return null;
     }
 
-    if (facility.attributes.facility_type !== 'va_health_facility') {
+    if (facility.attributes.facilityType !== 'va_health_facility') {
       return null;
     }
 
     const healthAccessAttrs = facility.attributes.access.health;
 
     if (isEmpty(compact([
-      healthAccessAttrs.primary_care_wait_days,
-      healthAccessAttrs.specialty_care_wait_days,
-      healthAccessAttrs.mental_health_wait_days,
+      healthAccessAttrs.primaryCareWaitDays,
+      healthAccessAttrs.specialtyCareWaitDays,
+      healthAccessAttrs.mentalHealthWaitDays,
     ]))) { return null; }
 
     const renderStat = (label, value) => {
@@ -38,9 +38,9 @@ export default class AppointmentInfo extends Component {
           <h4>New patient wait times</h4>
           <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
           <ul>
-            {renderStat('Primary care', healthAccessAttrs.primary_care_wait_days)}
-            {renderStat('Specialty care', healthAccessAttrs.specialty_care_wait_days)}
-            {renderStat('Mental health care', healthAccessAttrs.mental_health_wait_days)}
+            {renderStat('Primary care', healthAccessAttrs.primaryCareWaitDays)}
+            {renderStat('Specialty care', healthAccessAttrs.specialtyCareWaitDays)}
+            {renderStat('Mental health care', healthAccessAttrs.mentalHealthWaitDays)}
           </ul>
         </div>
       </div>

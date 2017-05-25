@@ -5,7 +5,7 @@ export const api = {
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
-      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
     }
   }
 };
