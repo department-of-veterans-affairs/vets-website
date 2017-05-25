@@ -26,6 +26,11 @@ export function transform(formConfig, form) {
       updatedForm
     );
   }
+
+  if (!updatedForm.data.children) {
+    updatedForm = _.set('data.children', [], updatedForm);
+  }
+
   const formData = transformForSubmit(formConfig, updatedForm);
 
   return JSON.stringify({
