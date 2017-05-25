@@ -11,6 +11,10 @@ import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
 
+// const {
+//   additionalSources
+// } = fullSchemaPensions.definitions;
+
 const formConfig = {
   urlPrefix: '/527EZ/',
   submitUrl: '/v0/pensions_applications',
