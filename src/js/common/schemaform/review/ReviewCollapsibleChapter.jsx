@@ -21,7 +21,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.toggleChapter = this.toggleChapter.bind(this);
-    this.state = { open: false, pagesEditing: {} };
+    this.state = { open: false };
   }
 
   componentWillMount() {
