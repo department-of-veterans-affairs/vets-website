@@ -210,3 +210,17 @@ label {
 .schemaform-expandUnder-indent {
   margin-left: 29px;
 }
+
+.schemaform-currency-input .schemaform-widget-wrapper {
+  position: relative;
+  &:before {
+    content: "$";
+    display: block;
+    position: absolute;
+    top: 9px;
+    left: 10px;
+  }
+  > input[type=number] {
+    padding-left: 25px !important;
+  }
+}
