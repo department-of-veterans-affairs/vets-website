@@ -92,4 +92,25 @@ describe('Pensions financial disclosure', () => {
   describe('Spouse expected income', () => {
     runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 4);
   });
+  describe('Dependent expected income', () => {
+    const page = formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
+    runTests({
+      schema: page.schema.properties.children.items,
+      uiSchema: page.uiSchema.children.items
+    }, 'childFullName', 4);
+  });
+  describe('Dependent monthly income', () => {
+    const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
+    runTests({
+      schema: page.schema.properties.children.items,
+      uiSchema: page.uiSchema.children.items
+    }, 'childFullName', 7);
+  });
+  describe('Dependent net worth', () => {
+    const page = formConfig.chapters.financialDisclosure.pages.dependentsNetWorth;
+    runTests({
+      schema: page.schema.properties.children.items,
+      uiSchema: page.uiSchema.children.items
+    }, 'childFullName', 7);
+  });
 });
