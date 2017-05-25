@@ -58,7 +58,7 @@ Apply in 1 of 3 ways:
 
 - Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. [Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
 - [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
-- Apply by mail or fax. Fill out VA Form SGLV 8714 (Application for Veterans’ Group Life Insurance). [Download VA Form SGLV 8714](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
+- Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
 Fax the form to 800-236-6142, or mail it to: 
 
