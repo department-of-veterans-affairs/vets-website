@@ -72,7 +72,7 @@ export function createRoutes(formConfig) {
     .map(page => {
       return {
         path: page.path,
-        component: FormPage,
+        component: page.component || FormPage,
         pageConfig: page,
         pageList
       };

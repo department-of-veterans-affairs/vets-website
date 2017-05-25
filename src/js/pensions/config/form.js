@@ -92,7 +92,7 @@ const formConfig = {
         },
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
-          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} net worth`,
+          title: 'Spouse net worth',
           // TODO: Update with spouse check
           depends: () => true,
           initialData: {
@@ -131,7 +131,7 @@ const formConfig = {
         },
         spouseMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/spouse',
-          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} monthly income`,
+          title: 'Spouse monthly income',
           depends: () => true,
           initialData: {
           },
@@ -169,7 +169,7 @@ const formConfig = {
         },
         spouseExpectedIncome: {
           path: 'financial-disclosure/expected-income/spouse',
-          title: item => `${item.spouseFullName.first} ${item.spouseFullName.last} expected income`,
+          title: 'Spouse expected income',
           depends: () => true,
           initialData: {
           },
