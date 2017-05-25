@@ -219,15 +219,26 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['netWorth'],
             properties: {
-              netWorth: netWorthSchema(fullSchemaPensions)
+              children: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    netWorth: netWorthSchema(fullSchemaPensions)
+                  }
+                }
+              }
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('childFullName', 'Net worth'),
-            'ui:description': 'Bank accounts, investments, and property',
-            netWorth: netWorthUI
+            children: {
+              items: {
+                'ui:title': createDisclosureTitle('childFullName', 'Net worth'),
+                'ui:description': 'Bank accounts, investments, and property',
+                netWorth: netWorthUI
+              }
+            }
           }
         },
         dependentsMonthlyIncome: {
@@ -241,13 +252,25 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              monthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+              children: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    monthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+                  }
+                }
+              }
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('childFullName', 'Monthly income'),
-            'ui:description': 'Social Security or other pensions',
-            monthlyIncome: monthlyIncomeUI
+            children: {
+              items: {
+                'ui:title': createDisclosureTitle('childFullName', 'Monthly income'),
+                'ui:description': 'Social Security or other pensions',
+                monthlyIncome: monthlyIncomeUI
+              }
+            }
           }
         },
         dependentsExpectedIncome: {
@@ -261,13 +284,25 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              expectedIncome: expectedIncomeSchema(fullSchemaPensions)
+              children: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    expectedIncome: expectedIncomeSchema(fullSchemaPensions)
+                  }
+                }
+              }
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('childFullName', 'Expected income'),
-            'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
-            expectedIncome: expectedIncomeUI
+            children: {
+              items: {
+                'ui:title': createDisclosureTitle('childFullName', 'Expected income'),
+                'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
+                expectedIncome: expectedIncomeUI
+              }
+            }
           }
         }
       }

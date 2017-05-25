@@ -90,15 +90,18 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const { route } = this.props;
-    const {
+    const { route, params, form } = this.props;
+    let {
       schema,
       uiSchema
     } = this.props.form.pages[route.pageConfig.pageKey];
+    let data = form.data;
 
-    const data = route.pageConfig.pageType === 'array'
-      ? _.get([route.pageConfig.arrayPath, this.props.params.index], this.props.form.data)
-      : this.props.form.data;
+    if (route.pageConfig.pageType === 'array') {
+      schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
+      uiSchema = uiSchema[route.pageConfig.arrayPath].items;
+      data = _.get([route.pageConfig.arrayPath, params.index], data);
+    }
 
     return (
       <div className="form-panel">

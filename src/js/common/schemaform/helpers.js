@@ -416,16 +416,17 @@ export function createUSAStateLabels(states) {
 function generateArrayPages(arrayPages, data) {
   const items = _.get(arrayPages[0].arrayPath, data);
   return items
-    .reduce((pages, item, index) => {
-      return pages.concat(arrayPages.map(page =>
+    .reduce((pages, item, index) =>
+      pages.concat(arrayPages.map(page =>
         _.assign(page, {
           path: page.path.replace(':index', index),
           index
         })
-      ));
-    }, [])
+      )),
+      []
+    )
     // doing this after the map so that we don't change indexes
-    .filter(page => page.itemFilter(items[page.index]));
+    .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
 }
 
 /*

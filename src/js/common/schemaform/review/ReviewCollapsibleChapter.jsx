@@ -83,30 +83,43 @@ export default class ReviewCollapsibleChapter extends React.Component {
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
           {expandedPages.map(page => {
-            const editing = page.pageType === 'array'
-              ? form.pages[page.pageKey].editMode[page.index]
-              : form.pages[page.pageKey].editMode;
-            // Our pattern is to separate out array fields (growable tables) from
-            // the normal page and display them separately. The review version of
-            // ObjectField will hide them in the main section.
-            const arrayFields = getArrayFields(form.pages[page.pageKey], page);
-            // This will be undefined if there are no fields other than an array
-            // in a page, in which case we won't render the form, just the array
-            const nonArraySchema = getNonArraySchema(form.pages[page.pageKey].schema);
-            const pageData = page.pageType === 'array'
-              ? _.get([page.arrayPath, page.index], form.data)
-              : form.data;
+            const pageState = form.pages[page.pageKey];
+            let pageSchema;
+            let pageUiSchema;
+            let pageData;
+            let arrayFields;
+            let editing;
+
+            if (page.pageType === 'array') {
+              editing = pageState.editMode[page.index];
+              pageSchema = pageState.schema.properties[page.arrayPath].items[page.index];
+              pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+              pageData = _.get([page.arrayPath, page.index], form.data);
+              arrayFields = [];
+            } else {
+              editing = pageState.editMode;
+              // TODO: support array fields inside of an array page?
+              // Our pattern is to separate out array fields (growable tables) from
+              // the normal page and display them separately. The review version of
+              // ObjectField will hide them in the main section.
+              arrayFields = getArrayFields(pageState, page);
+              // This will be undefined if there are no fields other than an array
+              // in a page, in which case we won't render the form, just the array
+              pageSchema = getNonArraySchema(pageState.schema);
+              pageUiSchema = pageState.uiSchema;
+              pageData = form.data;
+            }
 
             return (
               <div key={`${page.pageKey}${page.index}`} className="form-review-panel-page">
                 <Element name={`${page.pageKey}${page.index}ScrollElement`}/>
-                {nonArraySchema &&
+                {pageSchema &&
                   <SchemaForm
                       name={page.pageKey}
                       title={page.title}
                       data={pageData}
-                      schema={nonArraySchema}
-                      uiSchema={form.pages[page.pageKey].uiSchema}
+                      schema={pageSchema}
+                      uiSchema={pageUiSchema}
                       hideTitle={expandedPages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
                       onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}

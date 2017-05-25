@@ -39,10 +39,11 @@ function recalculateSchemaAndData(initialState) {
         newState = _.set(['pages', pageKey, 'schema'], schema, newState);
       }
 
-      if (page.pageType === 'array'
-        && page.editMode.length !== _.get(page.arrayPath, newState.data).length) {
-        const arrayData = _.get(page.arrayPath, newState.data);
-        newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+      if (page.pageType === 'array') {
+        const arrayData = _.get(page.arrayPath, newState.data) || [];
+        if (page.editMode.length !== arrayData.length) {
+          newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+        }
       }
 
       return newState;
@@ -59,14 +60,17 @@ export default function createSchemaFormReducer(formConfig) {
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       schema = updateItemsSchema(schema);
+      const isArrayPage = page.pageType === 'array';
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
+      // If the page is an array page, we're going to have schemas and edit states
+      // for each item in the specified array
       return _.merge(state, {
         pages: {
           [page.pageKey]: {
             uiSchema: page.uiSchema,
             schema,
-            editMode: page.pageType === 'array' ? [] : false,
+            editMode: isArrayPage ? [] : false,
             pageType: page.pageType,
             arrayPath: page.arrayPath
           }
