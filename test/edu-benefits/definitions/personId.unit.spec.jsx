@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import * as personId from '../../../src/js/edu-benefits/definitions/personId';
+import * as personId from '../../../src/common/schemaform/definitions/personId';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Edu personId', () => {
