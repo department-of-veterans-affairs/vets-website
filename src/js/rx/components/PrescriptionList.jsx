@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import Prescription from '../components/Prescription';
+import PrescriptionCard from '../components/PrescriptionCard';
 import PrescriptionGroup from '../components/PrescriptionGroup';
 
 class PrescriptionList extends React.Component {
@@ -14,7 +14,7 @@ class PrescriptionList extends React.Component {
     const makeItem = (rx) => {
       const uniqId = _.uniqueId('rx-');
       return (
-        <Prescription
+        <PrescriptionCard
             { ...rx }
             glossaryModalHandler={this.props.glossaryModalHandler}
             refillModalHandler={this.props.refillModalHandler}
