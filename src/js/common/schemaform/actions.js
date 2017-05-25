@@ -54,7 +54,8 @@ export function submitForm(formConfig, form) {
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission`,
     });
-    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
+
+    const fetchOptions = {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -62,7 +63,14 @@ export function submitForm(formConfig, form) {
         'X-Key-Inflection': 'camel'
       },
       body
-    })
+    };
+
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      fetchOptions.headers.Authorization = `Token token=${userToken}`;
+    }
+
+    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, fetchOptions)
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
