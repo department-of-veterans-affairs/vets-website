@@ -409,24 +409,57 @@ export function createUSAStateLabels(states) {
   }, {});
 }
 
-export function expandArrayPages(pageList, data) {
-  return pageList.reduce((currentList, nextPage) => {
-    if (nextPage.pageType === 'array') {
-      const items = _.get(nextPage.arrayPath, data);
-      const arrayPages = items
-        .map((item, index) => {
-          return _.assign(nextPage, {
-            path: nextPage.path.replace(':index', index),
-            index
-          });
+/*
+ * Take a list of pages and create versions of them
+ * for each item in an array
+ */
+function generateArrayPages(arrayPages, data) {
+  const items = _.get(arrayPages[0].arrayPath, data);
+  return items
+    .reduce((pages, item, index) => {
+      return pages.concat(arrayPages.map(page =>
+        _.assign(page, {
+          path: page.path.replace(':index', index),
+          index
         })
-        // doing this after the map so that we don't change indexes
-        .filter(page => page.itemFilter(items[page.index]));
+      ));
+    }, [])
+    // doing this after the map so that we don't change indexes
+    .filter(page => page.itemFilter(items[page.index]));
+}
 
-      return currentList.concat(arrayPages);
+/*
+ * We want to generate the pages we need for each item in the array
+ * being used by an array page. We also want to group those pages by item.
+ * So, this grabs contiguous sections of array pages and at the end generates
+ * the right number of pages based on the items in the array
+ */
+export function expandArrayPages(pageList, data) {
+  const result = pageList.reduce((acc, nextPage) => {
+    const { lastArrayPath, arrayPages, currentList } = acc;
+    // If we see an array page and we're starting a section or in the middle of one, just add it
+    // to the temporary array
+    if (nextPage.pageType === 'array' && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
+      arrayPages.push(nextPage);
+      return acc;
+    // Now we've hit the end of a section of array pages using the same array, so
+    // actually generate the pages now
+    } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
+      const newList = currentList.concat(generateArrayPages(arrayPages, data), nextPage);
+      return _.assign(acc, {
+        lastArrayPath: null,
+        arrayPages: [],
+        currentList: newList
+      });
     }
 
-    return currentList.concat(nextPage);
-  }, []);
+    return _.set('currentList', currentList.concat(nextPage), acc);
+  }, { lastArrayPath: null, arrayPages: [], currentList: [] });
+
+  if (!!result.arrayPages.length) {
+    return result.currentList.concat(generateArrayPages(result.arrayPages, data));
+  }
+
+  return result.currentList;
 }
 
