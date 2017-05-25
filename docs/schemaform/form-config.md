@@ -51,6 +51,19 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
         field1: 'Default string'
       },
 
+      // You can also set a page as an array page, which will turn this schema into
+      // a page for each item in an array. So if you have an array of children, and you want
+      // to have a page for each one, you can do that here
+      // The schema/uiSchema for an array page should be built as usual for an array field
+      pageType: 'array',
+      // The path to the array to use
+      arrayPath: 'children',
+      // A function you can use to filter out items in the array that you don't want
+      // to create a page for
+      itemFilter: () => true,
+      // You must specify a path with an :index parameter
+      path: 'some-path/:index',
+
       // JSON schema object for the page. Follows the JSON Schema format.
       schema: {
         type: 'object',
