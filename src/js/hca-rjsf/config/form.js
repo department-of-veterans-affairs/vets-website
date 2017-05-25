@@ -30,6 +30,7 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
 import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childIncomeUiSchema } from '../definitions/child';
@@ -536,9 +537,7 @@ const formConfig = {
                 expandUnderCondition: false
               },
               spouseAddress: addressUI('', true, (formData) => formData.sameAddress === false),
-              spousePhone: {
-                'ui:title': 'Phone'
-              }
+              spousePhone: phoneUI()
             }
           },
           schema: {
