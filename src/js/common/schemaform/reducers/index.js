@@ -16,7 +16,9 @@ import { SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED
+  SET_SUBMITTED,
+  SET_SAVED,
+  SET_LOADED
 } from '../actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -76,7 +78,9 @@ export default function createSchemaFormReducer(formConfig) {
         id: false,
         timestamp: false,
         hasAttemptedSubmit: false
-      }
+      },
+      savedStatus: 'not-attempted',
+      loadedStatus: 'not-attempted'
     });
 
   // Take another pass and recalculate the schema and data based on the default data
@@ -106,6 +110,12 @@ export default function createSchemaFormReducer(formConfig) {
         });
 
         return _.set('submission', submission, state);
+      }
+      case SET_SAVED: {
+        return _.set('savedStatus', action.status, state);
+      }
+      case SET_LOADED: {
+        return _.set('loadedStatus', action.status, state);
       }
       default:
         return state;

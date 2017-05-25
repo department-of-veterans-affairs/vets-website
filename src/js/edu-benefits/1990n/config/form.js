@@ -32,6 +32,7 @@ const formConfig = {
   trackingPrefix: 'edu-1990n-',
   formId: '1990n',
   version: 0,
+  disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

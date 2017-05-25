@@ -113,6 +113,7 @@ const formConfig = {
   trackingPrefix: 'hca-rjsf-',
   formId: 'hca',
   version: 0,
+  // disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

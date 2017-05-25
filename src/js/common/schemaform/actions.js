@@ -6,6 +6,8 @@ export const SET_DATA = 'SET_DATA';
 export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
+export const SET_SAVED = 'SET_SAVED';
+export const SET_LOADED = 'SET_LOADED';
 
 export function setData(data) {
   return {
@@ -41,6 +43,22 @@ export function setSubmitted(response) {
   return {
     type: SET_SUBMITTED,
     response: typeof response.data !== 'undefined' ? response.data : response
+  };
+}
+
+// Possible statuses: pending, no-auth, failure, success
+export function setSaved(status) {
+  return {
+    type: SET_SAVED,
+    status
+  };
+}
+
+// Possible statuses: pending, no-auth, failure, success
+export function setLoaded(status) {
+  return {
+    type: SET_LOADED,
+    status
   };
 }
 
@@ -121,41 +139,69 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
  */
 export function loadFormData(formConfig) {
   return dispatch => {
+    const userToken = sessionStorage.userToken;
+    // If we don't have a userToken, fail safely
+    if (!userToken) {
+      dispatch(setLoaded('no-auth')); // Shouldn't get here, but just in case
+      return;
+    }
+
+    // Update UI while we're waiting for the API
+    dispatch(setLoaded('pending'));
+
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
-      mode: 'cors', // Necessary?
       headers: {
         'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        Token: window.sessionStorage.get('userToken') // TODO: Verify this is correct
+        // 'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
       if (res.ok) {
         return res.json();
       }
-      // Is this the right reject text?
+      // TODO: If they've sat on the page long enough for their token to expire
+      //  and try to load, tell them their session expired and they need to log
+      //  back in and try again.
+      if (res.status === 401) {
+        dispatch(setLoaded('no-auth'));
+      }
+
+      // TODO: Get a better reject text....if necessary
       return Promise.reject(res.statusText);
-    }).then((json) => {
+    }).then((json) => {  // eslint-disable-line consistent-return
       // We've got valid form
       // Note: The api returns the data we saved wrapped in a form_data object:
       // {
       //   "form_data": {
       //     "formData": { ... },
-      //     "version": 1
+      //     "version": 1,
+      //     "lastPage": "url/to/page"
       //   }
       // }
       const resBody = JSON.parse(json).form_data;
 
+      let formData;
       try {
-        // Note: This may change to be updated in the back end before sent over
-        const formData = getUpdatedFormData(resBody.formData, resBody.version, formConfig.migrations);
-        // Finally, set the data in the redux store
-        dispatch(setData(formData));
+        // Note: This may change to be migrated in the back end before sent over
+        formData = getUpdatedFormData(resBody.formData, resBody.version, formConfig.migrations);
       } catch (e) {
-        // return Promise.reject(e.message);
+        return Promise.reject(e.message);
       }
+      // TODO: Send an event to update the UI?
+      // Set the data in the redux store
+      dispatch(setData(formData));
+      dispatch(setLoaded('success'));
+      // TODO: Navigate to the last page they were on
+      // TODO: Handle this scenario:
+      //  1) I fill out some information and save my progress.
+      //  2) The form is updated and a field I've not filled out yet gets moved
+      //     to a page I have already completed.
+      //  3) I load my saved progress.
+      //  4) I should be put in the page with the missing information.
     }).catch((rejectReason) => {
       // Do something
+      dispatch(setLoaded('failure'));
       console.error(`Bummer! Can't load the form. ${rejectReason}`); // eslint-disable-line no-console
     });
   };
@@ -168,25 +214,44 @@ export function loadFormData(formConfig) {
  */
 export function saveFormData(formConfig, form) {
   const body = {
-    data: form.data,
+    formData: form.data,
     version: formConfig.version
   };
-  return dispatch => { // eslint-disable-line no-unused-vars
+  return dispatch => {
+    const userToken = sessionStorage.userToken;
+    // If we don't have a userToken, fail safely
+    if (!userToken) {
+      dispatch(setSaved('no-auth')); // Shouldn't get here either...
+      return;
+    }
+
+    // Update UI while we're waiting for the API
+    dispatch(setSaved('pending'));
+
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
-      method: 'POST',
-      mode: 'cors', // Necessary?
+      method: 'PUT',
+      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
-        Token: window.sessionStorage.get('userToken') // TODO: Verify this is correct
+        Authorization: `Token token=${userToken}`
       },
       body
     }).then((res) => {
       if (res.ok) {
-        // Set save status = 'success'
+        dispatch(setSaved('success'));
+        // TODO: Redirect to...somewhere?
+      } else {
+        // TODO: If they've sat on the page long enough for their token to expire
+        //  and try to save, tell them their session expired and they need to log
+        //  back in and try again. Unfortunately, this means they'll lose all
+        //  their information.
+        if (res.status === 401) {
+          dispatch(setSaved('no-auth'));
+        }
+        dispatch(setSaved('failure'));
       }
-      // Set save status = 'fail' and cry about it
     });
   };
 }
