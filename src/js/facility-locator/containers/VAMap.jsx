@@ -345,7 +345,6 @@ class VAMap extends Component {
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
-              <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
                 <ResultsList facilities={facilities} pagination={pagination} currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
