@@ -311,18 +311,8 @@ const formConfig = {
                 pattern: 'Please put your email in this format x@x.xxx'
               }
             },
-            homePhone: {
-              'ui:title': 'Home telephone number',
-              'ui:errorMessages': {
-                pattern: 'Phone number must be 10 digits'
-              }
-            },
-            mobilePhone: {
-              'ui:title': 'Mobile telephone number',
-              'ui:errorMessages': {
-                pattern: 'Phone number must be 10 digits'
-              }
-            }
+            homePhone: phoneUI('Home telephone number'),
+            mobilePhone: phoneUI('Mobile telephone number')
           },
           schema: {
             type: 'object',
