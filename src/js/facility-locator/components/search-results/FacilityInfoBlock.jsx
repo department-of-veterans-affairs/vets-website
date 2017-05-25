@@ -26,7 +26,7 @@ class FacilityInfoBlock extends Component {
 
   render() {
     const { facility } = this.props;
-    const { name, facility_type: facilityType } = facility.attributes;
+    const { name, facilityType } = facility.attributes;
 
     /* eslint-disable camelcase */
     const facilityTypes = {

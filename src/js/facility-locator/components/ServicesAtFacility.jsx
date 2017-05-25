@@ -105,7 +105,7 @@ class ServicesAtFacility extends Component {
   renderServices() {
     const { facility } = this.props;
 
-    switch (facility.attributes.facility_type) {
+    switch (facility.attributes.facilityType) {
       case 'va_health_facility':
         return this.renderHealthServices();
       case 'va_benefits_facility':

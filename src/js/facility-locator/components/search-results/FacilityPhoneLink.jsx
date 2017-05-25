@@ -27,7 +27,7 @@ class FacilityPhoneLink extends Component {
     return (
       <div>
         {this.renderPhoneNumber('Main Number', phone.main, 'phone')}
-        {this.renderPhoneNumber('Mental Health', phone.mental_health_clinic)}
+        {this.renderPhoneNumber('Mental Health', phone.mentalHealthClinic)}
       </div>
     );
   }
