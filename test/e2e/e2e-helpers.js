@@ -1,25 +1,5 @@
 import Timeouts from './timeouts';
 
-// Change select value and trigger change event programatically.
-// This is necessary because long select boxes tend to render offscreen,
-// causing Selenium to fail in unexpected ways.
-// TODO: Remove this after it's been refactored out in favor of chaining with
-//  /test/util/nightwatch-commands/selectDropdown.js
-function selectDropdown(client, field, value) {
-  const select = `select[name='${field}']`;
-  client
-    .execute((clientSelect, clientValue) => {
-      /* eslint-disable */
-      var element = document.querySelector(clientSelect);
-      var event = new Event('change', { bubbles: true });
-      element.value = clientValue;
-      element.dispatchEvent(event);
-      return element.value;
-      /* eslint-disable */
-    },
-    [select, value]);
-}
-
 function overrideVetsGovApi(client) {
   client.execute((url) => {
     const current = window.VetsGov || {};
@@ -115,6 +95,5 @@ module.exports = {
   expectInputToNotBeSelected,
   overrideVetsGovApi,
   overrideSmoothScrolling,
-  overrideAnimations,
-  selectDropdown
+  overrideAnimations
 };

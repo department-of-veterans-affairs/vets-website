@@ -2,83 +2,77 @@
 layout: page-breadcrumbs.html
 title: Yellow Ribbon Program
 template: 1-topic-landing
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
 <div class="va-introtext">
 
-If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/index.html), such as higher tuition at private colleges or out-of-state schools.
+The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
+
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for benefits?
-Yes, if:
+### Can I get this benefit?
 
-  - You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement.
-  - You are eligible to receive 100% Post-9/11 GI Bill benefits. [Is this me?](https://gibill.custhelp.com/app/answers/detail/a_id/947)
-  - Your school participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp ).
-  - You maintain continuous enrollment, full- or part-time, as defined by your school.
-  - You are working toward the completion of your enrolled program.
+You can get this benefit if:
+- You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
 
-### Who is covered
-You and your family members
+You may be able to get this benefit if you're the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
+[Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
+[See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
+
+
+### Who's covered?
+
+- Veterans
+- Qualified dependents
+
 </div>
 
-### Available benefits
-Additional tuition
+### What benefits can I get?
+
+Money for tuition
 
 
-### How it works
+### How do I get this benefit?
 
 <ol class="process">
 <li class="process-step list-one">
-<div markdown="1">
 
-##### Submit application
-After you submit your application for Post-9/11 GI Bill benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
-</div>
+##### Apply for benefits
+
+[Apply for for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). If you qualify for benefits, you'll get a Certificate of Eligibility (COE).
+
 </li>
 
 <li class="process-step list-two">
-<div markdown="1">
 
-##### Bring certificate
-Bring this certificate to your participating institution’s financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
-</div>
+##### Turn in your COE
+
+Bring your COE to your school's certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
+
 </li>
 
-<li class="process-step list-three"><div markdown="1">
+<li class="process-step list-three">
 
-##### Receive determination
+##### Wait for a decision
 
-###### Your school will determine:
-  -  Whether it has already enrolled the maximum number of participants for the program period. Enrollment is on a first-come, first-served basis. Your school and VA agree on how many students may be covered each year.
-  -  What the amount of entitlement will be. This is calculated by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve received from other sources such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
+###### Your school will decide:
+-  Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
+-  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
 
-</div>
 </li>
 
-<li class="process-step list-four"><div markdown="1">
+<li class="process-step list-four">
 
-##### Receive notice
-You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
-</div>
+##### Follow up
+
+You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
+
 </li>
-
-<li class="process-step list-five"><div markdown="1">
-
-##### Confirm and coordinate
-
-You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
-
-</div>
-</li>
-
 </ol>
 
-### Learn more
-
-- [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
-- [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)

@@ -7,61 +7,60 @@ template: 4-action-page-pending
 
 <div class="va-introtext">
 
-If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for the work-study program.
+Find out if you can earn money while you go to school through our work-study program if you’re a full-time or three-quarter-time college, vocational, or professional student using VA education benefits.
 
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for benefits?
-Yes, if:
+### Can I be a part of the work-study program?
+You can be a part of VA's work-study program if you're enrolled at least three-quarter time at an institution of higher learning and:
 
-  - You are enrolled at least three-quarter time at an institution of higher learning.
-  - You are using one of the following VA education benefits:
+  - There's an open job either at a nearby VA facility or in a VA-related role at your school, **and**
+  - You can finish the work-study contract while you still qualify for education benefits, **and**
+  - You're using one of these VA education benefits: 
 
-    - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [transfer-of-entitlement recipients](/education/gi-bill/transfer/))
-    - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/))
-    - [Reserve Educational Assistance Program](/education/other-educational-assistance-programs/reap/)
-    - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/)
-    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
+    - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [family members using transferred benefits](/education/gi-bill/transfer/))
+    - Montgomery GI Bill [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
+    - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP)
+    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
+    (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
-    - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
-  - You are able to complete the work-study contract before the end of your eligibility for education benefits.
-  - There is a position available within your normal commuting distance.
+    - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
 
-### Who is eligible
-You and your dependents using education benefits
+
+### Who's covered?
+
+- Veterans
+- Qualified dependents using education benefits 
 </div>
 
-### Available benefits
+### What kind of benefits can I get? 
 
-A part-time job while you study
+You can get a paid for a part-time job while you study.
 
 -----
 
-### How it works
+### How do I get these benefits? 
 
-The number of applicants selected will depend on the availability of VA-related work at your school or at VA facilities in your area. Veterans with service-connected disabilities of at least 30% may be given priority consideration.
+You'll need to apply for the work-study program with VA Form 22-8691 (Application for Work-Study Allowance). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
 
-#### Services you perform under a VA work-study program must be related to VA work, such as:
+Get in touch with the Regional Processing Office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-- Working at a VA facility.
-- Working at Department of Defense, Coast Guard, or National Guard facilities engaged in the administration of the Montgomery GI Bill Selected Reserve or the Reserve Educational Assistance Program.
-- Working at a state Veterans agency to help Veterans obtain Vocational Rehabilitation and Employment benefits.
-- Working at a Center of Excellence for Veteran Student Success to support and coordinate the academic, financial, physical, and social needs of Veteran students.
-- Working in a cooperative program carried out jointly by VA and an institution of higher learning.
-- Working in any Veterans-related position in an institution of higher learning, such as providing assistance to Veteran students with general inquiries about Veteran benefits, processing necessary documents, or maintaining and organizing Veteran-related files.
+### What kind of job can I get?
+Under VA's work-study program, you can:
+- Work at a VA facility
+- Work at Department of Defense, Coast Guard, or National Guard locations that oversee MGIB-SR or REAP
+- Work at a state Veterans agency to help Veterans get VR&E benefits
+- Work at a Center of Excellence for Veteran Student Success to support the academic, financial, physical, and social needs of Veteran students
+- Work in a cooperative program carried out jointly by VA and an institution of higher learning
+- Work in any Veteran-related position in an institution of higher learning. For example, you could help Veteran students with general questions about Veteran benefits, process documents for Veterans, or maintain and organize Veteran-related files.
 
-#### How much will I earn?
+### How much will I earn?
 
-You’ll earn an hourly wage equal to the federal minimum wage or your state minimum wage, whichever is greater. If you’re in a work-study job at a college or university, your school may pay you the difference between the amount VA pays and the amount the school normally pays other work-study students doing the same job.
+You’ll earn an hourly wage that's the same as the federal minimum wage or your state minimum wage, whichever is greater. If you’re in a work-study job at a college or university, your school may pay you the difference between the amount we pay and the amount the school normally pays other work-study students doing the same job.
 
-You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, VA will pay you each time you complete 50 hours of service, or biweekly, whichever comes first.
+You may elect to be paid in advance for 40% of the hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve worked the hours covered by your first payment, we'll pay you each time you finish 50 hours of service, or biweekly, whichever comes first.
 
-You may work during or between periods of enrollment. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.
-
-### Learn more
-
-- Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
-- Contact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim.
+You may work during or between enrollment periods. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.

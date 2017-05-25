@@ -24,7 +24,7 @@ class ResultsList extends Component {
   }
 
   renderMobileView() {
-    const { currentQuery, facilities, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
+    const { currentQuery, facilities, pagination: { currentPage, totalPages } } = this.props;
 
     return (
       <div>
@@ -45,7 +45,7 @@ class ResultsList extends Component {
   }
 
   render() {
-    const { facilities, isMobile, currentQuery, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
+    const { facilities, isMobile, currentQuery, pagination: { currentPage, totalPages } } = this.props;
 
     if (currentQuery.inProgress) {
       return (

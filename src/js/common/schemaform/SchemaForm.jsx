@@ -50,6 +50,8 @@ class SchemaForm extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.name !== this.props.name) {
       this.setState(this.getEmptyState(newProps));
+    } else if (newProps.title !== this.props.title) {
+      this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     }
   }
 

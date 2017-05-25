@@ -4369,10 +4369,6 @@ js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
 
-js-stylesheet@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/js-stylesheet/-/js-stylesheet-0.0.1.tgz#12cc1451220e454184b46de3b098c0d154762c38"
-
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -6749,12 +6745,12 @@ react-scroll@1.5:
     object-assign "^4.1.1"
     prop-types "^15.5.8"
 
-react-tabs@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-0.7.0.tgz#4da6a43315fa0c54fc011333b2a4aec21684c77c"
+react-tabs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-1.0.0.tgz#f150c9f9102dd65dbc94a5a0e1e019d5e3814a7f"
   dependencies:
     classnames "^2.2.0"
-    js-stylesheet "^0.0.1"
+    prop-types "^15.5.0"
 
 react-test-renderer@^15.5.4:
   version "15.5.4"

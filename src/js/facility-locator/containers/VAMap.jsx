@@ -55,8 +55,6 @@ class VAMap extends Component {
     } else {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
-
-    Tabs.setUseDefaultStyles(false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -267,11 +265,11 @@ class VAMap extends Component {
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: <strong>{facilityTypes[f.attributes.facility_type]}</strong></p>
+          <p>Facility type: <strong>{facilityTypes[f.attributes.facilityType]}</strong></p>
         </div>
       );
 
-      switch (f.attributes.facility_type) {
+      switch (f.attributes.facilityType) {
         case 'va_health_facility':
           return (
             <HealthMarker {...iconProps}>
