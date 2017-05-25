@@ -24,7 +24,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Are you a Servicemember, Veteran, or family member of a Veteran? Find out which life insurance programs may be right for you. You can also watch our brief video to learn more about your options. [View the life insurance video](https://www.youtube.com/watch?v=CI1rPG_K_Sw).
+Are you a Servicemember, Veteran, or spouse or dependent child of a Servicemember? Find out which life insurance programs may be right for you. 
 
 </div>
 
