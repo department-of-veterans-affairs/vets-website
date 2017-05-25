@@ -85,7 +85,7 @@ Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Ha
 <br>
 
 <div class="feature">
-
+<span id="waiver">
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
 You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
