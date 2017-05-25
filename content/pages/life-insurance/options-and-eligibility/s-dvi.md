@@ -93,6 +93,6 @@ Get premium rates and a description of the plan options. [Download VA pamphlet 2
 
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
-Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
+Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/#waiver).)
 
 You must pay your premiums for Supplemental S-DVI.
