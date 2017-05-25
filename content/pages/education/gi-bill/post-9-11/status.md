@@ -1,6 +1,6 @@
 ---
 title: Post-9/11 GI Bill Status
-entryname: post-911-gibs
+entryname: post-911-gib-status
 layout: page-react.html
 gatePage: true
 in_maintenance: false

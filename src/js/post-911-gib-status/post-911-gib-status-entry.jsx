@@ -11,7 +11,7 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
 require('../common');
-require('../../sass/post-911-gibs.scss');
+require('../../sass/post-911-gib-status.scss');
 
 const store = createCommonStore({});
 createLoginWidget(store);

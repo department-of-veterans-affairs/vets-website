@@ -24,10 +24,10 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-class Post911GIBSApp extends React.Component {
+class Post911GIBStatusApp extends React.Component {
   render() {
     // TODO: change the service name below from "user-profile" to
-    // something like "post-911-gibs" once its defined in vets-api
+    // something like "post-911-gib-status" once its defined in vets-api
     return (
       <RequiredLoginView
           authRequired={3}
@@ -36,7 +36,6 @@ class Post911GIBSApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          // Replace all this when design is confirmed
           <div className="usa-grid">
             <div className="usa-width-two-thirds">
               {this.props.children}
@@ -61,4 +60,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Post911GIBSApp);
+export default connect(mapStateToProps)(Post911GIBStatusApp);
