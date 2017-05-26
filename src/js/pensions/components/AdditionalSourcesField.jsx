@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
-import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { scrollToFirstError } from '../../common/utils/helpers';
 import { setItemTouched } from '../../common/schemaform/helpers';
@@ -53,12 +52,9 @@ export default class AdditionalSourcesField extends React.Component {
   }
 
   onItemChange(indexToChange, value, fullItem = false) {
-    let newItems;
-    if (fullItem) {
-      newItems = _.set([indexToChange], value, this.props.formData || []);
-    } else {
-      newItems = _.set([indexToChange, 'amount'], value, this.props.formData || []);
-    }
+    const path = fullItem ? [indexToChange] : [indexToChange, 'amount'];
+    const newItems = _.set(path, value, this.props.formData || []);
+
     this.props.onChange(newItems);
   }
 
@@ -131,14 +127,10 @@ export default class AdditionalSourcesField extends React.Component {
       return <ReviewSources sources={items}/>;
     }
 
-    let containerClassNames = classNames({
-      'schemaform-field-container': true
-    });
-
     const hasItemsBeingEdited = this.state.editing.some(item => item);
 
     return (
-      <div className={containerClassNames}>
+      <div className="schemaform-field-container">
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {items.map((item, index) => {
@@ -195,7 +187,7 @@ export default class AdditionalSourcesField extends React.Component {
                     name="amount"
                     required
                     schema={itemSchema.properties.amount}
-                    uiSchema={{ 'ui:title': formData[index].name }}
+                    uiSchema={{ 'ui:title': itemData.name }}
                     errorSchema={_.get([index, 'amount'], errorSchema) || {}}
                     idSchema={itemIdSchema.amount}
                     formData={itemData.amount}

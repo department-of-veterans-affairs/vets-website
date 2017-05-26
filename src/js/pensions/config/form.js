@@ -58,14 +58,6 @@ const formConfig = {
             spouseFullName: {
               first: 'Rick',
               last: 'Test'
-            },
-            netWorth: {
-              additionalSources: [
-                {
-                  name: 'Some source',
-                  amount: 2
-                }
-              ]
             }
           },
           schema: {

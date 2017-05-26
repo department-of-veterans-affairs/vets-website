@@ -44,7 +44,7 @@ describe('Pensions financial disclosure', () => {
 
       submitForm(form);
 
-      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(fieldCount - 1);
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(fieldCount);
       expect(onSubmit.called).to.be.false;
     });
     it('should submit after filling in required fields', () => {
@@ -75,42 +75,42 @@ describe('Pensions financial disclosure', () => {
     });
   }
   describe('Monthly income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.monthlyIncome, 'veteranFullName', 7);
+    runTests(formConfig.chapters.financialDisclosure.pages.monthlyIncome, 'veteranFullName', 6);
   });
   describe('Spouse monthly income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseMonthlyIncome, 'spouseFullName', 7);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseMonthlyIncome, 'spouseFullName', 6);
   });
   describe('Net worth', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.netWorth, 'veteranFullName', 7);
+    runTests(formConfig.chapters.financialDisclosure.pages.netWorth, 'veteranFullName', 6);
   });
   describe('Spouse net worth', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 7);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 6);
   });
   describe('Expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 4);
+    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 3);
   });
   describe('Spouse expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 4);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 3);
   });
   describe('Dependent expected income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
     runTests({
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 4);
+    }, 'childFullName', 3);
   });
   describe('Dependent monthly income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
     runTests({
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 7);
+    }, 'childFullName', 6);
   });
   describe('Dependent net worth', () => {
-    const page = formConfig.chapters.financialDisclosure.pages.dependentsNetWorth;
+    const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
     runTests({
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 7);
+    }, 'childFullName', 6);
   });
 });
