@@ -35,16 +35,6 @@ export const preferredContactMethodLabels = {
   phone: 'Phone'
 };
 
-export const relationshipLabels = {
-  spouse: 'Spouse',
-  child: 'Child'
-};
-
-export const genderLabels = {
-  F: 'Female',
-  M: 'Male'
-};
-
 export const hoursTypeLabels = {
   semester: 'Semester',
   quarter: 'Quarter',

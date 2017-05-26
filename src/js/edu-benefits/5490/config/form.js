@@ -27,7 +27,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
@@ -36,7 +36,7 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from '../../pages/applicantInformation';
+import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
