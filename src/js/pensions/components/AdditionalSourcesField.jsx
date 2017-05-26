@@ -119,8 +119,7 @@ export default class AdditionalSourcesField extends React.Component {
       disabled,
       readonly,
       registry,
-      onBlur,
-      formContext
+      onBlur
     } = this.props;
     const definitions = registry.definitions;
     const { SchemaField } = registry.fields;
@@ -128,7 +127,7 @@ export default class AdditionalSourcesField extends React.Component {
     // if we have form data, use that, otherwise use an array with a single default object
     const items = formData || [];
 
-    if (formContext.reviewMode) {
+    if (registry.formContext.reviewMode) {
       return <ReviewSources sources={items}/>;
     }
 
