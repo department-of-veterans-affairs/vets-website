@@ -218,7 +218,7 @@ const formConfig = {
         dependentsNetWorth: {
           path: 'financial-disclosure/net-worth/dependents/:index',
           title: item => `${item.childFullName.first} ${item.childFullName.last} net worth`,
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'children',
           itemFilter: (item) => !item.childNotInHousehold,
           initialData: {
@@ -264,7 +264,7 @@ const formConfig = {
         dependentsMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/dependents/:index',
           title: item => `${item.childFullName.first} ${item.childFullName.last} monthly income`,
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'children',
           itemFilter: (item) => !item.childNotInHousehold,
           initialData: {
@@ -296,7 +296,7 @@ const formConfig = {
         dependentsExpectedIncome: {
           path: 'financial-disclosure/expected-income/dependents/:index',
           title: item => `${item.childFullName.first} ${item.childFullName.last} expected income`,
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'children',
           itemFilter: (item) => !item.childNotInHousehold,
           initialData: {

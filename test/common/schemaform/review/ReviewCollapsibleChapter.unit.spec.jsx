@@ -93,7 +93,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     const form = {
       pages: {
         test: {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'testing',
           title: '',
           schema: {
@@ -126,7 +126,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     const pages = [{
       title: '',
       pageKey: 'test',
-      pageType: 'array',
+      showPagePerItem: true,
       arrayPath: 'testing',
       path: 'path/:index'
     }];
@@ -135,7 +135,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     const form = {
       pages: {
         test: {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'testing',
           title: '',
           schema: {

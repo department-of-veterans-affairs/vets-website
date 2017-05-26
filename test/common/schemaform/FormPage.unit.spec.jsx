@@ -163,7 +163,7 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        pageType: 'array',
+        showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
         title: ''
@@ -209,7 +209,7 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        pageType: 'array',
+        showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
         title: ''
@@ -264,7 +264,7 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        pageType: 'array',
+        showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
         title: '',
@@ -278,7 +278,7 @@ describe('Schemaform <FormPage>', () => {
         {
           pageKey: 'testPage',
           path: '/testing/:index',
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'arrayProp'
         }
       ]

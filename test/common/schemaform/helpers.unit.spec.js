@@ -583,7 +583,7 @@ describe('Schemaform helpers:', () => {
     it('should expand array page for single item', () => {
       const pageList = [
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'test/:index'
         }
@@ -601,7 +601,7 @@ describe('Schemaform helpers:', () => {
     it('should expand array page for multiple items', () => {
       const pageList = [
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'test/:index'
         }
@@ -624,7 +624,7 @@ describe('Schemaform helpers:', () => {
           path: 'other-path'
         },
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'test/:index'
         },
@@ -639,20 +639,20 @@ describe('Schemaform helpers:', () => {
       const newPageList = expandArrayPages(pageList, data);
 
       expect(newPageList.length).to.equal(data.test.length + 2);
-      expect(newPageList[0].pageType).not.to.equal('array');
+      expect(newPageList[0].showPagePerItem).not.to.be.true;
       expect(newPageList[1].path).to.equal('test/0');
       expect(newPageList[1].index).to.equal(0);
-      expect(newPageList[2].pageType).not.to.equal('array');
+      expect(newPageList[2].showPagePerItem).not.to.be.true;
     });
     it('should expand multiple array pages', () => {
       const pageList = [
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'path/:index'
         },
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'other-path/:index'
         }
@@ -687,7 +687,7 @@ describe('Schemaform helpers:', () => {
     it('should not generate array pages if array is empty', () => {
       const pageList = [
         {
-          pageType: 'array',
+          showPagePerItem: true,
           arrayPath: 'test',
           path: 'path/:index'
         },

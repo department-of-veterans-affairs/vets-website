@@ -90,7 +90,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
             let arrayFields;
             let editing;
 
-            if (page.pageType === 'array') {
+            if (page.showPagePerItem) {
               editing = pageState.editMode[page.index];
               pageSchema = pageState.schema.properties[page.arrayPath].items[page.index];
               pageUiSchema = pageState.uiSchema[page.arrayPath].items;

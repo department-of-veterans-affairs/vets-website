@@ -102,7 +102,7 @@ describe('schemaform createSchemaFormReducer', () => {
       const state = reducer({
         pages: {
           page1: {
-            pageType: 'array',
+            showPagePerItem: true,
             arrayPath: 'testing',
             editMode: [true],
             schema: {

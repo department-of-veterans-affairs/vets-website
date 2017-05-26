@@ -440,7 +440,7 @@ export function expandArrayPages(pageList, data) {
     const { lastArrayPath, arrayPages, currentList } = acc;
     // If we see an array page and we're starting a section or in the middle of one, just add it
     // to the temporary array
-    if (nextPage.pageType === 'array' && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
+    if (nextPage.showPagePerItem && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
       arrayPages.push(nextPage);
       return acc;
     // Now we've hit the end of a section of array pages using the same array, so

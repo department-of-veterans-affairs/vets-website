@@ -39,7 +39,7 @@ function recalculateSchemaAndData(initialState) {
         newState = _.set(['pages', pageKey, 'schema'], schema, newState);
       }
 
-      if (page.pageType === 'array') {
+      if (page.showPagePerItem) {
         const arrayData = _.get(page.arrayPath, newState.data) || [];
         if (page.editMode.length !== arrayData.length) {
           newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
@@ -60,7 +60,7 @@ export default function createSchemaFormReducer(formConfig) {
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       schema = updateItemsSchema(schema);
-      const isArrayPage = page.pageType === 'array';
+      const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       // If the page is an array page, we're going to have schemas and edit states
@@ -71,7 +71,7 @@ export default function createSchemaFormReducer(formConfig) {
             uiSchema: page.uiSchema,
             schema,
             editMode: isArrayPage ? [] : false,
-            pageType: page.pageType,
+            showPagePerItem: page.showPagePerItem,
             arrayPath: page.arrayPath
           }
         },
@@ -103,7 +103,7 @@ export default function createSchemaFormReducer(formConfig) {
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
-        if (state.pages[action.page].pageType === 'array') {
+        if (state.pages[action.page].showPagePerItem) {
           return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
         }
         return _.set(['pages', action.page, 'editMode'], action.edit, state);

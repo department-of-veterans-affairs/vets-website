@@ -56,7 +56,7 @@ class FormPage extends React.Component {
 
   onChange(formData) {
     let newData = formData;
-    if (this.props.route.pageConfig.pageType === 'array') {
+    if (this.props.route.pageConfig.showPagePerItem) {
       newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
     this.props.setData(newData);
@@ -75,7 +75,7 @@ class FormPage extends React.Component {
     const { form, route: { pageConfig, pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form.data);
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    const pageIndex = pageConfig.pageType === 'array'
+    const pageIndex = pageConfig.showPagePerItem
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
     return { pages: expandedPageList, pageIndex };
@@ -97,7 +97,7 @@ class FormPage extends React.Component {
     } = this.props.form.pages[route.pageConfig.pageKey];
     let data = form.data;
 
-    if (route.pageConfig.pageType === 'array') {
+    if (route.pageConfig.showPagePerItem) {
       schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
       data = _.get([route.pageConfig.arrayPath, params.index], data);
