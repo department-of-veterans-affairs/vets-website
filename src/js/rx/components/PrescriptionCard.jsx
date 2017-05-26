@@ -9,7 +9,7 @@ import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
 
-class Prescription extends React.Component {
+class PrescriptionCard extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,7 @@ class Prescription extends React.Component {
             key={`rx-${id}-track`}
             className="usa-button"
             text="Track package"
-            url={`/${id}#rx-order-history`}/>
+            url={`/${id}/track`}/>
       );
     }
 
@@ -111,7 +111,7 @@ class Prescription extends React.Component {
     action.push(this.showMessageProvider());
 
     return (
-      <div className="rx-prescription">
+      <div className="rx-prescription-card">
         <div className="rx-prescription-inner cf">
           <div className="rx-prescription-info">
             <input type="hidden" name="refillId" value={id}/>
@@ -157,7 +157,7 @@ class Prescription extends React.Component {
   }
 }
 
-Prescription.propTypes = {
+PrescriptionCard.propTypes = {
   id: PropTypes.string.isRequired,
   glossaryModalHandler: PropTypes.func.isRequired,
   refillModalHandler: PropTypes.func.isRequired,
@@ -180,4 +180,4 @@ Prescription.propTypes = {
   }).isRequired
 };
 
-export default Prescription;
+export default PrescriptionCard;

@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,6 +26,25 @@ const formConfig = {
     }
   },
   chapters: {
+    applicantInformation: {
+      title: 'Applicant Information',
+      pages: {
+        applicantInformation: applicantInformation(fullSchemaPensions, {
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber',
+            'veteranDateOfBirth'
+          ],
+          required: [
+            'veteranFullName',
+            'veteranDateOfBirth'
+          ],
+          isVeteran: true
+        }),
+      }
+    },
     financialDisclosure: {
       title: 'Financial Disclosure',
       pages: {

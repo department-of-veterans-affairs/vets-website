@@ -17,7 +17,9 @@ export const createChildSchema = (hcaSchema) => {
       'childSocialSecurityNumber',
       'childDateOfBirth',
       'childBecameDependent',
-      'childEducationExpenses'
+      'childEducationExpenses',
+      'childDisabledBefore18',
+      'childCohabitedLastYear'
     ],
     properties: {
       'view:childSupportDescription': {

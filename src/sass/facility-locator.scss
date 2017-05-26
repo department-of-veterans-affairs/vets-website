@@ -1,6 +1,9 @@
 @import "style";
 @import "modules/va-pagination";
 
+@import "~leaflet/dist/leaflet.css";
+@import "~react-tabs/style/react-tabs.scss";
+
 .facility-locator {
   // TODO(css): Fix when #content .section h* is fixed
   .highlight {
@@ -119,7 +122,15 @@
     border: solid 1px $color-black;
     border-radius: 0 !important;
 
-    &.ReactTabs__Tab--selected {
+    display: inline-block;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    &.react-tabs__tab--selected {
       border-top: solid 3px $color-primary;
       background: $color-white;
       border-bottom: none;
@@ -131,7 +142,7 @@
     border-right-color: $color-black;
   }
 
-  .ReactTabs__Tab + .ReactTabs__Tab {
+  .react-tabs__tab + .react-tabs__tab {
     border-left: none;
   }
 
