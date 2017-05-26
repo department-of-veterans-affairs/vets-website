@@ -21,7 +21,7 @@ describe('Pensions applicantInformation', () => {
     );
 
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-    expect(inputs.length).to.equal(5);
+    expect(inputs.length).to.equal(6);
   });
   it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -83,6 +83,21 @@ describe('Pensions applicantInformation', () => {
     ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
       target: {
         value: 'Test'
+      }
+    });
+    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthMonth'), {
+      target: {
+        value: '1'
+      }
+    });
+    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthDay'), {
+      target: {
+        value: '1'
+      }
+    });
+    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthYear'), {
+      target: {
+        value: '1980'
       }
     });
     const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
