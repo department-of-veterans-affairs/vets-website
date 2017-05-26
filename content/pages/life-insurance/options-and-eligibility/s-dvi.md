@@ -47,7 +47,7 @@ You may also be able to get $30,000 of supplemental coverage if you qualify for 
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
 - Are younger than age 65
 
-[Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
+[Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill#waiver).
 
 <br>
 
