@@ -22,7 +22,7 @@ class UserDataSection extends React.Component {
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Account Information</h4>
-        <div className="info-conatiner usa-width-two-thirds medium-8 columns">
+        <div className="info-container usa-width-two-thirds medium-8 columns">
           {content}
           <p><span className="label usa-width-one-third medium-4 columns">Email Address:</span>{this.props.profile.email} <a href="https://wallet.id.me/settings" target="_blank">Change</a></p>
           <p><span className="label usa-width-one-third medium-4 columns">Password:</span><a href="https://wallet.id.me/settings" target="_blank">Change</a></p>
