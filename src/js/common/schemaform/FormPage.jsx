@@ -6,9 +6,10 @@ import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 
 import SchemaForm from './SchemaForm';
+import SaveFormLink from './SaveFormLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
-import { setData } from './actions';
+import { setData, saveFormData } from './actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -39,6 +40,7 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   componentDidMount() {
@@ -81,13 +83,29 @@ class FormPage extends React.Component {
     this.props.router.push(eligiblePageList[page].path);
   }
 
+  handleSave() {
+    const {
+      formId,
+      version,
+      data
+    } = this.props.form;
+    const returnUrl = this.props.location.basename + this.props.location.pathname;
+    this.props.saveFormData(formId, version, returnUrl, data);
+  }
+
   render() {
     const { route } = this.props;
     const {
       schema,
       uiSchema
     } = this.props.form.pages[route.pageConfig.pageKey];
-    const data = this.props.form.data;
+
+    const {
+      data,
+      savedStatus,
+      disableSave,
+    } = this.props.form;
+
     return (
       <div className="form-panel">
         <SchemaForm
@@ -114,6 +132,13 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
+          {!disableSave && <div className="row">
+            <div className="small-12 columns">
+              <SaveFormLink
+                  saveForm={this.handleSave}
+                  savedStatus={savedStatus}/>
+            </div>
+          </div>}
         </SchemaForm>
       </div>
     );
@@ -127,7 +152,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setData
+  setData,
+  saveFormData
 };
 
 FormPage.propTypes = {

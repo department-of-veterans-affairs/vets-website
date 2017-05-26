@@ -80,7 +80,10 @@ export default function createSchemaFormReducer(formConfig) {
         hasAttemptedSubmit: false
       },
       savedStatus: 'not-attempted',
-      loadedStatus: 'not-attempted'
+      loadedStatus: 'not-attempted',
+      version: formConfig.version,
+      formId: formConfig.formId,
+      disableSave: formConfig.disableSave
     });
 
   // Take another pass and recalculate the schema and data based on the default data

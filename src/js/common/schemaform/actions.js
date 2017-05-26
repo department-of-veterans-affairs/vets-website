@@ -151,6 +151,7 @@ export function loadFormData(formConfig) {
 
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
+      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
         // 'X-Key-Inflection': 'camel',
@@ -160,15 +161,17 @@ export function loadFormData(formConfig) {
       if (res.ok) {
         return res.json();
       }
-      // TODO: If they've sat on the page long enough for their token to expire
-      //  and try to load, tell them their session expired and they need to log
-      //  back in and try again.
-      if (res.status === 401) {
-        dispatch(setLoaded('no-auth'));
-      }
 
-      // TODO: Get a better reject text....if necessary
-      return Promise.reject(res.statusText);
+      let status = 'failure';
+      if (res.status === 401) {
+        // TODO: If they've sat on the page long enough for their token to expire
+        //  and try to load, tell them their session expired and they need to log
+        //  back in and try again.
+        status = 'no-auth';
+      } else if (res.status === 404) {
+        status = 'not-found';
+      }
+      return Promise.reject(status);
     }).then((json) => {  // eslint-disable-line consistent-return
       // We've got valid form
       // Note: The api returns the data we saved wrapped in a form_data object:
@@ -186,7 +189,9 @@ export function loadFormData(formConfig) {
         // Note: This may change to be migrated in the back end before sent over
         formData = getUpdatedFormData(resBody.formData, resBody.version, formConfig.migrations);
       } catch (e) {
-        return Promise.reject(e.message);
+        // TODO: Log e.message somewhere; it's the reason the data couldn't be
+        //  transformed.
+        return Promise.reject('invalid-data');
       }
       // TODO: Send an event to update the UI?
       // Set the data in the redux store
@@ -199,24 +204,25 @@ export function loadFormData(formConfig) {
       //     to a page I have already completed.
       //  3) I load my saved progress.
       //  4) I should be put in the page with the missing information.
-    }).catch((rejectReason) => {
-      // Do something
-      dispatch(setLoaded('failure'));
-      console.error(`Bummer! Can't load the form. ${rejectReason}`); // eslint-disable-line no-console
+    }).catch((status) => {
+      dispatch(setLoaded(status));
     });
   };
 }
 
 /**
  * Saves the form data to the back end
- * @param  {Object} formConfig The form's config
- * @param  {Object} formData   The data the user has entered so far
+ * @param  {String}  formId    The form's formId
+ * @param  {Ingeter} version   The form's version
+ * @param  {String}  returnUrl The last URL the user was at before saving
+ * @param  {Object}  formData  The data the user has entered so far
  */
-export function saveFormData(formConfig, form) {
-  const body = {
-    formData: form.data,
-    version: formConfig.version
-  };
+export function saveFormData(formId, version, returnUrl, formData) {
+  const body = JSON.stringify({
+    version,
+    returnUrl,
+    formData
+  });
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
@@ -229,9 +235,8 @@ export function saveFormData(formConfig, form) {
     dispatch(setSaved('pending'));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'PUT',
-      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
@@ -249,8 +254,9 @@ export function saveFormData(formConfig, form) {
         //  their information.
         if (res.status === 401) {
           dispatch(setSaved('no-auth'));
+        } else {
+          dispatch(setSaved('failure'));
         }
-        dispatch(setSaved('failure'));
       }
     });
   };

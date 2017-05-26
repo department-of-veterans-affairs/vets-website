@@ -38,6 +38,7 @@ class IntroductionPage extends React.Component {
             </a>
           </div>
           <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+            {/* TODO: Use the resume previous application button...when written */}
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Continue"
