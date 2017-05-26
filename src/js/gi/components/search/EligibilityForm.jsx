@@ -90,7 +90,7 @@ export class EligibilityForm extends React.Component {
           (<div className="military-status-info info form-group">
             <i className="fa fa-info-circle"></i>
             To apply for VR&E benefits, please <a
-                href="http://vabenefits.vba.va.gov/vonapp/main.asp"
+                href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
                 target="_blank">visit this site</a>.
           </div>)
         }

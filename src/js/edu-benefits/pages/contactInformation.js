@@ -6,7 +6,7 @@ import { validateMatch } from '../../common/schemaform/validation';
 
 import {
   preferredContactMethodLabels
-} from '../utils/helpers';
+} from '../utils/labels';
 
 const {
   preferredContactMethod

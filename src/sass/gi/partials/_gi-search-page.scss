@@ -73,13 +73,22 @@
     padding: 0;
     margin: 0 0 1em 0;
 
-    .row.inner {
+    .inner {
       padding: 1em;
+    }
+
+    .view-details {
+      display: block;
+
+      @include media-maxwidth($small-screen) {
+        margin-top: 1.6rem;
+      }
     }
 
     h2 {
       font-size: 1.35em;
-      margin-bottom: 0.25em;
+      margin-bottom: .8rem;
+      padding-bottom: 0;
 
       a {
         text-decoration: none;
@@ -90,12 +99,11 @@
     }
 
     p {
-      margin: auto;
+      margin: 0;
     }
 
     p.locality {
       font-weight: bold;
-      margin-top: 2.2em;
     }
 
     p.count {
@@ -107,7 +115,7 @@
         font-size: 1em;
       }
       h4 {
-        margin-bottom: 0 !important;
+        padding-bottom: 0;
       }
       h4 > span {
         font-weight: normal;

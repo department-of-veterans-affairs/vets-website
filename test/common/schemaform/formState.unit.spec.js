@@ -201,6 +201,52 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:collapsed']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
+    it('should set collapsed on expandUnder field with value condition', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {}
+        }
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2',
+            expandUnderCondition: 'blah'
+          }
+        }
+      };
+      const data = { field: '', field2: 'bleh' };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should set collapsed on expandUnder field with function condition', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {}
+        }
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2',
+            expandUnderCondition: () => false
+          }
+        }
+      };
+      const data = { field: '', field2: 'bleh' };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
     it('should set collapsed on nested expandUnder field', () => {
       const schema = {
         type: 'object',

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import alertReducer from '../../../src/js/rx/reducers/alert.js';
+import alertReducer from '../../../src/js/rx/reducers/alert';
 
 describe('alert reducer', () => {
   it('should open the alert', () => {
@@ -21,6 +21,43 @@ describe('alert reducer', () => {
     });
 
     expect(state.visible).to.be.false;
+  });
+
+  it('should dismiss alerts when loading preferences', () => {
+    const state = alertReducer(undefined, { type: 'RX_LOADING_PREFERENCES' });
+    expect(state.visible).to.be.false;
+  });
+
+  it('should dismiss alerts when saving preferences', () => {
+    const state = alertReducer(undefined, { type: 'RX_SAVING_PREFERENCES' });
+    expect(state.visible).to.be.false;
+  });
+
+  it('should alert an error for failing to save preferences', () => {
+    const state = alertReducer({
+      visible: false,
+      content: '',
+      status: 'info'
+    }, {
+      type: 'RX_SAVE_PREFERENCES_FAILURE',
+      errors: [{ title: 'Email address is invalid' }]
+    });
+
+    expect(state.visible).to.be.true;
+    expect(state.content).to.be.not.empty;
+    expect(state.status).to.eql('error');
+  });
+
+  it('should alert success for successfully saving preferences', () => {
+    const state = alertReducer({
+      visible: false,
+      content: '',
+      status: 'info'
+    }, { type: 'RX_SAVE_PREFERENCES_SUCCESS' });
+
+    expect(state.visible).to.be.true;
+    expect(state.content).to.be.not.empty;
+    expect(state.status).to.eql('success');
   });
 
   it('should alert an error for a failed refill', () => {

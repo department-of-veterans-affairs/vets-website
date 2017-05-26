@@ -4,7 +4,7 @@ import uiSchemaDateRange from '../../common/schemaform/definitions/dateRange';
 import {
   hoursTypeLabels,
   stateLabels
-} from '../utils/helpers';
+} from '../utils/labels';
 
 const uiSchema = {
   'ui:title': 'Education after high school',

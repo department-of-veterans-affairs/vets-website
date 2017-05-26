@@ -1,3 +1,6 @@
+import createCommonStore from './common/store';
+import createLoginWidget from './login/login-entry';
+
 // No-react styles.
 require('../sass/no-react.scss');
 
@@ -16,4 +19,8 @@ require('./legacy/mega-menu.js');
 // New sidebar menu
 require('./legacy/sidebar-navigation.js');
 
-require('./login/login-entry.jsx');
+if (__BUILDTYPE__ !== 'production' && location.href.endsWith('education/apply-wizard/')) {
+  require('./edu-benefits/education-wizard.js');
+}
+
+createLoginWidget(createCommonStore());

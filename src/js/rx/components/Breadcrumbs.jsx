@@ -33,13 +33,33 @@ class Breadcrumbs extends React.Component {
       }
 
       if (prescription) {
-        const prescriptionName = _.get(prescription, [
-          'rx',
-          'attributes',
-          'prescriptionName'
-        ]);
+        const prescriptionName = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionName']
+        );
 
         crumbs.push(<span key="currentPrescription"><strong>{prescriptionName}</strong></span>);
+      }
+    } else if (pathname.match(/\/track\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+
+      if (prescription) {
+        const prescriptionId = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionId']
+        );
+
+        const prescriptionName = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionName']
+        );
+
+        crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
+        crumbs.push(<span key="trackPackage"><strong>Track Package</strong></span>);
       }
     } else if (pathname.match(/\/history\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
@@ -47,6 +67,9 @@ class Breadcrumbs extends React.Component {
     } else if (pathname.match(/\/glossary\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       crumbs.push(<span key="glossary"><strong>Glossary</strong></span>);
+    } else if (pathname.match(/\/settings\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      crumbs.push(<span key="settings"><strong>Settings</strong></span>);
     } else {
       crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
     }

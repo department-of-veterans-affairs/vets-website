@@ -7,11 +7,10 @@ export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 
-export function setData(page, data) {
+export function setData(data) {
   return {
     type: SET_DATA,
-    data,
-    page
+    data
   };
 }
 
@@ -41,7 +40,7 @@ export function setPrivacyAgreement(privacyAgreementAccepted) {
 export function setSubmitted(response) {
   return {
     type: SET_SUBMITTED,
-    response
+    response: typeof response.data !== 'undefined' ? response.data : response
   };
 }
 
@@ -55,7 +54,8 @@ export function submitForm(formConfig, form) {
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission`,
     });
-    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
+
+    const fetchOptions = {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -63,7 +63,14 @@ export function submitForm(formConfig, form) {
         'X-Key-Inflection': 'camel'
       },
       body
-    })
+    };
+
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      fetchOptions.headers.Authorization = `Token token=${userToken}`;
+    }
+
+    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, fetchOptions)
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
@@ -77,7 +84,7 @@ export function submitForm(formConfig, form) {
       return Promise.reject(res.statusText);
     })
     .then(
-      (resp) => dispatch(setSubmitted(resp.data)),
+      (resp) => dispatch(setSubmitted(resp)),
       () => dispatch(setSubmission('status', 'error'))
     );
   };

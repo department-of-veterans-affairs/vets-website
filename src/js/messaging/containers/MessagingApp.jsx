@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeAlert } from '../actions';
+import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -55,7 +56,12 @@ class MessagingApp extends React.Component {
 
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"messaging"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"messaging"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
         <AppContent>
           <div id="messaging-app-header">
             <AlertBox
@@ -64,7 +70,10 @@ class MessagingApp extends React.Component {
                 onCloseAlert={this.props.closeAlert}
                 scrollOnShow
                 status={this.props.alert.status}/>
-            <h1>Message your health care team</h1>
+            <div id="messaging-app-title">
+              <h1>Message your health care team</h1>
+              <ButtonSettings/>
+            </div>
             {this.renderWarningBanner()}
           </div>
           {this.props.children}
@@ -87,7 +96,8 @@ const mapStateToProps = (state) => {
     recipients: msgState.recipients.data,
     loading: msgState.loading,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 

@@ -1,5 +1,5 @@
 import { api } from '../config';
-import { find, compact } from 'lodash';
+import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
 
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
@@ -83,7 +83,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   };
 }
 
-export function searchWithAddress(query, currentMapBounds) {
+export function searchWithAddress(query) {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -98,25 +98,13 @@ export function searchWithAddress(query, currentMapBounds) {
       country: 'us,pr,ph,gu,as,mp',
       types,
     }, (err, res) => {
-      const coordinates = res.features[0].center;
-      const zipCode = (find(res.features[0].context, (v) => {
-        return v.id.includes('postcode');
-      }) || {}).text || res.features[0].place_name;
-      let modifiedBox;
+      if (!err && !isEmpty(res.features)) {
+        const coordinates = res.features[0].center;
+        const zipCode = (find(res.features[0].context, (v) => {
+          return v.id.includes('postcode');
+        }) || {}).text || res.features[0].place_name;
 
-      if (currentMapBounds) {
-        const latDelta = Math.abs(currentMapBounds[0] - currentMapBounds[2]);
-        const lngDelta = Math.abs(currentMapBounds[1] - currentMapBounds[3]);
-        modifiedBox = [
-          coordinates[0] - lngDelta,
-          coordinates[1] - latDelta,
-          coordinates[0] + lngDelta,
-          coordinates[1] + latDelta,
-        ];
-      }
-
-      if (!err) {
-        dispatch({
+        return dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -125,7 +113,7 @@ export function searchWithAddress(query, currentMapBounds) {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
-            bounds: modifiedBox || res.features[0].bbox || [
+            bounds: res.features[0].bbox || [
               coordinates[0] - 0.5,
               coordinates[1] - 0.5,
               coordinates[0] + 0.5,
@@ -134,12 +122,12 @@ export function searchWithAddress(query, currentMapBounds) {
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
         });
-      } else {
-        dispatch({
-          type: SEARCH_FAILED,
-          err,
-        });
       }
+
+      return dispatch({
+        type: SEARCH_FAILED,
+        err,
+      });
     });
   };
 }

@@ -26,7 +26,10 @@ const entryFiles = {
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  auth: './src/js/auth/auth-entry.jsx'
+  auth: './src/js/auth/auth-entry.jsx',
+  'va-letters': './src/js/va-letters/va-letters-entry.jsx',
+  pensions: './src/js/pensions/pensions-entry.jsx',
+  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx'
 };
 
 const configGenerator = (options) => {

@@ -1,17 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
+import Autosuggest from 'react-autosuggest-ie11-compatible';
+import { debounce } from 'lodash';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
     super(props);
     this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleFetchSuggestion = this.handleFetchSuggestion.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
+
+    this.handleFetchSuggestion = debounce(
+      this.handleFetchSuggestion.bind(this),
+      250, { trailing: true }
+    );
   }
 
   componentDidMount() {
@@ -56,6 +62,10 @@ export class KeywordSearch extends React.Component {
     return checkLength && finished;
   }
 
+  handleInputBlur() {
+    this.props.onFilterChange('name', this.props.autocomplete.searchTerm);
+  }
+
   renderSuggestion(suggestion) {
     return <div>{suggestion.label}</div>;
   }
@@ -85,6 +95,7 @@ export class KeywordSearch extends React.Component {
               onChange: this.handleChange,
               onKeyUp: this.handleKeyUp,
               'aria-labelledby': 'institution-search-label',
+              onBlur: this.handleInputBlur,
             }}/>
       </div>
     );

@@ -227,7 +227,7 @@ describe('Schemaform review <ArrayField>', () => {
     });
     it('setData', () => {
       tree.subTree('SchemaForm').props.onChange({ test: 1 });
-      expect(setData.calledWith('page1', { thingList: [{ test: 1 }] })).to.be.true;
+      expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
     });
   });
 });

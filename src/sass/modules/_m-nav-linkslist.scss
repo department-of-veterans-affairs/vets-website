@@ -9,19 +9,21 @@
 //============================================
 
 .va-nav-linkslist {
-  margin-bottom: 6.4rem;
+  margin-bottom: 4rem;
+  padding: 0;
 
   &--related {
     background: $color-gray-lightest;
-    padding: 0 1rem;
+    padding: 0 1.6rem;
   }
 
   &-heading {
     // TODO: Replace border-bottom with a hairline
     // mixin when / if it's available
     border-bottom: 1px solid $color-gray-light;
-    margin: 1rem 0 0;
-    padding: 0 .24rem 1rem;
+    margin: 0;
+    padding: 1.6rem 0 0.4rem;
+    font-size: 1.5em;
   }
 
   &-list {
@@ -32,18 +34,18 @@
     a {
       background: transparent;
       display: block;
-      padding: 0 .24rem;
+      padding: 0;
       text-decoration: none;
     }
 
     li {
-      margin: 2.4rem 0 0;
+      margin: 1.6rem 0;
     }
   }
 
   &-title {
     color: $color-link-default;
-    padding-bottom: .24rem;
+    padding: 0;
 
     a:hover & {
       text-decoration: underline;

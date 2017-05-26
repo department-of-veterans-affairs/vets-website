@@ -124,7 +124,8 @@ If you need to make a change (for example, you’re moving to a new school), man
   }
 
   // Toggle the expandable apply fields
-  document.querySelectorAll('.expander-container').forEach(function(container) {
+  const containers = Array.prototype.slice.call(document.querySelectorAll('.expander-container'));
+  containers.forEach(function(container) {
     var button = container.querySelector('.expander-button');
     var openButton = container.querySelector('.apply-go-button');
     var content = container.querySelector('.expander-content');
@@ -141,4 +142,3 @@ If you need to make a change (for example, you’re moving to a new school), man
     });
   })
 </script>
-

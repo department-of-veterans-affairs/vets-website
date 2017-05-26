@@ -1,10 +1,8 @@
 {
   "name":"vets-website",
-  "scripts":{
-    "postinstall": "npm rebuild node-sass"
-  },
   "env":{
     "INSTALL_HOOKS": "no",
+    "CHECK_BROKEN_LINKS": "no",
     "YARN_PRODUCTION":{
       "required": true
     }
