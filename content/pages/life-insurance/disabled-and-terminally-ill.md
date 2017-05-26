@@ -79,13 +79,13 @@ We pay the remaining amount of the face value of the insurance policy to your de
 Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
 <hr>
-
+<span id="waiver">
 ### Waiver of premiums for policyholders who become totally disabled
 
 <br>
 
 <div class="feature">
-<span id="waiver">
+
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
 You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
