@@ -10,10 +10,7 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
-
-// const {
-//   additionalSources
-// } = fullSchemaPensions.definitions;
+import { additionalSourcesSchema } from '../definitions/additionalSources';
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -25,9 +22,7 @@ const formConfig = {
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
-    additionalSources: {
-      type: 'string'
-    }
+    additionalSources: additionalSourcesSchema(fullSchemaPensions)
   },
   chapters: {
     applicantInformation: {

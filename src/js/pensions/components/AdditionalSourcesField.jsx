@@ -8,7 +8,6 @@ import { setItemTouched } from '../../common/schemaform/helpers';
 
 import {
   toIdSchema,
-  getDefaultFormState,
   deepEquals
 } from 'react-jsonschema-form/lib/utils';
 
@@ -17,11 +16,20 @@ import { errorSchemaIsValid } from '../../common/schemaform/validation';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+function ReviewSources({ sources }) {
+  return (
+    <div>
+      {sources.map((source, index) =>
+        <div key={index} className="review-row"><dt>{source.name}</dt><dd>{source.amount}</dd></div>)}
+    </div>
+  );
+}
+
 export default class AdditionalSourcesField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      adding: false
+      editing: (props.formData || []).map(item => !item.name)
     };
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -29,6 +37,15 @@ export default class AdditionalSourcesField extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const items = newProps.formData || [];
+    if (items.length < this.state.editing.length) {
+      this.setState({ editing: this.state.editing.filter((item, index) => index < items.length) });
+    } else if (items.length > this.state.editing.length) {
+      this.setState({ editing: this.state.editing.concat(true) });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -54,9 +71,9 @@ export default class AdditionalSourcesField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToRow(id) {
+  scrollToRow(index) {
     setTimeout(() => {
-      scroller.scrollTo(`table_${id}`, {
+      scroller.scrollTo(`additional_${index}`, {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -65,13 +82,10 @@ export default class AdditionalSourcesField extends React.Component {
     }, 100);
   }
 
-  /*
-   * Clicking Update on an item that's not last and is in edit mode
-   */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(_.set(['editing', index], false, this.state), () => {
-        this.scrollToTop();
+        this.scrollToRow(index);
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -82,52 +96,18 @@ export default class AdditionalSourcesField extends React.Component {
     }
   }
 
-  /*
-   * Clicking Add Another
-   */
   handleAdd() {
-    this.setState({ adding: true }, () => {
-      const data = this.props.formData || [];
-      this.props.onChange(data.concat({}));
-    });
+    const data = this.props.formData || [];
+    this.props.onChange(data.concat({}));
+    this.scrollToRow(data.length);
   }
-  //   const lastIndex = this.props.formData.length - 1;
-  //   if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-  //     // When we add another, we want to change the editing state of the currently
-  //     // last item, but not ones above it
-  //     const newEditing = this.state.editing.map((val, index) => {
-  //       return (index + 1) === this.state.editing.length
-  //         ? false
-  //         : val;
-  //     });
-  //     const newState = _.assign(this.state, {
-  //       editing: newEditing.concat(false)
-  //     });
-  //     this.setState(newState, () => {
-  //       const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
-  //       this.props.onChange(newFormData);
-  //       this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
-  //     });
-  //   } else {
-  //     const touched = setItemTouched(this.props.idSchema.$id, lastIndex, this.props.idSchema);
-  //     this.props.formContext.setTouched(touched, () => {
-  //       scrollToFirstError();
-  //     });
-  //   }
-  // }
 
-  /*
-   * Clicking Remove on an item in edit mode
-   */
   handleRemove(indexToRemove) {
     const newItems = this.props.formData.filter((val, index) => index !== indexToRemove);
-    const newState = _.assign(this.state, {
-      editing: this.state.editing.filter((val, index) => index !== indexToRemove),
-    });
-    this.props.onChange(newItems);
-    this.setState(newState, () => {
-      this.scrollToTop();
-    });
+    this.props.onChange(newItems.length > 0 ? newItems : undefined);
+    if (newItems.length) {
+      this.scrollToRow(newItems.length - 1);
+    }
   }
 
   render() {
@@ -139,8 +119,8 @@ export default class AdditionalSourcesField extends React.Component {
       disabled,
       readonly,
       registry,
-      formContext,
-      onBlur
+      onBlur,
+      formContext
     } = this.props;
     const definitions = registry.definitions;
     const { SchemaField } = registry.fields;
@@ -148,11 +128,15 @@ export default class AdditionalSourcesField extends React.Component {
     // if we have form data, use that, otherwise use an array with a single default object
     const items = formData || [];
 
+    if (formContext.reviewMode) {
+      return <ReviewSources sources={items}/>;
+    }
+
     let containerClassNames = classNames({
       'schemaform-field-container': true
     });
 
-    const hasEditableItems = items.some(item => !item.name);
+    const hasItemsBeingEdited = this.state.editing.some(item => item);
 
     return (
       <div className={containerClassNames}>
@@ -163,29 +147,51 @@ export default class AdditionalSourcesField extends React.Component {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const itemData = items[index];
+            const isEditing = this.state.editing[index];
 
-            if (!itemData.name) {
-              debugger;
+            if (isEditing) {
               return (
-                <div key={index} className="va-growable-background">
-                  <SchemaField
-                      name="additionalSources"
-                      required
-                      schema={itemSchema}
-                      uiSchema={uiSchema.items}
-                      errorSchema={_.get([index], errorSchema) || {}}
-                      idSchema={itemIdSchema}
-                      formData={formData[index]}
-                      onChange={(value) => this.onItemChange(index, value, true)}
-                      onBlur={onBlur}
-                      registry={this.props.registry}
-                      disabled={disabled}
-                      readonly={readonly}/>
+                <div key={index} className="va-growable-background pensions-sources-adding">
+                  <Element name={`additional_${index}`}/>
+                  <div className="row small-collapse">
+                    <div className="small-12 columns va-growable-expanded">
+                      <h5>Additional source</h5>
+                      <div className="input-section">
+                        <SchemaField
+                            name="additionalSources"
+                            required
+                            schema={itemSchema}
+                            uiSchema={uiSchema.items}
+                            errorSchema={_.get([index], errorSchema) || {}}
+                            idSchema={itemIdSchema}
+                            formData={itemData}
+                            onChange={(value) => this.onItemChange(index, value, true)}
+                            onBlur={onBlur}
+                            registry={this.props.registry}
+                            disabled={disabled}
+                            readonly={readonly}/>
+                      </div>
+                      <div className="row small-collapse">
+                        <div className="small-6 left columns">
+                          <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>
+                        </div>
+                        <div className="small-6 right columns">
+                          <button
+                              className="usa-button-outline float-right"
+                              type="button"
+                              onClick={() => this.handleRemove(index)}>
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             }
             return (
               <div key={index}>
+                <Element name={`additional_${index}`}/>
                 <SchemaField
                     name="amount"
                     required
@@ -193,7 +199,7 @@ export default class AdditionalSourcesField extends React.Component {
                     uiSchema={{ 'ui:title': formData[index].name }}
                     errorSchema={_.get([index, 'amount'], errorSchema) || {}}
                     idSchema={itemIdSchema.amount}
-                    formData={formData[index].amount}
+                    formData={itemData.amount}
                     onChange={(value) => this.onItemChange(index, value)}
                     onBlur={onBlur}
                     registry={this.props.registry}
@@ -202,12 +208,9 @@ export default class AdditionalSourcesField extends React.Component {
               </div>
             );
           })}
-          {!hasEditableItems && <button
+          {!hasItemsBeingEdited && <button
               type="button"
-              className={classNames(
-                'usa-button-outline',
-                'va-growable-add-btn'
-              )}
+              className="usa-button-outline pensions-sources-add-btn"
               onClick={this.handleAdd}>
             Add Another Source
           </button>}

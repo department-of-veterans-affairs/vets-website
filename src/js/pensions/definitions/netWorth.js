@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
-import AdditionalSourcesField from '../components/AdditionalSourcesField';
+import { additionalSourcesUI } from './additionalSources';
 
 export function netWorthSchema(schema) {
-  const newSchema = _.merge(schema.definitions.netWorth, {
+  return _.merge(schema.definitions.netWorth, {
     required: [
       'bank',
       'interestBank',
@@ -12,22 +12,6 @@ export function netWorthSchema(schema) {
       'otherProperty'
     ]
   });
-
-  return _.set('properties.additionalSources', {
-    type: 'array',
-    items: {
-      type: 'object',
-      required: ['name', 'amount'],
-      properties: {
-        name: {
-          type: 'string'
-        },
-        amount: {
-          type: 'integer'
-        }
-      }
-    }
-  }, newSchema);
 }
 
 export const netWorthUI = {
@@ -76,18 +60,5 @@ export const netWorthUI = {
       classNames: 'schemaform-currency-input',
     }
   },
-  additionalSources: {
-    'ui:field': AdditionalSourcesField,
-    items: {
-      name: {
-        'ui:title': 'Source'
-      },
-      amount: {
-        'ui:title': 'Amount',
-        'ui:options': {
-          classNames: 'schemaform-currency-input',
-        }
-      }
-    }
-  }
+  additionalSources: additionalSourcesUI
 };
