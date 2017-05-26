@@ -239,10 +239,10 @@ function isHiddenField(schema) {
  * Pull the array fields from a schema. Used to separate out array fields
  * from the rest of page to be displayed on the review page
  */
-export function getArrayFields(data, uiSchema) {
+export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, ui, path = []) => {
-    if (obj.type === 'array' && !isHiddenField(obj) && !_.get('ui:options.keepInPageOnReview')) {
+    if (obj.type === 'array' && !isHiddenField(obj) && !_.get('ui:options.keepInPageOnReview', ui)) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
@@ -257,7 +257,7 @@ export function getArrayFields(data, uiSchema) {
     }
   };
 
-  findArrays(data.schema, uiSchema);
+  findArrays(data.schema, data.uiSchema);
 
   return fields;
 }
@@ -286,7 +286,7 @@ export function hasFieldsOtherThanArray(schema) {
  * then return undefined (because there's no reason to use an object schema with
  * no properties)
  */
-export function getNonArraySchema(schema, uiSchema) {
+export function getNonArraySchema(schema, uiSchema = {}) {
   if (schema.type === 'array' && !_.get('ui:options.keepInPageOnReview', uiSchema)) {
     return undefined;
   }

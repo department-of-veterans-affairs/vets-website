@@ -59,7 +59,7 @@ describe('Pensions financial disclosure', () => {
 
       const formDOM = findDOMNode(form);
 
-      Array.from(formDOM.querySelectorAll('input')).slice(0, -1)
+      Array.from(formDOM.querySelectorAll('input'))
         .forEach(input => {
           ReactTestUtils.Simulate.change(
             input, {
@@ -69,6 +69,56 @@ describe('Pensions financial disclosure', () => {
             }
           );
         });
+
+      submitForm(form);
+      expect(onSubmit.called).to.be.true;
+    });
+    it('should add another source', () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            definitions={formConfig.defaultDefinitions}
+            onSubmit={onSubmit}
+            uiSchema={uiSchema}/>
+      );
+
+      const formDOM = findDOMNode(form);
+
+      Array.from(formDOM.querySelectorAll('input'))
+        .forEach(input => {
+          ReactTestUtils.Simulate.change(
+            input, {
+              target: {
+                value: '0'
+              }
+            }
+          );
+        });
+
+      ReactTestUtils.Simulate.click(formDOM.querySelector('.pensions-sources-add-btn'));
+      submitForm(form);
+      expect(onSubmit.called).to.be.false;
+
+      ReactTestUtils.Simulate.change(
+        formDOM.querySelector('#root_additionalSources_0_name'), {
+          target: {
+            value: 'A source'
+          }
+        }
+      );
+      ReactTestUtils.Simulate.change(
+        formDOM.querySelector('#root_additionalSources_0_amount'), {
+          target: {
+            value: '34'
+          }
+        }
+      );
+
+      ReactTestUtils.Simulate.click(formDOM.querySelector('button.float-left'));
+
+      expect(formDOM.querySelectorAll('input').length)
+        .to.equal(fieldCount + 1);
 
       submitForm(form);
       expect(onSubmit.called).to.be.true;
