@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
 
 // import ArrayPage from '../../common/schemaform/ArrayPage';
-import applicantInformation from '../../common/schemaform/pages/applicantInformation.js';
+import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -30,7 +30,20 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchemaPensions),
+        applicantInformation: applicantInformation(fullSchemaPensions, {
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber',
+            'veteranDateOfBirth'
+          ],
+          required: [
+            'veteranFullName',
+            'veteranDateOfBirth'
+          ],
+          isVeteran: true
+        }),
       }
     },
     financialDisclosure: {
