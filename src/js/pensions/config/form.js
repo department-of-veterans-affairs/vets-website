@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 // import ArrayPage from '../../common/schemaform/ArrayPage';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
