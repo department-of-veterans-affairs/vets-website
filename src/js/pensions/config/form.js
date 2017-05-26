@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaPensions from 'vets-json-schema/dist/21-527-schema.json';
 
 // import ArrayPage from '../../common/schemaform/ArrayPage';
-import applicantInformation from '../../common/schemaform/definitions/applicantInformation.js';
+import applicantInformation from '../../common/schemaform/pages/applicantInformation.js';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 
-import currentOrPastDateUI from './currentOrPastDate';
-import fullNameUI from './fullName';
+import currentOrPastDateUI from '../definitions/currentOrPastDate';
+import fullNameUI from '../definitions/fullName';
 
 import { relationshipLabels, genderLabels } from '../../utils/labels';
-import * as personId from './personId';
+import * as personId from '../definitions/personId';
 
 
 const defaults = (prefix) => {
