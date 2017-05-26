@@ -49,7 +49,7 @@
 @import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
-
+@import "base/b-element-overrides";
 @import "base/b-mixins";
 @import "base/b-functions";
 @import "base/b-utils";
