@@ -9,7 +9,7 @@ import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Pensions financial disclosure', () => {
   function runTests(page, namePath, fieldCount) {
-    const { schema, uiSchema } = page;
+    const { schema, uiSchema, title } = page;
     it('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -29,6 +29,28 @@ describe('Pensions financial disclosure', () => {
         .to.equal(fieldCount);
       expect(formDOM.querySelector('.pensions-disclosure-name').textContent).to.contain('Jane Doe');
     });
+
+    if (!namePath.startsWith('spouse')) {
+      it('should render title on review page', () => {
+        const form = ReactTestUtils.renderIntoDocument(
+          <DefinitionTester
+              reviewMode
+              title={title}
+              schema={schema}
+              data={{
+                [namePath]: {
+                  first: 'Jane',
+                  last: 'Doe'
+                }
+              }}
+              definitions={formConfig.defaultDefinitions}
+              uiSchema={uiSchema}/>
+        );
+        const formDOM = findDOMNode(form);
+
+        expect(formDOM.querySelector('.form-review-panel-page-header').textContent).to.contain('Jane Doe');
+      });
+    }
 
     it('should not submit empty form', () => {
       const onSubmit = sinon.spy();
@@ -100,15 +122,18 @@ describe('Pensions financial disclosure', () => {
       submitForm(form);
       expect(onSubmit.called).to.be.false;
 
+      expect(formDOM.querySelectorAll('input').length)
+        .to.equal(fieldCount + 2);
+
       ReactTestUtils.Simulate.change(
-        formDOM.querySelector('#root_additionalSources_0_name'), {
+        formDOM.querySelector('[id$=additionalSources_0_name]'), {
           target: {
             value: 'A source'
           }
         }
       );
       ReactTestUtils.Simulate.change(
-        formDOM.querySelector('#root_additionalSources_0_amount'), {
+        formDOM.querySelector('[id$=additionalSources_0_amount]'), {
           target: {
             value: '34'
           }
@@ -119,6 +144,44 @@ describe('Pensions financial disclosure', () => {
 
       expect(formDOM.querySelectorAll('input').length)
         .to.equal(fieldCount + 1);
+
+      submitForm(form);
+      expect(onSubmit.called).to.be.true;
+    });
+    it('should add and remove another source', () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            definitions={formConfig.defaultDefinitions}
+            onSubmit={onSubmit}
+            uiSchema={uiSchema}/>
+      );
+
+      const formDOM = findDOMNode(form);
+
+      Array.from(formDOM.querySelectorAll('input'))
+        .forEach(input => {
+          ReactTestUtils.Simulate.change(
+            input, {
+              target: {
+                value: '0'
+              }
+            }
+          );
+        });
+
+      ReactTestUtils.Simulate.click(formDOM.querySelector('.pensions-sources-add-btn'));
+      submitForm(form);
+      expect(onSubmit.called).to.be.false;
+
+      expect(formDOM.querySelectorAll('input').length)
+        .to.equal(fieldCount + 2);
+
+      ReactTestUtils.Simulate.click(formDOM.querySelector('button.float-right'));
+
+      expect(formDOM.querySelectorAll('input').length)
+        .to.equal(fieldCount);
 
       submitForm(form);
       expect(onSubmit.called).to.be.true;
@@ -145,6 +208,7 @@ describe('Pensions financial disclosure', () => {
   describe('Dependent expected income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
     runTests({
+      title: page.title,
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
     }, 'childFullName', 3);
@@ -152,6 +216,7 @@ describe('Pensions financial disclosure', () => {
   describe('Dependent monthly income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
     runTests({
+      title: page.title,
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
     }, 'childFullName', 6);
@@ -159,6 +224,7 @@ describe('Pensions financial disclosure', () => {
   describe('Dependent net worth', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
     runTests({
+      title: page.title,
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
     }, 'childFullName', 6);
