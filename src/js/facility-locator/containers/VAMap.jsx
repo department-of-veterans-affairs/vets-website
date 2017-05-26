@@ -55,8 +55,6 @@ class VAMap extends Component {
     } else {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
-
-    Tabs.setUseDefaultStyles(false);
   }
 
   componentWillReceiveProps(nextProps) {
