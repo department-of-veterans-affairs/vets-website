@@ -127,6 +127,16 @@ describe('Hca child information', () => {
         value: '123123123'
       }
     });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childCohabitedLastYearYes'), {
+      target: {
+        value: 'Y'
+      }
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childDisabledBefore18Yes'), {
+      target: {
+        value: 'Y'
+      }
+    });
 
     fillDate(formDOM, 'root_children_0_childDateOfBirth', '12-12-2012');
     fillDate(formDOM, 'root_children_0_childBecameDependent', '12-12-2012');
