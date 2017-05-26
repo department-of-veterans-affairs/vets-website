@@ -36,10 +36,10 @@ As of 2017-04-13:
     </article>
   </div>
   {% if majorlinks != empty %}
-    {% include "content/includes/navigation-links-list.html" %}
+    {% include "content/components/navigation-links-list.html" %}
   {% endif %}
 
   {% if relatedlinks != empty %}
-    {% include "content/includes/navigation-links-list.html" with isRelated = true %}
+    {% include "content/components/navigation-links-list.html" with isRelated = true %}
   {% endif %}
 </main>
