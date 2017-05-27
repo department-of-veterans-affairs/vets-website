@@ -150,8 +150,6 @@ describe('Schemaform: ObjectField', () => {
     expect(tree.everySubTree('TitleField')).is.not.empty;
   });
   it('should render component title', () => {
-    const onChange = sinon.spy();
-    const onBlur = sinon.spy();
     const schema = {
       properties: {
         test: {
@@ -168,8 +166,8 @@ describe('Schemaform: ObjectField', () => {
           schema={schema}
           idSchema={{}}
           formData={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+          onChange={f => f}
+          onBlur={f => f}/>
     );
 
     expect(tree.text()).to.contain('uiTitle');
