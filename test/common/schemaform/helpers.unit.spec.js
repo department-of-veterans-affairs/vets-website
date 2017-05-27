@@ -669,6 +669,31 @@ describe('Schemaform helpers:', () => {
       expect(newPageList[2].path).to.equal('path/1');
       expect(newPageList[3].path).to.equal('other-path/1');
     });
+    it('should skip filtered out array pages', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'path/:index',
+          itemFilter: (data) => !data.filterOut
+        },
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'other-path/:index'
+        }
+      ];
+      const data = {
+        test: [{ filterOut: true }, {}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(3);
+      expect(newPageList[0].path).to.equal('other-path/0');
+      expect(newPageList[1].path).to.equal('path/1');
+      expect(newPageList[2].path).to.equal('other-path/1');
+    });
     it('should pass through list with no array pages', () => {
       const pageList = [
         {
