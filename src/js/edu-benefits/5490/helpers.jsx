@@ -51,13 +51,17 @@ export const benefitsRelinquishedWarning = (
 );
 
 export const benefitsDisclaimerSpouse = (
-  <p>
-    IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (even if entitlement arises from separate events). <strong>You cannot retain eligibility for both programs simultaneously</strong>.
-  </p>
+  <div className="usa-alert usa-alert-warning usa-content">
+    <div className="usa-alert-body">
+      IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (even if entitlement arises from separate events). <strong>You cannot retain eligibility for both programs simultaneously</strong>.
+    </div>
+  </div>
 );
 
 export const benefitsDisclaimerChild = (
-  <p>
-    IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (but only with regards to the entitlement arising from the same events). <strong>You cannot retain eligibility for both programs based on the same event</strong>.
-  </p>
+  <div className="usa-alert usa-alert-warning usa-content">
+    <div className="usa-alert-body">
+      IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (but only with regards to the entitlement arising from the same events). <strong>You cannot retain eligibility for both programs based on the same event</strong>.
+    </div>
+  </div>
 );
