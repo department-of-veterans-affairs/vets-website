@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish. So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</strong></span>
+                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
               <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
