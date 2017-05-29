@@ -15,7 +15,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from '../../pages/applicantInformation';
+import createApplicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';

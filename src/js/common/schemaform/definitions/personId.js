@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import ssnUI from '../../common/schemaform/definitions/ssn';
+import ssnUI from './ssn';
 
 export function schema(currentSchema) {
   return {

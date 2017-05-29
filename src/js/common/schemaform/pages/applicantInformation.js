@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
+import currentOrPastDateUI from '../definitions/currentOrPastDate';
+import fullNameUI from '../definitions/fullName';
 
-import { relationshipLabels, genderLabels } from '../utils/labels';
+import { relationshipLabels, genderLabels } from '../../utils/labels';
 import * as personId from '../definitions/personId';
 
 
