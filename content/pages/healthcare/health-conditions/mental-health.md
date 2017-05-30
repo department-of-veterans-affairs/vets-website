@@ -7,24 +7,6 @@ concurrence:
 lastupdate_override: 
 order: 2
 children: healthcareMentalHealth
-majorlinks:
-  - heading:
-    links:
-    - url: /healthcare/health-conditions/mental-health/ptsd/
-      title: Posttraumatic stress disorder (PTSD)
-      description: Learn more about VA health services to help support Veterans with PTSD.
-    - url: /healthcare/health-conditions/mental-health/depression/
-      title: Depression
-      description: Learn more about VA health services to help support Veterans with depression.
-    - url: /healthcare/health-conditions/mental-health/suicide-prevention/
-      title: Suicide Prevention
-      description: Learn more about VA services to help support Veterans at risk of suicide and their families.
-    - url: /healthcare/health-conditions/military-sexual-trauma/
-      title: Military Sexual Trauma (MST)
-      description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
-    - url: /healthcare/health-conditions/substance-use-problems
-      title: Substance Use Problems
-      description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">
