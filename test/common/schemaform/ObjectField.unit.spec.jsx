@@ -165,7 +165,9 @@ describe('Schemaform: ObjectField', () => {
           uiSchema={uiSchema}
           schema={schema}
           idSchema={{}}
-          formData={{}}/>
+          formData={{}}
+          onChange={f => f}
+          onBlur={f => f}/>
     );
 
     expect(tree.text()).to.contain('uiTitle');
