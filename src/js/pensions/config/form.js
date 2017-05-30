@@ -93,14 +93,11 @@ const formConfig = {
             },
             combatSince911: (() => {
               const rangeExcludes911 = createSelector(
-                _.get('activeServiceDateRange.from'),
                 _.get('activeServiceDateRange.to'),
-                (from, to) => {
+                (to) => {
                   const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
 
-                  return !isFullDate.test(from)
-                    || !isFullDate.test(to)
-                    || !moment('2001-09-11').isBetween(from, to, 'day');
+                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
                 }
               );
 
@@ -121,7 +118,9 @@ const formConfig = {
               'view:serveUnderOtherNames': {
                 type: 'boolean'
               },
-              previousNames,
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              }),
               activeServiceDateRange: _.assign(dateRange, {
                 required: ['from', 'to']
               }),

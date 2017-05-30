@@ -1,9 +1,10 @@
 import React from 'react';
 
 export default function FullNameField({ formData }) {
+  const { first, middle, last, suffix } = formData;
   return (
     <div>
-      <strong>{formData.first} {formData.middle} {formData.last}{formData.suffix && `, ${formData.suffix}`}</strong>
+      <strong>{first} {middle && `${middle} `}{last}{suffix && `, ${suffix}`}</strong>
     </div>
   );
 }
