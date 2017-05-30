@@ -116,9 +116,9 @@ function completeAnnualIncomeInformation(client, data) {
     .setValue('input[name="root_veteranGrossIncome"]', data.veteranGrossIncome)
     .setValue('input[name="root_veteranNetIncome"]', data.veteranNetIncome)
     .setValue('input[name="root_veteranOtherIncome"]', data.veteranOtherIncome)
-    .setValue('input[name="root_view:spouseIncome_spouseGrossIncome"]', data.spouseGrossIncome)
-    .setValue('input[name="root_view:spouseIncome_spouseNetIncome"]', data.spouseNetIncome)
-    .setValue('input[name="root_view:spouseIncome_spouseOtherIncome"]', data.spouseOtherIncome)
+    .setValue('input[name="root_view:spouseIncome_spouseGrossIncome"]', data['view:spouseIncome'].spouseGrossIncome)
+    .setValue('input[name="root_view:spouseIncome_spouseNetIncome"]', data['view:spouseIncome'].spouseNetIncome)
+    .setValue('input[name="root_view:spouseIncome_spouseOtherIncome"]', data['view:spouseIncome'].spouseOtherIncome)
     .setValue('input[name="root_children_0_grossIncome"]', data.children[0].grossIncome)
     .setValue('input[name="root_children_0_netIncome"]', data.children[0].netIncome)
     .setValue('input[name="root_children_0_otherIncome"]', data.children[0].otherIncome);
@@ -155,33 +155,26 @@ function completeDeductibleExpenses(client, data) {
 
 function completeMedicareAndMedicaid(client, data) {
   client
-    .waitForElementVisible('input[name="isMedicaidEligible-1"] + label', Timeouts.normal)
-    .click('input[name="isMedicaidEligible-1"]')
-    .click('input[name="isEnrolledMedicarePartA-1"]')
-    .click('input[name="isEnrolledMedicarePartA-0"]')
-    .selectDropdown('medicarePartAEffectiveMonth', data.medicarePartAEffectiveDate.month)
-    .selectDropdown('medicarePartAEffectiveDay', data.medicarePartAEffectiveDate.day)
-    .setValue('input[name="medicarePartAEffectiveYear"]', data.medicarePartAEffectiveDate.year);
+    .click('input[name="root_isMedicaidEligibleYes"]')
+    .click('input[name="root_isEnrolledMedicarePartAYes"]')
+    .fillDate('root_medicarePartAEffectiveDate', data.medicarePartAEffectiveDate);
 }
 
 function completeInsuranceInformation(client, data) {
   client
-    .waitForElementVisible('input[name="isCoveredByHealthInsurance-0"] + label', Timeouts.normal)
-    .click('input[name="isCoveredByHealthInsurance-0"]');
-  client.expect.element('input[name="insuranceName"]').to.be.visible.before(Timeouts.normal);
-  client
-    .setValue('input[name="insuranceName"]', data.providers[0].insuranceName)
-    .setValue('input[name="insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)
-    .setValue('input[name="insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber)
-    .setValue('input[name="insuranceGroupCode"]', data.providers[0].insuranceGroupCode);
+    .click('input[name="root_isCoveredByHealthInsuranceYes"]')
+    .setValue('input[name="root_providers_0_insuranceName"]', data.providers[0].insuranceName)
+    .setValue('input[name="root_providers_0_insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)
+    .setValue('input[name="root_providers_0_insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber)
+    .setValue('input[name="root_providers_0_insuranceGroupCode"]', data.providers[0].insuranceGroupCode);
 }
 
 function completeVaInsuranceInformation(client, data) {
   client
-  .selectDropdown('state', data.facilityState)
-  .selectDropdown('vaMedicalFacility', data.vaMedicalFacility)
-  .click('input[name="isEssentialAcaCoverage"]')
-  .click('input[name="wantsInitialVaContact-0"]');
+  .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
+  .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
+  .click('input[name="root_isEssentialAcaCoverage"]')
+  .click('input[name="root_wantsInitialVaContactYes"]');
 }
 
 function initApplicationSubmitMock() {

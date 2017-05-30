@@ -118,14 +118,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
 
     // Medicare and Medicaid Page.
-    client.expect.element('input[name="root_isMedicaidEligibleYes"]').to.be.visible;
+    client.expect.element('label[for="root_isMedicaidEligible"]').to.be.visible;
     HcaHelpers.completeMedicareAndMedicaid(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/medicare');
 
     // Insurance Information Page.
-    client.expect.element('input[name="root_isCoveredByHealthInsuranceYes"]').to.be.visible;
+    client.expect.element('label[for="root_isCoveredByHealthInsurance"]').to.be.visible;
     HcaHelpers.completeInsuranceInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
@@ -141,10 +141,12 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
 
     // Review and Submit Page.
-    client.expect.element('button.edit-btn').to.be.visible;
-    client.click('[name=privacyAgreement]');
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
+    client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
+      .click('input[type="checkbox"]')
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
