@@ -91,6 +91,8 @@ function logIn(token, client, url, level) {
 }
 
 module.exports = {
+  initUserMock,
+  initLogoutMock,
   getUserToken,
   getLogoutUrl,
   logIn
