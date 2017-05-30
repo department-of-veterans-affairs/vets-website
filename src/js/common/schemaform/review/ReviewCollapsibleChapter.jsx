@@ -98,15 +98,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
               arrayFields = [];
             } else {
               editing = pageState.editMode;
-              pageUiSchema = pageState.uiSchema;
               // TODO: support array fields inside of an array page?
               // Our pattern is to separate out array fields (growable tables) from
               // the normal page and display them separately. The review version of
               // ObjectField will hide them in the main section.
-              arrayFields = getArrayFields(pageState);
+              arrayFields = getArrayFields(pageState, page);
               // This will be undefined if there are no fields other than an array
               // in a page, in which case we won't render the form, just the array
-              pageSchema = getNonArraySchema(pageState.schema, pageUiSchema);
+              pageSchema = getNonArraySchema(pageState.schema);
+              pageUiSchema = pageState.uiSchema;
               pageData = form.data;
             }
 

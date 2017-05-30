@@ -222,7 +222,7 @@ describe('Pensions financial disclosure', () => {
     }, 'childFullName', 6);
   });
   describe('Dependent net worth', () => {
-    const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
+    const page = formConfig.chapters.financialDisclosure.pages.dependentsNetWorth;
     runTests({
       title: page.title,
       schema: page.schema.properties.children.items,

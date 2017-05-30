@@ -5,6 +5,12 @@ import SegmentedProgressBar from '../components/SegmentedProgressBar';
 
 import { createFormPageList, createPageList } from './helpers';
 
+/*
+ * This checks for a match between routes by first removing any route
+ * params from the path specified in the page config (e.g. /:index in /path/:index)
+ * and by removing any ending id numbers at the end of the current actual url
+ * (e.g. /0 in /path/0)
+ */
 function routesMatch(pagePath, currentPath) {
   return pagePath.replace(/\/:[^\/]+$/, '').endsWith(currentPath.replace(/\/\d+$/, ''));
 }

@@ -57,6 +57,8 @@ class FormPage extends React.Component {
   onChange(formData) {
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
+      // If this is a per item page, the formData object will have data for a particular
+      // row in an array, so we need to update the full form data object and then call setData
       newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
     this.props.setData(newData);
@@ -74,7 +76,10 @@ class FormPage extends React.Component {
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form.data);
+    // Any `showPagePerItem` pages are expanded to create items for each array item.
+    // We update the `path` for each of those pages to replace `:index` with the current item index.
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
+    // We can't check the pageKey for showPagePerItem pages, because multiple pages will match
     const pageIndex = pageConfig.showPagePerItem
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
@@ -98,8 +103,12 @@ class FormPage extends React.Component {
     let data = form.data;
 
     if (route.pageConfig.showPagePerItem) {
+      // Instead of passing through the schema/uiSchema to SchemaForm, the
+      // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
+      // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
+      // And the data should be for just the item in the array
       data = _.get([route.pageConfig.arrayPath, params.index], data);
     }
 

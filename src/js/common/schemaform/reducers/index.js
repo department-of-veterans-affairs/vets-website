@@ -41,6 +41,9 @@ function recalculateSchemaAndData(initialState) {
 
       if (page.showPagePerItem) {
         const arrayData = _.get(page.arrayPath, newState.data) || [];
+        // If an item was added or removed for the data used by a showPagePerItem page,
+        // we have to reset everything because we can't match the edit states to rows directly
+        // This will rarely ever be noticeable
         if (page.editMode.length !== arrayData.length) {
           newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
         }
