@@ -9,7 +9,7 @@ collection: healthcare
 children: healthcareCoverage
 order: 1
 relatedlinks: 
-  - heading: Other VA Benefits
+  - heading:
     links:
     - url: /disability-benefits/
       title: Disability Benefits
