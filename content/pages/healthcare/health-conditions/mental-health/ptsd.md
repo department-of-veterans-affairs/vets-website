@@ -9,12 +9,6 @@ order: 1
 relatedlinks:
   - heading:
     links:
-    - url: /healthcare/health-conditions/mental-health/depression/
-      title: Depression
-      description: Learn more about VA health services to help support Veterans with depression.
-    - url: /healthcare/health-conditions/mental-health/suicide-prevention/
-      title: Suicide Prevention
-      description: Learn more about VA services to help support Veterans at risk of suicide and their families.
     - url: /healthcare/health-conditions/military-sexual-trauma/
       title: Military Sexual Trauma (MST)
       description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
