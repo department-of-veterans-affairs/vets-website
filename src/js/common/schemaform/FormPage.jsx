@@ -114,6 +114,7 @@ class FormPage extends React.Component {
 
     return (
       <div className="form-panel">
+        <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
         <SchemaForm
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
