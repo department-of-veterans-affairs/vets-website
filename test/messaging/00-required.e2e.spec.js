@@ -3,7 +3,6 @@ const Timeouts = require('../e2e/timeouts.js');
 const MessagingHelpers = require('../e2e/messaging-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
 const AccountCreationHelpers = require('../e2e/account-creation-helpers');
-const selectDropdown = E2eHelpers.selectDropdown;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
