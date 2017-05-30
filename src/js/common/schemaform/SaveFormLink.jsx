@@ -18,6 +18,7 @@ export default class SaveFormLink extends React.Component {
       content = <p>spinner or something</p>;
     } else if (savedStatus === 'success') {
       content = <p>success message</p>;
+      // TODO: Redirect to a page like: https://marvelapp.com/2hj59b1/screen/28358414
     }
 
     // TODO: If we get a no-auth, we should reset the link after login

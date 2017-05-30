@@ -1,16 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { focusElement } from '../../common/utils/helpers';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
+import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-  goForward = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
     return (
@@ -38,12 +34,7 @@ class IntroductionPage extends React.Component {
             </a>
           </div>
           <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            {/* TODO: Use the resume previous application button...when written */}
-            <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
+            <FormIntroButtons route={this.props.route}/>
           </div>
         </div>
         <div className="omb-info--container">
@@ -54,6 +45,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+export default IntroductionPage;
 
 export { IntroductionPage };
