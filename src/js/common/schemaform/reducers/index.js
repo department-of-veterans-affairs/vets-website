@@ -55,16 +55,17 @@ export default function createSchemaFormReducer(formConfig) {
       schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
-      return _.merge(state, {
-        pages: {
-          [page.pageKey]: {
-            uiSchema: page.uiSchema,
-            schema,
-            editMode: false
-          }
-        },
-        data
-      });
+      /* eslint-disable no-param-reassign */
+      state.pages[page.pageKey] = {
+        uiSchema: page.uiSchema,
+        schema,
+        editMode: false
+      };
+
+      state.data = _.merge(state.data, data);
+      /* eslint-enable no-param-reassign */
+
+      return state;
     }, {
       data: {
         privacyAgreementAccepted: false,
