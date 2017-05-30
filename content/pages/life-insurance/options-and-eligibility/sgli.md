@@ -136,4 +136,14 @@ If you do this, you’ll get a notice 20 months after your separation date letti
 
 If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
+------------
+
+### Veterans’ Mortgage Life Insurance (VMLI)
+
+If you have certain service-connected disabilities, you may qualify for our Specially Adapted Housing (SAH) Grant as well as VMLI.
+
+The SAH grant can help you build, pay for, or make changes (such as installing ramps or widening doorways) to a home so you can live more independently. If you qualify for an SAH Grant, you may also qualify for VMLI. This mortgage protection insurance can help your family pay off the home mortgage on your adapted home in the event of your death.
+[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp).
+[Find out if you qualify for VMLI—and how to apply](http://www.benefits.va.gov/insurance/vmli.asp).
+
 
