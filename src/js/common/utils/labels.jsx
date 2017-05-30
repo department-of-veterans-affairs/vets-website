@@ -1,6 +1,6 @@
 export const relationshipLabels = {
   spouse: 'Spouse',
-  child: 'Child'
+  child: 'Child, stepchild, adopted child'
 };
 
 export const genderLabels = {
