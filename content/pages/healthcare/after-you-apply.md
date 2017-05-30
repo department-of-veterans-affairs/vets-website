@@ -7,7 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthcare
 order: 3
 relatedlinks:
-  - heading: Other VA Benefits
+  - heading: 
     links:
     - url: /disability-benefits/
       title: Disability Benefits
