@@ -72,6 +72,7 @@ const formConfig = {
           path: 'military/history',
           title: 'General history',
           uiSchema: {
+            'ui:title': 'General history',
             previousNames: {
               'ui:options': {
                 expandUnder: 'view:serveUnderOtherNames',
