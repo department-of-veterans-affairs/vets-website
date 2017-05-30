@@ -7,15 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2012-06-01
 collection: healthcare
 order: 2
-relatedlinks:
-  - heading: Other VA Benefits
-    links:
-    - url: /disability-benefits/eligibility/
-      title: Disability Benefits Eligibility
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
-    - url: /track-claims/
-      title: Check Claim Status
-      description: Track the status of your disability claim.
+
 ---
 
 <div class="va-introtext">
