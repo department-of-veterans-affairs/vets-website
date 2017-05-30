@@ -124,6 +124,7 @@ class VAMap extends Component {
   }
 
   componentWillUnmount() {
+    // call the func returned by browserHistory.listen to unbound the listener
     this.listener();
   }
 
