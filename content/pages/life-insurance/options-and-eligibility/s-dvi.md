@@ -96,3 +96,13 @@ Get premium rates and a description of the plan options. [Download VA pamphlet 2
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill#waiver).
 
 You must pay your premiums for Supplemental S-DVI.
+
+-------------
+
+### Veterans’ Mortgage Life Insurance (VMLI)
+
+If you have certain service-connected disabilities, you may qualify for our Specially Adapted Housing (SAH) Grant as well as VMLI.
+
+The SAH grant can help you build, pay for, or make changes (such as installing ramps or widening doorways) to a home so you can live more independently. If you qualify for an SAH Grant, you may also qualify for VMLI. This mortgage protection insurance can help your family pay off the home mortgage on your adapted home in the event of your death. <br>
+[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
+[Find out if you qualify for VMLI—and how to apply](http://www.benefits.va.gov/insurance/vmli.asp).
