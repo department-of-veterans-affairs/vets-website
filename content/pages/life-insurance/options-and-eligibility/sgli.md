@@ -142,8 +142,8 @@ If you pay the premium, you’ll be able to keep your life insurance coverage fo
 
 If you have certain service-connected disabilities, you may qualify for our Specially Adapted Housing (SAH) Grant as well as VMLI.
 
-The SAH grant can help you build, pay for, or make changes (such as installing ramps or widening doorways) to a home so you can live more independently. If you qualify for an SAH Grant, you may also qualify for VMLI. This mortgage protection insurance can help your family pay off the home mortgage on your adapted home in the event of your death.
-[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp).
+The SAH grant can help you build, pay for, or make changes (such as installing ramps or widening doorways) to a home so you can live more independently. If you qualify for an SAH Grant, you may also qualify for VMLI. This mortgage protection insurance can help your family pay off the home mortgage on your adapted home in the event of your death. <br>
+[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](http://www.benefits.va.gov/insurance/vmli.asp).
 
 
