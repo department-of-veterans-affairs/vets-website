@@ -30,6 +30,11 @@ function reInitWidget() {
   const content = container.querySelector('.wizard-content');
   const apply = container.querySelector('#apply-now-button');
   const warning = container.querySelector('#transfer-warning');
+  apply.addEventListener('click', () => {
+    const selections = Array.from(container.querySelectorAll('input:checked'));
+    // eslint-disable-next-line no-return-assign, no-param-reassign
+    selections.forEach(selection => selection.checked = false);
+  });
   content.addEventListener('change', (e) => {
     const radio = e.target;
     const otherChoice = radio.dataset.alternate;
@@ -40,6 +45,7 @@ function reInitWidget() {
     }
     if (!radio.dataset.selectedForm && (apply.dataset.state === 'open')) {
       closeState(apply);
+      closeState(warning);
     }
     if (radio.dataset.selectedForm) {
       if (apply.dataset.state === 'closed') {
