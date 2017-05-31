@@ -18,23 +18,17 @@ export function command(context, config, _callback) {
     document.head.appendChild(script);
   }, [axeSource]);
 
-  const runAxe = (innerContext, done) => {
+  // Run axe checks and report
+  this.executeAsync((innerContext, rules, done) => {
     axe.run(document.querySelector(innerContext) || document, { // eslint-disable-line no-undef
       runOnly: {
         type: 'tag',
-        values: (config || {}).rules || ['section508']
+        values: rules
       }
     }, (err, results) => {
       done({ err, results });
     });
-  };
-
-  // Run axe checks and report
-  this.executeAsync((innerContext, axeRunFn, done) => {
-    (axeRunFn(innerContext, done));
-  },
-  [context, runAxe],
-  response => {
+  }, [context, this.globals.rules || ['section508']], response => {
     if (response.state !== 'success') {
       this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
       return;
