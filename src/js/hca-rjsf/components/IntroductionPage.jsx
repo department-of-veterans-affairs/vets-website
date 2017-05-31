@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
@@ -23,21 +24,21 @@ class IntroductionPage extends React.Component {
         </p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.
+            {
+              this.props.loggedIn
+                ? <div><strong>Note:</strong> You can now save your application and come back to save it at a later time.</div>
+                // TODO: Make the sign in link work
+                : <div><strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a>sign in</a>.</div>
+            }
           </div>
         </div>
         <br/>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/healthcare/apply">
-              <button className="usa-button-outline">« Back</button>
-            </a>
-          </div>
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <FormIntroButtons route={this.props.route}/>
-          </div>
-        </div>
-        <div className="omb-info--container">
+        <FormIntroButtons
+            route={this.props.route}
+            loggedIn={this.props.loggedIn}/>
+        <br/>
+        {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
+        <div className="omb-info--container" style={{ paddingLeft: 0 }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
         </div>
       </div>
@@ -45,6 +46,12 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.user.login.currentlyLoggedIn
+  };
+}
+
+export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };

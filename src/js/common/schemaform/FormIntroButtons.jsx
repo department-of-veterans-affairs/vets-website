@@ -3,48 +3,81 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { loadFormData, loadData } from './actions';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
-  goForward = () => {
+  componentWillMount() {
+    // TODO: When the api is available to get a list of all the saved forms, query
+    //  for that instead and save it in the redux store
+
+    // Load the form data into the redux store if possible
+    // NOTE: This does not fill the data into the form yet; just grabs it and
+    //  saves it for later (when we want to fill in the blanks).
+    this.props.loadFormData(this.props.form.formId, this.props.form.migrations);
+  }
+
+  goToBeginning = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   }
 
+  handleLoadForm = () => {
+    // This is where we take the formData we pre-loaded in componentWillMount
+    //  and fill in the form.
+    this.props.loadData();
+  }
+
   render() {
-    console.log('FormIntroButtons props:', this.props);
+    // console.log('props:', this.props);
+    // console.log(`logggedIn: ${this.props.loggedIn}, loadedStatus: ${this.props.form.loadedStatus}`);
+    let resumeButton = null;
+    let firstPageButtonText = 'Continue';
+    let firstPageButtonClass = 'usa-button-primary';
+    if (this.props.loggedIn && this.props.form.loadedStatus === 'success') {
+      firstPageButtonText = 'Start over';
+      firstPageButtonClass = 'usa-button-outline';
+      resumeButton = (
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
+          <ProgressButton
+              onButtonClick={this.handleLoadForm}
+              buttonText="Resume previous application"
+              buttonClass="usa-button-primary"/>
+        </div>
+      );
+    }
+
+    // <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
     return (
-      <div>
-        {/*
-          TODO: Pull all of the following logic out into a component that can be easily reused in all forms
-          if (signed in) {
-            display the note in https://marvelapp.com/2hj59b1/screen/28358380
-            if (form saved) {
-              display the resume application button only if there's one to resume
-              replace the Continue button text with "Start over" if the form has been started
-              display the resume previous application button
-            }
-          } else {
-            display the note in https://marvelapp.com/2hj59b1/screen/28358376
-          }
-        */}
-        <ProgressButton
-            onButtonClick={this.goForward}
-            buttonText="Continue"
-            buttonClass="usa-button-primary"
-            afterText="»"/>
+      <div className="row">
+        {resumeButton}
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
+          <ProgressButton
+              onButtonClick={this.goToBeginning}
+              buttonText={firstPageButtonText}
+              buttonClass={firstPageButtonClass}
+              afterText="»"/>
+        </div>
       </div>
     );
   }
 }
 
 FormIntroButtons.propTypes = {
-  route: PropTypes.object.isRequired
+  route: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  loggedIn: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
   return {
+    // TODO: When we get the ability to query for all saved forms, add the list here
     form: state.form
   };
 }
 
-export default withRouter(connect(mapStateToProps)(FormIntroButtons));
+const mapDispatchToProps = {
+  loadFormData,
+  loadData
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormIntroButtons));

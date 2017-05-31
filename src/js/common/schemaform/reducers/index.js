@@ -18,7 +18,9 @@ import { SET_DATA,
   SET_SUBMISSION,
   SET_SUBMITTED,
   SET_SAVED,
-  SET_LOADED
+  SET_LOADED,
+  SET_LOADED_DATA,
+  LOAD_DATA
 } from '../actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -83,7 +85,9 @@ export default function createSchemaFormReducer(formConfig) {
       loadedStatus: 'not-attempted',
       version: formConfig.version,
       formId: formConfig.formId,
-      disableSave: formConfig.disableSave
+      disableSave: formConfig.disableSave,
+      // loadedFormData: undefined
+      migrations: formConfig.migrations
     });
 
   // Take another pass and recalculate the schema and data based on the default data
@@ -119,6 +123,15 @@ export default function createSchemaFormReducer(formConfig) {
       }
       case SET_LOADED: {
         return _.set('loadedStatus', action.status, state);
+      }
+      case SET_LOADED_DATA: {
+        return _.set('loadedFormData', action.formData, state);
+      }
+      case LOAD_DATA: {
+        // Mirrors SET_DATA, but uses state.loadedFormData
+        const newState = _.set('data', action.loadedFormData, state);
+
+        return recalculateSchemaAndData(newState);
       }
       default:
         return state;

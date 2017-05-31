@@ -8,6 +8,8 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const SET_SAVED = 'SET_SAVED';
 export const SET_LOADED = 'SET_LOADED';
+export const SET_LOADED_DATA = 'SET_LOADED_DATA';
+export const LOAD_DATA = 'LOAD_DATA';
 
 export function setData(data) {
   return {
@@ -59,6 +61,19 @@ export function setLoaded(status) {
   return {
     type: SET_LOADED,
     status
+  };
+}
+
+export function setLoadedData(formData) {
+  return {
+    type: SET_LOADED_DATA,
+    formData
+  };
+}
+
+export function loadData() {
+  return {
+    type: LOAD_DATA
   };
 }
 
@@ -135,9 +150,13 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
 /**
  * Loads the form data from the back end into the redux store.
  *
- * @param  {Object} formConfig The form's config
+ * @param  {Integer} formId      The form's identifier
+ * @param  {Array}   migrations  An array of functions to run the data returned
+ *                                from the server through in the event that the
+ *                                version of the form the data was saved with
+ *                                is different from the current version.
  */
-export function loadFormData(formConfig) {
+export function loadFormData(formId, migrations) {
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
@@ -150,7 +169,7 @@ export function loadFormData(formConfig) {
     dispatch(setLoaded('pending'));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formConfig.formId}`, {
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
@@ -158,6 +177,7 @@ export function loadFormData(formConfig) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
+      // console.log('res', res);
       if (res.ok) {
         return res.json();
       }
@@ -172,30 +192,36 @@ export function loadFormData(formConfig) {
         status = 'not-found';
       }
       return Promise.reject(status);
-    }).then((json) => {  // eslint-disable-line consistent-return
-      // We've got valid form
-      // Note: The api returns the data we saved wrapped in a form_data object:
-      // {
-      //   "form_data": {
-      //     "formData": { ... },
-      //     "version": 1,
-      //     "lastPage": "url/to/page"
-      //   }
-      // }
-      const resBody = JSON.parse(json).form_data;
+    }).then((resBody) => {  // eslint-disable-line consistent-return
+      // Just in case something funny happens where the json returned isn't an object as expected
+      if (typeof resBody !== 'object') {
+        return Promise.reject('invalid-data');
+      }
+
+      // If an empty object is returned, throw a not-found
+      // TODO: When / if we return a 404 for applications that don't exist, remove this
+      if (Object.keys(resBody).length === 0) {
+        return Promise.reject('not-found');
+      }
+
+      // If we've made it this far, we've got valid form
 
       let formData;
       try {
         // Note: This may change to be migrated in the back end before sent over
-        formData = getUpdatedFormData(resBody.formData, resBody.version, formConfig.migrations);
+        formData = getUpdatedFormData(resBody.formData, resBody.version, migrations);
       } catch (e) {
         // TODO: Log e.message somewhere; it's the reason the data couldn't be
-        //  transformed.
+        //  transformed. Sentry error?
         return Promise.reject('invalid-data');
       }
-      // TODO: Send an event to update the UI?
       // Set the data in the redux store
-      dispatch(setData(formData));
+      // NOTE: Until we get the api for the list of filled forms, we're using this
+      //  function to see if the form has been filled in, so this is setting the
+      //  data in a separate place to be pulled in when we _actually_ want to load
+      //  the formData.
+      // dispatch(setData(formData));
+      dispatch(setLoadedData(formData));
       dispatch(setLoaded('success'));
       // TODO: Navigate to the last page they were on
       // TODO: Handle this scenario:
@@ -205,7 +231,13 @@ export function loadFormData(formConfig) {
       //  3) I load my saved progress.
       //  4) I should be put in the page with the missing information.
     }).catch((status) => {
-      dispatch(setLoaded(status));
+      let loadedStatus = status;
+      // if res.json() has a parsing error, it'll reject with a SyntaxError
+      if (status instanceof SyntaxError) {
+        // TODO: Log this somehow...Sentry error?
+        loadedStatus = 'invalid-data';
+      }
+      dispatch(setLoaded(loadedStatus));
     });
   };
 }
@@ -219,8 +251,10 @@ export function loadFormData(formConfig) {
  */
 export function saveFormData(formId, version, returnUrl, formData) {
   const body = JSON.stringify({
-    version,
-    returnUrl,
+    metadata: {
+      version,
+      returnUrl
+    },
     formData
   });
   return dispatch => {
