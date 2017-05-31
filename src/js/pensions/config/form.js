@@ -9,16 +9,19 @@ import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
+import EmploymentField from '../components/EmploymentField';
 import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import * as address from '../../common/schemaform/definitions/address';
 
 const {
   previousNames,
   combatSince911,
+  jobs,
   placeOfSeparation
 } = fullSchemaPensions.properties;
 
@@ -63,6 +66,58 @@ const formConfig = {
           ],
           isVeteran: true
         }),
+      }
+    },
+    workHistory: {
+      title: 'Work history',
+      pages: {
+        employmentHistory: {
+          title: 'Employment history',
+          path: 'employment/history',
+          depends: (formData) =>
+            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
+          uiSchema: {
+            'ui:description': 'Please tell us about all of your employment, including self-employment, from one year before you became disabled to the present.',
+            jobs: {
+              'ui:options': {
+                viewField: EmploymentField
+              },
+              items: {
+                employer: {
+                  'ui:title': 'Name of employer'
+                },
+                address: address.uiSchema('Address of employer'),
+                jobTitle: {
+                  'ui:title': 'Job title'
+                },
+                dateRange: dateRangeUI(),
+                daysMissed: {
+                  'ui:title': 'How many days lost to disability'
+                },
+                annualEarnings: {
+                  'ui:title': 'Total annual earnings'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              jobs: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
+                  properties: _.assign(jobs.items.properties, {
+                    address: address.schema(fullSchemaPensions, true),
+                    dateRange: _.set('required', ['to', 'from'], dateRange)
+                  })
+                }
+              }
+            }
+          }
+        }
       }
     },
     militaryHistory: {
