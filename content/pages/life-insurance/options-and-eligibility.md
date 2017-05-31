@@ -19,10 +19,9 @@ relatedlinks:
   - url: /life-insurance/options-and-eligibility/s-dvi/ 
     title: Service-Disabled Veterans Insurance (S-DVI) 
     description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
-   - url: /life-insurance/options-and-eligibility/vmli/
-     title: Veterans' Mortgage Life Insurance (VMLI)
-     description: If you're severely disabled, help your family pay off the home mortgage on a home that's been adapted to fit your needs in the event of your death.
-    
+  - url: /life-insurance/options-and-eligibility/vmli/
+    title: Veterans' Mortgage Life Insurance (VMLI)
+    description: If you're severely disabled, help your family pay off the home mortgage on a home that's been adapted to fit your needs in the event of your death.
 ---
 
 <div class="va-introtext">
