@@ -10,6 +10,26 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
+import { facilityUI, facilitySchema } from '../../common/schemaform/definitions/facility';
+import dateUI from '../../common/schemaform/definitions/date';
+
+const {
+  disabilities,
+  vaHospitalTreatments
+} = fullSchemaPensions.properties;
+
+const {
+  date,
+  dateRange,
+  usaPhone
+} = fullSchemaPensions.definitions;
+
+// TODO: update schema once we have a final decision about form fields
+delete vaHospitalTreatments.items.properties.name;
+delete vaHospitalTreatments.items.properties.dates;
+delete vaHospitalTreatments.items.properties.location;
+vaHospitalTreatments.items.properties['view:vaFacility'] = facilitySchema('location');
+vaHospitalTreatments.items.properties.startDate = date;
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -23,7 +43,10 @@ const formConfig = {
   defaultDefinitions: {
     additionalSources: {
       type: 'string'
-    }
+    },
+    date,
+    dateRange,
+    usaPhone
   },
   chapters: {
     applicantInformation: {
@@ -43,6 +66,52 @@ const formConfig = {
           ],
           isVeteran: true
         }),
+      }
+    },
+    workHistory: {
+      title: 'Work history',
+      pages: {
+        disabilityHistory: {
+          title: 'Disability history',
+          path: 'disability/history',
+          uiSchema: {
+            disabilities: {
+              'ui:title': 'What Disabilities prevent you from working?',
+              'ui:order': ['name', 'disabilityStartDate'],
+              'ui:options': {
+                viewField: () => true
+              },
+              items: {
+                name: {
+                  'ui:title': 'Disability'
+                },
+                disabilityStartDate: dateUI('Start date of treatment')
+              }
+            },
+            vaHospitalTreatments: {
+              'ui:description': 'Please enter VA Medical Centers where you were treated for the above disabilities',
+              'ui:order': ['view:vaFacility', 'startDate'],
+              items: {
+                'view:vaFacility': facilityUI(
+                  'location',
+                  '',
+                  ({ formData, index }) => _.get(`vaHospitalTreatments[${index}].view:vaFacility.view:facilityState`, formData)
+                ),
+                startDate: dateUI('Start date')
+              },
+              'ui:options': {
+                viewField: () => true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities,
+              vaHospitalTreatments
+            }
+          }
+        }
       }
     },
     financialDisclosure: {
