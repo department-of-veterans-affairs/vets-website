@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Board of Veterans’Appeals
+title: Board of Veterans’ Appeals
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 concurrence: complete
