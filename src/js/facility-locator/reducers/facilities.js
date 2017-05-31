@@ -1,4 +1,4 @@
-import { FETCH_VA_FACILITY, FETCH_VA_FACILITIES } from '../actions';
+import { FETCH_VA_FACILITY, FETCH_VA_FACILITIES, SEARCH_FAILED } from '../actions';
 
 const INITIAL_STATE = {
   facilities: [],
@@ -19,6 +19,8 @@ export default function (state = INITIAL_STATE, action) {
         facilities: action.payload.data,
         pagination: action.payload.meta.pagination,
       };
+    case SEARCH_FAILED:
+      return INITIAL_STATE;
     default:
       return state;
   }

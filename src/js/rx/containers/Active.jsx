@@ -17,8 +17,6 @@ import {
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';
-import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config';
 
 class Active extends React.Component {
   constructor(props) {
@@ -153,6 +151,8 @@ class Active extends React.Component {
               items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={currentSort.value === 'facilityName'}
+              handleSort={this.handleSort}
+              currentSort={currentSort}
               refillModalHandler={this.props.openRefillModal}
               glossaryModalHandler={this.props.openGlossaryModal}/>
         );
@@ -162,11 +162,6 @@ class Active extends React.Component {
         <div>
           <p className="rx-tab-explainer">Your active VA prescriptions</p>
           {this.renderViewSwitch()}
-          {this.state.view === 'list' || <SortMenu
-              onChange={this.handleSort}
-              onClick={this.handleSort}
-              options={sortOptions}
-              selected={currentSort}/>}
           {prescriptionsView}
         </div>
       );
