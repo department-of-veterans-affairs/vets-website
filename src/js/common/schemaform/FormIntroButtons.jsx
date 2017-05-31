@@ -47,6 +47,7 @@ class FormIntroButtons extends React.Component {
     }
 
     // <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
+    // TODO: Fix the button formatting
     return (
       <div className="row">
         {resumeButton}

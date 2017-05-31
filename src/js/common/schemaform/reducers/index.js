@@ -129,7 +129,7 @@ export default function createSchemaFormReducer(formConfig) {
       }
       case LOAD_DATA: {
         // Mirrors SET_DATA, but uses state.loadedFormData
-        const newState = _.set('data', action.loadedFormData, state);
+        const newState = _.set('data', state.loadedFormData, state);
 
         return recalculateSchemaAndData(newState);
       }

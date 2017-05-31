@@ -141,7 +141,7 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
   // The functions transform the data from version of their index to the next one up.
   // This works because every time the version is bumped on the form, it's because
   //  the saved data needs to be manipulated, so there will be no skipped versions.
-  if (typeof migrations[savedVersion] !== 'function') {
+  if (!migrations || typeof migrations[savedVersion] !== 'function') {
     return savedData;
   }
   return getUpdatedFormData(migrations[savedVersion](savedData), savedVersion + 1, migrations);
@@ -206,10 +206,16 @@ export function loadFormData(formId, migrations) {
 
       // If we've made it this far, we've got valid form
 
-      let formData;
+      // TODO: Remove the assignment once the API is updated to store and return
+      //  formData and metadata
+      let formData = resBody;
       try {
-        // Note: This may change to be migrated in the back end before sent over
-        formData = getUpdatedFormData(resBody.formData, resBody.version, migrations);
+        // NOTE: This may change to be migrated in the back end before sent over
+        // TODO: Remove these once the API is updated to store and return
+        //  formData and metadata
+        const version = 0;
+        formData = getUpdatedFormData(formData, version, migrations);
+        // formData = getUpdatedFormData(resBody.formData, resBody.metadata.version, migrations);
       } catch (e) {
         // TODO: Log e.message somewhere; it's the reason the data couldn't be
         //  transformed. Sentry error?
@@ -235,6 +241,7 @@ export function loadFormData(formId, migrations) {
       // if res.json() has a parsing error, it'll reject with a SyntaxError
       if (status instanceof SyntaxError) {
         // TODO: Log this somehow...Sentry error?
+        console.error('Could not parse response.', status); // eslint-disable-line no-console
         loadedStatus = 'invalid-data';
       }
       dispatch(setLoaded(loadedStatus));
@@ -250,12 +257,13 @@ export function loadFormData(formId, migrations) {
  * @param  {Object}  formData  The data the user has entered so far
  */
 export function saveFormData(formId, version, returnUrl, formData) {
+  // Double stringify because of api reasons. Olive Branch issues, methinks.
   const body = JSON.stringify({
-    metadata: {
+    metadata: JSON.stringify({
       version,
       returnUrl
-    },
-    formData
+    }),
+    formData: JSON.stringify(formData)
   });
   return dispatch => {
     const userToken = sessionStorage.userToken;
