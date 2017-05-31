@@ -7,6 +7,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
+import DisabilityField from '../components/DisabilityField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
 import EmploymentField from '../components/EmploymentField';
@@ -14,11 +15,13 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
+import dateUI from '../../common/schemaform/definitions/date';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import * as address from '../../common/schemaform/definitions/address';
 
 const {
+  disabilities,
   previousNames,
   combatSince911,
   jobs,
@@ -27,6 +30,7 @@ const {
 
 const {
   fullName,
+  usaPhone,
   dateRange,
   date
 } = fullSchemaPensions.definitions;
@@ -44,9 +48,10 @@ const formConfig = {
     additionalSources: {
       type: 'string'
     },
-    fullName,
     date,
-    dateRange
+    dateRange,
+    usaPhone,
+    fullName
   },
   chapters: {
     applicantInformation: {
@@ -188,6 +193,55 @@ const formConfig = {
       }
 
     },
+    workHistory: {
+      title: 'Work history',
+      pages: {
+        disabilityHistory: {
+          title: 'Disability history',
+          path: 'disability/history',
+          depends: (formData) =>
+            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
+          uiSchema: {
+            disabilities: {
+              'ui:title': 'What Disabilities prevent you from working?',
+              'ui:order': ['name', 'disabilityStartDate'],
+              'ui:options': {
+                viewField: DisabilityField
+              },
+              items: {
+                name: {
+                  'ui:title': 'Disability'
+                },
+                disabilityStartDate: dateUI('Date disability began')
+              }
+            },
+            // TODO: update schema with this field if stakeholders approve
+            hasVisitedVAMC: {
+              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['disabilities', 'hasVisitedVAMC'],
+            properties: {
+              disabilities: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['name', 'disabilityStartDate'],
+                  properties: disabilities.items.properties
+                }
+              },
+              hasVisitedVAMC: {
+                type: 'boolean'
+              }
+            }
+          }
+        }
+      }
+    },
     financialDisclosure: {
       title: 'Financial Disclosure',
       pages: {
@@ -195,10 +249,6 @@ const formConfig = {
           path: 'financial-disclosure/net-worth',
           title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} net worth`,
           initialData: {
-            veteranFullName: {
-              first: 'Joe',
-              last: 'Test'
-            },
             spouseFullName: {
               first: 'Rick',
               last: 'Test'
