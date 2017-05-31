@@ -37,27 +37,23 @@ class FormIntroButtons extends React.Component {
       firstPageButtonText = 'Start over';
       firstPageButtonClass = 'usa-button-outline';
       resumeButton = (
-        <div className="small-6 usa-width-five-twelfths medium-5 columns">
-          <ProgressButton
-              onButtonClick={this.handleLoadForm}
-              buttonText="Resume previous application"
-              buttonClass="usa-button-primary"/>
-        </div>
+        <ProgressButton
+            onButtonClick={this.handleLoadForm}
+            buttonText="Resume previous application"
+            buttonClass="usa-button-primary"/>
       );
     }
 
-    // <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
     // TODO: Fix the button formatting
+    // <div className="row">
     return (
-      <div className="row">
+      <div>
         {resumeButton}
-        <div className="small-6 usa-width-five-twelfths medium-5 columns">
-          <ProgressButton
-              onButtonClick={this.goToBeginning}
-              buttonText={firstPageButtonText}
-              buttonClass={firstPageButtonClass}
-              afterText="»"/>
-        </div>
+        <ProgressButton
+            onButtonClick={this.goToBeginning}
+            buttonText={firstPageButtonText}
+            buttonClass={firstPageButtonClass}
+            afterText="»"/>
       </div>
     );
   }
