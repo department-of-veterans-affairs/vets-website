@@ -44,11 +44,10 @@ You may be able to get VMLI if you have a severe disability, and you:
 
 #### Who’s covered?
 
-Servicemembers
+Servicemembers<br />
 Veterans
 
 </div>
-
 
 ### What kind of life insurance benefits can I get with VMLI?
 
