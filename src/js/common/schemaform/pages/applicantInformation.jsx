@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import currentOrPastDateUI from '../definitions/currentOrPastDate';
@@ -52,7 +53,7 @@ export default function applicantInformation(schema, options) {
     initialData: {},
     uiSchema: _.assign({
       'ui:order': fields,
-      'ui:description': '<p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>',
+      'ui:description': <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
       [`${prefix}FullName`]: fullNameUI,
       [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
