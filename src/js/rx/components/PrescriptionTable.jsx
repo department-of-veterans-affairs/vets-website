@@ -49,7 +49,7 @@ class PrescriptionTable extends React.Component {
             <span>Prescription #: {item.id}</span>
           </div>
         ),
-        lastSubmitDate: formatDate(attrs.lastSubmitDate),
+        lastSubmitDate: formatDate(attrs.refillSubmitDate),
         refillDate: formatDate(attrs.refillDate),
         facilityName: attrs.facilityName,
         refillsLeft: attrs.refillRemaining,
