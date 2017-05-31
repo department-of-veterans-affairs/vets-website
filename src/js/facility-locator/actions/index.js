@@ -8,7 +8,6 @@ export const LOCATION_UPDATED = 'LOCATION_UPDATED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
-export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 
 export function updateSearchQuery(query) {
   return {
