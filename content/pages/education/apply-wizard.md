@@ -106,6 +106,12 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="create-non-transfer">No</label>
           </div>
         </div>
+        <div id="ncts-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
+        <div class="usa-alert-body">
+        <h4 style="padding:0;">Are you sure?</h4>
+        <p style="margin:0;">This is extremely rare.</p>
+        </div>
+        </div>
         <div id="transfer-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
         <div class="usa-alert-body">
         <h4 style="padding:0;">Your application cannot be approved until your sponsor transfers their benefits.</h4>
