@@ -58,6 +58,7 @@ function profileInformation(state = initialState, action) {
       return {
         ...state,
         terms: {
+          ...state.terms,
           loading: false,
         }
       };
@@ -86,6 +87,7 @@ function profileInformation(state = initialState, action) {
       return {
         ...state,
         terms: {
+          acceptance: false,
           loading: false,
         }
       };
@@ -106,6 +108,7 @@ function profileInformation(state = initialState, action) {
       return {
         ...state,
         terms: {
+          ...state.terms,
           loading: false,
         }
       };
