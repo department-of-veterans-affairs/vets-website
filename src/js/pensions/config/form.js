@@ -77,6 +77,73 @@ const formConfig = {
         }),
       }
     },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        general: {
+          path: 'military/history',
+          title: 'General history',
+          uiSchema: {
+            'ui:title': 'General history',
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField
+              },
+              items: fullNameUI
+            },
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
+            activeServiceDateRange: dateRangeUI(
+              'Date entered active service',
+              'Date left active service',
+              'Date entered service must be before date left service'
+            ),
+            placeOfSeparation: {
+              'ui:title': 'Place of last or anticipated separation'
+            },
+            combatSince911: (() => {
+              const rangeExcludes911 = createSelector(
+                _.get('activeServiceDateRange.to'),
+                (to) => {
+                  const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
+
+                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
+                }
+              );
+
+              return {
+                'ui:title': 'Did you serve in a combat zone after 9/11/2001?',
+                'ui:widget': 'yesNo',
+                'ui:required': formData => !rangeExcludes911(formData),
+                'ui:options': {
+                  hideIf: rangeExcludes911
+                }
+              };
+            })()
+          },
+          schema: {
+            type: 'object',
+            required: ['activeServiceDateRange', 'view:serveUnderOtherNames'],
+            properties: {
+              'view:serveUnderOtherNames': {
+                type: 'boolean'
+              },
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              }),
+              activeServiceDateRange: _.assign(dateRange, {
+                required: ['from', 'to']
+              }),
+              placeOfSeparation,
+              combatSince911
+            }
+          }
+        }
+      }
+    },
     workHistory: {
       title: 'Work history',
       pages: {
@@ -166,73 +233,6 @@ const formConfig = {
                   })
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    militaryHistory: {
-      title: 'Military History',
-      pages: {
-        general: {
-          path: 'military/history',
-          title: 'General history',
-          uiSchema: {
-            'ui:title': 'General history',
-            previousNames: {
-              'ui:options': {
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField
-              },
-              items: fullNameUI
-            },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo'
-            },
-            activeServiceDateRange: dateRangeUI(
-              'Date entered active service',
-              'Date left active service',
-              'Date entered service must be before date left service'
-            ),
-            placeOfSeparation: {
-              'ui:title': 'Place of last or anticipated separation'
-            },
-            combatSince911: (() => {
-              const rangeExcludes911 = createSelector(
-                _.get('activeServiceDateRange.to'),
-                (to) => {
-                  const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
-                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
-                }
-              );
-
-              return {
-                'ui:title': 'Did you serve in a combat zone after 9/11/2001?',
-                'ui:widget': 'yesNo',
-                'ui:required': formData => !rangeExcludes911(formData),
-                'ui:options': {
-                  hideIf: rangeExcludes911
-                }
-              };
-            })()
-          },
-          schema: {
-            type: 'object',
-            required: ['activeServiceDateRange', 'view:serveUnderOtherNames'],
-            properties: {
-              'view:serveUnderOtherNames': {
-                type: 'boolean'
-              },
-              previousNames: _.assign(previousNames, {
-                minItems: 1
-              }),
-              activeServiceDateRange: _.assign(dateRange, {
-                required: ['from', 'to']
-              }),
-              placeOfSeparation,
-              combatSince911
             }
           }
         }
