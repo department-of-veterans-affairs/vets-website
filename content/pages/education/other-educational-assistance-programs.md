@@ -7,18 +7,6 @@ plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 collection: education
 children: educationOtherPrograms
 order: 8
-majorlinks:
-  - heading:
-    links:
-    - url: /education/other-educational-assistance-programs/reap/
-      title: Reserve Educational Assistance Program (REAP)
-      description: "Activated Reservists qualify for added education benefits."
-    - url: /education/other-educational-assistance-programs/call-to-service/
-      title: National Call to Service
-      description: "You can earn this education benefit with a mix of military and civilian service."
-    - url: /education/other-educational-assistance-programs/veap/
-      title: Veterans’ Educational Assistance Program (VEAP)
-      description: "This is a government match program for educational assistance."
 ---
 
 <div class="va-introtext">
