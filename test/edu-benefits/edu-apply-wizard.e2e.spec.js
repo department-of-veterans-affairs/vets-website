@@ -36,10 +36,16 @@ if (process.env.BUILDTYPE !== 'production') {
       client
         .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990n/introduction');
 
+      client
+        .expect.element('#ncts-warning').to.have.css('left').equals('auto');
+
       // Select non-veteran
       client
         .click('#is-not-veteran')
         .expect.element('#apply-now-button').to.have.css('left').equals('-9999px');
+
+      client
+        .expect.element('#ncts-warning').to.have.css('left').equals('-9999px');
 
       client
         .waitForElementVisible('[data-question="create-dependent"]', Timeouts.normal)
@@ -118,6 +124,7 @@ if (process.env.BUILDTYPE !== 'production') {
       client
         .click('#apply-now-button')
         .assert.urlContains('/education/apply-for-education-benefits/application/1995/introduction');
+
       client
         .end();
     }
