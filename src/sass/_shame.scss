@@ -197,7 +197,7 @@ body .row {
 }
 
 //============================================
-// Overrides for USWDS shenanigans. 
+// Overrides for USWDS shenanigans.
 // See: https://github.com/18F/web-design-standards/issues/1899
 // ===========================================
 
@@ -215,3 +215,7 @@ body .row {
   }
 }
 
+// Ensure the info icon is centered in boxes with only one line of text
+.usa-alert-info {
+  min-height: 74px;
+}
