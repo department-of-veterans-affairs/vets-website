@@ -10,13 +10,13 @@ majorlinks:
   - heading: How to file your claim
     links:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/quick-start
-      title: Begin a Quick Start claim
+      title: Begin a Quick Start Claim
       description: Are you between 1 and 59 days from separation?
     - url: /disability-benefits/apply/claim-types/predischarge-claim/bdd
-      title: Enter the Benefit Delivery at Discharge (BDD) program
+      title: Enter the Benefits Delivery at Discharge (BDD) program
       description: Are you between 60 and 180 days from separation?
     - url: /disability-benefits/apply/claim-types/predischarge-claim/overseas
-      title: Go to an intake site in Korea or Germany
+      title: Go to an Intake Site in Korea or Germany
       description: Are you stationed overseas?
 ---
 
