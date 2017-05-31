@@ -36,6 +36,7 @@ module.exports = {
       }
     ]
   },
+
   errorCodes: {
     acceptTerms: [
       'RX135',
@@ -57,6 +58,7 @@ module.exports = {
       'RX99',
     ],
   },
+
   rxStatuses: {
     active: 'Active',
     deleted: 'Unknown',
