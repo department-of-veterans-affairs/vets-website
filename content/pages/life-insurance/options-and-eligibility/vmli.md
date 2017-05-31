@@ -33,7 +33,7 @@ If you have a severe disability (damage to your body or mind that makes you unab
 
 You may be able to get VMLI if you have a severe disability, and you:
 
-- Received a Specially Adapted Housing (SAH) grant to buy, build, or make changes (such as installing ramps or widening doorways) to a home so you can live more independently, **and**
+- Received a Specially Adapted Housing (SAH) grant to buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently, **and**
 - Have the title of the home, **and**
 - Have a mortgage on the home, **and**
 - Are under 70 years old
