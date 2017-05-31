@@ -140,6 +140,7 @@ export class EmailNotifications extends React.Component {
           <ErrorableTextInput
               name="emailAddress"
               label="Send email notifications to:"
+              disabled={frequency.value === 'none'}
               onValueChange={({ value }) =>
                 this.props.setNotificationEmail({ value, dirty: true })
               }

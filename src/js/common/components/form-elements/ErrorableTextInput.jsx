@@ -100,6 +100,7 @@ class ErrorableTextInput extends React.Component {
             type={this.props.type}
             maxLength={this.props.charMax}
             value={this.props.field.value}
+            disabled={this.props.disabled}
             onChange={this.handleChange}
             onBlur={this.handleBlur}/>
             {maxCharacters}
@@ -122,6 +123,7 @@ ErrorableTextInput.propTypes = {
   }).isRequired,
   additionalClass: PropTypes.string,
   charMax: PropTypes.number,
+  disabled: PropTypes.bool,
   onValueChange: PropTypes.func.isRequired,
   type: PropTypes.string
 };

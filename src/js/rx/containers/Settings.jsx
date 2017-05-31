@@ -124,6 +124,7 @@ export class Settings extends React.Component {
           <ErrorableTextInput
               name="email"
               label="Send email notifications to:"
+              disabled={flag.value === 'false'}
               onValueChange={({ value }) =>
                 this.props.setNotificationEmail(makeField(value, true))
               }
