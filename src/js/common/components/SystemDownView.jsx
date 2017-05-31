@@ -6,7 +6,7 @@ class SystemDownView extends React.Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <div className="react-conatiner">
+          <div className="react-container">
             <h3>{this.props.messageLine1}</h3>
             <h4>{this.props.messageLine2}</h4>
             <a href="/"><button>Go Back to Vets.gov</button></a>
