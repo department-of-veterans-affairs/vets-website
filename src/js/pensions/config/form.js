@@ -35,6 +35,10 @@ const {
   date
 } = fullSchemaPensions.definitions;
 
+function isUnder65(formData) {
+  return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+}
+
 const formConfig = {
   urlPrefix: '/527EZ/',
   submitUrl: '/v0/pensions_applications',
@@ -76,11 +80,53 @@ const formConfig = {
     workHistory: {
       title: 'Work history',
       pages: {
+        disabilityHistory: {
+          title: 'Disability history',
+          path: 'disability/history',
+          depends: isUnder65,
+          uiSchema: {
+            disabilities: {
+              'ui:title': 'What Disabilities prevent you from working?',
+              'ui:order': ['name', 'disabilityStartDate'],
+              'ui:options': {
+                viewField: DisabilityField
+              },
+              items: {
+                name: {
+                  'ui:title': 'Disability'
+                },
+                disabilityStartDate: dateUI('Date disability began')
+              }
+            },
+            // TODO: update schema with this field if stakeholders approve
+            hasVisitedVAMC: {
+              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['disabilities', 'hasVisitedVAMC'],
+            properties: {
+              disabilities: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['name', 'disabilityStartDate'],
+                  properties: disabilities.items.properties
+                }
+              },
+              hasVisitedVAMC: {
+                type: 'boolean'
+              }
+            }
+          }
+        },
         employmentHistory: {
           title: 'Employment history',
           path: 'employment/history',
-          depends: (formData) =>
-            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
+          depends: isUnder65,
           uiSchema: {
             'ui:description': 'Please tell us about all of your employment, including self-employment, from one year before you became disabled to the present.',
             jobs: {
@@ -187,56 +233,6 @@ const formConfig = {
               }),
               placeOfSeparation,
               combatSince911
-            }
-          }
-        }
-      }
-
-    },
-    workHistory: {
-      title: 'Work history',
-      pages: {
-        disabilityHistory: {
-          title: 'Disability history',
-          path: 'disability/history',
-          depends: (formData) =>
-            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
-          uiSchema: {
-            disabilities: {
-              'ui:title': 'What Disabilities prevent you from working?',
-              'ui:order': ['name', 'disabilityStartDate'],
-              'ui:options': {
-                viewField: DisabilityField
-              },
-              items: {
-                name: {
-                  'ui:title': 'Disability'
-                },
-                disabilityStartDate: dateUI('Date disability began')
-              }
-            },
-            // TODO: update schema with this field if stakeholders approve
-            hasVisitedVAMC: {
-              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
-              'ui:widget': 'yesNo'
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['disabilities', 'hasVisitedVAMC'],
-            properties: {
-              disabilities: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['name', 'disabilityStartDate'],
-                  properties: disabilities.items.properties
-                }
-              },
-              hasVisitedVAMC: {
-                type: 'boolean'
-              }
             }
           }
         }
