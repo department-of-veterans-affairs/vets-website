@@ -123,17 +123,35 @@ describe('Pensions general military history', () => {
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toMonth'), {
       target: {
-        value: '1'
+        value: '9'
       }
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toDay'), {
       target: {
-        value: '1'
+        value: '11'
       }
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toYear'), {
       target: {
-        value: '2002'
+        value: '2001'
+      }
+    });
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toMonth'), {
+      target: {
+        value: '9'
+      }
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toDay'), {
+      target: {
+        value: '12'
+      }
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toYear'), {
+      target: {
+        value: '2001'
       }
     });
 
