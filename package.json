@@ -17,6 +17,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
+    "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
     "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:edu": "BABEL_ENV=test mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
