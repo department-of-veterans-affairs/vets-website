@@ -19,11 +19,12 @@ export function command(context, config, _callback) {
   }, [axeSource]);
 
   // Run axe checks and report
+  const rules = (config || {}).rules || ['section508'];
   this.executeAsync((innerContext, done) => {
     axe.run(document.querySelector(innerContext) || document, { // eslint-disable-line no-undef
       runOnly: {
         type: 'tag',
-        values: ['section508']
+        values: rules
       }
     }, (err, results) => {
       done({ err, results });
