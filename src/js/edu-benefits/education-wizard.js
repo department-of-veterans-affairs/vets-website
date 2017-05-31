@@ -44,7 +44,7 @@ function reInitWidget() {
       const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}`);
       closeStateAndCheckChild(otherNextQuestionElement, container);
     }
-    if (!radio.dataset.selectedForm) {
+    if ((apply.dataset.state === 'open') && !radio.dataset.selectedForm) {
       closeState(apply);
     }
     if ((transferWarning.dataset.state === 'open') && (radio.id !== 'create-non-transfer')) {
