@@ -29,7 +29,8 @@ function reInitWidget() {
   const button = container.querySelector('.wizard-button');
   const content = container.querySelector('.wizard-content');
   const apply = container.querySelector('#apply-now-button');
-  const warning = container.querySelector('#transfer-warning');
+  const transferWarning = container.querySelector('#transfer-warning');
+  const nctsWarning = container.querySelector('#ncts-warning');
   apply.addEventListener('click', () => {
     const selections = Array.from(container.querySelectorAll('input:checked'));
     // eslint-disable-next-line no-return-assign, no-param-reassign
@@ -43,19 +44,24 @@ function reInitWidget() {
       const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}`);
       closeStateAndCheckChild(otherNextQuestionElement, container);
     }
-    if (!radio.dataset.selectedForm && (apply.dataset.state === 'open')) {
+    if (!radio.dataset.selectedForm) {
       closeState(apply);
-      closeState(warning);
+    }
+    if ((transferWarning.dataset.state === 'open') && (radio.id !== 'create-non-transfer')) {
+      closeState(transferWarning);
+    }
+    if ((nctsWarning.dataset.state === 'open') && (radio.id !== 'is-ncts')) {
+      closeState(nctsWarning);
     }
     if (radio.dataset.selectedForm) {
       if (apply.dataset.state === 'closed') {
         openState(apply);
       }
-      if ((warning.dataset.state === 'open') && (!radio.id !== 'create-non-transfer')) {
-        closeState(warning);
+      if ((transferWarning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
+        openState(transferWarning);
       }
-      if ((warning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
-        openState(warning);
+      if ((nctsWarning.dataset.state === 'closed') && (radio.id === 'is-ncts')) {
+        openState(nctsWarning);
       }
       apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
     }
