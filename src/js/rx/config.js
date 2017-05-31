@@ -73,20 +73,5 @@ module.exports = {
     suspended: 'Active - Suspended',
     refillinprocess: 'In process',
     unknown: 'Unknown'
-  },
-
-  sortOptions: [
-    {
-      value: 'prescriptionName',
-      label: 'Prescription name'
-    },
-    {
-      value: 'facilityName',
-      label: 'Facility name'
-    },
-    {
-      value: 'lastSubmitDate',
-      label: 'Last submit date'
-    }
-  ]
+  }
 };
