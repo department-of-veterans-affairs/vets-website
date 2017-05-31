@@ -1,21 +1,21 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
+import DisabilityField from '../components/DisabilityField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
-import { facilityUI, facilitySchema } from '../../common/schemaform/definitions/facility';
 import dateUI from '../../common/schemaform/definitions/date';
 
 const {
-  disabilities,
-  vaHospitalTreatments
+  disabilities
 } = fullSchemaPensions.properties;
 
 const {
@@ -23,13 +23,6 @@ const {
   dateRange,
   usaPhone
 } = fullSchemaPensions.definitions;
-
-// TODO: update schema once we have a final decision about form fields
-delete vaHospitalTreatments.items.properties.name;
-delete vaHospitalTreatments.items.properties.dates;
-delete vaHospitalTreatments.items.properties.location;
-vaHospitalTreatments.items.properties['view:vaFacility'] = facilitySchema('location');
-vaHospitalTreatments.items.properties.startDate = date;
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -74,41 +67,44 @@ const formConfig = {
         disabilityHistory: {
           title: 'Disability history',
           path: 'disability/history',
+          depends: (formData) =>
+            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
           uiSchema: {
             disabilities: {
               'ui:title': 'What Disabilities prevent you from working?',
               'ui:order': ['name', 'disabilityStartDate'],
               'ui:options': {
-                viewField: () => true
+                viewField: DisabilityField
               },
               items: {
                 name: {
                   'ui:title': 'Disability'
                 },
-                disabilityStartDate: dateUI('Start date of treatment')
+                disabilityStartDate: dateUI('Date disability began')
               }
             },
-            vaHospitalTreatments: {
-              'ui:description': 'Please enter VA Medical Centers where you were treated for the above disabilities',
-              'ui:order': ['view:vaFacility', 'startDate'],
-              items: {
-                'view:vaFacility': facilityUI(
-                  'location',
-                  '',
-                  ({ formData, index }) => _.get(`vaHospitalTreatments[${index}].view:vaFacility.view:facilityState`, formData)
-                ),
-                startDate: dateUI('Start date')
-              },
-              'ui:options': {
-                viewField: () => true
-              }
+            // TODO: update schema with this field if stakeholders approve
+            hasVisitedVAMC: {
+              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
             type: 'object',
+            required: ['disabilities', 'hasVisitedVAMC'],
             properties: {
-              disabilities,
-              vaHospitalTreatments
+              disabilities: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['name', 'disabilityStartDate'],
+                  properties: disabilities.items.properties
+                }
+              },
+              hasVisitedVAMC: {
+                type: 'boolean'
+              }
             }
           }
         }
@@ -121,10 +117,6 @@ const formConfig = {
           path: 'financial-disclosure/net-worth',
           title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} net worth`,
           initialData: {
-            veteranFullName: {
-              first: 'Joe',
-              last: 'Test'
-            },
             spouseFullName: {
               first: 'Rick',
               last: 'Test'
