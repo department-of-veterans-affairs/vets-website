@@ -12,12 +12,6 @@ relatedlinks:
     - url: /education/gi-bill/post-9-11/
       title: Post-9/11 GI Bill
       description: "If you’ve served on active duty after September 10, 2011, get help paying for school or training."
-    - url: /education/other-educational-assistance-programs/
-      title: Other Educational Assistance Programs
-      description: "If you don’t qualify for the Post-9/11 GI Bill, learn about other ways to get help paying for school (REAP, VEAP, and Call to Service)."
-    - url: /education/tools-programs/
-      title: Career Counseling
-      description: "Get help making the most of your options as you transition from military to civilian life."
 ---
 
 <div class="va-introtext">
