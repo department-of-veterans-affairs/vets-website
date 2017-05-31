@@ -52,6 +52,7 @@ export default function applicantInformation(schema, options) {
     initialData: {},
     uiSchema: _.assign({
       'ui:order': fields,
+      'ui:description': 'You aren’t required to fill in all fields, but VA can evaluate your claim faster if you provide more information.',
       [`${prefix}FullName`]: fullNameUI,
       [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
