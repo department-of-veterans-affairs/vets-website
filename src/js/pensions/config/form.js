@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import * as address from '../../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -14,7 +15,8 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
-import dateUI from '../../common/schemaform/definitions/date';
+import dateUI from '../../../common/schemaform/definitions/date';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 
@@ -22,7 +24,9 @@ const {
   disabilities,
   previousNames,
   combatSince911,
-  placeOfSeparation
+  placeOfSeparation,
+  nationalGuardActivation,
+  nationalGuard
 } = fullSchemaPensions.properties;
 
 const {
@@ -135,8 +139,37 @@ const formConfig = {
             }
           }
         }
+      },
+      reserveAndNationalGuard: {
+        path: 'military/reserveAndNationalGuard',
+        title: 'Reserve and National Guard',
+        uiSchema: {
+          'ui:title': 'Reserve and National Guard',
+          nationalGuardActivation: {
+            'ui:title': 'Are you currently on federal active duty in the National Guard?',
+            'ui:widget': 'yesNo'
+          },
+          nationalGuard: {
+            'ui:order': ['activationDate', 'unitName', 'unitAddress', 'unitPhone'],
+            items: {
+              activationDate: dateUI('Date of activation'),
+              name: {
+                'ui:title': 'Name of Reserve/NG unit'
+              },
+              unitAddress: address.uiSchema('Address of unit'),
+              unitPhone: phoneUI('Phone number of unit')
+            }
+          },
+        },
+        schema: {
+          type: 'object',
+          required: ['nationalGuardActivation'],
+          properties: {
+            nationalGuardActivation,
+            nationalGuard
+          }
+        }
       }
-
     },
     workHistory: {
       title: 'Work history',
