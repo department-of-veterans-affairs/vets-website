@@ -98,8 +98,7 @@ Send notice of any changes to:
 <dd>Regional Office and Insurance Center</dd>
 <dd>P.O. Box 7208 (VMLI)</dd>
 <dd>Philadelphia, PA 19101</dd>
-
-<br>
+</dl>
 
 [Read our life insurance publications for more guidance](http://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
 
