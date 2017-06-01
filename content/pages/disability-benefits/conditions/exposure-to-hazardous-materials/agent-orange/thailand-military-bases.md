@@ -45,7 +45,6 @@ To prove that you had contact with Agent Orange during your Thailand service, yo
 [Apply for benefits](/disability-benefits/apply/).
 
 ### Need help?
-
 Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
