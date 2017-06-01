@@ -171,7 +171,7 @@ export default class AdditionalSourcesField extends React.Component {
                               className="usa-button-outline float-right"
                               type="button"
                               onClick={() => this.handleRemove(index)}>
-                            Remove
+                            Cancel
                           </button>
                         </div>
                       </div>
