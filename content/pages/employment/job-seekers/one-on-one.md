@@ -10,14 +10,8 @@ majorlinks:
       title: Military Skills Translator
     - url: /employment/job-seekers/create-resume
       title: Résumé Builder
-    - url: /employment/job-seekers/alternative/
-      title: Alternative Ways to Start Your Career
     - url: /employment/job-seekers/search-jobs
       title: Search the Veterans Job Bank
-    - url: /employment/job-seekers/interest-profiler/
-      title: Interest Profiler
-    - url: /employment/job-seekers/military-transcripts/
-      title: Military Transcripts
 ---
 
 <div class="va-introtext">
