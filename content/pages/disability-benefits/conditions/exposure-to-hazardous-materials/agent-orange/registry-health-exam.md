@@ -61,9 +61,7 @@ Please note that:
 - Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
 
 ### Need help?
-
 Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)
 
 ### Get more information
-
 [Learn more about the Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 
