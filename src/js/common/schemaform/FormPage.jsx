@@ -8,6 +8,7 @@ import Scroll from 'react-scroll';
 import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
+import { expandArrayPages } from './helpers';
 import { setData } from './actions';
 
 function focusForm() {
@@ -54,12 +55,18 @@ class FormPage extends React.Component {
   }
 
   onChange(formData) {
-    this.props.setData(formData);
+    let newData = formData;
+    if (this.props.route.pageConfig.showPagePerItem) {
+      // If this is a per item page, the formData object will have data for a particular
+      // row in an array, so we need to update the full form data object and then call setData
+      newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+    }
+    this.props.setData(newData);
   }
 
   onSubmit() {
-    const { eligiblePageList, pageIndex } = this.getEligiblePages();
-    this.props.router.push(eligiblePageList[pageIndex + 1].path);
+    const { pages, pageIndex } = this.getEligiblePages();
+    this.props.router.push(pages[pageIndex + 1].path);
   }
 
   /*
@@ -69,25 +76,42 @@ class FormPage extends React.Component {
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form.data);
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
-    return { eligiblePageList, pageIndex };
+    // Any `showPagePerItem` pages are expanded to create items for each array item.
+    // We update the `path` for each of those pages to replace `:index` with the current item index.
+    const expandedPageList = expandArrayPages(eligiblePageList, form.data);
+    // We can't check the pageKey for showPagePerItem pages, because multiple pages will match
+    const pageIndex = pageConfig.showPagePerItem
+      ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
+      : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
+    return { pages: expandedPageList, pageIndex };
   }
 
   goBack() {
-    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    const { pages, pageIndex } = this.getEligiblePages();
     // if we found the current page, go to previous one
     // if not, go back to the beginning because they shouldn't be here
     const page = pageIndex >= 0 ? pageIndex - 1 : 0;
-    this.props.router.push(eligiblePageList[page].path);
+    this.props.router.push(pages[page].path);
   }
 
   render() {
-    const { route } = this.props;
-    const {
+    const { route, params, form } = this.props;
+    let {
       schema,
       uiSchema
     } = this.props.form.pages[route.pageConfig.pageKey];
-    const data = this.props.form.data;
+    let data = form.data;
+
+    if (route.pageConfig.showPagePerItem) {
+      // Instead of passing through the schema/uiSchema to SchemaForm, the
+      // current item schema for the array at arrayPath is pulled out of the page state and passed
+      schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
+      // Similarly, the items uiSchema and the data for just that particular item are passed
+      uiSchema = uiSchema[route.pageConfig.arrayPath].items;
+      // And the data should be for just the item in the array
+      data = _.get([route.pageConfig.arrayPath, params.index], data);
+    }
+
     return (
       <div className="form-panel">
         <SchemaForm

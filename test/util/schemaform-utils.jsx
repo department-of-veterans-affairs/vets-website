@@ -63,7 +63,7 @@ export class DefinitionTester extends React.Component {
           safeRenderCompletion
           reviewMode={this.props.reviewMode}
           name="test"
-          title="test"
+          title={this.props.title || 'test'}
           schema={schema}
           uiSchema={uiSchema}
           data={formData}

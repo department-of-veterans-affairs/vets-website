@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
+import { additionalSourcesUI } from './additionalSources';
 
 export function netWorthSchema(schema) {
-  return _.assign(schema.definitions.netWorth, {
+  return _.merge(schema.definitions.netWorth, {
     required: [
       'bank',
       'interestBank',
@@ -58,5 +59,6 @@ export const netWorthUI = {
     'ui:options': {
       classNames: 'schemaform-currency-input',
     }
-  }
+  },
+  additionalSources: additionalSourcesUI
 };

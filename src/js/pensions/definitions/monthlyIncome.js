@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { additionalSourcesUI } from './additionalSources';
 
 export function monthlyIncomeSchema(schema) {
   return _.assign(schema.definitions.monthlyIncome, {
@@ -58,5 +59,6 @@ export const monthlyIncomeUI = {
     'ui:options': {
       classNames: 'schemaform-currency-input'
     }
-  }
+  },
+  additionalSources: additionalSourcesUI
 };

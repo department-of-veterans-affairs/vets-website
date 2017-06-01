@@ -168,7 +168,7 @@ const formConfig = {
             relationship: 'child'
           },
           uiSchema: {
-            'ui:title': 'Benefit relinquishment',
+            'ui:title': 'Benefits relinquishment',
             'view:benefitsRelinquishedInfo': {
               'ui:description': benefitsRelinquishedInfo,
             },
@@ -194,11 +194,11 @@ const formConfig = {
           }
         },
         benefitHistory: {
-          title: 'Benefit history',
+          title: 'Benefits history',
           path: 'benefits/history',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Benefit history',
+            'ui:title': 'Benefits history',
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [

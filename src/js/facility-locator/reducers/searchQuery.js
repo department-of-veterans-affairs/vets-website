@@ -1,4 +1,4 @@
-import { SEARCH_QUERY_UPDATED, SEARCH_STARTED, SEARCH_SUCCEEDED, SEARCH_FAILED, FETCH_VA_FACILITIES, FETCH_VA_FACILITY } from '../actions';
+import { SEARCH_QUERY_UPDATED, SEARCH_STARTED, SEARCH_FAILED, FETCH_VA_FACILITIES, FETCH_VA_FACILITY } from '../actions';
 
 const INITIAL_STATE = {
   searchString: '',
@@ -27,35 +27,33 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.payload,
+        error: false,
         inProgress: true,
-      };
-    case SEARCH_SUCCEEDED:
-      return {
-        ...state,
-        ...action.payload,
-        inProgress: false,
       };
     case FETCH_VA_FACILITIES:
       return {
         ...state,
+        error: false,
         inProgress: false,
         searchBoundsInProgress: false,
       };
     case FETCH_VA_FACILITY:
       return {
         ...state,
+        error: false,
         inProgress: false,
       };
     case SEARCH_FAILED:
       return {
         ...state,
-        ...action.payload,
+        error: true,
         inProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
       return {
         ...state,
         ...action.payload,
+        error: false,
       };
     default:
       return state;

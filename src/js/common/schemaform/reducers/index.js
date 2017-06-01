@@ -39,6 +39,16 @@ function recalculateSchemaAndData(initialState) {
         newState = _.set(['pages', pageKey, 'schema'], schema, newState);
       }
 
+      if (page.showPagePerItem) {
+        const arrayData = _.get(page.arrayPath, newState.data) || [];
+        // If an item was added or removed for the data used by a showPagePerItem page,
+        // we have to reset everything because we can't match the edit states to rows directly
+        // This will rarely ever be noticeable
+        if (page.editMode.length !== arrayData.length) {
+          newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+        }
+      }
+
       return newState;
     }, initialState);
 }
@@ -53,13 +63,16 @@ export default function createSchemaFormReducer(formConfig) {
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       schema = updateItemsSchema(schema);
+      const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       /* eslint-disable no-param-reassign */
       state.pages[page.pageKey] = {
         uiSchema: page.uiSchema,
         schema,
-        editMode: false
+        editMode: isArrayPage ? [] : false,
+        showPagePerItem: page.showPagePerItem,
+        arrayPath: page.arrayPath
       };
 
       state.data = _.merge(state.data, data);
@@ -92,6 +105,9 @@ export default function createSchemaFormReducer(formConfig) {
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
+        if (state.pages[action.page].showPagePerItem) {
+          return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
+        }
         return _.set(['pages', action.page, 'editMode'], action.edit, state);
       }
       case SET_PRIVACY_AGREEMENT: {
