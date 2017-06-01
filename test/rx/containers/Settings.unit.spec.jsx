@@ -40,9 +40,7 @@ describe('<Settings>', () => {
   });
 
   it('should disable save button when nothing has changed', () => {
-    const tree = SkinDeep.shallowRender(
-      <Settings {...props }/>
-    );
+    const tree = SkinDeep.shallowRender(<Settings {...props }/>);
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button-disabled']);
     expect(saveButton.text()).to.eql('Save changes');
