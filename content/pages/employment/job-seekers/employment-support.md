@@ -9,7 +9,7 @@ majorlinks:
     - url: /employment/job-seekers/skills-translator
       title: Military Skills Translator
     - url: /employment/job-seekers/create-resume
-      title: Resume Builder
+      title: Résumé Builder
     - url: /employment/job-seekers/search-jobs
       title: Search the Jobs Bank
 ---
