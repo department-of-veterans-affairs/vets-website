@@ -32,14 +32,14 @@ majorlinks:
       description: Community involvement and service are productive ways to network with civilians and open the door to future employment possibilities.
   - heading: Resources for Job Seekers
     links:
-    - url: /employment/job-seekers/one-on-one/
-      title: One-on-One Assistance
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
     - url: /employment/commitments
       title: View Employer Commitments to Hire Veterans
+    - url: /employment/job-seekers/create-resume
+      title: Résumé Builder
     - url: /employment/job-seekers/search-jobs
       title: Search the Veterans Job Bank
-    - url: /employment/job-seekers/unemployment-support/
-      title: Unemployment Support
 ---
 
 <div class="va-introtext">
