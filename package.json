@@ -17,6 +17,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
+    "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
     "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:edu": "BABEL_ENV=test mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
@@ -192,6 +193,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#65dd08569c75f4cbb97d5e26c8c16163124d808b"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#78318294f9761f78854005f06b5e983bec40a1f5"
   }
 }

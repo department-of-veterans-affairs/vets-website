@@ -90,8 +90,32 @@ function logIn(token, client, url, level) {
   return client;
 }
 
+function testUnauthedUserFlow(client, path) {
+  const token = getUserToken();
+  const appURL = `${E2eHelpers.baseUrl}${path}`;
+
+  initLogoutMock(token);
+
+  client
+    .url(appURL)
+    .waitForElementVisible('body', Timeouts.normal);
+
+  client
+    .waitForElementVisible('.react-container', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Sign In to Your Vets.gov Account');
+
+  logIn(token, client, path, 1)
+    .waitForElementVisible('.react-container', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
+  client.
+    expect.element('button.usa-button-big').text.to.equal('Get Started');
+}
+
 module.exports = {
-  getUserToken,
   getLogoutUrl,
-  logIn
+  getUserToken,
+  initLogoutMock,
+  initUserMock,
+  logIn,
+  testUnauthedUserFlow,
 };
