@@ -30,7 +30,7 @@ export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
-    properties: _.assign(currentSchema.definitions.address.properties, {
+    properties: _.assign(currentSchema.definitions.address.oneOF[2].properties, {
       country: {
         'default': 'USA',
         type: 'string',

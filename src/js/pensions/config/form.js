@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
-import * as address from '../../../common/schemaform/definitions/address';
+import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -15,18 +15,18 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
-import dateUI from '../../../common/schemaform/definitions/date';
-import phoneUI from '../../../common/schemaform/definitions/phone';
+import dateUI from '../../common/schemaform/definitions/date';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 
 const {
+  nationalGuardActivation,
+  nationalGuard,
   disabilities,
   previousNames,
   combatSince911,
-  placeOfSeparation,
-  nationalGuardActivation,
-  nationalGuard
+  placeOfSeparation
 } = fullSchemaPensions.properties;
 
 const {
@@ -52,7 +52,8 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
-    fullName
+    fullName,
+    address
   },
   chapters: {
     applicantInformation: {
@@ -138,35 +139,39 @@ const formConfig = {
               combatSince911
             }
           }
-        }
-      },
-      reserveAndNationalGuard: {
-        path: 'military/reserveAndNationalGuard',
-        title: 'Reserve and National Guard',
-        uiSchema: {
-          'ui:title': 'Reserve and National Guard',
-          nationalGuardActivation: {
-            'ui:title': 'Are you currently on federal active duty in the National Guard?',
-            'ui:widget': 'yesNo'
-          },
-          nationalGuard: {
-            'ui:order': ['activationDate', 'unitName', 'unitAddress', 'unitPhone'],
-            items: {
-              activationDate: dateUI('Date of activation'),
+        },
+        reserveAndNationalGuard: {
+          path: 'military/reserveAndNationalGuard',
+          title: 'Reserve and National Guard',
+          uiSchema: {
+            'ui:title': 'Reserve and National Guard',
+            nationalGuardActivation: {
+              'ui:title': 'Are you currently on federal active duty in the National Guard?',
+              'ui:widget': 'yesNo'
+            },
+            nationalGuard: {
+              'ui:title': 'What is the information for your unit?',
               name: {
                 'ui:title': 'Name of Reserve/NG unit'
               },
-              unitAddress: address.uiSchema('Address of unit'),
-              unitPhone: phoneUI('Phone number of unit')
+              address: address.uiSchema(),
+              phone: phoneUI()
             }
           },
-        },
-        schema: {
-          type: 'object',
-          required: ['nationalGuardActivation'],
-          properties: {
-            nationalGuardActivation,
-            nationalGuard
+          schema: {
+            type: 'object',
+            required: ['nationalGuardActivation'],
+            properties: {
+              nationalGuardActivation,
+              nationalGuard: {
+                type: 'object',
+                properties: {
+                  name: nationalGuard.properties.name,
+                  address: address.schema(fullSchemaPensions, true),
+                  phone: nationalGuard.properties.usaPhone
+                }
+              }
+            }
           }
         }
       }
