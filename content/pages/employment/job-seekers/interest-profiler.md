@@ -3,6 +3,15 @@ layout: page-breadcrumbs.html
 template: topic-landing
 title: Interest Profiler
 concurrence: incomplete
+majorlinks:
+  - heading: Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+    - url: /employment/job-seekers/create-resume
+      title: R&eacute;sum&eacute; Builder
+    - url: /employment/job-seekers/search-jobs
+      title: Search the Veterans Job Bank
 ---
 
 <div class="va-introtext">
