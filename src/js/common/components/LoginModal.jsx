@@ -8,8 +8,15 @@ import Modal from './Modal';
 class LoginModal extends React.Component {
   getModalContents = (user) => {
     let contents = (<div>
-      <button className="usa-button-primary">Sign in</button>
-      <button className="usa-button-outline" onClick={this.props.onClose}>Cancel</button>
+      <div className="usa-grid">
+        <h1>{this.props.title || 'Sign in'}</h1>
+        <div className="usa-width-one-half">
+          <button className="usa-button-primary">Sign in</button>
+        </div>
+        <div className="usa-width-one-third">
+          <button className="usa-button-outline" onClick={this.props.onClose}>Cancel</button>
+        </div>
+      </div>
     </div>);
 
     // Shouldn't in get here, but just in case
@@ -25,10 +32,10 @@ class LoginModal extends React.Component {
   render() {
     return (
       <Modal
+          cssClass="va-modal-large"
           contents={this.getModalContents(this.props.user)}
           onClose={this.props.onClose}
-          visible={this.props.visible}
-          title={this.props.title || 'Sign in'}/>
+          visible={this.props.visible}/>
     );
   }
 }
