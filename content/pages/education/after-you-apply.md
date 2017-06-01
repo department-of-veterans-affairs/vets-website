@@ -6,12 +6,6 @@ display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 3
-relatedlinks:
-  - heading:
-    links:
-    - url: /education/tools-programs/education-career-counseling/
-      title: Education and Career Counseling
-      description: "Transitioning out of active service? Get free help taking the next steps in your education and career."
 ---
 
 <div class="va-introtext">
