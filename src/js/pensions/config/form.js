@@ -14,6 +14,7 @@ import createDisclosureTitle from '../components/DisclosureTitle';
 import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
 import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
 import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
+import { additionalSourcesSchema } from '../definitions/additionalSources';
 import dateUI from '../../common/schemaform/definitions/date';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -42,9 +43,7 @@ const formConfig = {
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
-    additionalSources: {
-      type: 'string'
-    },
+    additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,

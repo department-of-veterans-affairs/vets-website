@@ -287,7 +287,11 @@ We've also been adding some additional uiSchema functionality not found in the r
       return {
         type: 'string'
       };
-    }
+    },
+
+    // Use this if you have an array field that should not be pulled out of the
+    // page its in and shown separately on the review page
+    keepInPageOnReview: true
   }
 }
 ```
