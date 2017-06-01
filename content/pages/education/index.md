@@ -14,7 +14,7 @@ majorlinks:
     - url: /education/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person or by mail.
-  - heading: Educational Assistance Programs
+  - heading: Learn about Educational Assistance Programs
     links:
     - url: /gi-bill-comparison-tool/
       title: Compare GI Bill Benefits
