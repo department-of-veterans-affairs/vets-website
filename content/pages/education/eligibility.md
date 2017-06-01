@@ -6,12 +6,6 @@ display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 1
-relatedlinks:
-  - heading:
-    links:
-    - url: /education/gi-bill/post-9-11/
-      title: Post-9/11 GI Bill
-      description: "If you’ve served on active duty after September 10, 2011, get help paying for school or training."
 ---
 
 <div class="va-introtext">
