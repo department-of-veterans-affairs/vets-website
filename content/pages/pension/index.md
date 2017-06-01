@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Pensions
+title: Pension Benefits
 permalink: /pension/index.md
 template: L2-section-landing
 showactionbar: false
