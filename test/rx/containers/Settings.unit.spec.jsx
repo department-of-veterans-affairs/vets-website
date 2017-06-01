@@ -80,12 +80,7 @@ describe('<Settings>', () => {
   });
 
   it('should hide email input if notifications are off', () => {
-    const tree = SkinDeep.shallowRender(
-      <Settings
-          {...props }
-          email={makeField('test@vets.gov')}
-          flag={makeField('false')}/>
-    );
+    const tree = SkinDeep.shallowRender(<Settings {...props }/>);
     expect(tree.subTree('ErrorableTextInput')).to.not.be.ok;
   });
 });
