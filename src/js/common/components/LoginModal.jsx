@@ -15,6 +15,15 @@ class LoginModal extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // If the loggedIn status went from false to true, close the modal
+    const wasLoggedIn = this.props.user.login.currentlyLoggedIn;
+    const isLoggedIn = nextProps.user.login.currentlyLoggedIn;
+    if (!wasLoggedIn && isLoggedIn) {
+      this.props.onClose();
+    }
+  }
+
   // Copied from src/js/login/containers/Main.jsx
   componentWillUnmount() {
     this.loginUrlRequest.abort();
@@ -36,17 +45,19 @@ class LoginModal extends React.Component {
     // Shouldn't in get here, but just in case
     if (user.login.currentlyLoggedIn) {
       contents = (<div>
-        You're already signed in as {user.profile.userFullName.first} {user.profile.userFullName.last}!
+        You are signed in as {user.profile.userFullName.first} {user.profile.userFullName.last}!
       </div>);
     }
 
     return contents;
   }
 
-  handleLogin() {
+  handleLogin(e) {
+    e.preventDefault(); // Don't try to submit the page
     const loginUrl = this.props.user.login.loginUrl;
     const onUpdateLoginUrl = this.props.onUpdateLoginUrl;
     this.loginUrlRequest = handleLogin(loginUrl, onUpdateLoginUrl);
+    this.loginUrlRequest.then(() => this.props.onClose());
   }
 
   render() {
