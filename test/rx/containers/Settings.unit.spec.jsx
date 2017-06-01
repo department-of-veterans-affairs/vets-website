@@ -78,4 +78,14 @@ describe('<Settings>', () => {
     expect(saveButton.props.disabled).to.be.false;
     expect(cancelButton.text()).to.eql('Cancel');
   });
+
+  it('should hide email input if notifications are off', () => {
+    const tree = SkinDeep.shallowRender(
+      <Settings
+          {...props }
+          email={makeField('test@vets.gov')}
+          flag={makeField('false')}/>
+    );
+    expect(tree.subTree('ErrorableTextInput')).to.not.be.ok;
+  });
 });
