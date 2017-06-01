@@ -7,6 +7,8 @@ concurrence: complete
 majorlinks:
   - heading:  Resources for Job Seekers
     links:
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator      
     - url: /employment/job-seekers/create-resume
       title: Résumé Builder
     - url: /employment/commitments
