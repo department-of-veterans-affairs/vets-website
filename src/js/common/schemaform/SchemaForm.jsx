@@ -52,6 +52,8 @@ class SchemaForm extends React.Component {
       this.setState(this.getEmptyState(newProps));
     } else if (newProps.title !== this.props.title) {
       this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
+    } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
+      this.setState(this.getEmptyState(newProps));
     }
   }
 
@@ -68,8 +70,8 @@ class SchemaForm extends React.Component {
     }
   }
 
-  getEmptyState() {
-    const { onEdit, hideTitle, title } = this.props;
+  getEmptyState(props) {
+    const { onEdit, hideTitle, title, reviewMode } = props;
     return {
       formContext: {
         touched: {},
@@ -77,7 +79,8 @@ class SchemaForm extends React.Component {
         onEdit,
         hideTitle,
         setTouched: this.setTouched,
-        pageTitle: title
+        pageTitle: title,
+        reviewMode
       }
     };
   }
