@@ -5106,9 +5106,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mapbox@^1.0.0-beta5:
-  version "1.0.0-beta6"
-  resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta6.tgz#be3af63702913108480b67dc19534ac88944889b"
+mapbox@^1.0.0-beta7:
+  version "1.0.0-beta7"
+  resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta7.tgz#b076b1149c5cd3e3dbf69d3492cc1ddbd9a783ed"
   dependencies:
     es6-promise "^4.0.5"
     rest "^2.0.0"
