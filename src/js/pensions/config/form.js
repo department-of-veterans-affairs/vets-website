@@ -152,7 +152,7 @@ const formConfig = {
             nationalGuard: {
               'ui:title': 'What is the information for your unit?',
               'ui:options': {
-                expandUnder: 'nationalGuardActivation'
+                expandUnder: 'nationalGuardActivation',
               },
               name: {
                 'ui:title': 'Name of Reserve/NG unit'
@@ -169,6 +169,7 @@ const formConfig = {
               nationalGuardActivation,
               nationalGuard: {
                 type: 'object',
+                required: ['name', 'address', 'phone', 'date'],
                 properties: {
                   name: nationalGuard.properties.name,
                   address: address.schema(fullSchemaPensions, true),

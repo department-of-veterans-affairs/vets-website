@@ -18,7 +18,7 @@ describe('Pensions Reserve and National Guard', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
 
   it('should not submit empty form', () => {
@@ -35,7 +35,7 @@ describe('Pensions Reserve and National Guard', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -51,20 +51,13 @@ describe('Pensions Reserve and National Guard', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
-
     ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
       target: {
         value: 'Y'
       }
     });
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
-
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
   });
 
   it('should submit with valid data', () => {
