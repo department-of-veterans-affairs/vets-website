@@ -23,7 +23,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a severe disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active-duty service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). This mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs in the event of your death. Find out if you qualify—and how to apply.
+If you have a severe disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active-duty service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs. Find out if you qualify—and how to apply.
 
 </div>
 
