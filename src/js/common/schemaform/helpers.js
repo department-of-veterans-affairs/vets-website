@@ -241,8 +241,8 @@ function isHiddenField(schema) {
  */
 export function getArrayFields(data) {
   const fields = [];
-  const findArrays = (obj, path = []) => {
-    if (obj.type === 'array' && !isHiddenField(obj)) {
+  const findArrays = (obj, ui, path = []) => {
+    if (obj.type === 'array' && !isHiddenField(obj) && !_.get('ui:options.keepInPageOnReview', ui)) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
@@ -252,12 +252,12 @@ export function getArrayFields(data) {
 
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
-        findArrays(obj.properties[prop], path.concat(prop));
+        findArrays(obj.properties[prop], ui[prop], path.concat(prop));
       });
     }
   };
 
-  findArrays(data.schema);
+  findArrays(data.schema, data.uiSchema);
 
   return fields;
 }
@@ -286,14 +286,14 @@ export function hasFieldsOtherThanArray(schema) {
  * then return undefined (because there's no reason to use an object schema with
  * no properties)
  */
-export function getNonArraySchema(schema) {
-  if (schema.type === 'array') {
+export function getNonArraySchema(schema, uiSchema = {}) {
+  if (schema.type === 'array' && !_.get('ui:options.keepInPageOnReview', uiSchema)) {
     return undefined;
   }
 
   if (schema.type === 'object') {
     const newProperties = Object.keys(schema.properties).reduce((current, next) => {
-      const newSchema = getNonArraySchema(schema.properties[next]);
+      const newSchema = getNonArraySchema(schema.properties[next], uiSchema[next]);
 
       if (typeof newSchema === 'undefined') {
         return _.unset(next, current);
