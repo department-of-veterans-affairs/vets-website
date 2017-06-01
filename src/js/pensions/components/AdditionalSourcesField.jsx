@@ -164,7 +164,7 @@ export default class AdditionalSourcesField extends React.Component {
                       </div>
                       <div className="row small-collapse">
                         <div className="small-6 left columns">
-                          <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>
+                          <button className="float-left" onClick={() => this.handleUpdate(index)}>Save</button>
                         </div>
                         <div className="small-6 right columns">
                           <button
