@@ -9,7 +9,7 @@ children: disabilityClaimTypes
 order: 2
 majorlinks:
   - heading:
-    links:
+    links
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
       description: File a standard claim if you like us to help you gather evidence to support your disability claim.
