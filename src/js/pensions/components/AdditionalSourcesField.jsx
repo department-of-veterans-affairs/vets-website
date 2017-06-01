@@ -28,7 +28,7 @@ export default class AdditionalSourcesField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editing: (props.formData || []).map(item => !item.name)
+      editStates: (props.formData || []).map(item => !item.name)
     };
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -40,10 +40,10 @@ export default class AdditionalSourcesField extends React.Component {
 
   componentWillReceiveProps(newProps) {
     const items = newProps.formData || [];
-    if (items.length < this.state.editing.length) {
-      this.setState({ editing: this.state.editing.filter((item, index) => index < items.length) });
-    } else if (items.length > this.state.editing.length) {
-      this.setState({ editing: this.state.editing.concat(true) });
+    if (items.length < this.state.editStates.length) {
+      this.setState({ editStates: this.state.editStates.filter((item, index) => index < items.length) });
+    } else if (items.length > this.state.editStates.length) {
+      this.setState({ editStates: this.state.editStates.concat(true) });
     }
   }
 
@@ -80,7 +80,7 @@ export default class AdditionalSourcesField extends React.Component {
 
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(_.set(['editStates', index], false, this.state), () => {
         this.scrollToRow(index);
       });
     } else {
@@ -127,7 +127,7 @@ export default class AdditionalSourcesField extends React.Component {
       return <ReviewSources sources={items}/>;
     }
 
-    const hasItemsBeingEdited = this.state.editing.some(item => item);
+    const hasItemsBeingEdited = this.state.editStates.some(item => item);
 
     return (
       <div className="schemaform-field-container">
@@ -138,7 +138,7 @@ export default class AdditionalSourcesField extends React.Component {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const itemData = items[index];
-            const isEditing = this.state.editing[index];
+            const isEditing = this.state.editStates[index];
 
             if (isEditing) {
               return (
