@@ -151,11 +151,15 @@ const formConfig = {
             },
             nationalGuard: {
               'ui:title': 'What is the information for your unit?',
+              'ui:options': {
+                expandUnder: 'nationalGuardActivation'
+              },
               name: {
                 'ui:title': 'Name of Reserve/NG unit'
               },
               address: address.uiSchema(),
-              phone: phoneUI()
+              phone: phoneUI(),
+              date: dateUI
             }
           },
           schema: {
@@ -168,7 +172,8 @@ const formConfig = {
                 properties: {
                   name: nationalGuard.properties.name,
                   address: address.schema(fullSchemaPensions, true),
-                  phone: nationalGuard.properties.usaPhone
+                  phone: nationalGuard.properties.phone,
+                  date: nationalGuard.properties.date
                 }
               }
             }
