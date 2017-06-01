@@ -12,31 +12,34 @@ majorlinks:
     links:
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
-      description: ""
-    - url: /disability-benefits/apply/claim-types/original-claim/
+      description: File a standard claim if you like us to help you gather evidence to support your disability claim.
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: Fully Developed Claim 
+      description: Learn more about the Fully Developed Claims program to get a faster decision on your disability claim.
+     - url: /disability-benefits/apply/claim-types/original-claim/
       title: Original Claim 
-      description: ""
+      description: The first claim you file for a certain disability is known as the original claim. 
     - url: /disability-benefits/apply/claim-types/reopened-claim/
       title: Reopened Claim
-      description: ""
+      description: Learn more about how to reopen a disability claim that was denied in the past. 
     - url: /disability-benefits/apply/claim-types/new-claim/
       title: New Claim
-      description: ""
+      description: File a new claim if you already get disability benefits, but think you might qualify for more.
     - url: /disability-benefits/apply/claim-types/secondary-claim/
       title: Secondary Claim
-      description: ""
+      description: File a secondary claim if a disability you already have causes, or makes worse, another disability.
     - url: /disability-benefits/apply/claim-types/pre-service/
       title: Preservice Claim
-      description: ""
+      description: File a preservice claim if a disability you already had when you started military service got worse because of your service.
     - url: /disability-benefits/apply/claim-types/in-service/
       title: In-Service Claim
-      description: ""
+      description: File an in-service claim if your disability was cause by an injury or illness you got while in the line of duty.
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
-      description: ""
+      description: Learn more about how to file a predischarge disability claim up to 180 days before you leave the military.
     - url: /disability-benefits/apply/claim-types/post-service/
       title: Postservice Claim
-      description: ""
+      description: File a postservice claim if you have a disability related to military service that didn't appear until after you ended your service.
 ---
 
 <div class="va-introtext">
