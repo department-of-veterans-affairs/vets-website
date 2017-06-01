@@ -1,20 +1,6 @@
-import _ from 'lodash/fp';
 import { additionalSourcesUI } from './additionalSources';
 
-export function netWorthSchema(schema) {
-  return _.merge(schema.definitions.netWorth, {
-    required: [
-      'bank',
-      'interestBank',
-      'ira',
-      'stocks',
-      'realProperty',
-      'otherProperty'
-    ]
-  });
-}
-
-export const netWorthUI = {
+export default {
   'ui:order': [
     'bank',
     'interestBank',
