@@ -30,7 +30,7 @@ majorlinks:
       description: File a secondary claim if a disability you already have causes, or makes worse, another disability.
     - url: /disability-benefits/apply/claim-types/pre-service/
       title: Preservice Claim
-      description: File a preservice claim if a disability you already had when you started military service got worse because of your service.
+      description: File a preservice claim if a disability you had when you started military service got worse because of your service.
     - url: /disability-benefits/apply/claim-types/in-service/
       title: In-Service Claim
       description: File an in-service claim if your disability was cause by an injury or illness you got while in the line of duty.
