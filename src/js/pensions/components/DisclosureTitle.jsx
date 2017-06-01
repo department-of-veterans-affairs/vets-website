@@ -3,11 +3,10 @@ import _ from 'lodash/fp';
 
 export default function createDisclosureTitle(path, title) {
   return function DisclosureTitle({ id, formData }) {
-    const nameData = _.get(path, formData);
-    const name = nameData ? `${nameData.first} ${nameData.last}` : null;
+    const { first, last } = _.get(path, formData) || {};
     return (
       <div>
-        <h4 className="pensions-disclosure-name">{name}</h4>
+        <h4 className="pensions-disclosure-name">{first} {last}</h4>
         <legend
             className="schemaform-block-title pensions-disclosure-title"
             id={id}

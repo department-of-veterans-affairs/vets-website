@@ -11,9 +11,10 @@ import DisabilityField from '../components/DisabilityField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
 import createDisclosureTitle from '../components/DisclosureTitle';
-import { netWorthSchema, netWorthUI } from '../definitions/netWorth';
-import { monthlyIncomeSchema, monthlyIncomeUI } from '../definitions/monthlyIncome';
-import { expectedIncomeSchema, expectedIncomeUI } from '../definitions/expectedIncome';
+import netWorthUI from '../definitions/netWorth';
+import monthlyIncomeUI from '../definitions/monthlyIncome';
+import expectedIncomeUI from '../definitions/expectedIncome';
+import { additionalSourcesSchema } from '../definitions/additionalSources';
 import dateUI from '../../common/schemaform/definitions/date';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -29,7 +30,10 @@ const {
   fullName,
   usaPhone,
   dateRange,
-  date
+  date,
+  monthlyIncome,
+  netWorth,
+  expectedIncome
 } = fullSchemaPensions.definitions;
 
 const formConfig = {
@@ -42,9 +46,7 @@ const formConfig = {
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
-    additionalSources: {
-      type: 'string'
-    },
+    additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,
@@ -203,7 +205,7 @@ const formConfig = {
             type: 'object',
             required: ['netWorth'],
             properties: {
-              netWorth: netWorthSchema(fullSchemaPensions)
+              netWorth
             }
           },
           uiSchema: {
@@ -221,7 +223,7 @@ const formConfig = {
             type: 'object',
             required: ['monthlyIncome'],
             properties: {
-              monthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+              monthlyIncome
             }
           },
           uiSchema: {
@@ -239,7 +241,7 @@ const formConfig = {
             type: 'object',
             required: ['expectedIncome'],
             properties: {
-              expectedIncome: expectedIncomeSchema(fullSchemaPensions)
+              expectedIncome
             }
           },
           uiSchema: {
@@ -258,7 +260,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseNetWorth: netWorthSchema(fullSchemaPensions)
+              spouseNetWorth: netWorth
             }
           },
           uiSchema: {
@@ -296,7 +298,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseMonthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+              spouseMonthlyIncome: monthlyIncome
             }
           },
           uiSchema: {
@@ -334,7 +336,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseExpectedIncome: expectedIncomeSchema(fullSchemaPensions)
+              spouseExpectedIncome: expectedIncome
             }
           },
           uiSchema: {
@@ -383,7 +385,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    netWorth: netWorthSchema(fullSchemaPensions)
+                    netWorth
                   }
                 }
               }
@@ -415,7 +417,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    monthlyIncome: monthlyIncomeSchema(fullSchemaPensions)
+                    monthlyIncome
                   }
                 }
               }
@@ -447,7 +449,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    expectedIncome: expectedIncomeSchema(fullSchemaPensions)
+                    expectedIncome
                   }
                 }
               }

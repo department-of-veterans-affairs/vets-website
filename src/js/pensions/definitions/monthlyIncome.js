@@ -1,19 +1,6 @@
-import _ from 'lodash/fp';
+import { additionalSourcesUI } from './additionalSources';
 
-export function monthlyIncomeSchema(schema) {
-  return _.assign(schema.definitions.monthlyIncome, {
-    required: [
-      'socialSecurity',
-      'civilService',
-      'railroad',
-      'blackLung',
-      'serviceRetirement',
-      'ssi'
-    ]
-  });
-}
-
-export const monthlyIncomeUI = {
+export default {
   'ui:order': [
     'socialSecurity',
     'civilService',
@@ -58,5 +45,6 @@ export const monthlyIncomeUI = {
     'ui:options': {
       classNames: 'schemaform-currency-input'
     }
-  }
+  },
+  additionalSources: additionalSourcesUI
 };

@@ -18,7 +18,7 @@ export class Settings extends React.Component {
               onClick={this.props.toggleFolderNav}>
             Menu
           </button>
-          <h2>Settings</h2>
+          <h3>Settings</h3>
         </div>
         <div id="messaging-settings">
           <ul className="va-tabs" role="tablist">
