@@ -4,7 +4,7 @@ template: topic-landing
 title: Support Veteran Employees
 concurrence: incomplete
 majorlinks:
-  - heading:
+  - heading: Resources for Employers
     links:
     - url: /employment/job-seekers/search-jobs
       title: Search the Veterans Job Bank
