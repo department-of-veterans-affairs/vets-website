@@ -130,7 +130,7 @@ export function submitForm(data) {
     .catch(error => {
       Raven.captureException(error);
       window.dataLayer.push({
-        event: 'edu-submission-successful'
+        event: 'edu-submission-failed'
       });
       dispatch(updateSubmissionStatus('error'));
     });
