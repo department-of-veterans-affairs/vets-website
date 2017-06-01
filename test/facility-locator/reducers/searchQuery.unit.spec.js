@@ -35,7 +35,6 @@ describe('search query reducer', () => {
 
   it('should handle fetching list of facilities', () => {
     const state = searchQueryReducer({
-      ...INITIAL_STATE,
       inProgress: true,
       error: true,
       searchBoundsInProgress: true,

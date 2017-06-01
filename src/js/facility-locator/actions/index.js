@@ -2,16 +2,9 @@ import { api } from '../config';
 import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
 
-export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
-export const LOCATION_UPDATED = 'LOCATION_UPDATED';
-export const SEARCH_FAILED = 'SEARCH_FAILED';
-export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
-export const SEARCH_STARTED = 'SEARCH_STARTED';
-
 export function updateSearchQuery(query) {
   return {
-    type: SEARCH_QUERY_UPDATED,
+    type: 'SEARCH_QUERY_UPDATED',
     payload: {
       ...query,
     }
@@ -20,7 +13,7 @@ export function updateSearchQuery(query) {
 
 export function updateLocation(propertyPath, value) {
   return {
-    type: LOCATION_UPDATED,
+    type: 'LOCATION_UPDATED',
     propertyPath,
     value
   };
@@ -29,7 +22,7 @@ export function updateLocation(propertyPath, value) {
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
-      type: FETCH_VA_FACILITY,
+      type: 'FETCH_VA_FACILITY',
       payload: facility,
     };
   }
@@ -38,7 +31,7 @@ export function fetchVAFacility(id, facility = null) {
 
   return dispatch => {
     dispatch({
-      type: SEARCH_STARTED,
+      type: 'SEARCH_STARTED',
       payload: {
         active: true,
       },
@@ -47,8 +40,8 @@ export function fetchVAFacility(id, facility = null) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
-        err => dispatch({ type: SEARCH_FAILED, err })
+        data => dispatch({ type: 'FETCH_VA_FACILITY', payload: data.data }),
+        err => dispatch({ type: 'SEARCH_FAILED', err })
       );
   };
 }
@@ -64,7 +57,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
 
   return dispatch => {
     dispatch({
-      type: SEARCH_STARTED,
+      type: 'SEARCH_STARTED',
       payload: {
         page,
         searchBoundsInProgress: true,
@@ -75,9 +68,9 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
       .then(res => res.json())
       .then(
         data => {
-          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
+          dispatch({ type: 'FETCH_VA_FACILITIES', payload: data });
         },
-        err => dispatch({ type: SEARCH_FAILED, err })
+        err => dispatch({ type: 'SEARCH_FAILED', err })
       );
   };
 }
@@ -85,7 +78,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
 export function searchWithAddress(query) {
   return dispatch => {
     dispatch({
-      type: SEARCH_STARTED,
+      type: 'SEARCH_STARTED',
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = 'place,address,region,postcode,locality';
@@ -104,7 +97,7 @@ export function searchWithAddress(query) {
         }) || {}).text || res.features[0].place_name;
 
         return dispatch({
-          type: SEARCH_QUERY_UPDATED,
+          type: 'SEARCH_QUERY_UPDATED',
           payload: {
             ...query,
             context: zipCode,
@@ -124,7 +117,7 @@ export function searchWithAddress(query) {
       }
 
       return dispatch({
-        type: SEARCH_FAILED,
+        type: 'SEARCH_FAILED',
         err,
       });
     });
