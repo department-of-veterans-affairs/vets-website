@@ -2,16 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// Copied from src/js/login/containers/Main.jsx
+import { handleLogin } from '../../common/helpers/login-helpers.js';
+import { updateLogInUrl } from '../actions';
+
 import Modal from './Modal';
 
 
 class LoginModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  // Copied from src/js/login/containers/Main.jsx
+  componentWillUnmount() {
+    this.loginUrlRequest.abort();
+  }
+
   getModalContents = (user) => {
     let contents = (<div>
       <div className="usa-grid">
         <h1>{this.props.title || 'Sign in'}</h1>
         <div className="usa-width-one-half">
-          <button className="usa-button-primary">Sign in</button>
+          <button className="usa-button-primary" onClick={this.handleLogin}>Sign in</button>
         </div>
         <div className="usa-width-one-third">
           <button className="usa-button-outline" onClick={this.props.onClose}>Cancel</button>
@@ -27,6 +41,12 @@ class LoginModal extends React.Component {
     }
 
     return contents;
+  }
+
+  handleLogin() {
+    const loginUrl = this.props.user.login.loginUrl;
+    const onUpdateLoginUrl = this.props.onUpdateLoginUrl;
+    this.loginUrlRequest = handleLogin(loginUrl, onUpdateLoginUrl);
   }
 
   render() {
@@ -50,4 +70,14 @@ const mapStateToProps = (state) => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(LoginModal);
+// Copied from src/js/login/containers/Main.jsx
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    },
+    dispatch
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
