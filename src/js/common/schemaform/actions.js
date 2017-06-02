@@ -207,8 +207,6 @@ export function loadFormData(formId, migrations) {
 
       // If we've made it this far, we've got valid form
 
-      // TODO: Remove the assignment once the API is updated to store and return
-      //  formData and metadata
       let formData;
       try {
         // NOTE: This may change to be migrated in the back end before sent over
