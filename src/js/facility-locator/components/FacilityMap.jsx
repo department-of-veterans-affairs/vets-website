@@ -1,4 +1,5 @@
 import { mapboxToken } from './MapboxClient';
+import environment from '../../common/helpers/environment';
 import React, { Component } from 'react';
 
 class HowToGetHere extends Component {
@@ -8,9 +9,20 @@ class HowToGetHere extends Component {
         <div></div>
       );
     }
-    const { attributes: { lat, long } } = this.props.info;
 
-    const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/pin-l-star+cd2026(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
+    const { attributes: { lat, long, facility_type: facilityType } } = this.props.info;
+
+    /* eslint-disable camelcase */
+    const pinNames = {
+      va_health_facility: 'health',
+      va_cemetery: 'cemetery',
+      va_benefits_facility: 'benefits',
+    };
+    /* eslint-enable camelcase */
+
+    const pinURL = encodeURIComponent(`${environment.API_URL}/img/icons/${pinNames[facilityType]}-pin.png`);
+
+    const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
 
     return (
       <div className="mb2">
