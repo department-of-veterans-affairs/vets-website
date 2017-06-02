@@ -62,8 +62,8 @@ Your VA pension = $15,525 for the year (or $1,293 paid each month)
 | You qualify for Housebound benefits | $15,773 | 
 | You qualify for A&A benefits | $21,531 | 
 
-**Note:**
-**If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
+**Note:** <br>
+If you have medical expenses, you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
 
 #### For 2 Veterans who are married to each other:
 
