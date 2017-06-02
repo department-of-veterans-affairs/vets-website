@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // Copied from src/js/login/containers/Main.jsx
 import { handleLogin } from '../../common/helpers/login-helpers.js';
-import { updateLogInUrl } from '../actions';
+import { updateLogInUrl } from '../../login/actions';
 
 import Modal from './Modal';
 
@@ -26,7 +26,7 @@ class LoginModal extends React.Component {
 
   // Copied from src/js/login/containers/Main.jsx
   componentWillUnmount() {
-    if (this.loginUrlRequest) {
+    if (this.loginUrlRequest && this.loginUrlRequest.abort) {
       this.loginUrlRequest.abort();
     }
   }
@@ -36,10 +36,10 @@ class LoginModal extends React.Component {
       <div className="usa-grid">
         <h1>{this.props.title || 'Sign in'}</h1>
         <div className="usa-width-one-half">
-          <button className="usa-button-primary" onClick={this.handleLogin}>Sign in</button>
+          <button className="usa-button-primary full-width" onClick={this.handleLogin}>Sign in</button>
         </div>
         <div className="usa-width-one-third">
-          <button className="usa-button-outline" onClick={this.props.onClose}>Cancel</button>
+          <button className="usa-button-outline full-width" onClick={this.props.onClose}>Cancel</button>
         </div>
       </div>
     </div>);
@@ -88,8 +88,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoginUrl: (update) => {
       dispatch(updateLogInUrl(update));
-    },
-    dispatch
+    }
   };
 };
 
