@@ -28,6 +28,8 @@ class SaveFormLink extends React.Component {
       savedStatus
     } = this.props;
     const action = this.props.loggedIn ? saveForm : this.openLoginModal;
+    // TODO: Make it clear after the user has signed in that they still need to
+    //  actually save their form.
     let content = (<div>
       <a onClick={action}>Save and come back later</a>
       <LoginModal

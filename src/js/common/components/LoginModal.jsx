@@ -26,7 +26,9 @@ class LoginModal extends React.Component {
 
   // Copied from src/js/login/containers/Main.jsx
   componentWillUnmount() {
-    this.loginUrlRequest.abort();
+    if (this.loginUrlRequest) {
+      this.loginUrlRequest.abort();
+    }
   }
 
   getModalContents = (user) => {
