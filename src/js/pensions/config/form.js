@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -16,10 +17,13 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import dateUI from '../../common/schemaform/definitions/date';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 
 const {
+  nationalGuardActivation,
+  nationalGuard,
   disabilities,
   previousNames,
   combatSince911,
@@ -136,9 +140,38 @@ const formConfig = {
               combatSince911
             }
           }
+        },
+        reserveAndNationalGuard: {
+          path: 'military/reserve-national-guard',
+          title: 'Reserve and National Guard',
+          uiSchema: {
+            'ui:title': 'Reserve and National Guard',
+            nationalGuardActivation: {
+              'ui:title': 'Are you currently on federal active duty in the National Guard?',
+              'ui:widget': 'yesNo'
+            },
+            nationalGuard: {
+              'ui:options': {
+                expandUnder: 'nationalGuardActivation',
+              },
+              name: {
+                'ui:title': 'Name of Reserve/NG unit',
+              },
+              address: address.uiSchema('Unit address'),
+              phone: phoneUI('Unit phone number'),
+              date: dateUI('Service Activation Date')
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['nationalGuardActivation'],
+            properties: {
+              nationalGuardActivation,
+              nationalGuard: _.set('properties.address', address.schema(fullSchemaPensions), nationalGuard)
+            }
+          }
         }
       }
-
     },
     workHistory: {
       title: 'Work history',
