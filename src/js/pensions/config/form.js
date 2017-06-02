@@ -54,8 +54,7 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
-    fullName,
-    address
+    fullName
   },
   chapters: {
     applicantInformation: {
