@@ -157,6 +157,7 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
  *                                is different from the current version.
  */
 export function loadFormData(formId, migrations) {
+  // TODO: Test if the form is still saved after submission.
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
@@ -208,13 +209,10 @@ export function loadFormData(formId, migrations) {
 
       // TODO: Remove the assignment once the API is updated to store and return
       //  formData and metadata
-      let formData = resBody;
+      let formData;
       try {
         // NOTE: This may change to be migrated in the back end before sent over
-        // TODO: Remove these once the API is updated to store and return
-        //  formData and metadata
-        const version = 0;
-        formData = getUpdatedFormData(formData, version, migrations);
+        formData = getUpdatedFormData(resBody.form_data, resBody.metadata.version, migrations);
         // formData = getUpdatedFormData(resBody.formData, resBody.metadata.version, migrations);
       } catch (e) {
         // TODO: Log e.message somewhere; it's the reason the data couldn't be

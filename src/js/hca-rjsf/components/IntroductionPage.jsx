@@ -2,13 +2,48 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
+import LoginModal from '../../common/components/LoginModal';
 import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 class IntroductionPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpened: false
+    };
+  }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
+  getAlertBody = () => {
+    let body = (<div>
+      <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
+      <LoginModal
+          onClose={this.closeLoginModal}
+          visible={this.state.modalOpened}/>
+    </div>);
+
+    if (this.props.loggedIn) {
+      body = (<div>
+        <strong>Note:</strong> You can now save your application and come back to save it at a later time.
+      </div>);
+    }
+
+    return body;
+  }
+
+  openLoginModal = () => {
+    this.setState({ modalOpened: true });
+  }
+
+  closeLoginModal = () => {
+    this.setState({ modalOpened: false });
+  }
+
   render() {
     return (
       <div className="schemaform-intro">
@@ -24,12 +59,7 @@ class IntroductionPage extends React.Component {
         </p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            {
-              this.props.loggedIn
-                ? <div><strong>Note:</strong> You can now save your application and come back to save it at a later time.</div>
-                // TODO: Make the sign in link work
-                : <div><strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a>sign in</a>.</div>
-            }
+            {this.getAlertBody()}
           </div>
         </div>
         <br/>
