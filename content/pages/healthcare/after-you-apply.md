@@ -4,7 +4,7 @@ title: After You Apply for Health Care Benefits
 display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: topic-landing
-showactionbar: false
+collection: healthcare
 lastupdate_override: 
 relatedlinks:
   - heading: Other VA Benefits
