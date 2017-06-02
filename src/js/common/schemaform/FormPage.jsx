@@ -89,7 +89,7 @@ class FormPage extends React.Component {
       version,
       data
     } = this.props.form;
-    const returnUrl = this.props.location.basename + this.props.location.pathname;
+    const returnUrl = this.props.location.pathname;
     this.props.saveFormData(formId, version, returnUrl, data);
   }
 

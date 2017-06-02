@@ -25,6 +25,14 @@ class FormIntroButtons extends React.Component {
     // This is where we take the formData we pre-loaded in componentWillMount
     //  and fill in the form.
     this.props.loadData();
+    // Navigate to the last page they were on
+    this.props.router.push(this.props.form.loadedData.metadata.returnUrl);
+    // TODO: Handle this scenario:
+    //  1) I fill out some information and save my progress.
+    //  2) The form is updated and a field I've not filled out yet gets moved
+    //     to a page I have already completed.
+    //  3) I load my saved progress.
+    //  4) I should be put in the page with the missing information.
   }
 
   render() {

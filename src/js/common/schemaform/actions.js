@@ -64,10 +64,10 @@ export function setLoaded(status) {
   };
 }
 
-export function setLoadedData(formData) {
+export function setLoadedData(data) {
   return {
     type: SET_LOADED_DATA,
-    formData
+    data
   };
 }
 
@@ -225,15 +225,8 @@ export function loadFormData(formId, migrations) {
       //  data in a separate place to be pulled in when we _actually_ want to load
       //  the formData.
       // dispatch(setData(formData));
-      dispatch(setLoadedData(formData));
+      dispatch(setLoadedData({ formData, metadata: resBody.metadata }));
       dispatch(setLoaded('success'));
-      // TODO: Navigate to the last page they were on
-      // TODO: Handle this scenario:
-      //  1) I fill out some information and save my progress.
-      //  2) The form is updated and a field I've not filled out yet gets moved
-      //     to a page I have already completed.
-      //  3) I load my saved progress.
-      //  4) I should be put in the page with the missing information.
     }).catch((status) => {
       let loadedStatus = status;
       // if res.json() has a parsing error, it'll reject with a SyntaxError

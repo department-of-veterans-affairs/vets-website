@@ -86,7 +86,7 @@ export default function createSchemaFormReducer(formConfig) {
       version: formConfig.version,
       formId: formConfig.formId,
       disableSave: formConfig.disableSave,
-      // loadedFormData: undefined
+      // loadedData: undefined
       migrations: formConfig.migrations
     });
 
@@ -125,11 +125,11 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set('loadedStatus', action.status, state);
       }
       case SET_LOADED_DATA: {
-        return _.set('loadedFormData', action.formData, state);
+        return _.set('loadedData', action.data, state);
       }
       case LOAD_DATA: {
-        // Mirrors SET_DATA, but uses state.loadedFormData
-        const newState = _.set('data', state.loadedFormData, state);
+        // Mirrors SET_DATA, but uses state.loadedData
+        const newState = _.set('data', state.loadedData.formData, state);
 
         return recalculateSchemaAndData(newState);
       }
