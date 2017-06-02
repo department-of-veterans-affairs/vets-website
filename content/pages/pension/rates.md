@@ -50,9 +50,9 @@ Your VA pension = $15,525 for the year (or $1,293 paid each month)
 | You qualify for A&A benefits | $25,525 | 
 
 **Note:** 
-- **If you have more than 1 dependent,** add $2,205 to your MAPR amount for each additional dependent. 
-- **If you have a child who works,** you may exclude their wages up to $10,400 for 2017.
-- **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
+- **If you have more than 1 dependent**, add $2,205 to your MAPR amount for each additional dependent. 
+- **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
+- **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
 #### For Veterans with no dependents:
 
@@ -77,9 +77,9 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 | Both of you qualify for A&A benefits | $34,153 | 
 
 **Note:**
-- If you have more than 1 dependent, add $2,205 to your MAPR amount for each additional child. 
-- If you have a child who works, you may exclude their wages up to $10,400 for 2017.
-- If you have medical expenses, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
+- **If you have more than 1 dependent**, add $2,205 to your MAPR amount for each additional child. 
+- **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
+- **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
 [Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_veteran_pen.asp).
 
