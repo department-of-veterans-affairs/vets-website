@@ -18,7 +18,7 @@ majorlinks:
       description: Find out how to get money to cover books, supplies, and housing while learning a trade through an apprenticeship.
     - url: /education/work-learn/co-op-training/
       title: Co-op Training
-      description: Find out if you qualify for educational benefits if you're part of a university or college co-op program. 
+      description: Find out if you qualify for educational benefits if you’re part of a university or college co-op program. 
     - url: /education/work-learn/non-college-degree-program/
       title: Non-College Degree Programs
       description: Find out how to use the GI Bill benefit to help pay for a specific training program. 
