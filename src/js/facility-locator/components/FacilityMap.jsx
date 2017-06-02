@@ -17,6 +17,7 @@ class HowToGetHere extends Component {
       va_health_facility: 'health',
       va_cemetery: 'cemetery',
       va_benefits_facility: 'benefits',
+      vet_center: 'vet-centers',
     };
     /* eslint-enable camelcase */
 
