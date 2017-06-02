@@ -45,8 +45,6 @@ class FormIntroButtons extends React.Component {
   }
 
   render() {
-    // console.log('props:', this.props);
-    // console.log(`logggedIn: ${this.props.loggedIn}, loadedStatus: ${this.props.form.loadedStatus}`);
     let resumeButton = null;
     let firstPageButtonText = 'Continue';
     let firstPageButtonClass = 'usa-button-primary';
@@ -61,8 +59,6 @@ class FormIntroButtons extends React.Component {
       );
     }
 
-    // TODO: Fix the button formatting
-    // <div className="row">
     return (
       <div>
         {resumeButton}
