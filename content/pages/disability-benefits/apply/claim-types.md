@@ -13,6 +13,9 @@ majorlinks:
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
       description: File a standard claim if you like us to help you gather evidence to support your disability claim.
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: Fully Developed Claim 
+      description: Learn more about the Fully Developed Claims program in which you send in all evidence when you file your claim.
     - url: /disability-benefits/apply/claim-types/original-claim/
       title: Original Claim 
       description: The first claim you file for a certain disability is known as the original claim. 
