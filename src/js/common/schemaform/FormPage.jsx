@@ -91,6 +91,9 @@ class FormPage extends React.Component {
     } = this.props.form;
     const returnUrl = this.props.location.pathname;
     this.props.saveFormData(formId, version, returnUrl, data);
+
+    // TODO: Build this page and make it accessible (and customizable) to all forms
+    // this.router.push('/form-saved');
   }
 
   render() {

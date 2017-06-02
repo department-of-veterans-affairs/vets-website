@@ -279,7 +279,6 @@ export function saveFormData(formId, version, returnUrl, formData) {
     }).then((res) => {
       if (res.ok) {
         dispatch(setSaved('success'));
-        // TODO: Redirect to...somewhere?
       } else {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to save, tell them their session expired and they need to log
