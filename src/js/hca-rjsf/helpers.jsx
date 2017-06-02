@@ -38,11 +38,13 @@ export function transform(formConfig, form) {
   const withoutInactivePages = filterInactivePages(inactivePages, updatedForm);
   let withoutViewFields = filterViewFields(withoutInactivePages);
 
+  // add back children here, because it could have been removed in filterViewFields
   if (!withoutViewFields.children) {
     withoutViewFields = _.set('children', [], withoutViewFields);
   }
 
   const formData = JSON.stringify(withoutViewFields, (key, value) => {
+    // Don't let children be removed in the normal empty object clean up
     if (key === 'children') {
       return value;
     }
