@@ -140,7 +140,7 @@ const formConfig = {
           }
         },
         reserveAndNationalGuard: {
-          path: 'military/reserveAndNationalGuard',
+          path: 'military/reserve-national-guard',
           title: 'Reserve and National Guard',
           uiSchema: {
             'ui:title': 'Reserve and National Guard',
@@ -154,11 +154,12 @@ const formConfig = {
                 expandUnder: 'nationalGuardActivation',
               },
               name: {
-                'ui:title': 'Name of Reserve/NG unit'
+                'ui:title': 'Name of Reserve/NG unit',
+                'ui:required': (formData) => !!formData.nationalGuardActivation
               },
               address: address.uiSchema(),
-              phone: phoneUI(),
-              date: dateUI
+              phone: _.merge(phoneUI(), { 'ui:required': (formData) => !!formData.nationalGuardActivation }),
+              date: _.merge(dateUI(), { 'ui:required': (formData) => !!formData.nationalGuardActivation })
             }
           },
           schema: {
