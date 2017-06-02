@@ -27,7 +27,7 @@ You may be able to get this benefit if your income and net worth meet certain le
 
 - Entered service on or before September 7, 1980, and served at least 90 days of active military service, with at least 1 day during a wartime period, **or**
 
-- Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period
+- Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty (with some exceptions), with at least 1 day during a wartime period
 
 
 ### Can I get this benefit as the child of a deceased wartime Veteran?
