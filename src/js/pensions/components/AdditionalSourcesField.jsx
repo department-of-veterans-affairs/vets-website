@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
 import { setItemTouched } from '../../common/schemaform/helpers';
 
 import {
@@ -75,6 +75,7 @@ export default class AdditionalSourcesField extends React.Component {
         smooth: true,
         offset: 0
       });
+      focusElement(`.pensions-heading-${index}`);
     }, 100);
   }
 
@@ -146,7 +147,7 @@ export default class AdditionalSourcesField extends React.Component {
                   <Element name={`additional_${index}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      <h5>Additional source</h5>
+                      <h5 className={`pensions-heading pensions-heading-${index}`}>Additional source</h5>
                       <div className="input-section">
                         <SchemaField
                             name="additionalSources"
@@ -185,9 +186,13 @@ export default class AdditionalSourcesField extends React.Component {
                 <Element name={`additional_${index}`}/>
                 <SchemaField
                     name="amount"
-                    required
                     schema={itemSchema.properties.amount}
-                    uiSchema={{ 'ui:title': itemData.name }}
+                    uiSchema={{
+                      'ui:title': itemData.name,
+                      'ui:options': {
+                        classNames: 'schemaform-currency-input'
+                      }
+                    }}
                     errorSchema={_.get([index, 'amount'], errorSchema) || {}}
                     idSchema={itemIdSchema.amount}
                     formData={itemData.amount}

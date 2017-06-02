@@ -52,7 +52,7 @@ describe('Pensions financial disclosure', () => {
       });
     }
 
-    it('should not submit empty form', () => {
+    it('should submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -66,35 +66,10 @@ describe('Pensions financial disclosure', () => {
 
       submitForm(form);
 
-      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(fieldCount);
-      expect(onSubmit.called).to.be.false;
-    });
-    it('should submit after filling in required fields', () => {
-      const onSubmit = sinon.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
-      );
-
-      const formDOM = findDOMNode(form);
-
-      Array.from(formDOM.querySelectorAll('input'))
-        .forEach(input => {
-          ReactTestUtils.Simulate.change(
-            input, {
-              target: {
-                value: '0'
-              }
-            }
-          );
-        });
-
-      submitForm(form);
+      expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
       expect(onSubmit.called).to.be.true;
     });
+
     it('should add another source', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
@@ -106,17 +81,6 @@ describe('Pensions financial disclosure', () => {
       );
 
       const formDOM = findDOMNode(form);
-
-      Array.from(formDOM.querySelectorAll('input'))
-        .forEach(input => {
-          ReactTestUtils.Simulate.change(
-            input, {
-              target: {
-                value: '0'
-              }
-            }
-          );
-        });
 
       ReactTestUtils.Simulate.click(formDOM.querySelector('.pensions-sources-add-btn'));
       submitForm(form);
@@ -148,6 +112,7 @@ describe('Pensions financial disclosure', () => {
       submitForm(form);
       expect(onSubmit.called).to.be.true;
     });
+
     it('should add and remove another source', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
@@ -159,17 +124,6 @@ describe('Pensions financial disclosure', () => {
       );
 
       const formDOM = findDOMNode(form);
-
-      Array.from(formDOM.querySelectorAll('input'))
-        .forEach(input => {
-          ReactTestUtils.Simulate.change(
-            input, {
-              target: {
-                value: '0'
-              }
-            }
-          );
-        });
 
       ReactTestUtils.Simulate.click(formDOM.querySelector('.pensions-sources-add-btn'));
       submitForm(form);

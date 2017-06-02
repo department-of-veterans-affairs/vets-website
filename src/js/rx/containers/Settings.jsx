@@ -121,13 +121,16 @@ export class Settings extends React.Component {
               ]}
               onValueChange={v => this.props.setNotificationFlag(v)}
               value={flag}/>
-          <ErrorableTextInput
-              name="email"
-              label="Send email notifications to:"
-              onValueChange={({ value }) =>
-                this.props.setNotificationEmail(makeField(value, true))
-              }
-              field={email}/>
+          {
+            flag.value !== 'false' &&
+            (<ErrorableTextInput
+                name="email"
+                label="Send email notifications to:"
+                onValueChange={({ value }) =>
+                  this.props.setNotificationEmail(makeField(value, true))
+                }
+                field={email}/>)
+          }
           {this.renderSaveButtons()}
         </form>
         <DiscardChangesModal

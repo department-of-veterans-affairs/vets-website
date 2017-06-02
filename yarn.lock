@@ -5106,9 +5106,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mapbox@^1.0.0-beta5:
-  version "1.0.0-beta6"
-  resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta6.tgz#be3af63702913108480b67dc19534ac88944889b"
+mapbox@^1.0.0-beta7:
+  version "1.0.0-beta7"
+  resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta7.tgz#b076b1149c5cd3e3dbf69d3492cc1ddbd9a783ed"
   dependencies:
     es6-promise "^4.0.5"
     rest "^2.0.0"
@@ -5358,7 +5358,7 @@ metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
   resolved "https://codeload.github.com/department-of-veterans-affairs/metalsmith-webpack/tar.gz/6130e9bccbf6f558f58041f63f07382d049f66bf"
   dependencies:
-    enhanced-resolve "^3.1.0"
+    enhanced-resolve "^0.7.6"
     webpack "^2.4.1"
 
 metalsmith@^1.7.0:
@@ -8300,9 +8300,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#78318294f9761f78854005f06b5e983bec40a1f5":
-  version "2.9.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#78318294f9761f78854005f06b5e983bec40a1f5"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#90e51bdfe77b29cf1a55e63bc473e9fecc7a7842":
+  version "2.9.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#90e51bdfe77b29cf1a55e63bc473e9fecc7a7842"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"
