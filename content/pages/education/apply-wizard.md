@@ -68,7 +68,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
         <div class="wizard-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
         <label>Are you claiming a National Call to Service education benefit and if so, have you completed <strong>each</strong> of the following steps:<br/>
           <ul>
-            <li>Entered service 10/01/03 – 12/31/07</li>
+            <li>Entered service between 10/01/03 and 12/31/07</li>
             <li>Enlisted under NCS program</li>
             <li>Chose education benefits</li>
           </ul></label>
@@ -80,12 +80,12 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           </div>
         </div>
         <div class="wizard-content-question" data-question="update" data-alternate="create" data-state="closed">
-        <label>Are you receiving education benefits from a veteran who is deceased, permanently disabled, MIA or a POW?</label>
+        <label>Are you receiving education benefits transferred to you by a sponsor Veteran?</label>
           <div class="form-radio-buttons">
-            <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
-            <label for="is-dependent">Yes</label>
             <input type="radio" name="update" id="update-non-dependent" value="is-not-dependent" data-selected-form="1995" data-alternate="update-dependent">
-            <label for="is-not-dependent">No</label>
+            <label for="is-not-dependent">Yes, I’m using a transferred benefit.</label>
+            <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
+            <label for="is-dependent">No, I am using the Fry Scholarship or DEA (Chapter 35)</label>
           </div>
         </div>
         <div class="wizard-content-question" data-question="create-dependent" data-alternate="national-call-to-service" data-state="closed">
