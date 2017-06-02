@@ -50,7 +50,7 @@ const formConfig = {
     date,
     dateRange
   },
-  title: 'Update your Education Benefits',
+  title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
   chapters: {
     applicantInformation: {
