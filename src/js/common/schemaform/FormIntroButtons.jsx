@@ -17,6 +17,15 @@ class FormIntroButtons extends React.Component {
     this.props.loadFormData(this.props.form.formId, this.props.form.migrations);
   }
 
+  componentWillReceiveProps(newProps) {
+    // Load the form data again if we weren't logged in before but are now.
+    const wasLoggedIn = this.props.loggedIn;
+    const isLoggedIn = newProps.loggedIn;
+    if (!wasLoggedIn && isLoggedIn) {
+      this.props.loadFormData(this.props.form.formId, this.props.form.migrations);
+    }
+  }
+
   goToBeginning = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   }
@@ -76,7 +85,8 @@ FormIntroButtons.propTypes = {
 function mapStateToProps(state) {
   return {
     // TODO: When we get the ability to query for all saved forms, add the list here
-    form: state.form
+    form: state.form,
+    loggedIn: state.user.login.currentlyLoggedIn
   };
 }
 

@@ -63,9 +63,7 @@ class IntroductionPage extends React.Component {
           </div>
         </div>
         <br/>
-        <FormIntroButtons
-            route={this.props.route}
-            loggedIn={this.props.loggedIn}/>
+        <FormIntroButtons route={this.props.route}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: 0 }}>
