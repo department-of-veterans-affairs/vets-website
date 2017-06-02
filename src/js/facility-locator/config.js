@@ -10,6 +10,15 @@ export const api = {
   }
 };
 
+/* eslint-disable camelcase */
+export const facilityTypes = {
+  va_health_facility: 'Health',
+  va_cemetery: 'Cemetery',
+  va_benefits_facility: 'Benefits',
+  vet_center: 'Vet Center',
+};
+/* eslint-enable camelcase */
+
 export const benefitsServices = {
   All: 'All',
   ApplyingForBenefits: 'Applying for benefits',
