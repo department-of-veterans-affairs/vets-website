@@ -12,16 +12,16 @@ majorlinks:
     links:
     - url: /education/tools-programs/education-career-counseling/
       title: Educational and Career Counseling
-      description: ""
+      description: Find out how to get free educational and career counseling if you’re leaving active service soon. 
     - url: /education/tools-programs/careerscope/
       title: CareerScope®
-      description: ""
+      description: Use CareerScope to help you figure out the best career path for you when you leave active service.
     - url: /education/tools-programs/principles-excellence-program/
       title: Principles of Excellence Program
-      description: ""
+      description: Learn about the guidelines for schools to participate in this program.
     - url: /education/tools-programs/locate-a-school/
       title: Locate a School
-      description: ""
+      description: Find out which schools you can use your VA education benefits before you apply. 
 ---
 
 <div class="va-introtext">
