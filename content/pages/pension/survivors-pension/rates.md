@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Survivors Pension Rate Tables
+title: Survivors Pension Rates
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks:
@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you qualify for survivors pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate (MAPR). 
+If you qualify for survivors pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate or MAPR). 
 
 </div>
 
@@ -33,7 +33,7 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 
 Your MAPR amount = $16,506
 Your yearly income = $10,000
-Your VA pension = $6,506 for the year (or $542.17 paid each month)
+Your VA pension = $6,506 for the year (or $542 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
 
@@ -53,7 +53,7 @@ Your VA pension = $6,506 for the year (or $542.17 paid each month)
 **Notes:** 
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have more than 1 child,** add $2,205 to your MAPR amount for each additional child. 
-- **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
+- **If you have a child who works,** you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
 #### For qualified surviving spouses with no dependents:
