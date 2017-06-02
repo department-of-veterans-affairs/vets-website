@@ -26,17 +26,17 @@ describe('hca schema tests', () => {
         }
         if (data.veteranAddress.country === 'USA') {
           expect(data.veteranAddress.zipcode).to.not.be.empty;
-          expect(data.veteranAddress.postalCode).not.to.be.defined;
+          expect(typeof data.veteranAddress.postalCode).to.equal('undefined');
         }
         if (data.veteranAddress.country !== 'USA') {
           expect(data.veteranAddress.postalCode).to.not.be.empty;
-          expect(data.veteranAddress.zipcode).not.to.be.defined;
+          expect(typeof data.veteranAddress.zipcode).to.equal('undefined');
         }
         if (data.spouseAddress && data.spouseAddress.country === 'USA') {
           expect(data.spouseAddress.zipcode).to.not.be.empty;
-          expect(data.spouseAddress.postalCode).not.to.be.defined;
+          expect(typeof data.spouseAddress.postalCode).to.equal('undefined');
         }
-        expect(data.children).to.be.defined;
+        expect(typeof data.children).not.to.equal('undefined');
         expect(result.valid).to.be.true;
       });
     });

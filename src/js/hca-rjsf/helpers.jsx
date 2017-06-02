@@ -1,6 +1,13 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import { transformForSubmit } from '../common/schemaform/helpers';
+
+import {
+  stringifyForm,
+  filterViewFields,
+  filterInactivePages,
+  createFormPageList
+} from '../common/schemaform/helpers';
+import { getInactivePages } from '../common/utils/helpers';
 import { vaMedicalFacilities } from '../common/utils/options-for-select.js';
 
 function changePostalToZip(address) {
@@ -27,11 +34,21 @@ export function transform(formConfig, form) {
     );
   }
 
-  if (!updatedForm.data.children) {
-    updatedForm = _.set('data.children', [], updatedForm);
+  const inactivePages = getInactivePages(createFormPageList(formConfig), updatedForm.data);
+  const withoutInactivePages = filterInactivePages(inactivePages, updatedForm);
+  let withoutViewFields = filterViewFields(withoutInactivePages);
+
+  if (!withoutViewFields.children) {
+    withoutViewFields = _.set('children', [], withoutViewFields);
   }
 
-  const formData = transformForSubmit(formConfig, updatedForm);
+  const formData = JSON.stringify(withoutViewFields, (key, value) => {
+    if (key === 'children') {
+      return value;
+    }
+
+    return stringifyForm(key, value);
+  }) || '{}';
 
   return JSON.stringify({
     form: formData
