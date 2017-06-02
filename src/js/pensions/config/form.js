@@ -152,17 +152,15 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             nationalGuard: {
-              'ui:title': 'What is the information for your unit?',
               'ui:options': {
                 expandUnder: 'nationalGuardActivation',
               },
               name: {
                 'ui:title': 'Name of Reserve/NG unit',
-                'ui:required': (formData) => !!formData.nationalGuardActivation
               },
-              address: address.uiSchema(),
-              phone: _.merge(phoneUI(), { 'ui:required': (formData) => !!formData.nationalGuardActivation }),
-              date: _.merge(dateUI(), { 'ui:required': (formData) => !!formData.nationalGuardActivation })
+              address: address.uiSchema('Unit address'),
+              phone: phoneUI('Unit phone number'),
+              date: dateUI('Service Activation Date')
             }
           },
           schema: {
@@ -170,16 +168,7 @@ const formConfig = {
             required: ['nationalGuardActivation'],
             properties: {
               nationalGuardActivation,
-              nationalGuard: {
-                type: 'object',
-                required: ['name', 'address', 'phone', 'date'],
-                properties: {
-                  name: nationalGuard.properties.name,
-                  address: address.schema(fullSchemaPensions, true),
-                  phone: nationalGuard.properties.phone,
-                  date: nationalGuard.properties.date
-                }
-              }
+              nationalGuard: _.set('properties.address', address.schema(fullSchemaPensions), nationalGuard)
             }
           }
         }
