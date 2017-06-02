@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Unemployment Support
 concurrence: incomplete
-majorlinks:
+relatedlinks:
   - heading: Resources for Job Seekers
     links:
     - url: /employment/job-seekers/skills-translator

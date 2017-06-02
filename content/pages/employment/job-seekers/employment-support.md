@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: topic-landing
 title: Veteran Employment Support
 concurrence: complete
-majorlinks:
+relatedlinks:
   - heading: Resources for Job Seekers
     links:
     - url: /employment/job-seekers/skills-translator

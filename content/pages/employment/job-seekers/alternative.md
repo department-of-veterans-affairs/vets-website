@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Alternative Ways to Start Your Career
 concurrence: complete
-majorlinks:
+relatedlinks:
   - heading: 
     links:
     - url: /education/work-learn/workstudy/

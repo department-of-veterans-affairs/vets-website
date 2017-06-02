@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Employment Support for Service-Disabled Veterans
 display_title: Service-Disabled Veteran Support
 concurrence: complete
-majorlinks:
+relatedlinks:
   - heading: Resources for Job Seekers
     links:
     - url: /employment/job-seekers/skills-translator

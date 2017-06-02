@@ -1,14 +1,14 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Resources for Military and Veteran Family Members
 display_title: Resources for Family Members
 concurrence: complete
-majorlinks:
+relatedlinks:
   - heading:  Resources for Job Seekers
     links:
     - url: /employment/job-seekers/skills-translator
-      title: Military Skills Translator      
+      title: Military Skills Translator
     - url: /employment/job-seekers/create-resume
       title: Résumé Builder
     - url: /employment/commitments

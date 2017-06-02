@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Federal Employment
 concurrence: incomplete
 ---

@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: topic-landing
 title: Support Veteran Employees
 concurrence: incomplete
-majorlinks:
+relatedlinks:
   - heading: Resources for Employers
     links:
     - url: /employment/job-seekers/search-jobs

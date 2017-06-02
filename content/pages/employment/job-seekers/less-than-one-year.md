@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Do you have less than a year left of military service?
-display_title: Less than one year before separation
+display_title: Less Than One Year Before Separation
 concurrence: complete
-majorlinks:
+relatedlinks:
   - heading: Resources for Job Seekers
     links:
     - url: /employment/job-seekers/skills-translator

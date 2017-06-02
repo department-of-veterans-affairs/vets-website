@@ -1,11 +1,20 @@
 ---
 layout: page-breadcrumbs.html
-template: topic-landing
+template: detail-page
 title: Start or Grow Your Own Business
 display_title: Start or Grow Your Business
 concurrence: complete
 children: employmentJobSeekersStart
 order: 1
+majorlinks:
+  - heading:
+    links:
+    - url: /employment/job-seekers/start/register/
+      title: Registering Your Business
+      description:
+    - url: /employment/job-seekers/start/counseling/
+      title: Entrepreneurship Counseling
+      description:
 ---
 
 <div class="va-introtext">
