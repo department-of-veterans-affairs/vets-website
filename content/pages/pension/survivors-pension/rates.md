@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you qualify for survivors pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate or MAPR). 
+If you qualify for survivors pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate, or MAPR). 
 
 </div>
 
