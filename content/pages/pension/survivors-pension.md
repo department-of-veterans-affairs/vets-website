@@ -15,7 +15,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Survivors pension is a tax-free monetary benefit. If you’re a low-income surviving spouse who’s unmarried, or the unmarried child of a deceased Veteran with wartime service, you may be able to get this benefit. Find out if you qualify. 
+Survivors pension is a tax-free monetary benefit. If you’re a low-income surviving spouse who’s unmarried, or the unmarried child (with some exceptions) of a deceased Veteran with wartime service, you may be able to get this benefit. Find out if you qualify. 
 
 </div>
 
@@ -23,20 +23,19 @@ Survivors pension is a tax-free monetary benefit. If you’re a low-income survi
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if your income and net worth meet certain levels set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. You may qualify if you meet these requirements and if the deceased Veteran:
+You may be able to get this benefit if your income and net worth meet certain levels set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. You may qualify if you meet these requirements and if the deceased Veteran was discharged from service under conditions other than dishonorable and:
 
 - Entered service on or before September 7, 1980, and served at least 90 days of active military service, with at least 1 day during a wartime period, **or**
 
-- Entered active duty after September 7, 1980, **and**
-  - Served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period, **and** 
-  - Was discharged from service under other conditions than dishonorable
+- Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period
+
 
 ### Can I get this benefit as the child of a deceased wartime Veteran?
 
 You may be able to get this benefit if you’re: 
 - Under age 18, **or**
 - Under age 23 and attending a VA-approved school, **or**
-- Unable to care for yourself due to a disability that happened before age 1
+- Unable to care for yourself due to a disability that happened before age 18
 
 </div>
 
