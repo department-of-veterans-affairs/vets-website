@@ -4,8 +4,7 @@ title: Get Help Filing a Claim
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-collection: disabilityApply
-order: 10
+order: 5
 relatedlinks:
   - heading:
     links:

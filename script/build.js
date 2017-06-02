@@ -184,7 +184,7 @@ smith.use(collections({
     }
   },
   disabilityApply: {
-    pattern: '',
+    pattern: 'disability-benefits/apply/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Application Process'

@@ -4,6 +4,7 @@ title: Disabilities That Appear Within 1 Year After Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
+order: 4
 relatedlinks:
   - heading:
     links:

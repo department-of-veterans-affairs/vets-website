@@ -3,8 +3,7 @@ layout: page-breadcrumbs.html
 title: Evidence 
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
-collection: disabilityApply
-order: 1
+order: 3
 ---
 
 <div class="va-introtext">

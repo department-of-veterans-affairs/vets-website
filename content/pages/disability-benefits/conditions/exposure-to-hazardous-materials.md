@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Contact with Harmful Chemicals or Other Hazardous Materials
 display_title: Contact with Hazardous Materials
 plainlanguage: 10-24-16 certified in compliance with the Plain Writing Act
-template: topic-landing
+template: detail-page
 order: 1
 children: disabilityConditionsExposure
 majorlinks:

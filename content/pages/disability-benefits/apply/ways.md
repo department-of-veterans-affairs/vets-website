@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 title: How to File a Disability Claim
 plainlanguage: 11-2-16 Ready for Beth review
 template: detail-page
+order: 1
 relatedlinks:
   - heading:
     links:

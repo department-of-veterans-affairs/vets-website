@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Agent Orange
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
-template: topic-landing
+template: detail-page
 children: disabilityConditionsAgentOrange
 majorlinks:
   - heading: You may have had contact with Agent Orange if you served in any of these ways
