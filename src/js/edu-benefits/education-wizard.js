@@ -31,11 +31,12 @@ function reInitWidget() {
   const apply = container.querySelector('#apply-now-button');
   const transferWarning = container.querySelector('#transfer-warning');
   const nctsWarning = container.querySelector('#ncts-warning');
-  apply.addEventListener('click', () => {
+  function resetForm() {
     const selections = Array.from(container.querySelectorAll('input:checked'));
     // eslint-disable-next-line no-return-assign, no-param-reassign
     selections.forEach(selection => selection.checked = false);
-  });
+  }
+  apply.addEventListener('click', resetForm);
   content.addEventListener('change', (e) => {
     const radio = e.target;
     const otherChoice = radio.dataset.alternate;
@@ -76,6 +77,8 @@ function reInitWidget() {
     toggleClass(content, 'wizard-content-closed');
     toggleClass(button, 'va-button-primary');
   });
+  // Ensure form is reset on page load to prevent unexpected behavior
+  resetForm();
 }
 
 document.addEventListener('DOMContentLoaded', reInitWidget);
