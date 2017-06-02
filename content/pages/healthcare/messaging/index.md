@@ -4,7 +4,7 @@ layout: page-react.html
 entryname: messaging
 gatePage: true
 collection: healthcare
-order: 6
+order: 7
 ---
 
 <div id="main">
