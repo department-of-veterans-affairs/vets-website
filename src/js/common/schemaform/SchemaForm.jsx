@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
+import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
@@ -55,6 +56,20 @@ class SchemaForm extends React.Component {
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.reviewMode
+      && nextProps.reviewMode === this.props.reviewMode
+      && deepEquals(this.state, nextState)
+      && nextProps.schema === this.props.schema
+      && nextProps.uiSchema === this.props.uiSchema) {
+      return !Object.keys(nextProps.schema.properties).every(objProp => {
+        return this.props.data[objProp] === nextProps.data[objProp];
+      });
+    }
+
+    return true;
   }
 
   onError() {

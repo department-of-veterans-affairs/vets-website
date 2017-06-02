@@ -59,6 +59,7 @@ const optionDefinitions = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'public', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -219,6 +220,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
+    'public': options.public,
     stats: {
       colors: true,
       assets: false,
