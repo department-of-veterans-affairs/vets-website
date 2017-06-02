@@ -14,7 +14,7 @@ Find out if you can get help paying for school or job training through the Survi
 
 </div>
 
-<div class="call-out usa-content" markdown="1">
+<div class="feature">
 
 ### Can I get education benefits?
 
