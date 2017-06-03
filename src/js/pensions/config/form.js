@@ -27,7 +27,8 @@ const {
   disabilities,
   previousNames,
   combatSince911,
-  placeOfSeparation
+  placeOfSeparation,
+  powDateRange
 } = fullSchemaPensions.properties;
 
 const {
@@ -38,6 +39,7 @@ const {
   monthlyIncome,
   netWorth,
   expectedIncome
+  // severancePay
 } = fullSchemaPensions.definitions;
 
 const formConfig = {
@@ -168,6 +170,91 @@ const formConfig = {
             properties: {
               nationalGuardActivation,
               nationalGuard: _.set('properties.address', address.schema(fullSchemaPensions), nationalGuard)
+            }
+          }
+        },
+        powAndSeverance: {
+          path: 'military/pow-severance',
+          title: 'POW Status & Severance Pay',
+          uiSchema: {
+            'ui:title': 'POW Status & Severance Pay',
+            powStatus: {
+              'ui:title': 'Have you ever been a POW?',
+              'ui:widget': 'yesNo'
+            },
+            powDateRange: _.set('ui:options.expandUnder', 'powStatus', dateRangeUI(
+                  'Start of confinement',
+                  'End of confinement',
+                  'Confinement start date must be before end date'
+            )),
+            severancePay: {
+              'ui:title': 'Have you received any type of separation/severance retired pay?',
+              'ui:widget': 'yesNo'
+            },
+            separation: {
+              'ui:options': {
+                expandUnder: 'severancePay',
+              },
+              'ui:title': 'Separation (one time)'
+            },
+            severance: {
+              'ui:options': {
+                expandUnder: 'severancePay',
+              },
+              'ui:title': 'Severance (one time)'
+            },
+            retirement: {
+              'ui:options': {
+                expandUnder: 'severancePay',
+              },
+              'ui:title': 'Retirement (recurring)'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['powStatus', 'severancePay'],
+            properties: {
+              powStatus: {
+                type: 'boolean'
+              },
+              powDateRange,
+              severancePay: {
+                type: 'boolean'
+              },
+              // TODO: Replace these with the updated severancePay definition
+              separation: {
+                type: 'object',
+                properties: {
+                  amount: {
+                    type: 'integer'
+                  },
+                  type: {
+                    type: 'string'
+                  }
+                }
+              },
+              severance: {
+                type: 'object',
+                properties: {
+                  amount: {
+                    type: 'integer'
+                  },
+                  type: {
+                    type: 'string'
+                  }
+                }
+              },
+              retirement: {
+                type: 'object',
+                properties: {
+                  amount: {
+                    type: 'integer'
+                  },
+                  type: {
+                    type: 'string'
+                  }
+                }
+              }
             }
           }
         }
