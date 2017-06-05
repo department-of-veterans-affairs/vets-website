@@ -31,7 +31,7 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and:
 
-- You started on active duty prior to September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
+- You started on active duty before September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
 - You started on active duty as an enlisted person after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 1 day during wartime, **or**
 - You were an officer and started on active duty after October 16, 1981, and you hadn’t previously served on active duty for at least 24 months
 
