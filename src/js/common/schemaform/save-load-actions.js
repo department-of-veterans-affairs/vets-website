@@ -63,10 +63,19 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
   // The functions transform the data from version of their index to the next one up.
   // This works because every time the version is bumped on the form, it's because
   //  the saved data needs to be manipulated, so there will be no skipped versions.
-  if (!migrations || typeof migrations[savedVersion] !== 'function') {
+
+  // Break out early in case we don't have any migrations for the form yet
+  if (!migrations) {
     return savedData;
   }
-  return getUpdatedFormData(migrations[savedVersion](savedData), savedVersion + 1, migrations);
+
+  let savedDataCopy = Object.assign({}, savedData);
+  while (typeof migrations[savedVersion] === 'function') {
+    savedDataCopy = migrations[savedVersion](savedDataCopy);
+    savedVersion++; // eslint-disable-line no-param-reassign
+  }
+
+  return savedDataCopy;
 }
 
 /**
