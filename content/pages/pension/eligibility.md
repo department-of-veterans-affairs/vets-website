@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and you’re having financial troubles, you may be able to get money through our Veterans Pension program. Find out if you can get this benefit. 
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit. 
 
 </div>
 
@@ -32,11 +32,12 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and:
 
 - You started on active duty prior to September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
-- You started on active duty after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 1 day during wartime, 
+- You started on active duty as an enlisted person after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 1 day during wartime, **or**
+- You were an officer and started on active duty after October 16, 1981, and you hadn’t previously served on active duty for at least 24 months
 
 **And:**
 
-- Your yearly family income and net worth are below certain limits set by Congress. Your net worth includes all personal property you own, except for personal items suitable to a reasonable mode of life. Your net worth includes the net worth of your spouse. [(Find out about income limits)](/pension/rates/).
+- Your yearly family income and net worth are below certain limits set by Congress. Your net worth includes all personal property you own, except for personal effects suitable to a reasonable mode of life (like your house, your car, and certain home furnishings). Your net worth includes the net worth of your spouse. [(Find out about income limits)](/pension/rates/).
 
 **And at least one of these is true:**
 
@@ -47,9 +48,9 @@ You may be able to get pension benefits if you were discharged from service unde
 
 #### Who’s covered?
 
-Veterans
+Veterans.
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
+If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
 
 </div>
 
