@@ -4,6 +4,9 @@ import Scroll from 'react-scroll';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 
+import AskVAQuestions from './AskVAQuestions';
+
+
 import { isInProgress } from '../utils/helpers';
 
 const Element = Scroll.Element;
@@ -68,8 +71,7 @@ export default class FormApp extends React.Component {
           {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
-        <div className="usa-width-one-third medium-4 columns show-for-medium-up">
-        </div>
+        <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );

@@ -3,6 +3,8 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
+import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
+
 import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router';
@@ -149,6 +151,7 @@ class EduBenefitsApp extends React.Component {
             {ombInfo}
           </div>
         </div>
+        <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );
