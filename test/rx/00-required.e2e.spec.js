@@ -2,12 +2,14 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const RxHelpers = require('../e2e/rx-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
+const AccountCreationHelpers = require('../e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const token = LoginHelpers.getUserToken();
 
     RxHelpers.initApplicationSubmitMock(token);
+    AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Test flow for unauthed and LOA1 users
     LoginHelpers.testUnauthedUserFlow(client, '/healthcare/prescriptions');
@@ -15,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .assert.title('Refill your prescriptions: Vets.gov')
-      .waitForElementVisible('#rx-active', Timeouts.normal)
+      .waitForElementVisible('#rx-active', Timeouts.slow)
       .axeCheck('.main');
 
     // Ensure that list view renders

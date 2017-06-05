@@ -1,0 +1,65 @@
+import { expect } from 'chai';
+import React from 'react';
+import sinon from 'sinon';
+import SkinDeep from 'skin-deep';
+
+import { RequiredTermsAcceptanceView } from '../../../src/js/common/components/RequiredTermsAcceptanceView';
+import createCommonStore from '../../../src/js/common/store';
+
+const defaultProps = {
+  store: createCommonStore(),
+  checkAcceptance: sinon.spy(),
+  fetchLatestTerms: sinon.spy(),
+  acceptTerms: sinon.spy(),
+  terms: {
+    acceptance: false,
+  }
+};
+
+describe('<RequiredTermsAcceptanceView>', () => {
+  it('should call initial actions properly', () => {
+    const tree = SkinDeep.shallowRender(
+      <RequiredTermsAcceptanceView {...defaultProps}/>
+    );
+    tree.getMountedInstance().componentWillMount();
+
+    expect(defaultProps.checkAcceptance.called).to.be.true;
+    expect(defaultProps.fetchLatestTerms.called).to.be.true;
+  });
+
+  it('should properly render loading state', () => {
+    const props = {
+      ...defaultProps,
+      terms: {
+        loading: true,
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <RequiredTermsAcceptanceView {...props}/>
+    );
+
+    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+  });
+
+  it('should properly render children if terms accepted', () => {
+    const props = {
+      ...defaultProps,
+      terms: {
+        acceptance: true,
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <RequiredTermsAcceptanceView {...props}/>
+    );
+
+    expect(tree.toString()).to.eq('<div />');
+  });
+
+  it('should properly render prompt if terms not accepted', () => {
+    const tree = SkinDeep.shallowRender(
+      <RequiredTermsAcceptanceView {...defaultProps}/>
+    );
+
+    expect(tree.subTree('AcceptTermsPrompt')).to.be.ok;
+  });
+});

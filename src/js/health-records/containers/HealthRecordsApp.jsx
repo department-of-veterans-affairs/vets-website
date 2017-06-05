@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import Modal from '../../common/components/Modal';
 import { closeModal } from '../actions/modal';
 
@@ -41,23 +42,25 @@ export class HealthRecordsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <AppContent>
-          <div>
-            <div className="row">
-              <div className="columns small-12">
-                <Breadcrumbs location={this.props.location}/>
-                {this.props.children}
+        <RequiredTermsAcceptanceView termsName={"mhvac"}>
+          <AppContent>
+            <div>
+              <div className="row">
+                <div className="columns small-12">
+                  <Breadcrumbs location={this.props.location}/>
+                  {this.props.children}
+                </div>
               </div>
+              <Modal
+                  cssClass="bb-modal"
+                  contents={this.props.modal.content}
+                  id="bb-glossary-modal"
+                  onClose={this.props.closeModal}
+                  title={this.props.modal.title}
+                  visible={this.props.modal.visible}/>
             </div>
-            <Modal
-                cssClass="bb-modal"
-                contents={this.props.modal.content}
-                id="bb-glossary-modal"
-                onClose={this.props.closeModal}
-                title={this.props.modal.title}
-                visible={this.props.modal.visible}/>
-          </div>
-        </AppContent>
+          </AppContent>
+        </RequiredTermsAcceptanceView>
       </RequiredLoginView>
     );
   }
