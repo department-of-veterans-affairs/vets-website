@@ -52,7 +52,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
       <RequiredTermsAcceptanceView {...props}/>
     );
 
-    expect(tree.toString()).to.eq('<div />');
+    expect(tree.toString()).to.eq('<div>\n\n</div>');
   });
 
   it('should properly render prompt if terms not accepted', () => {
