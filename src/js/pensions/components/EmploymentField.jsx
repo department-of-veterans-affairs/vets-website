@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-export default function FullNameField({ formData }) {
+export default function EmploymentField({ formData }) {
   const { employer, dateRange } = formData;
   return (
     <div>
