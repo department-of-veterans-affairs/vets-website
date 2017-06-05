@@ -7,15 +7,6 @@ template: topic-landing
 collection: healthcare
 order: 4
 lastupdate_override: 
-relatedlinks:
-  - heading: Other VA Benefits
-    links:
-    - url: /disability-benefits/
-      title: Disability Benefits
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
-    - url: /track-claims/
-      title: Check Claim Status
-      description: Track the status of your disability claim.
 ---
 
 <div class="va-introtext">
