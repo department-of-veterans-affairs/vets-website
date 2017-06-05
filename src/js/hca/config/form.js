@@ -122,7 +122,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName: _.set('properties.middle.maxLength', 35, fullName),
+    fullName: _.set('properties.middle.maxLength', 30, fullName),
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
     child: childSchema,
@@ -152,7 +152,7 @@ const formConfig = {
             type: 'object',
             properties: {
               veteranFullName,
-              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName)
+              mothersMaidenName: _.set('maxLength', 30, mothersMaidenName)
             }
           }
         },

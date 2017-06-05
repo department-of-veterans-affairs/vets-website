@@ -23,8 +23,8 @@ describe('HCA veteranInformation', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(5);
     expect(formDOM.querySelector('#root_veteranFullName_first')).not.to.be.null;
-    expect(formDOM.querySelector('#root_veteranFullName_middle').maxLength).to.equal(35);
-    expect(formDOM.querySelector('#root_mothersMaidenName').maxLength).to.equal(35);
+    expect(formDOM.querySelector('#root_veteranFullName_middle').maxLength).to.equal(30);
+    expect(formDOM.querySelector('#root_mothersMaidenName').maxLength).to.equal(30);
 
     submitForm(form);
 
