@@ -49,21 +49,21 @@ dl.review {
     border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
-    &> dd {
+    > dd {
       font-weight: bold;
       text-align: left;
     }
-    &> dt > p {
+    > dt > p {
       margin-top: 0;
       margin-bottom: 0;
     }
     @media (min-width: $small-screen) {
       flex-direction: row;
-      &> dd {
+      > dd {
         padding-left: 5px;
         min-width: 100px;
       }
-      &> dt {
+      > dt {
         max-width: 60%;
         min-width: 40%;
       }
