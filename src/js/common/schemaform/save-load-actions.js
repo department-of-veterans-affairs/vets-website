@@ -225,7 +225,6 @@ export function fetchInProgressForm(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
-      // dispatch(setFetchFormStatus(LOAD_STATUSES.success));
     }).catch((status) => {
       let loadedStatus = status;
       // if res.json() has a parsing error, it'll reject with a SyntaxError
