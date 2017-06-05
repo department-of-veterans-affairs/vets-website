@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
 
 import { apiRequest } from '../utils/helpers';
 
@@ -31,7 +32,13 @@ class DownloadLink extends React.Component {
       return;
     }
 
-    const downloadWindow = window.open();
+    let downloadWindow;
+
+    // create the window before the AJAX request
+    // to mitigate interception by popup blocker
+    if (!window.navigator.msSaveOrOpenBlob) {
+      downloadWindow = window.open();
+    }
 
     this.setState({ downloading: true });
     const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;
@@ -40,10 +47,14 @@ class DownloadLink extends React.Component {
       null,
       response => {
         response.blob().then(blob => {
-          const downloadUrl = URL.createObjectURL(blob);
-          this.downloadUrl = downloadUrl;
+          if (window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, `health_record_${moment().format('MMDDYYYY')}.${this.props.docType}`);
+          } else {
+            const downloadUrl = URL.createObjectURL(blob);
+            this.downloadUrl = downloadUrl;
+            downloadWindow.location.href = this.downloadUrl;
+          }
           this.setState({ downloading: false });
-          downloadWindow.location.href = this.downloadUrl;
         });
       },
       () => { this.setState({ downloading: false }); }

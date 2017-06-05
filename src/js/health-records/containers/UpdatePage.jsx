@@ -25,7 +25,7 @@ export class UpdatePage extends React.Component {
     const incompleteUpdates = nextProps.refresh.statuses.incomplete;
     // automatically go to Download page when all statuses have resolved
     // in either success or failure
-    if (incompleteUpdates.length === 0) {
+    if (!incompleteUpdates || incompleteUpdates.length === 0) {
       this.submitAndDownload();
     }
   }

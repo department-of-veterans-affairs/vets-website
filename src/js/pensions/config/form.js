@@ -6,11 +6,12 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform } from '../helpers';
+import { transform, employmentDescription } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
+import EmploymentField from '../components/EmploymentField';
 import createDisclosureTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -27,6 +28,7 @@ const {
   disabilities,
   previousNames,
   combatSince911,
+  jobs,
   placeOfSeparation
 } = fullSchemaPensions.properties;
 
@@ -39,6 +41,10 @@ const {
   netWorth,
   expectedIncome
 } = fullSchemaPensions.definitions;
+
+function isUnder65(formData) {
+  return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+}
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -179,8 +185,7 @@ const formConfig = {
         disabilityHistory: {
           title: 'Disability history',
           path: 'disability/history',
-          depends: (formData) =>
-            moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth),
+          depends: isUnder65,
           uiSchema: {
             disabilities: {
               'ui:title': 'What Disabilities prevent you from working?',
@@ -216,6 +221,52 @@ const formConfig = {
               },
               hasVisitedVAMC: {
                 type: 'boolean'
+              }
+            }
+          }
+        },
+        employmentHistory: {
+          title: 'Employment history',
+          path: 'employment/history',
+          depends: isUnder65,
+          uiSchema: {
+            'ui:description': employmentDescription,
+            jobs: {
+              'ui:options': {
+                viewField: EmploymentField
+              },
+              items: {
+                employer: {
+                  'ui:title': 'Name of employer'
+                },
+                address: address.uiSchema('Address of employer'),
+                jobTitle: {
+                  'ui:title': 'Job title'
+                },
+                dateRange: dateRangeUI(),
+                daysMissed: {
+                  'ui:title': 'How many days lost to disability'
+                },
+                annualEarnings: {
+                  'ui:title': 'Total annual earnings'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              jobs: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
+                  properties: _.assign(jobs.items.properties, {
+                    address: address.schema(fullSchemaPensions, true),
+                    dateRange: _.set('required', ['to', 'from'], dateRange)
+                  })
+                }
               }
             }
           }
