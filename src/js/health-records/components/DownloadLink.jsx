@@ -32,7 +32,13 @@ class DownloadLink extends React.Component {
       return;
     }
 
-    const downloadWindow = window.open();
+    let downloadWindow;
+
+    // create the window before the AJAX request
+    // to mitigate interception by popup blocker
+    if (!window.navigator.msSaveOrOpenBlob) {
+      downloadWindow = window.open();
+    }
 
     this.setState({ downloading: true });
     const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;

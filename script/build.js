@@ -59,6 +59,7 @@ const optionDefinitions = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'public', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -125,7 +126,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status');
-  ignoreList.push('healthcare/rjsf/*');
   ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
   ignoreList.push('education/apply-wizard/');
@@ -206,7 +206,6 @@ if (options.watch) {
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/status(.*)', to: '/education/gi-bill/post-9-11/status/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/healthcare/rjsf(.*)', to: '/healthcare/rjsf/' },
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
@@ -219,6 +218,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
+    'public': options.public,
     stats: {
       colors: true,
       assets: false,
@@ -358,7 +358,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
-       '/healthcare/rjsf',
        '/healthcare/apply/application',
        '/va-letters'].join('|'))
   }));
