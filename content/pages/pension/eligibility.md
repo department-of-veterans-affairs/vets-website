@@ -5,7 +5,7 @@ concurrence: ""
 template: 1-topic-landing
 relatedlinks:
   - url: /pension/apply/
-    title: Apply
+    title: Application Process
     description: Learn about the application process and apply for pension benefits.
   - url: /pension/rates/
     title: Veterans Pension Rates
