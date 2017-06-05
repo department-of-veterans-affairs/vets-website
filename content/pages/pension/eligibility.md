@@ -37,7 +37,7 @@ You may be able to get pension benefits if you were discharged from service unde
 
 **And:**
 
-- Your yearly family income and net worth are below certain limits set by Congress. Your net worth equals the value of everything you own, except for personal effects considered to be part of a reasonable way of life (like your house, your car, and certain home furnishings). Your net worth includes the net worth of your spouse. [Find out about income limits](/pension/rates/).
+- Your yearly family income and net worth are below certain limits set by Congress. Your net worth equals the value of everything you own, except for personal effects considered to be part of a reasonable way of life (like your house, your car, and certain home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. [Find out about income limits](/pension/rates/).
 
 **And at least one of these is true:**
 
