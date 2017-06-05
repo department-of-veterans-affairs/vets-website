@@ -204,7 +204,7 @@ export function filterInactivePages(pages, form) {
   }, form.data);
 }
 
-export function stringifyForm(key, value) {
+export function stringifyFormReplacer(key, value) {
   // an object with country is an address
   if (value && typeof value.country !== 'undefined' &&
     (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
@@ -230,7 +230,7 @@ export function transformForSubmit(formConfig, form) {
   const withoutInactivePages = filterInactivePages(inactivePages, form);
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, stringifyForm) || '{}';
+  return JSON.stringify(withoutViewFields, stringifyFormReplacer) || '{}';
 }
 
 function isHiddenField(schema) {

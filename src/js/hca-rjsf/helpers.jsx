@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 
 import {
-  stringifyForm,
+  stringifyFormReplacer,
   filterViewFields,
   filterInactivePages,
   createFormPageList
@@ -49,7 +49,7 @@ export function transform(formConfig, form) {
       return value;
     }
 
-    return stringifyForm(key, value);
+    return stringifyFormReplacer(key, value);
   }) || '{}';
 
   return JSON.stringify({
