@@ -47,7 +47,7 @@ You can apply in 1 of 3 ways:
 
 #### Apply by mail
 
-Fill out VA Form 21P-534EZ (Application for DIC, Death Pension, and/or Accrued Benefits). [Download VA Form 21P-534EZ](http://vbaw.vba.va.gov/bl/20/cio/20s5/forms/VBA-21P-534EZ-ARE.pdf). 
+Fill out VA Form 21-534EZ (Application for DIC, Death Pension, and/or Accrued Benefits). [Download VA Form 21-534EZ](http://vbaw.vba.va.gov/bl/20/cio/20s5/forms/VBA-21-534EZ-ARE.pdf). 
 
 Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/). 
 
