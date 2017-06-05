@@ -15,7 +15,7 @@ export function setSaved(status) {
   };
 }
 
-// Possible statuses: pending, no-auth, failure, success
+// Possible statuses: pending, no-auth, failure, not-found, invalid-data, success
 export function setLoaded(status) {
   return {
     type: SET_LOADED,
@@ -67,6 +67,60 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
     return savedData;
   }
   return getUpdatedFormData(migrations[savedVersion](savedData), savedVersion + 1, migrations);
+}
+
+/**
+ * Saves the form data to the back end
+ * @param  {String}  formId    The form's formId
+ * @param  {Ingeter} version   The form's version
+ * @param  {String}  returnUrl The last URL the user was at before saving
+ * @param  {Object}  formData  The data the user has entered so far
+ */
+export function saveFormData(formId, version, returnUrl, formData) {
+  // Double stringify because of api reasons. Olive Branch issues, methinks.
+  const body = JSON.stringify({
+    metadata: JSON.stringify({
+      version,
+      returnUrl
+    }),
+    formData: JSON.stringify(formData)
+  });
+  return dispatch => {
+    const userToken = sessionStorage.userToken;
+    // If we don't have a userToken, fail safely
+    if (!userToken) {
+      dispatch(setSaved('no-auth')); // Shouldn't get here either...
+      return;
+    }
+
+    // Update UI while we're waiting for the API
+    dispatch(setSaved('pending'));
+
+    // Query the api
+    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
+      },
+      body
+    }).then((res) => {
+      if (res.ok) {
+        dispatch(setSaved('success'));
+      } else {
+        // TODO: If they've sat on the page long enough for their token to expire
+        //  and try to save, tell them their session expired and they need to log
+        //  back in and try again. Unfortunately, this means they'll lose all
+        //  their information.
+        if (res.status === 401) {
+          dispatch(setSaved('no-auth'));
+        } else {
+          dispatch(setSaved('failure'));
+        }
+      }
+    });
+  };
 }
 
 /**
@@ -156,60 +210,6 @@ export function loadFormData(formId, migrations) {
         loadedStatus = 'invalid-data';
       }
       dispatch(setLoaded(loadedStatus));
-    });
-  };
-}
-
-/**
- * Saves the form data to the back end
- * @param  {String}  formId    The form's formId
- * @param  {Ingeter} version   The form's version
- * @param  {String}  returnUrl The last URL the user was at before saving
- * @param  {Object}  formData  The data the user has entered so far
- */
-export function saveFormData(formId, version, returnUrl, formData) {
-  // Double stringify because of api reasons. Olive Branch issues, methinks.
-  const body = JSON.stringify({
-    metadata: JSON.stringify({
-      version,
-      returnUrl
-    }),
-    formData: JSON.stringify(formData)
-  });
-  return dispatch => {
-    const userToken = sessionStorage.userToken;
-    // If we don't have a userToken, fail safely
-    if (!userToken) {
-      dispatch(setSaved('no-auth')); // Shouldn't get here either...
-      return;
-    }
-
-    // Update UI while we're waiting for the API
-    dispatch(setSaved('pending'));
-
-    // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${userToken}`
-      },
-      body
-    }).then((res) => {
-      if (res.ok) {
-        dispatch(setSaved('success'));
-      } else {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
-        if (res.status === 401) {
-          dispatch(setSaved('no-auth'));
-        } else {
-          dispatch(setSaved('failure'));
-        }
-      }
     });
   };
 }
