@@ -20,7 +20,7 @@ class HowToGetHere extends Component {
     };
     /* eslint-enable camelcase */
 
-    const pinURL = encodeURIComponent(`${environment.API_URL}/img/icons/${pinNames[facilityType]}-pin.png`);
+    const pinURL = encodeURIComponent(`${environment.BASE_URL}/img/icons/${pinNames[facilityType]}-pin.png`);
 
     const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
 
