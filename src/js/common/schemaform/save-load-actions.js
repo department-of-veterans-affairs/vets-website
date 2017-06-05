@@ -1,10 +1,10 @@
 import environment from '../helpers/environment.js';
 
 
-export const SET_SAVED = 'SET_SAVED';
-export const SET_LOADED = 'SET_LOADED';
-export const SET_LOADED_DATA = 'SET_LOADED_DATA';
-export const LOAD_DATA = 'LOAD_DATA';
+export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
+export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
+export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
+export const LOAD_DATA_INTO_FORM = 'LOAD_DATA_INTO_FORM';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -27,28 +27,28 @@ export const LOAD_STATUSES = Object.freeze({
 
 export function setSaveFormStatus(status) {
   return {
-    type: SET_SAVED,
+    type: SET_SAVE_FORM_STATUS,
     status
   };
 }
 
 export function setFetchFormStatus(status) {
   return {
-    type: SET_LOADED,
+    type: SET_FETCH_FORM_STATUS,
     status
   };
 }
 
 export function setInProgressForm(data) {
   return {
-    type: SET_LOADED_DATA,
+    type: SET_IN_PROGRESS_FORM,
     data
   };
 }
 
 export function loadInProgressDataIntoForm() {
   return {
-    type: LOAD_DATA
+    type: LOAD_DATA_INTO_FORM
   };
 }
 
@@ -225,7 +225,7 @@ export function fetchInProgressForm(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
-      dispatch(setFetchFormStatus(LOAD_STATUSES.success));
+      // dispatch(setFetchFormStatus(LOAD_STATUSES.success));
     }).catch((status) => {
       let loadedStatus = status;
       // if res.json() has a parsing error, it'll reject with a SyntaxError

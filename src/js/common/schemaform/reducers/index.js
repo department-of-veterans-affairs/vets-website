@@ -20,10 +20,10 @@ import { SET_DATA,
 } from '../actions';
 
 import {
-  SET_SAVED,
-  SET_LOADED,
-  SET_LOADED_DATA,
-  LOAD_DATA,
+  SET_SAVE_FORM_STATUS,
+  SET_FETCH_FORM_STATUS,
+  SET_IN_PROGRESS_FORM,
+  LOAD_DATA_INTO_FORM,
   SAVE_STATUSES,
   LOAD_STATUSES
 } from '../save-load-actions';
@@ -141,16 +141,16 @@ export default function createSchemaFormReducer(formConfig) {
 
         return _.set('submission', submission, state);
       }
-      case SET_SAVED: {
+      case SET_SAVE_FORM_STATUS: {
         return _.set('savedStatus', action.status, state);
       }
-      case SET_LOADED: {
+      case SET_FETCH_FORM_STATUS: {
         return _.set('loadedStatus', action.status, state);
       }
-      case SET_LOADED_DATA: {
+      case SET_IN_PROGRESS_FORM: {
         return _.set('loadedData', action.data, state);
       }
-      case LOAD_DATA: {
+      case LOAD_DATA_INTO_FORM: {
         // Mirrors SET_DATA, but uses state.loadedData
         const newState = _.set('data', state.loadedData.formData, state);
 
