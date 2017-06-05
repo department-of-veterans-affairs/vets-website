@@ -26,7 +26,7 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 
 - **Your countable income** is how much you earn, including your Social Security benefits, investment and retirement payments, and any income your dependents receive. Some expenses, like non-reimbursable medical expenses (medical expenses not covered by your insurance provider), may reduce your countable income.
 
-- **Your MAPR amount** is the maximum amount of pension payable. Your MAPR is based on how many dependents you have, if you’re married to another Veteran who qualifies for a pension, and if your disabilities qualify you for Housebound or Aid and Attendance (A&A) benefits based on your disabilities. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
+- **Your MAPR amount** is the maximum amount of pension payable. Your MAPR is based on how many dependents you have, if you’re married to another Veteran who qualifies for a pension, and if your disabilities qualify you for Housebound or Aid and Attendance (A&A) benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
 
 **Example:**
 You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits. You and your spouse have a combined yearly income of $10,000.
