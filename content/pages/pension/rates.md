@@ -8,7 +8,7 @@ relatedlinks:
     title: Eligibility
     description: Find out if you can get monthly payments through our Veterans Pension program.
   - url: /pension/apply/
-    title: Application process
+    title: Application Process
     description: Learn about the application process and apply for pension benefits.
   - url: /pension/survivors-pension/
     title: Survivors Pension
