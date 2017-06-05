@@ -6,7 +6,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform } from '../helpers';
+import { transform, employmentDescription } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -21,7 +21,6 @@ import dateUI from '../../common/schemaform/definitions/date';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import * as address from '../../common/schemaform/definitions/address';
 
 const {
   nationalGuardActivation,
@@ -231,7 +230,7 @@ const formConfig = {
           path: 'employment/history',
           depends: isUnder65,
           uiSchema: {
-            'ui:description': 'Please tell us about all of your employment, including self-employment, from one year before you became disabled to the present.',
+            'ui:description': employmentDescription,
             jobs: {
               'ui:options': {
                 viewField: EmploymentField
