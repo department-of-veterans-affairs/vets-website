@@ -13,7 +13,7 @@ class DownloadLetters extends React.Component {
       );
     });
     return (
-      <span>
+      <div>
         <div className="letters-form-panel">
           <p>The address on file for you with VA Compensation and Pension is:</p>
           <span>{destination.fullName}</span><br/>
@@ -26,7 +26,7 @@ class DownloadLetters extends React.Component {
             {letterItems}
           </ul>
         </div>
-      </span>
+      </div>
     );
   }
 }
