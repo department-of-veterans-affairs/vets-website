@@ -109,9 +109,21 @@ class ServicesAtFacility extends Component {
         return this.renderHealthServices();
       case 'va_benefits_facility':
         return this.renderBenefitsServices();
+      case 'vet_center':
+        return this.renderVetCenterServices();
       default:
         return null;
     }
+  }
+
+  renderVetCenterServices() {
+    // to be hardcoded
+    return (
+      <div className="mb2">
+        <ul>
+        </ul>
+      </div>
+    );
   }
 
   renderBenefitsServices() {
