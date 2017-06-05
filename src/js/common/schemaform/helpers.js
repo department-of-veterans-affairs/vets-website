@@ -204,6 +204,24 @@ export function filterInactivePages(pages, form) {
   }, form.data);
 }
 
+export function stringifyFormReplacer(key, value) {
+  // an object with country is an address
+  if (value && typeof value.country !== 'undefined' &&
+    (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
+    return undefined;
+  }
+
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+      return undefined;
+    }
+  }
+
+  return value;
+}
+
 /*
  * Normal transform for schemaform data
  */
@@ -212,23 +230,7 @@ export function transformForSubmit(formConfig, form) {
   const withoutInactivePages = filterInactivePages(inactivePages, form);
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, (key, value) => {
-    // an object with country is an address
-    if (value && typeof value.country !== 'undefined' &&
-      (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
-      return undefined;
-    }
-
-    // clean up empty objects, which we have no reason to send
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
-      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
-        return undefined;
-      }
-    }
-
-    return value;
-  }) || '{}';
+  return JSON.stringify(withoutViewFields, stringifyFormReplacer) || '{}';
 }
 
 function isHiddenField(schema) {
