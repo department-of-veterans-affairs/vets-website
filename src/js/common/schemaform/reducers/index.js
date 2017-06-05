@@ -17,11 +17,14 @@ import { SET_DATA,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
   SET_SUBMITTED,
+} from '../actions';
+
+import {
   SET_SAVED,
   SET_LOADED,
   SET_LOADED_DATA,
   LOAD_DATA
-} from '../actions';
+} from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
   return Object.keys(initialState.pages)

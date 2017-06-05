@@ -9,7 +9,8 @@ import SchemaForm from './SchemaForm';
 import SaveFormLink from './SaveFormLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
-import { setData, saveFormData } from './actions';
+import { setData } from './actions';
+import { saveFormData } from './save-load-actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');

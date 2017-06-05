@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { loadFormData, loadData } from './actions';
+import { loadFormData, loadData } from './save-load-actions';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
