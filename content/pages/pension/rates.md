@@ -31,8 +31,8 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 **Example:**
 You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
 
-Your MAPR amount = $25,525
-Your yearly income = $10,000
+Your MAPR amount = $25,525 <br>
+Your yearly income = $10,000 <br>
 Your VA pension = $15,525 for the year (or $1,293 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
