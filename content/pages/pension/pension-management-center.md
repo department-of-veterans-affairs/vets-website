@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-We have 3 Pension Management Centers. Look at the lists below to find the center that serves your state or territory. Then, mail your pension application to the address for that center.
+We have 3 Regional Pension Management Centers. Look at the lists below to find the center that serves your state or territory. Then, mail your pension application to the address for that center.
 
 </div>
 
