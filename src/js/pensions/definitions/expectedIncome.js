@@ -1,16 +1,6 @@
-import _ from 'lodash/fp';
+import { additionalSourcesUI } from './additionalSources';
 
-export function expectedIncomeSchema(schema) {
-  return _.assign(schema.definitions.expectedIncome, {
-    required: [
-      'salary',
-      'interest',
-      'other'
-    ]
-  });
-}
-
-export const expectedIncomeUI = {
+export default {
   'ui:order': [
     'salary',
     'interest',
@@ -34,5 +24,6 @@ export const expectedIncomeUI = {
     'ui:options': {
       classNames: 'schemaform-currency-input'
     }
-  }
+  },
+  additionalSources: additionalSourcesUI
 };

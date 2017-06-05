@@ -157,6 +157,22 @@ describe('Schemaform helpers:', () => {
 
       expect(fields).not.to.be.empty;
     });
+    it('should skip array using option', () => {
+      const data = {
+        schema: {
+          type: 'array'
+        },
+        uiSchema: {
+          'ui:options': {
+            keepInPageOnReview: true
+          }
+        }
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).to.be.empty;
+    });
     it('should get array in object', () => {
       const data = {
         schema: {
@@ -170,7 +186,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).not.to.be.empty;
       expect(fields[0].path).to.eql(['field']);
@@ -184,7 +200,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).to.be.empty;
     });
@@ -202,7 +218,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).to.be.empty;
     });
@@ -425,6 +441,11 @@ describe('Schemaform helpers:', () => {
       const result = getNonArraySchema({ type: 'array' });
 
       expect(result).to.be.undefined;
+    });
+    it('should skip array fields using option', () => {
+      const result = getNonArraySchema({ type: 'array' }, { 'ui:option': { keepInPageOnReview: true } });
+
+      expect(result).to.be.defined;
     });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({

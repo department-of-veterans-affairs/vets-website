@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
 
@@ -79,14 +80,16 @@ export function submitForm(formConfig, form) {
         });
         return res.json();
       }
+
+      return Promise.reject(new Error(res.statusText));
+    })
+    .then(resp => dispatch(setSubmitted(resp)))
+    .catch(error => {
+      Raven.captureException(error);
       window.dataLayer.push({
         event: `${formConfig.trackingPrefix}-submission-failed`,
       });
-      return Promise.reject(res.statusText);
-    })
-    .then(
-      (resp) => dispatch(setSubmitted(resp)),
-      () => dispatch(setSubmission('status', 'error'))
-    );
+      dispatch(setSubmission('status', 'error'));
+    });
   };
 }

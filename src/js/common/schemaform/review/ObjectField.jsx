@@ -30,12 +30,6 @@ class ObjectField extends React.Component {
     this.isRequired = this.isRequired.bind(this);
     this.orderAndFilterProperties = _.flow(
       properties => orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
-      // you can exclude fields from showing up on the review page in the form config, so remove those
-      // before rendering the fields
-      properties => properties.filter(propName => {
-        // skip arrays, we're going to handle those outside of the normal review page
-        return this.props.schema.properties[propName].type !== 'array';
-      }),
       _.groupBy((item) => {
         const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], this.props.uiSchema);
         return expandUnderField || item;
