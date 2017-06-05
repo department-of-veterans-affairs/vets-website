@@ -38,8 +38,8 @@ const {
   date,
   monthlyIncome,
   netWorth,
-  expectedIncome
-  // severancePay
+  expectedIncome,
+  severancePay
 } = fullSchemaPensions.definitions;
 
 const formConfig = {
@@ -178,6 +178,7 @@ const formConfig = {
           title: 'POW Status & Severance Pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
+            'ui:order': ['view:powStatus', 'powStatus', 'powDateRange', 'view:severancePay', 'severancePay', 'separation', 'severance', 'retirement'],
             powStatus: {
               'ui:title': 'Have you ever been a POW?',
               'ui:widget': 'yesNo'
@@ -221,40 +222,9 @@ const formConfig = {
               severancePay: {
                 type: 'boolean'
               },
-              // TODO: Replace these with the updated severancePay definition
-              separation: {
-                type: 'object',
-                properties: {
-                  amount: {
-                    type: 'integer'
-                  },
-                  type: {
-                    type: 'string'
-                  }
-                }
-              },
-              severance: {
-                type: 'object',
-                properties: {
-                  amount: {
-                    type: 'integer'
-                  },
-                  type: {
-                    type: 'string'
-                  }
-                }
-              },
-              retirement: {
-                type: 'object',
-                properties: {
-                  amount: {
-                    type: 'integer'
-                  },
-                  type: {
-                    type: 'string'
-                  }
-                }
-              }
+              separation: severancePay,
+              severance: severancePay,
+              retirement: severancePay
             }
           }
         }
