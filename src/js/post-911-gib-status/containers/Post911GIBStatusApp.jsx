@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
+import { getEnrollmentData } from '../actions/post-911-gib-status';
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, isDataAvailable }) {
@@ -25,6 +27,10 @@ function AppContent({ children, isDataAvailable }) {
 }
 
 class Post911GIBStatusApp extends React.Component {
+  componentDidMount() {
+    this.props.getEnrollmentData();
+  }
+
   render() {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
@@ -41,7 +47,7 @@ class Post911GIBStatusApp extends React.Component {
               {this.props.children}
               <h4 className="section-header">Post-9/11 GI Bill Status</h4>
               <div className="info-container usa-width-two-thirds medium-8 columns">
-                Placeholder for Post-9/11 GI Bill Status content
+                Placeholder content
               </div>
             </div>
           </div>
@@ -56,8 +62,13 @@ function mapStateToProps(state) {
   return {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    verifyUrl: userState.login.verifyUrl,
+    enrollmentState: state.enrollmentData
   };
 }
 
-export default connect(mapStateToProps)(Post911GIBStatusApp);
+const mapDispatchToProps = {
+  getEnrollmentData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post911GIBStatusApp);
