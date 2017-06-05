@@ -98,6 +98,28 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.pages.page1.editMode).to.be.true;
     });
+    it('should reset array edit modes', () => {
+      const state = reducer({
+        pages: {
+          page1: {
+            showPagePerItem: true,
+            arrayPath: 'testing',
+            editMode: [true],
+            schema: {
+              type: 'object',
+              properties: {}
+            },
+            uiSchema: {},
+          }
+        },
+        data: { testing: [{}] }
+      }, {
+        type: SET_DATA,
+        data: { testing: [{}, {}] }
+      });
+
+      expect(state.pages.page1.editMode).to.eql([false, false]);
+    });
     it('should set privacy agreement', () => {
       const state = reducer({
         data: {

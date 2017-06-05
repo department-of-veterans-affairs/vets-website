@@ -3,7 +3,7 @@
 // Created: 2017-04-12
 //
 // - Used for link lists.
-// - Find an example on /disability-benefits
+// - Find an example on /disability-benefits or home page
 // - Find corresponding markup in 
 //   content/includes/navigation-links-list.html
 //============================================
@@ -28,6 +28,7 @@
 
   &-list {
     list-style: none;
+    margin: 0;
     padding-left: 0;
 
     a {

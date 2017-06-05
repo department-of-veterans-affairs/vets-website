@@ -6,6 +6,12 @@ function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
 
+function get(path, data) {
+  return path.reduce((current, next) => {
+    return typeof current === 'undefined' ? current : current[next];
+  }, data);
+}
+
 /*
  * This function goes through a schema/uiSchema and updates the required array
  * based on any ui:required field properties in the uiSchema.
@@ -92,11 +98,13 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
 
   // expandUnder fields are relative to the parent object of the current
   // field, so get that object using path here
-  const containingObject = _.get(path.slice(0, -1), formData) || formData;
+  const containingObject = get(path.slice(0, -1), formData) || formData;
 
   let updatedSchema = schema;
-  const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
-  const index = _.findLast(item => typeof item === 'number', path);
+  const hideIf = get(['ui:options', 'hideIf'], uiSchema);
+  const index = path.reduce((current, next) => {
+    return typeof next === 'number' ? next : current;
+  }, null);
 
   if (hideIf && hideIf(formData, index)) {
     if (!updatedSchema['ui:hidden']) {
@@ -106,8 +114,8 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     updatedSchema = _.unset('ui:hidden', updatedSchema);
   }
 
-  const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  const expandUnderCondition = _.get(['ui:options', 'expandUnderCondition'], uiSchema);
+  const expandUnder = get(['ui:options', 'expandUnder'], uiSchema);
+  const expandUnderCondition = get(['ui:options', 'expandUnderCondition'], uiSchema);
   if (expandUnder && !isContentExpanded(containingObject[expandUnder], expandUnderCondition)) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
@@ -233,7 +241,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
     }
   }
 
-  const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
+  const updateSchema = get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
     const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index, path);
@@ -263,7 +271,7 @@ export function replaceRefSchemas(schema, definitions, path = '') {
     // There's a whole spec for JSON pointers, but we don't use anything more complicated
     // than this so far
     const refPath = schema.$ref.replace('#/definitions/', '').split('/');
-    const definition = _.get(refPath, definitions);
+    const definition = get(refPath, definitions);
     if (!definition) {
       throw new Error(`Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`);
     }
@@ -323,19 +331,26 @@ export function updateItemsSchema(schema, fieldData = null) {
 
     if (!fieldData) {
       // If there's no data, the list of schemas should be empty
-      return _.set('items', [], newSchema);
+      newSchema = _.set('items', [], newSchema);
     } else if (fieldData.length > newSchema.items.length) {
       // Here we're filling in the items array to make it the same
       // length as the array of form data. This happens when you add
       // another record on the form, mainly.
       const fillIn = Array(fieldData.length - newSchema.items.length)
         .fill(newSchema.additionalItems);
-      return _.set('items', newSchema.items.concat(fillIn), newSchema);
+      newSchema = _.set('items', newSchema.items.concat(fillIn), newSchema);
     } else if (fieldData.length < newSchema.items.length) {
       // If someone removed a record we're removing the last schema item
       // This may not be the actual removed schema, but the schemas will
       // always be updated in the next step
-      return _.set('items', _.dropRight(1, newSchema.items), newSchema);
+      newSchema = _.set('items', _.dropRight(1, newSchema.items), newSchema);
+    }
+
+    const updatedItems = newSchema.items.map(
+      (item, index) => updateItemsSchema(item, fieldData[index])
+    );
+    if (newSchema.items.some((item, index) => item !== updatedItems[index])) {
+      return _.set('items', updatedItems, newSchema);
     }
 
     return newSchema;

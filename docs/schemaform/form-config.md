@@ -43,11 +43,26 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
 
       // The title of the page. This will show up only on the review page
       title: '',
+      // This can also be a function that receives the current data as a param
+      title: formData => `A title for ${formData.thing}`,
 
       // Any initial data that should be set for the form
       initialData: {
         field1: 'Default string'
       },
+
+      // You can also set a page to turn its schema into
+      // a page for each item in an array. So if you have an array of children, and you want
+      // to have a page for each one, you can do that here
+      // The schema/uiSchema for this kind of page should be built as usual for an array field
+      showPagePerItem: true,
+      // The path to the array to use
+      arrayPath: 'children',
+      // A function you can use to filter out items in the array that you don't want
+      // to create a page for
+      itemFilter: () => true,
+      // You must specify a path with an :index parameter
+      path: 'some-path/:index',
 
       // JSON schema object for the page. Follows the JSON Schema format.
       schema: {
@@ -158,6 +173,8 @@ We've also been adding some additional uiSchema functionality not found in the r
 {
   // We use this instead of the title property in the JSON Schema
   'ui:title': '',
+  // It can also be a component, which will have the current form data passed as prop
+  'ui:title': ({ formData }) => <legend>{`A ${formData.thing} title`}</legend>,
 
   // We use this instead of the description property in the JSON Schema. This can be
   // a string or a React component and would normally be used on object fields in the
@@ -270,7 +287,11 @@ We've also been adding some additional uiSchema functionality not found in the r
       return {
         type: 'string'
       };
-    }
+    },
+
+    // Use this if you have an array field that should not be pulled out of the
+    // page its in and shown separately on the review page
+    keepInPageOnReview: true
   }
 }
 ```

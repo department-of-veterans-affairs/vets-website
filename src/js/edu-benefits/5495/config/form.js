@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -10,7 +10,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

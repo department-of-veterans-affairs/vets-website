@@ -10,6 +10,15 @@ export const api = {
   }
 };
 
+/* eslint-disable camelcase */
+export const facilityTypes = {
+  va_health_facility: 'Health',
+  va_cemetery: 'Cemetery',
+  va_benefits_facility: 'Benefits',
+  vet_center: 'Vet Center',
+};
+/* eslint-enable camelcase */
+
 export const benefitsServices = {
   All: 'All',
   ApplyingForBenefits: 'Applying for benefits',
@@ -28,3 +37,65 @@ export const benefitsServices = {
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance: 'Vocational Rehabilitation and Employment (VR&E) help',
 };
+
+export const vetCenterServices = [
+  'Individual and Group Counseling for eligible Veterans and Services Members',
+  'Family counseling for military related issues',
+  'Bereavement counseling',
+  'Counseling and referral for those that experience a military sexual trauma',
+  'Outreach',
+  'Substance abuse assessment and referral',
+  'Employment referral',
+  'Referral for other VA services',
+  'Community education',
+];
+
+export const healthFacilityServices = [
+  'AllergyAndImmunology',
+  'Audiology',
+  'CardiacSurgery',
+  'CardiologyCareServices',
+  'ColoRectalSurgery',
+  'ComplementaryAlternativeMed',
+  'DentalServices',
+  'DermatologyCareServices',
+  'Diabetes',
+  'DiagnosticServices',
+  'Dialysis',
+  'EmergencyDept',
+  'Endocrinology',
+  'ENT',
+  'EyeCare',
+  'Gastroenterology',
+  'GeneralSurgery',
+  'Gynecology',
+  'Hematology',
+  'ImagingAndRadiology',
+  'InfectiousDisease',
+  'InternalMedicine',
+  'LabServices',
+  'MentalHealthCare',
+  'Nephrology',
+  'Neurology',
+  'Neurosurgery',
+  'Oncology',
+  'Orthopedics',
+  'OutpatientMedicalSpecialty',
+  'OutpatientMHCare',
+  'OutpatientSpecMHCare',
+  'OutpatientSurgicalSpecialty',
+  'PainManagement',
+  'PlasticSurgery',
+  'Podiatry',
+  'PrimaryCare',
+  'PulmonaryRespiratoryDisease',
+  'Rehabilitation',
+  'Rheumatology',
+  'SleepMedicine',
+  'ThoracicSurgery',
+  'UrgentCare',
+  'Urology',
+  'VascularSurgery',
+  'VocationalAssistance',
+  'WellnessAndPreventativeCare',
+];

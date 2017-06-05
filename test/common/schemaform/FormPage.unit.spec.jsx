@@ -159,4 +159,164 @@ describe('Schemaform <FormPage>', () => {
 
     expect(router.push.calledWith('first-page'));
   });
+  it('should render array page', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} params={{ index: 0 }}/>
+    );
+
+    expect(tree.subTree('SchemaForm').props.schema).to.equal(form.pages.testPage.schema.properties.arrayProp.items[0]);
+    expect(tree.subTree('SchemaForm').props.uiSchema).to.equal(form.pages.testPage.uiSchema.arrayProp.items);
+    expect(tree.subTree('SchemaForm').props.data).to.equal(form.data.arrayProp[0]);
+  });
+  it('should handle change in array page', () => {
+    const setData = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+          setData={setData}
+          form={form}
+          route={route}
+          params={{ index: 0 }}/>
+    );
+
+    tree.getMountedInstance().onChange({ test: 2 });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [
+        {
+          test: 2
+        }
+      ]
+    });
+  });
+  it('should match current page correctly when an array page', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: '',
+        path: '/testing/:index'
+      },
+      pageList: [
+        {
+          pageKey: 'blah',
+          path: 'a-path'
+        },
+        {
+          pageKey: 'testPage',
+          path: '/testing/:index',
+          showPagePerItem: true,
+          arrayPath: 'arrayProp'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+          form={form}
+          route={route}
+          location={{
+            pathname: '/testing/0'
+          }}
+          params={{ index: 0 }}/>
+    );
+
+    const { pageIndex } = tree.getMountedInstance().getEligiblePages();
+
+    expect(pageIndex).to.equal(1);
+  });
 });

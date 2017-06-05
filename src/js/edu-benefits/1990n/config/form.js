@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
-import applicantInformationPage from '../../pages/applicantInformation';
+import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
