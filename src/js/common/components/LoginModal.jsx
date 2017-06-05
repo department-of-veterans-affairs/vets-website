@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 // Copied from src/js/login/containers/Main.jsx
 import { handleLogin } from '../../common/helpers/login-helpers.js';
-import { updateLogInUrl } from '../../login/actions';
 
 import Modal from './Modal';
 
@@ -76,20 +74,10 @@ class LoginModal extends React.Component {
 LoginModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  user: PropTypes.object.isRequired, // Taken from the redux store
+  onUpdateLoginUrl: PropTypes.func.isRequired // Dispatches updateLogInUrl()
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user
-});
 
-// Copied from src/js/login/containers/Main.jsx
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+export default LoginModal;

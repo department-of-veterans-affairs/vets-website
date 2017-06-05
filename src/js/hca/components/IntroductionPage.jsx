@@ -6,6 +6,9 @@ import LoginModal from '../../common/components/LoginModal';
 import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
+import { updateLogInUrl } from '../../login/actions';
+
+
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
@@ -24,10 +27,12 @@ class IntroductionPage extends React.Component {
       <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
       <LoginModal
           onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}/>
+          visible={this.state.modalOpened}
+          user={this.props.user}
+          onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
     </div>);
 
-    if (this.props.loggedIn) {
+    if (this.props.user.login.currentlyLoggedIn) {
       body = (<div>
         <strong>Note:</strong> You can now save your application and come back to save it at a later time.
       </div>);
@@ -76,10 +81,20 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: state.user.login.currentlyLoggedIn
+    user: state.user
   };
 }
 
-export default connect(mapStateToProps)(IntroductionPage);
+// Copied from src/js/login/containers/Main.jsx
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    }
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };

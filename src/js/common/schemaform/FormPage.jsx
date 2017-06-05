@@ -13,6 +13,9 @@ import { expandArrayPages } from './helpers';
 import { setData } from './actions';
 import { saveInProgressForm } from './save-load-actions';
 
+import { updateLogInUrl } from '../../login/actions';
+
+
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
   if (legend && legend.getBoundingClientRect().height > 0) {
@@ -165,7 +168,8 @@ class FormPage extends React.Component {
               <SaveFormLink
                   saveForm={this.handleSave}
                   savedStatus={savedStatus}
-                  loggedIn={this.props.loggedIn}/>
+                  user={this.props.user}
+                  onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
             </div>
           </div>}
         </SchemaForm>
@@ -177,13 +181,18 @@ class FormPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    loggedIn: state.user.login.currentlyLoggedIn
+    user: state.user
   };
 }
 
-const mapDispatchToProps = {
-  setData,
-  saveInProgressForm
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setData,
+    saveInProgressForm,
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    }
+  };
 };
 
 FormPage.propTypes = {

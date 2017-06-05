@@ -33,10 +33,12 @@ class SaveFormLink extends React.Component {
           key={1}
           title="Sign in to save your application"
           onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}/>
+          visible={this.state.modalOpened}
+          user={this.props.user}
+          onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
     </div>);
 
-    if (this.props.loggedIn) {
+    if (this.props.user.login.currentlyLoggedIn) {
       content = <a onClick={saveForm}>Save and come back later</a>;
     }
 
@@ -61,7 +63,8 @@ class SaveFormLink extends React.Component {
 SaveFormLink.propTypes = {
   saveForm: PropTypes.func.isRequired,
   savedStatus: PropTypes.string.isRequired,
-  loggedIn: PropTypes.bool.isRequired
+  user: PropTypes.object.isRequired,
+  onUpdateLoginUrl: PropTypes.func.isRequired
 };
 
 export default SaveFormLink;
