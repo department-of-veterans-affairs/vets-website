@@ -50,8 +50,9 @@ describe('Pensions Reserve and National Guard', () => {
     );
 
     const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
+    ReactTestUtils.Simulate.change(find('#root_powStatusYes'), {
       target: {
         value: 'Y'
       }
@@ -71,13 +72,14 @@ describe('Pensions Reserve and National Guard', () => {
     );
 
     const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
+    ReactTestUtils.Simulate.change(find('#root_powStatusNo'), {
       target: {
         value: 'N'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('input[type="radio"]')[1], {
+    ReactTestUtils.Simulate.change(find('#root_severancePayNo'), {
       target: {
         value: 'N'
       }
