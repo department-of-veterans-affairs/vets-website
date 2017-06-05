@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Veterans Pension Rate
+title: Veterans Pension Rates
 display_title: Veterans Pension Rates
 concurrence: "" 
 order: 4
