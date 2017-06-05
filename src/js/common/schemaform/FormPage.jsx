@@ -140,7 +140,8 @@ class FormPage extends React.Component {
             <div className="small-12 columns">
               <SaveFormLink
                   saveForm={this.handleSave}
-                  savedStatus={savedStatus}/>
+                  savedStatus={savedStatus}
+                  loggedIn={this.props.loggedIn}/>
             </div>
           </div>}
         </SchemaForm>
@@ -151,7 +152,8 @@ class FormPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    loggedIn: state.user.login.currentlyLoggedIn
   };
 }
 

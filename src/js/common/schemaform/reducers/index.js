@@ -23,7 +23,9 @@ import {
   SET_SAVED,
   SET_LOADED,
   SET_LOADED_DATA,
-  LOAD_DATA
+  LOAD_DATA,
+  SAVE_STATUSES,
+  LOAD_STATUSES
 } from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -84,8 +86,8 @@ export default function createSchemaFormReducer(formConfig) {
         timestamp: false,
         hasAttemptedSubmit: false
       },
-      savedStatus: 'not-attempted',
-      loadedStatus: 'not-attempted',
+      savedStatus: SAVE_STATUSES.notAttempted,
+      loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
       disableSave: formConfig.disableSave,

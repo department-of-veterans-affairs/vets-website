@@ -6,8 +6,25 @@ export const SET_LOADED = 'SET_LOADED';
 export const SET_LOADED_DATA = 'SET_LOADED_DATA';
 export const LOAD_DATA = 'LOAD_DATA';
 
+export const SAVE_STATUSES = Object.freeze({
+  notAttempted: 'not-attempted',
+  pending: 'pending',
+  noAuth: 'no-auth',
+  failure: 'failure',
+  success: 'success'
+});
+// TODO: Use these statuses to display an error message somewhere
+export const LOAD_STATUSES = Object.freeze({
+  notAttempted: 'not-attempted',
+  pending: 'pending',
+  noAuth: 'no-auth',
+  failure: 'failure',
+  notFound: 'not-found',
+  invalidData: 'invalid-data',
+  success: 'success'
+});
 
-// Possible statuses: pending, no-auth, failure, success
+
 export function setSaved(status) {
   return {
     type: SET_SAVED,
@@ -15,7 +32,6 @@ export function setSaved(status) {
   };
 }
 
-// Possible statuses: pending, no-auth, failure, not-found, invalid-data, success
 export function setLoaded(status) {
   return {
     type: SET_LOADED,
@@ -98,12 +114,12 @@ export function saveFormData(formId, version, returnUrl, formData) {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
-      dispatch(setSaved('no-auth')); // Shouldn't get here either...
+      dispatch(setSaved(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
       return;
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setSaved('pending'));
+    dispatch(setSaved(SAVE_STATUSES.pending));
 
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -116,16 +132,16 @@ export function saveFormData(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaved('success'));
+        dispatch(setSaved(SAVE_STATUSES.success));
       } else {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to save, tell them their session expired and they need to log
         //  back in and try again. Unfortunately, this means they'll lose all
         //  their information.
         if (res.status === 401) {
-          dispatch(setSaved('no-auth'));
+          dispatch(setSaved(SAVE_STATUSES.noAuth));
         } else {
-          dispatch(setSaved('failure'));
+          dispatch(setSaved(SAVE_STATUSES.failure));
         }
       }
     });
@@ -147,12 +163,12 @@ export function loadFormData(formId, migrations) {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
-      dispatch(setLoaded('no-auth')); // Shouldn't get here, but just in case
+      dispatch(setLoaded(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
       return;
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setLoaded('pending'));
+    dispatch(setLoaded(LOAD_STATUSES.pending));
 
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -168,26 +184,26 @@ export function loadFormData(formId, migrations) {
         return res.json();
       }
 
-      let status = 'failure';
+      let status = LOAD_STATUSES.failure;
       if (res.status === 401) {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to load, tell them their session expired and they need to log
         //  back in and try again.
-        status = 'no-auth';
+        status = LOAD_STATUSES.noAuth;
       } else if (res.status === 404) {
-        status = 'not-found';
+        status = LOAD_STATUSES.notFound;
       }
       return Promise.reject(status);
     }).then((resBody) => {  // eslint-disable-line consistent-return
       // Just in case something funny happens where the json returned isn't an object as expected
       if (typeof resBody !== 'object') {
-        return Promise.reject('invalid-data');
+        return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
       // If an empty object is returned, throw a not-found
       // TODO: When / if we return a 404 for applications that don't exist, remove this
       if (Object.keys(resBody).length === 0) {
-        return Promise.reject('not-found');
+        return Promise.reject(LOAD_STATUSES.notFound);
       }
 
       // If we've made it this far, we've got valid form
@@ -200,7 +216,7 @@ export function loadFormData(formId, migrations) {
       } catch (e) {
         // TODO: Log e.message somewhere; it's the reason the data couldn't be
         //  transformed. Sentry error?
-        return Promise.reject('invalid-data');
+        return Promise.reject(LOAD_STATUSES.invalidData);
       }
       // Set the data in the redux store
       // NOTE: Until we get the api for the list of filled forms, we're using this
@@ -209,14 +225,14 @@ export function loadFormData(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setLoadedData({ formData, metadata: resBody.metadata }));
-      dispatch(setLoaded('success'));
+      dispatch(setLoaded(LOAD_STATUSES.success));
     }).catch((status) => {
       let loadedStatus = status;
       // if res.json() has a parsing error, it'll reject with a SyntaxError
       if (status instanceof SyntaxError) {
         // TODO: Log this somehow...Sentry error?
         console.error('Could not parse response.', status); // eslint-disable-line no-console
-        loadedStatus = 'invalid-data';
+        loadedStatus = LOAD_STATUSES.invalidData;
       }
       dispatch(setLoaded(loadedStatus));
     });

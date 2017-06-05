@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import LoginModal from '../components/LoginModal';
+import { SAVE_STATUSES } from './save-load-actions';
 
 // TODO: Come up with a better name than SaveFormLink
 class SaveFormLink extends React.Component {
@@ -40,13 +40,13 @@ class SaveFormLink extends React.Component {
       content = <a onClick={saveForm}>Save and come back later</a>;
     }
 
-    if (savedStatus === 'no-auth') {
+    if (savedStatus === SAVE_STATUSES.noAuth) {
       content = <p>no-auth message</p>;
-    } else if (savedStatus === 'failure') {
+    } else if (savedStatus === SAVE_STATUSES.failure) {
       content = <p>failure message</p>;
-    } else if (savedStatus === 'pending') {
+    } else if (savedStatus === SAVE_STATUSES.pending) {
       content = <p>spinner or something</p>;
-    } else if (savedStatus === 'success') {
+    } else if (savedStatus === SAVE_STATUSES.success) {
       content = <p>success message</p>;
       // TODO: Redirect to a page like: https://marvelapp.com/2hj59b1/screen/28358414
     }
@@ -60,14 +60,8 @@ class SaveFormLink extends React.Component {
 
 SaveFormLink.propTypes = {
   saveForm: PropTypes.func.isRequired,
-  savedStatus: PropTypes.string.isRequired
+  savedStatus: PropTypes.string.isRequired,
+  loggedIn: PropTypes.bool.isRequired
 };
 
-// I'd rather not have this linked to redux, but then again, I'd rather not pass
-//  the prop through too many components; after login, all those parents would
-//  be rerendered unnecessarily.
-const mapStateToProps = (state) => ({
-  loggedIn: state.user.login.currentlyLoggedIn
-});
-
-export default connect(mapStateToProps)(SaveFormLink);
+export default SaveFormLink;
