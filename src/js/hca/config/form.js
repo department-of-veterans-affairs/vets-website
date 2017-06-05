@@ -152,7 +152,7 @@ const formConfig = {
             type: 'object',
             properties: {
               veteranFullName,
-              mothersMaidenName: _.set('maxLength', 30, mothersMaidenName)
+              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName)
             }
           }
         },
