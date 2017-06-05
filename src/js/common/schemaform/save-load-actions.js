@@ -25,28 +25,28 @@ export const LOAD_STATUSES = Object.freeze({
 });
 
 
-export function setSaved(status) {
+export function setSaveFormStatus(status) {
   return {
     type: SET_SAVED,
     status
   };
 }
 
-export function setLoaded(status) {
+export function setFetchFormStatus(status) {
   return {
     type: SET_LOADED,
     status
   };
 }
 
-export function setLoadedData(data) {
+export function setInProgressForm(data) {
   return {
     type: SET_LOADED_DATA,
     data
   };
 }
 
-export function loadData() {
+export function loadInProgressDataIntoForm() {
   return {
     type: LOAD_DATA
   };
@@ -65,7 +65,7 @@ export function loadData() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-function getUpdatedFormData(savedData, savedVersion, migrations) {
+function migrateFormData(savedData, savedVersion, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -101,7 +101,7 @@ function getUpdatedFormData(savedData, savedVersion, migrations) {
  * @param  {String}  returnUrl The last URL the user was at before saving
  * @param  {Object}  formData  The data the user has entered so far
  */
-export function saveFormData(formId, version, returnUrl, formData) {
+export function saveInProgressForm(formId, version, returnUrl, formData) {
   // Double stringify because of api reasons. Olive Branch issues, methinks.
   const body = JSON.stringify({
     metadata: JSON.stringify({
@@ -114,12 +114,12 @@ export function saveFormData(formId, version, returnUrl, formData) {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
-      dispatch(setSaved(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
+      dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
       return;
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setSaved(SAVE_STATUSES.pending));
+    dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
 
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -132,16 +132,16 @@ export function saveFormData(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaved(SAVE_STATUSES.success));
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success));
       } else {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to save, tell them their session expired and they need to log
         //  back in and try again. Unfortunately, this means they'll lose all
         //  their information.
         if (res.status === 401) {
-          dispatch(setSaved(SAVE_STATUSES.noAuth));
+          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         } else {
-          dispatch(setSaved(SAVE_STATUSES.failure));
+          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
       }
     });
@@ -157,18 +157,18 @@ export function saveFormData(formId, version, returnUrl, formData) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function loadFormData(formId, migrations) {
+export function fetchInProgressForm(formId, migrations) {
   // TODO: Test if the form is still saved after submission.
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
-      dispatch(setLoaded(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
       return;
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setLoaded(LOAD_STATUSES.pending));
+    dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
     // Query the api
     fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -211,8 +211,8 @@ export function loadFormData(formId, migrations) {
       let formData;
       try {
         // NOTE: This may change to be migrated in the back end before sent over
-        formData = getUpdatedFormData(resBody.form_data, resBody.metadata.version, migrations);
-        // formData = getUpdatedFormData(resBody.formData, resBody.metadata.version, migrations);
+        formData = migrateFormData(resBody.form_data, resBody.metadata.version, migrations);
+        // formData = migrateFormData(resBody.formData, resBody.metadata.version, migrations);
       } catch (e) {
         // TODO: Log e.message somewhere; it's the reason the data couldn't be
         //  transformed. Sentry error?
@@ -224,8 +224,8 @@ export function loadFormData(formId, migrations) {
       //  data in a separate place to be pulled in when we _actually_ want to load
       //  the formData.
       // dispatch(setData(formData));
-      dispatch(setLoadedData({ formData, metadata: resBody.metadata }));
-      dispatch(setLoaded(LOAD_STATUSES.success));
+      dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
+      dispatch(setFetchFormStatus(LOAD_STATUSES.success));
     }).catch((status) => {
       let loadedStatus = status;
       // if res.json() has a parsing error, it'll reject with a SyntaxError
@@ -234,7 +234,7 @@ export function loadFormData(formId, migrations) {
         console.error('Could not parse response.', status); // eslint-disable-line no-console
         loadedStatus = LOAD_STATUSES.invalidData;
       }
-      dispatch(setLoaded(loadedStatus));
+      dispatch(setFetchFormStatus(loadedStatus));
     });
   };
 }

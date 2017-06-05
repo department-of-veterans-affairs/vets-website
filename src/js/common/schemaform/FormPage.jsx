@@ -10,7 +10,7 @@ import SaveFormLink from './SaveFormLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
-import { saveFormData } from './save-load-actions';
+import { saveInProgressForm } from './save-load-actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -91,7 +91,7 @@ class FormPage extends React.Component {
       data
     } = this.props.form;
     const returnUrl = this.props.location.pathname;
-    this.props.saveFormData(formId, version, returnUrl, data);
+    this.props.saveInProgressForm(formId, version, returnUrl, data);
 
     // TODO: Build this page and make it accessible (and customizable) to all forms
     // this.router.push('/form-saved');
@@ -159,7 +159,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setData,
-  saveFormData
+  saveInProgressForm
 };
 
 FormPage.propTypes = {

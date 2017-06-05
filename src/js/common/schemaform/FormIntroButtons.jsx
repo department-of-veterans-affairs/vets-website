@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { loadFormData, loadData } from './save-load-actions';
+import { fetchInProgressForm, loadInProgressDataIntoForm } from './save-load-actions';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
@@ -14,7 +14,7 @@ class FormIntroButtons extends React.Component {
     // Load the form data into the redux store if possible
     // NOTE: This does not fill the data into the form yet; just grabs it and
     //  saves it for later (when we want to fill in the blanks).
-    this.props.loadFormData(this.props.form.formId, this.props.form.migrations);
+    this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
   }
 
   componentWillReceiveProps(newProps) {
@@ -22,7 +22,7 @@ class FormIntroButtons extends React.Component {
     const wasLoggedIn = this.props.loggedIn;
     const isLoggedIn = newProps.loggedIn;
     if (!wasLoggedIn && isLoggedIn) {
-      this.props.loadFormData(this.props.form.formId, this.props.form.migrations);
+      this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
     }
   }
 
@@ -33,7 +33,7 @@ class FormIntroButtons extends React.Component {
   handleLoadForm = () => {
     // This is where we take the formData we pre-loaded in componentWillMount
     //  and fill in the form.
-    this.props.loadData();
+    this.props.loadInProgressDataIntoForm();
     // Navigate to the last page they were on
     this.props.router.push(this.props.form.loadedData.metadata.returnUrl);
     // TODO: Handle this scenario:
@@ -87,8 +87,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  loadFormData,
-  loadData
+  fetchInProgressForm,
+  loadInProgressDataIntoForm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormIntroButtons));
