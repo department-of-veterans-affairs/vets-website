@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Survivors Pension Rate Tables
+title: Survivors Pension Rates
 display_title: Survivors Pension Rates
 concurrence: "" 
 relatedlinks: 
