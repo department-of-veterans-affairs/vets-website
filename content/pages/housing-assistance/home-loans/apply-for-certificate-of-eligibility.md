@@ -80,24 +80,24 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 
 <li class="step last two">
 
-#### Apply for your COE.
+#### Apply for your COE
 
 You can apply in 1 of 3 ways:
 
-**Online through eBenefits:** We recommend applying for your COE online.
+**Online through eBenefits** 
+
+We recommend applying for your COE online.
 
 <a class="usa-button-primary va-button-primary" href="http://www.ebenefits.va.gov/">Go to eBenefits to Apply</a>
 
-**Through our Web LGY system:** In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
+**Through our Web LGY system** 
 
-**By mail:** To apply by mail, fill out VA Form 26-1880 and mail it to the address below. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
+In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
 
-<dl class="va-address-block">
-<dd>VA Loan Eligibility Center</dd>
-<dd>Attn: COE (262)</dd>
-<dd>PO Box 100034</dd>
-<dd>Decatur, GA 30031</dd>
-</dl>
+**By mail** 
+
+To apply by mail, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
+
 
 </li>
 </ol>
