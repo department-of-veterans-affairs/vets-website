@@ -125,7 +125,7 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('education/gi-bill/post-9-11/status');
+  ignoreList.push('education/gi-bill/post-9-11/status/*');
   ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
   ignoreList.push('education/apply-wizard/');
