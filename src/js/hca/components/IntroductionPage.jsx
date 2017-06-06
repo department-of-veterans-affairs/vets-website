@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
@@ -77,8 +76,8 @@ class IntroductionPage extends React.Component {
             route={this.props.route}
             router={this.props.router}
             form={this.props.form}
-            fetchInProgressForm={fetchInProgressForm}
-            loadInProgressDataIntoForm={loadInProgressDataIntoForm}
+            fetchInProgressForm={this.props.fetchInProgressForm}
+            loadInProgressDataIntoForm={this.props.loadInProgressDataIntoForm}
             loggedIn={this.props.user.login.currentlyLoggedIn}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
@@ -99,14 +98,11 @@ function mapStateToProps(state) {
 }
 
 // Copied from src/js/login/containers/Main.jsx
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    fetchInProgressForm,
-    loadInProgressDataIntoForm,
-    updateLogInUrl
-  }, dispatch);
+const mapDispatchToProps = {
+  fetchInProgressForm,
+  loadInProgressDataIntoForm,
+  updateLogInUrl
 };
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IntroductionPage));
 

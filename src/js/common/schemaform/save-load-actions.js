@@ -158,10 +158,8 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  *                                is different from the current version.
  */
 export function fetchInProgressForm(formId, migrations) {
-  // console.log('fetchInProgressForm has been called');
   // TODO: Test if the form is still saved after submission.
   return dispatch => {
-    // console.log('fetchInProgressForm\'s return function has been called!');
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
