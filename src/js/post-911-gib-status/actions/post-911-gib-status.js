@@ -1,5 +1,5 @@
 // TODO: remove this hard-coded response once we can fetch from a vets-api endpoint
-const chapter33EnrollmentResponse = {
+const post911GIBStatusResponse = {
   chapter33EducationInfo: {
     dateOfBirth: '1977-10-01T04:00:00.000+0000',
     firstName: 'Jean',
@@ -57,7 +57,7 @@ export function getEnrollmentData() {
   return (dispatch) => {
     return dispatch({
       type: 'GET_ENROLLMENT_DATA_SUCCESS',
-      data: chapter33EnrollmentResponse.chapter33EducationInfo
+      data: post911GIBStatusResponse.chapter33EducationInfo
     });
     /*
     apiRequest('/v0/post_911_gib_status/enrollment',

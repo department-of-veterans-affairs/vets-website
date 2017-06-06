@@ -67,7 +67,7 @@ function mapStateToProps(state) {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    enrollmentState: state.post911GIBillStatus.enrollmentData
+    enrollmentState: state.post911GIBStatus.enrollmentData
   };
 }
 

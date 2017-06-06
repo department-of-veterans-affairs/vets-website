@@ -5,7 +5,7 @@ const initialState = {
   available: false
 };
 
-function post911GIBillStatus(state = initialState, action) {
+function post911GIBStatus(state = initialState, action) {
   switch (action.type) {
     case 'GET_ENROLLMENT_DATA_SUCCESS':
       return {
@@ -21,5 +21,5 @@ function post911GIBillStatus(state = initialState, action) {
 }
 
 export default {
-  post911GIBillStatus
+  post911GIBStatus
 };
