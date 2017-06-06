@@ -5,20 +5,20 @@ title: Apply for Your COE
 concurrence: 
 order: 3
 relatedlinks:
-  - heading: Learn more about how to get...
+  - heading: VA-Backed Loans
     links:
     - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
-      title: A purchase loan to buy a home
-      description:
+      title: Purchase Loan 
+      description: Find out how to get a VA-backed purchase loan to buy a home. 
     - url: /housing-assistance/home-loans/va-backed-loans/nadl/
-      title: A Native American Direct Loan (NADL) to buy, build, or improve a home on Federal Trust Land
-      description:
+      title: Native American Direct Loan (NADL) 
+      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land. 
     - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
-      title: An Interest Rate Reduction Refinance Loan (IRRRL) to refinance an existing VA loan
-      description:
+      title: Interest Rate Reduction Refinance Loan (IRRRL) 
+      description: Find out how to get an IRRRL loan to refinance an existing loan. 
     - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-      title: A cash-out refinance loan to get cash from your home equity or refinance a non-VA loan into a VA-backed loan
-      description:
+      title: Cash-Out Refinance Loan
+      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs. 
 ---
 
 <div class="va-introtext">
