@@ -40,7 +40,7 @@
       padding: 10px;
       font-weight: bold;
       color: $color-gray-dark;
-      background-color: $color-gray-light-alt;
+      background-color: $color-inset-bg;
       border-bottom: 1px solid $color-gray-light;
     }
 
@@ -53,7 +53,12 @@
     .form-radio-buttons {
       padding: 0 10px 5px 10px;
       border-top: 1px solid $color-gray-light;
-      background-color: $color-gray-light-alt;
+      background-color: $color-inset-bg;
+      color: $color-gray-dark;
+
+      &.disabled {
+        color: $color-gray-light;
+      }
     }
   }
 }
