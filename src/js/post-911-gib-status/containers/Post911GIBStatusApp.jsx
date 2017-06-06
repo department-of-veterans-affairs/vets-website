@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
@@ -49,6 +50,7 @@ class Post911GIBStatusApp extends React.Component {
               <div className="info-container usa-width-two-thirds medium-8 columns">
                 Placeholder content
               </div>
+              <div>{this.props.enrollmentState}</div>
             </div>
           </div>
         </AppContent>
