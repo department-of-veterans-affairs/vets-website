@@ -35,6 +35,9 @@ class Post911GIBStatusApp extends React.Component {
   render() {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
+    const { enrollmentState } = this.props;
+    const name = enrollmentState ? `${enrollmentState.firstName} ${enrollmentState.lastName}` : '';
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -48,9 +51,8 @@ class Post911GIBStatusApp extends React.Component {
               {this.props.children}
               <h4 className="section-header">Post-9/11 GI Bill Status</h4>
               <div className="info-container usa-width-two-thirds medium-8 columns">
-                Placeholder content
+                Placeholder content: {name}
               </div>
-              <div>{this.props.enrollmentState}</div>
             </div>
           </div>
         </AppContent>
@@ -65,7 +67,7 @@ function mapStateToProps(state) {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    enrollmentState: state.enrollmentData
+    enrollmentState: state.post911GIBillStatus.enrollmentData
   };
 }
 
