@@ -13,7 +13,7 @@ We have 3 Regional Pension Management Centers. Look at the lists below to find t
 
 </div>
 
-### Philadelphia VA Regional Benefit Office
+### Philadelphia VA Pension Management Center
 
 This office serves:
 
@@ -58,7 +58,7 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Philadelphia VA Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
 
-### Milwaukee VA Pension Center
+### Milwaukee VA Pension Management Center
 
 This office serves:
 
@@ -97,7 +97,7 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Milwaukee VA Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
 
-### St. Paul VA Regional Benefit Office
+### St. Paul VA Pension Management Center
 
 This office serves:
 

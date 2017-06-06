@@ -51,6 +51,6 @@ Bring your application to a Regional Benefits Office near you. [Find a Regional 
 
 ### How long does it take VA to make a decision?
 
-Claims are processed in the order in which they are received unless priority processing is required.   
+It depends. We process claims in the order we receive them, unless a claim requires priority processing.   
 
 

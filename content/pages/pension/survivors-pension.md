@@ -9,7 +9,7 @@ order: 3
 
 <div class="va-introtext">
 
-Survivors pension is a tax-free monetary benefit. If you’re a low-income surviving spouse who’s unmarried, or the unmarried child of a deceased Veteran with wartime service, you may be able to get this benefit. Find out if you qualify. 
+Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse or child of a deceased Veteran with wartime service, and your income and net worth meet certain limits set by Congress, you may be able to get this benefit. Find out if you qualify. 
 
 </div>
 
@@ -17,34 +17,37 @@ Survivors pension is a tax-free monetary benefit. If you’re a low-income survi
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if your income and net worth meet certain levels set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. You may qualify if you meet these requirements and if the deceased Veteran:
+You may be able to get this benefit if you haven't remarried after the Veteran’s death, and your income and net worth meet certain levels set by Congress. Your net worth equals the value of everything you own, except for personal effects considered to be part of a reasonable way of life (like your house, your car, and certain home furnishings), minus any debt you owe. You may qualify if you meet these requirements and if the deceased Veteran was discharged from service under conditions other than dishonorable and:
 
-- Entered service on or before September 7, 1980, and served at least 90 days of active military service, with at least 1 day during a wartime period, **or**
+- Entered active duty on or before September 7, 1980, and served at least 90 days on active military service, with at least 1 day during a wartime period, **or**
 
-- Entered active duty after September 7, 1980, **and**
-  - Served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period, **and** 
-  - Was discharged from service under other conditions than dishonorable
+- Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty (with some exceptions), with at least 1 day during a wartime period **or**
+
+- Was an officer and started on active duty after October 16, 1981, and hadn’t previously served on active duty for at least 24 months
+
 
 ### Can I get this benefit as the child of a deceased wartime Veteran?
 
-You may be able to get this benefit if you’re: 
+You may be able to get this benefit if you’re unmarried and: 
 - Under age 18, **or**
 - Under age 23 and attending a VA-approved school, **or**
-- Unable to care for yourself due to a disability that happened before age 1
+- Unable to care for yourself due to a disability that happened before age 18
 
 </div>
 
 ### Ready to apply? 
 
-Fill out the Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). [Download VA Form 21P-534EZ](http://vbaw.vba.va.gov/bl/20/cio/20s5/forms/VBA-21P-534EZ-ARE.pdf). 
+You can apply in 1 of 3 ways:
+
+#### Apply by mail
+
+Fill out VA Form 21-534EZ (Application for DIC, Death Pension, and/or Accrued Benefits). [Download VA Form 21-534EZ](http://www.vba.va.gov/pubs/forms/VBA-21-534EZ-ARE.pdf). 
 
 Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/). 
 
-### Other ways to apply
-
 #### Work with a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Find an accredited representative](/disability-benefits/apply/help/)
+You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
 
 #### Apply in person
 
@@ -52,4 +55,4 @@ Bring your application to a Regional Benefits Office near you. [Find a Regional 
 
 ### How long does it take VA to make a decision?
 
-Claims are processed in the order in which they are received unless priority processing is required.   
+It depends. We process claims in the order we received them, unless a claim requires priority processing.   
