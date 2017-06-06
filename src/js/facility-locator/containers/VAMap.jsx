@@ -10,11 +10,13 @@ import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
+import VetCenterMarker from '../components/markers/VetCenterMarker';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
 import MobileSearchResult from '../components/MobileSearchResult';
+import { facilityTypes } from '../config';
 
 class VAMap extends Component {
   static contextTypes = {
@@ -247,14 +249,6 @@ class VAMap extends Component {
   renderFacilityMarkers() {
     const { facilities } = this.props;
 
-    /* eslint-disable camelcase */
-    const facilityTypes = {
-      va_health_facility: 'Health',
-      va_cemetery: 'Cemetery',
-      va_benefits_facility: 'Benefits',
-    };
-    /* eslint-enable camelcase */
-
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
@@ -305,6 +299,12 @@ class VAMap extends Component {
             <BenefitsMarker {...iconProps}>
               {popupContent}
             </BenefitsMarker>
+          );
+        case 'vet_center':
+          return (
+            <VetCenterMarker {...iconProps}>
+              {popupContent}
+            </VetCenterMarker>
           );
         default: return null;
       }
