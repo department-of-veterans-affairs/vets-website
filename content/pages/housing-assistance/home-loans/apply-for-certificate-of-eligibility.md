@@ -4,6 +4,21 @@ template: detail-page
 title: Apply for Your COE
 concurrence: 
 order: 3
+relatedlinks:
+  - heading: Learn more about how to get...
+    links:
+    - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+      title: A purchase loan to buy a home
+      description:
+    - url: /housing-assistance/home-loans/va-backed-loans/nadl/
+      title: A Native American Direct Loan (NADL) to buy, build, or improve a home on Federal Trust Land
+      description:
+    - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+      title: An Interest Rate Reduction Refinance Loan (IRRRL) to refinance an existing VA loan
+      description:
+    - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+      title: A cash-out refinance loan to get cash from your home equity or refinance a non-VA loan into a VA-backed loan
+      description:
 ---
 
 <div class="va-introtext">
@@ -99,12 +114,3 @@ You can apply in 1 of 3 ways:
 ### Next steps for getting a VA-backed home loan
 
 Applying for your COE is only one part of the process for getting a VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
-
-**Learn more about how to get:**
-
-- [A purchase loan to buy a home](/housing-assistance/home-loans/va-backed-loans/purchase-loan/)
-- [A Native American Direct Loan (NADL) to buy, build, or improve a home on Federal Trust Land](/housing-assistance/home-loans/va-backed-loans/nadl/)
-- [An Interest Rate Reduction Refinance Loan (IRRRL) to refinance an existing VA loan](/housing-assistance/home-loans/va-backed-loans/irrrl/)
-- [A cash-out refinance loan to get cash from your home equity or refinance a non-VA loan into a VA-backed loan](/housing-assistance/home-loans/va-backed-loans/cash-out-refinance/)
-
-
