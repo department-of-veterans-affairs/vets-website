@@ -14,7 +14,7 @@ majorlinks:
     description: Post jobs and learn about hiring qualified Veterans.
   - url: /employment/commitments
     title: Commit to Hiring Veterans
-    description: Share your organization's commitment to hiring Veterans and their spouses.
+    description: Share your company's commitment to hiring Veterans and their spouses.
 secondarylinkstitle: "Explore other ways to start a career"
 secondarylinks:
   - url: /employment/job-seekers/start
