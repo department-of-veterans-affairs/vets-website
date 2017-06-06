@@ -115,7 +115,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
         <div id="transfer-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
         <div class="usa-alert-body">
         <h4 style="padding:0;">Your application cannot be approved until your sponsor transfers their benefits.</h4>
-        <p style="margin:0;"><a href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a></p>
+        <p style="margin:0;"><a target="_blank" href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a></p>
         </div>
         </div>
         <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button" data-state="closed">Apply now</a>
