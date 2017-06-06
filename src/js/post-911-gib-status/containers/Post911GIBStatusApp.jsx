@@ -22,7 +22,7 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
   return (
-    <div className="usa-grid">
+    <div>
       {view}
     </div>
   );
@@ -47,9 +47,16 @@ class Post911GIBStatusApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div className="usa-grid">
-            <div className="usa-width-two-thirds">
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns">
               <FormTitle title="Post-9/11 GI Bill Status"/>
+              <div className="va-introtext">
+                <p>
+                  View your Post-9/11 GI Bill enrollment information below. This is the same information
+                  in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
+                  print a copy of this screen for benefit and eligibility verification.
+                </p>
+              </div>
               <div className="info-container usa-width-two-thirds medium-8 columns">
                 Placeholder content: {name}
               </div>
