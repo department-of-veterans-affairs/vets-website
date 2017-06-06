@@ -1,34 +1,30 @@
 {% comment %}
 =====================
- Links List
+Links List
 =====================
 
-Used for lists of links to content within a particular channel or section. Also
-used for lists of Related Links when the `isRelated` property is set in the
+Used for:
+- lists of links to content within a particular channel or section.
+- lists of Related Links when the `isRelated` property is set in the
 include tag, e.g.:
-
 {% include "content/components/navigation-links-list.html" with isRelated = true %}
 
-Links should use the following pattern:
+NOTE: Can also pass majorlinks or relatedlinks in as a variable on the include
+tag, e.g.:
 
-linkgroupname:
-  - heading:
-    links:
-    - url:
-      title:
-      description:
+  {% include "content/components/navigation-links-list.html" with majorlinks = anothergroupofmajorlinks %}
 
-where linkgroupname is relatedlinks or majorlinks
+In this example, `anothergroupofmajorlinks` is a group of links that uses the
+same YAML structure as `majorlinks`, but with a different group name. Pass the
+different group name as the value for the `majorlinks` variable of the include.
 
-majorlinks = no background color.
-relatedlinks = box with a gray background color.
-
+See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 {% endcomment %}
 
 {% if isRelated == true %}
-  {% assign linklist = relatedlinks %}
+{% assign linklist = relatedlinks %}
 {% else %}
-  {% assign linklist = majorlinks %}
+{% assign linklist = majorlinks %}
 {% endif %}
 
 <div class="row">

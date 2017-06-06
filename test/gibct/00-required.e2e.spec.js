@@ -15,7 +15,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.gi-app', Timeouts.slow)
-      .axeCheck('.main');
+      // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
+      .axeCheck('.main', { rules: ['section508'] });
 
     client
       .clearValue('.keyword-search input[type="text"]')
@@ -24,7 +25,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('#search-button')
       .waitForElementVisible('.search-page', Timeouts.normal)
-      .axeCheck('.main');
+      // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
+      .axeCheck('.main', { rules: ['section508'] });
 
     client
       .click('.search-result a')

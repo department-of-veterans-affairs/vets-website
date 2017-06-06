@@ -7,6 +7,7 @@ import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
 import NavHeader from '../../common/components/NavHeader';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
+import { getLetterList } from '../actions/letters';
 import { chapters } from '../routes';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -34,6 +35,10 @@ function AppContent({ children, isDataAvailable }) {
 }
 
 class VALettersApp extends React.Component {
+  componentDidMount() {
+    this.props.getLetterList();
+  }
+
   render() {
     const { children, location } = this.props;
 
@@ -74,4 +79,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(VALettersApp);
+const mapDispatchToProps = {
+  getLetterList
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VALettersApp);

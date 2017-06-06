@@ -57,23 +57,11 @@ module.exports = {
       },
     },
     accessibility: {
-      filter: './test/accessibility/*.spec.js',
+      filter: './test/accessibility/*.spec.js'
+    },
+    wcag2a: {
       globals: {
-        asyncHookTimeout: 20000,
-      },
-      desiredCapabilities: {
-        browserName: 'chrome',
-        javascriptEnabled: true,
-        acceptSslCerts: true,
-        webStorageEnabled: true,
-        chromeOptions: {
-          binary: electron,
-          args: ['--window-size=1024,768']
-        }
-      },
-      test_workers: {
-        enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10)
+        rules: ['section508', 'wcag2a']
       }
     }
   }

@@ -1,37 +1,13 @@
-// Variables
+@charset "UTF-8";
 
 @import "style";
+@import "modules/m-process-list";
 @import "modules/m-form-process";
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
-
-$button-stroke: inset 0 0 0 1px;
-
-@media screen and (min-width: 600px) {
-  form {
-    max-width: 32em;
-  }
-}
-
-// TODO: Look into why svgs aren"t rendering
-select {
-  background-image: url("/img/arrow-down.svg");
-  background-image: url("/img/arrow-down.png");
-}
-
-.loading-message {
-  text-align: center;
-  padding: 2em 0;
-}
-
-legend {
-  color: $color-primary-darkest;
-  font-size: 1.35em;
-  font-weight: 700;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0 0 .5em 0;
-}
+@import "modules/m-modal";
+@import "modules/m-omb-info";
+@import "modules/m-form-confirmation";
 
 .hca-success-icon {
   color: $color-green;
@@ -50,104 +26,4 @@ legend {
 .success-alert-box {
   border: 1px solid $color-green;
   text-align: center;
-}
-
-button.short {
-  font-weight: 500;
-  padding: 1rem;
-}
-
-button.hca-button-green {
-  background: $color-green;
-}
-
-button.hca-button-disabled {
-  pointer-events: none;
-}
-
-.hca-datefield-month,
-.hca-datefield-day {
-  clear: none;
-  float: left;
-  margin-right: 1.5rem;
-
-  & select {
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
-  }
-}
-
-.hca-alert-body {
-  padding: 0 3.5rem;
-}
-
-.hca-datefield-month {
-  width: 10rem;
-}
-
-.hca-datefield-day {
-  width: 8rem;
-}
-
-.hca-radio-buttons {
-  label {
-    margin-top: 1em;
-  }
-}
-
-.hca-required-span {
-  color: $color-secondary-dark;
-  margin: 0 0.35em;
-}
-
-.hca-review-panel {
-  button {
-    background-color: $color-primary;
-    color: $color-white;
-    background-image: none;
-    padding-right: 3rem;
-    &:hover {
-      background-color: $color-primary-darker;
-      color: $color-white;
-    }
-  }
-  .edit-btn {
-    padding: 1rem;
-    &.primary-outline {
-      background-color: transparent;
-      border: 1px solid $color-primary;
-      color: $color-primary;
-      &:hover {
-      border: 1px solid $color-primary-darker;
-      color: $color-primary-darker;
-      }
-    }
-  }
-  .accordion-header {
-    min-height: 7rem;
-    padding: 1rem;
-  }
-  .section-label {
-    padding-bottom: 1rem;
-  }
-}
-
-.verify-label {
-  padding-top: 1rem;
-  span{
-    background-color: $color-green;
-  }
-}
-
-.hca-tooltip {
-  max-width: 46rem;
-  width: 100%;
-  button {
-    background: transparent;
-    color: $color-primary;
-    text-decoration: underline;
-    padding: 0;
-    font-weight: 400;
-    text-align: left;
-  }
 }
