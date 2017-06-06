@@ -41,6 +41,8 @@ function AppContent({ children, isDataAvailable }) {
 
 class RxRefillsApp extends React.Component {
   render() {
+    const breadcrumbs = <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>;
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -48,9 +50,8 @@ class RxRefillsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <RequiredTermsAcceptanceView termsName={"mhvac"}>
+        <RequiredTermsAcceptanceView termsName={"mhvac"} topContent={breadcrumbs}>
           <AppContent>
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
             {this.props.children}
             <ConfirmRefillModal
                 prescription={this.props.refillModal.prescription}

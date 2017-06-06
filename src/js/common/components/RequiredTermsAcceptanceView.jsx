@@ -21,7 +21,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
   }
 
   render() {
-    const { terms } = this.props;
+    const { terms, topContent } = this.props;
 
     let view;
 
@@ -35,6 +35,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
 
     return (
       <div>
+        {topContent}
         {view}
       </div>
     );

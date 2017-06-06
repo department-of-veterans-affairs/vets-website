@@ -2,8 +2,8 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const MessagingHelpers = require('../e2e/messaging-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
+
 const AccountCreationHelpers = require('../e2e/account-creation-helpers');
-const selectDropdown = E2eHelpers.selectDropdown;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -45,10 +45,9 @@ module.exports = E2eHelpers.createE2eTest(
     // Compose message view
     client
       .click('#messaging-nav .messaging-compose-button')
-      .waitForElementVisible('textarea[name="messageText"]', Timeouts.normal);
-    // select a recipient in the compose form
-    selectDropdown(client, 'messageRecipient', '0');
-    selectDropdown(client, 'messageCategory', 'APPOINTMENTS');
+      .waitForElementVisible('textarea[name="messageText"]', Timeouts.normal)
+      .selectDropdown('messageRecipient', '0')
+      .selectDropdown('messageCategory', 'APPOINTMENTS');
 
     // set message body
     client.setValue('textarea[name="messageText"]', 'Test');

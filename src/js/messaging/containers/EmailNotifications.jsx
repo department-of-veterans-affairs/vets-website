@@ -137,13 +137,16 @@ export class EmailNotifications extends React.Component {
               <label htmlFor="notifications-off">Off</label>
             </div>
           </div>
-          <ErrorableTextInput
-              name="emailAddress"
-              label="Send email notifications to:"
-              onValueChange={({ value }) =>
-                this.props.setNotificationEmail({ value, dirty: true })
-              }
-              field={emailAddress}/>
+          {
+            frequency.value !== 'none' &&
+            (<ErrorableTextInput
+                name="emailAddress"
+                label="Send email notifications to:"
+                onValueChange={({ value }) =>
+                  this.props.setNotificationEmail({ value, dirty: true })
+                }
+                field={emailAddress}/>)
+          }
           {this.renderSaveButtons()}
         </form>
         <ModalDiscardChanges

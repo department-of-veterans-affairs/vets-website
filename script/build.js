@@ -59,6 +59,7 @@ const optionDefinitions = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'public', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -124,8 +125,10 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('education/gi-bill/post-9-11/status');
+  ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
+  ignoreList.push('education/apply-wizard/');
 }
 smith.use(ignore(ignoreList));
 
@@ -201,12 +204,13 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
+        { from: '^/education/gi-bill/post-9-11/status(.*)', to: '/education/gi-bill/post-9-11/status/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/healthcare/rjsf(.*)', to: '/healthcare/rjsf/' },
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/va-letters(.*)', to: '/va-letters/' },
+        { from: '^/pensions/application(.*)', to: '/pensions/application/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -214,6 +218,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
+    'public': options.public,
     stats: {
       colors: true,
       assets: false,
@@ -345,16 +350,16 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-        ['/employment/commitments',
-          '/employment/employers',
-          '/employment/job-seekers/create-resume',
-          '/employment/job-seekers/search-jobs',
-          '/employment/job-seekers/skills-translator',
-          '/gi-bill-comparison-tool/',
-          '/education/apply-for-education-benefits/application',
-          '/healthcare/rjsf',
-          '/healthcare/apply/application',
-          '/va-letters/'].join('|'))
+      ['/education/gi-bill/post-9-11/status',
+       '/employment/commitments',
+       '/employment/employers',
+       '/employment/job-seekers/create-resume',
+       '/employment/job-seekers/search-jobs',
+       '/employment/job-seekers/skills-translator',
+       '/gi-bill-comparison-tool/',
+       '/education/apply-for-education-benefits/application',
+       '/healthcare/apply/application',
+       '/va-letters'].join('|'))
   }));
 }
 

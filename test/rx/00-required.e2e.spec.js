@@ -11,14 +11,23 @@ module.exports = E2eHelpers.createE2eTest(
     RxHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
 
+    // Test flow for unauthed and LOA1 users
+    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/prescriptions');
+
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .assert.title('Refill your prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .axeCheck('.main');
 
-    // Ensure that prescription card renders
-    client.expect.element('.rx-prescription').to.be.visible;
+    // Ensure that list view renders
+    client
+      .expect.element('.rx-table-list').to.be.visible;
+
+    // Ensure that card view renders
+    client
+      .click('.rx-view-toggle li:first-child')
+      .expect.element('.rx-prescription-card').to.be.visible;
 
     // Ensure glossary modal triggers correctly
     client
@@ -38,23 +47,31 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#rx-confirm-refill').to.not.be.present.after(Timeouts.normal);
 
     // Ensure refill request is submitted
-    client.expect.element('.rx-prescription:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
+    client.expect.element('.rx-prescription-card:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
 
-    // Ensure prescription detail page is accessible
+    // Ensure prescription detail page renders
     client
       .click('.rx-prescription-info .rx-prescription-title a')
-      .waitForElementVisible('#rx-detail', Timeouts.slow)
+      .waitForElementVisible('#rx-details', Timeouts.slow)
       .axeCheck('.main')
-      .waitForElementVisible('#rx-detail h2', Timeouts.slow)
-      .expect.element('#rx-detail h2').text.to.equal('ACETAMINOPHEN 325MG TAB');
-
-    // Expect tracking information to be accurate
-    client.expect.element('#rx-order-history tr:nth-of-type(1) a.rx-track-package-link').text.to.equal('657068347564');
-    client.expect.element('#rx-order-history tr:nth-of-type(2) a.rx-track-package-link').text.to.equal('345787647659');
-    client.expect.element('#rx-order-history tr:nth-of-type(3) a.rx-track-package-link').text.to.equal('345787647654');
+      .expect.element('#rx-prescription h1').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
     // Assert existence of correct message provider link
     client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/healthcare/messaging/compose');
+
+    // Ensure track package page renders
+    client
+      .click('.va-tabs li:last-child a')
+      .waitForElementVisible('#rx-track-package', Timeouts.slow)
+      .axeCheck('.main');
+
+    // Expect tracking information to be accurate
+    client.expect.element('.rx-detail-history tr:nth-of-type(1) a.rx-track-package-link').text.to.equal('657068347564');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) a.rx-track-package-link').text.to.equal('345787647659');
+    client.expect.element('.rx-detail-history tr:nth-of-type(3) a.rx-track-package-link').text.to.equal('345787647654');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(1)').text.to.equal('ACETAMINOPHEN 325MG TAB');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(2)').text.to.equal('ETHAMBUTOL HCL 100MG TAB');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(3)').text.to.equal('PROBUCOL 250MG TAB');
 
     // Ensure history card renders
     client

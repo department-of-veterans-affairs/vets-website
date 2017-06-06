@@ -27,7 +27,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
@@ -36,7 +36,7 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from '../../pages/applicantInformation';
+import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
@@ -168,7 +168,7 @@ const formConfig = {
             relationship: 'child'
           },
           uiSchema: {
-            'ui:title': 'Benefit relinquishment',
+            'ui:title': 'Benefits relinquishment',
             'view:benefitsRelinquishedInfo': {
               'ui:description': benefitsRelinquishedInfo,
             },
@@ -194,11 +194,11 @@ const formConfig = {
           }
         },
         benefitHistory: {
-          title: 'Benefit history',
+          title: 'Benefits history',
           path: 'benefits/history',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Benefit history',
+            'ui:title': 'Benefits history',
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [

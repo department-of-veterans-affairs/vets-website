@@ -20,7 +20,7 @@ class AcceptTermsPrompt extends React.Component {
 
   handleScroll(event) {
     const ct = event.currentTarget;
-    if ((ct.scrollTop + ct.offsetHeight) >= ct.scrollHeight) {
+    if ((ct.scrollTop + ct.offsetHeight + 100) >= ct.scrollHeight) {
       this.setState({ scrolledToBottom: true, yesSelected: this.state.yesSelected });
     }
   }

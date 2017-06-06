@@ -18,11 +18,9 @@ import {
 describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
-      const page = 'page';
       const data = {};
-      const action = setData(page, data);
+      const action = setData(data);
 
-      expect(action.page).to.equal(page);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_DATA);
     });
@@ -64,6 +62,13 @@ describe('Schemaform actions:', () => {
       const action = setSubmitted(response);
 
       expect(action.response).to.equal(response);
+      expect(action.type).to.equal(SET_SUBMITTED);
+    });
+    it('should return action with response.data', () => {
+      const response = { data: false };
+      const action = setSubmitted(response);
+
+      expect(action.response).to.equal(response.data);
       expect(action.type).to.equal(SET_SUBMITTED);
     });
   });
@@ -117,6 +122,36 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMITTED,
           response: {}
         });
+      });
+    });
+    it('should submit with auth header', () => {
+      const formConfig = {
+        chapters: {}
+      };
+      const form = {
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
+        }
+      };
+      global.sessionStorage = { userToken: 'testing' };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+      const response = { data: {} };
+      fetchMock.returns({
+        then: (fn) => fn(
+          {
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve(response)
+          }
+        )
+      });
+
+      return thunk(dispatch).then(() => {
+        expect(fetchMock.firstCall.args[1].headers.Authorization).to.equal('Token token=testing');
       });
     });
     it('should set submission error', () => {

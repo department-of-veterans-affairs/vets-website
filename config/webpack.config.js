@@ -20,7 +20,6 @@ const entryFiles = {
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'hca-rjsf': './src/js/hca-rjsf/hca-rjsf-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
@@ -28,6 +27,8 @@ const entryFiles = {
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
   'va-letters': './src/js/va-letters/va-letters-entry.jsx',
+  pensions: './src/js/pensions/pensions-entry.jsx',
+  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx'
 };
 
 const configGenerator = (options) => {

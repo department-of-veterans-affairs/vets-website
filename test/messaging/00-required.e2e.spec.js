@@ -2,8 +2,8 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const MessagingHelpers = require('../e2e/messaging-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
+
 const AccountCreationHelpers = require('../e2e/account-creation-helpers');
-const selectDropdown = E2eHelpers.selectDropdown;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,6 +11,9 @@ module.exports = E2eHelpers.createE2eTest(
 
     MessagingHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
+
+    // Test flow for unauthed and LOA1 users
+    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
 
     // Ensure main page (inbox) renders.
     LoginHelpers.logIn(token, client, '/healthcare/messaging', 3)
@@ -49,11 +52,9 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.messaging-compose-button', Timeouts.slow)
       .click('.messaging-compose-button')
       .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow)
-      .axeCheck('.main');
-
-    // Select a recipient in the compose form.
-    selectDropdown(client, 'messageRecipient', '0');
-    selectDropdown(client, 'messageCategory', 'APPOINTMENTS');
+      .axeCheck('.main')
+      .selectDropdown('messageRecipient', '0')
+      .selectDropdown('messageCategory', 'APPOINTMENTS');
 
     // Set message body.
     client.setValue('textarea[name="messageText"]', 'Test');
