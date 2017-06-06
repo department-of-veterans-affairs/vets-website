@@ -76,15 +76,41 @@ const formConfig = {
               'ui:field': FileField,
               'ui:options': {
                 endpoint: '/v0/files/527',
-                types: 'pdf,txt'
+                fileTypes: 'pdf,txt',
+                maxSize: 25000000,
+                showFieldLabel: true
+              },
+              'ui:errorMessages': {
+                required: 'You must upload a file'
               }
             }
           },
           schema: {
             type: 'object',
+            required: ['uploadField'],
             properties: {
               uploadField: {
-                type: 'string'
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    fileName: {
+                      type: 'string'
+                    },
+                    fileSize: {
+                      type: 'integer'
+                    },
+                    confirmationNumber: {
+                      type: 'string'
+                    },
+                    serverErrorMessage: {
+                      type: 'string'
+                    },
+                    uploading: {
+                      type: 'boolean'
+                    }
+                  }
+                }
               }
             }
           }

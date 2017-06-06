@@ -1,50 +1,69 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 // import Scroll from 'react-scroll';
+import { displayFileSize } from '../../common/utils/helpers';
 
 export default class FileField extends React.Component {
+  uploadFile = () => {
+    const files = this.props.formData || [];
+    this.props.onChange(files.concat({
+      uploading: true
+    }));
+    setTimeout(() => {
+      const uploadingFiles = this.props.formData;
+      this.props.onChange(_.set(uploadingFiles.length - 1, {
+        uploading: false,
+        fileName: 'testing.txt',
+        fileSize: 32444,
+        confirmationNumber: '123123'
+      }, uploadingFiles));
+    }, 2000);
+  }
   render() {
     const {
       uiSchema,
       errorSchema,
       idSchema,
       formData,
-      registry,
-      formContext,
       schema
     } = this.props;
-    const FieldTemplate = registry.FieldTemplate;
-    let items;
-    if (schema.type === 'array') {
-      items = formData || [];
-    } else {
-      items = formData ? [formData] : [];
-    }
+
+    const uiOptions = uiSchema['ui:options'];
+    const files = formData || [];
+    const maxItems = schema.type.maxItems || null;
+
+    const isUploading = files.some(file => file.uploading);
 
     return (
-      <FieldTemplate>
-        <div>
-          {items.map((item, index) => {
-            return (
-              <div key={index}>
-              </div>
-            );
-          })}
-          <label
-              role="button"
-              tabIndex="0"
-              htmlFor={idSchema.$id}
-              className="usa-button usa-button-outline">
-            Add file
-          </label>
-          <input type="file"
-              style={{ display: 'none' }}
-              id={idSchema.$id}
-              name={idSchema.$id}
-              onChange={this.uploadFile}/>
-        </div>
-      </FieldTemplate>
+      <div>
+        {files.map((file, index) => {
+          return (
+            <ul key={index}>
+              {file.uploading && 'Uploading file...'}
+              {!file.uploading &&
+                <li>{file.fileName} ({displayFileSize(file.fileSize)}) <button type="button">Remove</button></li>}
+            </ul>
+          );
+        })}
+        {(maxItems === null || files.length < maxItems) && !isUploading &&
+          <div>
+            <label
+                role="button"
+                tabIndex="0"
+                htmlFor={idSchema.$id}
+                className="usa-button usa-button-outline">
+              Add file
+            </label>
+            <input type="file"
+                style={{ display: 'none' }}
+                id={idSchema.$id}
+                name={idSchema.$id}
+                onChange={this.uploadFile}/>
+            <p><strong>Allowed file types:</strong><br/>{uiOptions.fileTypes}</p>
+            <p><strong>Maximum file size:</strong><br/>{displayFileSize(uiOptions.maxSize)}</p>
+          </div>}
+      </div>
     );
   }
 }
@@ -57,7 +76,10 @@ FileField.propTypes = {
   idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
-  formData: PropTypes.array,
+  formData: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
