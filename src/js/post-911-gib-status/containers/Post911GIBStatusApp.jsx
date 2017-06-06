@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
@@ -48,11 +49,11 @@ class Post911GIBStatusApp extends React.Component {
         <AppContent>
           <div className="usa-grid">
             <div className="usa-width-two-thirds">
-              {this.props.children}
-              <h4 className="section-header">Post-9/11 GI Bill Status</h4>
+              <FormTitle title="Post-9/11 GI Bill Status"/>
               <div className="info-container usa-width-two-thirds medium-8 columns">
                 Placeholder content: {name}
               </div>
+              {this.props.children}
             </div>
           </div>
         </AppContent>
