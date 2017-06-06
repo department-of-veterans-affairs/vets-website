@@ -128,7 +128,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status/*');
   ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
-  ignoreList.push('education/apply-wizard/');
+  ignoreList.push('education/apply-wizard.md');
 }
 smith.use(ignore(ignoreList));
 
