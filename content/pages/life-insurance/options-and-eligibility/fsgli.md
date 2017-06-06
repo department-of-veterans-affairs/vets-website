@@ -193,17 +193,16 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
 
 **If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES)**, have your Servicemember submit your changes online. To access SOES:
 
-- [Go to  www.dmdc.osd.mil/milconnect](www.dmdc.osd.mil/milconnect).
+- Go to [milConnect](https://www.dmdc.osd.mil/milconnect).
 - Sign in.
 - Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
 - Check your coverage and make any needed updates.
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
 
-**If your Servicemember's branch of service hasn't yet started using SOES**, fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF).
-
+**If your Servicemember's branch of service hasn't yet started using SOES**, fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
+[Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF).
 <br>
-
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.

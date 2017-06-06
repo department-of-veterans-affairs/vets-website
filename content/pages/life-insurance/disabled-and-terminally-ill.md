@@ -49,9 +49,9 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
  
 **If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284.htm).
 
-- If you’re still on active duty or you're a Reservist, turn in the form to your service branch. They will need to fill in part of the form. 
+- If you’re still on active duty or you're a Reservist, turn in the form to your service branch. They will need to fill out part of the form. 
 
-- If you're a Veteran, have your doctor fill in their part of the form, then send the completed form to:
+- If you're a Veteran, have your doctor fill out their part of the form, then send the completed form to:
 
 <dl class="va-address-block">
 <dd>The Prudential Insurance Company of America</dd>
@@ -64,7 +64,7 @@ Or, fax the form to 877-832-4943.
 
 **If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
  
-You’ll need to fill out one part of the application, and your doctor will need to fill out another part of the application.
+You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
@@ -74,6 +74,7 @@ We pay the remaining amount of the face value of the insurance policy to your de
 Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
 <hr>
+<span id="waiver"></span>
 
 ### Waiver of premiums for policyholders who become totally disabled
 

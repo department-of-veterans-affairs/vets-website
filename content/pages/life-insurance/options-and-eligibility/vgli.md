@@ -43,20 +43,19 @@ When you leave the military, you can sign up through VGLI for coverage up to the
 
 You’ll need to apply for these benefits. When you apply, you won't need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
 
-Apply in 1 of 2 ways:
+Apply in 1 of 3 ways:
 
-- [Apply through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management), **or**
+- Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. [Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
+- [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
+- Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
-- Fill out VA Form SGLV 8714 (Application for Veterans’ Group Life Insurance). Fax the form to 800-236-6142, or mail it to: 
+Fax the form to 800-236-6142, or mail it to: 
 
 <dl class="va-address-block">
 <dd>OSGLI</dd>
 <dd>P.O. Box 41618</dd>
 <dd>Philadelphia, PA 19176-9913</dd>
 </dl>
-
-
-[Download VA Form SGLV 8714](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
 ### How much will I pay for these benefits? 
 
@@ -635,6 +634,16 @@ Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Co
 </ol>
 
 **Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like term, variable life, or universal life insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
+
+------
+
+### Veterans’ Mortgage Life Insurance (VMLI)
+
+If you have a severe service-connected disability, you may also qualify for Veterans’ Mortgage Life Insurance (VMLI). This mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs in the event of your death.
+
+To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
+[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
+[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
 
 ### Need help?
 

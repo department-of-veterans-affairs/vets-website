@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
 title: Options and Eligibility
 display_title: Options
 concurrence: 
+template: detail-page
 children: lifeInsuranceOptions
 order: 1
 majorlinks:
@@ -24,12 +24,11 @@ majorlinks:
     - url: /life-insurance/options-and-eligibility/s-dvi/ 
       title: Service-Disabled Veterans Insurance (S-DVI) 
       description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
-    
 ---
 
 <div class="va-introtext">
 
-Are you a Servicemember, Veteran, or family member of a Veteran? Find out which life insurance programs may be right for you. You can also watch our brief video to learn more about your options. [View the life insurance video](https://www.youtube.com/watch?v=CI1rPG_K_Sw).
+Are you a Servicemember, Veteran, or spouse or dependent child of a Servicemember? Find out which life insurance programs may be right for you. 
 
 </div>
 

@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
 
-If you’re a Servicemember who meets certain criteria, we may automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
+If you’re a Servicemember who meets certain criteria, we'll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -31,8 +31,9 @@ You may be able to get full-time SGLI coverage if you’re:
 You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
-- Drilling for points rather than pay, **and**
-- Paying premiums
+- Drilling for points rather than pay
+
+**Note:** You must pay your premiums directly.
 
 <br>
 
@@ -45,7 +46,7 @@ Servicemembers
 ### What kind of life insurance benefits can I get with SGLI?
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
-- 120 days of free coverage from the date you left the military (if you’re an active-duty member)
+- 120 days of free coverage from the date you left the military
 - Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. See below for information on the SGLI-Disability Extension.
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
@@ -61,17 +62,16 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
 
-- [Go to  www.dmdc.osd.mil/milconnect](www.dmdc.osd.mil/milconnect).
+- Go to [milConnect](https://www.dmdc.osd.mil/milconnect).
 - Sign in.
 - Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
 - Check your coverage and beneficiary info and make any needed updates.
 
 You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
 
-**If your branch of service hasn't yet started using SOES**, fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
-
+**If your branch of service hasn't yet started using SOES**, fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
 <br>
-
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 
@@ -98,11 +98,11 @@ When you leave the military, you can apply to convert to Veterans’ Group Life 
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
-### Can I keep my free life insurance if I’m disabled when I leave the military? 
+### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
 
-You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
-- You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
+- You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
   - Total loss of hearing in both ears
   - Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
@@ -114,15 +114,25 @@ You may be able to keep your free coverage for up to 2 years after the date you 
     - 1 foot and 1 eye, **or**
     - 1 hand and 1 eye
 
-### How do I get this SGLI disability extension? 
+### How do I apply for SGLI Disability Extension? 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out the SGLI Disability Extension Application and give it to your unit’s personnel officer. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
+To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
 
 If you do this, you’ll get a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
 If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
+
+------------
+
+### Veterans’ Mortgage Life Insurance (VMLI)
+
+If you have a severe service-connected disability, you may also qualify for Veterans’ Mortgage Life Insurance (VMLI). This mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs in the event of your death.
+
+To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
+[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
+[Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
 
 ### Need help?
 
