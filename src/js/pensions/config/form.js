@@ -21,6 +21,7 @@ import dateUI from '../../common/schemaform/definitions/date';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import FileField from '../../common/schemaform/FileField';
 
 const {
   nationalGuardActivation,
@@ -66,6 +67,28 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
+        testPage: {
+          path: 'testing',
+          title: 'Testing',
+          uiSchema: {
+            uploadField: {
+              'ui:title': 'Burial documentation',
+              'ui:field': FileField,
+              'ui:options': {
+                endpoint: '/v0/files/527',
+                types: 'pdf,txt'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              uploadField: {
+                type: 'string'
+              }
+            }
+          }
+        },
         applicantInformation: applicantInformation(fullSchemaPensions, {
           fields: [
             'veteranFullName',
