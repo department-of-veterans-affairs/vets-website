@@ -5,14 +5,14 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { IntroductionPage } from '../../../src/js/hca/components/IntroductionPage';
 
-// import createCommonStore from '../../../src/js/common/store';
-//
-// const store = createCommonStore();
+import createCommonStore from '../../../src/js/common/store';
+
+const defaultProps = createCommonStore().getState();
 
 
 describe.only('hca <IntroductionPage>', () => {
   it('should render', () => {
-    const page = findDOMNode(ReactTestUtils.renderIntoDocument(<IntroductionPage/>));
+    const page = findDOMNode(ReactTestUtils.renderIntoDocument(<IntroductionPage {...defaultProps}/>));
 
     expect(page.textContent).to.contain('10-10ez');
   });
@@ -29,7 +29,8 @@ describe.only('hca <IntroductionPage>', () => {
           route={route}
           router={{
             push: onPush
-          }}/>
+          }}
+          {...defaultProps}/>
     ));
 
     ReactTestUtils.Simulate.click(page.querySelector('.usa-button-primary'));

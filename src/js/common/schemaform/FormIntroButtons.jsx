@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
-import { fetchInProgressForm, loadInProgressDataIntoForm } from './save-load-actions';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
@@ -17,10 +14,26 @@ class FormIntroButtons extends React.Component {
     this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
   }
 
+  // Load the form data again if we weren't logged in before but are now.
   componentWillReceiveProps(newProps) {
-    // Load the form data again if we weren't logged in before but are now.
-    const wasLoggedIn = this.props.loggedIn;
-    const isLoggedIn = newProps.loggedIn;
+    // Ugh. So verbose.
+    let wasLoggedIn;
+    let isLoggedIn;
+    try {
+      wasLoggedIn = this.props.user.login.currentlyLoggedIn;
+    } catch (e) {
+      if (e instanceof TypeError) {
+        // Probably couldn't read a property somewhere along the way
+        wasLoggedIn = false;
+      }
+    }
+    try {
+      isLoggedIn = newProps.user.login.currentlyLoggedIn;
+    } catch (e) {
+      if (e instanceof TypeError) {
+        isLoggedIn = false;
+      }
+    }
     if (!wasLoggedIn && isLoggedIn) {
       this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
     }
@@ -75,20 +88,10 @@ class FormIntroButtons extends React.Component {
 FormIntroButtons.propTypes = {
   route: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  loggedIn: PropTypes.bool.isRequired
+  loggedIn: PropTypes.bool.isRequired,
+  fetchInProgressForm: PropTypes.func.isRequired,
+  loadInProgressDataIntoForm: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    // TODO: When we get the ability to query for all saved forms, add the list here
-    form: state.form,
-    loggedIn: state.user.login.currentlyLoggedIn
-  };
-}
-
-const mapDispatchToProps = {
-  fetchInProgressForm,
-  loadInProgressDataIntoForm
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormIntroButtons));
+export default FormIntroButtons;

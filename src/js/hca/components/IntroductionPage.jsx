@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import LoginModal from '../../common/components/LoginModal';
@@ -7,6 +9,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 import { updateLogInUrl } from '../../login/actions';
+import { fetchInProgressForm, loadInProgressDataIntoForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
@@ -22,6 +25,8 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
+  // TODO: Add shouldComponentUpdate(); it renders like 14 times upon page refresh
+
   getAlertBody = () => {
     let body = (<div>
       <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
@@ -29,7 +34,7 @@ class IntroductionPage extends React.Component {
           onClose={this.closeLoginModal}
           visible={this.state.modalOpened}
           user={this.props.user}
-          onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
+          onUpdateLoginUrl={this.props.updateLogInUrl}/>
     </div>);
 
     if (this.props.user.login.currentlyLoggedIn) {
@@ -68,7 +73,13 @@ class IntroductionPage extends React.Component {
           </div>
         </div>
         <br/>
-        <FormIntroButtons route={this.props.route}/>
+        <FormIntroButtons
+            route={this.props.route}
+            router={this.props.router}
+            form={this.props.form}
+            fetchInProgressForm={fetchInProgressForm}
+            loadInProgressDataIntoForm={loadInProgressDataIntoForm}
+            loggedIn={this.props.user.login.currentlyLoggedIn}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: 0 }}>
@@ -81,20 +92,22 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    // TODO: When we get the ability to query for all saved forms, add the list here
+    form: state.form,
     user: state.user
   };
 }
 
 // Copied from src/js/login/containers/Main.jsx
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
-    }
-  };
+  return bindActionCreators({
+    fetchInProgressForm,
+    loadInProgressDataIntoForm,
+    updateLogInUrl
+  }, dispatch);
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IntroductionPage));
 
 export { IntroductionPage };
