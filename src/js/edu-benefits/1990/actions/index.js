@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import { veteranToApplication } from '../utils/veteran';
 
 import environment from '../../../common/helpers/environment';
@@ -118,18 +119,20 @@ export function submitForm(data) {
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
-          event: 'edu-submission-successful',
+          event: 'edu-submission-successful'
         });
         return res.json();
       }
-      window.dataLayer.push({
-        event: 'edu-submission-failed',
-      });
-      return Promise.reject(res.statusText);
+
+      return Promise.reject(new Error(res.statusText));
     })
-    .then(
-      (resp) => dispatch(updateSubmissionDetails(resp.data.attributes)),
-      () => dispatch(updateSubmissionStatus('error'))
-    );
+    .then((resp) => dispatch(updateSubmissionDetails(resp.data.attributes)))
+    .catch(error => {
+      Raven.captureException(error);
+      window.dataLayer.push({
+        event: 'edu-submission-failed'
+      });
+      dispatch(updateSubmissionStatus('error'));
+    });
   };
 }

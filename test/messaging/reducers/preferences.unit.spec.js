@@ -27,7 +27,13 @@ describe('preferencesducer', () => {
     const state = preferencesReducer({
       emailAddress: makeField('test@vets.gov'),
       frequency: makeField('daily')
-    }, { type: SM_SAVE_PREFERENCES_SUCCESS });
+    }, {
+      type: SM_SAVE_PREFERENCES_SUCCESS,
+      preferences: {
+        emailAddress: 'test@vets.gov',
+        frequency: 'daily'
+      }
+    });
     expect(state.emailAddress.value).to.eql('test@vets.gov');
     expect(state.frequency.value).to.eql('daily');
   });

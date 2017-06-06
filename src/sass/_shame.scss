@@ -5,12 +5,15 @@
 
 // message while loading react app
 .loading-message {
-  text-align: center;
   padding: 2em 0;
+  text-align: center;
 }
 
-body .row {
-  max-width: 62.5em;
+
+body {
+  .row {
+    max-width: 62.5em;
+  }
 }
 
 .form-panel {
@@ -26,14 +29,14 @@ body .row {
   }
 }
 
-.button-icon{
+.button-icon {
   font-size: 1.7rem;
 }
 
 .progress-box {
-  padding: 1rem 2rem;
-  margin: 1.5rem 0;
   border: 1px solid $color-gray-lightest;
+  margin: 1.5rem 0;
+  padding: 1rem 2rem;
 }
 
 .form-section {
@@ -53,7 +56,7 @@ body .row {
     background-color: transparent;
     display: inline-block;
 
-    &:before {
+    &::before {
       display: none !important;
     }
 
@@ -87,7 +90,7 @@ body .row {
   display: none !important;
 }
 
-/* inline declarations moved here as a result of CSP rules */
+// inline declarations moved here as a result of CSP rules
 
 .csp-inline-patch-L2-section-landing {
   margin-bottom: 1em;
@@ -95,7 +98,7 @@ body .row {
 
 .csp-inline-patch-L2-section-landing-1 {
   display: inline-block;
-  margin-bottom: 0em;
+  margin-bottom: 0;
 }
 
 .csp-inline-patch-L2-section-landing-2 {
@@ -108,9 +111,9 @@ body .row {
 }
 
 .csp-inline-patch-header {
+  display: inline;
   margin: 0;
   padding: 0;
-  display: inline;
 }
 
 .csp-inline-patch-modal {
@@ -131,9 +134,9 @@ body .row {
 }
 
 .csp-inline-patch-404 {
+  display: inline;
   margin: 0;
   padding: 0;
-  display: inline;
 }
 
 .csp-inline-patch-application {
@@ -148,17 +151,17 @@ body .row {
 // Where else can I put this? Also, it could use a better name.
 .expander-button {
   &::after {
-    background-image: url(/img/arrow-down-white.svg);
+    background-image: url("/img/arrow-down-white.svg");
     background-position: right bottom;
     background-repeat: no-repeat;
-    background-size: 0.6em auto;
-    display: inline-block;
-    margin-left: 0.5em;
-    margin-right: -0.3em;
-    width: 1em;
-    height: 1em;
+    background-size: .6em auto;
     content: ""; // Add content for accessibility purposes?
+    display: inline-block;
+    height: 1em;
+    margin-left: .5em;
+    margin-right: -.3em;
     text-indent: -9999em;
+    width: 1em;
   }
 }
 
@@ -175,6 +178,7 @@ body .row {
   // Handles the opacity transition
   .expander-content-inner {
     transition: opacity 150ms ease-in-out;
+
     a.usa-button-primary {
       transition: opacity 150ms ease-in-out;
       transition-delay: 150ms;
@@ -184,11 +188,12 @@ body .row {
   // Apply this to the inner content and make a new div
   //  with the border to expand that without the opacity
   &.expander-content-closed {
-    max-height: 0em !important; // To override the id selector height
+    max-height: 0 !important; // To override the id selector height
     visibility: hidden;
 
     .expander-content-inner {
       opacity: 0;
+
       a.usa-button-primary {
         opacity: 0;
       }
@@ -197,7 +202,7 @@ body .row {
 }
 
 //============================================
-// Overrides for USWDS shenanigans. 
+// Overrides for USWDS shenanigans.
 // See: https://github.com/18F/web-design-standards/issues/1899
 // ===========================================
 
@@ -214,4 +219,3 @@ body .row {
     }
   }
 }
-
