@@ -78,7 +78,7 @@ You may be able to get care at a VA community outpatient clinic or a Mobile Vet 
 
 You may also be able to get care from skilled health care workers who’ll come to your home or through telehealth (care provided remotely using special health monitoring equipment and telephone communication). [Learn more about home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 
-If you live more than 40 miles from a VA health care location—or have other travel or location-related barriers to getting care—you may qualify for our Veterans Choice Program. Through this program, you can get care in your community [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/index.asp).
+If you live more than 40 miles from a VA health care location—or have other travel or location-related barriers to getting care—you may qualify for our Veterans Choice Program. Through this program, you can get care in your community. [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/index.asp).
 
 <br>
 
