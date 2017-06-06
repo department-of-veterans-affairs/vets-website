@@ -28,6 +28,9 @@ majorlinks:
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
       title: Gulf War Illness
       description: If you served in the Southwest Asia theater of operations, you may be at risk of certain illnesses linked to that region.
+    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-Afghanistan/
+      title: Gulf War Illness in Afghanistan
+      description: If you served in Afghanistan, you may be at risk of certain illnesses linked to that region.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
       title: Project 112/SHAD
       description: If you were part of Project 112/SHAD from 1962 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
