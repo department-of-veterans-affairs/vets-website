@@ -169,7 +169,7 @@ class FormPage extends React.Component {
                   saveForm={this.handleSave}
                   savedStatus={savedStatus}
                   user={this.props.user}
-                  onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
+                  onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>
           </div>}
         </SchemaForm>
@@ -185,14 +185,10 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setData,
-    saveInProgressForm,
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
-    }
-  };
+const mapDispatchToProps = {
+  setData,
+  saveInProgressForm,
+  updateLogInUrl
 };
 
 FormPage.propTypes = {
