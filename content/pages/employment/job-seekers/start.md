@@ -11,10 +11,10 @@ majorlinks:
     links:
     - url: /employment/job-seekers/start/register/
       title: Registering Your Business
-      description:
+      description: Learn about the benefits of registering your small business with VA. 
     - url: /employment/job-seekers/start/counseling/
       title: Entrepreneurship Counseling
-      description:
+      description: Learn about the resources and support you can get to start a new business or grow an existing one. 
 ---
 
 <div class="va-introtext">
