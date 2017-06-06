@@ -6,11 +6,16 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { IntroductionPage } from '../../../src/js/hca/components/IntroductionPage';
 
 import createCommonStore from '../../../src/js/common/store';
+import hcaReducer from '../../../src/js/hca/reducer';
 
-const defaultProps = createCommonStore().getState();
+const defaultProps = createCommonStore(hcaReducer).getState();
+
+defaultProps.fetchInProgressForm = sinon.spy();
+defaultProps.loadInProgressDataIntoForm = sinon.spy();
+defaultProps.updateLogInUrl = sinon.spy();
 
 
-describe.only('hca <IntroductionPage>', () => {
+describe('hca <IntroductionPage>', () => {
   it('should render', () => {
     const page = findDOMNode(ReactTestUtils.renderIntoDocument(<IntroductionPage {...defaultProps}/>));
 
