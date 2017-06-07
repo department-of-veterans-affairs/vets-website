@@ -306,12 +306,14 @@ export function validateFileField(errors, fileList) {
     }
 
     if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
       errors[index] = {
         __errors: [],
         addError(msg) {
           this.__errors.push(msg);
         }
       };
+      /* eslint-enable no-param-reassign */
     }
 
     if (error) {
