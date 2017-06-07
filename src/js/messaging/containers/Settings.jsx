@@ -25,7 +25,9 @@ export class Settings extends React.Component {
             <TabItem shortcut={1} tabpath="settings/folders" title="Manage folders"/>
             <TabItem shortcut={2} tabpath="settings/notifications" title="Email notifications"/>
           </ul>
-          {this.props.children}
+          <div id="tab-content">
+            {this.props.children}
+          </div>
         </div>
       </div>
     );
