@@ -5106,7 +5106,7 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mapbox@^1.0.0-beta7:
+mapbox@1.0.0-beta7:
   version "1.0.0-beta7"
   resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta7.tgz#b076b1149c5cd3e3dbf69d3492cc1ddbd9a783ed"
   dependencies:
@@ -5352,7 +5352,7 @@ metalsmith-webpack-dev-server@department-of-veterans-affairs/metalsmith-webpack-
     chalk "^1.1.1"
     metalsmith "^1.7.0"
     webpack "^2.4.1"
-    webpack-dev-server "1.16"
+    webpack-dev-server "^1.14.1"
 
 metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
@@ -7787,7 +7787,7 @@ supports-color@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-1.2.0.tgz#ff1ed1e61169d06b3cf2d588e188b18d8847e17e"
 
-supports-color@3.1.2, supports-color@^3.1.0:
+supports-color@3.1.2, supports-color@^3.1.0, supports-color@^3.1.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -7801,7 +7801,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.1, supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
@@ -8493,9 +8493,9 @@ whatwg-encoding@^1.0.1:
   dependencies:
     iconv-lite "0.4.13"
 
-whatwg-fetch@>=0.10.0, "whatwg-fetch@http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz":
-  version "1.0.0"
-  resolved "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz#01c2ac4df40e236aaa18480e3be74bd5c8eb798e"
+whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
 whatwg-url@^4.3.0:
   version "4.7.0"

@@ -29,7 +29,16 @@ function reInitWidget() {
   const button = container.querySelector('.wizard-button');
   const content = container.querySelector('.wizard-content');
   const apply = container.querySelector('#apply-now-button');
-  const warning = container.querySelector('#transfer-warning');
+  const transferWarning = container.querySelector('#transfer-warning');
+  const nctsWarning = container.querySelector('#ncts-warning');
+
+  function resetForm() {
+    const selections = Array.from(container.querySelectorAll('input:checked'));
+    // eslint-disable-next-line no-return-assign, no-param-reassign
+    selections.forEach(selection => selection.checked = false);
+  }
+  apply.addEventListener('click', resetForm);
+
   content.addEventListener('change', (e) => {
     const radio = e.target;
     const otherChoice = radio.dataset.alternate;
@@ -38,18 +47,27 @@ function reInitWidget() {
       const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}`);
       closeStateAndCheckChild(otherNextQuestionElement, container);
     }
-    if (!radio.dataset.selectedForm && (apply.dataset.state === 'open')) {
+
+    if ((apply.dataset.state === 'open') && !radio.dataset.selectedForm) {
       closeState(apply);
     }
+    if ((transferWarning.dataset.state === 'open') && (radio.id !== 'create-non-transfer')) {
+      closeState(transferWarning);
+    }
+    if ((nctsWarning.dataset.state === 'open') && (radio.id !== 'is-ncts')) {
+      closeState(nctsWarning);
+    }
+
     if (radio.dataset.selectedForm) {
       if (apply.dataset.state === 'closed') {
         openState(apply);
       }
-      if ((warning.dataset.state === 'open') && (!radio.id !== 'create-non-transfer')) {
-        closeState(warning);
+
+      if ((transferWarning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
+        openState(transferWarning);
       }
-      if ((warning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
-        openState(warning);
+      if ((nctsWarning.dataset.state === 'closed') && (radio.id === 'is-ncts')) {
+        openState(nctsWarning);
       }
       apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
     }
@@ -64,6 +82,9 @@ function reInitWidget() {
     toggleClass(content, 'wizard-content-closed');
     toggleClass(button, 'va-button-primary');
   });
+
+  // Ensure form is reset on page load to prevent unexpected behavior
+  resetForm();
 }
 
 document.addEventListener('DOMContentLoaded', reInitWidget);

@@ -20,6 +20,7 @@ export class EmailNotifications extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.promptLeavePage = this.promptLeavePage.bind(this);
     this.renderSaveButtons = this.renderSaveButtons.bind(this);
 
     this.state = { discardChanges: false };
@@ -27,6 +28,8 @@ export class EmailNotifications extends React.Component {
 
   componentDidMount() {
     this.props.fetchPreferences();
+    this.props.router.setRouteLeaveHook(this.props.route, this.promptLeavePage);
+    window.addEventListener('beforeunload', this.promptLeavePage);
   }
 
   handleSubmit(e) {
@@ -40,6 +43,19 @@ export class EmailNotifications extends React.Component {
       event: 'sm-notification-setting',
       'sm-notify-freq': frequency,
     });
+  }
+
+  promptLeavePage(event) {
+    const { emailAddress, frequency } = this.props.preferences;
+    const isSaveable = emailAddress.dirty || frequency.dirty;
+    let message;
+
+    if (isSaveable) {
+      message = 'You haven\'t saved your changes. Are you sure you want to leave this page without saving?';
+      event.returnValue = message; // eslint-disable-line no-param-reassign
+    }
+
+    return message;
   }
 
   renderSaveButtons() {

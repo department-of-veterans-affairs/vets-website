@@ -105,7 +105,6 @@ export function submitForm(data) {
     });
     fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'

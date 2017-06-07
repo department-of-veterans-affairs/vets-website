@@ -2,7 +2,6 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const MessagingHelpers = require('../e2e/messaging-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
-
 const AccountCreationHelpers = require('../e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
@@ -11,6 +10,9 @@ module.exports = E2eHelpers.createE2eTest(
 
     MessagingHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
+
+    // Test flow for unauthed and LOA1 users
+    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
 
     // Test flow for unauthed and LOA1 users
     LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
