@@ -60,7 +60,7 @@ You can also:
 
 Buying a home is a complex process, and getting a VA-backed home loan is only one piece of the puzzle. Stay on track by following the steps below.
 
-#### Steps to buying a home
+#### Steps to finding a home
 
 <ol class="process">
 <li class="step one">
@@ -74,10 +74,11 @@ Go over your credit score, income, expenses, and monthly budget to make sure you
 
 ##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
-You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
+You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
 
-[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
+<br>
 
+[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br>
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
@@ -130,9 +131,9 @@ A VA-approved appraiser will appraise the house to make sure it meets basic prop
 
 <li class="step three">
 
-##### Review pre-closing paperwork and be ready to provide additional information to your lender
+##### Review pre-closing paperwork and give your lender any other needed information
 
-Your lender must give you a Closing Disclosure at least 3 business days before closing. Be sure to read it carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments. Your lender may need you to provide more information or documents at this time as well.
+Your lender must give you a Closing Disclosure at least 3 business days before closing. Be sure to read it carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments. Your lender may also ask you to provide more information or documents at this time.
 
 </li>
 
