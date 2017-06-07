@@ -114,18 +114,13 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const { route, params } = this.props;
+    const { route, params, form } = this.props;
     let {
       schema,
       uiSchema
-    } = this.props.form.pages[route.pageConfig.pageKey];
+    } = form.pages[route.pageConfig.pageKey];
 
-    const {
-      savedStatus,
-      disableSave,
-    } = this.props.form;
-
-    let data = this.props.form.data;
+    let data = form.data;
 
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
@@ -163,11 +158,11 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
-          {!disableSave && <div className="row">
+          {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
                   saveForm={this.handleSave}
-                  savedStatus={savedStatus}
+                  savedStatus={form.savedStatus}
                   user={this.props.user}
                   onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>

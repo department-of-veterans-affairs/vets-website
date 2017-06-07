@@ -1,6 +1,5 @@
 import environment from '../helpers/environment.js';
 
-
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
@@ -23,7 +22,6 @@ export const LOAD_STATUSES = Object.freeze({
   invalidData: 'invalid-data',
   success: 'success'
 });
-
 
 export function setSaveFormStatus(status) {
   return {
@@ -51,7 +49,6 @@ export function loadInProgressDataIntoForm() {
     type: LOAD_DATA_INTO_FORM
   };
 }
-
 
 /**
  * Transforms the data from an old version of a form to be used in the latest
