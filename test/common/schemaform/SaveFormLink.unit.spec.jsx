@@ -45,7 +45,7 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.equal('Save and come back later');
   });
-  it.skip('should open LoginModal', () => {
+  it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveFormLink
           user={user}
@@ -56,15 +56,9 @@ describe('Schemaform <SaveFormLink>', () => {
     const findDOM = findDOMNode(tree);
 
     // Open the login modal
-    const link = findDOM.querySelector('a');
-    console.log('link text:', link.innerHTML);
-    console.log('link onclick:', link.onclick);
-    // console.log('link:', link);
-    link.click();
+    findDOM.querySelector('a').click();
 
     const modal = findDOM.querySelector('.va-modal');
-    console.log('modal:', modal);
-    console.log('saveFormSpy call count:', saveFormSpy.callCount);
 
     // Find the login modal
     expect(modal).to.not.be.null;
