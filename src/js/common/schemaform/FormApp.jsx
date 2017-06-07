@@ -4,8 +4,6 @@ import Scroll from 'react-scroll';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 
-import AskVAQuestions from './AskVAQuestions';
-
 
 import { isInProgress } from '../utils/helpers';
 
@@ -48,7 +46,7 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-
+    const phoneNumber = formConfig.getHelpNumber || '877-222-8387';
     let content;
     if (!isInProgress(trimmedPathname)) {
       content = children;
@@ -65,14 +63,16 @@ export default class FormApp extends React.Component {
 
 
     return (
-      <div className="row">
-        <Element name="topScrollElement"/>
-        <div className="usa-width-two-thirds medium-8 columns">
-          {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
-          {content}
+      <div>
+        <div className="row">
+          <Element name="topScrollElement"/>
+          <div className="usa-width-two-thirds medium-8 columns">
+            {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+            {content}
+          </div>
+          <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
         </div>
-        <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
-        <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
+        {formConfig.getHelp && formConfig.getHelp(phoneNumber)}
       </div>
     );
   }
