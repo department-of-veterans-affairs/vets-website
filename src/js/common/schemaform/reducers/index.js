@@ -148,7 +148,6 @@ export default function createSchemaFormReducer(formConfig) {
       }
       case SET_IN_PROGRESS_FORM: {
         const newState = _.set('loadedData', action.data, state);
-        // I think this should be in SET_IN_PROGRESS_FORM...
         newState.loadedStatus = LOAD_STATUSES.success;
 
         return newState;
