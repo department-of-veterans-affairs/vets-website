@@ -12,8 +12,9 @@ import AcceptTermsPrompt from './AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 export class RequiredTermsAcceptanceView extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.termsNeeded) {
+      // this.props.checkAcceptance(this.props.termsName);
       this.props.fetchLatestTerms(this.props.termsName);
       window.scrollTo(0, 0);
     }

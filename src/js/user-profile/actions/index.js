@@ -74,5 +74,7 @@ export function acceptTerms(termsName) {
       },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
+
+    getUserData(dispatch);
   };
 }
