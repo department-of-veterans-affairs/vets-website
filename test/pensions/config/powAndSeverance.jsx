@@ -52,7 +52,7 @@ describe('Pensions Reserve and National Guard', () => {
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
 
-    ReactTestUtils.Simulate.change(find('#root_powStatusYes'), {
+    ReactTestUtils.Simulate.change(find('#root_view\\:powStatusYes'), {
       target: {
         value: 'Y'
       }
@@ -74,12 +74,12 @@ describe('Pensions Reserve and National Guard', () => {
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
 
-    ReactTestUtils.Simulate.change(find('#root_powStatusNo'), {
+    ReactTestUtils.Simulate.change(find('#root_view\\:powStatusNo'), {
       target: {
         value: 'N'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_severancePayNo'), {
+    ReactTestUtils.Simulate.change(find('#root_view\\:receivedSeverancePayNo'), {
       target: {
         value: 'N'
       }

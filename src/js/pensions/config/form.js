@@ -30,7 +30,8 @@ const {
   combatSince911,
   jobs,
   placeOfSeparation,
-  powDateRange
+  powDateRange,
+  severancePay
 } = fullSchemaPensions.properties;
 
 const {
@@ -183,58 +184,40 @@ const formConfig = {
           title: 'POW Status & Severance Pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
-            'ui:order': ['powStatus', 'powDateRange', 'severancePay', 'payType', 'payAmount'],
-            powStatus: {
+            'ui:order': ['view:powStatus', 'powDateRange', 'view:receivedSeverancePay', 'severancePay'],
+            'view:powStatus': {
               'ui:title': 'Have you ever been a POW?',
               'ui:widget': 'yesNo'
             },
-            powDateRange: _.set('ui:options.expandUnder', 'powStatus', dateRangeUI(
+            powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
                   'Start of confinement',
                   'End of confinement',
                   'Confinement start date must be before end date'
             )),
-            severancePay: {
+            'view:receivedSeverancePay': {
               'ui:title': 'Have you received any type of severance or separation pay?',
               'ui:widget': 'yesNo'
             },
-            payType: {
+            severancePay: {
               'ui:title': 'Pay type',
               'ui:widget': 'RadioWidget',
               'ui:options': {
-                expandUnder: 'severancePay'
-              }
-            },
-            payAmount: {
-              'ui:title': 'Amount',
-              'ui:options': {
-                expandUnder: 'severancePay'
+                expandUnder: 'view:receivedSeverancePay'
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['powStatus', 'severancePay'],
+            required: ['view:powStatus', 'view:receivedSeverancePay'],
             properties: {
-              powStatus: {
+              'view:powStatus': {
                 type: 'boolean'
               },
               powDateRange,
-              severancePay: {
+              'view:receivedSeverancePay': {
                 type: 'boolean'
               },
-              payType: {
-                type: 'string',
-                'enum': [
-                  'Longevity',
-                  'PDRL',
-                  'Separation',
-                  'Severance',
-                  'TDRL'
-                ]
-              },
-              payAmount: {
-                type: 'number'
-              }
+              severancePay
             }
           }
         }
