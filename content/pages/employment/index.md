@@ -14,19 +14,23 @@ majorlinks:
     - url: https://www.dol.gov/veterans/hireaveteran/
       title: Hire a Veteran
       description: Post jobs and learn about hiring qualified Veterans.
+    - url: /employment/commitments
+      title: Commit to Hiring Veterans
+      description: Share your company's commitment to hiring Veterans and their spouses.
   - heading: Explore other ways to start a career
     links:
     - url: /employment/job-seekers/start
       title: Start or Grow Your Business
-      description: ""
+      description:
     - url: /employment/job-seekers/family-members
       title: Explore Resources for Military and Veteran Family Members
-      description: ""
+      description:
   - heading: Learn new skills using online resources
     links:
     - url: https://veterans.linkedin.com/
       title: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
-      description: ""
+      description: 
+
 ---
 
 **In partnership with the [United States Department of Labor](https://www.dol.gov/vets/)**
