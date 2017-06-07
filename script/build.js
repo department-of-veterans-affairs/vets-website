@@ -177,7 +177,6 @@ smith.use(collections({
     }
   },
   healthcare: {
-    pattern: '',
     sortBy: 'order',
     metadata: {
       name: 'Health Care'
