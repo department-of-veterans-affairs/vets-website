@@ -48,7 +48,9 @@ class RxRefillsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <RequiredTermsAcceptanceView termsName={"mhvac"}>
+        <RequiredTermsAcceptanceView
+            termsName={"mhvac"}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
             {this.props.children}

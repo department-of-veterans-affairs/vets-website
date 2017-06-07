@@ -1,4 +1,5 @@
 import { apiRequest } from '../../common/helpers/api';
+import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELD = 'UPDATE_PROFILE_FIELD';
 export const FETCHING_MHV_TERMS_ACCEPTANCE = 'FETCHING_MHV_TERMS_ACCEPTANCE';
@@ -72,5 +73,7 @@ export function acceptTerms(termsName) {
       }),
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
+
+    getUserData(dispatch);
   };
 }
