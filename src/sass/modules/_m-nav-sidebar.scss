@@ -14,9 +14,9 @@
     padding: 1.6rem;
     position: absolute;
     top: 0;
-    transform: translateX(100%);
+    transform: translateX(100%) scale(0);
     transition: transform ease-out 250ms;
-    display: none;
+    display: block;
 
     // Necessary to override .usa-grid .usa-width-one-fourth
     .va-l-detail-page & {
@@ -50,8 +50,7 @@
     }
 
     &--opened {
-      transform: translateX(0);
-      display: block;
+      transform: translateX(0) scale(1);
     }
 
     &-close {
