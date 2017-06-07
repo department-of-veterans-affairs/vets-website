@@ -15,42 +15,35 @@ export default class FileField extends React.Component {
       .then(fileInfo => {
         const uploadingFiles = this.props.formData;
         this.props.onChange(_.set(uploadingFiles.length - 1, {
-          serverErrorMessage: null,
+          errorMessage: null,
           uploading: false,
           fileName: fileInfo.fileName,
-          fileSize: fileInfo.fileSize,
+          maxSize: fileInfo.maxSize,
           confirmationNumber: fileInfo.confirmationNumber
         }, uploadingFiles));
       })
       .catch(message => {
-        const uploadingFiles = this.props.formData;
+        const uploadingFiles = this.props.formData || [];
+        this.props.onBlur(this.props.idSchema.$id);
         this.props.onChange(_.set(uploadingFiles.length - 1, {
           uploading: false,
-          serverErrorMessage: message
+          errorMessage: message
         }, uploadingFiles));
       });
-    // setTimeout(() => {
-    //   const uploadingFiles = this.props.formData;
-    //   this.props.onChange(_.set(uploadingFiles.length - 1, {
-    //     uploading: false,
-    //     fileName: 'testing.txt',
-    //     fileSize: 32444,
-    //     confirmationNumber: '123123'
-    //   }, uploadingFiles));
-    // }, 2000);
   }
 
-  uploadFile = (files) => {
+  uploadFile = (file) => {
     const uiSchema = this.props.uiSchema;
 
+    if (file.size > uiSchema['ui:options'].maxSize) {
+      return Promise.reject('File is too large to be uploaded');
+    }
+
     const payload = new FormData();
-    Array.from(files).forEach(file => {
-      payload.append('uploads[]', file);
-    });
+    payload.append('upload', file);
 
     return fetch(`${environment.API_URL}${uiSchema['ui:options'].endpoint}`, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel'
       },
@@ -65,10 +58,15 @@ export default class FileField extends React.Component {
       return Promise.reject(error.message);
     });
   }
+
   removeFile = (index) => {
     const newFileList = this.props.formData.filter((file, idx) => index !== idx);
+    if (!newFileList.length) {
+      this.props.onChange();
+    }
     this.props.onChange(newFileList);
   }
+
   render() {
     const {
       uiSchema,
@@ -87,13 +85,29 @@ export default class FileField extends React.Component {
     return (
       <div>
         {files.map((file, index) => {
+          const errors = _.get([index, '__errors'], errorSchema) || [];
           return (
             <ul key={index} className="schemaform-file-list">
               {file.uploading && 'Uploading file...'}
               {file.confirmationNumber &&
-                <li>{file.fileName} ({displayFileSize(file.fileSize)}) <button className="usa-button usa-button-outline schemaform-file-remove-button" type="button">Remove</button></li>}
-              {file.serverErrorMessage &&
-                <li>Error: {file.serverErrorMessage} <button className="usa-button usa-button-outline schemaform-file-remove-button" type="button">Remove</button></li>}
+                <li>{file.fileName} ({displayFileSize(file.maxSize)})&nbsp;
+                  <button
+                      onClick={() => this.removeFile(index)}
+                      className="usa-button usa-button-outline schemaform-file-remove-button"
+                      type="button">
+                    Remove
+                  </button>
+                </li>}
+                {!file.uploading && !!errors.length &&
+                  <li>{errors[0]}&nbsp;
+                    <button
+                        onClick={() => this.removeFile(index)}
+                        className="usa-button usa-button-outline schemaform-file-remove-button"
+                        type="button">
+                      Remove
+                    </button>
+                  </li>
+                }
             </ul>
           );
         })}
@@ -106,12 +120,14 @@ export default class FileField extends React.Component {
                 className="usa-button usa-button-outline">
               Add file
             </label>
-            <input type="file"
+            <input
+                type="file"
+                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
                 style={{ display: 'none' }}
                 id={idSchema.$id}
                 name={idSchema.$id}
                 onChange={this.onAddFile}/>
-            <p><strong>Allowed file types:</strong><br/>{uiOptions.fileTypes}</p>
+            <p><strong>Allowed file types:</strong><br/>{uiOptions.fileTypes.join(', ')}</p>
             <p><strong>Maximum file size:</strong><br/>{displayFileSize(uiOptions.maxSize)}</p>
           </div>}
       </div>

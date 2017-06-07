@@ -21,7 +21,7 @@ import dateUI from '../../common/schemaform/definitions/date';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import FileField from '../../common/schemaform/FileField';
+import fileUiSchema from '../../common/schemaform/definitions/file';
 
 const {
   nationalGuardActivation,
@@ -71,19 +71,7 @@ const formConfig = {
           path: 'testing',
           title: 'Testing',
           uiSchema: {
-            uploadField: {
-              'ui:title': 'Burial documentation',
-              'ui:field': FileField,
-              'ui:options': {
-                endpoint: '/v0/files/527',
-                fileTypes: 'pdf,txt',
-                maxSize: 25000000,
-                showFieldLabel: true
-              },
-              'ui:errorMessages': {
-                required: 'You must upload a file'
-              }
-            }
+            uploadField: fileUiSchema('Burial documentation')
           },
           schema: {
             type: 'object',
@@ -91,6 +79,7 @@ const formConfig = {
             properties: {
               uploadField: {
                 type: 'array',
+                minItems: 1,
                 items: {
                   type: 'object',
                   properties: {
@@ -103,7 +92,7 @@ const formConfig = {
                     confirmationNumber: {
                       type: 'string'
                     },
-                    serverErrorMessage: {
+                    errorMessage: {
                       type: 'string'
                     },
                     uploading: {
