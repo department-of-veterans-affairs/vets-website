@@ -5,6 +5,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
+import UserInfoSection from '../components/UserInfoSection';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -37,8 +38,6 @@ class Post911GIBStatusApp extends React.Component {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
     const { enrollmentState } = this.props;
-    const name = enrollmentState ? `${enrollmentState.firstName} ${enrollmentState.lastName}` : '';
-
     return (
       <RequiredLoginView
           authRequired={3}
@@ -57,10 +56,7 @@ class Post911GIBStatusApp extends React.Component {
                   print a copy of this screen for benefit and eligibility verification.
                 </p>
               </div>
-              <div className="info-container usa-width-two-thirds medium-8 columns">
-                Placeholder content: {name}
-              </div>
-              {this.props.children}
+              <UserInfoSection userData={enrollmentState}/>
             </div>
           </div>
         </AppContent>

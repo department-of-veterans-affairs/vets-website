@@ -1,12 +1,46 @@
 // TODO: remove this hard-coded response once we can fetch from a vets-api endpoint
 const post911GIBStatusResponse = {
   chapter33EducationInfo: {
-    dateOfBirth: '1977-10-01T04:00:00.000+0000',
     firstName: 'Jean',
     lastName: 'Picard',
+    nameSuffix: 'string',
+    dateOfBirth: '1977-10-01T04:00:00.000+0000',
     regionalProcessingOffice: 'Central Office Washington, DC',
     vaFileNumber: '301010301',
+    eligibilityDate: '2017-06-06T17:01:03.925Z',
+    delimitingDate: '2017-06-06T17:01:03.925Z',
+    percentageBenefit: 0,
+    originalEntitlement: 0,
+    usedEntitlement: 0,
+    remainingEntitlement: 0,
     enrollmentList: [
+      {
+        beginDate: '2017-06-06T17:01:03.925Z',
+        endDate: '2017-06-06T17:01:03.925Z',
+        facilityCode: 'string',
+        facilityName: 'string',
+        participantId: 'string',
+        trainingType: 'string',
+        termID: 'string',
+        hourType: 'string',
+        fullTimeHours: 0,
+        fullTimeCreditHourUnderGrad: 0,
+        vacationDayCount: 0,
+        residenceHours: 0,
+        distanceHours: 0,
+        yellowRibbonAmount: 0,
+        status: 'string',
+        amendmentList: [
+          {
+            residenceHours: 0,
+            distanceHours: 0,
+            yellowRibbonAmount: 0,
+            type: 'string',
+            status: 'string',
+            changeEffectiveDate: '2017-06-06T17:01:03.926Z'
+          }
+        ]
+      },
       {
         beginDate: '2012-11-01T04:00:00.000+0000',
         endDate: '2012-12-01T05:00:00.000+0000',
