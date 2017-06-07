@@ -158,7 +158,7 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && <div className="row">
+          {(!form.disableSave && __BUILDTYPE__ === 'development') && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
                   saveForm={this.handleSave}
