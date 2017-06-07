@@ -59,7 +59,6 @@ export function submitForm(formConfig, form) {
 
     const fetchOptions = {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
