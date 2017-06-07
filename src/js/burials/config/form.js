@@ -2,7 +2,7 @@
 
 // import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { transform } from '../helpers';
+// import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -10,7 +10,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/burials',
   trackingPrefix: 'burials-',
-  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for burial benefits',
