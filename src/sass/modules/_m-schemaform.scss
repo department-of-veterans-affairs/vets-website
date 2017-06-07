@@ -252,6 +252,7 @@ label {
   padding: 2em 0;
   @include media($medium-large-screen) {
     padding-top: 0.6em;
+    padding-left: inherit;
   }
 }
 //duplicated/renamed from disability-benefits.scss
