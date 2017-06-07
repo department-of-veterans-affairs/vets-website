@@ -66,20 +66,19 @@ export default function createSchemaFormReducer(formConfig) {
       const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
-      // If the page is an array page, we're going to have schemas and edit states
-      // for each item in the specified array
-      return _.merge(state, {
-        pages: {
-          [page.pageKey]: {
-            uiSchema: page.uiSchema,
-            schema,
-            editMode: isArrayPage ? [] : false,
-            showPagePerItem: page.showPagePerItem,
-            arrayPath: page.arrayPath
-          }
-        },
-        data
-      });
+      /* eslint-disable no-param-reassign */
+      state.pages[page.pageKey] = {
+        uiSchema: page.uiSchema,
+        schema,
+        editMode: isArrayPage ? [] : false,
+        showPagePerItem: page.showPagePerItem,
+        arrayPath: page.arrayPath
+      };
+
+      state.data = _.merge(state.data, data);
+      /* eslint-enable no-param-reassign */
+
+      return state;
     }, {
       data: {
         privacyAgreementAccepted: false,

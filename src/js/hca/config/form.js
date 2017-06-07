@@ -88,6 +88,7 @@ const {
   veteranGrossIncome,
   veteranNetIncome,
   veteranOtherIncome,
+  veteranFullName,
   spouseGrossIncome,
   spouseNetIncome,
   spouseOtherIncome,
@@ -121,7 +122,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName,
+    fullName: _.set('properties.middle.maxLength', 30, fullName),
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
     child: childSchema,
@@ -150,8 +151,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranFullName: fullName,
-              mothersMaidenName
+              veteranFullName,
+              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName)
             }
           }
         },
