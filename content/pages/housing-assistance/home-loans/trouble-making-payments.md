@@ -38,7 +38,7 @@ If you’re nervous about contacting your servicer, or if you’d like our help 
 
 ### How can I avoid foreclosure?
 
-There are 6 general ways to help you avoid a foreclosure:
+There are 6 general ways you can try to avoid a foreclosure:
 
 1. **Repayment plan:** If you’ve missed a few payments, this plan lets you go back to making your regular payments, with an added amount each month to cover the ones you’ve missed.
 
