@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import { getDateFormatted, getPercentFormatted } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -9,7 +9,13 @@ class UserInfoSection extends React.Component {
 
     // Used to get today's date to show information current of
     const today = new Date();
-    const todayFormatted = moment(today).format('MM/DD/YYYY');
+    const todayFormatted = getDateFormatted(today);
+
+    // Check if percent is a number
+    let percentageBenefit = 'unavailable';
+    if (getPercentFormatted(userData.percentageBenefit)) {
+      percentageBenefit = getPercentFormatted(userData.percentageBenefit);
+    }
 
     return (
       <div className="gibstatus">
@@ -24,7 +30,7 @@ class UserInfoSection extends React.Component {
             <span><strong>Date of Birth: </strong></span>
           </div>
           <div className="usa-width-one-third">
-            {userData.dateOfBirth}
+            {getDateFormatted(userData.dateOfBirth)}
           </div>
         </div>
         <div className="usa-grid-full section-line">
@@ -45,11 +51,11 @@ class UserInfoSection extends React.Component {
         </div>
         <div>
           <h4>When You Can Receive Benefits</h4>
-          <div className="section-line">You are eligible to receive benefits between <strong>{userData.eligibilityDate}</strong> and <strong>{userData.delimitingDate}</strong></div>
+          <div className="section-line">You are eligible to receive benefits between <strong>{getDateFormatted(userData.eligibilityDate)}</strong> and <strong>{getDateFormatted(userData.delimitingDate)}</strong></div>
         </div>
         <div>
           <h4>Your Benefit Level</h4>
-          <div className="section-line">You are eligible to receive benefits at a rate of <strong>{userData.percentageBenefit}</strong></div>
+          <div className="section-line">You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong></div>
         </div>
       </div>
     );
