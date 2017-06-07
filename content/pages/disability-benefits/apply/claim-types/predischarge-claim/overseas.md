@@ -32,6 +32,6 @@ If you are stationed outside the KMC, use the BDD or Quick Start programs throug
 - Arrange your travel, and get your command's approval to make the trip.
 - Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won't be returned. BDD and Quick Start claims can't be processed without the STRs.
 
-[Get service information for the Landstuhl BDD office](https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
+[Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
 </div>
