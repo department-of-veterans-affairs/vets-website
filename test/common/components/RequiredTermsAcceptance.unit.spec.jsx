@@ -11,6 +11,7 @@ const defaultProps = {
   checkAcceptance: sinon.spy(),
   fetchLatestTerms: sinon.spy(),
   acceptTerms: sinon.spy(),
+  termsNeeded: true,
   terms: {
     acceptance: false,
   }
@@ -23,7 +24,6 @@ describe('<RequiredTermsAcceptanceView>', () => {
     );
     tree.getMountedInstance().componentWillMount();
 
-    expect(defaultProps.checkAcceptance.called).to.be.true;
     expect(defaultProps.fetchLatestTerms.called).to.be.true;
   });
 
@@ -44,6 +44,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
   it('should properly render children if terms accepted', () => {
     const props = {
       ...defaultProps,
+      termsNeeded: false,
       terms: {
         acceptance: true,
       }
