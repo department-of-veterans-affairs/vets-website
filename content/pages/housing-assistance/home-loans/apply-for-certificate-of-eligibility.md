@@ -30,7 +30,7 @@ The first step in getting a VA-backed home loan is to apply for a Certificate of
 ### Get your COE
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 #### Gather the information you’ll need to apply for your COE
 
@@ -87,7 +87,7 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 
 </li>
 
-<li class="step last two">
+<li class="process-step list-two">
 
 #### Apply for your COE
 
