@@ -24,9 +24,9 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 - If you’re a Veteran or the spouse of a Veteran, we’ll provide financial counseling—even if your loan isn’t VA-backed. 
 
-- If you have a VA-backed loan and it’s 61 days past due, we’ll assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
-
 - If you have a VA-backed loan, you can contact us anytime to request that we assign a VA Loan Technician to your loan.
+
+- If you have a VA-backed loan and it’s 61 days past due, we’ll assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
 
 </div>
 
