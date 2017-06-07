@@ -66,7 +66,7 @@ class Modal extends React.Component {
 
     let title;
     if (this.props.title) {
-      title = <h3 className="va-modal-title">{this.props.title}</h3>;
+      title = <h3 id={`${this.props.id}-title`} className="va-modal-title">{this.props.title}</h3>;
     }
 
     let closeButton;
@@ -81,7 +81,7 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={this.props.title}>
+      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={`${this.props.id}-title`}>
         <div className="va-modal-inner">
           {title}
           {closeButton}
