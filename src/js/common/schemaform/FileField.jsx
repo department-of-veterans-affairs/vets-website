@@ -31,7 +31,7 @@ export default class FileField extends React.Component {
 
     const uiOptions = uiSchema['ui:options'];
     const files = formData || [];
-    const maxItems = schema.type.maxItems || null;
+    const maxItems = schema.maxItems || Infinity;
 
     const isUploading = files.some(file => file.uploading);
 
@@ -39,10 +39,10 @@ export default class FileField extends React.Component {
       <div>
         {files.map((file, index) => {
           return (
-            <ul key={index}>
+            <ul key={index} className="schemaform-file-list">
               {file.uploading && 'Uploading file...'}
               {!file.uploading &&
-                <li>{file.fileName} ({displayFileSize(file.fileSize)}) <button type="button">Remove</button></li>}
+                <li>{file.fileName} ({displayFileSize(file.fileSize)}) <button className="usa-button usa-button-outline schemaform-file-remove-button" type="button">Remove</button></li>}
             </ul>
           );
         })}
