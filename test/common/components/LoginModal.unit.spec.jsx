@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
@@ -12,11 +11,6 @@ describe('<LoginModal>', () => {
     login: {
       currentlyLoggedIn: false,
       loginUrl: 'login/url'
-    }
-  };
-  const loggedInUser = {
-    login: {
-      currentlyLoggedIn: true
     }
   };
   const onCloseSpy = sinon.spy();
