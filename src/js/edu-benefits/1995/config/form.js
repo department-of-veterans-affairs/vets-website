@@ -7,6 +7,7 @@ import {
 } from '../helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -52,6 +53,8 @@ const formConfig = {
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  getHelp: AskVAQuestions,
+  getHelpNumber: '877-222-8387',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

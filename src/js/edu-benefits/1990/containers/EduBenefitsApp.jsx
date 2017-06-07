@@ -151,7 +151,7 @@ class EduBenefitsApp extends React.Component {
             {ombInfo}
           </div>
         </div>
-        <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
+        <AskVAQuestions phoneNumber={'877-222-8387'}/>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );

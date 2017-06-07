@@ -46,7 +46,7 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const phoneNumber = formConfig.getHelpNumber || '877-222-8387';
+    const phoneNumber = { phoneNumber: formConfig.getHelpNumber };
     let content;
     if (!isInProgress(trimmedPathname)) {
       content = children;

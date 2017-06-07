@@ -4,6 +4,7 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -53,6 +54,8 @@ const formConfig = {
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
+  getHelp: AskVAQuestions,
+  getHelpNumber: '877-222-8387',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
