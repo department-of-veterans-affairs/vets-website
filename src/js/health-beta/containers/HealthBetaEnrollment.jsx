@@ -6,7 +6,7 @@ import { registerBeta } from '../actions';
 
 class HealthBetaEnrollment extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.registerBeta();
   }
 
