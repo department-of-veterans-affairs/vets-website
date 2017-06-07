@@ -46,6 +46,7 @@ export function setSubmitted(response) {
   };
 }
 
+
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
