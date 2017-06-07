@@ -100,6 +100,7 @@ function migrateFormData(savedData, savedVersion, migrations) {
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
   // Double stringify because of api reasons. Olive Branch issues, methinks.
+  // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
