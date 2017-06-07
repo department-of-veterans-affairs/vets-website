@@ -22,7 +22,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
     const tree = SkinDeep.shallowRender(
       <RequiredTermsAcceptanceView {...defaultProps}/>
     );
-    tree.getMountedInstance().componentWillMount();
+    tree.getMountedInstance().componentDidMount();
 
     expect(defaultProps.fetchLatestTerms.called).to.be.true;
   });
