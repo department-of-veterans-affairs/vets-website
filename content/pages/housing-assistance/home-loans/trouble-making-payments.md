@@ -16,9 +16,11 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 ### Can I get VA financial counseling to help avoid foreclosure?
 
-If you’re a Veteran, we’ll provide financial counseling—even if your loan isn’t VA-backed. 
+- If you’re a Veteran or the spouse of a Veteran, we’ll provide financial counseling—even if your loan isn’t VA-backed. 
 
-If you have a VA-backed loan and it’s 61 days past due, we’ll assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
+- If you have a VA-backed loan, you can contact us anytime to request that we assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
+
+- If you have a VA-backed loan and it’s 61 days past due, we’ll automatically assign a VA Loan Technician to your loan. 
 
 </div>
 
@@ -28,9 +30,9 @@ If you’re late with a mortgage payment, or think you might be late with your n
 
 If you’re nervous about contacting your servicer, or if you’d like our help and advice, please contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>.  
 
-### What are my options for avoiding foreclosure?
+### How can I avoid foreclosure?
 
-There are 6 general ways to help you avoid a foreclosure:
+There are 6 general ways you can try to avoid a foreclosure:
 
 1. **Repayment plan:** If you’ve missed a few payments, this plan lets you go back to making your regular payments, with an added amount each month to cover the ones you’ve missed.
 
@@ -44,4 +46,4 @@ There are 6 general ways to help you avoid a foreclosure:
 
 6. **Deed in lieu of foreclosure:** This plan lets you avoid the foreclosure process by signing over the deed to the home to your servicer. The home will then belong to the servicer.
 
-Our VA Loan Technicians can help you figure out which option is best for you. Just be sure to be completely honest with us about your financial situation. If you tell us you can pay more than you really can each month, you risk ending up with a payment plan you can’t afford. Contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>. 
+Our VA Loan Technicians can help you figure out which option is best for you. Contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>. 
