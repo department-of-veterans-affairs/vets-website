@@ -304,6 +304,13 @@ smith.use(collections({
       name: 'Work and Learn'
     }
   },
+  employment: {
+    pattern: 'employment/job-seekers.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Employment'
+    }
+  },
   employmentJobSeekers: {
     pattern: 'employment/job-seekers/*.md',
     sortBy: 'order',
