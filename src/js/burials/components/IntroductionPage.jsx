@@ -46,7 +46,7 @@ class IntroductionPage extends React.Component {
           </div>
         </div>
         <div className="omb-info--container">
-          <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
+          <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="05/31/2018"/>
         </div>
       </div>
     );
