@@ -40,8 +40,7 @@ const {
   date,
   monthlyIncome,
   netWorth,
-  expectedIncome,
-  severancePay
+  expectedIncome
 } = fullSchemaPensions.definitions;
 
 function isUnder65(formData) {
@@ -184,7 +183,7 @@ const formConfig = {
           title: 'POW Status & Severance Pay',
           uiSchema: {
             'ui:title': 'POW Status & Severance Pay',
-            'ui:order': ['view:powStatus', 'powStatus', 'powDateRange', 'view:severancePay', 'severancePay', 'separation', 'severance', 'retirement'],
+            'ui:order': ['powStatus', 'powDateRange', 'severancePay', 'payType', 'payAmount'],
             powStatus: {
               'ui:title': 'Have you ever been a POW?',
               'ui:widget': 'yesNo'
@@ -195,26 +194,21 @@ const formConfig = {
                   'Confinement start date must be before end date'
             )),
             severancePay: {
-              'ui:title': 'Have you received any type of separation/severance retired pay?',
+              'ui:title': 'Have you received any type of severance or separation pay?',
               'ui:widget': 'yesNo'
             },
-            separation: {
+            payType: {
+              'ui:title': 'Pay type',
+              'ui:widget': 'RadioWidget',
               'ui:options': {
-                expandUnder: 'severancePay',
-              },
-              'ui:title': 'Separation (one time)'
+                expandUnder: 'severancePay'
+              }
             },
-            severance: {
+            payAmount: {
+              'ui:title': 'Amount',
               'ui:options': {
-                expandUnder: 'severancePay',
-              },
-              'ui:title': 'Severance (one time)'
-            },
-            retirement: {
-              'ui:options': {
-                expandUnder: 'severancePay',
-              },
-              'ui:title': 'Retirement (recurring)'
+                expandUnder: 'severancePay'
+              }
             }
           },
           schema: {
@@ -228,9 +222,19 @@ const formConfig = {
               severancePay: {
                 type: 'boolean'
               },
-              separation: severancePay,
-              severance: severancePay,
-              retirement: severancePay
+              payType: {
+                type: 'string',
+                'enum': [
+                  'Longevity',
+                  'PDRL',
+                  'Separation',
+                  'Severance',
+                  'TDRL'
+                ]
+              },
+              payAmount: {
+                type: 'number'
+              }
             }
           }
         }
