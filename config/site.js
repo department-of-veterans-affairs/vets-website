@@ -71,6 +71,10 @@ module.exports = {
       output: true,
       permalink: '/:collection/:path/index.html'
     },
+    vre: {
+      output: true,
+      permalink: '/:collection/:path/index.html'
+    },
     'memorial-benefits': {
       output: false
     },
@@ -119,6 +123,18 @@ module.exports = {
         body_class: 'page-education'
       }
     },
+
+    {
+      scope: {
+        type: 'vre'
+      },
+      values: {
+        layout: 'page-breadcrumbs',
+        breadcrumb_1: 'VRE Yo Yo',
+        body_class: 'page-vre'
+      }
+    },
+
     {
       scope: {
         path: 'education/gi-bill'

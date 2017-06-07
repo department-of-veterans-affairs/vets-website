@@ -12,6 +12,10 @@ majorlinks:
   - url: https://www.dol.gov/veterans/hireaveteran/
     title: Hire a Veteran
     description: Post jobs and learn about hiring qualified Veterans.
+  - url: /vocational-rehab-and-employment/
+    title: Build Your Career
+    description: Choose from 5 different VR&E program tracks to help you build your career and live more independently.	
+
 secondarylinkstitle: "Explore other ways to start a career"
 secondarylinks:
   - url: /employment/job-seekers/start
