@@ -9,7 +9,7 @@ order: 2
 
 <div class="va-introtext">
 
-If you’re a Veteran and you—or your spouse—is a Native American, our Native American Direct Loans (NADL) program may help you get a loan to buy, build, or improve a home on Federal Trust Land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for a NADL—and how to apply.
+If you’re a Veteran, and either you or your spouse is Native American, our Native American Direct Loans (NADL) program may help you get a loan to buy, build, or improve a home on Federal Trust Land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for a NADL—and how to apply.
 
 </div>
 
@@ -19,9 +19,9 @@ If you’re a Veteran and you—or your spouse—is a Native American, our Nativ
 
 You may be able to get a NADL if you’re a Native American Veteran or a non–Native American Veteran married to a Native American, **and**:
 
-- Your tribal government has an agreement—or Memorandum of Understanding (MOU)—with us detailing how the program will work on its trust lands, **and**
+- Your tribal government has an agreement—or Memorandum of Understanding (MOU)—with us detailing how the program will work on its Trust lands, **and**
 -	You have a valid VA home loan Certificate of Eligibility (COE), **and**
--	You have good enough credit, **and**
+-	You meet our credit standards, **and**
 -	You have proof that you make enough money to cover the mortgage payments and other costs of owning a home, **and**
 -	You’ll live in the home you’re using the NADL to buy, build, or improve
 
@@ -31,13 +31,13 @@ You may be able to get a NADL if you’re a Native American Veteran or a non–N
 
 ### Why might I want to get a NADL?
 
-A NADL often offers better terms than a home loan from a private bank or mortgage company (called a lender), including:
+A NADL offers many benefits, including:
 
 - No down payment required in most cases
-- No need for Private Mortgage Insurance (PMI), a type of insurance that protects the lender if you can’t pay your mortgage. The lender usually requires PMI if you make a down payment of less than 20% of the total mortgage amount.
-- Low closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
+- No need for Private Mortgage Insurance (PMI), which is commonly charged to conventional loan borrowers. 
+- Limited closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
 - A low-interest, 30-year fixed mortgage (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
-- A reusable benefit, which means you can get more than 1 NADL to buy, build, or improve another home in the future
+- A reusable benefit, which means you can get more than 1 NADL to buy, build, or improve another residence in the future
 - The ability to borrow up to $424,100 in most areas, with higher loan limits for some high-cost counties
 
 ### How do I get a NADL?
