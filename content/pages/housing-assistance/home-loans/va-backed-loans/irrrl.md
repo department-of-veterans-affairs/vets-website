@@ -42,7 +42,8 @@ Often called a “streamline” refinance, an IRRRL may help you to:
 -	Lower your monthly mortgage payment by getting you a lower interest rate, **or**
 -	Make your monthly payments more stable by moving from a loan with an adjustable or variable interest rate (an interest rate that changes over time) to one that’s fixed (the same interest rate over the life of the loan)
 
-You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. Ask your lender to help you decide if an IRRRL is the best option for you.
+You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you'll want to be sure you understand what you're getting into. <br>
+
 
 ### How do I get an IRRRL?
 
