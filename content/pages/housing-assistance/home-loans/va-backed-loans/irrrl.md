@@ -1,18 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Interest Rate Reduction Refinance Loan (IRRRL)
+display_title: Interest Rate Reduction Refinance Loan
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance Loan
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Learn more about a cash-out refinance loan.
-  - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
-    title: Purchase Loan
-    description: Looking to buy a home? Learn about the benefits of a VA-backed purchase loan.
-  - url: /housing-assistance/home-loans/va-backed-loans/nadl/
-    title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a NADL to buy, build, or improve a home on Federal Trust Land.
+order: 3
 ---
 
 <div class="va-introtext">
@@ -48,21 +40,24 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 ### How do I get an IRRRL?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
-**Find a lender.** You’ll go through a private lender—not directly through us—to get an IRRRL. Terms and fees may vary, so contact several lenders to check out your options.
-
-</li>
-
-<li class="step two">
-
-**Give your lender any needed information.** If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. Or, if you don’t have your original COE, ask your lender to use our email confirmation process instead. You won’t need to apply for a new COE.
+#### Find a lender.
+You’ll go through a private lender—not directly through us—to get an IRRRL. Terms and fees may vary, so contact several lenders to check out your options.
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-two">
 
-**Follow your lender’s process for closing on the IRRRL loan, and pay your closing costs.** With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank or mortgage company providing your loan) can pay the costs.
+#### Give your lender any needed information.
+If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. Or, if you don’t have your original COE, ask your lender to use our email confirmation process instead. You won’t need to apply for a new COE.
+
+</li>
+
+<li class="process-step list-three">
+
+#### Follow your lender’s process for closing on the IRRRL loan, and pay your closing costs.
+With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank or mortgage company providing your loan) can pay the costs.
 
 </li>
 </ol>

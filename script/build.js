@@ -125,6 +125,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
 }
 smith.use(ignore(ignoreList));
@@ -174,7 +175,28 @@ smith.use(collections({
     metadata: {
       name: 'GI Bill'
     }
-  }
+  },
+  housing: {
+    pattern: 'housing-assistance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Housing Assistance'
+    }
+  },
+  housingHomeLoans: {
+    pattern: 'housing-assistance/home-loans/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Home Loans'
+    }
+  },
+  housingVALoans: {
+    pattern: 'housing-assistance/home-loans/va-backed-loans/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'VA-Backed Loans'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));

@@ -1,12 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Adaptive Housing Grants
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /housing-assistance/home-loans/
-    title: Home Loans
-    description: Choose from one of the VA-backed loan options and find out how to apply for a loan to buy, improve, or refinance a home.
+order: 2
 ---
 
 <div class="va-introtext">
@@ -80,5 +77,11 @@ If you have trouble accessing the form, call us toll-free at <a href="tel:+1-855
 #### Apply in person
 
 Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To find a regional office near you:
--	[Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
--	Call us at <a href="tel:+1-855-574-7286">800-827-1000</a>.
+- [Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
+- Call us at <a href="tel:+1-855-574-7286">800-827-1000</a>.
+
+### Need help?
+
+<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>
+
+Call an SAH staff member at <a href="tel:+18778273702">877-827-3702</a>.

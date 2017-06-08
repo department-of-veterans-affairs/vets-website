@@ -1,15 +1,24 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Apply for Your COE
 concurrence: 
-template: 6-info-page
+order: 3
 relatedlinks:
-  - url: /housing-assistance/home-loans/eligibility/
-    title: Eligibility
-    description: Not sure if you qualify for a COE? Find out based on your service history and duty status.
-  - url: /housing-assistance/home-loans/trouble-making-payments/
-    title: Trouble Making Payments?
-    description: Get help to avoid foreclosure if you’re struggling to make your monthly mortgage payments.
+  - heading: VA-Backed Loans
+    links:
+    - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+      title: Purchase Loan 
+      description: Find out how to get a VA-backed purchase loan to buy a home. 
+    - url: /housing-assistance/home-loans/va-backed-loans/nadl/
+      title: Native American Direct Loan (NADL) 
+      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land. 
+    - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+      title: Interest Rate Reduction Refinance Loan (IRRRL) 
+      description: Find out how to get an IRRRL loan to refinance an existing loan. 
+    - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+      title: Cash-Out Refinance Loan
+      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs. 
 ---
 
 <div class="va-introtext">
@@ -21,7 +30,7 @@ The first step in getting a VA-backed home loan is to apply for a Certificate of
 ### Get your COE
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 #### Gather the information you’ll need to apply for your COE
 
@@ -78,7 +87,7 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 
 </li>
 
-<li class="step last two">
+<li class="process-step list-two">
 
 #### Apply for your COE
 
@@ -105,12 +114,3 @@ To apply by mail, fill out VA Form 26-1880 (Request for a Certificate of Eligibi
 ### Next steps for getting a VA-backed home loan
 
 Applying for your COE is only one part of the process for getting a VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
-
-**Learn more about how to get:**
-
-- [A purchase loan to buy a home](/housing-assistance/home-loans/va-backed-loans/purchase-loan/) 
-- [A Native American Direct Loan (NADL) to buy, build, or improve a home on Federal Trust Land](/housing-assistance/home-loans/va-backed-loans/nadl/) 
-- [An Interest Rate Reduction Refinance Loan (IRRRL) to refinance an existing VA loan](/housing-assistance/home-loans/va-backed-loans/irrrl/) 
-- [A cash-out refinance loan to get cash from your home equity or refinance a non-VA loan into a VA-backed loan](/housing-assistance/home-loans/va-backed-loans/cash-out-refinance/) 
-
-

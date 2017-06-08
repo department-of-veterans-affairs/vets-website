@@ -1,21 +1,25 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: VA-Backed Loans
 concurrence: 
-template: 1-topic-landing
-relatedlinks:
-  - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
-    title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private-lender loan.
-  - url: /housing-assistance/home-loans/va-backed-loans/nadl/
-    title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
-  - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
-    title: Interest Rate Reduction Refinance Loan (IRRRL)
-    description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-  - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance Loan
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
+children: housingVALoans
+order: 1
+majorlinks:
+  - heading:
+    links:
+    - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+      title: Purchase Loan
+      description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private-lender loan.
+    - url: /housing-assistance/home-loans/va-backed-loans/nadl/
+      title: Native American Direct Loan (NADL) Program
+      description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
+    - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+      title: Interest Rate Reduction Refinance Loan (IRRRL)
+      description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
+    - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+      title: Cash-Out Refinance Loan
+      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
 
 <div class="va-introtext">
