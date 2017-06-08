@@ -8,7 +8,7 @@ export function formatPercent(percent) {
   let validPercent = undefined;
 
   if (!isNaN(parseInt(percent, 10))) {
-    validPercent = `${Math.round(percent * 100)}%`;
+    validPercent = `${Math.round(percent)}%`;
   }
 
   return validPercent;
