@@ -16,11 +16,11 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 ### Can I get VA financial counseling to help avoid foreclosure?
 
-- If you’re a Veteran or the spouse of a Veteran, we’ll provide financial counseling—even if your loan isn’t VA-backed. 
+- If you’re a Veteran or the spouse of a Veteran, we’ll provide financial counseling—even if your loan isn’t a VA direct or VA-backed loan. 
 
-- If you have a VA-backed loan, you can contact us anytime to request that we assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
+- If you have a VA direct or VA-backed loan, you can contact us anytime to request that we assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer.
 
-- If you have a VA-backed loan and it’s 61 days past due, we’ll automatically assign a VA Loan Technician to your loan. 
+- If you have a VA direct or VA-backed loan and it’s 61 days past due, we’ll automatically assign a VA Loan Technician to your loan. 
 
 </div>
 
