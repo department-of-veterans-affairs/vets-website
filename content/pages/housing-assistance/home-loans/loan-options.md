@@ -6,7 +6,7 @@ concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
-  - heading: VA Loan Options
+  - heading: 4 VA Loan Options
     links:
     - url: /housing-assistance/home-loans/loan-options/purchase-loan/
       title: Purchase Loan
