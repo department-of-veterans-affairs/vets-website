@@ -4,52 +4,42 @@ import PropTypes from 'prop-types';
 import { formatDate } from '../utils/helpers';
 
 class EnrollmentPeriod extends React.Component {
+  constructor() {
+    super();
+    this.renderLineOfData = this.renderLineOfData.bind(this);
+  }
+
+  renderLineOfData(label, value) {
+    return (
+      <div className="usa-grid-full">
+        <div className="usa-width-one-third">
+          <span><strong>{label}: </strong></span>
+        </div>
+        <div className="usa-width-one-third">
+          {value}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { enrollment } = this.props;
 
-    const fullTimeHours = enrollment.fullTimeHours ? (
-      <div className="usa-grid-full">
-        <div className="usa-width-one-third">
-          <span><strong>On-campus Hours: </strong></span>
-        </div>
-        <div className="usa-width-one-third">
-          {enrollment.fullTimeHours}
-        </div>
-      </div>
-    ) : null;
+    const fullTimeHours = enrollment.fullTimeHours ?
+        this.renderLineOfData('On-campus Hours', enrollment.fullTimeHours)
+        : null;
 
-    const distanceHours = enrollment.distanceHours ? (
-      <div className="usa-grid-full">
-        <div className="usa-width-one-third">
-          <span><strong>Distance Hours: </strong></span>
-        </div>
-        <div className="usa-width-one-third">
-          {enrollment.distanceHours}
-        </div>
-      </div>
-    ) : null;
+    const distanceHours = enrollment.distanceHours ?
+        this.renderLineOfData('Distance Hours', enrollment.distanceHours)
+        : null;
 
-    const typeOfChange = enrollment.amendmentList && enrollment.amendmentList[0].type ? (
-      <div className="usa-grid-full">
-        <div className="usa-width-one-third">
-          <span><strong>Type of Change: </strong></span>
-        </div>
-        <div className="usa-width-one-third">
-          {enrollment.amendmentList[0].type}
-        </div>
-      </div>
-    ) : null;
+    const typeOfChange = enrollment.amendmentList && enrollment.amendmentList[0].type ?
+        this.renderLineOfData('Type of Change', enrollment.amendmentList[0].type)
+        : null;
 
-    const changeEffectiveDate = enrollment.amendmentList && enrollment.amendmentList[0].changeEffectiveDate ? (
-      <div className="usa-grid-full">
-        <div className="usa-width-one-third">
-          <span><strong>Change Effective Date: </strong></span>
-        </div>
-        <div className="usa-width-one-third">
-          {formatDate(enrollment.amendmentList[0].changeEffectiveDate)}
-        </div>
-      </div>
-    ) : null;
+    const changeEffectiveDate = enrollment.amendmentList && enrollment.amendmentList[0].changeEffectiveDate ?
+        this.renderLineOfData('Change Effective Date', enrollment.amendmentList[0].changeEffectiveDate)
+        : null;
 
     return (
       <div>
