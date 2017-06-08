@@ -3,8 +3,31 @@ import _ from 'lodash/fp';
 import { transformForSubmit } from '../common/schemaform/helpers';
 import { vaMedicalFacilities } from '../common/utils/options-for-select.js';
 
+function changePostalToZip(address) {
+  if (address.country === 'USA') {
+    const newAddress = _.set('zipcode', address.postalCode, address);
+    delete newAddress.postalCode;
+    return newAddress;
+  }
+
+  return address;
+}
+
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  let updatedForm = _.set(
+    'data.veteranAddress',
+    changePostalToZip(form.data.veteranAddress),
+    form
+  );
+  if (_.get('data.view:spouseContactInformation.spouseAddress', form)) {
+    updatedForm = _.set(
+      'data.view:spouseContactInformation.spouseAddress',
+      changePostalToZip(form.data['view:spouseContactInformation'].spouseAddress),
+      updatedForm
+    );
+  }
+  const formData = transformForSubmit(formConfig, updatedForm);
+
   return JSON.stringify({
     form: formData
   });
@@ -102,5 +125,13 @@ export const incomeDescription = (
     <p><strong>Gross annual income:</strong> This is from employment only, and does not include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your child's income information if it could have been used to pay your household expenses.</p>
     <p><strong>Net income:</strong> This is the income from your farm, ranch, property, or business.</p>
     <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
+  </div>
+);
+
+export const disclosureWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
+    </div>
   </div>
 );

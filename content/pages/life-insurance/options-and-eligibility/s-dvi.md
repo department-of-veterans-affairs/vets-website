@@ -1,21 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Service-Disabled Veterans Life Insurance (S-DVI)
+display_title: Service-Disabled Veterans
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/sgli/
-    title: Servicemembers’ Group Life Insurance (SGLI)
-    description: Get group life insurance while you’re serving.
-  - url: /life-insurance/options-and-eligibility/fsgli/
-    title: Family Servicemembers’ Group Life Insurance (FSGLI)
-    description: Add coverage for spouse and dependent children (children who rely on you for financial support).
-  - url: /life-insurance/options-and-eligibility/tsgli/
-    title: Traumatic Injury Protection Program (TSGLI)
-    description: Get short-term financial support to help you recover from a severe injury. 
-  - url: /life-insurance/options-and-eligibility/vgli/
-    title: Veterans’ Group Life Insurance (VGLI)
-    description: Get group life insurance once you’ve ended your service. 
+order: 5
 ---
 
 <div class="va-introtext">
@@ -106,3 +95,9 @@ If you have a severe service-connected disability, you may also qualify for Vete
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
+
+### Need help?
+
+Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)

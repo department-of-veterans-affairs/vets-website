@@ -1,15 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Claims for Disabled and Terminally Ill Policyholders
+display_title: Disabled & Terminally Ill Policyholders
 concurrence: 
-template: 4-action-page
-relatedlinks:
-  - url: /life-insurance/options-and-eligibility/
-    title: Options and Eligibility
-    description: Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.
-  - url: /life-insurance/manage-your-policy/
-    title: Managing Your Policy
-    description: Check your policy’s status, update your beneficiary, or pay your bill online.
+order: 3
 ---
 
 <div class="va-introtext">
@@ -112,4 +107,8 @@ To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mai
 
 [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
+### Need help?
 
+Need to file a benefits claim after your family member has died? [Manage your policy online](/life-insurance/manage-your-policy/).
+
+Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).

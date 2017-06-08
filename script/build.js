@@ -125,6 +125,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('pensions/application.md');
   ignoreList.push('va-letters/*');
 }
 smith.use(ignore(ignoreList));
@@ -174,7 +175,21 @@ smith.use(collections({
     metadata: {
       name: 'GI Bill'
     }
-  }
+  },
+  lifeInsurance: {
+    pattern: 'life-insurance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Life Insurance'
+    }
+  },
+  lifeInsuranceOptions: {
+    pattern: 'life-insurance/options-and-eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Options'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
