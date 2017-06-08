@@ -5,6 +5,7 @@ entryname: messaging
 gatePage: true
 collection: healthcare
 order: 7
+includeBreadcrumbs: true
 ---
 
 <div id="main">
