@@ -24,6 +24,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-VA direct and VA-backed home loans help Veterans like you build, buy, improve, or refinance a home. With a VA loan, you’ll still need to have the required credit and income for the loan amount you want to borrow. But you may be offered better loan terms than with a traditional loan from a private bank or mortgage company. Find out about our loan options—and how to apply.
+VA direct and VA-backed home loans help Veterans like you build, buy, improve, or refinance a home. With a VA loan, you’ll still need to have the required credit and income for the loan amount you want to borrow. But you may be offered better loan terms than with a traditional loan from a private bank or mortgage company. For example, nearly 90% of VA-backed loans are made with no down payment. Find out about our loan options—and how to apply.
 
 </div>
