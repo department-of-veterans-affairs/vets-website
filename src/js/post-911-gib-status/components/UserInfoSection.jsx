@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDateFormatted, getPercentFormatted } from '../utils/helpers';
+import { formatDate, formatPercent } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
     const { userData } = this.props;
 
     // Used to get today's date to show information current of
-    const today = new Date();
-    const todayFormatted = getDateFormatted(today);
+    const todayFormatted = formatDate(new Date());
 
     // Check if percent is a number
-    let percentageBenefit = 'unavailable';
-    if (getPercentFormatted(userData.percentageBenefit)) {
-      percentageBenefit = getPercentFormatted(userData.percentageBenefit);
-    }
+    const percentageBenefit = formatPercent(userData.percentageBenefit) || 'unavailable';
+
+    // TODO: Figure out what will be sent to us if the user is ineligible so we can
+    // conditionally show "Currently Disallowed" message
 
     return (
-      <div className="gibstatus">
+      <div>
         <h3 className="section-header">{userData.firstName} {userData.lastName}</h3>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
@@ -30,7 +29,7 @@ class UserInfoSection extends React.Component {
             <span><strong>Date of Birth: </strong></span>
           </div>
           <div className="usa-width-one-third">
-            {getDateFormatted(userData.dateOfBirth)}
+            {formatDate(userData.dateOfBirth)}
           </div>
         </div>
         <div className="usa-grid-full section-line">
@@ -49,9 +48,10 @@ class UserInfoSection extends React.Component {
             {userData.regionalProcessingOffice}
           </div>
         </div>
+
         <div>
           <h4>When You Can Receive Benefits</h4>
-          <div className="section-line">You are eligible to receive benefits between <strong>{getDateFormatted(userData.eligibilityDate)}</strong> and <strong>{getDateFormatted(userData.delimitingDate)}</strong></div>
+          <div className="section-line">You are eligible to receive benefits between <strong>{formatDate(userData.eligibilityDate)}</strong> and <strong>{formatDate(userData.delimitingDate)}</strong></div>
         </div>
         <div>
           <h4>Your Benefit Level</h4>

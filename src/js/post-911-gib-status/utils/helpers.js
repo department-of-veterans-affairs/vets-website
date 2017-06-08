@@ -1,10 +1,10 @@
 import moment from 'moment';
 
-export function getDateFormatted(date) {
+export function formatDate(date) {
   return moment(date).format('MM/DD/YYYY');
 }
 
-export function getPercentFormatted(percent) {
+export function formatPercent(percent) {
   let validPercent = undefined;
 
   if (!isNaN(parseInt(percent, 10))) {
