@@ -29,6 +29,7 @@ const entryFiles = {
   auth: './src/js/auth/auth-entry.jsx',
   'va-letters': './src/js/va-letters/va-letters-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
+  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
 };
 
 const configGenerator = (options) => {

@@ -63,7 +63,9 @@ class MessagingApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <RequiredTermsAcceptanceView termsName={"mhvac"}>
+        <RequiredTermsAcceptanceView
+            termsName={"mhvac"}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div id="messaging-app-header">
               <AlertBox
