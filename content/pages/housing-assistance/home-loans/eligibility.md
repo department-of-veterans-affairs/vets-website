@@ -5,25 +5,25 @@ title: Eligibility
 concurrence: 
 order: 2
 relatedlinks:
-  - heading: VA-Backed Loans
+  - heading: Loan Options
     links:
-    - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+    - url: /housing-assistance/home-loans/loan-options/purchase-loan/
       title: Purchase Loan
       description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private lender loan. 
-    - url: /housing-assistance/home-loans/va-backed-loans/nadl/
+    - url: /housing-assistance/home-loans/loan-options/nadl/
       title: Native American Direct Loan (NADL) Program
       description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
-    - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+    - url: /housing-assistance/home-loans/loan-options/irrrl/
       title: Interest Rate Reduction Refinance Loan (IRRRL)
       description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-    - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+    - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
       description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan. 
 ---
 
 <div class="va-introtext">
 
-To get a VA home loan, you’ll need a Certificate of Eligibility (COE) to show your lender that you qualify for this benefit based on your service history and duty status. Find out if you can get a COE. And keep in mind that you’ll also need to meet your lender’s credit and income requirements to get a loan.
+To get a VA direct or VA-backed home loan, you’ll need a Certificate of Eligibility (COE) to show your lender that you qualify for this benefit based on your service history and duty status. Find out if you can get a COE. And keep in mind that you’ll also need to meet your lender’s credit and income requirements to get a loan.
 
 </div>
 
@@ -111,11 +111,11 @@ You may be able to get a COE if you:
   
 ### Can I use a COE I used before?
 
-You may be able to “restore” an entitlement you used in the past to buy another home with a VA-backed loan if:
+You may be able to “restore” an entitlement you used in the past to buy another home with a VA direct or VA-backed loan if:
 
-- You’ve sold the home you bought with the prior VA-backed loan and have paid that loan in full, **or**
-- A qualified Veteran-transferee agrees to assume your VA loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
-- You’ve repaid your prior VA-backed loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
+- You’ve sold the home you bought with the prior loan and have paid that loan in full, **or**
+- A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
+- You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
 To request an entitlement restoration, fill out VA Form 26-1880 and submit it to the VA Eligibility Center. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
 
