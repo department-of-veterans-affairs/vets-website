@@ -1,23 +1,20 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Suicide Prevention
-display_title: ""
-concurrence: ""
-template: 1-topic-landing
-lastupdate_override: ""
+display_title: 
+concurrence: 
+lastupdate_override: 
+order: 3
 relatedlinks:
-  - url: /healthcare/health-conditions/mental-health/ptsd/
-    title: Posttraumatic Stress Disorder (PTSD)
-    description: Learn more about VA health services to help support Veterans with PTSD.
-  - url: /healthcare/health-conditions/mental-health/depression/
-    title: Depression
-    description: Learn more about VA health services to help support Veterans with depression.
-  - url: /healthcare/health-conditions/military-sexual-trauma/
-    title: Military Sexual Trauma (MST)
-    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
-  - url: /healthcare/health-conditions/substance-use-problems/
-    title: Substance Use Problems
-    description: Learn more about VA health services to help support Veterans with substance use problems.
+  - heading:
+    links:
+    - url: /healthcare/health-conditions/military-sexual-trauma/
+      title: Military Sexual Trauma (MST)
+      description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
+    - url: /healthcare/health-conditions/substance-use-problems/
+      title: Substance Use Problems
+      description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">

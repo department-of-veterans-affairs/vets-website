@@ -1,29 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Assisted Living and Home Health Care
-display_title: ""
-concurrence: ""
-template: 1-topic-landing
-lastupdate_override: ""
+display_title: 
+concurrence: 
+lastupdate_override: 
+order: 3
 relatedlinks:
-  - url: /healthcare/about-va-health-care/your-care-team/
-    title: Your Care Team
-    description: Learn about the health providers who’ll make up your VA care team.
-  - url: /healthcare/about-va-health-care/where-you-get-care/
-    title: Where You’ll Get Care
-    description: Find out how to access care for regular needs, in emergencies, and when traveling.
-  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
-    title: VA Health Care and Other Insurance
-    description: Learn how VA health care works with Medicaid and private insurance.
-  - url: /healthcare/about-va-health-care/dental-care/
-    title: Dental Care
-    description: Find out if you can get dental care through VA.
-  - url: /healthcare/about-va-health-care/vision-care/
-    title: Vision Care
-    description: Find out if you can get vision care through VA.
-  - url: /disability-benefits/
-    title: Disability Benefits
-    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
+  - heading:
+    links:
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">

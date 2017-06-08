@@ -1,23 +1,19 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: About VA Health Care Coverage
-display_title: ""
-concurrence: ""
-template: 4-action-page-pending
+display_title: VA Health Care Coverage
+concurrence: 
 lastupdate_override: 2017-5-19
+collection: healthcare
+children: healthcareCoverage
+order: 1
 relatedlinks: 
-  - url: /healthcare/eligibility/
-    title: Health Care Benefits Eligibility
-    description: Not sure if you qualify? Find out if you can get VA health care benefits.
-  - url: /healthcare/apply/
-    title: Health Care Application Process
-    description: Ready to apply? Get started now.
-  - url: /healthcare/health-conditions
-    title: Health Needs and Conditions
-    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-  - url: /disability-benefits/
-    title: Disability Benefits
-    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
+  - heading:
+    links:
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">

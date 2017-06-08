@@ -1,12 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Vision Care for Blind and Low Vision Veterans
-display_title: ""
-concurrence: ""
-template: 1-topic-landing
-lastupdate_override: ""
-relatedlinks: []
-
+display_title: Care for Blind and Low Vision Veterans
+concurrence: 
+lastupdate_override: 
 ---
 
 <div class="va-introtext">

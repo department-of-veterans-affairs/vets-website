@@ -3,28 +3,10 @@ layout: page-breadcrumbs.html
 title: After You Apply for Health Care Benefits
 display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-lastupdate_override: ""
-relatedlinks:
-  - url: /healthcare/about-va-health-care/
-    title: About VA Health Care Coverage
-    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
-  - url: /healthcare/health-conditions/
-    title: Health Needs and Conditions
-    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-  - url: /healthcare/prescriptions/
-    title: Refill Prescriptions
-    description: Refill prescriptions online, and track the status of your refills.
-  - url: /healthcare/messaging/
-    title: Send a Message to Your Health Care Team
-    description: Send a secure, private note to your primary care provider or other members of your VA health care team.
-  - url: /disability-benefits/
-    title: Disability Benefits
-    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
-  - url: /track-claims/
-    title: Check Claim Status
-    description: Track the status of your disability claim.
+template: topic-landing
+collection: healthcare
+order: 4
+lastupdate_override: 
 ---
 
 <div class="va-introtext">

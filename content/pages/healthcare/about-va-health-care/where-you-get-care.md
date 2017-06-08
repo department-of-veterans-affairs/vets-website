@@ -1,26 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Where You’ll Get Care
-display_title: ""
-concurrence: ""
-template: 1-topic-landing
+display_title: 
+concurrence: 
 lastupdate_override:
+order: 2
 relatedlinks:
-  - url: /healthcare/about-va-health-care/your-care-team/
-    title: Your Care Team
-    description: Learn about the health providers who’ll make up your VA care team.
-  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
-    title: VA Health Care and Other Insurance
-    description: Learn how VA health care works with Medicaid and private insurance.
-  - url: /healthcare/about-va-health-care/dental-care/
-    title: Dental Care
-    description: Find out if you can get dental care through VA.
-  - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
-    title: Assisted Living and Home Health Care
-    description: Find out how to access assisted living, residential (live-in), or home health care options through VA.
-  - url: /healthcare/health-conditions/
-    title: Health Needs and Conditions
-    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
+  - heading:
+    links:
+    - url: /healthcare/health-conditions/
+      title: Health Needs and Conditions
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
 ---
 
 <div class="va-introtext">
