@@ -5106,7 +5106,7 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mapbox@^1.0.0-beta7:
+mapbox@1.0.0-beta7:
   version "1.0.0-beta7"
   resolved "https://registry.yarnpkg.com/mapbox/-/mapbox-1.0.0-beta7.tgz#b076b1149c5cd3e3dbf69d3492cc1ddbd9a783ed"
   dependencies:
@@ -5358,7 +5358,7 @@ metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
   resolved "https://codeload.github.com/department-of-veterans-affairs/metalsmith-webpack/tar.gz/6130e9bccbf6f558f58041f63f07382d049f66bf"
   dependencies:
-    enhanced-resolve "^0.7.6"
+    enhanced-resolve "^3.1.0"
     webpack "^2.4.1"
 
 metalsmith@^1.7.0:
@@ -8493,9 +8493,9 @@ whatwg-encoding@^1.0.1:
   dependencies:
     iconv-lite "0.4.13"
 
-whatwg-fetch@>=0.10.0, "whatwg-fetch@http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz":
-  version "1.0.0"
-  resolved "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz#01c2ac4df40e236aaa18480e3be74bd5c8eb798e"
+whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
 whatwg-url@^4.3.0:
   version "4.7.0"

@@ -46,6 +46,7 @@ export function setSubmitted(response) {
   };
 }
 
+
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
@@ -59,7 +60,6 @@ export function submitForm(formConfig, form) {
 
     const fetchOptions = {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'

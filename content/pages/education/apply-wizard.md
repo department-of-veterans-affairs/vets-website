@@ -66,12 +66,9 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           </div>
         </div>
         <div class="wizard-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
-        <label>Are you claiming a National Call to Service education benefit and if so, have you completed <strong>each</strong> of the following steps:<br/>
-          <ul>
-            <li>Entered service 10/01/03 – 12/31/07</li>
-            <li>Enlisted under NCS program</li>
-            <li>Chose education benefits</li>
-          </ul></label>
+        <label>Are you claiming a National Call to Service education benefit?<br />
+              (This is very rare)
+          </label>
           <div class="form-radio-buttons">
             <input type="radio" name="national-call-to-service" id="is-ncts" value="is-ncts" data-selected-form="1990n" data-alternate="is-not-ncts">
             <label for="is-ncts">Yes</label>
@@ -80,12 +77,14 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           </div>
         </div>
         <div class="wizard-content-question" data-question="update" data-alternate="create" data-state="closed">
-        <label>Are you receiving education benefits from a veteran who is deceased, permanently disabled, MIA or a POW?</label>
+        <label>Are you receiving education benefits transferred to you by a sponsor Veteran?</label>
           <div class="form-radio-buttons">
-            <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
-            <label for="is-dependent">Yes</label>
             <input type="radio" name="update" id="update-non-dependent" value="is-not-dependent" data-selected-form="1995" data-alternate="update-dependent">
-            <label for="is-not-dependent">No</label>
+            <label for="is-not-dependent">No, I’m using my own benefit.</label>
+            <input type="radio" name="update" id="update-non-dependent" value="is-not-dependent" data-selected-form="1995" data-alternate="update-dependent">
+            <label for="is-not-dependent">Yes, I’m using a transferred benefit.</label>
+            <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
+            <label for="is-dependent">No, I am using the Fry Scholarship or DEA (Chapter 35)</label>
           </div>
         </div>
         <div class="wizard-content-question" data-question="create-dependent" data-alternate="national-call-to-service" data-state="closed">
@@ -98,7 +97,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           </div>
         </div>
         <div class="wizard-content-question" data-question="create-transfer" data-state="closed">
-        <label>Has your sponsor transferred their benefits?</label>
+        <label>Has your sponsor transferred their benefits to you?</label>
           <div class="form-radio-buttons">
             <input type="radio" name="create-transfer" id="create-transfer" value="is-transfer" data-selected-form="1990e" data-alternate="create-transfer">
             <label for="create-transfer">Yes</label>
@@ -106,10 +105,21 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="create-non-transfer">No</label>
           </div>
         </div>
+        <div id="ncts-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
+        <div class="usa-alert-body">
+          <h4 style="padding:0;">Are you sure?</h4>
+          <p style="margin:0;">Are all of the following things true of your service?</p>
+          <ul>
+            <li>Enlisted under the National Call to Service program, <strong>and</strong></li>
+            <li>Chose education benefits, <strong>and</strong></li>
+            <li>Entered service between 10/01/03 and 12/31/07</li>
+          </ul>
+        </div>
+        </div>
         <div id="transfer-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
         <div class="usa-alert-body">
-        <h4 style="padding:0;">You indicated that your Sponsor’s benefits have not been transferred.</h4>
-        <p style="margin:0;">Your application cannot be approved until your sponsor transfers their benefits. To find out more, visit the DoDs <a href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">website</a> or <a href="http://milconnect.dmdc.mil/">apply now</a>.</p>
+          <h4 style="padding:0;">Your application cannot be approved until your sponsor transfers their benefits.</h4>
+          <p style="margin:0;"><a target="_blank" href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a></p>
         </div>
         </div>
         <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button" data-state="closed">Apply now</a>
