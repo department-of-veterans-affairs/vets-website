@@ -29,16 +29,27 @@ The first step in getting a VA direct or VA-backed home loan is to apply for a C
 
 ### Get your COE
 
-<ol class="process">
-<li class="process-step list-one">
-
 #### Gather the information you’ll need to apply for your COE
 
+*[Add some text here describing what to do with the accordions below]*
+
 <br>
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-veteran">Veteran</button>
+<div id="apply-coe-veteran" class="usa-accordion-content">
 
 If you're a **Veteran**, you'll need:
 
 - Your DD214
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-active-duty">Servicemember</button>
+<div id="apply-coe-active-duty" class="usa-accordion-content">
 
 If you're an **active-duty Servicemember**, you'll need:
 
@@ -50,9 +61,21 @@ If you're an **active-duty Servicemember**, you'll need:
   - The duration of any lost time
   - The name of the command providing the information
 
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-activated">Current or former activated National Guard or Reserve member</button>
+<div id="apply-coe-activated" class="usa-accordion-content">
+
 If you're a **current or former activated National Guard or Reserve member**, you'll need:
 
 - Your DD214
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-not-activated">Current member of the National Guard or Reserves who has never been activated</button>
+<div id="apply-coe-not-activated" class="usa-accordion-content">
 
 If you're a **current member of the National Guard or Reserves**, and have **never been activated**, you'll need:
 
@@ -65,15 +88,33 @@ If you're a **current member of the National Guard or Reserves**, and have **nev
   - The duration of any lost time
   - The name of the command providing the information
 
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-ng">Discharged member of the National Guard, and were never activated</button>
+<div id="apply-coe-discharged-ng" class="usa-accordion-content">
+
 If you're a **discharged member of the National Guard**, and were **never activated**, you'll need:
 
 - Your NGB Form 22 (Report of Separation and Record of Service) for each period of National Guard service, **or**
 - Your NGB Form 23 (Retirement Points Statement) and proof of the character of service
 
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves and were never activated</button>
+<div id="apply-coe-discharged-reserves" class="usa-accordion-content">
+
 If you're a **discharged member of the Reserves** and were **never activated**, you'll need:
 
 - A copy of your latest annual retirement points, **and**
 - Proof of your honorable service
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-survivor">Surviving spouse of a Veteran who died on active duty or who had a service-connected disability</button>
+<div id="apply-coe-survivor" class="usa-accordion-content">
 
 If you're the **surviving spouse** of a Veteran who died on active duty or who had a service-connected disability, you'll need:
 
@@ -85,9 +126,16 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 
 [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
+</div>
 </li>
+</ul>
+</div>
 
-<li class="process-step list-two">
+<!-- </li>
+
+<li class="process-step list-two"> -->
+
+<br>
 
 #### Apply for your COE
 
@@ -108,9 +156,13 @@ In some cases, you can get your COE through your lender using our Web LGY system
 To apply by mail, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
 
 
-</li>
-</ol>
+<!-- </li>
+</ol> -->
 
 ### Next steps for getting a VA direct or VA-backed home loan
 
 Applying for your COE is only one part of the process for getting a VA direct or VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
