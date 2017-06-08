@@ -41,7 +41,7 @@
     &--opened {
       transform: scale(1);
 
-      & + div:before {
+      &+ div:before {
         background: $color-link-default-hover;
         content: "\00A0";
         display: block;
