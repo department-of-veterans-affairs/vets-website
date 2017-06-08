@@ -97,17 +97,18 @@ export default class FileField extends React.Component {
                       type="button">
                     Remove
                   </button>
-                </li>}
-                {!file.uploading && !!errors.length &&
-                  <li>{errors[0]}&nbsp;
-                    <button
-                        onClick={() => this.removeFile(index)}
-                        className="usa-button usa-button-outline schemaform-file-remove-button"
-                        type="button">
-                      Remove
-                    </button>
-                  </li>
-                }
+                </li>
+              }
+              {!file.uploading && !!errors.length &&
+                <li>{errors[0]}&nbsp;
+                  <button
+                      onClick={() => this.removeFile(index)}
+                      className="usa-button usa-button-outline schemaform-file-remove-button"
+                      type="button">
+                    Remove
+                  </button>
+                </li>
+              }
             </ul>
           );
         })}
