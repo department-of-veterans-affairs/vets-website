@@ -55,8 +55,15 @@ describe('Schemaform <SaveFormLink>', () => {
     );
     const findDOM = findDOMNode(tree);
 
+    // Modal uses document.querySelector, so we have to bind it to the formDOM
+    //  to actually get the right result.
+    document.querySelector = findDOM.querySelector.bind(findDOM);
+
     // Open the login modal
-    findDOM.querySelector('a').click();
+    // NOTE: I'm not sure why we have to use ReactTestUtils.Simulate.click() here,
+    //  but just querying for the link and .click()ing it didn't call SaveFormLink's
+    //  openLoginModal().
+    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
 
     const modal = findDOM.querySelector('.va-modal');
 
@@ -66,6 +73,8 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should call saveForm if logged in', () => {
     saveFormSpy.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
+      // Wrapped in a div because I SaveFormLink only returns an anchor and I
+      //  didn't want to just .click() the tree (if that would even work).
       <div>
         <SaveFormLink
             user={loggedInUser}
