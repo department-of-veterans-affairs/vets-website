@@ -9,15 +9,18 @@ children: disabilityApply
 majorlinks:
   - heading:
     links:
-    - url: /disability-benefits/apply/evidence/
-      title: Evidence (Supporting Documents)
-      description: Find out which supporting documents you’ll need to give us so we can decide your claim.
+    - url: /disability-benefits/apply/ways/
+      title: How to File a Disability Claim
+      description: You can file a disability claim 1 of 3 ways. 
     - url: /disability-benefits/apply/claim-types/
       title: Types of Disability Claims 
-      description: Learn about standard claims, reopened claims, secondary claims, and more.
-    - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: Predischarge Claim
-      description: Find out how to file your claim as you get ready to leave the military to speed up the claim decision process.
+      description: Learn about standard claims, reopened claims, secondary claims, and more. 
+    - url: /disability-benefits/apply/evidence/
+      title: Evidence (Supporting Documents)
+      description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
+    - url: /disability-benefits/apply/one-year/
+      title: Disabilities That Appear Within 1 Year After Discharge
+      description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
       title: Get Help Filing a Claim
       description: Find out how to work with a trained professional called an accredited representative.
