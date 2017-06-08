@@ -24,7 +24,7 @@ You may be able to get an SAH grant if you’re using the grant money to buy, bu
   - The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
   - Blindness in both eyes having only light perception along with the loss or loss of use of 1 leg
   - Certain severe burns
-  - The loss or loss of use of 1 or both lower extremities (feet or legs) after September 11, 2011, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
+  - The loss or loss of use of 1 or both lower extremities (feet or legs) after September 11, 2001, that makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair
 
 For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,307—through the SAH grant program. 
 
