@@ -23,11 +23,11 @@ const post911GIBStatusResponse = {
         trainingType: 'string',
         termID: 'string',
         hourType: 'string',
-        fullTimeHours: 0,
+        fullTimeHours: 20,
         fullTimeCreditHourUnderGrad: 0,
         vacationDayCount: 0,
         residenceHours: 0,
-        distanceHours: 0,
+        distanceHours: 10,
         yellowRibbonAmount: 0,
         status: 'string',
         amendmentList: [
