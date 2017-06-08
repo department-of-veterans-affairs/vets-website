@@ -14,14 +14,25 @@
     padding: 1.6rem;
     position: absolute;
     top: 0;
-    transform: scale(0, 1);
-    transform-origin: right center;
-    transition: transform 250ms ease-out;
+    transform: translateX(100%) scale(0);
+    transition: transform ease-out 250ms;
     display: block;
 
     // Necessary to override .usa-grid .usa-width-one-fourth
     .va-l-detail-page & {
        width: 100%;
+    }
+
+    &::before {
+      background: $color-link-default-hover;
+      content: "\00A0";
+      display: block;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
     }
 
     > div {
@@ -39,19 +50,7 @@
     }
 
     &--opened {
-      transform: scale(1);
-
-      &+ div:before {
-        background: $color-link-default-hover;
-        content: "\00A0";
-        display: block;
-        height: 100%;
-        left: 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1;
-      }
+      transform: translateX(0) scale(1);
     }
 
     &-close {
