@@ -18,7 +18,7 @@ A VA-backed purchase loan can help you if you're looking for a competitive inter
 
 You may be able to get a VA-backed purchase loan if you:
 -	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
--	Meet your lender’s standards for credit, income, and any other requirements, **and**
+-	Meet our—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re buying with the loan
 
 </div>
@@ -27,9 +27,9 @@ You may be able to get a VA-backed purchase loan if you:
 
 A VA-backed purchase loan often offers:
 
-- **Better terms and interest rates** than regular loans from private banks or mortgage companies (also called lenders)
+- **Better terms and interest rates** than other loans from private banks or mortgage companies (also called lenders)
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
-- **No need for private mortgage insurance (PMI)**, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required if you make a down payment of less than 20% of the total mortgage amount.
+- **No need for private mortgage insurance (PMI)**, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
 - **Fewer closing costs**, which may be paid by the seller
 - **No penalty fee** if you pay the loan off early
 
@@ -46,7 +46,6 @@ You can also:
 - Get a VA-backed home loan to buy your first home
 - Use your VA loan benefit again if you sell or refinance a home you bought with a VA-backed home loan
 - Assume a VA-backed home loan (which means that instead of opening a new mortgage loan, the buyer takes over the seller’s loan)
-- Have 2 VA loans at the same time—as long as the total amount of the loans is under the top amount allowed for VA-backed loans
 
 ### How can I buy a home with a VA-backed purchase loan?
 
@@ -58,35 +57,34 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 <li class="process-step list-one">
 
 ##### Look at your current finances.
-Go over your credit score, income, expenses, and monthly budget. Make sure you’re ready to buy a home—and decide how much you want to spend on a mortgage. Don’t forget to include closing costs. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+Go over your credit score, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
 <li class="process-step list-two">
 
-##### Find a lender.
+##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
-You’ll go through a private bank or mortgage company—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
+You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
+<br>
+[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br>
+[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 
 <li class="process-step list-three">
 
-##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
+##### Choose a lender.
 
-You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
-
-[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
-
-[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+You’ll go through a private bank or mortgage company—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
 
 </li>
 
 <li class="process-step list-four">
 
-##### Find a real estate agent.
+##### Choose a real estate agent.
 
-Read all agreements—and make sure you understand any charges, fees, and commissions—before signing with an agent.
+Meet with several real estate agents to find one you like. Read all agreements—and make sure you understand any charges, fees, and commissions—before signing with an agent.
 
 </li>
 
@@ -116,27 +114,19 @@ Be sure the sales contract includes the “VA Escape Clause.” This voids the c
 
 ##### Have the house appraised and inspected.
 
-A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements. You’ll also want to hire a certified inspector to check for any major defects.
+A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements, and will determine the value of the house. Please be aware that an appraisal isn't the same as an inspection. We strongly recommend that you get an inspection to check for any major defects before you purchase a house.
 
 </li>
 
 <li class="process-step list-three">
 
-##### Read the Closing Disclosure.
+##### Review pre-closing paperwork and give your lender any other needed information.
 
-Your lender must give you a Closing Disclosure at least 3 business days before closing. Read this carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments.
+Your lender must give you a Closing Disclosure at least 3 business days before closing. Be sure to read it carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments. Your lender may also ask you to provide more information or documents at this time.
 
 </li>
 
 <li class="process-step list-four">
-
-##### Complete all paperwork from your lender.
-
-You may need to provide more information or documents to your lender during this phase.  
-
-</li>
-
-<li class="process-step list-five">
 
 ##### Go to the closing meeting.
 
@@ -144,7 +134,7 @@ This may be held at a title company, escrow office, or attorney’s office. Be p
 
 </li>
 
-<li class="process-step list-six">
+<li class="step last five">
 
 ##### Move in.
 
