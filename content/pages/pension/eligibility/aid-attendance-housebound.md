@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Aid and Attendance or Housebound Allowance
 concurrence: "" 
-template: 1-topic-landing
 ---
 
 <div class="va-introtext">
