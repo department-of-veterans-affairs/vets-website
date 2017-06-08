@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-
 import moment from 'moment';
 
 class UserDataSection extends React.Component {
@@ -32,7 +31,6 @@ class UserDataSection extends React.Component {
   }
 }
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
@@ -41,6 +39,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
 export default connect(mapStateToProps)(UserDataSection);
 export { UserDataSection };

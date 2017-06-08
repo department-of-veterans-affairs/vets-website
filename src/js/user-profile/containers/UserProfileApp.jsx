@@ -9,9 +9,7 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class UserProfileApp extends React.Component {
   render() {
-    let view;
-
-    view = (
+    const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>

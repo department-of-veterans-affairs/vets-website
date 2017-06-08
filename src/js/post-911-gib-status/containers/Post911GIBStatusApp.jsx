@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import EnrollmentHistory from '../components/EnrollmentHistory';
+
 import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
@@ -37,7 +39,7 @@ class Post911GIBStatusApp extends React.Component {
   render() {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
-    const { enrollmentState } = this.props;
+    const { enrollmentData } = this.props;
     return (
       <RequiredLoginView
           authRequired={3}
@@ -56,7 +58,10 @@ class Post911GIBStatusApp extends React.Component {
                   print a copy of this screen for benefit and eligibility verification.
                 </p>
               </div>
-              <UserInfoSection userData={enrollmentState}/>
+              <UserInfoSection userData={enrollmentData}/>
+              <div className="info-container usa-width-two-thirds medium-8 columns">
+                <EnrollmentHistory enrollmentData={enrollmentData}/>
+              </div>
             </div>
           </div>
         </AppContent>
@@ -71,7 +76,7 @@ function mapStateToProps(state) {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    enrollmentState: state.post911GIBStatus.enrollmentData
+    enrollmentData: state.post911GIBStatus.enrollmentData
   };
 }
 
