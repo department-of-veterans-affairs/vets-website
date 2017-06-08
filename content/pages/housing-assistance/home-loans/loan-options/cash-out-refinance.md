@@ -19,7 +19,7 @@ Refinancing lets you replace your current loan with a new one under different te
 You may be able to get a cash-out refinance loan if you:
 
 -	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility), **and**
--	Meet your lender’s standards for credit, income, and any other requirements, **and**
+-	Meet VA's—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re refinancing with the loan
 
 </div>
@@ -32,7 +32,7 @@ A cash-out refinance loan may help you to:
 -	Refinance a non-VA loan into a VA-backed loan
 - Borrow up to $424,100 in most areas, with higher loan limits for some high-cost counties
 
-You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Ask your lender to help you decide if a cash-out refinance loan is the best option for you.
+You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Make sure you understand how your new loan amount relates to the value of your home. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. 
 
 ### How can I get a cash-out refinance loan?
 
