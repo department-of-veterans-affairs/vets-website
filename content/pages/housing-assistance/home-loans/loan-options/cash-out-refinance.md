@@ -30,6 +30,7 @@ A cash-out refinance loan may help you to:
 
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
+- Borrow up to $424,100 in most areas, with higher loan limits for some high-cost counties
 
 You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Ask your lender to help you decide if a cash-out refinance loan is the best option for you.
 
