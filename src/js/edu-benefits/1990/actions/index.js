@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+import _ from 'lodash/fp';
 import { veteranToApplication } from '../utils/veteran';
 
 import environment from '../../../common/helpers/environment';
@@ -105,7 +106,6 @@ export function submitForm(data) {
     });
     fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
@@ -124,15 +124,22 @@ export function submitForm(data) {
         return res.json();
       }
 
-      return Promise.reject(new Error(res.statusText));
+      return Promise.reject(new Error(`vets_server_error: ${res.statusText}`));
     })
     .then((resp) => dispatch(updateSubmissionDetails(resp.data.attributes)))
     .catch(error => {
-      Raven.captureException(error);
-      window.dataLayer.push({
-        event: 'edu-submission-failed'
+      // overly cautious
+      const errorMessage = _.get('message', error);
+      const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
+      Raven.captureException(error, {
+        extra: {
+          clientError
+        }
       });
-      dispatch(updateSubmissionStatus('error'));
+      window.dataLayer.push({
+        event: `edu-submission-failed${clientError ? '-client' : ''}`,
+      });
+      dispatch(updateSubmissionStatus(clientError ? 'clientError' : 'error'));
     });
   };
 }

@@ -106,7 +106,7 @@
     "libxmljs": "^0.18.0",
     "lodash": "^4.5.1",
     "lodash-deep": "^2.0.0",
-    "mapbox": "^1.0.0-beta5",
+    "mapbox": "1.0.0-beta7",
     "metalsmith": "^2.1.0",
     "metalsmith-archive": "^0.1.1",
     "metalsmith-assets": "^0.1.0",
@@ -178,7 +178,7 @@
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "0.0.5",
-    "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
+    "whatwg-fetch": "^2.0.3",
     "winston": "^2.2.0"
   },
   "optionalDependencies": {
