@@ -16,6 +16,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you’re a Veteran, Servicemember, or surviving spouse, we may be able to help you buy a home. We may also provide services to help you build, repair, keep, or make changes to your current home.
+If you’re a Veteran, Servicemember, or surviving spouse, we may be able to help you buy a home or refinance a loan. We may also provide services to help you build, repair, or keep your current home.
 
 </div>
