@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: VA-Backed Loans
+title: Loan Options
 concurrence: 
 children: housingVALoans
 order: 1
@@ -24,12 +24,16 @@ majorlinks:
 
 <div class="va-introtext">
 
-We offer 4 VA-backed home loan options to help you buy, build, or improve a home or refinance your current home loan. Learn how VA-backed home loans work—and find out if you can get a loan that meets your needs.
+We offer 4 home loan options to help you buy, build, or improve a home or refinance your current home loan—1 VA direct loan and 3 VA-backed loans. Learn how these different home loans work—and find out if you can get a loan that meets your needs.
 
 </div>
 
-### How do VA-backed home loans work?
+### How does a VA direct home loan work?
 
-With VA-backed home loans, we guarantee (or stand behind) a portion of the loan you get from a private bank or mortgage company (called a lender). If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, Veterans don’t need to make a down payment on nearly 90% of all VA-backed home loans.
+With a VA direct home loan, we serve as your mortgage lender. This means you'll work directly with us to apply for and manage your loan. The Native American Direct (NADL) Program is the only direct home loan that we offer, and it often offers better terms than a home loan from a private lender (a private bank or mortgage company). [Find out if you qualify for a NADL](/housing-assistance/home-loans/va-backed-loans/nadl/). 
+
+### How does a VA-backed home loan work?
+
+With a VA-backed home loan, we guarantee (or stand behind) a portion of the loan you get from a private lender. If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, Veterans don’t need to make a down payment on nearly 90% of all VA-backed home loans.
 
 Lenders follow our VA standards when making VA-backed home loans. They may also require you to meet additional standards before giving you a loan. These standards may include having a high enough credit score or getting an updated home appraisal (an expert’s estimate of the value of your home).
