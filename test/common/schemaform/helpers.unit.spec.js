@@ -9,7 +9,8 @@ import {
   getArrayFields,
   setItemTouched,
   getNonArraySchema,
-  checkValidSchema
+  checkValidSchema,
+  expandArrayPages
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -156,6 +157,22 @@ describe('Schemaform helpers:', () => {
 
       expect(fields).not.to.be.empty;
     });
+    it('should skip array using option', () => {
+      const data = {
+        schema: {
+          type: 'array'
+        },
+        uiSchema: {
+          'ui:options': {
+            keepInPageOnReview: true
+          }
+        }
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).to.be.empty;
+    });
     it('should get array in object', () => {
       const data = {
         schema: {
@@ -169,7 +186,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).not.to.be.empty;
       expect(fields[0].path).to.eql(['field']);
@@ -183,7 +200,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).to.be.empty;
     });
@@ -201,7 +218,7 @@ describe('Schemaform helpers:', () => {
         uiSchema: {}
       };
 
-      const fields = getArrayFields(data);
+      const fields = getArrayFields(data, {});
 
       expect(fields).to.be.empty;
     });
@@ -425,6 +442,11 @@ describe('Schemaform helpers:', () => {
 
       expect(result).to.be.undefined;
     });
+    it('should skip array fields using option', () => {
+      const result = getNonArraySchema({ type: 'array' }, { 'ui:option': { keepInPageOnReview: true } });
+
+      expect(result).to.be.defined;
+    });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({
         type: 'object',
@@ -576,6 +598,157 @@ describe('Schemaform helpers:', () => {
         expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.');
       }
       expect(isValid).to.equal(undefined);
+    });
+  });
+  describe('expandArrayPages', () => {
+    it('should expand array page for single item', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'test/:index'
+        }
+      ];
+      const data = {
+        test: [{}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(data.test.length);
+      expect(newPageList[0].path).to.equal('test/0');
+      expect(newPageList[0].index).to.equal(0);
+    });
+    it('should expand array page for multiple items', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'test/:index'
+        }
+      ];
+      const data = {
+        test: [{}, {}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(data.test.length);
+      expect(newPageList[0].path).to.equal('test/0');
+      expect(newPageList[0].index).to.equal(0);
+      expect(newPageList[1].path).to.equal('test/1');
+      expect(newPageList[1].index).to.equal(1);
+    });
+    it('should expand array pages in correct position in list', () => {
+      const pageList = [
+        {
+          path: 'other-path'
+        },
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'test/:index'
+        },
+        {
+          path: 'some-path'
+        }
+      ];
+      const data = {
+        test: [{}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(data.test.length + 2);
+      expect(newPageList[0].showPagePerItem).not.to.be.true;
+      expect(newPageList[1].path).to.equal('test/0');
+      expect(newPageList[1].index).to.equal(0);
+      expect(newPageList[2].showPagePerItem).not.to.be.true;
+    });
+    it('should expand multiple array pages', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'path/:index'
+        },
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'other-path/:index'
+        }
+      ];
+      const data = {
+        test: [{}, {}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(data.test.length * pageList.length);
+      expect(newPageList[0].path).to.equal('path/0');
+      expect(newPageList[1].path).to.equal('other-path/0');
+      expect(newPageList[2].path).to.equal('path/1');
+      expect(newPageList[3].path).to.equal('other-path/1');
+    });
+    it('should skip filtered out array pages', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'path/:index',
+          itemFilter: (data) => !data.filterOut
+        },
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'other-path/:index'
+        }
+      ];
+      const data = {
+        test: [{ filterOut: true }, {}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(3);
+      expect(newPageList[0].path).to.equal('other-path/0');
+      expect(newPageList[1].path).to.equal('path/1');
+      expect(newPageList[2].path).to.equal('other-path/1');
+    });
+    it('should pass through list with no array pages', () => {
+      const pageList = [
+        {
+          path: 'test'
+        }
+      ];
+      const data = {
+        test: [{}]
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(pageList.length);
+      expect(newPageList[0].path).to.equal('test');
+    });
+    it('should not generate array pages if array is empty', () => {
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'path/:index'
+        },
+        {
+          path: 'test'
+        }
+      ];
+      const data = {
+        test: []
+      };
+
+      const newPageList = expandArrayPages(pageList, data);
+
+      expect(newPageList.length).to.equal(pageList.length - 1);
+      expect(newPageList[0].path).to.equal('test');
     });
   });
 });

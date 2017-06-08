@@ -32,10 +32,6 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('900-22-1234')).to.be.true;
       expect(isValidSSN('111221234')).to.be.true;
       expect(isValidSSN('111111112')).to.be.true;
-
-      // Values with all the same digit are allowed in some cases
-      expect(isValidSSN('222222222')).to.be.true;
-      expect(isValidSSN('444-44-4444')).to.be.true;
     });
 
     it('rejects invalid ssn format', () => {
@@ -68,6 +64,8 @@ describe('Validations unit tests', () => {
       // Values with all the same digit are not allowed
       expect(isValidSSN('111111111')).to.be.false;
       expect(isValidSSN('999-99-9999')).to.be.false;
+      expect(isValidSSN('222222222')).to.be.false;
+      expect(isValidSSN('444-44-4444')).to.be.false;
     });
   });
 

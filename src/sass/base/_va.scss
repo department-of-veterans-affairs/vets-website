@@ -333,117 +333,11 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific.
-.popular-container {
-  background: $color-white;
-  text-align: center;
-
-  .va-flex {
-    justify-content: center;
-    margin-left: .5rem;
-    margin-right: .5rem;
-
-    @include media($medium-large-screen) {
-      margin: auto;
-    }
-
-    @include media-maxwidth($small-screen) {
-      display: block;
-    }
-  }
-
-  .va-h-ruled--a {
-    margin: 2.4rem 1.6rem 0;
-
-    @include media($medium-large-screen) {
-      max-width: 41%;
-      margin: 2.4rem auto;
-    }
-  }
-
-  .outline-link-block {
-    @include media($medium-large-screen) {
-      flex: 0 1 33%;
-    }
-  }
-}
-
-.outline-link-block {
-  border: $color-gray-light solid 2px;
-  color: $color-base;
-  display: block;
-  font-size: 1.2em;
-  text-decoration: none;
-  margin: .8rem;
-  padding: 2rem;
-
-  &:hover {
-    background: transparent;
-    border: $color-primary-darker solid 2px;
-    text-decoration: inherit;
-  }
-
-  @include media($medium-large-screen) {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-}
-
-.splash--home {
-  align-items: center;
-  background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
-  background-size: cover;
-  display: flex;
-  margin: 0;
-  min-height: 14em;
-  padding: 1em 0;
-  text-align: center;
-
-  @include media($medium-large-screen) {
-    padding: 2em 0;
-    min-height: 42.2rem;
-  }
-
-  @include media($large-screen) {
-    padding-top: 2.5em;
-    padding-bottom: 2.5em;
-  }
-
-  .pitch {
-    flex: 1 1 100%;
-    text-align: center;
-  }
-}
-
-.home-tagline {
-  background: $color-white;
-  color: $color-primary-darker;
-  display: inline-block;
-  font-weight: bold;
-  font-size: 2.5rem;
-  line-height: 1.3;
-  margin: 0 auto;
-  max-width: 11em;
-  padding: 0.5em 0.4em;
-  white-space: pre-wrap;
-
-  @include media($medium-large-screen) {
-    font-size: 3.5rem;
-    padding: 0.5em .75em;
-  }
-
-  @include media($large-screen) {
-    padding: 0.5em 0.4em;
-  }
-}
-
 .va-facloc-tagline {
   color: $color-white;
   font-family: $font-sans;
   margin: .5em 0 1em 0 !important;
 }
-
 
 // TODO(css): Remove .feature-list ul once it"s
 // refactored from the Markdown
@@ -1162,6 +1056,7 @@ li {
 .va-h-ruled--stars {
   display: flex;
   justify-content: center;
+  align-items: center;
 
   // Flexbox magic means that setting a margin on ::before
   // applies the same margin to ::after
@@ -1173,20 +1068,18 @@ li {
   &::after {
     border-top: 1px solid $color-gray-light;
     content: " ";
-    display: inline-block;
     flex: 1 1 50%;
-    margin-top: -4rem;
+    padding: 1rem 0;
   }
 
-  background: url(/img/stars.png) no-repeat top center;
+  background: url(/img/stars.png) no-repeat center;
   background-size: 11rem auto;
-  margin: 2.4rem auto auto;
-  padding: 4.8rem 1.6rem 0;
+  margin: 1.6rem auto auto;
+  padding: 2rem 0 0;
   text-align: center;
 
   @include media($medium-screen) {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0;
   }
 }
 
@@ -1497,7 +1390,7 @@ pre[class*="language-"]  {
   }
 }
 
-.react-conatiner {
+.react-container {
   padding: 2em 0;
 }
 
@@ -1538,7 +1431,7 @@ p.info-message {
 
 
 // ----------------------
-// Fixes an overly-broad ul selector 
+// Fixes an overly-broad ul selector
 // ----------------------
 
 .usa-sidenav-sub_list {

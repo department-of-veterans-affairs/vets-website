@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
 
@@ -14,11 +15,12 @@ export function setData(data) {
   };
 }
 
-export function setEditMode(page, edit) {
+export function setEditMode(page, edit, index = null) {
   return {
     type: SET_EDIT_MODE,
     edit,
-    page
+    page,
+    index
   };
 }
 
@@ -44,6 +46,7 @@ export function setSubmitted(response) {
   };
 }
 
+
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
@@ -54,15 +57,22 @@ export function submitForm(formConfig, form) {
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission`,
     });
-    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
+
+    const fetchOptions = {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
       },
       body
-    })
+    };
+
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      fetchOptions.headers.Authorization = `Token token=${userToken}`;
+    }
+
+    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, fetchOptions)
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
@@ -70,14 +80,16 @@ export function submitForm(formConfig, form) {
         });
         return res.json();
       }
+
+      return Promise.reject(new Error(res.statusText));
+    })
+    .then(resp => dispatch(setSubmitted(resp)))
+    .catch(error => {
+      Raven.captureException(error);
       window.dataLayer.push({
         event: `${formConfig.trackingPrefix}-submission-failed`,
       });
-      return Promise.reject(res.statusText);
-    })
-    .then(
-      (resp) => dispatch(setSubmitted(resp)),
-      () => dispatch(setSubmission('status', 'error'))
-    );
+      dispatch(setSubmission('status', 'error'));
+    });
   };
 }

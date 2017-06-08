@@ -49,9 +49,6 @@
 <!-- CSS -->
 {% if entryname %}
 <link rel="stylesheet" href="/generated/{{ entryname }}.css">
-{% if entryname == 'facilities' %}
-<link href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" type="text/css" rel="stylesheet">
-{% endif %}
 
 {% else %}
 <link rel="stylesheet" href="/generated/no-react.css">
@@ -122,7 +119,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
       </a>
     </div>
     {% if body_class != 'page-playbook' %}
-      <div id="vetnav-controls"> 
+      <div id="vetnav-controls">
         <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
           <span class="va-flex">
             {% include "assets/img/icons/close.svg" %}
@@ -137,16 +134,16 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
         </button>
       </div>
     {% endif %}
-  
+
     <div id="login-root" class="vet-toolbar"></div>
- 
+
 
     {% if body_class != 'page-playbook' %}
     {% include "content/includes/veteran-navigation.html" %}
-    {% endif %}  
+    {% endif %}
   </div>
 
-  
+
 </header>
 
 <script src="/js/usa-search.js"></script>
