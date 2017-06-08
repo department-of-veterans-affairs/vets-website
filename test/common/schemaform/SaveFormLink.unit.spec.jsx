@@ -57,6 +57,7 @@ describe('Schemaform <SaveFormLink>', () => {
 
     // Modal uses document.querySelector, so we have to bind it to the formDOM
     //  to actually get the right result.
+    const oldQuerySelector = document.querySelector;
     document.querySelector = findDOM.querySelector.bind(findDOM);
 
     // Open the login modal
@@ -64,6 +65,9 @@ describe('Schemaform <SaveFormLink>', () => {
     //  but just querying for the link and .click()ing it didn't call SaveFormLink's
     //  openLoginModal().
     ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
+
+    // Reset it for subsequent tests
+    document.querySelector = oldQuerySelector;
 
     const modal = findDOM.querySelector('.va-modal');
 
