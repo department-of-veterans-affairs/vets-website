@@ -7,38 +7,38 @@ template: detail-page
 children: disabilityClaimTypes
 order: 2
 majorlinks:
-  - heading:
+  - heading: 
     links:
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
-      description: File a standard claim if you like us to help you gather evidence to support your disability claim.
+      description: If you'd like us to help you gather evidence to support your disability benefits claim, file a standard claim.
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
       title: Fully Developed Claim 
-      description: Learn more about the Fully Developed Claims program in which you send in all evidence when you file your claim.
+      description: If you'd like to get a faster decision on your disability benefits claim, use the Fully Developed Claims program and send in all evidence you have when you file your claim.
     - url: /disability-benefits/apply/claim-types/original-claim/
       title: Original Claim 
-      description: The first claim you file for a certain disability is known as the original claim. 
+      description: If you have a disability and you're within 180 days of ending military service, you can file your first claim—known as the original claim. 
     - url: /disability-benefits/apply/claim-types/reopened-claim/
       title: Reopened Claim
-      description: Learn more about how to reopen a disability claim that was denied in the past. 
+      description: If you had a disability claim that was denied in the past, file a reopened claim to get a new decision. 
     - url: /disability-benefits/apply/claim-types/new-claim/
       title: New Claim
-      description: File a new claim if you already get disability benefits, but think you might qualify for more.
+      description: If you already get disability benefits—but think you may qualify for more—file a new claim.
     - url: /disability-benefits/apply/claim-types/secondary-claim/
       title: Secondary Claim
-      description: File a secondary claim if a disability you already have causes, or makes worse, another disability.
+      description: If a disability you already have causes—or makes worse—another disability, file a secondary claim for added disability benefits.
     - url: /disability-benefits/apply/claim-types/pre-service/
       title: Preservice Claim
-      description: File a preservice claim if a disability you had when you started military service got worse because of your service.
+      description: If a disability you had when you started military service got worse because of your service, file a preserve claim.
     - url: /disability-benefits/apply/claim-types/in-service/
       title: In-Service Claim
-      description: File an in-service claim if your disability was cause by an injury or illness you got while in the line of duty.
+      description: If your disability was caused by an injury or illness you got while in the line of duty, file an in-service claim.
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
-      description: Learn more about how to file a predischarge disability claim up to 180 days before you leave the military.
+      description: If you have a disability and you're currently in predischarge status, file a predischarge disability claim up to 180 days before you leave the military.
     - url: /disability-benefits/apply/claim-types/post-service/
       title: Postservice Claim
-      description: File a postservice claim if you have a disability related to military service that didn't appear until after you ended your service.
+      description: If you have a disability related to military service that didn't appear until after you ended your service, file a postservice claim.
 ---
 
 <div class="va-introtext">
@@ -51,4 +51,4 @@ Disability claims can be based on disabilities that:
 - Happened while you were serving in the military, **or**
 - Appeared after you ended your military service
 
-##### Below, learn more about the different types of disability claims:
+##### Learn more about the different types of disability claims:
