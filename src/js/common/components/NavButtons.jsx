@@ -120,7 +120,7 @@ export default class NavButtons extends React.Component {
           <div className="usa-alert usa-alert-error schemaform-failure-alert">
             <div className="usa-alert-body">
               <p className="schemaform-warning-header"><strong>We're sorry, there was an error connecting to Vets.gov.</strong></p>
-              <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov help desk.</p>
+              <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
             </div>
           </div>
         );
