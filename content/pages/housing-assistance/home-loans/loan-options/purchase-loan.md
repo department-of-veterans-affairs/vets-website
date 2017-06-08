@@ -28,6 +28,7 @@ You may be able to get a VA-backed purchase loan if you:
 A VA-backed purchase loan often offers:
 
 - **Better terms and interest rates** than other loans from private banks or mortgage companies (also called lenders)
+- **The ability to borrow up to $424,100** in most areas, with higher loan limits for some high-cost counties
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
 - **No need for private mortgage insurance (PMI)**, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
 - **Fewer closing costs**, which may be paid by the seller
