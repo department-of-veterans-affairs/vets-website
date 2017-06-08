@@ -50,7 +50,10 @@ class RxRefillsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <RequiredTermsAcceptanceView termsName={"mhvac"} topContent={breadcrumbs}>
+        <RequiredTermsAcceptanceView
+            termsName={"mhvac"}
+            topContent={breadcrumbs}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             {this.props.children}
             <ConfirmRefillModal
