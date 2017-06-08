@@ -5,25 +5,25 @@ title: Apply for Your COE
 concurrence: 
 order: 3
 relatedlinks:
-  - heading: VA-Backed Loans
+  - heading: Loan Options
     links:
-    - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+    - url: /housing-assistance/home-loans/loan-options/purchase-loan/
       title: Purchase Loan 
       description: Find out how to get a VA-backed purchase loan to buy a home. 
-    - url: /housing-assistance/home-loans/va-backed-loans/nadl/
+    - url: /housing-assistance/home-loans/loan-options/nadl/
       title: Native American Direct Loan (NADL) 
       description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land. 
-    - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+    - url: /housing-assistance/home-loans/loan-options/irrrl/
       title: Interest Rate Reduction Refinance Loan (IRRRL) 
       description: Find out how to get an IRRRL loan to refinance an existing loan. 
-    - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+    - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
       description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs. 
 ---
 
 <div class="va-introtext">
 
-The first step in getting a VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process. 
+The first step in getting a VA direct or VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process. 
 
 </div>
 
@@ -111,6 +111,6 @@ To apply by mail, fill out VA Form 26-1880 (Request for a Certificate of Eligibi
 </li>
 </ol>
 
-### Next steps for getting a VA-backed home loan
+### Next steps for getting a VA direct or VA-backed home loan
 
-Applying for your COE is only one part of the process for getting a VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
+Applying for your COE is only one part of the process for getting a VA direct or VA-backed home loan. Your next steps will depend on the type of loan you’re looking to get—and on your lender (for most loans, the lender will be a private bank or mortgage company; for the Native American Direct Loan, we’ll be your lender).
