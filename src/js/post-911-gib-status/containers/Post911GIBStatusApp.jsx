@@ -43,9 +43,11 @@ class Post911GIBStatusApp extends React.Component {
 
     const enrollmentHistory = enrollmentData && enrollmentData.enrollmentList.length > 0 ? (
       enrollmentData.enrollmentList.map((enrollment, index) => {
+        const indexKey = `enrollment-${index}`;
+
         return (
           <EnrollmentPeriod
-              key={index}
+              key={indexKey}
               enrollment={enrollment}/>
         );
       })
