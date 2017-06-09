@@ -58,7 +58,7 @@ class Post911GIBStatusApp extends React.Component {
                   print a copy of this screen for benefit and eligibility verification.
                 </p>
               </div>
-              <UserInfoSection userData={enrollmentData}/>
+              <UserInfoSection enrollmentData={enrollmentData}/>
               <EnrollmentHistory enrollmentData={enrollmentData}/>
               <div className="feature help-desk">
                 <h2>Need help?</h2>
