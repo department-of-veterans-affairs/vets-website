@@ -45,7 +45,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 #### By phone
 
-Contact the Health Enrollment Center at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Contact the Health Eligibility Center at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 #### By mail
 
