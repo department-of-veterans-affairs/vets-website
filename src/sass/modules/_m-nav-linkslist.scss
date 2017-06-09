@@ -39,14 +39,12 @@
 
       &[href^=http],
       &[rel=external] {
-        h4 {
-          background-image: url(/img/icons/exit-icon.png);
-          background-repeat: no-repeat;
-          background-size: 1em auto;
-          padding-right: 1.2em;
-          position: relative;
-          background-position: 100% 50%;
-          display: inline-block;
+        h1, h2, h3, h4, h5, span {
+          &:first-child{
+            @include exit-icon;
+
+            display: inline-block;
+          }
         }
       }
     }
