@@ -140,7 +140,7 @@ class FormPage extends React.Component {
             data={data}
             schema={schema}
             uiSchema={uiSchema}
-            pagePerItemIndex={params.index}
+            pagePerItemIndex={params ? params.index : undefined}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
