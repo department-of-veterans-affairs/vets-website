@@ -30,7 +30,7 @@ majorlinks:
       description: Find out if you qualify for education benefits under the Montgomery GI Bill Selected Reserve program. 
     - url: /education/gi-bill/survivors-dependent-assistance/
       title: Survivors’ and Dependents’ Assistance
-      description: If you're a dependent spouse or child of a Veteran, you may qualify for education benefits or job training.
+      description: If you’re a dependent spouse or child of a Veteran, you may qualify for education benefits or job training.
     - url: /education/rates/
       title: Rates
       description: Learn more about education benefit rates for tuition and books for qualifying Veterans and their dependents. 
