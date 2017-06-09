@@ -47,6 +47,8 @@ The benefits depend on the benefit program you use:
 [Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
 
 
+-----
+
 ### How do I get these benefits? 
 
 You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/).
