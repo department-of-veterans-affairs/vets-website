@@ -11,13 +11,14 @@ majorlinks:
     links:
     - url: /education/work-learn/non-traditional/accelerated-payments/
       title: Accelerated Payments for High-Technology Programs
-      description: ""
-    - url: /education/work-learn/non-traditional/independent-distance-learning/
-      title: Independent and Distance Learning
-      description: ""
+      description: "If you're enrolled in a high-tech program, you may be able to get a lump-sum payment to cover the costs for these courses."
     - url: /education/work-learn/non-traditional/correspondence-training/
       title: Correspondence Training
-      description: ""
+      description: "If you want to take classes from home or live far away from any schools, doing coursework by mail might be a good option for you."
+    - url: /education/work-learn/non-traditional/independent-distance-learning/
+      title: Independent and Distance Learning
+      description: "You can use the GI Bill for independent and distance learning online."
+   
 ---
 
 <div class="va-introtext">
