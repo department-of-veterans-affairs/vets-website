@@ -8,7 +8,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityConditions
 majorlinks:
-  - heading: 
+  - heading: More information about disability benefits for certain service-connected conditions
     links:
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
       title: Contact with Harmful Chemicals or Other Hazardous Materials
@@ -79,6 +79,6 @@ You may also be able to get benefits for:
 
 [Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
-##### Learn more about disability benefits for certain service-connected conditions:
+
 
 
