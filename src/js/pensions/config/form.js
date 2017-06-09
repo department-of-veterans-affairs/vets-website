@@ -30,8 +30,8 @@ const {
   combatSince911,
   jobs,
   placeOfSeparation,
-  powDateRange,
-  severancePay
+  powDateRange
+  // severancePay
 } = fullSchemaPensions.properties;
 
 const {
@@ -199,10 +199,28 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             severancePay: {
-              'ui:title': 'Pay type',
-              'ui:widget': 'RadioWidget',
+              'ui:order': [
+                'type',
+                'amount'
+              ],
               'ui:options': {
                 expandUnder: 'view:receivedSeverancePay'
+              },
+              amount: {
+                'ui:title': 'Amount'
+              },
+              type: {
+                'ui:title': 'Pay Type',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {
+                    Longevity: 'Longevity',
+                    PDRL: 'PDRL',
+                    Separation: 'Separation',
+                    Severance: 'Severance',
+                    TDRL: 'TDRL'
+                  }
+                }
               }
             }
           },
@@ -217,7 +235,24 @@ const formConfig = {
               'view:receivedSeverancePay': {
                 type: 'boolean'
               },
-              severancePay
+              severancePay: {
+                type: 'object',
+                properties: {
+                  amount: {
+                    type: 'integer'
+                  },
+                  type: {
+                    type: 'string',
+                    'enum': [
+                      'Longevity',
+                      'PDRL',
+                      'Separation',
+                      'Severance',
+                      'TDRL'
+                    ]
+                  }
+                }
+              }
             }
           }
         }
