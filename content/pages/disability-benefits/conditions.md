@@ -8,7 +8,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityConditions
 majorlinks:
-  - heading: Find out if you qualify for benefits due to illnesses or injuries related to:
+  - heading: Find out if you qualify for benefits due to illnesses or injuries related to any of these hazardous exposures.
     links:
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
       title: Agent Orange
