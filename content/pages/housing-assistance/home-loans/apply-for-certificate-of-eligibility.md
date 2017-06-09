@@ -41,9 +41,7 @@ Click on the description that matches you best to find out what information you'
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-veteran">Veteran</button>
 <div id="apply-coe-veteran" class="usa-accordion-content">
 
-If you're a **Veteran**, you'll need:
-
-Your DD214
+If you're a **Veteran**, you'll need your DD214.
 
 </div>
 </li>
@@ -67,9 +65,7 @@ If you're an **active-duty Servicemember**, you'll need:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-activated">Current or former activated National Guard or Reserve member</button>
 <div id="apply-coe-activated" class="usa-accordion-content">
 
-If you're a **current or former activated National Guard or Reserve member**, you'll need:
-
-Your DD214
+If you're a **current or former activated National Guard or Reserve member**, you'll need your DD214.
 
 </div>
 </li>
@@ -124,7 +120,7 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
   - A copy of your marriage license, **and**
   - The Veteran's death certificate
   <br>
-  [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
+  [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). <br>
   [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
 </div>
