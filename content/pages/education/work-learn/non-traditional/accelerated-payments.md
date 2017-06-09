@@ -35,6 +35,9 @@ Veterans
 
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs. We issue an accelerated payment to you instead of the monthly benefits you would otherwise get. 
 
+
+-----
+
 ### How do I get this benefit?
 
 Ask your school to include your request for accelerated payment when it turns in your enrollment information to us. 
