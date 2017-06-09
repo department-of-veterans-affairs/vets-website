@@ -62,7 +62,7 @@ export function loadInProgressDataIntoForm() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-function migrateFormData(savedData, savedVersion, migrations) {
+export function migrateFormData(savedData, savedVersion, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -113,14 +113,15 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      return;
+      return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
     }
 
     // Update UI while we're waiting for the API
     dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    // (returning for testing purposes only)
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -142,6 +143,13 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
       }
+      return Promise.resolve(); // For unit testing
+    }).catch((error) => {
+      // Probably a network error has occurred
+      // TODO: Log this in GA or something
+      console.error('Error saving form:', error.message); // eslint-disable-line no-console
+      dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+      return Promise.reject(); // For unit testing
     });
   };
 }
