@@ -30,8 +30,8 @@ const {
   combatSince911,
   jobs,
   placeOfSeparation,
-  powDateRange
-  // severancePay
+  powDateRange,
+  severancePay
 } = fullSchemaPensions.properties;
 
 const {
@@ -235,24 +235,7 @@ const formConfig = {
               'view:receivedSeverancePay': {
                 type: 'boolean'
               },
-              severancePay: {
-                type: 'object',
-                properties: {
-                  amount: {
-                    type: 'integer'
-                  },
-                  type: {
-                    type: 'string',
-                    'enum': [
-                      'Longevity',
-                      'PDRL',
-                      'Separation',
-                      'Severance',
-                      'TDRL'
-                    ]
-                  }
-                }
-              }
+              severancePay,
             }
           }
         }
