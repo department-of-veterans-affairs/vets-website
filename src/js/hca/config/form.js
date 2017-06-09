@@ -8,7 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
-import AskVAQuestions from '../../common/schemaform/AskVAQuestions';
+import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
@@ -119,8 +119,7 @@ const formConfig = {
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10ez',
-  getHelp: AskVAQuestions,
-  getHelpNumber: '877-222-8387',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     provider,

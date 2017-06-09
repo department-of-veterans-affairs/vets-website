@@ -3,8 +3,6 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
-import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
-
 import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router';
@@ -16,7 +14,9 @@ import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
 import OMBInfo from '../../../common/components/OMBInfo';
 
-import FormTitle from '../../../common/schemaform/FormTitle.jsx';
+import FormTitle from '../../../common/schemaform/FormTitle';
+import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
+import GetFormHelp from '../../components/GetFormHelp';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -151,7 +151,9 @@ class EduBenefitsApp extends React.Component {
             {ombInfo}
           </div>
         </div>
-        <AskVAQuestions phoneNumber={'877-222-8387'}/>
+        <AskVAQuestions>
+          <GetFormHelp/>
+        </AskVAQuestions>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );

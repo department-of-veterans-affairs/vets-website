@@ -3,6 +3,7 @@ import Scroll from 'react-scroll';
 
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
+import AskVAQuestions from './AskVAQuestions';
 
 
 import { isInProgress } from '../utils/helpers';
@@ -46,7 +47,7 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const phoneNumber = { phoneNumber: formConfig.getHelpNumber };
+    const GetFormHelp = formConfig.getHelp;
     let content;
     if (!isInProgress(trimmedPathname)) {
       content = children;
@@ -70,9 +71,11 @@ export default class FormApp extends React.Component {
             {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
             {content}
           </div>
-          <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
         </div>
-        {formConfig.getHelp && formConfig.getHelp(phoneNumber)}
+        <AskVAQuestions>
+          <GetFormHelp/>
+        </AskVAQuestions>
+        <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );
   }
