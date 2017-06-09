@@ -7,7 +7,8 @@ import {
   validateSSN,
   validateDate,
   validateMatch,
-  validateDateRange
+  validateDateRange,
+  validateFileField
 } from '../../../src/js/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
@@ -287,6 +288,35 @@ describe('Schemaform validations', () => {
       }, null, null, { pattern: 'Test message' });
 
       expect(errors.to.addError.calledWith('Test message')).to.be.true;
+    });
+  });
+  describe('validateFileField', () => {
+    it('should mark uploading files as invalid', () => {
+      const errors = {};
+      validateFileField(errors, [{
+        uploading: true,
+        confirmationNumber: '23234'
+      }]);
+
+      expect(errors[0].__errors).not.to.be.empty;
+    });
+    it('should mark files with error message as invalid', () => {
+      const errors = { __errors: [], addError: function addError(error) { this.__errors.push(error); } };
+      validateFileField(errors, [{
+        uploading: false,
+        errorMessage: 'test'
+      }]);
+
+      expect(errors[0].__errors[0]).to.equal('Error: test');
+      expect(errors.__errors).not.to.be.empty;
+    });
+    it('should mark files without confirmation number as invalid', () => {
+      const errors = {};
+      validateFileField(errors, [{
+        uploading: false
+      }]);
+
+      expect(errors[0].__errors).not.to.be.empty;
     });
   });
 });

@@ -21,4 +21,13 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.subTree('h4').text()).to.contain('successfully submitted');
     expect(tree.subTree('.success-alert-box').text()).to.contain('January 1, 2010');
   });
+  it('should render without time', () => {
+    const tree = SkinDeep.shallowRender(
+      <ConfirmationPage form={{
+        submission: {}
+      }}/>
+    );
+
+    expect(tree.subTree('h4').text()).to.contain('successfully submitted');
+  });
 });

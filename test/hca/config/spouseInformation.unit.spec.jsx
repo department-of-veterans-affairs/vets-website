@@ -19,6 +19,7 @@ describe('Hca spouse information', () => {
     );
     const formDOM = findDOMNode(form);
 
+    expect(formDOM.querySelector('#root_spouseFullName_middle').maxLength).to.equal(30);
     expect(formDOM.querySelectorAll('input, select').length)
       .to.equal(15);
   });

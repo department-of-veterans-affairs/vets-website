@@ -16,8 +16,17 @@ import { SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED
+  SET_SUBMITTED,
 } from '../actions';
+
+import {
+  SET_SAVE_FORM_STATUS,
+  SET_FETCH_FORM_STATUS,
+  SET_IN_PROGRESS_FORM,
+  LOAD_DATA_INTO_FORM,
+  SAVE_STATUSES,
+  LOAD_STATUSES
+} from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
   return Object.keys(initialState.pages)
@@ -66,20 +75,19 @@ export default function createSchemaFormReducer(formConfig) {
       const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
-      // If the page is an array page, we're going to have schemas and edit states
-      // for each item in the specified array
-      return _.merge(state, {
-        pages: {
-          [page.pageKey]: {
-            uiSchema: page.uiSchema,
-            schema,
-            editMode: isArrayPage ? [] : false,
-            showPagePerItem: page.showPagePerItem,
-            arrayPath: page.arrayPath
-          }
-        },
-        data
-      });
+      /* eslint-disable no-param-reassign */
+      state.pages[page.pageKey] = {
+        uiSchema: page.uiSchema,
+        schema,
+        editMode: isArrayPage ? [] : false,
+        showPagePerItem: page.showPagePerItem,
+        arrayPath: page.arrayPath
+      };
+
+      state.data = _.merge(state.data, data);
+      /* eslint-enable no-param-reassign */
+
+      return state;
     }, {
       data: {
         privacyAgreementAccepted: false,
@@ -91,7 +99,14 @@ export default function createSchemaFormReducer(formConfig) {
         id: false,
         timestamp: false,
         hasAttemptedSubmit: false
-      }
+      },
+      savedStatus: SAVE_STATUSES.notAttempted,
+      loadedStatus: LOAD_STATUSES.notAttempted,
+      version: formConfig.version,
+      formId: formConfig.formId,
+      disableSave: formConfig.disableSave,
+      // loadedData: undefined
+      migrations: formConfig.migrations
     });
 
   // Take another pass and recalculate the schema and data based on the default data
@@ -124,6 +139,24 @@ export default function createSchemaFormReducer(formConfig) {
         });
 
         return _.set('submission', submission, state);
+      }
+      case SET_SAVE_FORM_STATUS: {
+        return _.set('savedStatus', action.status, state);
+      }
+      case SET_FETCH_FORM_STATUS: {
+        const newState = _.set('loadedStatus', action.status, state);
+        newState.loadedStatus = LOAD_STATUSES.success;
+
+        return newState;
+      }
+      case SET_IN_PROGRESS_FORM: {
+        return _.set('loadedData', action.data, state);
+      }
+      case LOAD_DATA_INTO_FORM: {
+        // Mirrors SET_DATA, but uses state.loadedData
+        const newState = _.set('data', state.loadedData.formData, state);
+
+        return recalculateSchemaAndData(newState);
       }
       default:
         return state;
