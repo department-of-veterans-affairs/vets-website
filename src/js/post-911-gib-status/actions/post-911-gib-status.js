@@ -3,16 +3,16 @@ const post911GIBStatusResponse = {
   chapter33EducationInfo: {
     firstName: 'Jean',
     lastName: 'Picard',
-    nameSuffix: 'string',
-    dateOfBirth: '1977-10-01T04:00:00.000+0000',
+    nameSuffix: 'Jr',
+    dateOfBirth: '1997-10-01T04:00:00.000+0000',
     regionalProcessingOffice: 'Central Office Washington, DC',
     vaFileNumber: '301010301',
     eligibilityDate: '2017-06-06T17:01:03.925Z',
     delimitingDate: '2017-06-06T17:01:03.925Z',
-    percentageBenefit: 0,
-    originalEntitlement: 0,
-    usedEntitlement: 0,
-    remainingEntitlement: 0,
+    percentageBenefit: 100,
+    originalEntitlement: 36,
+    usedEntitlement: 3,
+    remainingEntitlement: 33,
     enrollmentList: [
       {
         beginDate: '2017-06-06T17:01:03.925Z',
