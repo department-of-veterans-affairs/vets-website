@@ -91,7 +91,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode } = props;
+    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex } = props;
     return {
       formContext: {
         touched: {},
@@ -100,6 +100,7 @@ class SchemaForm extends React.Component {
         hideTitle,
         setTouched: this.setTouched,
         pageTitle: title,
+        pagePerItemIndex,
         reviewMode
       }
     };
