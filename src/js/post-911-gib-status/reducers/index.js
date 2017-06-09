@@ -14,7 +14,7 @@ function post911GIBStatus(state = initialState, action) {
         available: true
       };
     case 'GET_ENROLLMENT_DATA_FAILURE':
-      return set('avaiable', false, state);
+      return set('available', false, state);
     default:
       return state;
   }

@@ -1,6 +1,10 @@
 import moment from 'moment';
 
-export function formatDate(date) {
+export function formatDateLong(date) {
+  return moment(date).format('MMMM DD, YYYY');
+}
+
+export function formatDateShort(date) {
   return moment(date).format('MM/DD/YYYY');
 }
 
