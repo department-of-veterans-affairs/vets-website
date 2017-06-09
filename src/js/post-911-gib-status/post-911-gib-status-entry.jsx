@@ -7,13 +7,14 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes.jsx';
+import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
 require('../common');
 require('../../sass/post-911-gib-status.scss');
 
-const store = createCommonStore({});
+const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({

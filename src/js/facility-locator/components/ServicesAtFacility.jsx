@@ -1,58 +1,9 @@
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { Component } from 'react';
+import { vetCenterServices } from '../config';
 
 class ServicesAtFacility extends Component {
-
-  static services = [
-    'AllergyAndImmunology',
-    'Audiology',
-    'CardiacSurgery',
-    'CardiologyCareServices',
-    'ColoRectalSurgery',
-    'ComplementaryAlternativeMed',
-    'DentalServices',
-    'DermatologyCareServices',
-    'Diabetes',
-    'DiagnosticServices',
-    'Dialysis',
-    'EmergencyDept',
-    'Endocrinology',
-    'ENT',
-    'EyeCare',
-    'Gastroenterology',
-    'GeneralSurgery',
-    'Gynecology',
-    'Hematology',
-    'ImagingAndRadiology',
-    'InfectiousDisease',
-    'InternalMedicine',
-    'LabServices',
-    'MentalHealthCare',
-    'Nephrology',
-    'Neurology',
-    'Neurosurgery',
-    'Oncology',
-    'Orthopedics',
-    'OutpatientMedicalSpecialty',
-    'OutpatientMHCare',
-    'OutpatientSpecMHCare',
-    'OutpatientSurgicalSpecialty',
-    'PainManagement',
-    'PlasticSurgery',
-    'Podiatry',
-    'PrimaryCare',
-    'PulmonaryRespiratoryDisease',
-    'Rehabilitation',
-    'Rheumatology',
-    'SleepMedicine',
-    'ThoracicSurgery',
-    'UrgentCare',
-    'Urology',
-    'VascularSurgery',
-    'VocationalAssistance',
-    'WellnessAndPreventativeCare',
-  ];
 
   renderService(service) {
     const label = service.replace(/([A-Z])/g, ' $1');
@@ -109,9 +60,23 @@ class ServicesAtFacility extends Component {
         return this.renderHealthServices();
       case 'va_benefits_facility':
         return this.renderBenefitsServices();
+      case 'vet_center':
+        return this.renderVetCenterServices();
       default:
         return null;
     }
+  }
+
+  renderVetCenterServices() {
+    return (
+      <div className="mb2">
+        <ul>
+          {vetCenterServices.map(s => {
+            return <li key={s}>{s}</li>;
+          })}
+        </ul>
+      </div>
+    );
   }
 
   renderBenefitsServices() {

@@ -135,3 +135,17 @@ export function scrollAndFocus(errorEl) {
   Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
   focusElement(errorEl);
 }
+
+export function displayFileSize(size) {
+  if (size < 1024) {
+    return `${size}B`;
+  }
+
+  const kbSize = size / 1024;
+  if (kbSize < 1024) {
+    return `${Math.round(kbSize)}KB`;
+  }
+
+  const mbSize = kbSize / 1024;
+  return `${Math.round(mbSize)}MB`;
+}

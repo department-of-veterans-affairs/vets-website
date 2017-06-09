@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import classNames from 'classnames';
 
 import AlertBox from '../../common/components/AlertBox';
@@ -24,6 +25,7 @@ export class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.promptLeavePage = this.promptLeavePage.bind(this);
     this.renderSaveButtons = this.renderSaveButtons.bind(this);
 
     this.state = { discardChanges: false };
@@ -31,6 +33,12 @@ export class Settings extends React.Component {
 
   componentDidMount() {
     this.props.fetchPreferences();
+    this.props.router.setRouteLeaveHook(this.props.route, this.promptLeavePage);
+    window.addEventListener('beforeunload', this.promptLeavePage);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.promptLeavePage);
   }
 
   handleSubmit(e) {
@@ -44,6 +52,19 @@ export class Settings extends React.Component {
       event: 'rx-notification-setting',
       'rx-notify': flag.value,
     });
+  }
+
+  promptLeavePage(event) {
+    const { email, flag } = this.props;
+    const isSaveable = email.dirty || flag.dirty;
+    let message;
+
+    if (isSaveable) {
+      message = 'You haven\'t saved your changes. Are you sure you want to leave this page without saving?';
+      event.returnValue = message; // eslint-disable-line no-param-reassign
+    }
+
+    return message;
   }
 
   renderSaveButtons() {
@@ -162,4 +183,4 @@ const mapDispatchToProps = {
   setNotificationFlag
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Settings));
