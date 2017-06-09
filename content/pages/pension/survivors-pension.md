@@ -27,7 +27,7 @@ You may be able to get this benefit if you haven't remarried after the Veteranâ€
 
 **And:**
 
-Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
+- Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
 
 ### Can I get this benefit as the child of a deceased wartime Veteran?
 
