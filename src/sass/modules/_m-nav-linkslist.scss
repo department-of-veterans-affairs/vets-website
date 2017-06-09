@@ -32,10 +32,23 @@
     padding-left: 0;
 
     a {
-      background-color: transparent;
+      background: transparent;
       display: block;
       padding: 0;
       text-decoration: none;
+
+      &[href^=http],
+      &[rel=external] {
+        h4 {
+          background-image: url(/img/icons/exit-icon.png);
+          background-repeat: no-repeat;
+          background-size: 1em auto;
+          padding-right: 1.2em;
+          position: relative;
+          background-position: 100% 50%;
+          display: inline-block;
+        }
+      }
     }
 
     li {
