@@ -60,6 +60,10 @@ For both children and spouses, if you qualify for both DEA and the Fry Scholarsh
 **Exception:** 
 If you're the child of a Servicemember who died in the line of duty before August 1, 2011, you can use both DEA and the Fry Scholarship and get up to 81 months of education and training.
 
+
+-----
+
+
 ### How do I get these benefits? 
 1. First, contact your school's certifying official to make sure your program is approved for VA benefits.
 2. Then fill out VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf).
