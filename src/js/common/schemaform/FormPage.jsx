@@ -6,10 +6,15 @@ import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 
 import SchemaForm from './SchemaForm';
+import SaveFormLink from './SaveFormLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData } from './actions';
+import { saveInProgressForm } from './save-load-actions';
+
+import { updateLogInUrl } from '../../login/actions';
+
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -40,6 +45,7 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   componentDidMount() {
@@ -94,12 +100,26 @@ class FormPage extends React.Component {
     this.props.router.push(pages[page].path);
   }
 
+  handleSave() {
+    const {
+      formId,
+      version,
+      data
+    } = this.props.form;
+    const returnUrl = this.props.location.pathname;
+    this.props.saveInProgressForm(formId, version, returnUrl, data);
+
+    // TODO: Build this page and make it accessible (and customizable) to all forms
+    // this.router.push('/form-saved');
+  }
+
   render() {
     const { route, params, form } = this.props;
     let {
       schema,
       uiSchema
-    } = this.props.form.pages[route.pageConfig.pageKey];
+    } = form.pages[route.pageConfig.pageKey];
+
     let data = form.data;
 
     if (route.pageConfig.showPagePerItem) {
@@ -138,6 +158,15 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
+          {(!form.disableSave && __BUILDTYPE__ === 'development') && <div className="row">
+            <div className="small-12 columns">
+              <SaveFormLink
+                  saveForm={this.handleSave}
+                  savedStatus={form.savedStatus}
+                  user={this.props.user}
+                  onUpdateLoginUrl={this.props.updateLogInUrl}/>
+            </div>
+          </div>}
         </SchemaForm>
       </div>
     );
@@ -146,12 +175,15 @@ class FormPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    user: state.user
   };
 }
 
 const mapDispatchToProps = {
-  setData
+  setData,
+  saveInProgressForm,
+  updateLogInUrl
 };
 
 FormPage.propTypes = {

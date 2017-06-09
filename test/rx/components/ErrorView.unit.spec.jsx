@@ -61,6 +61,6 @@ describe('<ErrorView>', () => {
     ];
     const errorView = SkinDeep.shallowRender(<ErrorView errors={errors}/>);
 
-    expect(errorView.props.className).to.equal('call-out rx-app-error rx-tab-explainer');
+    expect(errorView.props.className).to.equal('rx-app-error rx-tab-explainer');
   });
 });

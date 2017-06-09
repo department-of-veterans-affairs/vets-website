@@ -219,3 +219,8 @@ body {
     }
   }
 }
+
+// Ensure the info icon is centered in boxes with only one line of text
+.usa-alert-info {
+  min-height: 74px;
+}

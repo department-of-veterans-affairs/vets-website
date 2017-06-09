@@ -71,5 +71,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(SearchHelpSignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
 export { SearchHelpSignIn };

@@ -1,4 +1,4 @@
-/* 
+/*
  * Creates trigger function that opens/closes mobile menu, 
  * mobile search menu, and the Veterans Crisis Line.
  */
@@ -19,14 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
     (preferred) or an href attribute.
     */
     const overlayId = overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
-   
-    if (overlayTarget.classList.contains('va-overlay') &&
-        clickTarget.classList.contains('va-overlay-close')) {
-          overlayTarget.classList.remove('va-overlay--open');
-          document.body.classList.remove('va-pos-fixed');
-    } else if(overlayId) {
-        document.querySelector(overlayId).classList.add('va-overlay--open');
-        document.body.classList.add('va-pos-fixed');
+
+    const shouldCloseOverlay =
+      overlayTarget.classList.contains('va-overlay') &&
+      clickTarget.classList.contains('va-overlay-close');
+
+    if (shouldCloseOverlay) {
+      overlayTarget.classList.remove('va-overlay--open');
+      document.body.classList.remove('va-pos-fixed');
+    } else if (overlayId) {
+      const overlay = document.querySelector(overlayId);
+      overlay.classList.add('va-overlay--open');
+      overlay.querySelector('a').focus();
+      document.body.classList.add('va-pos-fixed');
     }
   }   
 

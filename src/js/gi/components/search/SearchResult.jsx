@@ -90,8 +90,8 @@ export class SearchResult extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="columns">
-                <Link className="view-details" to={linkTo}>View details ›</Link>
+              <div className="view-details columns">
+                <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
           </div>
