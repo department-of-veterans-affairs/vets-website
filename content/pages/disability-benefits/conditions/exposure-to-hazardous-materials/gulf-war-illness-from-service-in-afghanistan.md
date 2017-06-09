@@ -59,6 +59,6 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
-### Need help?
+### What if I need help filing my disability claim?
 
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).
