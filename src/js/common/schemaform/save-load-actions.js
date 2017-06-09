@@ -170,14 +170,14 @@ export function fetchInProgressForm(formId, migrations) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      return;
+      return Promise.reject('no auth'); // Returns rejected Promise for testing only
     }
 
     // Update UI while we're waiting for the API
     dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
@@ -202,7 +202,8 @@ export function fetchInProgressForm(formId, migrations) {
       return Promise.reject(status);
     }).then((resBody) => {  // eslint-disable-line consistent-return
       // Just in case something funny happens where the json returned isn't an object as expected
-      if (typeof resBody !== 'object') {
+      // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
+      if (typeof resBody !== 'object' && !Array.isArray(resBody) && resBody) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
@@ -231,15 +232,20 @@ export function fetchInProgressForm(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
+      return Promise.resolve(); // For unit tests only
     }).catch((status) => {
       let loadedStatus = status;
-      // if res.json() has a parsing error, it'll reject with a SyntaxError
       if (status instanceof SyntaxError) {
+        // if res.json() has a parsing error, it'll reject with a SyntaxError
         // TODO: Log this somehow...Sentry error?
         console.error('Could not parse response.', status); // eslint-disable-line no-console
         loadedStatus = LOAD_STATUSES.invalidData;
+      } else if (status instanceof Error) {
+        // If we've got an error that isn't a SyntaxError, it's probably a network error
+        loadedStatus = LOAD_STATUSES.failure;
       }
       dispatch(setFetchFormStatus(loadedStatus));
+      return Promise.reject(); // For unit tests only
     });
   };
 }
