@@ -43,7 +43,7 @@ Click on the description that matches you best to find out what information you'
 
 If you're a **Veteran**, you'll need:
 
-- Your DD214
+Your DD214
 
 </div>
 </li>
@@ -69,7 +69,7 @@ If you're an **active-duty Servicemember**, you'll need:
 
 If you're a **current or former activated National Guard or Reserve member**, you'll need:
 
-- Your DD214
+Your DD214
 
 </div>
 </li>
@@ -122,9 +122,10 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 - **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf).
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
   - A copy of your marriage license, **and**
-  - The Veteran's death certificate<br>[Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
-
-[Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
+  - The Veteran's death certificate
+  <br>
+  [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
+  [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
 </div>
 </li>
