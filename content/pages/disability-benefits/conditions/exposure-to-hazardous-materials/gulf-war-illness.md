@@ -79,6 +79,6 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 - The waters of the Persian Gulf, the Arabian Sea, and the Red Sea
 - The airspace above these locations
 
-### Need help?
+### What if I need help filing my disability claim?
 
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).
