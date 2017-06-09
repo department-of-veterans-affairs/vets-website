@@ -27,7 +27,7 @@ class IntroductionPage extends React.Component {
         </p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.
+            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your service history and finances.
           </div>
         </div>
         <br/>
