@@ -235,7 +235,7 @@ const formConfig = {
               'view:receivedSeverancePay': {
                 type: 'boolean'
               },
-              severancePay,
+              severancePay
             }
           }
         }

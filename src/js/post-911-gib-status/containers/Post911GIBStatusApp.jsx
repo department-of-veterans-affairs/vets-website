@@ -1,6 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+
+import { getEnrollmentData } from '../actions/post-911-gib-status';
+import EnrollmentHistory from '../components/EnrollmentHistory';
+import UserInfoSection from '../components/UserInfoSection';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -18,16 +24,22 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
   return (
-    <div className="usa-grid">
+    <div>
       {view}
     </div>
   );
 }
 
 class Post911GIBStatusApp extends React.Component {
+  componentDidMount() {
+    this.props.getEnrollmentData();
+  }
+
   render() {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
+    const { enrollmentData } = this.props;
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -36,12 +48,23 @@ class Post911GIBStatusApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div className="usa-grid">
-            <div className="usa-width-two-thirds">
-              {this.props.children}
-              <h4 className="section-header">Post-9/11 GI Bill Status</h4>
-              <div className="info-container usa-width-two-thirds medium-8 columns">
-                Placeholder for Post-9/11 GI Bill Status content
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns">
+              <FormTitle title="Post-9/11 GI Bill Status"/>
+              <div className="va-introtext">
+                <p>
+                  View your Post-9/11 GI Bill enrollment information below. This is the same information
+                  in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
+                  print a copy of this screen for benefit and eligibility verification.
+                </p>
+              </div>
+              <UserInfoSection userData={enrollmentData}/>
+              <EnrollmentHistory enrollmentData={enrollmentData}/>
+              <div className="feature help-desk">
+                <h2>Need help?</h2>
+                <div>Call the Vets.gov Help Desk</div>
+                <div>1-855-574-7286</div>
+                <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
               </div>
             </div>
           </div>
@@ -56,8 +79,13 @@ function mapStateToProps(state) {
   return {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    verifyUrl: userState.login.verifyUrl,
+    enrollmentData: state.post911GIBStatus.enrollmentData
   };
 }
 
-export default connect(mapStateToProps)(Post911GIBStatusApp);
+const mapDispatchToProps = {
+  getEnrollmentData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post911GIBStatusApp);
