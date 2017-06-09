@@ -46,14 +46,12 @@ If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 These conditions apply to family members using transferred benefits:
 
 #### Spouses
-
 - May use the benefit right away
 - May use the benefit while you're on active duty or after separation
 - Don't qualify for the monthly housing allowance while you're on active duty
 - May use the benefit for up to 15 years after your separation from active duty
 
 #### Children
-
 - May start to use the benefit only after you've finished at least 10 years of service
 - May use the benefit while you're on active duty or after separation
 - May not use the benefit until they've gotten a high school diploma (or equivalency certificate), or have reached 18 years of age
