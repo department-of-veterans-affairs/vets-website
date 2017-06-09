@@ -10,36 +10,18 @@ children: disabilityConditions
 majorlinks:
   - heading: 
     links:
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
-      title: Agent Orange
-      description: If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war. 
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
-      title: Asbestos
-      description: If you worked in certain military jobs, you may have had contact with asbestos (toxic fibers once used in many buildings and products).
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
-      title: Birth Defects like Spina Bifida
-      description: If you served in South Vietnam or the Republic of Korea during certain time periods, you may have had contact with chemicals like Agent Orange believed to cause birth defects in the children of Veterans.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/
-      title: Contact with Mustard Gas or Lewisite
-      description: If you served at the German bombing of Bari, Italy, in World War II or worked in certain other jobs, you may have had contact with mustard gas.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/
-      title: Contaminated Drinking Water at Camp Lejeune
-      description: If you served at Camp Lejeune or MCAS New River between August 1953 and December 1987, you may be at risk for certain illnesses believed to be caused by contaminants found in the drinking water during that time.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
-      title: Gulf War Illness
-      description: If you served in the Southwest Asia theater of operations, you may be at risk of certain illnesses or other conditions related to service in this region.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/
-      title: Gulf War Illness in Afghanistan
-      description: If you served in Afghanistan, you may be at risk of certain illnesses or other conditions related to service in this region.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
-      title: Project 112/SHAD
-      description: If you were part of warfare testing for Projects 112 or Shipboard Hazard and Defense(SHAD) from 1962 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/
-      title: Radiation Exposure
-      description: If you served in the post-WWII occupation of Hiroshima or Nagasaki, were a prisoner of war (POW) in Japan, worked with or near nuclear weapons testing, or served at a gaseous diffusion plant or in certain other jobs, you may be at risk for illnesses believed to be caused by radiation.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/
-      title: Specific Environmental Hazards
-      description: If you served in Iraq, Afghanistan, Djibouti, or near Atsugi, Japan, you may have had contact with toxic chemicals in the air, water, or soil.
+    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
+      title: Contact with Harmful Chemicals or Other Hazardous Materials
+      description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have.
+    - url: /disability-benefits/conditions/ptsd/
+      title: Posttraumatic Stress Disorder (PTSD)
+      description: Learn about the symptoms of PTSD—and how to get help.
+    - url: /disability-benefits/conditions/pow/
+      title: Disability Benefits for Former Prisoners of War (POWs)
+      description: Get support for illnesses or injuries resulting from your time in captivity.
+    - url: /disability-benefits/conditions/special-claims/
+      title: Special Claims
+      description: Get help with needs like special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
 <div class="va-introtext">
@@ -97,4 +79,6 @@ You may also be able to get benefits for:
 
 [Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
-##### Find out if you qualify for benefits due to illnesses or injuries related to any of these hazardous exposures:
+##### Learn more about disability benefits for certain service-connected conditions:
+
+
