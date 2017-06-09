@@ -20,8 +20,8 @@ relatedlinks:
       title: How do I file while on active duty?
       description: ""
     - url: /disability-benefits/apply/one-year/
-        title: How do I file for an illness that started after I was discharged from active-duty?
-        description: ""
+      title: How do I file for an illness that started after I was discharged from active-duty?
+      description: ""
 ---
 
 <div class="va-introtext">
