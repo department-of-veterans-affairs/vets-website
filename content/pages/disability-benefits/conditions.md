@@ -8,11 +8,11 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityConditions
 majorlinks:
-  - heading: Find out if you qualify for benefits due to illnesses or injuries related to any of these hazardous exposures.
+  - heading: 
     links:
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
       title: Agent Orange
-      description: If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war.
+      description: If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war. 
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
       title: Asbestos
       description: If you worked in certain military jobs, you may have had contact with asbestos (toxic fibers once used in many buildings and products).
@@ -27,13 +27,13 @@ majorlinks:
       description: If you served at Camp Lejeune or MCAS New River between August 1953 and December 1987, you may be at risk for certain illnesses believed to be caused by contaminants found in the drinking water during that time.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
       title: Gulf War Illness
-      description: If you served in the Southwest Asia theater of military operations, you may be at risk of certain illnesses or other conditions related to service in this region.
+      description: If you served in the Southwest Asia theater of operations, you may be at risk of certain illnesses or other conditions related to service in this region.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/
       title: Gulf War Illness in Afghanistan
       description: If you served in Afghanistan, you may be at risk of certain illnesses or other conditions related to service in this region.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
       title: Project 112/SHAD
-      description: If you were part of warfare testing for Projects 112 or Shipboard Hazard and Defense(SHAD) from 1962 to 1974, you may be at risk of illnesses believed to be caused by the testing.
+      description: If you were part of warfare testing for Projects 112 or Shipboard Hazard and Defense(SHAD) from 1962 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/
       title: Radiation Exposure
       description: If you served in the post-WWII occupation of Hiroshima or Nagasaki, were a prisoner of war (POW) in Japan, worked with or near nuclear weapons testing, or served at a gaseous diffusion plant or in certain other jobs, you may be at risk for illnesses believed to be caused by radiation.
@@ -96,3 +96,5 @@ You may also be able to get benefits for:
 
 
 [Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
+
+##### Find out if you qualify for benefits due to illnesses or injuries related to any of these hazardous exposures:
