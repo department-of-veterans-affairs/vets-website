@@ -7,11 +7,8 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityApply
 majorlinks:
-  - heading:
+  - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/ways/
-      title: How to File a Disability Claim
-      description: You can file a disability claim 1 of 3 ways. 
     - url: /disability-benefits/apply/claim-types/
       title: Types of Disability Claims 
       description: Learn about standard claims, reopened claims, secondary claims, and more. 
@@ -23,7 +20,7 @@ majorlinks:
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
       title: Get Help Filing a Claim
-      description: Find out how to work with a trained professional called an accredited representative.
+      description: Find out how to work with a trained professional called an accredited representative to file your claim.
 ---
 
 <div class="va-introtext">
