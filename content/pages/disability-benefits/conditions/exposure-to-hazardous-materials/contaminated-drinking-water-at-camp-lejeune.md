@@ -120,8 +120,3 @@ Two on-base water wells that were shut down in 1985 had these chemicals:
 
 </div>
 
-### Need help?
-
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
-
-[Go to your VA regional office](/facilities)
