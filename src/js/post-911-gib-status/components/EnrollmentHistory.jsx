@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import EnrollmentPeriod from '../components/EnrollmentPeriod';
+
 import { formatDateShort, formatDateLong } from '../utils/helpers';
 
 class EnrollmentHistory extends React.Component {
@@ -31,6 +33,19 @@ class EnrollmentHistory extends React.Component {
       );
     }
 
+    // Render enrollment periods
+    const enrollmentHistory = enrollmentData && enrollmentData.enrollmentList.length > 0 ? (
+      enrollmentData.enrollmentList.map((enrollment, index) => {
+        const indexKey = `enrollment-${index}`;
+
+        return (
+          <EnrollmentPeriod
+              key={indexKey}
+              enrollment={enrollment}/>
+        );
+      })
+    ) : null;
+
     return (
       <div>
         <h3 className="section-header">Enrollment History</h3>
@@ -60,8 +75,8 @@ class EnrollmentHistory extends React.Component {
           </div>
         </div>
         {expirationWarning}
-        {/* Placeholder for enrollment list */}
         {trainingWarning}
+        {enrollmentHistory}
       </div>
     );
   }

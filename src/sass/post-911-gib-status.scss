@@ -8,6 +8,13 @@ h4 {
   margin-top: 1em;
 }
 
+hr {
+  border-style: solid;
+  border-color: #aeb0b5;
+  border-width: 1px 0 0 0;
+  margin-bottom: 0;
+}
+
 .section-line {
   margin-bottom: 1em;
 }
@@ -17,5 +24,9 @@ h4 {
 }
 
 .feature {
-    min-height: 0;
+  min-height: 0;
+
+  &.help-desk {
+  	margin-top: 2em;
+  }
 }

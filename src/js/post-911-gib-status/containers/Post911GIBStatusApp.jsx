@@ -39,6 +39,7 @@ class Post911GIBStatusApp extends React.Component {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
     const { enrollmentData } = this.props;
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -59,6 +60,12 @@ class Post911GIBStatusApp extends React.Component {
               </div>
               <UserInfoSection userData={enrollmentData}/>
               <EnrollmentHistory enrollmentData={enrollmentData}/>
+              <div className="feature help-desk">
+                <h2>Need help?</h2>
+                <div>Call the Vets.gov Help Desk</div>
+                <div>1-855-574-7286</div>
+                <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
+              </div>
             </div>
           </div>
         </AppContent>
