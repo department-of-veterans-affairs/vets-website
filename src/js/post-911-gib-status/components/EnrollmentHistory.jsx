@@ -60,8 +60,8 @@ class EnrollmentHistory extends React.Component {
           </div>
         </div>
         {expirationWarning}
-        {trainingWarning}
         {/* Placeholder for enrollment list */}
+        {trainingWarning}
       </div>
     );
   }

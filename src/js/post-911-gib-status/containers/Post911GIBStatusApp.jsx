@@ -59,9 +59,7 @@ class Post911GIBStatusApp extends React.Component {
                 </p>
               </div>
               <UserInfoSection userData={enrollmentData}/>
-              <div className="info-container usa-width-two-thirds medium-8 columns">
-                <EnrollmentHistory enrollmentData={enrollmentData}/>
-              </div>
+              <EnrollmentHistory enrollmentData={enrollmentData}/>
             </div>
           </div>
         </AppContent>

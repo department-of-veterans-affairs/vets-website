@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDate, formatPercent } from '../utils/helpers';
+import { formatDateShort, formatPercent } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
     const { userData } = this.props;
 
     // Used to get today's date to show information current of
-    const todayFormatted = formatDate(new Date());
+    const todayFormatted = formatDateShort(new Date());
 
     // Check if percent is a number
     const percentageBenefit = formatPercent(userData.percentageBenefit) || 'unavailable';
@@ -37,7 +37,7 @@ class UserInfoSection extends React.Component {
             <span><strong>Date of Birth: </strong></span>
           </div>
           <div className="usa-width-one-third">
-            {formatDate(userData.dateOfBirth)}
+            {formatDateShort(userData.dateOfBirth)}
           </div>
         </div>
         <div className="usa-grid-full section-line">
@@ -45,6 +45,7 @@ class UserInfoSection extends React.Component {
             <span><strong>VA File Number: </strong></span>
           </div>
           <div className="usa-width-one-third">
+            {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
             {userData.vaFileNumber}
           </div>
         </div>
@@ -59,7 +60,7 @@ class UserInfoSection extends React.Component {
 
         <div>
           <h4>When You Can Receive Benefits</h4>
-          <div className="section-line">You are eligible to receive benefits between <strong>{formatDate(userData.eligibilityDate)}</strong> and <strong>{formatDate(userData.delimitingDate)}</strong></div>
+          <div className="section-line">You are eligible to receive benefits between <strong>{formatDateShort(userData.eligibilityDate)}</strong> and <strong>{formatDateShort(userData.delimitingDate)}</strong></div>
         </div>
         <div>
           <h4>Your Benefit Level</h4>
