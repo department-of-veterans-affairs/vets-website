@@ -40,7 +40,6 @@ const configGenerator = (options) => {
   filesToBuild.vendor = [
     './src/js/common/polyfills',
     'history',
-    'jquery',
     'react',
     'react-dom',
     'react-redux',
@@ -168,8 +167,7 @@ const configGenerator = (options) => {
     },
     resolve: {
       alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc'),
-        jquery: 'jquery/src/jquery'
+        modernizr$: path.resolve(__dirname, './modernizrrc')
       },
       extensions: ['*', '.js', '.jsx']
     },
@@ -184,13 +182,6 @@ const configGenerator = (options) => {
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
           BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
         }
-      }),
-
-      // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
       }),
 
       new ExtractTextPlugin({
