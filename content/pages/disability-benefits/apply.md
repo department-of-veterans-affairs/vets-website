@@ -64,7 +64,7 @@ For all disability claims, please provide:
 
 #### Work with a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html)
+You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 #### Apply in person
 
