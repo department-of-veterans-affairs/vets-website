@@ -17,7 +17,7 @@ majorlinks:
     - url: /employment/commitments
       title: Commit to Hiring Veterans
       description: Share your company's commitment to hiring Veterans and their spouses.
-  - heading: Explore other ways to start a career
+  - heading: Explore Other Ways to Start a Career
     links:
     - url: /employment/job-seekers/start
       title: Start or Grow Your Business
@@ -25,7 +25,7 @@ majorlinks:
     - url: /employment/job-seekers/family-members
       title: Explore Resources for Military and Veteran Family Members
       description:
-  - heading: Learn new skills using online resources
+  - heading: Learn New Skills Using Online Resources
     links:
     - url: https://veterans.linkedin.com/
       title: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
