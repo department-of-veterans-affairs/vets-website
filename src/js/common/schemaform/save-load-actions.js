@@ -203,7 +203,7 @@ export function fetchInProgressForm(formId, migrations) {
     }).then((resBody) => {  // eslint-disable-line consistent-return
       // Just in case something funny happens where the json returned isn't an object as expected
       // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
-      if (typeof resBody !== 'object' && !Array.isArray(resBody) && resBody) {
+      if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
