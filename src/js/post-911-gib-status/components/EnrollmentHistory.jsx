@@ -34,7 +34,7 @@ class EnrollmentHistory extends React.Component {
     }
 
     // Render enrollment periods
-    const enrollmentHistory = enrollmentData && enrollmentData.enrollmentList.length > 0 ? (
+    const enrollmentHistory = enrollmentData && enrollmentData.enrollmentList && enrollmentData.enrollmentList.length > 0 ? (
       enrollmentData.enrollmentList.map((enrollment, index) => {
         const indexKey = `enrollment-${index}`;
 
