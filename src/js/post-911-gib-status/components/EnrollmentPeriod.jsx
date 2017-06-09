@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDate } from '../utils/helpers';
+import { formatDateShort } from '../utils/helpers';
 
 class EnrollmentPeriod extends React.Component {
   constructor() {
@@ -44,7 +44,7 @@ class EnrollmentPeriod extends React.Component {
     return (
       <div>
         <hr/>
-        <h4>{formatDate(enrollment.beginDate)} to {formatDate(enrollment.endDate)} at {enrollment.facilityName} ({enrollment.facilityCode})</h4>
+        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at {enrollment.facilityName} ({enrollment.facilityCode})</h4>
         {fullTimeHours}
         {distanceHours}
         {typeOfChange}
