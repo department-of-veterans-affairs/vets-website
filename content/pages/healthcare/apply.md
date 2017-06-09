@@ -21,7 +21,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Prepare
 - Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
-- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
+- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ).
 
 <div markdown="0"><br></div>
 
@@ -45,7 +45,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 #### By phone
 
-Call the vets.gov Help Desk at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Contact the Health Enrollment Center at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 #### By mail
 
@@ -73,7 +73,7 @@ To update your personal, insurance, or financial information from an earlier app
 
 [Find out what happens after you apply](/healthcare/after-you-apply).
 
-You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim.
 
 <a class="usa-button-primary" href="/healthcare/prescriptions/">Manage Your Health and Benefits</a>
 
