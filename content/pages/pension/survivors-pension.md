@@ -24,7 +24,7 @@ You may be able to get this benefit if you haven't remarried after the Veteranâ€
 - Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty (with some exceptions), with at least 1 day during a wartime period **or**
 
 - Was an officer and started on active duty after October 16, 1981, and hadnâ€™t previously served on active duty for at least 24 months
-<br>
+
 **And:**
 
 Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
