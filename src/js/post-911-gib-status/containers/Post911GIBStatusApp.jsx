@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EnrollmentHistory from '../components/EnrollmentHistory';
-
 import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
+import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 // This needs to be a React component for RequiredLoginView to pass down
