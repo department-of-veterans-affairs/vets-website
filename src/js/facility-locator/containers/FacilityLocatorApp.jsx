@@ -23,9 +23,12 @@ class FacilityLocatorApp extends React.Component {
     }
 
     return (
-      <li className="active">
-        Facility Locator
-      </li>
+      <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+        <li><a href="/">Home</a></li>
+        <li className="active">
+          Facility Locator
+        </li>
+      </ul>
     );
   }
 
