@@ -291,3 +291,37 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
     errors.to.addError(errorMessages.pattern || 'To date must be after from date');
   }
 }
+
+export function validateFileField(errors, fileList) {
+  let hasError = false;
+  fileList.forEach((file, index) => {
+    let error;
+    if (file.errorMessage) {
+      hasError = true;
+      error = `Error: ${file.errorMessage}`;
+    } else if (file.uploading) {
+      error = 'Uploading file...';
+    } else if (!file.confirmationNumber) {
+      error = 'Something went wrong...';
+    }
+
+    if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        __errors: [],
+        addError(msg) {
+          this.__errors.push(msg);
+        }
+      };
+      /* eslint-enable no-param-reassign */
+    }
+
+    if (error) {
+      errors[index].addError(error);
+    }
+  });
+
+  if (hasError) {
+    errors.addError('Please addresses the errors listed below');
+  }
+}

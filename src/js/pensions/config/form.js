@@ -29,7 +29,9 @@ const {
   previousNames,
   combatSince911,
   jobs,
-  placeOfSeparation
+  placeOfSeparation,
+  powDateRange,
+  severancePay
 } = fullSchemaPensions.properties;
 
 const {
@@ -174,6 +176,66 @@ const formConfig = {
             properties: {
               nationalGuardActivation,
               nationalGuard: _.set('properties.address', address.schema(fullSchemaPensions), nationalGuard)
+            }
+          }
+        },
+        powAndSeverance: {
+          path: 'military/pow-severance',
+          title: 'POW Status & Severance Pay',
+          uiSchema: {
+            'ui:title': 'POW Status & Severance Pay',
+            'ui:order': ['view:powStatus', 'powDateRange', 'view:receivedSeverancePay', 'severancePay'],
+            'view:powStatus': {
+              'ui:title': 'Have you ever been a POW?',
+              'ui:widget': 'yesNo'
+            },
+            powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
+                  'Start of confinement',
+                  'End of confinement',
+                  'Confinement start date must be before end date'
+            )),
+            'view:receivedSeverancePay': {
+              'ui:title': 'Have you received any type of severance or separation pay?',
+              'ui:widget': 'yesNo'
+            },
+            severancePay: {
+              'ui:order': [
+                'type',
+                'amount'
+              ],
+              'ui:options': {
+                expandUnder: 'view:receivedSeverancePay'
+              },
+              amount: {
+                'ui:title': 'Amount'
+              },
+              type: {
+                'ui:title': 'Pay Type',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {
+                    Longevity: 'Longevity',
+                    PDRL: 'PDRL',
+                    Separation: 'Separation',
+                    Severance: 'Severance',
+                    TDRL: 'TDRL'
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:powStatus', 'view:receivedSeverancePay'],
+            properties: {
+              'view:powStatus': {
+                type: 'boolean'
+              },
+              powDateRange,
+              'view:receivedSeverancePay': {
+                type: 'boolean'
+              },
+              severancePay
             }
           }
         }
