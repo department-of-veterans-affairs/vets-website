@@ -14,13 +14,13 @@ const numberToWords = {
   0: 'First',
   1: 'Second',
   2: 'Third',
-  4: 'Fourth',
-  5: 'Fifth',
-  6: 'Sixth',
-  7: 'Seventh',
-  8: 'Eighth',
-  9: 'Ninth',
-  10: 'Tenth'
+  3: 'Fourth',
+  4: 'Fifth',
+  5: 'Sixth',
+  6: 'Seventh',
+  7: 'Eighth',
+  8: 'Ninth',
+  9: 'Tenth'
 };
 
 export function getMarriageTitle(index) {

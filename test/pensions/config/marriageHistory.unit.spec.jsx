@@ -32,6 +32,46 @@ describe('Pensions marriage history', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(19);
   });
 
+  describe('hideIf current marriage', () => {
+    const hideIfCurrentMarriage = marriageHistory.uiSchema.marriages.items['view:pastMarriage']['ui:options'].hideIf;
+
+    it('hides if married and last', () => {
+      const result = hideIfCurrentMarriage({
+        maritalStatus: 'Married',
+        marriages: [{}]
+      }, 0);
+
+      expect(result).to.be.true;
+    });
+
+    it('does not hide if married and not last', () => {
+      const result = hideIfCurrentMarriage({
+        maritalStatus: 'Married',
+        marriages: [{}, {}]
+      }, 0);
+
+      expect(result).to.be.false;
+    });
+
+    it('does not hide if not married', () => {
+      const result = hideIfCurrentMarriage({
+        marriages: [{}]
+      }, 0);
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('page title', () => {
+    const pageTitle = marriageHistory.title;
+    it('uses word for index', () => {
+      expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('First marriage');
+    });
+    it('uses number when over ten', () => {
+      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Marriage 11');
+    });
+  });
+
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
