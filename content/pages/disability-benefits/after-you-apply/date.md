@@ -5,7 +5,7 @@ concurrence: complete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 relatedlinks:
-  - heading: Get answers to more questions about filing your disability claim.
+  - heading: Get answers to your questions about filing a disability claim
     links:
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
       title: What's the fastest way to file a claim?
