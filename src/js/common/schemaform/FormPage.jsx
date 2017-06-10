@@ -54,7 +54,8 @@ class FormPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
+      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
       scrollToTop();
       focusForm();
     }

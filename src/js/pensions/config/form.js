@@ -336,7 +336,7 @@ const formConfig = {
       pages: {
         marriageInfo: {
           title: 'Marriage history',
-          path: 'household/marriageInfo',
+          path: 'household/marriage-info',
           uiSchema: {
             maritalStatus: {
               'ui:title': 'Have you ever been married?',
@@ -400,7 +400,7 @@ const formConfig = {
                   'ui:title': 'Type of marriage',
                   'ui:widget': 'radio'
                 },
-                otherMarriageType: {
+                otherExplanation: {
                   'ui:title': 'Please specify',
                   'ui:required': (form, index) => {
                     return _.get(['marriages', index, 'marriageType'], form) === 'Other';
@@ -456,9 +456,7 @@ const formConfig = {
                         'Other'
                       ]
                     }),
-                    otherMarriageType: {
-                      type: 'string'
-                    },
+                    otherExplanation: marriageProperties.otherExplanation,
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {

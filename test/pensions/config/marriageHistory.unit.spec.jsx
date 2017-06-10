@@ -109,7 +109,7 @@ describe('Pensions marriage history', () => {
     fillData(formDOM, '#root_dateOfMarriageYear', '2001');
     fillData(formDOM, '#root_locationOfMarriage', 'The Pacific');
     fillData(formDOM, '#root_marriageType_4', 'Other');
-    fillData(formDOM, '#root_otherMarriageType', 'Something');
+    fillData(formDOM, '#root_otherExplanation', 'Something');
     fillData(formDOM, '#root_view\\:pastMarriage_reasonForSeparation_1', 'Divorced');
     fillData(formDOM, '#root_view\\:pastMarriage_dateOfSeparationMonth', '3');
     fillData(formDOM, '#root_view\\:pastMarriage_dateOfSeparationDay', '3');
