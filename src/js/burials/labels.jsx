@@ -5,3 +5,10 @@ export const relationshipLabels = {
   executor: 'Executor/Administrator of Estate',
   other: 'Other'
 };
+
+export const locationOfDeathLabels = {
+  vaMedicalCenter: 'VA Medical Center',
+  stateVeteransHome: 'State Veterans Home',
+  nursingHome: 'Nursing Home under VA Contract',
+  other: 'Other'
+};
