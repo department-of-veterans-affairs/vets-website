@@ -1,3 +1,4 @@
+import moment from 'moment';
 import environment from '../helpers/environment.js';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
@@ -23,10 +24,11 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export function setSaveFormStatus(status) {
+export function setSaveFormStatus(status, lastSavedDate = null) {
   return {
     type: SET_SAVE_FORM_STATUS,
-    status
+    status,
+    lastSavedDate
   };
 }
 
@@ -135,7 +137,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success));
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, moment().toISOString()));
       } else {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to save, tell them their session expired and they need to log

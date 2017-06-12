@@ -115,7 +115,7 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: 'hca',
   version: 0,
-  disableSave: true,
+  // disableSave: true,
   transformForSubmit: transform,
   // TODO: When save in progress is released, change the intro page
   introduction: IntroductionPage,

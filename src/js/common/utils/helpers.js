@@ -43,7 +43,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
 }
 
 export function isInProgress(trimmedPathname) {
-  return !(trimmedPathname.endsWith('introduction') || trimmedPathname.endsWith('confirmation'));
+  return !(trimmedPathname.endsWith('introduction') || trimmedPathname.endsWith('confirmation') || trimmedPathname.endsWith('form-saved'));
 }
 
 export function isActivePage(page, data) {
