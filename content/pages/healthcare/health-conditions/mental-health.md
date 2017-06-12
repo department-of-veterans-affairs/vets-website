@@ -96,6 +96,8 @@ Once you’re signed up:
   - Call our general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>, **or**
   - [Contact your local VA medical center](https://www.va.gov/health/vamc/).
 
+<br>
+
 ### What if I don’t have VA health benefits? 
 
 You may still be able to get care:
@@ -108,21 +110,13 @@ You may still be able to get care:
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1-800-827-1000">800-827-1000</a> to find out what your care options may be.
 
-------
+<br>
 
+### How can I get more information or support?
 
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Recently returned from deployment?** [Get resources and support](http://www.mentalhealth.va.gov/returningservicevets.asp).
-
-**Need more information and support?** <br />
+[Get resources and support to help you readjust after returning from deployment](http://www.mentalhealth.va.gov/returningservicevets.asp).<br />
 [Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br /> 
-[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp). 
+[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp).
 
 <script type="text/javascript">
 
