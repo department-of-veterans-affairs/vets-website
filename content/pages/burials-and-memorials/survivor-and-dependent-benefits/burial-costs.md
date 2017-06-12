@@ -32,7 +32,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
-- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
+- Died on or after October 9, 1996 while a patient at a VA-approved state nursing home.
 
 ### What kind of benefits can I get?
 
