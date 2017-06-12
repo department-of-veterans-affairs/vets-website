@@ -9,7 +9,7 @@ collection: healthcare
 children: healthcareCoverage
 order: 1
 relatedlinks: 
-  - heading:
+  - heading: Related benefits you may qualify for
     links:
     - url: /disability-benefits/
       title: Disability Benefits
@@ -178,11 +178,15 @@ When you sign up for VA health care, you become part of the country’s largest 
 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
+<br>
+
 <span id="health-accessing-services">
 
 #### What if I need help accessing services?
 
 If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+<br>
 
 <span id="health-manage-online">
 
