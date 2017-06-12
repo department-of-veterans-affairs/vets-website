@@ -6,8 +6,8 @@ function GetFormHelp() {
       <p className="talk">Enrollment or Eligibility questions:</p>
       <p className="phone-number">
         <a href="tel:+877-222-8387">877-222-8387</a><br/>
-        Monday - Friday, 8:00 a.m. - 8:00 p.m. ET<br/>
-        TTY: <a href="tel:+1-800-829-4833">800-829-4833</a>
+        TTY: <a href="tel:+1-800-829-4833">800-829-4833</a><br/>
+        Monday - Friday, 8:00 a.m. - 8:00 p.m. ET
       </p>
     </div>
   );
