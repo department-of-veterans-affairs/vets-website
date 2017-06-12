@@ -62,7 +62,7 @@ export function loadInProgressDataIntoForm() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-function migrateFormData(savedData, savedVersion, migrations) {
+export function migrateFormData(savedData, savedVersion, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -100,6 +100,7 @@ function migrateFormData(savedData, savedVersion, migrations) {
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
   // Double stringify because of api reasons. Olive Branch issues, methinks.
+  // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
@@ -112,14 +113,19 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      return;
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
+      }
+
+      return; // eslint-disable-line consistent-return
     }
 
     // Update UI while we're waiting for the API
     dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    // (returning for testing purposes only)
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -141,6 +147,17 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
       }
+      return Promise.resolve(); // For unit testing
+    }).catch((error) => {
+      // Probably a network error has occurred
+      // TODO: Log this in GA or something
+      console.error('Error saving form:', error.message); // eslint-disable-line no-console
+      dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject(); // For unit testing
+      }
+
+      return; // eslint-disable-line consistent-return
     });
   };
 }
@@ -161,14 +178,18 @@ export function fetchInProgressForm(formId, migrations) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      return;
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject('no auth'); // Returns rejected Promise for testing only
+      }
+
+      return; // eslint-disable-line consistent-return
     }
 
     // Update UI while we're waiting for the API
     dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
@@ -191,9 +212,10 @@ export function fetchInProgressForm(formId, migrations) {
         status = LOAD_STATUSES.notFound;
       }
       return Promise.reject(status);
-    }).then((resBody) => {  // eslint-disable-line consistent-return
+    }).then((resBody) => {
       // Just in case something funny happens where the json returned isn't an object as expected
-      if (typeof resBody !== 'object') {
+      // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
+      if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
@@ -222,15 +244,30 @@ export function fetchInProgressForm(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
+
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.resolve(); // For unit tests only
+      }
+
+      return; // eslint-disable-line consistent-return
     }).catch((status) => {
       let loadedStatus = status;
-      // if res.json() has a parsing error, it'll reject with a SyntaxError
       if (status instanceof SyntaxError) {
+        // if res.json() has a parsing error, it'll reject with a SyntaxError
         // TODO: Log this somehow...Sentry error?
         console.error('Could not parse response.', status); // eslint-disable-line no-console
         loadedStatus = LOAD_STATUSES.invalidData;
+      } else if (status instanceof Error) {
+        // If we've got an error that isn't a SyntaxError, it's probably a network error
+        loadedStatus = LOAD_STATUSES.failure;
       }
       dispatch(setFetchFormStatus(loadedStatus));
+
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject(); // For unit tests only
+      }
+
+      return; // eslint-disable-line consistent-return
     });
   };
 }
