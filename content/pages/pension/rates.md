@@ -4,7 +4,7 @@ template: detail-page
 title: Veterans Pension Rates
 display_title: Veterans Pension Rates
 concurrence: 
-order: 4
+order: 5
 ---
 
 <div class="va-introtext">
