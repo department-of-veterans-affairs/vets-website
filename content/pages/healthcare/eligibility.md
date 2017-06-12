@@ -106,7 +106,7 @@ Your priority group will be based on:
 - Other benefits you may be receiving (like pension benefits)
 
 We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
-[View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp/). 
+[View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp). 
 
 <br>
 
