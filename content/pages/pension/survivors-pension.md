@@ -4,7 +4,7 @@ template: detail-page
 title: Survivors Pension
 concurrence: "" 
 children: pensionSurvivors
-order: 3
+order: 4
 ---
 
 <div class="va-introtext">
