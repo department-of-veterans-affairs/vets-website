@@ -62,7 +62,7 @@ You may also need:
 
  - If the deceased was married, the surviving spouse’s status as Veteran or family member
  - The status and detailed information for any disabled children who may be buried in the future in a national cemetery
- - The Veteran’s zip code and county at the time of death
+ - The Veteran’s Zip code and county at the time of death
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
  
  </li>
