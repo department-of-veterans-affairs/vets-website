@@ -7,7 +7,7 @@ import { formatDateShort, formatPercent } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
-    const { enrollmentData } = this.props || {};
+    const enrollmentData = this.props.enrollmentData || {};
 
     // Get today's date to show information current as of
     const todayFormatted = formatDateShort(new Date());
