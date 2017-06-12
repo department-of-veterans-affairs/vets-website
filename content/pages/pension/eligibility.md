@@ -25,11 +25,11 @@ You may be able to get pension benefits if you were discharged from service unde
 
 **And:**
 
-- Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. [Find out about income limits](/pension/rates/).
+- Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. [Find out about Veterans pension rates](/pension/rates/).
 
 **And at least one of these is true:**
 
-- You’re age 65 or over, **or**
+- You’re at least 65 years old, **or**
 - You have a permanent and total disability, **or**
 - You’re a patient in a nursing home for long-term care because of a disability, **or**
 - You’re getting Social Security Disability Insurance or Supplemental Security Income
@@ -46,4 +46,4 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 [Learn about the application process](/pension/apply/). 
 
-<a class=“usa-button-primary” href="http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ</a>.
+<a class=“usa-button-primary” href="http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ (Application for Pension)</a>.
