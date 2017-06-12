@@ -116,7 +116,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.false;
         done();
@@ -126,7 +126,7 @@ describe('Schemaform save / load actions:', () => {
       const thunk = saveInProgressForm('hca', 0, 'some/path', {});
       const dispatch = sinon.spy();
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.true;
         done();
       });
@@ -135,7 +135,7 @@ describe('Schemaform save / load actions:', () => {
       const thunk = saveInProgressForm('hca', 0, 'some/path', {});
       const dispatch = sinon.spy();
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
         done();
       });
@@ -147,7 +147,7 @@ describe('Schemaform save / load actions:', () => {
         ok: true
       }));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.success))).to.be.true;
         done();
       });
@@ -161,7 +161,7 @@ describe('Schemaform save / load actions:', () => {
         status: 401
       }));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         done();
       });
@@ -174,7 +174,7 @@ describe('Schemaform save / load actions:', () => {
         status: 404
       }));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
         done();
       });
@@ -184,7 +184,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         done(new Error("Should not call the dispatch's .then() on a network failure"));
       }).catch(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
@@ -201,7 +201,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.pending))).to.be.false;
         done();
@@ -215,7 +215,7 @@ describe('Schemaform save / load actions:', () => {
         ok: false
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.pending))).to.be.true;
         done();
       });
@@ -224,7 +224,7 @@ describe('Schemaform save / load actions:', () => {
       const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
       const dispatch = sinon.spy();
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
         done();
       });
@@ -242,7 +242,7 @@ describe('Schemaform save / load actions:', () => {
         })
       }));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
         done();
       });
@@ -255,7 +255,7 @@ describe('Schemaform save / load actions:', () => {
         status: 401
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
         done();
       });
@@ -268,7 +268,7 @@ describe('Schemaform save / load actions:', () => {
         status: 404
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
         done();
       });
@@ -281,7 +281,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => ({}) // Return an empty object
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
         done();
       });
@@ -294,7 +294,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => ([]) // Return not an object
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
         done();
       });
@@ -308,7 +308,7 @@ describe('Schemaform save / load actions:', () => {
         json: () => (Promise.reject(new SyntaxError('Error parsing json')))
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
         done();
       });
@@ -321,7 +321,7 @@ describe('Schemaform save / load actions:', () => {
         status: 500
       }));
 
-      Promise.all([thunk(dispatch)]).catch(() => {
+      thunk(dispatch).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
         done();
       });
@@ -331,7 +331,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
-      Promise.all([thunk(dispatch)]).then(() => {
+      thunk(dispatch).then(() => {
         done(new Error("Should not call the dispatch's .then() on a network failure"));
       }).catch(() => {
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
