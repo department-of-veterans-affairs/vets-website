@@ -12,6 +12,9 @@ majorlinks:
     - url: /pension/apply/
       title: Application Process
       description: Find out how to apply by mail or in person.
+    - url: /pension/aid-attendance-housebound/
+      title: Aid and Attendance or Housebound Allowance
+      description: Find out if you can get added pension benefits as a Veteran or survivor.
     - url: /pension/survivors-pension/
       title: Survivors Pension
       description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
