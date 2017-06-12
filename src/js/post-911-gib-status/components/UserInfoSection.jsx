@@ -25,11 +25,11 @@ class UserInfoSection extends React.Component {
             <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
           </div>
         </div>
-        <InfoPair label={'Name'} value={fullName}/>
-        <InfoPair label={'Date of Birth'} value={formatDateShort(enrollmentData.dateOfBirth)}/>
+        <InfoPair label="Name" value={fullName}/>
+        <InfoPair label="Date of Birth" value={formatDateShort(enrollmentData.dateOfBirth)}/>
         {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
-        <InfoPair label={'VA File Number'} value={enrollmentData.vaFileNumber}/>
-        <InfoPair label={'Regional Processing Office'} value={enrollmentData.regionalProcessingOffice}/>
+        <InfoPair label="VA File Number" value={enrollmentData.vaFileNumber}/>
+        <InfoPair label="Regional Processing Office" value={enrollmentData.regionalProcessingOffice}/>
         <div>
           <h4>When You Can Receive Benefits</h4>
           <div className="section-line">
