@@ -7,9 +7,11 @@ relatedlinks:
   - heading: Resources for Employers
     links:
     - url: /employment/job-seekers/search-jobs
-      title: Search the Veterans Job Bank
+      title: Job Search
+      description: Search the Veterans Job Bank to view current positions.
     - url: /employment/employers/post-a-job/
       title: Post a Job
+      description: Post jobs available for Veterans, transitioning Servicemembers, and their families.
 ---
 
 <div class="va-introtext">
