@@ -6,12 +6,15 @@ concurrence: complete
 relatedlinks:
   - heading: Resources for Job Seekers
     links:
-    - url: /employment/job-seekers/skills-translator
+    - url: /employment/job-seekers/skills-translator/
       title: Military Skills Translator
-    - url: /employment/job-seekers/create-resume
+      description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
+    - url: /employment/job-seekers/create-resume/
       title: Résumé Builder
-    - url: /employment/job-seekers/search-jobs
-      title: Search the Veterans Job Bank
+    - url: /employment/job-seekers/search-jobs/
+      description: Use this tool to build a civilian or federal résumé.
+      title: Job Search
+      description: Search the Veterans Job Bank to find the right position for you.
 ---
 
 <div class="va-introtext">
