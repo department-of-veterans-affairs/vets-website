@@ -63,6 +63,8 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I have Medicare, Medicaid, or private insurance too?](#health-about-other-insurance)
+- [What if I need help accessing services?](#health-accessing-services)
+- [Can I manage my VA health and benefits online?](#health-manage-online)
 
 <br>
 
@@ -176,14 +178,18 @@ When you sign up for VA health care, you become part of the country’s largest 
 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
-------
+<span id="health-accessing-services">
 
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+#### What if I need help accessing services?
 
-**Already signed up?** Manage your VA health and benefits online: 
+If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+<span id="health-manage-online">
+
+#### Can I manage my VA health and benefits online?
+
+Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
 
 [Refill your prescriptions](/healthcare/prescriptions/). <br /> 
 [Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
 [Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
