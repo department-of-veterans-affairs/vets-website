@@ -84,7 +84,7 @@ class EduBenefitsApp extends React.Component {
 
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
+    const isConfirmationPage = trimmedPathname.endsWith('submit-message');
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
