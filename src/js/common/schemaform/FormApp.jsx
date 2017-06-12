@@ -47,6 +47,7 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
     if (!isInProgress(trimmedPathname)) {
@@ -72,9 +73,9 @@ export default class FormApp extends React.Component {
             {content}
           </div>
         </div>
-        <AskVAQuestions>
+        {!isConfirmationPage && <AskVAQuestions>
           <GetFormHelp/>
-        </AskVAQuestions>
+        </AskVAQuestions>}
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>
     );
