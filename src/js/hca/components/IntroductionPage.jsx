@@ -1,58 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { focusElement } from '../../common/utils/helpers';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
-import LoginModal from '../../common/components/LoginModal';
 import FormTitle from '../../common/schemaform/FormTitle';
-import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
-
-import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm, loadInProgressDataIntoForm } from '../../common/schemaform/save-load-actions';
-
 
 class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpened: false
-    };
-  }
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
-  // TODO: Add shouldComponentUpdate(); it renders like 14 times upon page refresh
-
-  getAlertBody = () => {
-    let body = (<div>
-      <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
-      <LoginModal
-          onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}
-          user={this.props.user}
-          onUpdateLoginUrl={this.props.updateLogInUrl}/>
-    </div>);
-
-    if (this.props.user.login.currentlyLoggedIn) {
-      body = (<div>
-        <strong>Note:</strong> You can now save your application and come back to save it at a later time.
-      </div>);
-    }
-
-    return body;
+  goForward = () => {
+    this.props.router.push(this.props.route.pageList[1].path);
   }
-
-  openLoginModal = () => {
-    this.setState({ modalOpened: true });
-  }
-
-  closeLoginModal = () => {
-    this.setState({ modalOpened: false });
-  }
-
   render() {
     return (
       <div className="schemaform-intro">
@@ -68,20 +27,25 @@ class IntroductionPage extends React.Component {
         </p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            {this.getAlertBody()}
+            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.
           </div>
         </div>
         <br/>
-        <FormIntroButtons
-            route={this.props.route}
-            router={this.props.router}
-            form={this.props.form}
-            fetchInProgressForm={this.props.fetchInProgressForm}
-            loadInProgressDataIntoForm={this.props.loadInProgressDataIntoForm}
-            loggedIn={this.props.user.login.currentlyLoggedIn}/>
-        <br/>
-        {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
-        <div className="omb-info--container" style={{ paddingLeft: 0 }}>
+        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
+            <a href="/healthcare/apply">
+              <button className="usa-button-outline">« Back</button>
+            </a>
+          </div>
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+            <ProgressButton
+                onButtonClick={this.goForward}
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
+          </div>
+        </div>
+        <div className="omb-info--container">
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
         </div>
       </div>
@@ -89,21 +53,6 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    // TODO: When we get the ability to query for all saved forms, add the list here
-    form: state.form,
-    user: state.user
-  };
-}
-
-// Copied from src/js/login/containers/Main.jsx
-const mapDispatchToProps = {
-  fetchInProgressForm,
-  loadInProgressDataIntoForm,
-  updateLogInUrl
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IntroductionPage));
+export default withRouter(IntroductionPage);
 
 export { IntroductionPage };
