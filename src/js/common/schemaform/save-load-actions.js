@@ -156,9 +156,10 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
         //  their information.
         if (resOrError.status === 401) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+        } else {
+          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
 
-        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         Raven.captureException(new Error(`Error saving in progress form: ${resOrError.statusText}`));
       } else {
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
