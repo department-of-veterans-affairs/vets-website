@@ -1,45 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import InfoPair from './InfoPair';
+
 import { formatDateShort } from '../utils/helpers';
 
 class EnrollmentPeriod extends React.Component {
-  constructor() {
-    super();
-    this.renderLineOfData = this.renderLineOfData.bind(this);
-  }
-
-  renderLineOfData(label, value) {
-    return (
-      <div className="usa-grid-full">
-        <div className="usa-width-one-third">
-          <span><strong>{label}: </strong></span>
-        </div>
-        <div className="usa-width-one-third">
-          {value}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { enrollment } = this.props;
 
-    const fullTimeHours = enrollment.fullTimeHours ?
-        this.renderLineOfData('On-campus Hours', enrollment.fullTimeHours)
-        : null;
-
-    const distanceHours = enrollment.distanceHours ?
-        this.renderLineOfData('Distance Hours', enrollment.distanceHours)
-        : null;
-
-    const typeOfChange = enrollment.amendmentList && enrollment.amendmentList[0].type ?
-        this.renderLineOfData('Type of Change', enrollment.amendmentList[0].type)
-        : null;
-
-    const changeEffectiveDate = enrollment.amendmentList && enrollment.amendmentList[0].changeEffectiveDate ?
-        this.renderLineOfData('Change Effective Date', enrollment.amendmentList[0].changeEffectiveDate)
-        : null;
+    const fullTimeHours = <InfoPair label="On-campus Hours" value={enrollment.fullTimeHours}/>;
+    const distanceHours = <InfoPair label="Distance Hours" value={enrollment.distanceHours}/>;
+    const typeOfChange = enrollment.amendmentList && enrollment.amendmentList.length > 0 &&
+      <InfoPair label="Type of Change" value={enrollment.amendmentList[0].type}/>;
+    const changeEffectiveDate = enrollment.amendmentList && enrollment.amendmentList.length > 0 &&
+      <InfoPair label="Change Effective Date" value={enrollment.amendmentList[0].changeEffectiveDate}/>;
 
     return (
       <div>
