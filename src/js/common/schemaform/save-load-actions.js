@@ -113,7 +113,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
+      }
+
+      return; // eslint-disable-line consistent-return
     }
 
     // Update UI while we're waiting for the API
@@ -149,7 +153,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       // TODO: Log this in GA or something
       console.error('Error saving form:', error.message); // eslint-disable-line no-console
       dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-      return Promise.reject(); // For unit testing
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject(); // For unit testing
+      }
+
+      return; // eslint-disable-line consistent-return
     });
   };
 }
@@ -170,7 +178,11 @@ export function fetchInProgressForm(formId, migrations) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      return Promise.reject('no auth'); // Returns rejected Promise for testing only
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject('no auth'); // Returns rejected Promise for testing only
+      }
+
+      return; // eslint-disable-line consistent-return
     }
 
     // Update UI while we're waiting for the API
@@ -200,7 +212,7 @@ export function fetchInProgressForm(formId, migrations) {
         status = LOAD_STATUSES.notFound;
       }
       return Promise.reject(status);
-    }).then((resBody) => {  // eslint-disable-line consistent-return
+    }).then((resBody) => {
       // Just in case something funny happens where the json returned isn't an object as expected
       // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
       if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
@@ -232,7 +244,12 @@ export function fetchInProgressForm(formId, migrations) {
       //  the formData.
       // dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
-      return Promise.resolve(); // For unit tests only
+
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.resolve(); // For unit tests only
+      }
+
+      return; // eslint-disable-line consistent-return
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
@@ -245,7 +262,12 @@ export function fetchInProgressForm(formId, migrations) {
         loadedStatus = LOAD_STATUSES.failure;
       }
       dispatch(setFetchFormStatus(loadedStatus));
-      return Promise.reject(); // For unit tests only
+
+      if (__BUILDTYPE__ === 'development') {
+        return Promise.reject(); // For unit tests only
+      }
+
+      return; // eslint-disable-line consistent-return
     });
   };
 }
