@@ -1,10 +1,9 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Find a Pension Management Center
-display_title: Find a PMC
+title: Pension Management Centers
 concurrence: "" 
-order: 5
+order: 6
 ---
 
 <div class="va-introtext">
