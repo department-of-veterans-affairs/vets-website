@@ -138,6 +138,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
+        // TODO update this when the backend api is updated to return the timestamp
         // return res.json();
         return Promise.resolve({ timestamp: moment().valueOf() });
       }
@@ -148,17 +149,17 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.success, timestamp));
     })
     .catch((resOrError) => {
-      // TODO: If they've sat on the page long enough for their token to expire
-      //  and try to save, tell them their session expired and they need to log
-      //  back in and try again. Unfortunately, this means they'll lose all
-      //  their information.
       if (resOrError instanceof Response) {
+        // TODO: If they've sat on the page long enough for their token to expire
+        //  and try to save, tell them their session expired and they need to log
+        //  back in and try again. Unfortunately, this means they'll lose all
+        //  their information.
         if (resOrError.status === 401) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         }
 
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-        Raven.captureException(new Error(resOrError.statusText));
+        Raven.captureException(new Error(`Error saving in progress form: ${resOrError.statusText}`));
       } else {
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         Raven.captureException(resOrError);
