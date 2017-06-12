@@ -51,10 +51,6 @@ You can start your online application right now.
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/">Apply for Benefits</a>
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
-<div class="usa-alert-body">
-<h4 style="padding:0;">Are you a caregiver?</h4>
-<p style="margin:0;">This form's not quite ready for you yet. <a href="#additional-forms">Find the form you need</a>.</p>
-</div>
 </div>
 
 <div markdown="0"><br></div>
@@ -107,29 +103,5 @@ If you've also applied for a VA pension or disability benefits, you can check th
 To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
 
 [Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
-
-<div markdown="0"><br></div>
-
-------
-
-<span id="additional-forms"></span>
-### How do I apply as a caregiver?
-
-To apply for health care as a caregiver, you'll need to fill out VA Form 10-10CG. Follow the steps below to download this form. 
-
-#### How to download the form </br>
-
-1. Right click on the link to the form (below).
-2. Choose your browser's download option:
-   - On **Internet Explorer**: Choose **Save Target As...**
-   - On **Firefox or Chrome**: Choose **Save Link As...**
-   - On **Safari**: Choose **Download Linked File As...**
-3. Choose where you want to save the file on your hard drive.
-4. Click **Save**.
-5. Double click on the downloaded file to open it.
-
-<div markdown="0"><br></div>
-
-[Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
 <div markdown="0"><br></div>
