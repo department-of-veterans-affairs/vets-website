@@ -66,7 +66,7 @@ If you served on 1 of the ships or boats listed above—and you have 1 or more i
 If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 
 ### Need help?
-To contact VA:
+Get help from us in 1 of 2 ways:
 - Call <a href="tel:+18008271000">800-827-1000</a> or <a href="tel:+18008294833">800-829-4833</a> (TDD for hearing impaired).
 - Go to your [nearest VA benefits office](/facilities)
 
