@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
@@ -137,17 +138,30 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success, moment().toISOString()));
-      } else {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
-        if (res.status === 401) {
+        // return res.json();
+        return Promise.resolve({ timestamp: moment().valueOf() });
+      }
+
+      return Promise.reject(res);
+    })
+    .then(({ timestamp }) => {
+      dispatch(setSaveFormStatus(SAVE_STATUSES.success, timestamp));
+    })
+    .catch((resOrError) => {
+      // TODO: If they've sat on the page long enough for their token to expire
+      //  and try to save, tell them their session expired and they need to log
+      //  back in and try again. Unfortunately, this means they'll lose all
+      //  their information.
+      if (resOrError instanceof Response) {
+        if (resOrError.status === 401) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
-        } else {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
+
+        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        Raven.captureException(new Error(resOrError.statusText));
+      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        Raven.captureException(resOrError);
       }
       return Promise.resolve(); // For unit testing
     }).catch((error) => {
