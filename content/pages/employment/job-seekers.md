@@ -48,7 +48,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 <ol class="process" markdown="0">
 <li class="process-step list-one" markdown="1">
 
-##### Discover your skills and interests.<br>
+##### Discover your skills and interests<br>
 
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 </li>
