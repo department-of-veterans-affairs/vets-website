@@ -104,7 +104,7 @@ class ObjectField extends React.Component {
     if (isRoot) {
       let title = formContext.pageTitle;
       if (!formContext.hideTitle && typeof title === 'function') {
-        title = title(formData);
+        title = title(formData, formContext);
       }
       return (
         <div>
