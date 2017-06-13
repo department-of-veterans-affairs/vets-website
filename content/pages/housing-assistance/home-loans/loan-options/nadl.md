@@ -37,7 +37,7 @@ A NADL offers many benefits, including:
 - No need for Private Mortgage Insurance (PMI), which is commonly charged to conventional loan borrowers. 
 - Limited closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
 - A low-interest, 30-year fixed mortgage (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
-- A reusable benefit, which means you can get more than 1 NADL to buy, build, or improve another residence in the future
+- A reusable benefit, which means you can get more than one NADL to buy, build, or improve another residence in the future
 - The ability to borrow up to $424,100 in most areas, with higher loan limits for some high-cost counties
 
 ### How do I get a NADL?
