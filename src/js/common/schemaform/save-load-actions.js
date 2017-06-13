@@ -104,7 +104,8 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
-      returnUrl
+      returnUrl,
+      savedAt: Date.now()
     }),
     formData: JSON.stringify(formData)
   });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import moment from 'moment';
+
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import LoginModal from '../../common/components/LoginModal';
@@ -8,7 +10,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm, loadInProgressDataIntoForm } from '../../common/schemaform/save-load-actions';
+import { fetchInProgressForm, loadInProgressDataIntoForm, LOAD_STATUSES } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
@@ -26,23 +28,42 @@ class IntroductionPage extends React.Component {
 
   // TODO: Add shouldComponentUpdate(); it renders like 14 times upon page refresh
 
-  getAlertBody = () => {
-    let body = (<div>
-      <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
-      <LoginModal
-          onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}
-          user={this.props.user}
-          onUpdateLoginUrl={this.props.updateLogInUrl}/>
-    </div>);
+  getAlert = () => {
+    let alert;
 
     if (this.props.user.login.currentlyLoggedIn) {
-      body = (<div>
-        <strong>Note:</strong> You can now save your application and come back to save it at a later time.
-      </div>);
+      if (this.props.form.loadedStatus === LOAD_STATUSES.success) {
+        const savedAt = this.props.form.loadedData.metadata.savedAt;
+        alert = (
+          <div className="usa-alert usa-alert-info no-background-image">
+            <div style="padding-bottom: 8px;">Application status: <strong>In progress</strong></div>
+            <br/>
+            <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mm:ssa')}</div>
+            <div>Complete the form before submitting to apply for health care with the 10-10ez.</div>
+          </div>);
+      } else {
+        alert = (
+          <div className="usa-alert usa-alert-info">
+            <div className="usa-alert-body">
+              <strong>Note:</strong> You can now save your application and come back to save it at a later time.
+            </div>
+          </div>);
+      }
+    } else {
+      alert = (
+        <div className="usa-alert usa-alert-info">
+          <div className="usa-alert-body">
+            <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
+            <LoginModal
+                onClose={this.closeLoginModal}
+                visible={this.state.modalOpened}
+                user={this.props.user}
+                onUpdateLoginUrl={this.props.updateLogInUrl}/>
+          </div>
+        </div>);
     }
 
-    return body;
+    return alert;
   }
 
   openLoginModal = () => {
@@ -66,11 +87,7 @@ class IntroductionPage extends React.Component {
         <p>
           Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
         </p>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            {this.getAlertBody()}
-          </div>
-        </div>
+        {this.getAlert()}
         <br/>
         <FormIntroButtons
             route={this.props.route}
