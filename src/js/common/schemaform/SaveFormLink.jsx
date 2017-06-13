@@ -15,6 +15,7 @@ class SaveFormLink extends React.Component {
   }
 
   openLoginModal = () => {
+    // console.log('opening login modal');
     this.setState({ modalOpened: true });
   }
 
