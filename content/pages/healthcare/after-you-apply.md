@@ -12,6 +12,7 @@ lastupdate_override:
 <div class="va-introtext">
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out what happens next.
+After you apply for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved.
 
 </div>
 

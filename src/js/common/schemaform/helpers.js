@@ -416,7 +416,7 @@ export function createUSAStateLabels(states) {
  * for each item in an array
  */
 function generateArrayPages(arrayPages, data) {
-  const items = _.get(arrayPages[0].arrayPath, data);
+  const items = _.get(arrayPages[0].arrayPath, data) || [];
   return items
     .reduce((pages, item, index) =>
       pages.concat(arrayPages.map(page =>

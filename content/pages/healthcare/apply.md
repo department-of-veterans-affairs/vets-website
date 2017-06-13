@@ -90,7 +90,7 @@ If you've also applied for a VA pension or disability benefits, you can check th
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
-<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
 </div>
 
 <br>
