@@ -7,7 +7,6 @@ function GetFormHelp() {
       ask the Education Call Center:</p>
       <p className="phone-number">
         <a href="tel:+888-442-4551">888-442-4551</a><br/>
-        TTY: <a href="tel:+1-800-829-4833">800-829-4833</a><br/>
         Monday - Friday, 8:00 a.m. - 7:00 p.m. ET<br/>
         <p><a href="https://gibill.custhelp.com/app/ask/">Submit a question to Education Service</a></p>
       </p>
