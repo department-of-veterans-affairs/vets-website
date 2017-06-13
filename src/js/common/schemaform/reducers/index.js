@@ -144,13 +144,13 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set('savedStatus', action.status, state);
       }
       case SET_FETCH_FORM_STATUS: {
-        const newState = _.set('loadedStatus', action.status, state);
+        return _.set('loadedStatus', action.status, state);
+      }
+      case SET_IN_PROGRESS_FORM: {
+        const newState = _.set('loadedData', action.data, state);
         newState.loadedStatus = LOAD_STATUSES.success;
 
         return newState;
-      }
-      case SET_IN_PROGRESS_FORM: {
-        return _.set('loadedData', action.data, state);
       }
       case LOAD_DATA_INTO_FORM: {
         // Mirrors SET_DATA, but uses state.loadedData
