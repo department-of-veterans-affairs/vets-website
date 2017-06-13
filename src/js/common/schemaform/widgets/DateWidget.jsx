@@ -5,19 +5,29 @@ import _ from 'lodash/fp';
 import { months, days } from '../../utils/options-for-select.js';
 import { formatISOPartialDate, parseISODate } from '../helpers';
 
+function getEmptyState(value) {
+  return {
+    value: parseISODate(value),
+    touched: {
+      month: false,
+      day: false,
+      year: false
+    }
+  };
+}
+
 export default class DateWidget extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.state = {
-      value: parseISODate(this.props.value),
-      touched: {
-        month: false,
-        day: false,
-        year: false
-      }
-    };
+    this.state = getEmptyState(this.props.value);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.formContext.pagePerItemIndex !== this.props.formContext.pagePerItemIndex) {
+      this.setState(getEmptyState(newProps.value));
+    }
   }
 
   handleBlur(field) {
