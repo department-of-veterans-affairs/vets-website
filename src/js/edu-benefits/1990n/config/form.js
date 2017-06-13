@@ -4,6 +4,7 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
+import GetFormHelp from '../../components/GetFormHelp';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -41,6 +42,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990N',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
