@@ -55,7 +55,10 @@ export default function FieldTemplate(props) {
     'usa-input-error form-error-date': isDateField && hasErrors
   });
 
-  return (schema.type === 'object' || schema.type === 'array' || (schema.type === 'boolean' && !uiSchema['ui:widget'])) && !showFieldLabel
+  return (schema.type === 'object'
+    || schema.type === 'array'
+    || (schema.type === 'boolean' && !uiSchema['ui:widget'])
+  ) && !showFieldLabel
     ? children
     : (<div className={containerClassNames}>
       <div className={errorClass}>

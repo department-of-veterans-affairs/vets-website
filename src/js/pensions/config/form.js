@@ -24,6 +24,7 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 const {
   nationalGuardActivation,
@@ -35,6 +36,13 @@ const {
   placeOfSeparation,
   powDateRange,
   severancePay,
+  spouseDateOfBirth,
+  spouseSocialSecurityNumber,
+  spouseVaFileNumber,
+  liveWithSpouse,
+  reasonForNotLivingWithSpouse,
+  spouseIsVeteran,
+  monthlySpousePayment
 } = fullSchemaPensions.properties;
 
 const {
@@ -46,11 +54,17 @@ const {
   netWorth,
   maritalStatus,
   marriages,
-  expectedIncome
+  expectedIncome,
+  ssn,
+  vaFileNumber
 } = fullSchemaPensions.definitions;
 
 function isUnder65(formData) {
   return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+}
+
+function isMarried(form) {
+  return form.maritalStatus === 'Married';
 }
 
 function isCurrentMarriage(form, index) {
@@ -60,6 +74,41 @@ function isCurrentMarriage(form, index) {
 }
 
 const marriageProperties = marriages.items.properties;
+
+const marriageType = _.assign(marriageProperties.marriageType, {
+  'enum': [
+    'Ceremonial',
+    'Common-law',
+    'Proxy',
+    'Tribal',
+    'Other'
+  ]
+});
+
+const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
+  'enum': [
+    'Widowed',
+    'Divorced'
+  ]
+});
+
+function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(form => {
+    return (form.marriages && form.marriages.length)
+      ? form.marriages[form.marriages.length - 1].spouseFullName
+      : null;
+  }, spouseFullName => {
+    if (spouseFullName) {
+      return {
+        title: nameTemplate(spouseFullName)
+      };
+    }
+
+    return {
+      title: null
+    };
+  });
+}
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -76,7 +125,9 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
-    fullName
+    fullName,
+    ssn,
+    vaFileNumber
   },
   chapters: {
     applicantInformation: {
@@ -465,29 +516,212 @@ const formConfig = {
                     spouseFullName: marriageProperties.spouseFullName,
                     dateOfMarriage: marriageProperties.dateOfMarriage,
                     locationOfMarriage: marriageProperties.locationOfMarriage,
-                    marriageType: _.assign(marriageProperties.marriageType, {
-                      'enum': [
-                        'Ceremonial',
-                        'Common-law',
-                        'Proxy',
-                        'Tribal',
-                        'Other'
-                      ]
-                    }),
+                    marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
-                        reasonForSeparation: _.assign(marriageProperties.reasonForSeparation, {
-                          'enum': [
-                            'Widowed',
-                            'Divorced'
-                          ]
-                        }),
+                        reasonForSeparation,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
                         locationOfSeparation: marriageProperties.locationOfSeparation
                       }
                     }
+                  }
+                }
+              }
+            }
+          }
+        },
+        spouseInfo: {
+          title: 'Spouse information',
+          path: 'household/spouse-info',
+          depends: isMarried,
+          uiSchema: {
+            'ui:title': 'Spouse information',
+            spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `${spouseName.first} ${spouseName.last}’s date of birth`)
+              }
+            }),
+            spouseSocialSecurityNumber: _.merge(ssnUI, {
+              'ui:title': '',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `${spouseName.first} ${spouseName.last}’s Social Security number`)
+              }
+            }),
+            spouseIsVeteran: {
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `Is ${spouseName.first} ${spouseName.last} also a Veteran?`)
+              }
+            },
+            spouseVaFileNumber: {
+              'ui:title': 'What is their File Number?',
+              'ui:options': {
+                expandUnder: 'spouseIsVeteran'
+              },
+              'ui:required': form => form.spouseIsVeteran === true,
+              'ui:errorMessages': {
+                pattern: 'File number must be 8 digits'
+              }
+            },
+            liveWithSpouse: {
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                updateSchema: createSpouseLabelSelector(spouseName =>
+                  `Do you live with ${spouseName.first} ${spouseName.last}?`)
+              }
+            },
+            spouseAddress: _.merge(address.uiSchema('Spouse address', false, form => form.liveWithSpouse === false),
+              {
+                'ui:options': {
+                  expandUnder: 'liveWithSpouse',
+                  expandUnderCondition: false
+                }
+              }
+            ),
+            reasonForNotLivingWithSpouse: {
+              'ui:title': 'What is the reason you do not live with your spouse?',
+              'ui:required': form => form.liveWithSpouse === false,
+              'ui:options': {
+                expandUnder: 'liveWithSpouse',
+                expandUnderCondition: false
+              }
+            },
+            monthlySpousePayment: {
+              // TODO: bold contribute monthly
+              'ui:title': 'How much do you contribute monthly to your spouse’s support?',
+              'ui:required': form => form.liveWithSpouse === false,
+              'ui:options': {
+                expandUnder: 'liveWithSpouse',
+                expandUnderCondition: false
+              }
+            },
+            'view:spousePreviousMarried': {
+              'ui:title': 'Has your spouse been married before?',
+              'ui:widget': 'yesNo'
+            },
+            spouseMarriages: {
+              'ui:title': 'How many times has your spouse been married before? (Not including current marriage)',
+              'ui:widget': ArrayCountWidget,
+              'ui:field': 'StringField',
+              'ui:required': form => !!form['view:spousePreviousMarried'],
+              'ui:options': {
+                showFieldLabel: true,
+                keepInPageOnReview: true,
+                expandUnder: 'view:spousePreviousMarried',
+              },
+              'ui:errorMessages': {
+                required: 'You must enter at least 1 marriage'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'spouseDateOfBirth',
+              'spouseSocialSecurityNumber',
+              'view:spousePreviousMarried',
+              'spouseIsVeteran',
+              'liveWithSpouse'
+            ],
+            properties: {
+              spouseDateOfBirth,
+              spouseSocialSecurityNumber,
+              spouseIsVeteran,
+              spouseVaFileNumber,
+              liveWithSpouse,
+              spouseAddress: address.schema(fullSchemaPensions),
+              reasonForNotLivingWithSpouse,
+              monthlySpousePayment,
+              'view:spousePreviousMarried': {
+                type: 'boolean'
+              },
+              spouseMarriages: marriages
+            }
+          }
+        },
+        spouseMarriageHistory: {
+          title: (form, { pagePerItemIndex }) => getMarriageTitle(pagePerItemIndex),
+          path: 'household/spouse-marriages/:index',
+          depends: isMarried,
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriages',
+          uiSchema: {
+            spouseMarriages: {
+              items: {
+                'ui:title': MarriageTitle,
+                spouseFullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Their spouse’s first name'
+                  },
+                  last: {
+                    'ui:title': 'Their spouse’s last name'
+                  },
+                  middle: {
+                    'ui:title': 'Their spouse’s middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Their spouse’s suffix',
+                  }
+                }),
+                dateOfMarriage: _.merge(currentOrPastDateUI(''), {
+                  'ui:options': {
+                    updateSchema: createSpouseLabelSelector(spouseName =>
+                      `Date of ${spouseName.first} ${spouseName.last}’s marriage`)
+                  }
+                }),
+                locationOfMarriage: {
+                  'ui:options': {
+                    updateSchema: createSpouseLabelSelector(spouseName =>
+                      `Place of ${spouseName.first} ${spouseName.last}’s marriage`)
+                  }
+                },
+                marriageType: {
+                  'ui:title': 'Type of marriage',
+                  'ui:widget': 'radio'
+                },
+                otherExplanation: {
+                  'ui:title': 'Please specify',
+                  'ui:required': (form, index) => {
+                    return _.get(['spouseMarriages', index, 'marriageType'], form) === 'Other';
+                  },
+                  'ui:options': {
+                    expandUnder: 'marriageType',
+                    expandUnderCondition: 'Other'
+                  }
+                },
+                reasonForSeparation: {
+                  'ui:title': 'Why did the marriage end?',
+                  'ui:widget': 'radio'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              spouseMarriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: [
+                    'spouseFullName',
+                    'dateOfMarriage',
+                    'marriageType',
+                    'locationOfMarriage',
+                    'reasonForSeparation'
+                  ],
+                  properties: {
+                    dateOfMarriage: marriageProperties.dateOfMarriage,
+                    locationOfMarriage: marriageProperties.locationOfMarriage,
+                    spouseFullName: marriageProperties.spouseFullName,
+                    marriageType,
+                    otherExplanation: marriageProperties.otherExplanation,
+                    reasonForSeparation
                   }
                 }
               }
@@ -560,106 +794,79 @@ const formConfig = {
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
           title: 'Spouse net worth',
-          // TODO: Update with spouse check
-          depends: () => true,
+          depends: isMarried,
           initialData: {
           },
           schema: {
             type: 'object',
             properties: {
-              spouseNetWorth: netWorth
+              spouseNetWorth: _.assign(netWorth, {
+                required: [
+                  'bank',
+                  'interestBank',
+                  'ira',
+                  'stocks',
+                  'realProperty',
+                  'otherProperty'
+                ]
+              })
             }
           },
           uiSchema: {
             'ui:title': createDisclosureTitle('spouseFullName', 'Net worth'),
             'ui:description': 'Bank accounts, investments, and property',
-            spouseNetWorth: _.merge(netWorthUI, {
-              // TODO Update with spouse check
-              bank: {
-                'ui:required': () => true
-              },
-              interestBank: {
-                'ui:required': () => true
-              },
-              ira: {
-                'ui:required': () => true
-              },
-              stocks: {
-                'ui:required': () => true
-              },
-              realProperty: {
-                'ui:required': () => true
-              },
-              otherProperty: {
-                'ui:required': () => true
-              }
-            })
+            spouseNetWorth: netWorthUI
           }
         },
         spouseMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/spouse',
           title: 'Spouse monthly income',
-          depends: () => true,
+          depends: isMarried,
           initialData: {
           },
           schema: {
             type: 'object',
             properties: {
-              spouseMonthlyIncome: monthlyIncome
+              spouseMonthlyIncome: _.assign(monthlyIncome, {
+                required: [
+                  'socialSecurity',
+                  'civilService',
+                  'railroad',
+                  'blackLung',
+                  'serviceRetirement',
+                  'ssi'
+                ]
+              })
             }
           },
           uiSchema: {
             'ui:title': createDisclosureTitle('spouseFullName', 'Monthly income'),
             'ui:description': 'Social Security or other pensions',
-            spouseMonthlyIncome: _.merge(monthlyIncomeUI, {
-              // TODO Update with spouse check
-              socialSecurity: {
-                'ui:required': () => true
-              },
-              civilService: {
-                'ui:required': () => true
-              },
-              railroad: {
-                'ui:required': () => true
-              },
-              blackLung: {
-                'ui:required': () => true
-              },
-              serviceRetirement: {
-                'ui:required': () => true
-              },
-              ssi: {
-                'ui:required': () => true
-              }
-            })
+            spouseMonthlyIncome: monthlyIncomeUI
           }
         },
         spouseExpectedIncome: {
           path: 'financial-disclosure/expected-income/spouse',
           title: 'Spouse expected income',
-          depends: () => true,
+          depends: isMarried,
           initialData: {
           },
           schema: {
             type: 'object',
             properties: {
-              spouseExpectedIncome: expectedIncome
+              spouseExpectedIncome: _.assign(expectedIncome, {
+                required: [
+                  'salary',
+                  'interest',
+                  'other'
+                ]
+              })
             }
           },
           uiSchema: {
             'ui:title': createDisclosureTitle('spouseFullName', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
-            spouseExpectedIncome: _.merge(expectedIncomeUI, {
-              salary: {
-                'ui:required': () => true
-              },
-              interest: {
-                'ui:required': () => true
-              },
-              other: {
-                'ui:required': () => true
-              }
-            })
+            spouseExpectedIncome: expectedIncomeUI
           }
         },
         dependentsNetWorth: {
