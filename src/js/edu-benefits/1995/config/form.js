@@ -7,6 +7,7 @@ import {
 } from '../helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -15,7 +16,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from '../../pages/applicantInformation';
+import createApplicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';
@@ -41,6 +42,9 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
+  formId: '1995',
+  version: 0,
+  disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -50,8 +54,9 @@ const formConfig = {
     date,
     dateRange
   },
-  title: 'Update your Education Benefits',
+  title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

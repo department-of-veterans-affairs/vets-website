@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, handleLogin, getLoginUrl } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -41,13 +41,7 @@ class Main extends React.Component {
   }
 
   getLoginUrl() {
-    this.loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
-      method: 'GET',
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.props.onUpdateLoginUrl(json.authenticate_via_get);
-    });
+    this.loginUrlRequest = getLoginUrl(this.props.onUpdateLoginUrl);
   }
 
   getVerifyUrl() {
@@ -81,14 +75,7 @@ class Main extends React.Component {
   }
 
   handleLogin() {
-    window.dataLayer.push({ event: 'login-link-clicked' });
-    const myLoginUrl = this.props.login.loginUrl;
-    if (myLoginUrl) {
-      window.dataLayer.push({ event: 'login-link-opened' });
-      const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-      this.getLoginUrl();
-    }
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrl, this.props.onUpdateLoginUrl);
   }
 
   handleSignup() {
@@ -167,5 +154,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 export { Main };

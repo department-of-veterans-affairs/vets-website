@@ -154,17 +154,18 @@
 }
 
 #messaging-content-header {
-  h2 {
+  h3 {
+    font-size: 2rem;
     padding: 0 !important;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     align-items: center;
     background: $color-gray-lightest;
     display: flex;
     position: relative;
 
-    h2 {
+    h3 {
       flex: 1;
       line-height: inherit !important;
       overflow: hidden;
@@ -177,7 +178,7 @@
     &.messaging-folder-header {
       margin: 0;
 
-      h2 {
+      h3 {
         max-width: 65%;
       }
     }

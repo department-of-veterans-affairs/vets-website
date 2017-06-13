@@ -16,8 +16,17 @@ import { SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED
+  SET_SUBMITTED,
 } from '../actions';
+
+import {
+  SET_SAVE_FORM_STATUS,
+  SET_FETCH_FORM_STATUS,
+  SET_IN_PROGRESS_FORM,
+  LOAD_DATA_INTO_FORM,
+  SAVE_STATUSES,
+  LOAD_STATUSES
+} from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
   return Object.keys(initialState.pages)
@@ -39,6 +48,16 @@ function recalculateSchemaAndData(initialState) {
         newState = _.set(['pages', pageKey, 'schema'], schema, newState);
       }
 
+      if (page.showPagePerItem) {
+        const arrayData = _.get(page.arrayPath, newState.data) || [];
+        // If an item was added or removed for the data used by a showPagePerItem page,
+        // we have to reset everything because we can't match the edit states to rows directly
+        // This will rarely ever be noticeable
+        if (page.editMode.length !== arrayData.length) {
+          newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+        }
+      }
+
       return newState;
     }, initialState);
 }
@@ -53,18 +72,22 @@ export default function createSchemaFormReducer(formConfig) {
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
       schema = updateItemsSchema(schema);
+      const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
-      return _.merge(state, {
-        pages: {
-          [page.pageKey]: {
-            uiSchema: page.uiSchema,
-            schema,
-            editMode: false
-          }
-        },
-        data
-      });
+      /* eslint-disable no-param-reassign */
+      state.pages[page.pageKey] = {
+        uiSchema: page.uiSchema,
+        schema,
+        editMode: isArrayPage ? [] : false,
+        showPagePerItem: page.showPagePerItem,
+        arrayPath: page.arrayPath
+      };
+
+      state.data = _.merge(state.data, data);
+      /* eslint-enable no-param-reassign */
+
+      return state;
     }, {
       data: {
         privacyAgreementAccepted: false,
@@ -76,7 +99,14 @@ export default function createSchemaFormReducer(formConfig) {
         id: false,
         timestamp: false,
         hasAttemptedSubmit: false
-      }
+      },
+      savedStatus: SAVE_STATUSES.notAttempted,
+      loadedStatus: LOAD_STATUSES.notAttempted,
+      version: formConfig.version,
+      formId: formConfig.formId,
+      disableSave: formConfig.disableSave,
+      // loadedData: undefined
+      migrations: formConfig.migrations
     });
 
   // Take another pass and recalculate the schema and data based on the default data
@@ -91,6 +121,9 @@ export default function createSchemaFormReducer(formConfig) {
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
+        if (state.pages[action.page].showPagePerItem) {
+          return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
+        }
         return _.set(['pages', action.page, 'editMode'], action.edit, state);
       }
       case SET_PRIVACY_AGREEMENT: {
@@ -106,6 +139,24 @@ export default function createSchemaFormReducer(formConfig) {
         });
 
         return _.set('submission', submission, state);
+      }
+      case SET_SAVE_FORM_STATUS: {
+        return _.set('savedStatus', action.status, state);
+      }
+      case SET_FETCH_FORM_STATUS: {
+        return _.set('loadedStatus', action.status, state);
+      }
+      case SET_IN_PROGRESS_FORM: {
+        const newState = _.set('loadedData', action.data, state);
+        newState.loadedStatus = LOAD_STATUSES.success;
+
+        return newState;
+      }
+      case LOAD_DATA_INTO_FORM: {
+        // Mirrors SET_DATA, but uses state.loadedData
+        const newState = _.set('data', state.loadedData.formData, state);
+
+        return recalculateSchemaAndData(newState);
       }
       default:
         return state;

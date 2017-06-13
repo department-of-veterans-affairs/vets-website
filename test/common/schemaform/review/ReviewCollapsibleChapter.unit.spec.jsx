@@ -82,6 +82,95 @@ describe('<ReviewCollapsibleChapter>', () => {
     expect(onEdit.calledWith('test', true)).to.be.true;
   });
 
+  it('should handle editing array page', () => {
+    const onEdit = sinon.spy();
+    const pages = [{
+      title: '',
+      pageKey: 'test'
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          title: '',
+          schema: {
+            properties: {}
+          },
+          editMode: [false],
+        }
+      },
+      data: {
+        testing: [{}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          onEdit={onEdit}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          form={form}/>
+    );
+
+    tree.getMountedInstance().handleEdit('test', true, 0);
+
+    expect(onEdit.calledWith('test', true, 0)).to.be.true;
+  });
+
+  it('should display a page for each item for an array page', () => {
+    const onEdit = sinon.spy();
+    const pages = [{
+      title: '',
+      pageKey: 'test',
+      showPagePerItem: true,
+      arrayPath: 'testing',
+      path: 'path/:index'
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          title: '',
+          schema: {
+            properties: {
+              testing: {
+                items: [{}, {}]
+              }
+            }
+          },
+          uiSchema: {
+            testing: {
+              items: {}
+            }
+          },
+          editMode: [false, false],
+        }
+      },
+      data: {
+        testing: [{}, {}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          onEdit={onEdit}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          form={form}/>
+    );
+
+    tree.getMountedInstance().toggleChapter();
+    expect(tree.everySubTree('.form-review-panel-page').length).to.equal(2);
+  });
+
   it('should not display conditional pages with unfulfilled conditions', () => {
     const pages = [{
       pageKey: 'test1',

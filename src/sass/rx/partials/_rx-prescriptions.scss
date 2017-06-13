@@ -7,7 +7,7 @@
   margin-top: 2rem;
 }
 
-.rx-prescription {
+.rx-prescription-card {
   border-color: $color-white;
   border-style: solid;
   border-width: 1rem 0;
@@ -41,7 +41,6 @@
 .rx-prescription-title {
   color: $color-primary;
   font-size: 1.4em;
-  line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -127,8 +126,11 @@ button.rx-prescription-button,
   text-align: right;
 }
 
-table .rx-prescription-status {
-  text-align: left;
+table {
+  .rx-prescription-status,
+  .rx-call-provider {
+    text-align: left;
+  }
 }
 
 .rx-prescription-refill-requested {
@@ -173,7 +175,7 @@ table .rx-prescription-status {
     text-indent: 0;
   }
 
-  .rx-prescription {
+  .rx-prescription-card {
     float: left;
     width: 50%;
   }
