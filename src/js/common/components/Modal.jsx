@@ -78,7 +78,7 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={modalCss} id={id} role="alertdialog" aria-labelledby={id && title ? `${id}-title` : undefined}>
+      <div className={modalCss} id={id} role="alertdialog" aria-labelledby={`${id}-title`}>
         <div className="va-modal-inner">
           {modalTitle}
           {closeButton}
