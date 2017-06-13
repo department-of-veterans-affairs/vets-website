@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 3
 relatedlinks:
-  - heading:
+  - heading: Related conditions you may want to learn about
     links:
     - url: /healthcare/health-conditions/military-sexual-trauma/
       title: Military Sexual Trauma (MST)
