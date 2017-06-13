@@ -11,7 +11,7 @@ relatedlinks:
     links:
     - url: /disability-benefits/
       title: Disability Benefits
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.     
 ---
 
 <div class="va-introtext">
@@ -196,16 +196,3 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-
-------
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
-
-**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
