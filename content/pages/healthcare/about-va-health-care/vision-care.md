@@ -8,7 +8,7 @@ lastupdate_override:
 children: healthcareCoverageVision
 order: 5
 relatedlinks:
-  - heading:
+  - heading: Related benefits you may qualify for
     links:
     - url: /disability-benefits/
       title: Disability Benefits
