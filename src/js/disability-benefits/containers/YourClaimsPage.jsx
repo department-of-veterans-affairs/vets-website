@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -40,6 +40,7 @@ class YourClaimsPage extends React.Component {
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
     this.props.getClaims(this.getFilter(this.props));
+    this.props.getAppeals(this.getFilter(this.props));
     if (this.props.loading) {
       scrollToTop();
     } else {
@@ -148,7 +149,7 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claims.list === null,
     claims: claimsState.claims.visibleRows,
-    unfilteredClaims: claimsState.claims.list,
+    unfilteredClaims: claimsState.claims.claims,
     page: claimsState.claims.page,
     pages: claimsState.claims.pages,
     sortProperty: claimsState.claims.sortProperty,
@@ -159,6 +160,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  getAppeals,
   getClaims,
   filterClaims,
   changePage,

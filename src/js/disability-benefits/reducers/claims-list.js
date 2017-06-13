@@ -1,12 +1,13 @@
 import _ from 'lodash/fp';
 
-import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../actions';
+import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../actions';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
 
 const initialState = {
-  list: null,
+  claims: null,
+  appeals: null,
   visibleList: [],
   visibleRows: [],
   page: 1,
@@ -69,16 +70,26 @@ function getTotalPages(list) {
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
-      const visibleList = sortList(filterList(action.claims, action.filter), state.sortProperty);
+      const visibleList = sortList(filterList(state.appeals.concat(action.claims), action.filter), state.sortProperty);
       return _.assign(state, {
-        list: action.claims,
+        claims: action.claims,
+        visibleList,
+        visibleRows: getVisibleRows(visibleList, state.page),
+        pages: getTotalPages(visibleList)
+      });
+    }
+    case SET_APPEALS: {
+      const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
+      const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);
+      return _.assign(state, {
+        appeals: action.appeals,
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
         pages: getTotalPages(visibleList)
       });
     }
     case FILTER_CLAIMS: {
-      const visibleList = sortList(filterList(state.list, action.filter), state.sortProperty);
+      const visibleList = sortList(filterList(state.appeals.concat(state.claims), action.filter), state.sortProperty);
       return _.assign(state, {
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),

@@ -2,15 +2,19 @@ import environment from '../../common/helpers/environment';
 import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
+export const SET_APPEALS = 'SET_APPEALS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
+export const GET_APPEALS_DETAIL = 'GET_APPEALS_DETAIL';
+export const SET_APPEALS_DETAIL = 'SET_APPEALS_DETAIL';
 export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
-export const SET_UNAVAILABLE = 'SET_UNAVAILABLE';
+export const SET_CLAIMS_UNAVAILABLE = 'SET_CLAIMS_UNAVAILABLE';
+export const SET_APPEALS_UNAVAILABLE = 'SET_APPEALS_UNAVAILABLE';
 export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
@@ -46,7 +50,20 @@ export function getClaims(filter) {
       claims => {
         dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
       },
-      () => dispatch({ type: SET_UNAVAILABLE })
+      () => dispatch({ type: SET_CLAIMS_UNAVAILABLE })
+    );
+  };
+}
+
+export function getAppeals(filter) {
+  return (dispatch) => {
+    makeAuthRequest('/v0/appeals',
+      null,
+      dispatch,
+      appeals => {
+        dispatch({ type: SET_APPEALS, filter, appeals: appeals.data });
+      },
+      () => dispatch({ type: SET_APPEALS_UNAVAILABLE })
     );
   };
 }
@@ -73,7 +90,7 @@ export function changePage(page) {
 
 export function setUnavailable() {
   return {
-    type: SET_UNAVAILABLE
+    type: SET_CLAIMS_UNAVAILABLE
   };
 }
 
@@ -88,7 +105,7 @@ export function getClaimDetail(id, router) {
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
       resp => {
         if (resp.status !== 404 || !router) {
-          dispatch({ type: SET_UNAVAILABLE });
+          dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         } else {
           router.replace('your-claims');
         }
