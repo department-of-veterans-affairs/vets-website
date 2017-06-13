@@ -87,10 +87,10 @@ If you're a **current member of the National Guard or Reserves**, and have **nev
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-ng">Discharged member of the National Guard, and were never activated</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-ng">Discharged member of the National Guard who was never activated</button>
 <div id="apply-coe-discharged-ng" class="usa-accordion-content">
 
-If you're a **discharged member of the National Guard**, and were **never activated**, you'll need:
+If you are a **discharged member of the National Guard** and were **never activated**, you'll need:
 
 - Your NGB Form 22 (Report of Separation and Record of Service) for each period of National Guard service, **or**
 - Your NGB Form 23 (Retirement Points Statement) and proof of the character of service
@@ -98,10 +98,10 @@ If you're a **discharged member of the National Guard**, and were **never activa
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves and were never activated</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves who was never activated</button>
 <div id="apply-coe-discharged-reserves" class="usa-accordion-content">
 
-If you're a **discharged member of the Reserves** and were **never activated**, you'll need:
+If you are a **discharged member of the Reserves** and were **never activated**, you'll need:
 
 - A copy of your latest annual retirement points, **and**
 - Proof of your honorable service
@@ -112,14 +112,14 @@ If you're a **discharged member of the Reserves** and were **never activated**, 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-survivor">Surviving spouse of a Veteran who died on active duty or who had a service-connected disability</button>
 <div id="apply-coe-survivor" class="usa-accordion-content">
 
-If you're the **surviving spouse** of a Veteran who died on active duty or who had a service-connected disability, you'll need:
-
-- The Veteran’s discharge documents (DD214), **and**
-- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf).
+If you're the **surviving spouse** of a Veteran who died on active duty or who had a service-connected disability, you'll need the Veteran’s discharge documents (DD214), **and**
+- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
   - A copy of your marriage license, **and**
   - The Veteran's death certificate
+  
   <br>
+  
   [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). <br>
   [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
@@ -141,7 +141,7 @@ You can apply in 1 of 3 ways:
 **Online through eBenefits** <br>
 We recommend applying for your COE online.
 
-<a class="usa-button-primary va-button-primary" href="http://www.ebenefits.va.gov/">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">Go to eBenefits to Apply</a>
 
 **Through our Web LGY system** <br>
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
