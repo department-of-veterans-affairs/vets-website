@@ -2543,7 +2543,7 @@ enhanced-resolve@^0.7.6:
     memory-fs "~0.1.0"
     tapable "0.1.x"
 
-enhanced-resolve@^3.0.0, enhanced-resolve@^3.1.0:
+enhanced-resolve@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-3.1.0.tgz#9f4b626f577245edcf4b2ad83d86e17f4f421dec"
   dependencies:
@@ -5358,7 +5358,7 @@ metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
   resolved "https://codeload.github.com/department-of-veterans-affairs/metalsmith-webpack/tar.gz/6130e9bccbf6f558f58041f63f07382d049f66bf"
   dependencies:
-    enhanced-resolve "^3.1.0"
+    enhanced-resolve "^0.7.6"
     webpack "^2.4.1"
 
 metalsmith@^1.7.0:
@@ -8300,9 +8300,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#cbf601bf30e18bcb143299a41de6e84f36608540":
-  version "3.0.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#cbf601bf30e18bcb143299a41de6e84f36608540"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#b8e75446ba6f66d45b8bc72290caca4b7e9ff9e0":
+  version "3.0.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b8e75446ba6f66d45b8bc72290caca4b7e9ff9e0"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"
