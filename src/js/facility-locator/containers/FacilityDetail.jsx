@@ -10,6 +10,7 @@ import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
+import { facilityTypes } from '../config';
 
 class FacilityDetail extends Component {
   componentWillMount() {
@@ -37,14 +38,6 @@ class FacilityDetail extends Component {
   renderFacilityInfo() {
     const { facility } = this.props;
     const { name, facility_type: facilityType } = facility.attributes;
-
-    /* eslint-disable camelcase */
-    const facilityTypes = {
-      va_health_facility: 'Health',
-      va_cemetery: 'Cemetery',
-      va_benefits_facility: 'Benefits',
-    };
-    /* eslint-enable camelcase */
 
     return (
       <div>

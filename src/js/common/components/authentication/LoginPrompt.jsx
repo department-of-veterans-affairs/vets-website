@@ -36,7 +36,7 @@ class LoginPrompt extends React.Component {
     return (
       <div className="row primary">
         <div className="medium-12 small-12 columns">
-          <div className="react-conatiner">
+          <div className="react-container">
             <h1>Sign In to Your Vets.gov Account</h1>
             <p>Vets.gov is a new VA website offering online services for Veterans.</p>
             <p>Sign in to:</p>

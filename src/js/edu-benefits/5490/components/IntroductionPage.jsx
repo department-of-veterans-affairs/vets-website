@@ -31,9 +31,10 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <span>You won’t be able to save your work or come back to finish. So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
+                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
+              <br/>
               <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
               <h6>Learn about educational programs</h6>
               <ul>
@@ -41,7 +42,7 @@ class IntroductionPage extends React.Component {
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for benefits</h5></div>
+              <div><h5>Apply for Benefits</h5></div>
               <p>Complete this form.</p>
             </li>
             <li className="process-step list-three">

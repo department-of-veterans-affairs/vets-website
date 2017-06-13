@@ -43,7 +43,10 @@ export function savePreferences(preferences) {
     apiRequest(
       baseUrl,
       settings,
-      () => dispatch({ type: SM_SAVE_PREFERENCES_SUCCESS }),
+      response => dispatch({
+        type: SM_SAVE_PREFERENCES_SUCCESS,
+        preferences: response.data.attributes
+      }),
       response => dispatch({
         type: SM_SAVE_PREFERENCES_FAILURE,
         errors: response.errors

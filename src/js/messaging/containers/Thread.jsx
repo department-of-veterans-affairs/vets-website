@@ -391,7 +391,7 @@ export class Thread extends React.Component {
                 onClick={this.props.toggleThreadForm}>
               Cancel
             </a>
-            <h2>{isNewMessage ? 'Edit draft' : 'Reply'}</h2>
+            <h3>{isNewMessage ? 'Edit draft' : 'Reply'}</h3>
             <button
                 className="messaging-send-button"
                 type="button"

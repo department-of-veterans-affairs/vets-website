@@ -12,6 +12,7 @@ export class KeywordSearch extends React.Component {
     this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
 
     this.handleFetchSuggestion = debounce(
       this.handleFetchSuggestion.bind(this),
@@ -61,6 +62,10 @@ export class KeywordSearch extends React.Component {
     return checkLength && finished;
   }
 
+  handleInputBlur() {
+    this.props.onFilterChange('name', this.props.autocomplete.searchTerm);
+  }
+
   renderSuggestion(suggestion) {
     return <div>{suggestion.label}</div>;
   }
@@ -90,6 +95,7 @@ export class KeywordSearch extends React.Component {
               onChange: this.handleChange,
               onKeyUp: this.handleKeyUp,
               'aria-labelledby': 'institution-search-label',
+              onBlur: this.handleInputBlur,
             }}/>
       </div>
     );
