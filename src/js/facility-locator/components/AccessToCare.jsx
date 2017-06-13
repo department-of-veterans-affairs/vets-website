@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { isEmpty, compact } from 'lodash';
+import moment from 'moment';
 
 import StatsBar from './StatsBar';
 
@@ -41,7 +42,7 @@ export default class AccessToCare extends Component {
       <div className="mb2">
         <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
         <div className="mb2">
-          <p>Current as of <strong>{healthFeedbackAttrs.effectiveDateRange}</strong></p>
+          <p>Current as of <strong>{moment(healthFeedbackAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM Do, YYYY')}</strong></p>
           <p>Veteran-reported satisfaction scores come from the Consumer Assessment of Health and Systems survey.</p>
           <h4>Urgent care appointments</h4>
           <p>% of Veterans who say they usually or always get an appointment when they need care right away</p>
