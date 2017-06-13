@@ -53,6 +53,8 @@ class FormPage extends React.Component {
     focusForm();
   }
 
+  // A successful form save will mean we go from pending to success,
+  // and we need to redirect
   componentWillReceiveProps(newProps) {
     if (this.props.form.savedStatus === SAVE_STATUSES.pending && newProps.form.savedStatus === SAVE_STATUSES.success) {
       this.props.router.push(`${newProps.urlPrefix || ''}form-saved`);

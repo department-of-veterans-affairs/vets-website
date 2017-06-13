@@ -144,6 +144,7 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_SAVE_FORM_STATUS: {
         const newState = _.set('savedStatus', action.status, state);
 
+        // This is the only time we have a saved datetime
         if (action.status === SAVE_STATUSES.success) {
           return _.set('lastSavedDate', action.lastSavedDate, newState);
         }
