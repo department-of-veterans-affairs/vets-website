@@ -46,8 +46,7 @@ We consider these illnesses to be presumed disabilities:
 - Shigella
 - West Nile Virus
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
-
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/). <br>
 [Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
 
