@@ -64,7 +64,7 @@ You’ll need to apply for a grant. You can apply in 1 of 3 ways:
 
 #### Apply online
 
-Apply through eBenefits. [Go to eBenefits.va.gov]( https://www.ebenefits.va.gov/ebenefits/homepage). 
+Apply through eBenefits. [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage). 
 
 #### Apply by mail
 
