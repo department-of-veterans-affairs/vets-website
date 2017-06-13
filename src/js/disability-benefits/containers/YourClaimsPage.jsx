@@ -145,6 +145,7 @@ class YourClaimsPage extends React.Component {
                 onClose={() => true}
                 visible={this.props.consolidatedModal}
                 hideCloseButton
+                id="consolidated-claims"
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
