@@ -30,7 +30,7 @@ class SearchControls extends Component {
   handleFilterChange = (e) => {
     const { facilityType } = this.props.currentQuery;
 
-    if (facilityType === 'benefits' && e.target.value === 'All') {
+    if (facilityType === 'va_benefits_facility' && e.target.value === 'All') {
       this.props.updateSearchQuery({
         [e.target.name]: null,
       });
@@ -44,7 +44,7 @@ class SearchControls extends Component {
   handleServiceFilterSelect(serviceType) {
     const { facilityType } = this.props.currentQuery;
 
-    if (facilityType === 'benefits' && serviceType === 'All') {
+    if (facilityType === 'va_benefits_facility' && serviceType === 'All') {
       this.props.updateSearchQuery({
         serviceType: null,
       });
@@ -77,7 +77,7 @@ class SearchControls extends Component {
 
   toggleServiceDropdown() {
     const { currentQuery: { facilityType } } = this.props;
-    if (facilityType === 'benefits') {
+    if (facilityType === 'va_benefits_facility') {
       this.setState({
         serviceDropdownActive: !this.state.serviceDropdownActive,
         facilityDropdownActive: false,
@@ -87,7 +87,7 @@ class SearchControls extends Component {
 
   handleFacilityFilterSelect(facilityType) {
     return () => {
-      if (facilityType === 'benefits') {
+      if (facilityType === 'va_benefits_facility') {
         this.props.updateSearchQuery({
           facilityType,
         });
@@ -204,7 +204,7 @@ class SearchControls extends Component {
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'benefits' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
+            <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'va_benefits_facility' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
                 {this.renderServiceSelectOption(currentQuery.serviceType)}
               </div>

@@ -375,8 +375,9 @@
         opacity: 0;
         pointer-events: none;
         z-index: 1010;
-        max-height: 50vh;
+        max-height: 70vh;
         overflow-y: auto;
+        border-bottom: solid thin $color-black;
 
         li {
           color: $color-black;
