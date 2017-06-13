@@ -19,20 +19,20 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 
 **Example:**
 You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
-
+<br>
 Your MAPR amount = $25,525 <br>
 Your yearly income = $10,000 <br>
 Your VA pension = $15,525 for the year (or $1,293 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
 
-*Date of Cost-of-Living Increase: December 1, 2016*
-*Increase Factor: .3%*
+*Date of Cost-of-Living Increase: December 1, 2016* <br>
+*Increase Factor: .3%* <br>
 *Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
 #### For Veterans with no dependents:
 
-| **If you have no dependents and…** | **Your MARP amount is:** | 
+| **If you have no dependents and…** | **Your MAPR amount is:** | 
 | --- | --- | 
 | You don’t qualify for Housebound or A&A benefits | $12,907 |
 | You qualify for Housebound benefits | $15,773 | 
@@ -56,13 +56,13 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 
 #### For 2 Veterans who are married to each other:
 
-| **If you're 2 Veterans who are married to each other and:** | **Your MARP amount is:** |
+| **If you're 2 Veterans who are married to each other and:** | **Your MAPR amount is:** |
 | --- | --- | 
 | Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
 | 1 of you qualifies for Housebound benefits | $19,770 | 
 | Both of you qualify for Housebound benefits | $22,634 | 
 | 1 of you qualifies for A&A benefits | $25,525 | 
-| 1 of you qualifies for Housebound benefits **and** 1 of you qualifies for A&A benefits | $28,385 | 
+| 1 of you qualifies for Housebound benefits and 1 of you qualifies for A&A benefits | $28,385 | 
 | Both of you qualify for A&A benefits | $34,153 | 
 
 **Note:**
