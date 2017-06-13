@@ -8,7 +8,7 @@ order: 2
 
 <div class="va-introtext">
 
-You can apply in person or by mail for VA pension benefits. Follow these steps to apply for this tax-free benefit.
+You can apply in person or by mail for Veterans pension benefits. Follow these steps to apply for this tax-free benefit.
 
 </div>
 
