@@ -8,8 +8,7 @@ import { formatDateShort, formatDateLong } from '../utils/helpers';
 
 class EnrollmentHistory extends React.Component {
   render() {
-    const { enrollmentData } = this.props || {};
-    const today = formatDateShort(new Date());
+    const enrollmentData = this.props.enrollmentData || {};
 
     // TODO: find out when this warning should be shown.
     const expirationWarning = (
@@ -41,8 +40,6 @@ class EnrollmentHistory extends React.Component {
     return (
       <div>
         <h3 className="section-header">Enrollment History</h3>
-        {/* Find out if this line should be present if the blue box with same info is rendered */}
-        <div className="section-line">This information is current as of {today}</div>
         <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
         <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
         <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>

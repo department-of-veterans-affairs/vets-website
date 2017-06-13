@@ -7,6 +7,7 @@ import {
 } from '../helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -55,6 +56,7 @@ const formConfig = {
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

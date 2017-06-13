@@ -6,9 +6,10 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription } from '../helpers';
+import { transform, employmentDescription, getMarriageTitle } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
+import MarriageTitle from '../components/MarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
 import EmploymentField from '../components/EmploymentField';
@@ -18,9 +19,11 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import dateUI from '../../common/schemaform/definitions/date';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 
 const {
   nationalGuardActivation,
@@ -31,7 +34,7 @@ const {
   jobs,
   placeOfSeparation,
   powDateRange,
-  severancePay
+  severancePay,
 } = fullSchemaPensions.properties;
 
 const {
@@ -41,12 +44,22 @@ const {
   date,
   monthlyIncome,
   netWorth,
+  maritalStatus,
+  marriages,
   expectedIncome
 } = fullSchemaPensions.definitions;
 
 function isUnder65(formData) {
   return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
 }
+
+function isCurrentMarriage(form, index) {
+  const status = form ? form.maritalStatus : undefined;
+  const numMarriages = form && form.marriages ? form.marriages.length : 0;
+  return status === 'Married' && numMarriages - 1 === index;
+}
+
+const marriageProperties = marriages.items.properties;
 
 const formConfig = {
   urlPrefix: '/527EZ/',
@@ -55,6 +68,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  disableSave: true,
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
@@ -328,6 +342,153 @@ const formConfig = {
                     address: address.schema(fullSchemaPensions, true),
                     dateRange: _.set('required', ['to', 'from'], dateRange)
                   })
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    householdInformation: {
+      title: 'Household Information',
+      pages: {
+        marriageInfo: {
+          title: 'Marriage history',
+          path: 'household/marriage-info',
+          uiSchema: {
+            maritalStatus: {
+              'ui:title': 'Have you ever been married?',
+              'ui:widget': 'radio'
+            },
+            marriages: {
+              'ui:title': 'How many times have you been married?',
+              'ui:widget': ArrayCountWidget,
+              'ui:field': 'StringField',
+              'ui:required': (form) => !!_.get('maritalStatus', form)
+                  && form.maritalStatus !== 'Never Married',
+              'ui:options': {
+                showFieldLabel: true,
+                keepInPageOnReview: true,
+                expandUnder: 'maritalStatus',
+                expandUnderCondition: (status) => !!status
+                  && status !== 'Never Married'
+              },
+              'ui:errorMessages': {
+                required: 'You must enter at least 1 marriage'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['maritalStatus'],
+            properties: {
+              maritalStatus,
+              marriages
+            }
+          }
+        },
+        marriageHistory: {
+          title: (form, { pagePerItemIndex }) => getMarriageTitle(pagePerItemIndex),
+          path: 'household/marriages/:index',
+          showPagePerItem: true,
+          arrayPath: 'marriages',
+          uiSchema: {
+            marriages: {
+              items: {
+                'ui:title': MarriageTitle,
+                spouseFullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Spouse first name'
+                  },
+                  last: {
+                    'ui:title': 'Spouse last name'
+                  },
+                  middle: {
+                    'ui:title': 'Spouse middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Spouse suffix',
+                  }
+                }),
+                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+                locationOfMarriage: {
+                  'ui:title': 'Place of marriage'
+                },
+                marriageType: {
+                  'ui:title': 'Type of marriage',
+                  'ui:widget': 'radio'
+                },
+                otherExplanation: {
+                  'ui:title': 'Please specify',
+                  'ui:required': (form, index) => {
+                    return _.get(['marriages', index, 'marriageType'], form) === 'Other';
+                  },
+                  'ui:options': {
+                    expandUnder: 'marriageType',
+                    expandUnderCondition: 'Other'
+                  }
+                },
+                'view:pastMarriage': {
+                  'ui:options': {
+                    hideIf: isCurrentMarriage
+                  },
+                  reasonForSeparation: {
+                    'ui:title': 'How did marriage end?',
+                    'ui:widget': 'radio',
+                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                  },
+                  dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
+                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                  }),
+                  locationOfSeparation: {
+                    'ui:title': 'Place marriage ended',
+                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              marriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: [
+                    'spouseFullName',
+                    'dateOfMarriage',
+                    'locationOfMarriage',
+                    'marriageType'
+                  ],
+                  properties: {
+                    spouseFullName: marriageProperties.spouseFullName,
+                    dateOfMarriage: marriageProperties.dateOfMarriage,
+                    locationOfMarriage: marriageProperties.locationOfMarriage,
+                    marriageType: _.assign(marriageProperties.marriageType, {
+                      'enum': [
+                        'Ceremonial',
+                        'Common-law',
+                        'Proxy',
+                        'Tribal',
+                        'Other'
+                      ]
+                    }),
+                    otherExplanation: marriageProperties.otherExplanation,
+                    'view:pastMarriage': {
+                      type: 'object',
+                      properties: {
+                        reasonForSeparation: _.assign(marriageProperties.reasonForSeparation, {
+                          'enum': [
+                            'Widowed',
+                            'Divorced'
+                          ]
+                        }),
+                        dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfSeparation: marriageProperties.locationOfSeparation
+                      }
+                    }
+                  }
                 }
               }
             }

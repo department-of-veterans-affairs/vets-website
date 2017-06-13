@@ -9,8 +9,7 @@ export default function createDisclosureTitle(path, title) {
         <h4 className="pensions-disclosure-name">{first} {last}</h4>
         <legend
             className="schemaform-block-title pensions-disclosure-title"
-            id={id}
-            tabIndex="-1">
+            id={id}>
           {title}
         </legend>
       </div>
