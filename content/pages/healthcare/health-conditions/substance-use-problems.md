@@ -6,7 +6,7 @@ display_title:
 concurrence: 
 order: 6
 relatedlinks:
-  - heading:
+  - heading: Related conditions you may want to learn about
     links:
     - url: /healthcare/health-conditions/mental-health/ptsd/
       title: Posttraumatic Stress Disorder (PTSD)
