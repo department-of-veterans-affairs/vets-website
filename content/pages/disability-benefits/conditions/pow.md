@@ -28,6 +28,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
 
+<br>
+
 #### For former POWs held captive for any length of time
 
 **Conditions that affect your body, including:**
