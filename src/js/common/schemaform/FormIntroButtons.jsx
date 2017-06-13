@@ -11,6 +11,8 @@ class FormIntroButtons extends React.Component {
     // Load the form data into the redux store if possible
     // NOTE: This does not fill the data into the form yet; just grabs it and
     //  saves it for later (when we want to fill in the blanks).
+    // TODO: Probably should wrap this in
+    // if (this.props.loggedIn) { ... }
     this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
   }
 
@@ -20,7 +22,7 @@ class FormIntroButtons extends React.Component {
     let wasLoggedIn;
     let isLoggedIn;
     try {
-      wasLoggedIn = this.props.user.login.currentlyLoggedIn;
+      wasLoggedIn = this.props.loggedIn;
     } catch (e) {
       if (e instanceof TypeError) {
         // Probably couldn't read a property somewhere along the way
@@ -28,7 +30,7 @@ class FormIntroButtons extends React.Component {
       }
     }
     try {
-      isLoggedIn = newProps.user.login.currentlyLoggedIn;
+      isLoggedIn = newProps.loggedIn;
     } catch (e) {
       if (e instanceof TypeError) {
         isLoggedIn = false;

@@ -8,6 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
@@ -41,6 +42,7 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 
 const childSchema = createChildSchema(fullSchemaHca);
 const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
+const emptyFacilityList = [];
 
 const {
   mothersMaidenName,
@@ -123,6 +125,7 @@ const formConfig = {
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10ez',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     provider,
@@ -804,12 +807,12 @@ const formConfig = {
                     const state = _.get('view:preferredFacility.view:facilityState', form);
                     if (state) {
                       return {
-                        'enum': medicalCentersByState[state]
+                        'enum': medicalCentersByState[state] || emptyFacilityList
                       };
                     }
 
                     return {
-                      'enum': []
+                      'enum': emptyFacilityList
                     };
                   }
                 }
@@ -833,10 +836,12 @@ const formConfig = {
                 properties: {
                   'view:facilityState': {
                     type: 'string',
-                    'enum': states.USA.map(state => state.value)
+                    'enum': states.USA
+                      .map(state => state.value)
+                      .filter(state => !!medicalCentersByState[state])
                   },
                   vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    'enum': []
+                    'enum': emptyFacilityList
                   })
                 }
               },

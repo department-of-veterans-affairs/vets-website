@@ -1,11 +1,20 @@
 @import "style";
 
 h3 {
-  border-bottom: 1px solid #aeb0b5;
+  border-bottom: 1px solid $color-gray-light;
+  margin: 0 0 .5em 0;
+  padding: 0 0 .25em 0;
 }
 
 h4 {
   margin-top: 1em;
+}
+
+hr {
+  border-style: solid;
+  border-color: $color-gray-light;
+  border-width: 1px 0 0 0;
+  margin-bottom: 0;
 }
 
 .section-line {
@@ -14,4 +23,12 @@ h4 {
 
 .usa-alert {
   margin: 1em 0 1em 0;
+}
+
+.feature {
+  min-height: 0;
+
+  &.help-desk {
+  	margin-top: 2em;
+  }
 }

@@ -32,6 +32,7 @@ import * as personId from '../../../common/schemaform/definitions/personId';
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
 import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
@@ -87,6 +88,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     educationType,

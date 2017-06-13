@@ -67,6 +67,7 @@ export class DefinitionTester extends React.Component {
           schema={schema}
           uiSchema={uiSchema}
           data={formData}
+          pagePerItemIndex={this.props.pagePerItemIndex}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );

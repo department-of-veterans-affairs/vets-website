@@ -71,6 +71,7 @@ class SearchControls extends Component {
   toggleFacilityDropdown() {
     this.setState({
       facilityDropdownActive: !this.state.facilityDropdownActive,
+      serviceDropdownActive: false,
     });
   }
 
@@ -79,6 +80,7 @@ class SearchControls extends Component {
     if (facilityType === 'benefits') {
       this.setState({
         serviceDropdownActive: !this.state.serviceDropdownActive,
+        facilityDropdownActive: false,
       });
     }
   }
