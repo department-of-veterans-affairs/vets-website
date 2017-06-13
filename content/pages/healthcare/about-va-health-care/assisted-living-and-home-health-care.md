@@ -54,7 +54,7 @@ You may be able to use one or more of these services if:
 
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
-To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
 
 If you're not currently in the VA health care program, you can apply for benefits now. [Apply now](/healthcare/apply/).
 
@@ -166,16 +166,3 @@ A VA care coordinator who keeps track of your health remotely using special equi
 You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
-
-------
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
-
-**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
