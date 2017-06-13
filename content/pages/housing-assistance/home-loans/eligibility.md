@@ -44,11 +44,11 @@ You may be able to get a COE if you were discharged under conditions other than 
 | When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
 | --- | --- | 
 | Between September 16, 1940, and July 25, 1947 (WWII) | 90 total days |
-| Between July 26, 1947, and June 26, 1950 (Post-WWII period) | 181 continuous days |
+| Between July 26, 1947, and June 26, 1950 (post-WWII period) | 181 continuous days |
 | Between June 27, 1950, and January 31, 1955 (Korean War) | 90 total days |
-| Between February 1, 1955, and August 4, 1964 (Post-Korean War period) | 90 total days |
+| Between February 1, 1955, and August 4, 1964 (post-Korean War period) | 90 total days |
 | Between August 5, 1964, and May 7, 1975 (Vietnam War), **or**<br>February 28, 1961, to May 7, 1975, if you served in the Republic of Vietnam | 90 total days |
-| Between May 8, 1975, and September 7, 1980 (Post-Vietnam War period), **or**<br>Between May 8, 1975, and October 16, 1981, if you served as an officer | 181 continuous days |
+| Between May 8, 1975, and September 7, 1980 (post-Vietnam War period), **or**<br>Between May 8, 1975, and October 16, 1981, if you served as an officer | 181 continuous days |
 | Between September 8, 1980, and August 1, 1990, **or**<br>Between October 17, 1981, and August 1, 1990, if you served as an officer | <ul><li>24 continuous months, **or**</li><li>The full period (at least 181 days) for which you were called to active duty</li></ul> |
 | Between August 2, 1990, and the present (Gulf War) | <ul><li>24 continuous months, **or**</li><li>The full period (at least 90 days) for which you were called or ordered to active duty</li></ul> |
 | I’m on active duty now | 90 continuous days |
@@ -117,7 +117,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
 - You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
-To request an entitlement restoration, fill out VA Form 26-1880 and submit it to the VA Eligibility Center. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
+To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Eligibility Center for your state that's listed at the bottom of the form. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
