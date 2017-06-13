@@ -1,9 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Registering Your Business
 concurrence: complete
-order: 1
 ---
 
 <div class="va-introtext">

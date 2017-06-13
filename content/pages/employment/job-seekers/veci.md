@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Veterans Economic Community Initiative
 concurrence: complete
 relatedlinks:

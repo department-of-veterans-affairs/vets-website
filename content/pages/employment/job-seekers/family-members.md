@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Resources for Military and Veteran Family Members
 display_title: Resources for Family Members
 concurrence: complete

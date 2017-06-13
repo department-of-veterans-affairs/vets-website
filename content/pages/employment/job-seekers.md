@@ -2,7 +2,6 @@
 layout: page-breadcrumbs.html
 template: topic-landing
 title: Job Seekers
-children: employmentJobSeekers
 relatedlinks:
   - heading: Online Resources
     links:

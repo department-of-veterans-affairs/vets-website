@@ -1,11 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Start or Grow Your Own Business
 display_title: Start or Grow Your Business
 concurrence: complete
-children: employmentJobSeekersStart
-order: 1
 majorlinks:
   - heading:
     links:

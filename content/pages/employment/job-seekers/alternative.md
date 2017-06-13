@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Alternative Ways to Start Your Career
 concurrence: complete
 relatedlinks:

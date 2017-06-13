@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Unemployment Support
 concurrence: incomplete
 relatedlinks:

@@ -305,27 +305,6 @@ smith.use(collections({
       name: 'Work and Learn'
     }
   },
-  employment: {
-    pattern: 'employment/job-seekers.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Employment'
-    }
-  },
-  employmentJobSeekers: {
-    pattern: 'employment/job-seekers/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Job Seekers'
-    }
-  },
-  employmentJobSeekersStart: {
-    pattern: 'employment/job-seekers/start/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Start or Grow Your Own Business'
-    }
-  },
   healthcare: {
     sortBy: 'order',
     metadata: {

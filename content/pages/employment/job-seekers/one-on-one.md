@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: One-on-One Assistance
 concurrence: complete
 relatedlinks:

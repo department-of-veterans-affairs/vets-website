@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Do you have less than a year left of military service?
 display_title: Less Than One Year Before Separation
 concurrence: complete

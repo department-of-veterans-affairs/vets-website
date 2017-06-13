@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Employment Support for Service-Disabled Veterans
 display_title: Service-Disabled Veteran Support
 concurrence: complete

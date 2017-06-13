@@ -1,9 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: topic-landing
 title: Entrepreneurship Counseling
 concurrence: complete
-order: 2
 ---
 
 <div class="va-introtext">
