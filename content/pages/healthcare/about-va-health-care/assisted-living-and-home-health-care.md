@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 3
 relatedlinks:
-  - heading:
+  - heading: Related benefits you may qualify for
     links:
     - url: /disability-benefits/
       title: Disability Benefits
