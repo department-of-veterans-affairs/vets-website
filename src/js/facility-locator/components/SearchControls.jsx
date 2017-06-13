@@ -71,6 +71,7 @@ class SearchControls extends Component {
   toggleFacilityDropdown() {
     this.setState({
       facilityDropdownActive: !this.state.facilityDropdownActive,
+      serviceDropdownActive: false,
     });
   }
 
@@ -79,6 +80,7 @@ class SearchControls extends Component {
     if (facilityType === 'benefits') {
       this.setState({
         serviceDropdownActive: !this.state.serviceDropdownActive,
+        facilityDropdownActive: false,
       });
     }
   }
@@ -108,7 +110,12 @@ class SearchControls extends Component {
             {
               Object.keys(benefitsServices).map(k => {
                 return (<li key={k} value={k} onClick={this.handleServiceFilterSelect.bind(this, k)}>
-                  {benefitsServices[k]}
+                  <button type="button" className="facility-option">
+                    <span className="flex-center">
+                      <span className="legend spacer"></span>
+                      {benefitsServices[k]}
+                    </span>
+                  </button>
                 </li>);
               })
             }
@@ -152,7 +159,14 @@ class SearchControls extends Component {
     const { isMobile } = this.props;
 
     return (
-      <span className="flex-center">{truncate((benefitsServices[serviceType] || 'All'), { length: (isMobile ? 38 : 27) })}</span>
+      <div className="flex-center">
+        <button type="button" className="facility-option">
+          <span className="flex-center">
+            <span className="legend spacer"></span>
+            {truncate((benefitsServices[serviceType] || 'All'), { length: (isMobile ? 38 : 27) })}
+          </span>
+        </button>
+      </div>
     );
   }
 

@@ -1,5 +1,5 @@
 //====================================
-// SCSS for content/components/navigation-sidebar.html 
+// SCSS for content/components/navigation-sidebar.html
 //====================================
 
 .va-sidebarnav {
@@ -14,8 +14,7 @@
     padding: 1.6rem;
     position: absolute;
     top: 0;
-    transform: translateX(100%);
-    transition: transform ease-out 250ms;
+    display: none;
 
     // Necessary to override .usa-grid .usa-width-one-fourth
     .va-l-detail-page & {
@@ -49,7 +48,7 @@
     }
 
     &--opened {
-      transform: translateX(0);
+      display: block;
     }
 
     &-close {

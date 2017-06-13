@@ -58,16 +58,13 @@ class Modal extends React.Component {
   }
 
   render() {
+    const { id, title, visible } = this.props;
     const modalCss = classNames('va-modal', this.props.cssClass);
+    const modalTitle = title && (
+      <h3 id={`${id}-title`} className="va-modal-title">{title}</h3>
+    );
 
-    if (!this.props.visible) {
-      return <div/>;
-    }
-
-    let title;
-    if (this.props.title) {
-      title = <h3 className="va-modal-title">{this.props.title}</h3>;
-    }
+    if (!visible) { return <div/>; }
 
     let closeButton;
     if (!this.props.hideCloseButton) {
@@ -81,9 +78,9 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={this.props.title}>
+      <div className={modalCss} id={id} role="alertdialog" aria-labelledby={`${id}-title`}>
         <div className="va-modal-inner">
-          {title}
+          {modalTitle}
           {closeButton}
           <div className="va-modal-body">
             {this.props.contents || this.props.children}

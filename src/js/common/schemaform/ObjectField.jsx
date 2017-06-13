@@ -149,6 +149,9 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
+    const CustomTitleField = typeof title === 'function'
+      ? title
+      : null;
 
     const description = uiSchema['ui:description'];
     const textDescription = typeof description === 'string' ? description : null;
@@ -189,7 +192,12 @@ class ObjectField extends React.Component {
       <fieldset>
         <div className={containerClassNames}>
           {hasTitleOrDescription && <div className="schemaform-block-header">
-            {title && !showFieldLabel
+            {CustomTitleField && !showFieldLabel
+                ? <CustomTitleField
+                    id={`${idSchema.$id}__title`}
+                    formData={formData}
+                    required={required}/> : null}
+            {!CustomTitleField && title && !showFieldLabel
                 ? <TitleField
                     id={`${idSchema.$id}__title`}
                     title={title}

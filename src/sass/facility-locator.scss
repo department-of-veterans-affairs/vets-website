@@ -2,6 +2,9 @@
 @import "modules/va-pagination";
 // @import "~react-tabs/style/react-tabs.scss";
 
+@import "~leaflet/dist/leaflet.css";
+@import "~react-tabs/style/react-tabs";
+
 .facility-locator {
   // TODO(css): Fix when #content .section h* is fixed
   .highlight {
@@ -251,6 +254,11 @@
     background-size: contain;
   }
 
+  .vet-center-icon {
+    background: url("/img/icons/vet-centers-pin.svg") no-repeat center center;
+    background-size: contain;
+  }
+
   .numbered-icon {
     height: 32px;
     margin-left: -12px;
@@ -322,6 +330,7 @@
 
       span {
         height: 2.4em;
+        text-align: left;
       }
 
       button.facility-option {
@@ -357,14 +366,17 @@
 
       .dropdown {
         position: absolute;
+        width: 102%;
         top: 0;
-        left: 0;
+        left: -1%;
         right: 0;
         background: $color-white;
         list-style: none;
         opacity: 0;
         pointer-events: none;
         z-index: 1010;
+        max-height: 50vh;
+        overflow-y: auto;
 
         li {
           color: $color-black;

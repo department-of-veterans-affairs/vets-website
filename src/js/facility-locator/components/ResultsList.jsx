@@ -9,6 +9,7 @@ import MobileSearchResult from './MobileSearchResult';
 import Pagination from '../../common/components/Pagination';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import AlertBox from '../../common/components/AlertBox';
 
 class ResultsList extends Component {
 
@@ -47,6 +48,16 @@ class ResultsList extends Component {
   render() {
     const { facilities, isMobile, currentQuery, pagination: { currentPage, totalPages } } = this.props;
 
+    if (currentQuery.error) {
+      const content = (
+        <div>
+          <p>An error occurred when searching for <strong>{currentQuery.searchString}</strong>. Please try the search again or searching with a different search term.</p>
+        </div>
+      );
+
+      return <div className="mb2"><AlertBox isVisible status="error" content={content}/></div>;
+    }
+
     if (currentQuery.inProgress) {
       return (
         <div>
@@ -57,7 +68,7 @@ class ResultsList extends Component {
 
     if (!facilities || facilities.length < 1) {
       return (
-        <div className="facility-result">No facilities found.</div>
+        <div className="facility-result">No facilities found. Please enter a search term and click search to find facilities.</div>
       );
     }
 
@@ -67,6 +78,7 @@ class ResultsList extends Component {
 
     return (
       <div>
+        <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
         <div>
           {
             facilities.map(f => {

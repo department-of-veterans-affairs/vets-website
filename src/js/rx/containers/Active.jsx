@@ -17,8 +17,6 @@ import {
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';
-import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config';
 
 class Active extends React.Component {
   constructor(props) {
@@ -34,18 +32,14 @@ class Active extends React.Component {
       // the viewToggle element is hidden with CSS on the $small breakpoint
       // on small screens, the view toggle is hidden and list view disabled
       if (this.viewToggle && (toggleDisplayStyle === 'none')) {
-        this.setState({
-          view: 'card',
-        });
+        this.setState({ view: 'card', });
       } else if (viewPref) {
-        this.setState({
-          view: viewPref,
-        });
+        this.setState({ view: viewPref, });
       }
     }, 200);
 
     this.state = {
-      view: viewPref || 'card',
+      view: viewPref || 'list',
     };
   }
 
@@ -157,6 +151,8 @@ class Active extends React.Component {
               items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={currentSort.value === 'facilityName'}
+              handleSort={this.handleSort}
+              currentSort={currentSort}
               refillModalHandler={this.props.openRefillModal}
               glossaryModalHandler={this.props.openGlossaryModal}/>
         );
@@ -166,11 +162,6 @@ class Active extends React.Component {
         <div>
           <p className="rx-tab-explainer">Your active VA prescriptions</p>
           {this.renderViewSwitch()}
-          {this.state.view === 'list' || <SortMenu
-              onChange={this.handleSort}
-              onClick={this.handleSort}
-              options={sortOptions}
-              selected={currentSort}/>}
           {prescriptionsView}
         </div>
       );

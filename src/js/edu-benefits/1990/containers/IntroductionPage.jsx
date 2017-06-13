@@ -38,7 +38,7 @@ class IntroductionPage extends React.Component {
                     </ul>
                   </li>
                   <li className="process-step list-two">
-                    <div><h5>Apply to manage your Benefit</h5></div>
+                    <div><h5>Apply for Benefits</h5></div>
                     <p>Complete this form.</p>
                   </li>
                   <li className="process-step list-three">

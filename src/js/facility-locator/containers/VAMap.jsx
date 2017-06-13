@@ -10,11 +10,13 @@ import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
+import VetCenterMarker from '../components/markers/VetCenterMarker';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
 import MobileSearchResult from '../components/MobileSearchResult';
+import { facilityTypes } from '../config';
 
 class VAMap extends Component {
   static contextTypes = {
@@ -27,6 +29,10 @@ class VAMap extends Component {
     this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
       leading: true,
     });
+
+    this.listener = browserHistory.listen((location) => {
+      this.syncStateWithLocation(location);
+    });
   }
 
   componentDidMount() {
@@ -38,6 +44,9 @@ class VAMap extends Component {
     }
 
     if (location.query.address) {
+      this.props.updateSearchQuery({
+        searchString: location.query.address,
+      });
       this.props.searchWithAddress({
         searchString: location.query.address,
         context: location.query.context,
@@ -89,7 +98,14 @@ class VAMap extends Component {
     const { currentQuery } = prevProps;
     const newQuery = this.props.currentQuery;
 
-    if (isEmpty(this.props.facilities) && !newQuery.inProgress && currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
+    const shouldUpdateSearchQuery = isEmpty(this.props.facilities) &&
+      !newQuery.inProgress &&
+      currentQuery.inProgress &&
+      newQuery.bounds &&
+      parseInt(newQuery.zoomLevel, 10) > 2 &&
+      !newQuery.error;
+
+    if (shouldUpdateSearchQuery) {
       if (isMobile.any) {
         this.props.updateSearchQuery({
           bounds: [
@@ -106,6 +122,23 @@ class VAMap extends Component {
 
     if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
       this.zoomOut.cancel();
+    }
+  }
+
+  componentWillUnmount() {
+    // call the func returned by browserHistory.listen to unbound the listener
+    this.listener();
+  }
+
+  syncStateWithLocation(location) {
+    if (
+      location.query.address &&
+      this.props.currentQuery.searchString !== location.query.address && !this.props.currentQuery.inProgress
+    ) {
+      this.props.searchWithAddress({
+        searchString: location.query.address,
+        context: location.query.context,
+      });
     }
   }
 
@@ -216,14 +249,6 @@ class VAMap extends Component {
   renderFacilityMarkers() {
     const { facilities } = this.props;
 
-    /* eslint-disable camelcase */
-    const facilityTypes = {
-      va_health_facility: 'Health',
-      va_cemetery: 'Cemetery',
-      va_benefits_facility: 'Benefits',
-    };
-    /* eslint-enable camelcase */
-
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
@@ -274,6 +299,12 @@ class VAMap extends Component {
             <BenefitsMarker {...iconProps}>
               {popupContent}
             </BenefitsMarker>
+          );
+        case 'vet_center':
+          return (
+            <VetCenterMarker {...iconProps}>
+              {popupContent}
+            </VetCenterMarker>
           );
         default: return null;
       }
@@ -345,7 +376,6 @@ class VAMap extends Component {
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
-              <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
                 <ResultsList facilities={facilities} pagination={pagination} currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>

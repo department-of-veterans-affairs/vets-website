@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -13,7 +13,7 @@ import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
 import dateUi from '../../../common/schemaform/definitions/date';
 import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -43,6 +43,9 @@ const formConfig = {
   urlPrefix: '/1990e/',
   submitUrl: '/v0/education_benefits_claims/1990e',
   trackingPrefix: 'edu-1990e-',
+  formId: '1990e',
+  version: 0,
+  disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
