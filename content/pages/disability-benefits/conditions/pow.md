@@ -43,6 +43,8 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Dysthymic disorder
 -	Any of the anxiety states (such as PTSD)
 
+<br>
+
 #### For former POWs held captive for 30 days or more
 
 **Conditions that affect your body, including:**
