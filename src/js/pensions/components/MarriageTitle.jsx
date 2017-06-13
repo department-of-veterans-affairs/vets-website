@@ -5,8 +5,7 @@ export default function MarriageTitle({ id, formContext }) {
   return (
     <legend
         className="schemaform-block-title"
-        id={id}
-        tabIndex="-1">
+        id={id}>
       {getMarriageTitle(formContext.pagePerItemIndex)}
     </legend>
   );

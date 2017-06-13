@@ -14,7 +14,7 @@ describe('Pensions MarriageTitle', () => {
 
     expect(tree.text()).to.contain('First marriage');
   });
-  it('should render tenth marriage title', () => {
+  it('should render marriage title with number value', () => {
     const tree = SkinDeep.shallowRender(
       <MarriageTitle
           id="id"

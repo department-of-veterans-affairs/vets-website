@@ -25,9 +25,7 @@ export default class ArrayCountWidget extends React.Component {
   // user has chosen '' or 0
   componentWillReceiveProps(props) {
     const arrayData = props.value || [];
-    if (arrayData.length && this.state.value !== arrayData.length) {
-      this.setState({ value: arrayData.length });
-    } else if (!this.state.value && !!arrayData.length) {
+    if (!!arrayData.length && (!this.state.value || this.state.value !== arrayData.length)) {
       this.setState({ value: arrayData.length });
     }
   }
