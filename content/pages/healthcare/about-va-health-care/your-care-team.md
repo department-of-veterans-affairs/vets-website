@@ -7,8 +7,14 @@ concurrence:
 lastupdate_override:
 order: 1
 relatedlinks:
-  - heading:
+  - heading: More information about benefits and services
     links:
+    - url: /healthcare/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Not sure if you qualify? Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Health Care Application Process
+      description: Ready to apply? Get started now.
     - url: /healthcare/health-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
@@ -96,14 +102,3 @@ It depends. We may pay for you to receive care from a non-VA provider in some ca
 Any non-VA provider and their services must meet our quality standards and be approved by us before they can provide care for you. <br />
 [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).<br />
 [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).
-
---------
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
