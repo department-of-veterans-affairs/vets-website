@@ -10,7 +10,7 @@ class HowToGetHere extends Component {
       );
     }
 
-    const { attributes: { lat, long, facility_type: facilityType } } = this.props.info;
+    const { attributes: { lat, long, facilityType } } = this.props.info;
 
     /* eslint-disable camelcase */
     const pinNames = {
