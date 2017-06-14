@@ -42,18 +42,15 @@ class PrintPage extends React.Component {
           <p>
             Print this page for benefit and eligibility verification. This information is current as of {todayFormatted}.
           </p>
-
           <br/>
           <br/>
           <br/>
-
           <div className="help-desk">
             <h2>Need help?</h2>
             <div>Call the Vets.gov Help Desk</div>
             <div>1-855-574-7286</div>
             <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
           </div>
-
         </div>
       </div>
     );
