@@ -1,4 +1,3 @@
-import moment from 'moment';
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
@@ -103,12 +102,14 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {Object}  formData  The data the user has entered so far
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
   // Double stringify because of api reasons. Olive Branch issues, methinks.
   // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
-      returnUrl
+      returnUrl,
+      savedAt
     }),
     formData: JSON.stringify(formData)
   });
@@ -135,15 +136,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        // TODO update this when the backend api is updated to return the timestamp
-        // return res.json();
-        return Promise.resolve({ savedAt: moment().valueOf() });
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
+        return Promise.resolve();
       }
 
       return Promise.reject(res);
-    })
-    .then(({ savedAt }) => {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
     })
     .catch((resOrError) => {
       if (resOrError instanceof Response) {
