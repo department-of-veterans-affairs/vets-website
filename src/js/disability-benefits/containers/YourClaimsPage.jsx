@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { concat } from 'lodash';
 
 import Modal from '../../common/components/Modal';
 import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
@@ -11,6 +10,7 @@ import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import MainTabNav from '../components/MainTabNav';
 import ClaimsListItem from '../components/ClaimsListItem';
+import AppealListItem from '../components/AppealListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -42,6 +42,7 @@ class YourClaimsPage extends React.Component {
     document.title = 'Track Claims: Vets.gov';
     // this.props.getClaims(this.getFilter(this.props));
     this.props.getAppeals(this.getFilter(this.props));
+
     if (this.props.loading) {
       scrollToTop();
     } else {
@@ -69,6 +70,13 @@ class YourClaimsPage extends React.Component {
     scrollToTop();
   }
 
+  renderListItem(claim) {
+    if (claim.type === 'appeals_status_models_appeals') {
+      return <AppealListItem key={claim.id} claim={claim}/>;
+    }
+    return <ClaimsListItem claim={claim} key={claim.id}/>;
+  }
+
   render() {
     const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
 
@@ -80,7 +88,7 @@ class YourClaimsPage extends React.Component {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
-          {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
+          {claims.map(claim => this.renderListItem(claim))}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
         </div>
       </div>);
@@ -152,7 +160,7 @@ function mapStateToProps(state) {
   return {
     loading: claimsRoot.loading,
     claims: claimsRoot.visibleRows,
-    unfilteredClaims: concat(claimsRoot.claims, claimsRoot.appeals),
+    unfilteredClaims: claimsRoot.claims,
     page: claimsRoot.page,
     pages: claimsRoot.pages,
     sortProperty: claimsRoot.sortProperty,
