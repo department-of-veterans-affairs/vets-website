@@ -55,7 +55,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.equal('Save and come back later');
+    expect(tree.text()).to.equal('Save and finish later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(
