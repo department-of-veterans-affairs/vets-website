@@ -10,6 +10,7 @@ module.exports = {
 
       segment.forEach(url => {
         client
+          .perform(() => { console.log(url); }) // eslint-disable-line no-console
           .url(url)
           .waitForElementVisible('body', Timeouts.normal)
           .axeCheck('document', { scope: url });
