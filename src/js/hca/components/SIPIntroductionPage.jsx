@@ -38,7 +38,7 @@ class IntroductionPage extends React.Component {
           <div className="usa-alert usa-alert-info no-background-image">
             <div style="padding-bottom: 8px;">Application status: <strong>In progress</strong></div>
             <br/>
-            <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mm:ssa')}</div>
+            <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mma')}</div>
             <div>Complete the form before submitting to apply for health care with the 10-10ez.</div>
           </div>);
       } else {
