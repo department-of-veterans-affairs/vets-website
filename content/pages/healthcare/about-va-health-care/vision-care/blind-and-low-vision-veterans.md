@@ -5,6 +5,21 @@ title: Vision Care for Blind and Low Vision Veterans
 display_title: Care for Blind and Low Vision Veterans
 concurrence: 
 lastupdate_override: 
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /healthcare/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Not sure if you qualify? Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Health Care Application Process
+      description: Ready to apply? Get started now.
+    - url: /healthcare/health-conditions/
+      title: Health Needs and Conditions
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
@@ -41,7 +56,7 @@ No. But we do work with non-VA agencies that provide guide dogs.
 
 ### How do I access these services?
 
-To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp?isFlash=1).
+To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you(/facilities/).
 
 Or, contact the Blind Rehabilitation Service Program office at:
 
@@ -55,17 +70,8 @@ Or, contact the Blind Rehabilitation Service Program office at:
 <dd>Washington, DC 20420</dd>
 </dl>
 
-------
+### If I'm blind and have hearing loss, will VA cover the cost of my hearing aids?
 
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+[Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
 
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
-
-**Have hearing loss?** [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
-
-**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
