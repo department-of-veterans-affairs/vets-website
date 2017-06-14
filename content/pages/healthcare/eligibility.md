@@ -48,14 +48,4 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 
 [Learn about the application process](/healthcare/apply/).
 
-
-### How can I find out if I qualify for dental or vision care through VA?
-
-In certain cases, you may get dental or vision care as part of your VA health benefits. 
-
-[Find out if you can get dental care through VA](/healthcare).
-
-[Find out if you can get vision care through VA](/healthcare).
-
-
 <div markdown="0"><br></div>
