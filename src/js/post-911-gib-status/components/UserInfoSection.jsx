@@ -51,7 +51,7 @@ class UserInfoSection extends React.Component {
 }
 
 UserInfoSection.propTypes = {
-  enrollmentData: PropTypes.object.isRequired,
+  enrollmentData: PropTypes.object,
   showCurrentOfAlert: PropTypes.bool
 };
 
