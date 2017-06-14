@@ -32,11 +32,11 @@ Care settings may include:
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
   - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br />
-[Connect with your medical center](https://www.va.gov/health/vamc/).
-- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](https://www.va.gov/directory/guide/home.asp).
+[Find a medical center near you](/facilities/).
+- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](/facilities/).
 - **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br />
 [Learn more about Vet Centers](http://www.vetcenter.va.gov). <br />
-[Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp).
+[Find a Vet Center near you](/facilities/).
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). [Learn more about assisted living and residential care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. [Learn more about home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 
@@ -108,7 +108,7 @@ Please give your VA care team:
 
 We can also mail prescription refills to you at your temporary address. Just be sure to allow about 2 weeks for the refills to arrive. [Refill your prescriptions](/healthcare/prescriptions/).
 
-For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp).
+For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a medical center near you](/facilities/).
 
 **Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
