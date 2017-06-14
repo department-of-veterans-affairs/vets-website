@@ -25,11 +25,8 @@ export default class AppointmentInfo extends Component {
     }
 
     const healthAccessAttrs = facility.attributes.access.health;
-    const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
-    pull(specialtyKeys, 'primaryCare', 'effectiveDate');
-    specialtyKeys.sort();
 
-    if (specialtyKeys && specialtyKeys.length === 0) {
+    if (!healthAccessAttrs.primaryCare || !healthAccessAttrs.primaryCare.new) {
       return null;
     }
 
@@ -44,6 +41,14 @@ export default class AppointmentInfo extends Component {
     };
 
     const renderSpecialtyTimes = (existing = false) => {
+      const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
+      pull(specialtyKeys, 'primaryCare', 'effectiveDate');
+      specialtyKeys.sort();
+
+      if (specialtyKeys && specialtyKeys.length === 0) {
+        return null;
+      }
+
       const firstThree = specialtyKeys.slice(0, 3);
       const lastToEnd = specialtyKeys.slice(3);
       let showHideKey;
