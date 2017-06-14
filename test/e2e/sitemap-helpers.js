@@ -14,8 +14,8 @@ function sitemapURLs(callback) {
       const doc = libxmljs.parseXml(body);
 
       const urls = doc.find('//xmlns:loc', SITEMAP_LOC_NS)
-        .map(n => n.text().replace(BUILD_BASE_URL, E2eHelpers.baseUrl))
-        .filter(url => !(url.endsWith('facility-locator/') || url.endsWith('auth/login/callback/')));
+                      .map(n => n.text().replace(BUILD_BASE_URL, E2eHelpers.baseUrl))
+                      .filter(url => !(url.endsWith('auth/login/callback/')));
 
       callback(urls);
     }).catch(callback);
