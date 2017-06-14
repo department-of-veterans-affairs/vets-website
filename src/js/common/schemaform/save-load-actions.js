@@ -1,5 +1,7 @@
 import environment from '../helpers/environment.js';
 
+import { setData } from './actions';
+
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
@@ -173,22 +175,20 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  */
 export function fetchInProgressForm(formId, migrations) {
   // TODO: Test if the form is still saved after submission.
+  // TODO: Migrations currently aren't sent; they're taken from `form` in the
+  //  redux store, but form.migrations doesn't exist (nor should it, really)
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject('no auth'); // Returns rejected Promise for testing only
-      }
-
-      return; // eslint-disable-line consistent-return
+      return Promise.reject('no auth');
     }
 
     // Update UI while we're waiting for the API
     dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
-    // Query the api
+    // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
@@ -197,7 +197,6 @@ export function fetchInProgressForm(formId, migrations) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      // console.log('res', res);
       if (res.ok) {
         return res.json();
       }
@@ -242,14 +241,12 @@ export function fetchInProgressForm(formId, migrations) {
       //  function to see if the form has been filled in, so this is setting the
       //  data in a separate place to be pulled in when we _actually_ want to load
       //  the formData.
-      // dispatch(setData(formData));
+      dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
 
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.resolve(); // For unit tests only
-      }
-
-      return; // eslint-disable-line consistent-return
+      // Return a resolved promise to tell the caller we're good to navigate to the page they saved on
+      console.log('returnUrl (from fetch):', resBody.metadata.returnUrl);
+      return Promise.resolve(resBody.metadata.returnUrl);
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
@@ -263,11 +260,8 @@ export function fetchInProgressForm(formId, migrations) {
       }
       dispatch(setFetchFormStatus(loadedStatus));
 
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject(); // For unit tests only
-      }
-
-      return; // eslint-disable-line consistent-return
+      // Return a rejected promise to tell the caller there was a problem
+      return Promise.reject();
     });
   };
 }

@@ -54,6 +54,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { profile } = this.props.user;
+    const formSaved = !!(profile && profile.savedForms.includes(this.props.form.formId));
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for health care with the 10-10ez"/>
@@ -78,7 +80,8 @@ class IntroductionPage extends React.Component {
             form={this.props.form}
             fetchInProgressForm={this.props.fetchInProgressForm}
             loadInProgressDataIntoForm={this.props.loadInProgressDataIntoForm}
-            loggedIn={this.props.user.login.currentlyLoggedIn}/>
+            loggedIn={this.props.user.login.currentlyLoggedIn}
+            formSaved={formSaved}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: 0 }}>
