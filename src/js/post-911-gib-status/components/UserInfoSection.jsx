@@ -14,16 +14,20 @@ class UserInfoSection extends React.Component {
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
-    // TODO: Figure out what will be sent to us if the user is ineligible so we can
-    // conditionally show "Currently Disallowed" message
-
-    return (
-      <div>
+    let currentOfAlert;
+    if (this.props.showCurrentOfAlert) {
+      currentOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <div>
+        {currentOfAlert}
         <InfoPair label="Name" value={fullName}/>
         <InfoPair label="Date of Birth" value={formatDateShort(enrollmentData.dateOfBirth)}/>
         {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
@@ -32,13 +36,13 @@ class UserInfoSection extends React.Component {
         <div>
           <h4>When You Can Receive Benefits</h4>
           <div className="section-line">
-            You are eligible to receive benefits between <strong>{formatDateShort(enrollmentData.eligibilityDate)}</strong> and <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong>
+            You are eligible to receive benefits between <strong>{formatDateShort(enrollmentData.eligibilityDate)}</strong> and <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong>.
           </div>
         </div>
         <div>
           <h4>Your Benefit Level</h4>
           <div className="section-line">
-            You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong>
+            You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong>.
           </div>
         </div>
       </div>
@@ -47,7 +51,8 @@ class UserInfoSection extends React.Component {
 }
 
 UserInfoSection.propTypes = {
-  enrollmentData: PropTypes.object
+  enrollmentData: PropTypes.object.isRequired,
+  showCurrentOfAlert: PropTypes.bool
 };
 
 export default UserInfoSection;

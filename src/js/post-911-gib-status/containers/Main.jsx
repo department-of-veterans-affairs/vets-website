@@ -34,7 +34,7 @@ class Main extends React.Component {
             Print This Page as COE
           </Link>
         </div>
-        <UserInfoSection enrollmentData={enrollmentData}/>
+        <UserInfoSection enrollmentData={enrollmentData} showCurrentOfAlert/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>
