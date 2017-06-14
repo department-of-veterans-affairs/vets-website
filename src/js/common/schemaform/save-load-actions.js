@@ -157,7 +157,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
 
-        Raven.captureException(new Error(`Error saving in progress form: ${resOrError.statusText}`));
+        Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
       } else {
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         Raven.captureException(resOrError);
