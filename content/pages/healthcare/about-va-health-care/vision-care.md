@@ -8,8 +8,14 @@ lastupdate_override:
 children: healthcareCoverageVision
 order: 5
 relatedlinks:
-  - heading: Related benefits you may qualify for
+  - heading: More information about your benefits
     links:
+    - url: /healthcare/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Not sure if you qualify? Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Health Care Application Process
+      description: Ready to apply? Get started now.
     - url: /disability-benefits/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
@@ -27,7 +33,7 @@ If you qualify for VA health care benefits, you may be able to get some or all o
 
 Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma).
 
-To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Contact your VA medical center]( https://www.va.gov/health/vamc/).
+To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Find a VA medical center near you](/facilities/).
 
 If you’re a Blind or Low Vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for Blind and Low Vision Veteran services](/healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
 
@@ -63,16 +69,3 @@ For more information, contact the prosthetic representative at your nearest VA m
 ### If I have vision and hearing loss, will VA cover the cost of hearing aids too?
 
 [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp).
-
-------
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
-
-
