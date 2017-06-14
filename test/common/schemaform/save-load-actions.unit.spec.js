@@ -17,6 +17,7 @@ import {
   fetchInProgressForm
 } from '../../../src/js/common/schemaform/save-load-actions';
 
+import { logOut } from '../../../src/js/login/actions';
 
 let oldFetch;
 let oldSessionStorage;
@@ -163,6 +164,7 @@ describe('Schemaform save / load actions:', () => {
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
+        expect(dispatch.calledWith(logOut())).to.be.true;
         done();
       });
     });

@@ -1,4 +1,5 @@
 import environment from '../helpers/environment.js';
+import { logOut } from '../../login/actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
@@ -137,11 +138,9 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       if (res.ok) {
         dispatch(setSaveFormStatus(SAVE_STATUSES.success));
       } else {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
         if (res.status === 401) {
+          // This likely means their session expired, so mark them as logged out
+          dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
