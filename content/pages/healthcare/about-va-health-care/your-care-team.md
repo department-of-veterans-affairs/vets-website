@@ -70,7 +70,7 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 You get to choose the main VA location where you’ll get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
 
-If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Connect with your medical center](https://www.va.gov/health/vamc/).
+If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Find a medical center near you](/facilities/).
 
 <br>
 
