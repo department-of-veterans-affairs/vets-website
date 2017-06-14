@@ -156,11 +156,11 @@ const formConfig = {
             'ui:validations': [
               validateMatch('email', 'view:emailConfirmation')
             ],
-            claimantAddress: address.uiSchema('Claimant address'),
+            claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
               'ui:title': 'Email address'
             },
-            claimantPhone: phoneUI('Claimant phone number')
+            claimantPhone: phoneUI('Phone number')
           },
           schema: {
             type: 'object',
