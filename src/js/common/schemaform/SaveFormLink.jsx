@@ -35,7 +35,7 @@ class SaveFormLink extends React.Component {
       // likely means their session is expired (since they were logged in before)
       content = (<div>
         {savedStatus === SAVE_STATUSES.noAuth
-            ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again</span>
+            ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again.</span>
             : <span><a onClick={this.openLoginModal}>Sign in</a> before saving your application</span>}
         <LoginModal
             key={1}
