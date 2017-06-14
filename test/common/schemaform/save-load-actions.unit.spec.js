@@ -116,10 +116,12 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      thunk(dispatch).catch(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.false;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a pending', (done) => {
@@ -129,6 +131,8 @@ describe('Schemaform save / load actions:', () => {
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.true;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('calls the api to save the form', (done) => {
@@ -138,6 +142,8 @@ describe('Schemaform save / load actions:', () => {
       thunk(dispatch).then(() => {
         expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a success if the form is saved', (done) => {

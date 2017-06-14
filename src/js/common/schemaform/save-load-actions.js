@@ -117,11 +117,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
-      }
-
-      return; // eslint-disable-line consistent-return
+      return Promise.resolve();
     }
 
     // Update UI while we're waiting for the API
