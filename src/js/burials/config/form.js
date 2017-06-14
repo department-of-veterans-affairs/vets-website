@@ -7,8 +7,6 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { relationshipLabels, locationOfDeathLabels } from '../labels.jsx';
 
-import { validateMatch } from '../../common/schemaform/validation';
-
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import * as personId from '../../common/schemaform/definitions/personId';
@@ -155,9 +153,6 @@ const formConfig = {
           title: 'Claimant Contact Information',
           path: 'claimant-contact-information',
           uiSchema: {
-            'ui:validations': [
-              validateMatch('email', 'view:emailConfirmation')
-            ],
             claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
               'ui:title': 'Email address'
