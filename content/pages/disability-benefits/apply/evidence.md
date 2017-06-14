@@ -2,7 +2,8 @@
 layout: page-breadcrumbs.html
 title: Evidence 
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
+order: 3
 ---
 
 <div class="va-introtext">

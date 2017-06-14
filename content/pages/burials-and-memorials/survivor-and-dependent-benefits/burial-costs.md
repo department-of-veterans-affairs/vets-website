@@ -1,11 +1,15 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Handling Burial Costs (Allowances)
-template: 6-info-page
+display_title: Handling Burial Costs
 ---
 
+<div class="va-introtext">
 
 If you’re the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. You may also qualify for plot or burial allowances to help pay for the area of land used for the burial and other costs related to the burial. We may help with transportation costs as well. Find out how to get allowances. 
+
+</div>
 
 <div class="feature" markdown="0">
 

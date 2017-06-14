@@ -74,7 +74,7 @@ export default class FormApp extends React.Component {
           </div>
         </div>
         {!isConfirmationPage && <AskVAQuestions>
-          <GetFormHelp/>
+          {!!GetFormHelp && <GetFormHelp/>}
         </AskVAQuestions>}
         <span className="js-test-location hidden" data-location={trimmedPathname} hidden></span>
       </div>

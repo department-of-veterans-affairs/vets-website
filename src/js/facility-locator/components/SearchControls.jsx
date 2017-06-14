@@ -1,9 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { truncate } from 'lodash';
+import { truncate, kebabCase } from 'lodash';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
-import { benefitsServices } from '../config';
+import { benefitsServices, facilityTypes } from '../config';
 
 class SearchControls extends Component {
 
@@ -127,32 +127,19 @@ class SearchControls extends Component {
   }
 
   renderSelectOptionWithIcon(facilityType) {
-    switch (facilityType) {
-      case 'health':
-        return (
-          <button type="button" className="facility-option">
-            <span className="flex-center"><span className="legend health-icon"></span>Health</span>
-          </button>
-        );
-      case 'benefits':
-        return (
-          <button type="button" className="facility-option">
-            <span className="flex-center"><span className="legend benefits-icon"></span>Benefits</span>
-          </button>
-        );
-      case 'cemetery':
-        return (
-          <button type="button" className="facility-option">
-            <span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>
-          </button>
-        );
-      default:
-        return (
-          <button type="button" className="facility-option">
-            <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
-          </button>
-        );
+    if (facilityType) {
+      return (
+        <button type="button" className="facility-option">
+          <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
+        </button>
+      );
     }
+
+    return (
+      <button type="button" className="facility-option">
+        <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
+      </button>
+    );
   }
 
   renderServiceSelectOption(serviceType) {
@@ -202,6 +189,7 @@ class SearchControls extends Component {
                 <li onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
                 <li onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
                 <li onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
+                <li onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
               </ul>
             </div>
           </div>

@@ -1,10 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: File a Predischarge Claim While Overseas
+display_title: File a Claim While Overseas
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 3
 ---
 
 <div class="va-introtext">
@@ -30,6 +32,6 @@ If you are stationed outside the KMC, use the BDD or Quick Start programs throug
 - Arrange your travel, and get your command's approval to make the trip.
 - Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won't be returned. BDD and Quick Start claims can't be processed without the STRs.
 
-[Get service information for the Landstuhl BDD office](https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
+[Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
 </div>

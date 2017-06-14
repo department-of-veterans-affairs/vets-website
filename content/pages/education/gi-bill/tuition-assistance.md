@@ -1,13 +1,16 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Tuition Assistance Top-Up
 concurrence: incomplete
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+order: 10
 ---
 
 <div class="va-introtext">
+
 Does your college tuition cost more than what’s covered by the Tuition Assistance (TA) program? Find out if you can get more money to help pay for school through the Tuition Assistance Top-Up program.
+
 </div>
 
 
