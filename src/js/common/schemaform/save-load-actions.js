@@ -137,13 +137,13 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       if (res.ok) {
         // TODO update this when the backend api is updated to return the timestamp
         // return res.json();
-        return Promise.resolve({ timestamp: moment().valueOf() });
+        return Promise.resolve({ savedAt: moment().valueOf() });
       }
 
       return Promise.reject(res);
     })
-    .then(({ timestamp }) => {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.success, timestamp));
+    .then(({ savedAt }) => {
+      dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
     })
     .catch((resOrError) => {
       if (resOrError instanceof Response) {
