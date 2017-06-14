@@ -214,11 +214,12 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+    errors.addError(futureDate);
   }
 }
 
