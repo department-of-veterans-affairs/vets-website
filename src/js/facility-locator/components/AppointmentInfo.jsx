@@ -35,9 +35,10 @@ export default class AppointmentInfo extends Component {
     }
 
     const renderStat = (label, value) => {
-      if (value) {
+      if (value !== null) {
+        const dayString = value == 1 ? 'day' : 'days'
         return (
-          <li key={label}>{label}: <strong>{pluralize('day', value.toFixed(0), true)}</strong></li>
+          <li key={label}>{label}: <strong>{value.toFixed(0)} {dayString}</strong></li>
         );
       }
       return null;
