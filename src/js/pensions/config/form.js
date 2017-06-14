@@ -800,16 +800,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseNetWorth: _.assign(netWorth, {
-                required: [
-                  'bank',
-                  'interestBank',
-                  'ira',
-                  'stocks',
-                  'realProperty',
-                  'otherProperty'
-                ]
-              })
+              spouseNetWorth: netWorth
             }
           },
           uiSchema: {
@@ -827,16 +818,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseMonthlyIncome: _.assign(monthlyIncome, {
-                required: [
-                  'socialSecurity',
-                  'civilService',
-                  'railroad',
-                  'blackLung',
-                  'serviceRetirement',
-                  'ssi'
-                ]
-              })
+              spouseMonthlyIncome: monthlyIncome
             }
           },
           uiSchema: {
@@ -854,13 +836,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              spouseExpectedIncome: _.assign(expectedIncome, {
-                required: [
-                  'salary',
-                  'interest',
-                  'other'
-                ]
-              })
+              spouseExpectedIncome: expectedIncome
             }
           },
           uiSchema: {
