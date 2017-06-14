@@ -12,25 +12,24 @@ module.exports = {
     SitemapHelpers.sitemapURLs(urls => {
       const mark = Math.ceil(urls.length / 4);
       const segment = urls.splice(0, mark);
-      let config;
 
       // Whitelist of URLs on which to only run'section508' rules and not 'wcag2a'
       // rules. Please provide an explanation for each exception.
-      const wcagExceptions = [
+      const wcagSkip = [
         // 404 page contains 2 search auto-suggest elements with same ID, which is
         // referenced by https://search.usa.gov/assets/sayt_loader_libs.js
-        'http://localhost:3001/404.html'
+        '/404.html'
       ];
 
       segment.forEach(url => {
-        console.log(url); // eslint-disable-line no-console
-        config = (wcagExceptions.indexOf(url) >= 0) ?
-                 { scope: url, rules: ['section508'] } :
-                 { scope: url };
+        const only508 = wcagSkip.filter(skip => url.endsWith(skip)).length > 0;
         client
+          .perform(() => { console.log(url); }) // eslint-disable-line no-console
           .url(url)
           .waitForElementVisible('body', Timeouts.normal)
-          .axeCheck('document', config);
+          .axeCheck('document', only508 ?
+                    { scope: url, rules: ['section508'] } :
+                    { scope: url });
       });
 
       client.end();
