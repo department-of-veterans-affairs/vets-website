@@ -15,6 +15,9 @@ relatedlinks:
     - url: /healthcare/apply/
       title: Health Care Application Process
       description: Ready to apply? Get started now.
+    - url: /healthcare/health-conditions/
+      title: Health Needs and Conditions
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /disability-benefits/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
