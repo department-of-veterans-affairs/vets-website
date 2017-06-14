@@ -28,8 +28,8 @@ majorlinks:
   - heading: Learn New Skills Using Online Resources
     links:
     - url: https://veterans.linkedin.com/
-      title: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
-      description: 
+      title: Get Free Classes for a Year
+      description: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
 
 ---
 
