@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Contaminated Drinking Water at Camp Lejeune
 source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp
-template: 4-action-page
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -89,13 +89,12 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
 - [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to:
 
-<div class="panel">
-<dl>
+<dl class="va-address-block">
 <dt><b>Department of Veterans Affairs</b><dt>
 <dd>Financial Services Center
 <dd>PO Box 149200</dd>
 <dd>Austin, TX 78714-9200</dd>
-</div>
+</dl>
 
 When you apply, please provide:
 
@@ -120,3 +119,4 @@ Two on-base water wells that were shut down in 1985 had these chemicals:
 - Other compounds
 
 </div>
+

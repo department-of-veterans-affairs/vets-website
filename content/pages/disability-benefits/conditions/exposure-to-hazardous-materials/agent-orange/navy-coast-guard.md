@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page
+template: detail-page
+order: 6
 ---
 
 <div class="va-introtext">
@@ -64,7 +65,14 @@ If you served on 1 of the ships or boats listed above—and you have 1 or more i
 
 If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 
+### Need help?
+Get help from us in 1 of 2 ways:
+- Call <a href="tel:+18008271000">800-827-1000</a> or <a href="tel:+18008294833">800-829-4833</a> (TDD for hearing impaired).
+- Go to your [nearest VA benefits office](/facilities)
+
+Get more information about ships that may have been exposed to Agent Orange.
+
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
-
 Want to find out if the ship you were on had contact with Agent Orange? [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf). 

@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
 title: Licensing and Certification
-template: 4-action-page-pending
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -27,6 +27,9 @@ Veterans
 
 ### What kind of benefits can I get?
 If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We'll pay for tests even when you don’t score high enough to get your license or certification. We won't pay for fees or costs related to getting the actual license or certification document.
+
+
+-----
 
 ### How do I get this benefit?
 You have to turn in proof of payment. First, fill out VA Form 22-0803 (Application for Reimbursement of Licensing or Certification Test). [Download VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
