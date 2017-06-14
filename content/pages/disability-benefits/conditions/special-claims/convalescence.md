@@ -1,10 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
+display_title: Convalescence
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+template: detail-page
+order: 4
 ---
 
 <div class="va-introtext">

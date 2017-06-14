@@ -1,16 +1,12 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Health Care Benefits Eligibility
+display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
+collection: healthcare
+order: 1
 relatedlinks:
- - url: /disability-benefits/eligibility
-   title: Disability Benefits Eligibility
-   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
- - url: /track-claims
-   title: Check Claim Status
-   description: "Track the status of your disability claim."
 ---
 
 <div class="va-introtext">
@@ -51,15 +47,5 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
 [Learn about the application process](/healthcare/apply/).
-
-
-### How can I find out if I qualify for dental or vision care through VA?
-
-In certain cases, you may get dental or vision care as part of your VA health benefits. 
-
-[Find out if you can get dental care through VA](/healthcare).
-
-[Find out if you can get vision care through VA](/healthcare).
-
 
 <div markdown="0"><br></div>

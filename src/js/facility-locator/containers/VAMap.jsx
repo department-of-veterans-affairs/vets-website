@@ -277,11 +277,11 @@ class VAMap extends Component {
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: <strong>{facilityTypes[f.attributes.facility_type]}</strong></p>
+          <p>Facility type: <strong>{facilityTypes[f.attributes.facilityType]}</strong></p>
         </div>
       );
 
-      switch (f.attributes.facility_type) {
+      switch (f.attributes.facilityType) {
         case 'va_health_facility':
           return (
             <HealthMarker {...iconProps}>

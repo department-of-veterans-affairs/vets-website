@@ -1,7 +1,9 @@
 ---
-title: Refill your prescriptions
+title: Refill Your Prescriptions
 layout: page-react.html
 entryname: rx
+collection: healthcare
+order: 4
 ---
 
 <div id="main">
