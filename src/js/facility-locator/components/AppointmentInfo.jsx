@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import pluralize from 'pluralize';
 import { pull, startCase } from 'lodash';
 import classNames from 'classnames';
 
@@ -36,7 +35,7 @@ export default class AppointmentInfo extends Component {
 
     const renderStat = (label, value) => {
       if (value !== null) {
-        const dayString = value == 1 ? 'day' : 'days'
+        const dayString = value === 1 ? 'day' : 'days';
         return (
           <li key={label}>{label}: <strong>{value.toFixed(0)} {dayString}</strong></li>
         );
