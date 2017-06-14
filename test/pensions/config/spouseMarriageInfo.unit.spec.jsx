@@ -1,19 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
-
-function fillData(formDOM, id, value) {
-  ReactTestUtils.Simulate.change(formDOM.querySelector(id), {
-    target: {
-      value
-    }
-  });
-}
 
 describe('Pensions spouse info', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.householdInformation.pages.spouseInfo;
@@ -33,7 +24,7 @@ describe('Pensions spouse info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
     expect(formDOM.querySelector('label[for="root_spouseDateOfBirth"]').textContent).to.contain('Jane Doe');
@@ -55,11 +46,11 @@ describe('Pensions spouse info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
 
-    fillData(formDOM, '#root_liveWithSpouseNo', 'N');
+    formDOM.fillData('#root_liveWithSpouseNo', 'N');
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
 
@@ -82,11 +73,11 @@ describe('Pensions spouse info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
 
-    fillData(formDOM, '#root_spouseIsVeteranYes', 'Y');
+    formDOM.fillData('#root_spouseIsVeteranYes', 'Y');
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
   });
@@ -108,11 +99,11 @@ describe('Pensions spouse info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
 
-    fillData(formDOM, '#root_view\\:spousePreviousMarriedYes', 'Y');
+    formDOM.fillData('#root_view\\:spousePreviousMarriedYes', 'Y');
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
 
@@ -130,7 +121,7 @@ describe('Pensions spouse info', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     submitForm(form);
 
@@ -148,15 +139,15 @@ describe('Pensions spouse info', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    fillData(formDOM, '#root_spouseDateOfBirthMonth', '2');
-    fillData(formDOM, '#root_spouseDateOfBirthDay', '2');
-    fillData(formDOM, '#root_spouseDateOfBirthYear', '2000');
-    fillData(formDOM, '#root_spouseSocialSecurityNumber', '234432444');
-    fillData(formDOM, '#root_spouseIsVeteranNo', 'N');
-    fillData(formDOM, '#root_liveWithSpouseYes', 'Y');
-    fillData(formDOM, '#root_view\\:spousePreviousMarriedNo', 'N');
+    formDOM.fillData('#root_spouseDateOfBirthMonth', '2');
+    formDOM.fillData('#root_spouseDateOfBirthDay', '2');
+    formDOM.fillData('#root_spouseDateOfBirthYear', '2000');
+    formDOM.fillData('#root_spouseSocialSecurityNumber', '234432444');
+    formDOM.fillData('#root_spouseIsVeteranNo', 'N');
+    formDOM.fillData('#root_liveWithSpouseYes', 'Y');
+    formDOM.fillData('#root_view\\:spousePreviousMarriedNo', 'N');
 
     submitForm(form);
 

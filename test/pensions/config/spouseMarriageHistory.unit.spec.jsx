@@ -1,19 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
-
-function fillData(formDOM, id, value) {
-  ReactTestUtils.Simulate.change(formDOM.querySelector(id), {
-    target: {
-      value
-    }
-  });
-}
 
 describe('Pensions spouse marriage history', () => {
   const marriageHistory = formConfig.chapters.householdInformation.pages.spouseMarriageHistory;
@@ -28,7 +19,7 @@ describe('Pensions spouse marriage history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
   });
@@ -48,7 +39,7 @@ describe('Pensions spouse marriage history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelector('label[for="root_dateOfMarriage"]').textContent).to.contain('Jane Doe');
     expect(formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent).to.contain('Jane Doe');
@@ -74,7 +65,7 @@ describe('Pensions spouse marriage history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     submitForm(form);
 
@@ -92,17 +83,17 @@ describe('Pensions spouse marriage history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    fillData(formDOM, '#root_spouseFullName_first', 'test');
-    fillData(formDOM, '#root_spouseFullName_last', 'test');
-    fillData(formDOM, '#root_dateOfMarriageMonth', '3');
-    fillData(formDOM, '#root_dateOfMarriageDay', '3');
-    fillData(formDOM, '#root_dateOfMarriageYear', '2001');
-    fillData(formDOM, '#root_locationOfMarriage', 'The Pacific');
-    fillData(formDOM, '#root_marriageType_4', 'Other');
-    fillData(formDOM, '#root_otherExplanation', 'Something');
-    fillData(formDOM, '#root_reasonForSeparation_1', 'Divorced');
+    formDOM.fillData('#root_spouseFullName_first', 'test');
+    formDOM.fillData('#root_spouseFullName_last', 'test');
+    formDOM.fillData('#root_dateOfMarriageMonth', '3');
+    formDOM.fillData('#root_dateOfMarriageDay', '3');
+    formDOM.fillData('#root_dateOfMarriageYear', '2001');
+    formDOM.fillData('#root_locationOfMarriage', 'The Pacific');
+    formDOM.fillData('#root_marriageType_4', 'Other');
+    formDOM.fillData('#root_otherExplanation', 'Something');
+    formDOM.fillData('#root_reasonForSeparation_1', 'Divorced');
 
     submitForm(form);
 

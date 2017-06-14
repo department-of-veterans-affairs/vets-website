@@ -6,7 +6,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle } from '../helpers';
+import { transform, employmentDescription, getMarriageTitle, spouseContribution } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import MarriageTitle from '../components/MarriageTitle';
@@ -592,8 +592,7 @@ const formConfig = {
               }
             },
             monthlySpousePayment: {
-              // TODO: bold contribute monthly
-              'ui:title': 'How much do you contribute monthly to your spouse’s support?',
+              'ui:title': spouseContribution,
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
                 expandUnder: 'liveWithSpouse',

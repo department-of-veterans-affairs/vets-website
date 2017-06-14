@@ -1,19 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
-
-function fillData(formDOM, id, value) {
-  ReactTestUtils.Simulate.change(formDOM.querySelector(id), {
-    target: {
-      value
-    }
-  });
-}
 
 describe('Pensions marriage info', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.marriageInfo;
@@ -25,7 +16,7 @@ describe('Pensions marriage info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
@@ -39,9 +30,9 @@ describe('Pensions marriage info', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    fillData(formDOM, '#root_maritalStatus_0', 'Married');
+    formDOM.fillData('#root_maritalStatus_0', 'Married');
 
     submitForm(form);
 
@@ -60,7 +51,7 @@ describe('Pensions marriage info', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     submitForm(form);
 
@@ -78,9 +69,9 @@ describe('Pensions marriage info', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    fillData(formDOM, '#root_maritalStatus_1', 'Never Married');
+    formDOM.fillData('#root_maritalStatus_1', 'Never Married');
 
     submitForm(form);
 
