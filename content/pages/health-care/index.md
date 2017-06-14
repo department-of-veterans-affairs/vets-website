@@ -1,21 +1,21 @@
 ---
 layout: page-breadcrumbs.html
 title: Health Care Benefits
-permalink: /healthcare/index.html
+permalink: /health-care/index.html
 template: L2-section-landing
 showactionbar: false
 display_title: Health Care
 majorlinks:
-  - url: /healthcare/eligibility/
+  - url: /health-care/eligibility/
     title: Eligibility
     description: Find out if you can get VA health care benefits.
-  - url: /healthcare/apply/
+  - url: /health-care/apply/
     title: Application Process
     description: Apply online now, or find out how to apply in person or by phone or mail.
-  - url: /healthcare/prescriptions/
+  - url: /health-care/prescriptions/
     title: Refill Prescriptions
     description: Refill prescriptions online, and track the status of your refills.
-  - url: /healthcare/messaging/
+  - url: /health-care/messaging/
     title: Send a Message to Your Health Care Team
     description: Send a secure, private note to your doctor or other members of your VA health care team.
 ---
@@ -26,4 +26,4 @@ With VA health care, you're covered for regular checkups with your primary care 
 
 </div>
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for VA Health Care</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/introduction">Apply for VA Health Care</a>

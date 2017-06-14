@@ -54,7 +54,7 @@
 
 - Secondary button styles are inconsistent
 
-![](images/healthcare-btn.png)
+![](images/health-care-btn.png)
 
 *^ Health Care Application*
 
@@ -104,12 +104,12 @@
 
 - Checkboxes are missing the checkmark symbol
 
-![](images/healthcare-checkbox.png)
+![](images/health-care-checkbox.png)
 
 - "Required" labels are inconsistent - sometimes a red asterisk, sometimes (required) text
 - US web design standards  recommend only labeling fields that are *optional* rather than those that are required
 
-![](images/healthcare-field-required.png)
+![](images/health-care-field-required.png)
 
 ![](images/skills-required.png)
 

@@ -5,10 +5,10 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /healthcare/eligibility/
+ - url: /health-care/eligibility/
    title: Health Care Benefits Eligibility
    description: "Not sure if you qualify? Find out if you can get VA health care benefits."
- - url: /healthcare/after-you-apply/
+ - url: /health-care/after-you-apply/
    title: After You Apply for Health Care Benefits
    description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
 ---
@@ -20,7 +20,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 </div>
 
 ### Prepare
-- Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
+- Find out if you qualify. [Check your eligibility](/health-care/eligibility/).
 - Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ).
 
 <div markdown="0"><br></div>
@@ -39,7 +39,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/introduction">Apply for Benefits</a>
 
 ### Other ways to apply
 
@@ -67,15 +67,15 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 
 To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
 
-[Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
+[Download the 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
 
 ### What happens after I apply?
 
-[Find out what happens after you apply](/healthcare/after-you-apply).
+[Find out what happens after you apply](/health-care/after-you-apply).
 
 You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim.
 
-<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage Your Health and Benefits</a>
+<a class="usa-button-primary" href="/health-care/prescriptions/">Manage Your Health and Benefits</a>
 
 #### How long does it take VA to make a decision?
 

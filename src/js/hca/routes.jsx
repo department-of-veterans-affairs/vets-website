@@ -1,6 +1,6 @@
 import { createRoutes as createFormRoutes } from '../common/schemaform/helpers';
 import formConfig from './config/form';
-import HealthCareApp from './HealthCareApp.jsx';
+import HealthCareApp from './health-careApp.jsx';
 
 const route = {
   path: '/',
