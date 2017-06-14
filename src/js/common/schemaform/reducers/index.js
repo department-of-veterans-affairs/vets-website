@@ -104,7 +104,10 @@ export default function createSchemaFormReducer(formConfig) {
       version: formConfig.version,
       formId: formConfig.formId,
       disableSave: formConfig.disableSave,
-      // loadedData: undefined
+      loadedData: {
+        formData: {},
+        metadata: {}
+      },
       migrations: formConfig.migrations
     });
 

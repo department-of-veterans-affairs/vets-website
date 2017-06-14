@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const formSaved = !!(profile && profile.savedForms.includes(this.props.form.formId));
+    const formSaved = !!(profile && profile.savedForms.includes(this.props.formId));
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for health care with the 10-10ez"/>
@@ -77,8 +77,9 @@ class IntroductionPage extends React.Component {
         <FormIntroButtons
             route={this.props.route}
             router={this.props.router}
-            formId={this.props.form.formId}
-            migrations={this.props.form.migrations}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
             loggedIn={this.props.user.login.currentlyLoggedIn}
             formSaved={formSaved}/>
@@ -93,11 +94,13 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { formId, migrations, loadedData } = state.form;
   return {
-    formId: state.form.formId,
-    // TODO: This doesn't hook up to anything (nor should it); need to figure out
+    formId,
+    // TODO: migrations doesn't hook up to anything (nor should it); need to figure out
     //  how to get the migrations from formConfig into here
-    migrations: state.form.migrations,
+    migrations,
+    returnUrl: loadedData.metadata.returnUrl,
     user: state.user
   };
 }
