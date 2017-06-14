@@ -6,10 +6,11 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
-describe('Pensions marriage history', () => {
-  const marriageHistory = formConfig.chapters.householdInformation.pages.marriageHistory;
-  const uiSchema = marriageHistory.uiSchema.marriages.items;
-  const schema = marriageHistory.schema.properties.marriages.items;
+describe('Pensions spouse marriage history', () => {
+  const marriageHistory = formConfig.chapters.householdInformation.pages.spouseMarriageHistory;
+  const uiSchema = marriageHistory.uiSchema.spouseMarriages.items;
+  const schema = marriageHistory.schema.properties.spouseMarriages.items;
+  const depends = marriageHistory.depends;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -20,37 +21,28 @@ describe('Pensions marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(19);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
   });
 
-  describe('hideIf current marriage', () => {
-    const hideIfCurrentMarriage = marriageHistory.uiSchema.marriages.items['view:pastMarriage']['ui:options'].hideIf;
+  it('should render labels with spouse name', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{
+            marriages: [{
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe'
+              }
+            }]
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
 
-    it('hides if married and last', () => {
-      const result = hideIfCurrentMarriage({
-        maritalStatus: 'Married',
-        marriages: [{}]
-      }, 0);
-
-      expect(result).to.be.true;
-    });
-
-    it('does not hide if married and not last', () => {
-      const result = hideIfCurrentMarriage({
-        maritalStatus: 'Married',
-        marriages: [{}, {}]
-      }, 0);
-
-      expect(result).to.be.false;
-    });
-
-    it('does not hide if not married', () => {
-      const result = hideIfCurrentMarriage({
-        marriages: [{}]
-      }, 0);
-
-      expect(result).to.be.false;
-    });
+    expect(formDOM.querySelector('label[for="root_dateOfMarriage"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent).to.contain('Jane Doe');
   });
 
   describe('page title', () => {
@@ -77,7 +69,7 @@ describe('Pensions marriage history', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(8);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -101,15 +93,17 @@ describe('Pensions marriage history', () => {
     formDOM.fillData('#root_locationOfMarriage', 'The Pacific');
     formDOM.fillData('#root_marriageType_4', 'Other');
     formDOM.fillData('#root_otherExplanation', 'Something');
-    formDOM.fillData('#root_view\\:pastMarriage_reasonForSeparation_1', 'Divorced');
-    formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationMonth', '3');
-    formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationDay', '3');
-    formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationYear', '2001');
-    formDOM.fillData('#root_view\\:pastMarriage_locationOfSeparation', 'The Atlantic');
+    formDOM.fillData('#root_reasonForSeparation_1', 'Divorced');
 
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('depends should return true if married', () => {
+    const result = depends({ maritalStatus: 'Married' });
+
+    expect(result).to.be.true;
   });
 });

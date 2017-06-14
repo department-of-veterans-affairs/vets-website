@@ -3,18 +3,26 @@ layout: page-breadcrumbs.html
 title: Get Help Filing a Claim
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 5
 relatedlinks:
-  - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-    title: What's the fastest way to file a claim?
-  - url: /disability-benefits/apply/ways/
-    title: How do I file a claim?
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file while on active duty?
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file for disabilities that appear within 1 year after discharge?
-  - url: /disability-benefits/after-you-apply/date/
-    title: How does VA decide when my disability compensation starts?
+  - heading: Get answers to your questions about filing a disability claim
+    links:
+      - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+        title: What's the fastest way to file a claim?
+        description: ""
+      - url: /disability-benefits/apply/
+        title: How do I file a claim?
+        description: ""
+      - url: /disability-benefits/apply/claim-types/predischarge-claim/
+        title: How do I file while on active duty?
+        description: ""
+      - url: /disability-benefits/apply/one-year/
+        title: How do I file for an illness that started after I was discharged from active-duty?
+        description: ""
+      - url: /disability-benefits/after-you-apply/date/
+        title: How does VA decide when my disability compensation starts?
+        description: ""
 ---
 
 <div class="va-introtext">
@@ -64,9 +72,14 @@ You can find an accredited representative in 1 of 2 ways:
 1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
 2. Use the VA Office of General Counsel's list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](http://www.va.gov/ogc/accreditation.asp).
 
+<br>
+
 #### How do I set up a VSO or other accredited representative to work on my behalf?
 
 You can set up a VSO or other representative to work on your behalf in 1 of 2 ways:
 
 1. [Use eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). Go online through eBenefits to let us know that you'll be using a representative or to change your current representation.
 2. [Complete VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. [Find a VA regional office near you](http://www.benefits.va.gov/benefits/offices.asp).
+
+<br>
+

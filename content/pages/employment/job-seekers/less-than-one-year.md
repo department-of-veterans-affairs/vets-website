@@ -1,30 +1,21 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Do you have less than a year left of military service?
+display_title: Less Than One Year Before Separation
 concurrence: complete
-template: 1-topic-landing
 relatedlinks:
-  - url: /employment/job-seekers/one-on-one/
-    title: One-on-One Assistance
-    description: ""
-  - url: /employment/job-seekers/skills-translator
-    title: Military Skills Translator
-    description: ""
-  - url: /employment/job-seekers/create-resume
-    title: Résumé Builder
-    description: ""
-  - url: /employment/job-seekers/alternative/
-    title: Alternative Ways to Start Your Career
-    description: ""
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Veterans Job Bank
-    description: ""
-  - url: /employment/job-seekers/interest-profiler/
-    title: Interest Profiler
-    description: ""
-  - url: /employment/job-seekers/military-transcripts/
-    title: Military Transcripts
-    description: ""
+  - heading: Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+      description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
+    - url: /employment/job-seekers/create-resume
+      title: Résumé Builder
+      description: Use this tool to build a civilian or federal résumé.
+    - url: /employment/job-seekers/search-jobs
+      title: Job Search
+      description: Search the Veterans Job Bank to find the right position for you.
 ---
 
 <div class="feature" markdown="1">

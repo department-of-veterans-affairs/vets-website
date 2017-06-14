@@ -1,16 +1,20 @@
 ---
 layout: page-breadcrumbs.html
 title: After You Apply for Disability Benefits
+display_title: After You Apply
+order: 3
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-relatedlinks:
- - url: /disability-benefits/after-you-apply/date/
-   title: Effective Date of Disability
-   description: "Find out when you’ll start getting your disability payments."
- - url: /disability-benefits/after-you-apply/what-happens-after-rating/
-   title: What to Expect After You Get a Disability Rating
-   description: "Find out what happens after you get your decision notice with your rating."
+template: detail-page
+children: disabilityAfterYouApply
+majorlinks:
+  - heading:
+    links:
+    - url: /disability-benefits/after-you-apply/date/
+      title: Effective Date of Disability
+      description: "Find out when you’ll start getting your disability payments."
+    - url: /disability-benefits/after-you-apply/what-happens-after-rating/
+      title: What to Expect After You Get a Disability Rating
+      description: "Find out what happens after you get your decision notice with your rating."
 ---
 
 <div class="va-introtext">

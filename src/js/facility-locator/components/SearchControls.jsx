@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { truncate } from 'lodash';
+import { truncate, kebabCase } from 'lodash';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import { benefitsServices, facilityTypes } from '../config';
@@ -30,7 +30,7 @@ class SearchControls extends Component {
   handleFilterChange = (e) => {
     const { facilityType } = this.props.currentQuery;
 
-    if (facilityType === 'va_benefits_facility' && e.target.value === 'All') {
+    if (facilityType === 'benefits' && e.target.value === 'All') {
       this.props.updateSearchQuery({
         [e.target.name]: null,
       });
@@ -44,7 +44,7 @@ class SearchControls extends Component {
   handleServiceFilterSelect(serviceType) {
     const { facilityType } = this.props.currentQuery;
 
-    if (facilityType === 'va_benefits_facility' && serviceType === 'All') {
+    if (facilityType === 'benefits' && serviceType === 'All') {
       this.props.updateSearchQuery({
         serviceType: null,
       });
@@ -77,7 +77,7 @@ class SearchControls extends Component {
 
   toggleServiceDropdown() {
     const { currentQuery: { facilityType } } = this.props;
-    if (facilityType === 'va_benefits_facility') {
+    if (facilityType === 'benefits') {
       this.setState({
         serviceDropdownActive: !this.state.serviceDropdownActive,
         facilityDropdownActive: false,
@@ -87,7 +87,7 @@ class SearchControls extends Component {
 
   handleFacilityFilterSelect(facilityType) {
     return () => {
-      if (facilityType === 'va_benefits_facility') {
+      if (facilityType === 'benefits') {
         this.props.updateSearchQuery({
           facilityType,
         });
@@ -104,7 +104,7 @@ class SearchControls extends Component {
     const { currentQuery: { facilityType } } = this.props;
 
     switch (facilityType) {
-      case 'va_benefits_facility':
+      case 'benefits':
         return (
           <ul className="dropdown">
             {
@@ -127,19 +127,10 @@ class SearchControls extends Component {
   }
 
   renderSelectOptionWithIcon(facilityType) {
-    /* eslint-disable camelcase */
-    const classMappings = {
-      va_health_facility: 'health',
-      va_cemetery: 'cemetery',
-      va_benefits_facility: 'benefits',
-      vet_center: 'vet-center',
-    };
-    /* eslint-enable camelcase */
-
     if (facilityType) {
       return (
         <button type="button" className="facility-option">
-          <span className="flex-center"><span className={`legend ${classMappings[facilityType]}-icon`}></span>{facilityTypes[facilityType]}</span>
+          <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
         </button>
       );
     }
@@ -195,16 +186,16 @@ class SearchControls extends Component {
               </div>
               <ul className="dropdown">
                 <li onClick={this.handleFacilityFilterSelect()}>{this.renderSelectOptionWithIcon()}</li>
-                <li onClick={this.handleFacilityFilterSelect('va_health_facility')}>{this.renderSelectOptionWithIcon('va_health_facility')}</li>
-                <li onClick={this.handleFacilityFilterSelect('va_benefits_facility')}>{this.renderSelectOptionWithIcon('va_benefits_facility')}</li>
-                <li onClick={this.handleFacilityFilterSelect('va_cemetery')}>{this.renderSelectOptionWithIcon('va_cemetery')}</li>
+                <li onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
                 <li onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
               </ul>
             </div>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'va_benefits_facility' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
+            <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'benefits' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
                 {this.renderServiceSelectOption(currentQuery.serviceType)}
               </div>

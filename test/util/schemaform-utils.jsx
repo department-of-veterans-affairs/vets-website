@@ -3,6 +3,7 @@ import Form from 'react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
 import {
@@ -78,4 +79,22 @@ export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
     preventDefault: f => f
   });
+}
+
+export function getFormDOM(form) {
+  const formDOM = findDOMNode(form);
+
+  formDOM.fillData = function fillData(id, value) {
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        value
+      }
+    });
+  };
+
+  formDOM.submitForm = () => {
+    submitForm(form);
+  };
+
+  return formDOM;
 }

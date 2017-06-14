@@ -28,3 +28,5 @@ export function getMarriageTitle(index) {
 
   return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
 }
+
+export const spouseContribution = <span>How much do you <strong>contribute monthly</strong> to your spouse’s support?</span>;
