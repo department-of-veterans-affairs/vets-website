@@ -77,7 +77,8 @@ class IntroductionPage extends React.Component {
         <FormIntroButtons
             route={this.props.route}
             router={this.props.router}
-            form={this.props.form}
+            formId={this.props.form.formId}
+            migrations={this.props.form.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
             loggedIn={this.props.user.login.currentlyLoggedIn}
             formSaved={formSaved}/>
@@ -93,8 +94,10 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    // TODO: When we get the ability to query for all saved forms, add the list here
-    form: state.form,
+    formId: state.form.formId,
+    // TODO: This doesn't hook up to anything (nor should it); need to figure out
+    //  how to get the migrations from formConfig into here
+    migrations: state.form.migrations,
     user: state.user
   };
 }

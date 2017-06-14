@@ -11,7 +11,7 @@ class FormIntroButtons extends React.Component {
   handleLoadForm = () => {
     // This is where we take the formData we pre-loaded in componentWillMount
     //  and fill in the form.
-    this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations).then((returnUrl) => {
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations).then((returnUrl) => {
       // Navigate to the last page they were on
       // TODO: The props haven't updated with the metadata yet...
       this.props.router.push(returnUrl);
@@ -57,7 +57,8 @@ class FormIntroButtons extends React.Component {
 
 FormIntroButtons.propTypes = {
   route: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
+  migrations: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
