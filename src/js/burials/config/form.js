@@ -7,8 +7,10 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { relationshipLabels, locationOfDeathLabels } from '../labels.jsx';
 
+import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import * as personId from '../../common/schemaform/definitions/personId';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
@@ -17,14 +19,17 @@ const {
   veteranFullName,
   locationOfDeath,
   burialDate,
-  deathDate
+  deathDate,
+  claimantEmail,
+  claimantPhone
 } = fullSchemaBurials.properties;
 
 const {
   fullName,
   vaFileNumber,
   ssn,
-  date
+  date,
+  usaPhone
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -40,7 +45,8 @@ const formConfig = {
     fullName,
     vaFileNumber,
     ssn,
-    date
+    date,
+    usaPhone
   },
   chapters: {
     claimantInformation: {
@@ -135,6 +141,31 @@ const formConfig = {
               burialDate,
               deathDate,
               locationOfDeath
+            }
+          }
+        }
+      }
+    },
+    claimantContactInformation: {
+      title: 'Claimant Contact Information',
+      pages: {
+        claimantContactInformation: {
+          title: 'Claimant Contact Information',
+          path: 'claimant-contact-information',
+          uiSchema: {
+            claimantAddress: address.uiSchema('Address'),
+            claimantEmail: {
+              'ui:title': 'Email address'
+            },
+            claimantPhone: phoneUI('Phone number')
+          },
+          schema: {
+            type: 'object',
+            required: ['claimantAddress', 'claimantEmail', 'claimantPhone'],
+            properties: {
+              claimantAddress: address.schema(fullSchemaBurials, true),
+              claimantEmail,
+              claimantPhone
             }
           }
         }

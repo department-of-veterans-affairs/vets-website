@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
-import EnrollmentHistory from '../components/EnrollmentHistory';
-import UserInfoSection from '../components/UserInfoSection';
+import Main from './Main';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -31,15 +29,10 @@ function AppContent({ children, isDataAvailable }) {
 }
 
 class Post911GIBStatusApp extends React.Component {
-  componentDidMount() {
-    this.props.getEnrollmentData();
-  }
 
   render() {
     // TODO: change the service name below from "user-profile" to
     // something like "post-911-gib-status" once its defined in vets-api
-    const { enrollmentData } = this.props;
-
     return (
       <RequiredLoginView
           authRequired={3}
@@ -58,14 +51,7 @@ class Post911GIBStatusApp extends React.Component {
                   print a copy of this screen for benefit and eligibility verification.
                 </p>
               </div>
-              <UserInfoSection enrollmentData={enrollmentData}/>
-              <EnrollmentHistory enrollmentData={enrollmentData}/>
-              <div className="feature help-desk">
-                <h2>Need help?</h2>
-                <div>Call the Vets.gov Help Desk</div>
-                <div>1-855-574-7286</div>
-                <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
-              </div>
+              <Main/>
             </div>
           </div>
         </AppContent>
@@ -79,13 +65,8 @@ function mapStateToProps(state) {
   return {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl,
-    enrollmentData: state.post911GIBStatus.enrollmentData
+    verifyUrl: userState.login.verifyUrl
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post911GIBStatusApp);
+export default connect(mapStateToProps)(Post911GIBStatusApp);

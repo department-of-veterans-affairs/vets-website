@@ -14,6 +14,11 @@ const MAX_CONTENTIONS = 3;
 export default class ClaimDetailLayout extends React.Component {
   render() {
     const { claim, loading, message, clearNotification, currentTab, synced } = this.props;
+    const tabs = [
+      'Status',
+      'Files',
+      'Details'
+    ];
 
     let content;
     if (!loading) {
@@ -52,10 +57,20 @@ export default class ClaimDetailLayout extends React.Component {
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
-                <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
-                  {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
-                  {this.props.children}
-                </div>
+                {tabs.map(tab => (
+                  <div
+                      key={tab}
+                      role="tabpanel"
+                      id={`tabPanel${tab}`}
+                      aria-labelledby={`tab${tab}`}>
+                    {currentTab === tab &&
+                      <div className="va-tab-content db-tab-content">
+                        {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
+                        {this.props.children}
+                      </div>
+                    }
+                  </div>
+                ))}
               </div>
             </div>
             <div className="small-12 usa-width-one-third medium-4 columns">

@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Regional Offices
 concurrence: incomplete
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+template: detail-page
 ---
 
 <div class="va-introtext">

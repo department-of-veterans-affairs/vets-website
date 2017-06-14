@@ -1,16 +1,18 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Burial Flags and Presidential Memorial Certificates
+display_title: Flags and Memorial Certificates
 concurrence: incomplete
-template: 6-info-page
-relatedlinks:
-  - url: /burials-and-memorials/burial-planning/headstones-markers-medallions/
-    title: Headstones, Markers, Niche Covers, and Medallions
-    description: Learn about ways to memorialize the deceased.
 ---
 
+<div class="va-introtext">
 
 To honor the military service of a deceased Veteran or Reservist, we provide the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors. 
+
+</div>
+
+<div class="feature">
 
 ### Can I get a burial flag?
 
@@ -20,6 +22,8 @@ You can get a burial flag if you're the next of kin or a close friend of the dec
 - Served after January 31, 1955, **or**
 - Served in peacetime and left military service before June 27, 1950, after serving at least 1 enlistment, or because of a disability that was caused—or made worse—by their active military service, **or**
 - Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">800-827-1000</a>.
+
+</div>
 
 ### How do I get a flag?
 

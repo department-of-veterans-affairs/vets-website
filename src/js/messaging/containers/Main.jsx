@@ -32,11 +32,17 @@ export class Main extends React.Component {
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
+    this.loadApp = this.loadApp.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchFolders();
-    this.props.fetchRecipients();
+    this.loadApp();
+  }
+
+  loadApp() {
+    const { folders, recipients } = this.props;
+    if (!folders || !folders.length) { this.props.fetchFolders(); }
+    if (!recipients) { this.props.fetchRecipients(); }
   }
 
   handleFolderChange() {
@@ -62,18 +68,15 @@ export class Main extends React.Component {
   render() {
     const loading = this.props.loading;
 
-    if (loading.folders) {
+    if (loading.folders || loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
-    if (!this.props.folders || !this.props.folders.length) {
+    if (!this.props.folders || !this.props.folders.length || !this.props.recipients) {
       return (
         <p>
           The application failed to load.
-          Click <a href="/healthcare/messaging" onClick={(e) => {
-            e.preventDefault();
-            this.props.fetchFolders();
-          }}> here</a> to try again.
+          Click <a onClick={this.loadApp}>here</a> to try again.
         </p>
       );
     }
@@ -108,7 +111,7 @@ export class Main extends React.Component {
           <ButtonClose
               className="messaging-folder-nav-close"
               onClick={this.props.toggleFolderNav}/>
-          <ComposeButton disabled={_.isEmpty(this.props.recipients)}/>
+          <ComposeButton/>
           <FolderNav
               currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}

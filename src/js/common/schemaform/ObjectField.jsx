@@ -196,6 +196,7 @@ class ObjectField extends React.Component {
                 ? <CustomTitleField
                     id={`${idSchema.$id}__title`}
                     formData={formData}
+                    formContext={formContext}
                     required={required}/> : null}
             {!CustomTitleField && title && !showFieldLabel
                 ? <TitleField

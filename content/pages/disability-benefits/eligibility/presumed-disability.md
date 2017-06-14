@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Presumed Disability
 concurrence: incomplete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
+order: 2
 ---
 
 <div class="va-introtext">
@@ -16,7 +17,6 @@ This usually applies to a chronic (long-lasting) illness that appears within 1 y
 - Certain contaminants (toxic chemicals), **or**
 - Other hazardous materials
 
-[Learn more about contact with contaminants and other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
-
+[Learn more about contact with contaminants and other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). <br>
 [Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
 

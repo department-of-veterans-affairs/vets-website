@@ -1,8 +1,10 @@
 ---
-title: Send a message to your provider
+title: Send a Message to Your Provider
 layout: page-react.html
 entryname: messaging
 gatePage: true
+collection: healthcare
+order: 5
 includeBreadcrumbs: true
 ---
 

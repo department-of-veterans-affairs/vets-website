@@ -14,7 +14,9 @@ import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
 import OMBInfo from '../../../common/components/OMBInfo';
 
-import FormTitle from '../../../common/schemaform/FormTitle.jsx';
+import FormTitle from '../../../common/schemaform/FormTitle';
+import AskVAQuestions from '../../../common/schemaform/AskVAQuestions';
+import GetFormHelp from '../../components/GetFormHelp';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -82,6 +84,7 @@ class EduBenefitsApp extends React.Component {
 
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isConfirmationPage = trimmedPathname.endsWith('submit-message');
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
@@ -149,6 +152,9 @@ class EduBenefitsApp extends React.Component {
             {ombInfo}
           </div>
         </div>
+        {!isConfirmationPage && <AskVAQuestions>
+          <GetFormHelp/>
+        </AskVAQuestions>}
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );
