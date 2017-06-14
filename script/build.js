@@ -194,10 +194,10 @@ smith.use(collections({
     }
   },
   housingVALoans: {
-    pattern: 'housing-assistance/home-loans/va-backed-loans/*.md',
+    pattern: 'housing-assistance/home-loans/loan-options/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'VA-Backed Loans'
+      name: 'Loan Options'
     }
   },
 }));
