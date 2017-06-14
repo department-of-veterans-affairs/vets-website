@@ -1,16 +1,20 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: After You Apply for Health Care Benefits
+display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
+collection: healthcare
+order: 3
 relatedlinks:
- - url: /disability-benefits/
-   title: Disability Benefits
-   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
- - url: /education/
-   title: Education Benefits
-   description: "Need help paying for college or professional training, picking a school, or exploring career options? Find out if you can get financial support and counseling from VA."
+  - heading: 
+    links:
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
+    - url: /education/
+      title: Education Benefits
+      description: "Need help paying for college or professional training, picking a school, or exploring career options? Find out if you can get financial support and counseling from VA."
 ---
 
 <div class="va-introtext">

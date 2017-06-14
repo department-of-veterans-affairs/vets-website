@@ -1,7 +1,16 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Job Seekers
-template: 4-action-page
+relatedlinks:
+  - heading: Online Resources
+    links:
+    - url: https://www.surveymonkey.com/r/QSGQRFN
+      title: Coursera
+      description: Take a class with free resources.
+    - url: https://veterans.linkedin.com/
+      title: LinkedIn&#153; Learning
+      description: Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses.
 ---
 
 <div class="va-introtext">
@@ -38,7 +47,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 <ol class="process" markdown="0">
 <li class="process-step list-one" markdown="1">
 
-##### Discover your skills and interests.<br>
+##### Discover your skills and interests<br>
 
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 </li>

@@ -1,9 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: Survivors' and Dependents' Assistance
+template: detail-page
+title: Survivors’ and Dependents’ Assistance
+display_title: Survivors and Dependents
 concurrence: incomplete
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+children: educationGIBillSurvivors
+order: 7
 ---
 
 <div class="va-introtext">

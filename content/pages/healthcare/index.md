@@ -1,23 +1,24 @@
 ---
 layout: page-breadcrumbs.html
+template: level2-index
 title: Health Care Benefits
-permalink: /healthcare/index.html
-template: L2-section-landing
-showactionbar: false
 display_title: Health Care
+permalink: /healthcare/index.html
 majorlinks:
-  - url: /healthcare/eligibility/
-    title: Eligibility
-    description: Find out if you can get VA health care benefits.
-  - url: /healthcare/apply/
-    title: Application Process
-    description: Apply online now, or find out how to apply in person or by phone or mail.
-  - url: /healthcare/prescriptions/
-    title: Refill Prescriptions
-    description: Refill prescriptions online, and track the status of your refills.
-  - url: /healthcare/messaging/
-    title: Send a Message to Your Health Care Team
-    description: Send a secure, private note to your doctor or other members of your VA health care team.
+  - heading:
+    links:
+    - url: /healthcare/eligibility/
+      title: Eligibility
+      description: Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Application Process
+      description: Apply online now, or find out how to apply in person or by phone or mail.
+    - url: /healthcare/prescriptions/
+      title: Refill Prescriptions
+      description: Refill prescriptions online, and track the status of your refills.
+    - url: /healthcare/messaging/
+      title: Send a Message to Your Health Care Team
+      description: Send a secure, private note to your doctor or other members of your VA health care team.
 ---
 
 <div class="va-introtext">
