@@ -3,6 +3,8 @@ import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
+export const FETCH_CLAIMS = 'FETCH_CLAIMS';
+export const FETCH_APPEALS = 'FETCH_APPEALS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -44,6 +46,8 @@ export function setNotification(message) {
 
 export function getClaims(filter) {
   return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS });
+
     makeAuthRequest('/v0/evss_claims',
       null,
       dispatch,
@@ -57,6 +61,8 @@ export function getClaims(filter) {
 
 export function getAppeals(filter) {
   return (dispatch) => {
+    dispatch({ type: FETCH_APPEALS });
+
     makeAuthRequest('/v0/appeals',
       null,
       dispatch,

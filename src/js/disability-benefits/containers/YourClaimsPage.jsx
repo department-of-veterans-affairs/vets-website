@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { concat } from 'lodash';
 
 import Modal from '../../common/components/Modal';
 import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
@@ -39,7 +40,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
-    this.props.getClaims(this.getFilter(this.props));
+    // this.props.getClaims(this.getFilter(this.props));
     this.props.getAppeals(this.getFilter(this.props));
     if (this.props.loading) {
       scrollToTop();
@@ -146,15 +147,17 @@ class YourClaimsPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const claimsRoot = claimsState.claims;
+
   return {
-    loading: claimsState.claims.list === null,
-    claims: claimsState.claims.visibleRows,
-    unfilteredClaims: claimsState.claims.claims,
-    page: claimsState.claims.page,
-    pages: claimsState.claims.pages,
-    sortProperty: claimsState.claims.sortProperty,
-    consolidatedModal: claimsState.claims.consolidatedModal,
-    show30DayNotice: claimsState.claims.show30DayNotice,
+    loading: claimsRoot.loading,
+    claims: claimsRoot.visibleRows,
+    unfilteredClaims: concat(claimsRoot.claims, claimsRoot.appeals),
+    page: claimsRoot.page,
+    pages: claimsRoot.pages,
+    sortProperty: claimsRoot.sortProperty,
+    consolidatedModal: claimsRoot.consolidatedModal,
+    show30DayNotice: claimsRoot.show30DayNotice,
     synced: claimsState.claimSync.synced
   };
 }
