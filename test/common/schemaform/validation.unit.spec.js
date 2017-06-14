@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from 'moment';
 import sinon from 'sinon';
 
 import {
@@ -6,6 +7,7 @@ import {
   uiSchemaValidate,
   validateSSN,
   validateDate,
+  validateCurrentOrPastDate,
   validateMatch,
   validateDateRange,
   validateFileField
@@ -239,6 +241,24 @@ describe('Schemaform validations', () => {
       validateDate(errors, 'asdf-01-03');
 
       expect(errors.addError.callCount).to.equal(1);
+    });
+  });
+  describe('validateCurrentOrPastDate', () => {
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
+      validateCurrentOrPastDate(errors, futureDate);
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
+    });
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
+      validateCurrentOrPastDate(errors, futureDate, null, null, { futureDate: 'Blah blah' });
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal('Blah blah');
     });
   });
   describe('validateMatch', () => {
