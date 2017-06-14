@@ -4,31 +4,6 @@ import PropTypes from 'prop-types';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
-  // Load the form data again if we weren't logged in before but are now.
-  // componentWillReceiveProps(newProps) {
-  //   // Ugh. So verbose.
-  //   let wasLoggedIn;
-  //   let isLoggedIn;
-  //   try {
-  //     wasLoggedIn = this.props.loggedIn;
-  //   } catch (e) {
-  //     if (e instanceof TypeError) {
-  //       // Probably couldn't read a property somewhere along the way
-  //       wasLoggedIn = false;
-  //     }
-  //   }
-  //   try {
-  //     isLoggedIn = newProps.loggedIn;
-  //   } catch (e) {
-  //     if (e instanceof TypeError) {
-  //       isLoggedIn = false;
-  //     }
-  //   }
-  //   if (!wasLoggedIn && isLoggedIn) {
-  //     this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
-  //   }
-  // }
-
   goToBeginning = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   }
@@ -85,7 +60,6 @@ FormIntroButtons.propTypes = {
   form: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
-  loadInProgressDataIntoForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired
 };

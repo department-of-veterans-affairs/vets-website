@@ -5,7 +5,6 @@ import { setData } from './actions';
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
-export const LOAD_DATA_INTO_FORM = 'LOAD_DATA_INTO_FORM';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -46,11 +45,6 @@ export function setInProgressForm(data) {
   };
 }
 
-export function loadInProgressDataIntoForm() {
-  return {
-    type: LOAD_DATA_INTO_FORM
-  };
-}
 
 /**
  * Transforms the data from an old version of a form to be used in the latest
@@ -245,7 +239,6 @@ export function fetchInProgressForm(formId, migrations) {
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
 
       // Return a resolved promise to tell the caller we're good to navigate to the page they saved on
-      console.log('returnUrl (from fetch):', resBody.metadata.returnUrl);
       return Promise.resolve(resBody.metadata.returnUrl);
     }).catch((status) => {
       let loadedStatus = status;

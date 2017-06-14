@@ -8,7 +8,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm, loadInProgressDataIntoForm } from '../../common/schemaform/save-load-actions';
+import { fetchInProgressForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
@@ -79,7 +79,6 @@ class IntroductionPage extends React.Component {
             router={this.props.router}
             form={this.props.form}
             fetchInProgressForm={this.props.fetchInProgressForm}
-            loadInProgressDataIntoForm={this.props.loadInProgressDataIntoForm}
             loggedIn={this.props.user.login.currentlyLoggedIn}
             formSaved={formSaved}/>
         <br/>
@@ -103,7 +102,6 @@ function mapStateToProps(state) {
 // Copied from src/js/login/containers/Main.jsx
 const mapDispatchToProps = {
   fetchInProgressForm,
-  loadInProgressDataIntoForm,
   updateLogInUrl
 };
 
