@@ -19,7 +19,6 @@ class UserInfoSection extends React.Component {
 
     return (
       <div>
-        <h3 className="section-header">Chapter 33 Benefit Information</h3>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>

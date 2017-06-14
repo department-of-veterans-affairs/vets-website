@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router';
+
 import FormTitle from '../../common/schemaform/FormTitle';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
@@ -26,6 +28,11 @@ class Main extends React.Component {
             in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
             print a copy of this screen for benefit and eligibility verification.
           </p>
+        </div>
+        <div className="section-line">
+          <Link to="/print" target="_blank" className="usa-button-primary">
+            Print This Page as COE
+          </Link>
         </div>
         <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
