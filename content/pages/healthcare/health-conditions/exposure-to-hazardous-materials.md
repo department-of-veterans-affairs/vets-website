@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 5
 relatedlinks:
-  - heading: Other information you may be interested in
+  - heading: More information about your benefits
     links:
     - url: /healthcare/about-va-health-care/
       title: About VA Health Care Coverage
