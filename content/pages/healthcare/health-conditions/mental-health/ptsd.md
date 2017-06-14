@@ -107,19 +107,6 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - Visit our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](http://www.mentalhealth.va.gov/self_help.asp).
 - Call the VA general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>.
 
-------
-
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
 <script type="text/javascript">
 
   // Toggle the expandable crisis info
