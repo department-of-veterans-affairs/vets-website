@@ -24,7 +24,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-We offer 4 home loan options to help you buy, build, or improve a home or refinance your current home loan—1 VA direct loan and 3 VA-backed loans. Learn how these different home loans work—and find out if you can get a loan that meets your needs.
+We offer 4 home loan options to help you buy, build, or improve a home or refinance your current home loan—1 VA direct loan and 3 VA-backed loans. Learn how these different home loans work, and find out if you can get a loan that meets your needs.
 
 </div>
 
