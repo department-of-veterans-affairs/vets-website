@@ -17,7 +17,10 @@ relatedlinks:
       description: Learn more about VA health services to help support Veterans with depression.
     - url: /healthcare/health-conditions/mental-health/suicide-prevention/
       title: Suicide Prevention
-      description: Learn more about VA services to help support Veterans at risk of suicide and their families.    
+      description: Learn more about VA services to help support Veterans at risk of suicide and their families.
+    - url: /healthcare/health-conditions/substance-use-problems/
+      title: Substance Use Problems
+      description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">
@@ -71,8 +74,8 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 Here’s how to access VA services for MST:
 
 - **If you have a VA primary care provider,** talk to that professional about what you’ve been through. All our primary care providers are trained in MST and can help you figure out if you have related issues, like PTSD or depression. Your provider will offer treatment and support as needed.
-- **If you don’t have a VA primary care provider,** call your local VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable. [Connect with your medical center](https://www.va.gov/health/vamc/). 
-- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
+- **If you don’t have a VA primary care provider,** call your local VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable. [Find a VA medical center near you](/facilities/). 
+- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
@@ -100,20 +103,6 @@ Or, get help applying for disability compensation by:
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
 - Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
-
-------
-
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
- 
 <script type="text/javascript">
 
   // Toggle the expandable crisis info
