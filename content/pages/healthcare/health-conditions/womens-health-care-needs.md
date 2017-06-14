@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 4
 relatedlinks:
-  - heading:
+  - heading: More information about your benefits
     links: 
     - url: /healthcare/about-va-health-care/
       title: About VA Health Care Coverage
@@ -59,7 +59,7 @@ Through legislation announced January 19, 2017, we are expanding our fertility s
 
 #### Telephone care
 
-If you’re a woman Veteran and you’re currently signed up for VA health care, you can reach a VA health care provider at your local VA medical center by phone 24 hours a day, 7 days a week. This provider will answer questions and give you advice on health concerns. If you’re currently signed up for VA health care, contact your VA medical center and ask for the provider’s phone number. [Connect with your VA medical center](https://www.va.gov/health/vamc/). 
+If you’re a woman Veteran and you’re currently signed up for VA health care, you can reach a VA health care provider at your local VA medical center by phone 24 hours a day, 7 days a week. This provider will answer questions and give you advice on health concerns. If you’re currently signed up for VA health care, contact your VA medical center and ask for the provider’s phone number. [Find a VA medical center near you](/facilities/). 
 
 <br>
 
@@ -93,7 +93,7 @@ Once you’re signed up:
 If you don’t have VA health care benefits, you may still be able to get care:
 
 - **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 855-VA-WOMEN (855-829-6636). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).  
-- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at 1 of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
+- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at 1 of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
@@ -108,17 +108,3 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 - Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
 - Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/). 
 - Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential (private) guidance. Call the Center at 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. ET and Saturday, 8:00 a.m. to 6:30 p.m. ET.
-
-------
-
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
