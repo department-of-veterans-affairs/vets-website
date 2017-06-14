@@ -7,8 +7,14 @@ concurrence:
 lastupdate_override:
 order: 2
 relatedlinks:
-  - heading:
+  - heading: More information about benefits and services
     links:
+    - url: /healthcare/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Not sure if you qualify? Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Health Care Application Process
+      description: Ready to apply? Get started now.
     - url: /healthcare/health-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
@@ -127,15 +133,3 @@ Yes, we may be able to help you get to and from appointments in certain cases. O
 #### Can you help me cover travel expenses if I need to travel for care?
 
 Yes, we may be able to help with travel expenses if you need to travel for care. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
-
-------
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
