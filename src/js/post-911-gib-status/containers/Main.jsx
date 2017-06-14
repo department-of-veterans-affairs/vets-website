@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import FormTitle from '../../common/schemaform/FormTitle';
+
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
@@ -17,6 +19,14 @@ class Main extends React.Component {
 
     return (
       <div>
+        <FormTitle title="Post-9/11 GI Bill Status"/>
+        <div className="va-introtext">
+          <p>
+            View your Post-9/11 GI Bill enrollment information below. This is the same information
+            in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
+            print a copy of this screen for benefit and eligibility verification.
+          </p>
+        </div>
         <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
