@@ -152,7 +152,6 @@ smith.use(define({
 
 smith.use(collections({
   burials: {
-    pattern: 'burials-and-memorials/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Burials and Memorials'

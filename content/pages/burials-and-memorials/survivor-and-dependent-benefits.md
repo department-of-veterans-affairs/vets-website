@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Survivor and Dependent Benefits
 display_title: Survivors and Dependents
+collection: burials
 children: burialsSurvivors
 order: 3
 majorlinks:

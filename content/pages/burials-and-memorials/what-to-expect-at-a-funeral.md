@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: What to Expect at a Funeral
 template: detail-page
+collection: burials
 order: 4
 ---
 

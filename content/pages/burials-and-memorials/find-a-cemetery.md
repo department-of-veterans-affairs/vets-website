@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Find a Cemetery or Gravesite
 display_title: Find a Cemetery
+collection: burials
 order: 5
 ---
 
