@@ -16,6 +16,9 @@ export const facilityTypes = {
   va_cemetery: 'Cemetery',
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
+  health: 'Health',
+  cemetery: 'Cemetery',
+  benefits: 'Benefits',
 };
 /* eslint-enable camelcase */
 

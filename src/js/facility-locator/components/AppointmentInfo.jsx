@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import pluralize from 'pluralize';
-import { startCase } from 'lodash';
+import { pull, startCase } from 'lodash';
 import classNames from 'classnames';
 
 export default class AppointmentInfo extends Component {
@@ -26,7 +26,9 @@ export default class AppointmentInfo extends Component {
 
     const healthAccessAttrs = facility.attributes.access.health;
     const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
-    delete specialtyKeys.primaryCare;
+    pull(specialtyKeys, 'primaryCare');
+    pull(specialtyKeys, 'effectiveDate');
+    specialtyKeys.sort();
 
     if (specialtyKeys && specialtyKeys.length === 0) {
       return null;
@@ -68,7 +70,7 @@ export default class AppointmentInfo extends Component {
           <div>
             {this.state[showHideKey] && <div>
               {lastToEnd.map(k => {
-                return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'existing' : 'new']);
+                return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
               })}
             </div>}
             <a onClick={onClick} className={seeMoreClasses}>See {this.state[showHideKey] ? 'less' : 'more'}</a>
@@ -81,9 +83,9 @@ export default class AppointmentInfo extends Component {
           Specialty care:
           <ul>
             {firstThree.map(k => {
-              return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'existing' : 'new']);
+              return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
             })}
-            {renderMoreTimes()}
+            {(lastToEnd.length > 0) && renderMoreTimes()}
           </ul>
         </li>
       );
@@ -100,11 +102,11 @@ export default class AppointmentInfo extends Component {
             {renderSpecialtyTimes()}
           </ul>
         </div>
-        {healthAccessAttrs.primaryCare.existing && <div className="mb2">
+        {healthAccessAttrs.primaryCare.established && <div className="mb2">
           <h4>Existing patient wait times</h4>
           <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
           <ul>
-            {renderStat('Primary Care', healthAccessAttrs.primaryCare.existing)}
+            {renderStat('Primary Care', healthAccessAttrs.primaryCare.established)}
             {renderSpecialtyTimes(true)}
           </ul>
         </div>}
