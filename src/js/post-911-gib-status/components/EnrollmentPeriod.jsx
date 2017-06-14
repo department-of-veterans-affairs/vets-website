@@ -43,7 +43,7 @@ class EnrollmentPeriod extends React.Component {
       <div id={`collapsible-${id}`} className="usa-accordion-content">
         {amendments.map((amendment, index) => {
           return (
-            <div key={`amendment-${this.props.key}-${index}`}>
+            <div key={`amendment-${index}`}>
               {index > 0 ? <hr/> : null}
               <InfoPair label="On-campus Hours" value={amendment.onCampusHours}/>
               <InfoPair label="Online Hours" value={amendment.onlineHours}/>
