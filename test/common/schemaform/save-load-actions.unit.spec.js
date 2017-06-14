@@ -5,13 +5,11 @@ import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
-  LOAD_DATA_INTO_FORM,
   SAVE_STATUSES,
   LOAD_STATUSES,
   setSaveFormStatus,
   setFetchFormStatus,
   setInProgressForm,
-  loadInProgressDataIntoForm,
   migrateFormData,
   saveInProgressForm,
   fetchInProgressForm
@@ -60,13 +58,6 @@ describe('Schemaform save / load actions:', () => {
 
       expect(action.type).to.equal(SET_IN_PROGRESS_FORM);
       expect(action.data).to.equal(data);
-    });
-  });
-  describe('loadInProgressDataIntoForm', () => {
-    it('should return action', () => {
-      const action = loadInProgressDataIntoForm();
-
-      expect(action.type).to.equal(LOAD_DATA_INTO_FORM);
     });
   });
   describe('migrateFormData', () => {
