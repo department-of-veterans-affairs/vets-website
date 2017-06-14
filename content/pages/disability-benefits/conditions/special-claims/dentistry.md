@@ -4,7 +4,8 @@ title: Dental Care
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 5
 ---
 
 <div class="va-introtext">

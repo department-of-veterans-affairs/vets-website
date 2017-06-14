@@ -1,9 +1,11 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
+display_title: Agent Orange Registry Health Exam
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
+order: 10
 ---
 
 <div class="va-introtext">
@@ -24,8 +26,7 @@ You can get an Agent Orange Registry health exam if you served in Vietnam betwee
   - In Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, **or**
   - In other locations, but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
  
- [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
- 
+ [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp). <br>
  [Learn about herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
 ### Who's covered?
@@ -58,6 +59,8 @@ Please note that:
 - You can get another free Registry exam if you have a new illness in the future.
 - Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
 
-### Get more information
+### Need help?
+Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)
 
+### Get more information
 [Learn more about the Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 

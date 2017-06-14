@@ -145,6 +145,7 @@ class AddFilesForm extends React.Component {
             visible={this.props.uploading}
             hideCloseButton
             cssClass="claims-upload-modal"
+            id="upload-status"
             contents={<UploadStatus
                 progress={this.props.progress}
                 files={this.props.files.length}

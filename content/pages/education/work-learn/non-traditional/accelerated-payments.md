@@ -1,7 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Accelerated Payments for High-Technology Programs
-template: 4-action-page-pending
+display_title: High-Technology Programs
 concurrence: incomplete
 ---
 
@@ -33,6 +34,9 @@ Veterans
 ### What benefits can I get?
 
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs. We issue an accelerated payment to you instead of the monthly benefits you would otherwise get. 
+
+
+-----
 
 ### How do I get this benefit?
 

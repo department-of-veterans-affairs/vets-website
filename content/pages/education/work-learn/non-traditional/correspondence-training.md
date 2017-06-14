@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Correspondence Training
-template: 4-action-page-pending
 plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
@@ -29,6 +29,9 @@ You can if you qualify for any GI Bill program.
 ### What benefits can I get? 
 
 We'll pay you back for the cost of your correspondence training classes if you're using the Post-9/11 GI Bill at an in-state school. If you're using other GI Bill programs, we'll pay you back for 55% of the approved costs. 
+
+
+-----
 
 ### How do I get these benefits? 
 
