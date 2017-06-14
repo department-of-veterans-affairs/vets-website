@@ -6,15 +6,12 @@ h3 {
   padding: 0 0 .25em 0;
 }
 
-h4 {
-  margin-top: 1em;
-}
-
 hr {
   border-style: solid;
   border-color: $color-gray-light;
   border-width: 1px 0 0 0;
-  margin-bottom: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .section-line {
@@ -31,4 +28,12 @@ hr {
   &.help-desk {
   	margin-top: 2em;
   }
+}
+
+.usa-accordion {
+    margin-top: 16px;
+}
+
+.facility {
+    text-transform: capitalize;
 }
