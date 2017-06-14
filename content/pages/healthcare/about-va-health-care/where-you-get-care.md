@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override:
 order: 2
 relatedlinks:
-  - heading: More information about benefits and services
+  - heading: More information about your benefits
     links:
     - url: /healthcare/eligibility/
       title: Health Care Benefits Eligibility
