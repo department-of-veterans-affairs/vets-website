@@ -3,23 +3,25 @@ layout: page-breadcrumbs.html
 title: Effective Date of Disability
 concurrence: complete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-    title: What's the fastest way to file a claim?
-    description: ""
-  - url: /disability-benefits/apply/ways/
-    title: What are the different ways I can file a claim?
-    description: ""
-  - url: /disability-benefits/apply/help/
-    title: How do I get help filing a claim?
-    description: ""
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file while on active duty?
-    description: ""
-  - url: /disability-benefits/apply/one-year/
-    title: How do I file for disabilities that appear within 1 year after discharge?
-    description: ""
+  - heading: Get answers to your questions about filing a disability claim
+    links:
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: What's the fastest way to file a claim?
+      description: ""
+    - url: /disability-benefits/apply/
+      title: How do I file a claim?
+      description: ""
+    - url: /disability-benefits/apply/help/
+      title: How do I get help filing a claim?
+      description: ""
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: How do I file while on active duty?
+      description: ""
+    - url: /disability-benefits/apply/one-year/
+      title: How do I file for an illness that started after I was discharged from active-duty?
+      description: ""
 ---
 
 <div class="va-introtext">

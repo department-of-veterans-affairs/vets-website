@@ -7,7 +7,6 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2012-06-01
 collection: healthcare
 order: 2
-
 ---
 
 <div class="va-introtext">
@@ -139,3 +138,5 @@ In certain cases, you may receive dental care as part of your VA health benefits
 #### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? 
 
 If you have an illness or injury—caused or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/conditions/).
+
+<div markdown="0"><br></div>

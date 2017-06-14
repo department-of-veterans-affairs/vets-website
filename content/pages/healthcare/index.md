@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: level2-index
 title: Health Care Benefits
-display_title: 
+display_title: Health Care
 permalink: /healthcare/index.html
 majorlinks:
   - heading:

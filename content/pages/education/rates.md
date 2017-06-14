@@ -1,8 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Rates
 concurrence: incomplete
-template: 1-topic-landing
+collection: educationGIBill
+order: 8
 ---
 
 <div class="va-introtext">

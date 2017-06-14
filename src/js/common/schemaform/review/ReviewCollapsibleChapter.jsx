@@ -81,7 +81,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
       const expandedPages = expandArrayPages(activePages, form.data);
 
       pageContent = (
-        <div id={`collapsible-${this.id}`} className="usa-accordion-content">
+        <div className="usa-accordion-content">
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
             let pageSchema;
@@ -166,7 +166,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {this.props.chapter.title}
               </button>
             </div>
-            {pageContent}
+            <div id={`collapsible-${this.id}`}>
+              {pageContent}
+            </div>
           </li>
         </ul>
       </div>

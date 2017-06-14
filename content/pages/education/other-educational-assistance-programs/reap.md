@@ -1,8 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Reserve Educational Assistance Program (REAP)
 concurrence: incomplete
-template: 1-topic-landing
+order: 1
 ---
 
 <div class="va-introtext">
