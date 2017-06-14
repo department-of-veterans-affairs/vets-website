@@ -24,8 +24,8 @@ import {
   disclosureWarning
 } from '../helpers';
 
-// import IntroductionPage from '../components/IntroductionPage';
-import IntroductionPage from '../components/SIPIntroductionPage';
+import IntroductionPage from '../components/IntroductionPage';
+// import IntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
