@@ -135,7 +135,7 @@ This may be held at a title company, escrow office, or attorney’s office. Be p
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
 ##### Move in.
 
