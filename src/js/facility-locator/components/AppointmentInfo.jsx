@@ -108,7 +108,7 @@ export default class AppointmentInfo extends Component {
             {renderSpecialtyTimes()}
           </ul>
         </div>
-        {healthAccessAttrs.primaryCare.established && <div className="mb2">
+        {healthAccessAttrs.primaryCare.established !== null && <div className="mb2">
           <h4>Existing patient wait times</h4>
           <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
           <ul>
