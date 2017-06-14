@@ -1,10 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: Disability Benefits for Former Prisoners of War (POWs)
+display_title: Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 1-topic-landing
+template: detail-page
+order: 3
 ---
 
 <div class="va-introtext">
@@ -26,6 +28,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
 
+<br>
+
 #### For former POWs held captive for any length of time
 
 **Conditions that affect your body, including:**
@@ -40,6 +44,8 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Psychosis 
 -	Dysthymic disorder
 -	Any of the anxiety states (such as PTSD)
+
+<br>
 
 #### For former POWs held captive for 30 days or more
 

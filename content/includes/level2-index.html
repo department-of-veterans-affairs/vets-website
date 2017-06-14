@@ -12,27 +12,13 @@ As of 2017-04-13:
   - Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
     when the time comes.
 
-  - Determine whether the {% if path == 'employment' %} needs to exist; remove
-    if it does not.
-
 {% endcomment %}
 
 <main>
   <div class="row">
     <article class="usa-content columns">
-      {% if path == 'employment' %}
-        <div class="csp-inline-patch-L2-section-landing">
-          <h1 class="csp-inline-patch-L2-section-landing-1">Careers and Employment</h1>
-          <h6 class="csp-inline-patch-L2-section-landing-2"> in partnership with 
-            <a href="https://www.dol.gov/vets/" class="external"> 
-              United States Department of Labor
-            </a>
-          </h6>
-        </div>
-      {% else %}
         <h1>{{ title }}</h1>
-        {{ contents }}        
-      {% endif %}
+        {{ contents }}
     </article>
   </div>
   {% if majorlinks != empty %}

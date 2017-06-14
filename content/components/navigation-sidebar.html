@@ -8,14 +8,14 @@ Used to display a side navigation bar of pages in a collection.
 
 1. To define a collection, edit `build.js`.
 2. Look for the line that begins `smith.use(collections` and edit as desired.
-3. OR add a `collection` property to those pages you wish to group into a 
+3. OR add a `collection` property to those pages you wish to group into a
    collection.
 
 {% endcomment %}
 
 {% assign relatedPages = collections | get: collection %}
 
-<nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+<nav {% if relatedPages != empty %}class="usa-width-one-fourth va-sidebarnav columns medium-3"{% endif %} id="va-detailpage-sidebar">
 <div>
   <button type="button" class="va-btn-close-icon va-sidebarnav-close">Close this menu</button>
 
@@ -38,7 +38,7 @@ Used to display a side navigation bar of pages in a collection.
           {% if page.children != empty and page.path == path %}
             {% assign childPages = collections | get: page.children %}
               <ul class="usa-sidenav-sub_list">
-              {% for cpage in childPages %} 
+              {% for cpage in childPages %}
                 <li>
                   <a {% if cpage.path == path %}class="usa-current"{% endif %}
                       href="/{{ cpage.path }}">
@@ -59,4 +59,3 @@ Used to display a side navigation bar of pages in a collection.
 {% endif %}
 </div>
 </nav>
-

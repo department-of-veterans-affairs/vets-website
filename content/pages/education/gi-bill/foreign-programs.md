@@ -1,13 +1,16 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Foreign Programs
-template: 4-action-page-pending
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 1
 ---
 
 <div class="va-introtext">
+
 If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
+
 </div>
 
 <div class="feature" markdown=“1”>
@@ -87,7 +90,6 @@ Normally, foreign schools certify their students for 1 academic year. Within 120
 </ol>
 
 ### Need help?
-
 Get more information or help with your application:
 - If you're in the United States, call <span class="tel">888-442-4551</span> (888-GI-BILL-1), 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday. Or, go to a VA Regional Benefit Office near you. [Find a Regional Benefit Office](/facilities).
 - If you're outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday

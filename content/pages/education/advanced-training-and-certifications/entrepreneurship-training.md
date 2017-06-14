@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Entrepreneurship Training
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
 ---
 
 <div class="va-introtext">

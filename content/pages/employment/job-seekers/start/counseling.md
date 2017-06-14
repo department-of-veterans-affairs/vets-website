@@ -1,13 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Entrepreneurship Counseling
 concurrence: complete
-template: 1-topic-landing
-relatedlinks:
- - url: /employment/job-seekers/start/register/
-   title: Registering Your Business
- - url: /employment/job-seekers/start/counseling/
-   title: Entrepreneurship Counseling
 ---
 
 <div class="va-introtext">

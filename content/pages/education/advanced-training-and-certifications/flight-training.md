@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
 title: Flight Training
-template: 1-topic-landing
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -46,6 +46,8 @@ The benefits depend on the benefit program you use:
 
 [Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
 
+
+-----
 
 ### How do I get these benefits? 
 
