@@ -58,7 +58,11 @@ We’ll also cover the cost of your eyeglasses if you have any of these issues:
 - Functional impairment (parts of your body that don’t work as well as they should) or cognitive impairment (problems with memory or thinking skills) that’s severe enough to make it hard for you to do everyday tasks
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
-For more information, contact the prosthetic representative at your nearest VA medical center or clinic. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp?isFlash=1).
+For more information, contact the prosthetic representative at your nearest VA medical center or clinic. [Find a VA health facility near you](/facilities/).
+
+### If I have vision and hearing loss, will VA cover the cost of hearing aids too?
+
+[Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp).
 
 ------
 
@@ -71,6 +75,4 @@ For more information, contact the prosthetic representative at your nearest VA m
 
 **Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
-**Have hearing loss?** [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
 
-**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
