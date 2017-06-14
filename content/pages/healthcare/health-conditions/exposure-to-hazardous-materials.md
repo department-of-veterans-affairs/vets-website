@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 5
 relatedlinks:
-  - heading:
+  - heading: Other information you may be interested in
     links:
     - url: /healthcare/about-va-health-care/
       title: About VA Health Care Coverage
@@ -153,14 +153,6 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 <br />
 [Learn about disability benefits for conditions linked to contact with asbestos and other hazards](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
-------
+<br>
 
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
-[Check the status of a disability or pension claim](/track-claims/).
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
