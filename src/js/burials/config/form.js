@@ -30,7 +30,8 @@ const {
   fullName,
   vaFileNumber,
   ssn,
-  date
+  date,
+  usaPhone
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -46,7 +47,8 @@ const formConfig = {
     fullName,
     vaFileNumber,
     ssn,
-    date
+    date,
+    usaPhone
   },
   chapters: {
     claimantInformation: {
