@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import InfoPair from './InfoPair';
+import InfoPair from '../components/InfoPair';
 
 import { formatDateShort, formatPercent } from '../utils/helpers';
 
@@ -60,8 +60,10 @@ class PrintPage extends React.Component {
   }
 }
 
-PrintPage.propTypes = {
-  enrollmentData: PropTypes.object
-};
+function mapStateToProps(state) {
+  return {
+    enrollmentData: state.post911GIBStatus.enrollmentData
+  };
+}
 
-export default PrintPage;
+export default connect(mapStateToProps)(PrintPage);

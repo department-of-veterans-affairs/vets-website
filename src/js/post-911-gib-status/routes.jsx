@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router';
 
 // import Post911GIBStatusApp from './containers/Post911GIBStatusApp';
-import PrintPage from './components/PrintPage';
+import PrintPage from './containers/PrintPage';
 
 // const routes = {
 //   path: '/',
