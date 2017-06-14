@@ -238,8 +238,7 @@ export function fetchInProgressForm(formId, migrations) {
       dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
 
-      // Return a resolved promise to tell the caller we're good to navigate to the page they saved on
-      return Promise.resolve(resBody.metadata.returnUrl);
+      return Promise.resolve();
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
