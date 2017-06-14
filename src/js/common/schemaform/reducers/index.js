@@ -23,7 +23,6 @@ import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
-  LOAD_DATA_INTO_FORM,
   SAVE_STATUSES,
   LOAD_STATUSES
 } from '../save-load-actions';
@@ -105,7 +104,10 @@ export default function createSchemaFormReducer(formConfig) {
       version: formConfig.version,
       formId: formConfig.formId,
       disableSave: formConfig.disableSave,
-      // loadedData: undefined
+      loadedData: {
+        formData: {},
+        metadata: {}
+      },
       migrations: formConfig.migrations
     });
 
@@ -151,12 +153,6 @@ export default function createSchemaFormReducer(formConfig) {
         newState.loadedStatus = LOAD_STATUSES.success;
 
         return newState;
-      }
-      case LOAD_DATA_INTO_FORM: {
-        // Mirrors SET_DATA, but uses state.loadedData
-        const newState = _.set('data', state.loadedData.formData, state);
-
-        return recalculateSchemaAndData(newState);
       }
       default:
         return state;
