@@ -2,7 +2,8 @@
 layout: page-breadcrumbs.html
 title: How VA Assigns Disability Ratings
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 1
 ---
 
 <div class="va-introtext">

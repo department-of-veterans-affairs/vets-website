@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+order: 6
 ---
 
 <div class="va-introtext">
@@ -47,6 +48,10 @@ We'll give you up to $368 per month in compensation (payments) for these types o
 
 
 [See current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+
+
+------
+
 
 ### How do I get these benefits? 
 

@@ -1,23 +1,24 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Resources for Military and Veteran Family Members
+display_title: Resources for Family Members
 concurrence: complete
-template: 1-topic-landing
 relatedlinks:
-  - url: /employment/job-seekers/one-on-one/
-    title: One-on-One Assistance
-  - url: /employment/job-seekers/interest-profiler/
-    title: Interest Profiler
-  - url: /employment/job-seekers/create-resume
-    title: Résumé Builder
-  - url: /employment/commitments
-    title: View Employer Commitments to Hire Veterans
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Veterans Job Bank
-  - url: /employment/job-seekers/career-fairs/
-    title: Career Fairs
-  - url: /employment/job-seekers/unemployment-support/
-    title: Unemployment Support
+  - heading:  Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+      description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
+    - url: /employment/job-seekers/create-resume
+      title: Résumé Builder
+      description: Use this tool to build a civilian or federal résumé.
+    - url: /employment/commitments
+      title: Commitments
+      description: Learn about employers who've committed to hiring Veterans and military family members.
+    - url: /employment/job-seekers/search-jobs
+      title: Job Search
+      description: Search the Veterans Job Bank to find the right position for you.   
 ---
 
 <div class="va-introtext">

@@ -97,6 +97,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
+          currentTab="Status"
           claim={claim}/>
     );
 
@@ -115,6 +116,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
+          currentTab="Status"
           claim={claim}/>
     );
 
@@ -135,6 +137,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
+          currentTab="Status"
           claim={claim}>
         <div className="child-content"/>
       </ClaimDetailLayout>

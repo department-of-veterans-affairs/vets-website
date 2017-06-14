@@ -1,8 +1,20 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Interest Profiler
 concurrence: incomplete
-template: 1-topic-landing
+relatedlinks:
+  - heading: Resources for Job Seekers
+    links:
+    - url: /employment/job-seekers/skills-translator
+      title: Military Skills Translator
+      description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
+    - url: /employment/job-seekers/create-resume
+      title: R&eacute;sum&eacute; Builder
+      description: Use this tool to build a civilian or federal résumé.
+    - url: /employment/job-seekers/search-jobs
+      title: Job Search
+      description: Search the Veterans Job Bank to find the right position for you.
 ---
 
 <div class="va-introtext">

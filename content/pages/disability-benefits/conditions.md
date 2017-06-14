@@ -1,22 +1,27 @@
 ---
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
+display_title: Conditions
+order: 5
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-relatedlinks:
-  - url: /disability-benefits/conditions/ptsd/
-    title: PTSD
-    description: Learn about the symptoms of posttraumatic stress disorder—and how to get help.
-  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
-    title: Contact with Harmful Chemicals or Other Hazardous Materials
-    description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
-  - url: /disability-benefits/conditions/pow/
-    title: Prisoners of War (<abbr>POW</abbr>s)
-    description: Get support for issues resulting from captivity.
-  - url: /disability-benefits/conditions/special-claims/
-    title: Special Claims
-    description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
+template: detail-page
+children: disabilityConditions
+majorlinks:
+  - heading: More information about disability benefits for certain service-connected conditions
+    links:
+    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
+      title: Contact with Harmful Chemicals or Other Hazardous Materials
+      description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have.
+    - url: /disability-benefits/conditions/ptsd/
+      title: Posttraumatic Stress Disorder (PTSD)
+      description: Learn about the symptoms of PTSD—and how to get help.
+    - url: /disability-benefits/conditions/pow/
+      title: Disability Benefits for Former Prisoners of War (POWs)
+      description: Get support for illnesses or injuries resulting from your time in captivity.
+    - url: /disability-benefits/conditions/special-claims/
+      title: Special Claims
+      description: Get help with needs like special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
 <div class="va-introtext">
@@ -45,8 +50,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### What kind of disability benefits can I get?
 
--	Health care
--	Compensation (payments)
+- Health care
+- Compensation (payments)
 
 ### How do I get these benefits?
 
@@ -73,3 +78,7 @@ You may also be able to get benefits for:
 
 
 [Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
+
+
+
+
