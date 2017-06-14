@@ -5,7 +5,7 @@ export const api = {
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
-      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
     }
   }
 };
@@ -39,15 +39,14 @@ export const benefitsServices = {
 };
 
 export const vetCenterServices = [
-  'Individual and Group Counseling for eligible Veterans and Services Members',
+  'Individual and group counseling for Veterans, Servicemembers, and their families',
   'Family counseling for military related issues',
-  'Bereavement counseling',
-  'Counseling and referral for those that experience a military sexual trauma',
-  'Outreach',
+  'Bereavement (grief) counseling',
+  'Military sexual trauma counseling and referral',
+  'Community outreach and education',
   'Substance abuse assessment and referral',
   'Employment referral',
-  'Referral for other VA services',
-  'Community education',
+  'Referral of other VA services',
 ];
 
 export const healthFacilityServices = [
