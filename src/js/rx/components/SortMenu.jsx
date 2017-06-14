@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
-/* Component that lets a veteran sort by prescription name,
- * facility, or last submit date.
-*/
-
 import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
 const isDateAttribute = (option) => {
   return _.includes([
-    'refillSubmitDate',
+    'lastFillDate',
     'lastSubmitDate',
+    'refillSubmitDate',
     'refillDate'
   ], option);
 };

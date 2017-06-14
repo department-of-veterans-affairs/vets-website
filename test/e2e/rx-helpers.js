@@ -80,7 +80,8 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-09-07T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: []
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
@@ -100,7 +101,21 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-07-06T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: [
+          {
+            ndcNumber: '00781171601',
+            prescriptionName: 'ETHAMBUTOL HCL 100MG TAB',
+            prescriptionNumber: '2719553',
+            stationNumber: '12'
+          },
+          {
+            ndcNumber: '00781171601',
+            prescriptionName: 'PROBUCOL 250MG TAB',
+            prescriptionNumber: '2719555',
+            stationNumber: '12'
+          }
+        ]
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
@@ -120,7 +135,8 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-06-26T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: []
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',

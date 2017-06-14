@@ -19,4 +19,8 @@ require('./legacy/mega-menu.js');
 // New sidebar menu
 require('./legacy/sidebar-navigation.js');
 
+if (__BUILDTYPE__ !== 'production' && location.href.endsWith('education/apply-wizard/')) {
+  require('./edu-benefits/education-wizard.js');
+}
+
 createLoginWidget(createCommonStore());

@@ -4,7 +4,7 @@ title: Asbestos
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
 plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
-template: 1-topic-landing
+template: detail-page
 ---
 
 <div class="va-introtext">

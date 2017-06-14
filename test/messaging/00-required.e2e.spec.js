@@ -9,11 +9,14 @@ module.exports = E2eHelpers.createE2eTest(
 
     MessagingHelpers.initApplicationSubmitMock(token);
 
+    // Test flow for unauthed and LOA1 users
+    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
+
     // Ensure main page (inbox) renders.
     LoginHelpers.logIn(token, client, '/healthcare/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
-      .assert.title('Send a message to your provider: Vets.gov')
+      .assert.title('Send a Message to Your Provider: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);
 
     client

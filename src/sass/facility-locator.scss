@@ -1,10 +1,19 @@
 @import "style";
 @import "modules/va-pagination";
+// @import "~react-tabs/style/react-tabs.scss";
+
+@import "~leaflet/dist/leaflet.css";
+@import "~react-tabs/style/react-tabs";
 
 .facility-locator {
   // TODO(css): Fix when #content .section h* is fixed
   .highlight {
     margin-bottom: 0.5em !important;
+  }
+
+  // TODO(css): Fix when #content .section h* is fixed
+  h4 {
+    padding: 0 !important;
   }
 
   .title-section {
@@ -119,7 +128,15 @@
     border: solid 1px $color-black;
     border-radius: 0 !important;
 
-    &.ReactTabs__Tab--selected {
+    display: inline-block;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    &.react-tabs__tab--selected {
       border-top: solid 3px $color-primary;
       background: $color-white;
       border-bottom: none;
@@ -131,7 +148,11 @@
     border-right-color: $color-black;
   }
 
-  .ReactTabs__Tab + .ReactTabs__Tab {
+  ul.react-tabs__tab-list {
+    padding: 0;
+  }
+
+  .react-tabs__tab + .react-tabs__tab {
     border-left: none;
   }
 
@@ -155,6 +176,34 @@
 
   .fa.blue {
     color: $color-link-default;
+  }
+
+  .fl-stats-bar-container {
+    display: flex;
+    align-items: center;
+
+    .fl-stats-bar {
+      display: block;
+      width: 230px;
+      height: 39px;
+      margin: 0.5em 0.5em 0.5em 0;
+      background: url("/img/icons/fa-male-lt-grey.svg") repeat-x left center;
+    }
+
+    .fl-stats-bar-inner {
+      display: block;
+      content: "&nbsp;";
+      height: 100%;
+      margin: 0;
+    }
+
+    .fl-stats-bar-inner.grey {
+      background: url("/img/icons/fa-male-dk-grey.svg") repeat-x left center;
+    }
+
+    .fl-stats-bar-inner.blue {
+      background: url("/img/icons/fa-male-blue.svg") repeat-x left center;
+    }
   }
 
   .mobile-search-result {
@@ -202,6 +251,11 @@
 
   .health-icon {
     background: url("/img/icons/health-pin.svg") no-repeat center center;
+    background-size: contain;
+  }
+
+  .vet-center-icon {
+    background: url("/img/icons/vet-centers-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
@@ -276,6 +330,7 @@
 
       span {
         height: 2.4em;
+        text-align: left;
       }
 
       button.facility-option {
@@ -311,14 +366,18 @@
 
       .dropdown {
         position: absolute;
+        width: 102%;
         top: 0;
-        left: 0;
+        left: -1%;
         right: 0;
         background: $color-white;
         list-style: none;
         opacity: 0;
         pointer-events: none;
         z-index: 1010;
+        max-height: 70vh;
+        overflow-y: auto;
+        border-bottom: solid thin $color-black;
 
         li {
           color: $color-black;
@@ -360,7 +419,7 @@
   }
 
   .mb2 {
-    margin-bottom: 2rem;
+    margin-bottom: 2em;
   }
 
   //TODO(css): Make this less specific
@@ -388,10 +447,6 @@
     width: 100%;
   }
 
-  .mb2 {
-    margin-bottom: 2rem;
-  }
-
   ul {
     margin: 0;
   }
@@ -417,6 +472,28 @@
 
     a {
       text-decoration: none;
+
+      &.seeMore {
+        text-decoration: underline;
+
+        &:after {
+          font: normal normal normal 1em FontAwesome;
+          content: "\F078";
+          text-decoration: none;
+          display: inline-block;
+          padding: 0 0.5em;
+        }
+
+        &.expanded {
+          &:after {
+            font: normal normal normal 1em FontAwesome;
+            content: "\F077";
+            text-decoration: none;
+            display: inline-block;
+            padding: 0 0.5em;
+          }
+        }
+      }
     }
 
     h5 {

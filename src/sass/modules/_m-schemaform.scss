@@ -45,21 +45,28 @@ dl.review {
   .review-row {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
-    &> dd {
+    > dd {
       font-weight: bold;
-      padding-left: 5px;
-      min-width: 100px;
       text-align: left;
     }
-    &> dt {
-      max-width: 60%;
-    }
-    &> dt > p {
+    > dt > p {
       margin-top: 0;
       margin-bottom: 0;
+    }
+    @media (min-width: $small-screen) {
+      flex-direction: row;
+      > dd {
+        padding-left: 5px;
+        min-width: 100px;
+      }
+      > dt {
+        max-width: 60%;
+        min-width: 40%;
+      }
     }
   }
   border-bottom: 1px solid $color-gray-light;
@@ -209,4 +216,66 @@ label {
 
 .schemaform-expandUnder-indent {
   margin-left: 29px;
+}
+
+.schemaform-currency-input .schemaform-widget-wrapper {
+  position: relative;
+  &:before {
+    content: "$";
+    display: block;
+    position: absolute;
+    top: 9px;
+    left: 10px;
+  }
+  > input[type=number] {
+    padding-left: 25px !important;
+  }
+}
+
+//duplicated from disability-benefits.scss
+.ask-va-questions {
+  .talk {
+    margin: 0.5em 0;
+    padding: 0;
+  }
+  .phone-number {
+    margin: 0.5em 0 2em;
+    a {
+      font-weight: bold;
+      text-decoration: none;
+      margin: 0.5em 0;
+    }
+  }
+}
+//duplicated/renamed from disability-benefits.scss
+.ask-va-questions.help-sidebar-box {
+  padding: 2em 0;
+  @include media($medium-large-screen) {
+    padding-top: 0.6em;
+    padding-left: inherit;
+  }
+}
+//duplicated/renamed from disability-benefits.scss
+.help-sidebar-box {
+  padding-top: 0.3em;
+}
+//duplicated/renamed from disability-benefits.scss
+.help-h2-border {
+  border-bottom: 3px solid $color-primary;
+  margin: 0.3em 0;
+}
+//duplicated/renamed from disability-benefits.scss
+.help-h2 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+.usa-button.schemaform-file-remove-button {
+  width: auto;
+}
+
+.schemaform-file-list {
+  list-style: none;
+  padding-left: 0;
 }

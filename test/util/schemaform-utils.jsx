@@ -3,6 +3,7 @@ import Form from 'react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
 import {
@@ -63,10 +64,11 @@ export class DefinitionTester extends React.Component {
           safeRenderCompletion
           reviewMode={this.props.reviewMode}
           name="test"
-          title="test"
+          title={this.props.title || 'test'}
           schema={schema}
           uiSchema={uiSchema}
           data={formData}
+          pagePerItemIndex={this.props.pagePerItemIndex}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );
@@ -77,4 +79,22 @@ export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
     preventDefault: f => f
   });
+}
+
+export function getFormDOM(form) {
+  const formDOM = findDOMNode(form);
+
+  formDOM.fillData = function fillData(id, value) {
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        value
+      }
+    });
+  };
+
+  formDOM.submitForm = () => {
+    submitForm(form);
+  };
+
+  return formDOM;
 }

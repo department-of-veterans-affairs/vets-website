@@ -18,6 +18,8 @@ export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +28,16 @@ export class LandingPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.search();
+  }
 
+  handleFilterChange() {
+    // Only search upon blur, keyUp, suggestion selection
+    // if the search term is not empty.
+    if (this.props.autocomplete.searchTerm) { this.search(); }
+  }
+
+  search() {
     const query = {
       name: this.props.autocomplete.searchTerm,
       version: this.props.location.query.version
@@ -53,6 +64,7 @@ export class LandingPage extends React.Component {
                   location={this.props.location}
                   onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
                   onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                  onFilterChange={this.handleFilterChange}
                   onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <button className="usa-button-big" type="submit" id="search-button">
                 <span>Search Schools</span>

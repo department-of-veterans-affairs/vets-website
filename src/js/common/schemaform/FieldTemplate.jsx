@@ -51,7 +51,14 @@ export default function FieldTemplate(props) {
     'schemaform-label': true
   });
 
-  return (schema.type === 'object' || schema.type === 'array' || (schema.type === 'boolean' && !uiSchema['ui:widget'])) && !showFieldLabel
+  const inputWrapperClassNames = classNames('schemaform-widget-wrapper', {
+    'usa-input-error form-error-date': isDateField && hasErrors
+  });
+
+  return (schema.type === 'object'
+    || schema.type === 'array'
+    || (schema.type === 'boolean' && !uiSchema['ui:widget'])
+  ) && !showFieldLabel
     ? children
     : (<div className={containerClassNames}>
       <div className={errorClass}>
@@ -60,7 +67,7 @@ export default function FieldTemplate(props) {
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
         {!textDescription && !DescriptionField && description}
         {errorSpan}
-        {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
+        {<div className={inputWrapperClassNames}>{children}</div>}
         {help}
       </div>
     </div>

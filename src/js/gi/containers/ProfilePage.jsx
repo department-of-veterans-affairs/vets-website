@@ -93,10 +93,10 @@ export class ProfilePage extends React.Component {
                       onShowModal={this.props.showModal}/>
                 </If>
               </AccordionItem>
-              <a name="viewWarnings"></a>
               <AccordionItem
                   button="Cautionary information"
                   ref={c => { this._cautionaryInfo = c; }}>
+                <a name="viewWarnings"></a>
                 <CautionaryInformation
                     institution={this.props.profile.attributes}
                     onShowModal={this.props.showModal}/>
