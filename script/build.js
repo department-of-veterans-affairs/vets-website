@@ -128,6 +128,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status/*');
   ignoreList.push('pensions/application.md');
   ignoreList.push('burials-and-memorials/application.md');
+  ignoreList.push('burials-and-memorials/burial-planning/application.md');
   ignoreList.push('va-letters/*');
   ignoreList.push('education/apply-wizard.md');
 }
@@ -344,6 +345,7 @@ if (options.watch) {
         { from: '^/va-letters(.*)', to: '/va-letters/' },
         { from: '^/pensions/application(.*)', to: '/pensions/application/' },
         { from: '^/burials-and-memorials/application(.*)', to: '/burials-and-memorials/application/' },
+        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

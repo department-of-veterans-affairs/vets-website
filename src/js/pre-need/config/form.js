@@ -5,7 +5,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 // import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { relationshipLabels, locationOfDeathLabels } from '../labels.jsx';
+import { relationshipLabels, locationOfDeathLabels } from '../utils/labels.jsx';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -34,13 +34,13 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/burials',
-  trackingPrefix: 'burials-',
+  submitUrl: '/v0/preneed',
+  trackingPrefix: 'preneed-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply for burial benefits',
-  subTitle: 'Form 21P-530',
+  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetary',
+  subTitle: 'Form 40-10007',
   defaultDefinitions: {
     fullName,
     vaFileNumber,
@@ -49,51 +49,13 @@ const formConfig = {
     usaPhone
   },
   chapters: {
-    claimantInformation: {
-      title: 'Claimant Information',
-      pages: {
-        claimantInformation: {
-          title: 'Claimant information',
-          path: 'claimant-information',
-          uiSchema: {
-            claimantFullName: fullNameUI,
-            relationship: {
-              type: {
-                'ui:title': 'Relationship to the deceased veteran',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: relationshipLabels
-                }
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': (form) => _.get('relationship.type', form) === 'other',
-                'ui:options': {
-                  expandUnder: 'type',
-                  expandUnderCondition: 'other'
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantFullName', 'relationship'],
-            properties: {
-              claimantFullName,
-              relationship
-            }
-          }
-        }
-      }
-    },
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          title: 'Deceased Veteran information',
+          title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: {
-            'ui:title': 'Deceased Veteran information',
             veteranFullName: fullNameUI,
             'view:veteranId': personId.uiSchema(
               'veteran',
@@ -109,40 +71,6 @@ const formConfig = {
             }
           }
 
-        },
-        burialInformation: {
-          title: 'Burial information',
-          path: 'veteran-information/burial',
-          uiSchema: {
-            burialDate: currentOrPastDateUI('Date of burial'),
-            deathDate: currentOrPastDateUI('Date of death'),
-            locationOfDeath: {
-              location: {
-                'ui:title': 'Where did the Veteran’s death occur?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: locationOfDeathLabels
-                }
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': (form) => _.get('locationOfDeath.location', form) === 'other',
-                'ui:options': {
-                  expandUnder: 'location',
-                  expandUnderCondition: 'other'
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['burialDate', 'deathDate', 'locationOfDeath'],
-            properties: {
-              burialDate,
-              deathDate,
-              locationOfDeath
-            }
-          }
         }
       }
     },
