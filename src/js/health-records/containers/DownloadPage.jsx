@@ -43,11 +43,11 @@ export class DownloadPage extends React.Component {
         <div>
           <h4>Couldn't update your records</h4>
           <p>
-            Unfortunately, we weren't able to generate your health records. Please try again later or download an older version of your records below. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
+            Unfortunately, we weren't able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.
           </p>
         </div>
       );
-      alertProps.status = 'error';
+      alertProps.status = 'warning';
     } else {
       alertProps.content = (
         <div>

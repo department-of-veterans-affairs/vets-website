@@ -8,7 +8,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm, loadInProgressDataIntoForm } from '../../common/schemaform/save-load-actions';
+import { fetchInProgressForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
@@ -54,6 +54,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { profile } = this.props.user;
+    const formSaved = !!(profile && profile.savedForms.includes(this.props.formId));
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for health care with the 10-10ez"/>
@@ -75,10 +77,12 @@ class IntroductionPage extends React.Component {
         <FormIntroButtons
             route={this.props.route}
             router={this.props.router}
-            form={this.props.form}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
-            loadInProgressDataIntoForm={this.props.loadInProgressDataIntoForm}
-            loggedIn={this.props.user.login.currentlyLoggedIn}/>
+            loggedIn={this.props.user.login.currentlyLoggedIn}
+            formSaved={formSaved}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: 0 }}>
@@ -90,9 +94,13 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { formId, migrations, loadedData } = state.form;
   return {
-    // TODO: When we get the ability to query for all saved forms, add the list here
-    form: state.form,
+    formId,
+    // TODO: migrations doesn't hook up to anything (nor should it); need to figure out
+    //  how to get the migrations from formConfig into here
+    migrations,
+    returnUrl: loadedData.metadata.returnUrl,
     user: state.user
   };
 }
@@ -100,7 +108,6 @@ function mapStateToProps(state) {
 // Copied from src/js/login/containers/Main.jsx
 const mapDispatchToProps = {
   fetchInProgressForm,
-  loadInProgressDataIntoForm,
   updateLogInUrl
 };
 

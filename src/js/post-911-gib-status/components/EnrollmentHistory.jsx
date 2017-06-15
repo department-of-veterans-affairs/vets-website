@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InfoPair from './InfoPair';
 import EnrollmentPeriod from './EnrollmentPeriod';
 
 import { formatDateShort, formatDateLong } from '../utils/helpers';
@@ -33,6 +32,7 @@ class EnrollmentHistory extends React.Component {
       return (
         <EnrollmentPeriod
             key={indexKey}
+            id={indexKey}
             enrollment={enrollment}/>
       );
     });
@@ -40,9 +40,6 @@ class EnrollmentHistory extends React.Component {
     return (
       <div>
         <h3 className="section-header">Enrollment History</h3>
-        <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-        <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
-        <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
         {expirationWarning}
         {trainingWarning}
         {enrollmentHistory}
