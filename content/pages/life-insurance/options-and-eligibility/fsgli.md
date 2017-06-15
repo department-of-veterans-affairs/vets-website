@@ -5,6 +5,15 @@ title: Family Servicemembers’ Group Life Insurance (FSGLI)
 display_title: Family Servicemembers' Group (FSGLI)
 concurrence: 
 order: 2
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Already have VA life insurance? Manage your policy online.
+    - url: /life-insurance/disabled-and-terminally-ill/
+      title: Claims for Disabled and Terminally Ill Policyholders
+      description: If you or your spouse become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
 <div class="va-introtext">
@@ -14,6 +23,8 @@ Are you the spouse or dependent child of a Servicemember who’s covered under S
 </div>
 
 <div class="feature">
+
+<br>
 
 ### Can I get FSGLI? 
 
@@ -187,25 +198,35 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
+<br>
+
 ### Can my Servicemember make changes to my coverage? 
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-**If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES)**, have your Servicemember submit your changes online. To access SOES:
+#### If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES)
 
-- Go to [milConnect](https://www.dmdc.osd.mil/milconnect).
-- Sign in.
-- Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
-- Check your coverage and make any needed updates.
+Have your Servicemember submit your changes online. To access SOES:
+
+<ol class="process" markdown="1">
+  <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
+  <li class="process-step list-two">Sign in.</li>
+  <li class="process-step list-three">Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.</li>
+  <li class="process-step list-four">Check your coverage and beneficiary info and make any needed updates.</li>
+ </ol>
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
 
-**If your Servicemember's branch of service hasn't yet started using SOES**, fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
+#### If your Servicemember's branch of service hasn't yet started using SOES
+
+Fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
 [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
+
+<br>
 
 ### How much will my Servicemember pay for dependent coverage? 
 
@@ -213,9 +234,13 @@ Nothing. We provide dependent coverage at no cost until the child is 18 years ol
 - Is a full-time student, **or**
 - Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
+<br>
+
 ### Can my Servicemember get extended coverage for our dependent child? 
 
 Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student between 18 and 22 years old, we may extend the coverage. Or, if the child becomes permanently and totally disabled before turning 18 and is no longer able to support themselves, we may extend the coverage—in some cases indefinitely.
+
+<br>
 
 ### How do I convert a spousal FSGLI policy to an individual insurance policy? 
 
@@ -242,11 +267,11 @@ You can’t convert other types of policies—such as term, variable, or univers
  - The Servicemember's SGLI declination
  - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
 
-### Need help?
+<br>
 
-Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+### Where can I find more information?
 
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
