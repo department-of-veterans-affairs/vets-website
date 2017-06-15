@@ -12,6 +12,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 const {
   relationship,
@@ -21,7 +22,8 @@ const {
   burialDate,
   deathDate,
   claimantEmail,
-  claimantPhone
+  claimantPhone,
+  toursOfDuty
 } = fullSchemaBurials.properties;
 
 const {
@@ -141,6 +143,43 @@ const formConfig = {
               burialDate,
               deathDate,
               locationOfDeath
+            }
+          }
+        }
+      }
+    },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        militaryHistory: {
+          title: 'Military History',
+          path: 'military-history',
+          uiSchema: {
+            toursOfDuty: {
+              items: {
+                dateRange: dateRangeUI(),
+                serviceBranch: {
+                  'ui:title': 'Branch'
+                },
+                rank: {
+                  'ui:title': 'Rank'
+                },
+                serviceNumber: {
+                  'ui:title': 'Service number'
+                },
+                placeOfEntry: {
+                  'ui:title': 'Place of entry'
+                },
+                placeOfSeparation: {
+                  'ui:title': 'Place of separation'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
             }
           }
         }
