@@ -5,6 +5,12 @@ title: Veterans’ Mortgage Life Insurance (VMLI)
 display_title: Veterans' Mortgage (VMLI)
 concurrence:
 order: 6
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Already have VA life insurance? Manage your policy online.
 ---
 
 <div class="va-introtext">
@@ -35,6 +41,8 @@ Veterans
 
 </div>
 
+<br>
+
 ### What kind of life insurance benefits can I get with VMLI?
 
 Up to $200,000 in mortgage life insurance—paid directly to the bank or other lender that holds your mortgage. 
@@ -46,6 +54,8 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 - VMLI is a decreasing-term insurance. This means your coverage amount goes down as your mortgage balance goes down. If you pay off your mortgage, your VMLI coverage will end. 
 - VMLI has no loan or cash value—and it doesn’t pay dividends (cash payments made to policy holders when the company makes a profit).
 
+<br>
+
 ### How do I get these benefits?
 
 First, you’ll need to apply for an SAH grant. If you get the SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI. If you already have an SAH grant, ask your agent about VMLI.
@@ -53,6 +63,8 @@ First, you’ll need to apply for an SAH grant. If you get the SAH grant, your L
 Your agent will help you fill out VA Form 29-8636 (Veterans’ Mortgage Life Insurance Statement). [Download Form 29-8636](http://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
 
 **Note:** Remember, you must apply for VMLI before your 70th birthday.
+
+<br>
 
 ### How much will I pay for these benefits?
 
@@ -64,6 +76,8 @@ Your VMLI premium will be based on:
 - The amount of VMLI coverage you need
 
 Use our VMLI Premium Calculator to figure out what your premium may be. [Go to the VMLI Premium Calculator](https://insurance.va.gov/VMLICalc/VMLICalc.asp).
+
+<br>
 
 ### What happens if I move, refinance, or make other changes to my mortgage?
 
@@ -87,6 +101,5 @@ Send notice of any changes to:
 </dl>
 
 [Read our life insurance publications for more guidance](http://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
-
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->
