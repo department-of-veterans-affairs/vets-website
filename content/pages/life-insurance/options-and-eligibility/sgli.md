@@ -6,14 +6,14 @@ display_title: Servicemembers' Group (SGLI)
 concurrence: 
 order: 1
 relatedlinks:
-  header: Other information about your benefits
+  - header: More information about your benefits
   links:
-     - url: /life-insurance/manage-your-policy/
-       title: Managing Your Policy
-       description: Already have VA life insurance? Manage your policy online.
-     - url: /life-insurance/disabled-and-terminally-ill/
-       title: Claims for Disabled and Terminally Ill Policyholders
-       description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
+  - url: /life-insurance/manage-your-policy/
+    title: Managing Your Policy
+    description: Already have VA life insurance? Manage your policy online.
+  - url: /life-insurance/disabled-and-terminally-ill/
+    title: Claims for Disabled and Terminally Ill Policyholders
+    description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
 <div class="va-introtext">
@@ -71,10 +71,12 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
 
-**If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
+#### If your branch of service has started using the new SGLI Online Enrollment System (SOES)
+
+Submit your changes online. To access SOES:
 
 <ol class="process">
-  <li class="process-step list-one">Go to [milConnect](https://www.dmdc.osd.mil/milconnect).</li>
+  <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
   <li class="process-step list-two">Sign in.</li>
   <li class="process-step list-three">Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.</li>
   <li class="process-step list-four">Check your coverage and beneficiary info and make any needed updates.</li>
@@ -82,7 +84,9 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
 
-**If your branch of service hasn't yet started using SOES**, fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+#### If your branch of service hasn't yet started using SOES
+
+Fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
