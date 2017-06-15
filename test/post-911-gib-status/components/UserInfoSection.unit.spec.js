@@ -15,6 +15,5 @@ describe('<UserInfoSection>', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
-  // test print button does something
-  // see test/messaging/components/MessageAttachmentsViewItem.unit.spec.jsx
+  // maybe test print button does something
 });
