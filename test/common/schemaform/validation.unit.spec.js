@@ -357,7 +357,7 @@ describe('Schemaform validations', () => {
       expect(errors.addError.called).to.be.true;
     });
 
-    it('should not add error if no props are true', () => {
+    it('should not add error if at least one prop is true', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {
         tests: true
