@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 3
 relatedlinks:
-  - heading: Related conditions you may want to learn about
+  - heading: Related health problems you may want to learn about
     links:
     - url: /healthcare/health-conditions/mental-health/ptsd/
       title: Posttraumatic Stress Disorder (PTSD)
@@ -52,7 +52,7 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 
 ### What services does VA provide for Veterans who’ve experienced MST?
 
-We provide free, confidential (private) counseling and treatment to male and female Veterans for both mental and physical health conditions linked to MST.
+We provide free, confidential (private) counseling and treatment to male and female Veterans for both mental and physical health problems linked to MST.
 
 Our services include:
 
@@ -85,6 +85,8 @@ You can also call the VA general information hotline at <a href="tel:+1-800-827-
 
 [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
 
+<br>
+
 ### Can I get disability compensation (monthly payments) or other benefits from VA?
 
 You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/). 
@@ -93,6 +95,8 @@ Or, get help applying for disability compensation by:
 
 - Reading our fact sheet on disability compensation for conditions related to MST. [Download the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
 - Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp). 
+
+<br>
 
 ### Where can I find more information and support?
 
