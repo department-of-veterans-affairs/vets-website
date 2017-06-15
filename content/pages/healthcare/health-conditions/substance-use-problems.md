@@ -6,7 +6,7 @@ display_title:
 concurrence: 
 order: 6
 relatedlinks:
-  - heading: Related conditions you may want to learn about
+  - heading: Related health problems you may want to learn about
     links:
     - url: /healthcare/health-conditions/mental-health/ptsd/
       title: Posttraumatic Stress Disorder (PTSD)
@@ -50,13 +50,17 @@ If you’re struggling with substance use problems, you’re not alone. Many Vet
 
 We provide many options for Veterans seeking treatment for substance use problems ranging from unhealthy alcohol use to life-threatening addiction. The services we offer you depend on your specific needs.
 
-We offer proven medication options, such as:
+<br>
+
+#### We offer proven medication options, such as:
 
 - Medically managed detoxification to stop substance use safely, and services to get stable
 - Drug substitution therapies and newer medicines to reduce cravings (like Methadone and Buprenorphine for opiate addiction)
 - Nicotine replacement or other medicines for stopping tobacco use
 
-We offer counseling and other therapy options, such as:
+<br>
+
+#### We offer counseling and other therapy options, such as:
 
 - Short-term outpatient counseling 
 - Intensive outpatient treatment
@@ -66,7 +70,9 @@ We offer counseling and other therapy options, such as:
 - Continuing care and relapse prevention (making sure you don’t slip back into the same substance use problems)
 - Special programs for Veterans with specific concerns (like women Veterans, returning combat Veterans, and homeless Veterans)
 
-We also offer treatment and support for health conditions that can be related to substance use problems, such as:
+<br>
+
+#### We also offer treatment and support for health conditions that can be related to substance use problems, such as:
 
 - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
 - [Depression](/healthcare/health-conditions/mental-health/depression/)
@@ -85,8 +91,10 @@ Once you’re signed up:
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - [Find a Substance Use Disorder (SUD) program near you](https://www.va.gov/directory/guide/SUD.asp), **or** 
   - Call our general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>, **or**
-  - [Contact your local VA medical center](/facilities/).
-- If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND), call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator. [Find a VA medical center near you](/facilities/).
+  - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
+- **If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND),** call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator. [Find a VA medical center near you](/facilities/).
+
+<br>
 
 ### What if I don’t have VA health care benefits? 
 
@@ -97,6 +105,8 @@ You may still be able to get care:
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
+
+<br>
 
 ### Where can I find more information and support? 
 
