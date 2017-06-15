@@ -5,6 +5,12 @@ title: Claims for Disabled and Terminally Ill Policyholders
 display_title: Disabled & Terminally Ill Policyholders
 concurrence: 
 order: 3
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Need to file a benefits claim after your family member has died? Manage your policy online.
 ---
 
 <div class="va-introtext">
@@ -37,11 +43,13 @@ You or your spouse may be able to get benefits early if:
 
 </div>
 
+<br>
 
 #### What benefits can my spouse and I get?
  
 Up to 50% of the face value of your coverage in increments of $5,000—paid to you before death
 
+<br>
 
 #### How do we get these benefits?
  
@@ -61,17 +69,21 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
 
 Or, fax the form to 877-832-4943.
 
+<br>
 
 **If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284A.htm).
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
+
+<br>
  
- 
-#### Get more information
+### Where can I find more information?
  	
-Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
+[Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
+
+[Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
 <hr>
 <span id="waiver"></span>
@@ -92,23 +104,22 @@ There are certain exceptions to the above conditions. But if you think you’re 
 
 </div>
 
+<br>
 
 #### What benefits can I get?
 
 A waiver of premiums. This means you won’t have to pay your life insurance premiums (the monthly payments you make to hold your policy). In most cases, premiums can only be waived up to 1 year prior to receipt of a claim.
 
+<br>
 
 #### How do I get these benefits?
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form.
+To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
+<br>
 
-[Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+### Where can I find more information?
 
-### Need help?
-
-Need to file a benefits claim after your family member has died? [Manage your policy online](/life-insurance/manage-your-policy/).
-
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
