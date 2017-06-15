@@ -5,6 +5,12 @@ title: Service-Disabled Veterans Life Insurance (S-DVI)
 display_title: Service-Disabled Veterans (S-DVI)
 concurrence: 
 order: 5
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Already have VA life insurance? Manage your policy online.
 ---
 
 <div class="va-introtext">
@@ -46,10 +52,14 @@ Veterans
 
 </div>
 
+<br>
+
 ### What kind of life insurance benefits can I get with S-DVI?
 
 - Up to $10,000 of coverage
 - Up to $30,000 of supplemental coverage
+
+<br>
 
 ### How do I get these benefits?
 
@@ -72,6 +82,8 @@ If you want to apply for Supplemental S-DVI, you must have already applied for a
 
 [Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
+<br>
+
 ### How much will I pay for these benefits?
 
 Your premium rate (the amount you’ll pay each month for your coverage) depends on:
@@ -80,11 +92,19 @@ Your premium rate (the amount you’ll pay each month for your coverage) depends
 
 Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
+<br>
+
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill#waiver).
 
 You must pay your premiums for Supplemental S-DVI.
+
+<br>
+
+### Where can I find more information?
+
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
 
 -------------
 
@@ -95,9 +115,3 @@ If you have a severe service-connected disability, you may also qualify for Vete
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-### Need help?
-
-Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
-
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
