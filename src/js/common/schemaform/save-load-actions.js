@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
+import { logOut } from '../../login/actions';
 
 import { setData } from './actions';
 
@@ -140,11 +141,9 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     })
     .catch((resOrError) => {
       if (resOrError instanceof Response) {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
         if (resOrError.status === 401) {
+          // This likely means their session expired, so mark them as logged out
+          dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
