@@ -110,8 +110,7 @@ class SearchControls extends Component {
         services = Object.keys(benefitsServices);
         break;
       case 'vet_center':
-        services = vetCenterServices;
-        services.unshift('All');
+        services = ['All', ...vetCenterServices];
         break;
       default:
         return null;

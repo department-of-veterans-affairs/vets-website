@@ -47,11 +47,10 @@ export function fetchVAFacility(id, facility = null) {
 }
 
 export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
-  const cleanServiceType = facilityType === 'benefits' ? serviceType : null;
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
-    cleanServiceType ? `services[]=${serviceType}` : null,
+    facilityType === 'benefits' ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
