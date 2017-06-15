@@ -36,7 +36,7 @@ class SaveFormLink extends React.Component {
       content = (<div>
         {savedStatus === SAVE_STATUSES.noAuth
             ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again.</span>
-            : <span><a onClick={this.openLoginModal}>Sign in</a> before saving your application</span>}
+            : <span><a onClick={this.openLoginModal}>Save and finish later</a></span>}
         <LoginModal
             key={1}
             title="Sign in to save your application"
