@@ -34,10 +34,8 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 #### What if I need help filling out my application forms?
 
-Call our toll-free hotline 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
-
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
-
+Call our toll-free hotline 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST. <br />
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).<br /> 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 </div>
@@ -73,7 +71,7 @@ Print the form, fill it out, and send it to this address:
 ##### In person
 
 Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br />
-[Find a VA medical center or clinic near you](https://www.vets.gov/facilities).<br />
+[Find a VA medical center or clinic near you](/facilities/).<br />
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 <br>
@@ -97,8 +95,6 @@ If you've also applied for a VA pension or disability benefits, you can check th
 
 ### How do I update my information if I’m already signed up?
 
-To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
-
-[Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR. [Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 <div markdown="0"><br></div>
