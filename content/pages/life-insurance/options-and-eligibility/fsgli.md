@@ -210,7 +210,7 @@ If you’re signed up as a spouse in the Defense Enrollment Eligibility Reportin
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-** If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES:
+**If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
