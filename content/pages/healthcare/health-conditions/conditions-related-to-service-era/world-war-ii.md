@@ -59,7 +59,7 @@ Ask your local VA environmental health coordinator about getting a free Ionizing
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition that started—or became worse—during your active-duty service. [Learn more about disability benefits](/disability-benefits/).
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability-benefits/).
 
 </li>
 </ol>
