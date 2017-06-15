@@ -6,10 +6,9 @@ class InfoPair extends React.Component {
   render() {
     const { spacingClass } = this.props;
 
-    let gridRowClasses = 'usa-grid-full';
-    if (spacingClass) {
-      gridRowClasses = `usa-grid-full ${this.props.spacingClass}`;
-    }
+    const gridRowClasses = spacingClass ?
+        `usa-grid-full ${this.props.spacingClass}`
+        : 'usa-grid-full';
 
     return (
       this.props.value &&
