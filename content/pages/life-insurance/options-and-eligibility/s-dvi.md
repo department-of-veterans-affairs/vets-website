@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Service-Disabled Veterans Life Insurance (S-DVI)
-display_title: Service-Disabled Veterans
+display_title: Service-Disabled Veterans (S-DVI)
 concurrence: 
 order: 5
 ---
