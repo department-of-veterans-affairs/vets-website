@@ -1,4 +1,6 @@
+import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
+import 'isomorphic-fetch';
 
 import { setData } from './actions';
 
@@ -24,10 +26,11 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export function setSaveFormStatus(status) {
+export function setSaveFormStatus(status, lastSavedDate = null) {
   return {
     type: SET_SAVE_FORM_STATUS,
-    status
+    status,
+    lastSavedDate
   };
 }
 
@@ -95,12 +98,14 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {Object}  formData  The data the user has entered so far
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
   // Double stringify because of api reasons. Olive Branch issues, methinks.
   // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
-      returnUrl
+      returnUrl,
+      savedAt
     }),
     formData: JSON.stringify(formData)
   });
@@ -109,11 +114,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
-      }
-
-      return; // eslint-disable-line consistent-return
+      return Promise.resolve();
     }
 
     // Update UI while we're waiting for the API
@@ -131,29 +132,29 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success));
-      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
+        return Promise.resolve();
+      }
+
+      return Promise.reject(res);
+    })
+    .catch((resOrError) => {
+      if (resOrError instanceof Response) {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to save, tell them their session expired and they need to log
         //  back in and try again. Unfortunately, this means they'll lose all
         //  their information.
-        if (res.status === 401) {
+        if (resOrError.status === 401) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
-      }
-      return Promise.resolve(); // For unit testing
-    }).catch((error) => {
-      // Probably a network error has occurred
-      // TODO: Log this in GA or something
-      console.error('Error saving form:', error.message); // eslint-disable-line no-console
-      dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject(); // For unit testing
-      }
 
-      return; // eslint-disable-line consistent-return
+        Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        Raven.captureException(resOrError);
+      }
     });
   };
 }

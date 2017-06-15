@@ -25,7 +25,7 @@ const setup = () => {
     userToken: '123abc'
   };
   global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({ okay: true }));
+  global.fetch.returns(Promise.resolve({ ok: true }));
 };
 const teardown = () => {
   global.fetch = oldFetch;
@@ -107,10 +107,12 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      thunk(dispatch).catch(() => {
+      thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.false;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a pending', (done) => {
@@ -120,6 +122,8 @@ describe('Schemaform save / load actions:', () => {
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.true;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('calls the api to save the form', (done) => {
@@ -129,6 +133,8 @@ describe('Schemaform save / load actions:', () => {
       thunk(dispatch).then(() => {
         expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a success if the form is saved', (done) => {
@@ -139,35 +145,40 @@ describe('Schemaform save / load actions:', () => {
       }));
 
       thunk(dispatch).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.success))).to.be.true;
+        expect(dispatch.secondCall.args[0].status).to.equal(SAVE_STATUSES.success);
+        expect(dispatch.secondCall.args[0].type).to.equal(SET_SAVE_FORM_STATUS);
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a no-auth if the api returns a 401', (done) => {
       const thunk = saveInProgressForm('hca', 0, 'some/path', {});
       const dispatch = sinon.spy();
       global.fetch.reset();
-      global.fetch.returns(Promise.resolve({
-        ok: false,
+      global.fetch.returns(Promise.resolve(new Response(null, {
         status: 401
-      }));
+      })));
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a failure on any other failure', (done) => {
       const thunk = saveInProgressForm('hca', 0, 'some/path', {});
       const dispatch = sinon.spy();
-      global.fetch.returns(Promise.resolve({
-        ok: false,
+      global.fetch.returns(Promise.resolve(new Response(null, {
         status: 404
-      }));
+      })));
 
       thunk(dispatch).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
     it('dispatches a failure when a network error occurs', (done) => {
@@ -176,10 +187,10 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
       thunk(dispatch).then(() => {
-        done(new Error("Should not call the dispatch's .then() on a network failure"));
-      }).catch(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
         done();
+      }).catch((err) => {
+        done(err);
       });
     });
   });
