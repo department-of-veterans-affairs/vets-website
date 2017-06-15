@@ -6,7 +6,7 @@ class InfoPair extends React.Component {
   render() {
     return (
       this.props.value &&
-        <div className="usa-grid-full">
+        <div className="usa-grid-full section-line">
           <div className="usa-width-one-third">
             <span><strong>{this.props.label}: </strong></span>
           </div>
