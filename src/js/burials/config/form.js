@@ -233,7 +233,7 @@ const formConfig = {
               }
             },
             previouslyReceiveAllowance: {
-              'ui:title': 'Did you previously recieve a VA burial allowance?',
+              'ui:title': 'Did you previously receive a VA burial allowance?',
               'ui:widget': 'yesNo',
               'ui:required': form => _.get('relationship.type', form) === 'spouse',
               'ui:options': {
