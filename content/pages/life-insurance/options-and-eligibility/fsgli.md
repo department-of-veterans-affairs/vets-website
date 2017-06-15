@@ -44,15 +44,21 @@ You can get FSGLI as the spouse of someone with SGLI coverage no matter if your 
 
 </div>
 
+<br>
+
 ### What kind of life insurance benefits can I get with FSGLI?
 
 Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
+
+<br>
 
 ### How do I get these benefits?
 
 - **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your Servicemember’s pay.
 
 - **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using the Spouse Coverage Election and Certificate. Fill out this form and have your Servicemember hand it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-04.PDF).
+
+<br>
 
 ### How much will my Servicemember pay for spousal coverage—and how do the premium payments work?
 
@@ -204,9 +210,7 @@ If you’re signed up as a spouse in the Defense Enrollment Eligibility Reportin
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-#### If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES)
-
-Have your Servicemember submit your changes online. To access SOES:
+** If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
@@ -217,9 +221,7 @@ Have your Servicemember submit your changes online. To access SOES:
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
 
-#### If your Servicemember's branch of service hasn't yet started using SOES
-
-Fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
+**If your Servicemember's branch of service hasn't yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
 [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
