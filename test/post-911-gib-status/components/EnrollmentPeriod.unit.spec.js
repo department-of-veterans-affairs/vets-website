@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import EnrollmentPeriod from '../../../src/js/post-911-gib-status/components/EnrollmentPeriod.jsx'
+import EnrollmentPeriod from '../../../src/js/post-911-gib-status/components/EnrollmentPeriod.jsx';
 
 const props = {
   id: 'abc',

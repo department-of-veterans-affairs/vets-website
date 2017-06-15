@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import UserInfoSection from '../../../src/js/post-911-gib-status/components/UserInfoSection.jsx'
+import UserInfoSection from '../../../src/js/post-911-gib-status/components/UserInfoSection.jsx';
 
 const props = {
   enrollmentData: {
