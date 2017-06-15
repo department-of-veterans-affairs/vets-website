@@ -155,18 +155,17 @@ const formConfig = {
           title: 'Claimant Contact Information',
           path: 'claimant-contact-information',
           uiSchema: {
-            'ui:validation': validateMatch('claimantEmail', 'view:claimantConfirmationEmail'),
+            'ui:validations': [
+              validateMatch('claimantEmail', 'view:claimantEmailConfirmation')
+            ],
             claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
-              'ui:title': 'Email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
-              }
+              'ui:title': 'Email address'
             },
             'view:claimantEmailConfirmation': {
               'ui:title': 'Re-enter email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+              'ui:options': {
+                hideOnReview: true
               }
             },
             claimantPhone: phoneUI('Phone number')
