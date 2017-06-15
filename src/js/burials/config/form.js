@@ -22,7 +22,21 @@ const {
   burialDate,
   deathDate,
   claimantEmail,
-  claimantPhone
+  claimantPhone,
+  placeOfRemains,
+  federalCemetary,
+  stateCemetary,
+  govtContributions,
+  amountGovtContribution,
+  burialAllowanceRequested,
+  burialCost,
+  previouslyReceiveAllowance,
+  incurredExpenses,
+  benefitsUnclaimedRemains,
+  burialAllowance,
+  plotAllowance,
+  transportation,
+  amountIncurred
 } = fullSchemaBurials.properties;
 
 const {
@@ -189,18 +203,10 @@ const formConfig = {
               'view:claimedBenefits': {
                 type: 'object',
                 properties: {
-                  burialAllowance: {
-                    type: 'boolean'
-                  },
-                  plotAllowance: {
-                    type: 'boolean'
-                  },
-                  transportation: {
-                    type: 'boolean'
-                  },
-                  amountIncurred: {
-                    type: 'number'
-                  }
+                  burialAllowance,
+                  plotAllowance,
+                  transportation,
+                  amountIncurred
                 }
               }
             }
@@ -251,26 +257,11 @@ const formConfig = {
             type: 'object',
             required: ['burialAllowanceRequested'],
             properties: {
-              burialAllowanceRequested: {
-                type: 'string',
-                'enum': [
-                  'nonService',
-                  'service',
-                  'vaMC'
-                ]
-              },
-              burialCost: {
-                type: 'number'
-              },
-              previouslyReceiveAllowance: {
-                type: 'boolean'
-              },
-              incurredExpenses: {
-                type: 'boolean'
-              },
-              benefitsUnclaimedRemains: {
-                type: 'boolean'
-              }
+              burialAllowanceRequested,
+              burialCost,
+              previouslyReceiveAllowance,
+              incurredExpenses,
+              benefitsUnclaimedRemains,
             }
           }
         },
@@ -306,21 +297,11 @@ const formConfig = {
             type: 'object',
             required: ['placeOfRemains', 'federalCemetary', 'stateCemetary', 'govtContributions'],
             properties: {
-              placeOfRemains: {
-                type: 'string'
-              },
-              federalCemetary: {
-                type: 'boolean'
-              },
-              stateCemetary: {
-                type: 'boolean'
-              },
-              govtContributions: {
-                type: 'boolean'
-              },
-              amountGovtContribution: {
-                type: 'number'
-              }
+              placeOfRemains,
+              federalCemetary,
+              stateCemetary,
+              govtContributions,
+              amountGovtContribution,
             }
           }
         }
