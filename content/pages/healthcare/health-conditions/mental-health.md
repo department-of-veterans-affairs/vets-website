@@ -59,7 +59,7 @@ We also treat anxiety-related conditions, like:
 
 ### What mental health services does VA provide?
 
-We provide mental health services such as:
+#### We provide mental health services such as:
 
 - **Short-term, inpatient care** for Veterans suffering from severe or life-threatening mental illness
 - **Outpatient care** for Veterans with serious mental illness who have a lot of trouble functioning in daily life
@@ -68,7 +68,9 @@ We provide mental health services such as:
 - **Primary care** for many common mental and behavioral problems
 - **Supported work settings** to help Veterans join the work force and live well in the community 
 
-We also provide care to Veterans in crisis. This includes:
+<br>
+
+#### We also provide care to Veterans in crisis. This includes:
 
 - **Emergency mental health care** 24 hours a day, 7 days a week, through VA medical centers and some local, non-VA hospitals
 - **The Veterans Crisis Line**, which offers 24/7 support for Veterans in crisis and their families and friends
