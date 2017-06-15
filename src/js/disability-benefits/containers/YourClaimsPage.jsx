@@ -40,6 +40,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
+    // TODO: bring this back in after error handling is refactored to be non-blocking
     // this.props.getClaims(this.getFilter(this.props));
     this.props.getAppeals(this.getFilter(this.props));
 
