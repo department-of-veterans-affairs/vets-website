@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 3
 relatedlinks:
-  - heading: Related conditions you may want to learn about
+  - heading: Related health problems you may want to learn about
     links:
     - url: /healthcare/health-conditions/military-sexual-trauma/
       title: Military Sexual Trauma (MST)
@@ -15,6 +15,12 @@ relatedlinks:
     - url: /healthcare/health-conditions/substance-use-problems/
       title: Substance Use Problems
       description: Learn more about VA health services to help support Veterans with substance use problems.
+    - url: /healthcare/health-conditions/mental-health/ptsd/
+      title: Posttraumatic Stress Disorder (PTSD)
+      description: Learn more about VA health services to help support Veterans with PTSD.
+    - url: /healthcare/health-conditions/mental-health/depression/
+      title: Depression
+      description: Learn more about VA health services to help support Veterans with depression.     
 ---
 
 <div class="va-introtext">
@@ -43,15 +49,17 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 ### Where can I turn for ongoing support? 
 
-You can find ongoing support through VA to help you get your life back on track:
+#### You can find ongoing support through VA to help you get your life back on track:
 
-- Our specially trained Suicide Prevention Coordinators—available in each VA medical center across the country—can help you get the counseling and services you need. 
-- Our Vet Centers can help you—and your family—readjust to life at home after you’ve returned from serving in a combat zone.
-- Our Veterans Benefits Administration offices can help you access benefits for disability compensation (monthly payments), job training, home loans, and more. <br /> 
+- **Our specially trained Suicide Prevention Coordinators**—available in each VA medical center across the country—can help you get the counseling and services you need. 
+- **Our Vet Centers** can help you—and your family—readjust to life at home after you’ve returned from serving in a combat zone.
+- **Our Veterans Benefits Administration offices** can help you access benefits for disability compensation (monthly payments), job training, home loans, and more. <br /> 
 
 [Find these and other resources near you](https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx). 
 
-You can also find information and support on our websites:
+<br>
+
+#### You can also find information and support on our websites:
 
 - Get information about suicide prevention and the support we offer. [Visit our suicide prevention website](https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp). 
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
@@ -81,6 +89,8 @@ Learn about common suicide myths and realities, Veteran-specific suicide risks, 
 
 [Take our Veterans self-check quiz](https://www.vetselfcheck.org/Welcome.cfm).
 
+<br>
+
 ### I want to help a Veteran adjust to life at home, but I don’t know how. Can I get support? 
 
 Yes. If you’re a family member or friend of a Veteran who’s having trouble adjusting to life at home, we can help. Through our national Coaching Into Care program, our licensed psychologists and social workers will talk with you by phone, free of charge, to help you find your way around the VA system and figure out the best way to help the Veteran you care about. All calls are confidential (private).
@@ -88,6 +98,8 @@ Yes. If you’re a family member or friend of a Veteran who’s having trouble a
 To speak with a VA coach, call <a href="tel:+1-888-823-7458">888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
 
 To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching Into Care](https://www.mirecc.va.gov/coaching/). 
+
+<br>
 
 ### How do I talk to my child about a suicide attempt in the family? 
 
