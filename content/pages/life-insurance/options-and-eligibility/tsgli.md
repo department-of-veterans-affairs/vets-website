@@ -39,7 +39,7 @@ You may be able to get retroactive TSGLI (meaning that it takes effect starting 
 - You weren’t injured while committing or trying to commit a felony, **and**
 - You weren’t injured by a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
 
-You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your coverage was in effect when you got injured. 
+You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured. 
 
 <br>
 
