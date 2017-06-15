@@ -38,8 +38,8 @@ You may be able to get VGLI if:
 
 #### Who’s covered?
 
-Veterans
-Former Servicemembers
+- Veterans
+- Former Servicemembers
 
 </div>
 
