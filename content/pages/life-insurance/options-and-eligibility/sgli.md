@@ -6,7 +6,7 @@ display_title: Servicemembers' Group (SGLI)
 concurrence: 
 order: 1
 relatedlinks:
-  - header: More information about your benefits
+  - heading: More information about your benefits
     links:
     - url: /life-insurance/manage-your-policy/
       title: Managing Your Policy
