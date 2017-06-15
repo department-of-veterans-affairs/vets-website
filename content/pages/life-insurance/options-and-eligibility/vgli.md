@@ -5,6 +5,15 @@ title: Veterans’ Group Life Insurance (VGLI)
 display_title: Veterans' Group (VGLI)
 concurrence: 
 order: 4
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Already have VA life insurance? Manage your policy online.
+    - url: /life-insurance/disabled-and-terminally-ill/
+      title: Claims for Disabled and Terminally Ill Policyholders
+      description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
 <div class="va-introtext">
@@ -29,15 +38,20 @@ You may be able to get VGLI if:
 
 #### Who’s covered?
 
-Veterans and former Servicemembers
+Veterans
+Former Servicemembers
 
 </div>
+
+<br>
 
 ### What life insurance benefits can I get with VGLI?
 
 $10,000 to $400,000 in life insurance benefits, based on the amount of SGLI coverage you had when you left the military.
 
-When you leave the military, you can sign up through VGLI for coverage up to the amount you had through SGLI. You can also increase your coverage by $25,000 every 5 years—up to $400,000—until you’re 60 years old.
+**Note:** When you leave the military, you can sign up through VGLI for coverage up to the amount you had through SGLI. You can also increase your coverage by $25,000 every 5 years—up to $400,000—until you’re 60 years old.
+
+<br>
 
 ### How do I get these benefits?
 
@@ -56,6 +70,8 @@ Fax the form to 800-236-6142, or mail it to:
 <dd>P.O. Box 41618</dd>
 <dd>Philadelphia, PA 19176-9913</dd>
 </dl>
+
+<br>
 
 ### How much will I pay for these benefits? 
 
@@ -607,6 +623,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 [See the VGLI premium rates before July 1, 2014](http://www.benefits.va.gov/INSURANCE/vgli_rates_old.asp).
 
+<br>
+
 ### Can I convert my VGLI policy into a commercial policy? 
 
 Yes. You can convert your policy into a commercial (civilian) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
@@ -635,21 +653,19 @@ Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Co
 
 **Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like term, variable life, or universal life insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
 
+### Where can I find more information?
+
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+
 ------
 
 ### Veterans’ Mortgage Life Insurance (VMLI)
 
-If you have a severe service-connected disability, you may also qualify for Veterans’ Mortgage Life Insurance (VMLI). This mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs in the event of your death.
+If you have a severe disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active-duty service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs.
 
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-### Need help?
-
-Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
-
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
