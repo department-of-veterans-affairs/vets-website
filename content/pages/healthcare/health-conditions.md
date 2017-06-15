@@ -53,7 +53,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Vision care](/healthcare/about-va-health-care/vision-care/)
 
-- [Hearing loss](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp) 
+- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp) 
 
 - [Assisted living and home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/)
 
@@ -61,15 +61,17 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 ------
 
-### What if I need help understanding my benefits or accessing services? 
+#### What if I need help understanding my benefits or accessing services? 
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/healthcare/about-va-health-care/).
 
-If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
-### Can I manage my VA health benefits online?
+<br>
 
-Yes. If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
+#### Can I manage my VA health and benefits online?
+
+Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov: <br />
 [Refill your prescriptions](/healthcare/prescriptions/). <br />
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
