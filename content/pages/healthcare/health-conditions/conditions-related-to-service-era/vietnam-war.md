@@ -58,7 +58,7 @@ Ask your local VA environmental health coordinator about getting a free Agent Or
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. 
 <br />
 [See if you qualify for disability benefits due to conditions related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 <br />
