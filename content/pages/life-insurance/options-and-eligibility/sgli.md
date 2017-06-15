@@ -5,6 +5,15 @@ title: Servicemembers’ Group Life Insurance (SGLI)
 display_title: Servicemembers' Group (SGLI)
 concurrence: 
 order: 1
+relatedlinks:
+  header: Other information about your benefits
+  links:
+     - url: /life-insurance/manage-your-policy/
+       title: Managing Your Policy
+       description: Already have VA life insurance? Manage your policy online.
+     - url: /life-insurance/disabled-and-terminally-ill/
+       title: Claims for Disabled and Terminally Ill Policyholders
+       description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
 <div class="va-introtext">
@@ -26,8 +35,6 @@ You may be able to get full-time SGLI coverage if you’re:
 - A member of the Ready Reserve or National Guard, assigned to a unit, and scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
-<br>
-
 You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
@@ -37,7 +44,7 @@ You may also be able to get full-time SGLI coverage if you’re in nonpay status
 
 <br>
 
-### Who’s covered? 
+#### Who’s covered? 
 
 Servicemembers
 
@@ -50,9 +57,13 @@ Servicemembers
 - Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. See below for information on the SGLI-Disability Extension.
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
+<br>
+
 ### How do I get these benefits?
 
 If you qualify for SGLI, we’ll automatically sign you up through your service branch. See your unit’s personnel office for more information.
+
+<br>
 
 ### Can I make changes to my benefits? 
 
@@ -62,10 +73,12 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES)**, submit your changes online. To access SOES:
 
-- Go to [milConnect](https://www.dmdc.osd.mil/milconnect).
-- Sign in.
-- Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
-- Check your coverage and beneficiary info and make any needed updates.
+<ol class="process">
+  <li class="process-step list-one">Go to [milConnect](https://www.dmdc.osd.mil/milconnect).</li>
+  <li class="process-step list-two">Sign in.</li>
+  <li class="process-step list-three">Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.</li>
+  <li class="process-step list-four">Check your coverage and beneficiary info and make any needed updates.</li>
+ </ol>
 
 You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
 
@@ -74,6 +87,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
+<br>
 
 ### How much will I pay for these benefits?
 
@@ -92,14 +106,16 @@ These are the SGLI premium rates effective July 1, 2014.
 | $100,000 | $7.00 | $1.00 | $8.00 |
 | $50,000 | $3.50 | $1.00 | $4.50 |
 
-### How do I convert my SGLI when I leave the military? 
+<br>
 
+### How do I convert my SGLI when I leave the military? 
 When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
-### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
+<br>
 
+### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
 You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
@@ -114,6 +130,8 @@ You may be able to keep your coverage for up to 2 years after the date you left 
     - 1 foot and 1 eye, **or**
     - 1 hand and 1 eye
 
+<br>
+
 ### How do I apply for SGLI Disability Extension? 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
@@ -124,6 +142,12 @@ If you do this, you’ll get a notice 20 months after your separation date letti
 
 If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
+<br>
+
+### Where can I find more information?
+
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
+
 ------------
 
 ### Veterans’ Mortgage Life Insurance (VMLI)
@@ -133,9 +157,3 @@ If you have a severe service-connected disability, you may also qualify for Vete
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-### Need help?
-
-Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
-
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
