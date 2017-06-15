@@ -30,7 +30,7 @@ const {
   amountGovtContribution,
   burialAllowanceRequested,
   burialCost,
-  previouslyReceiveAllowance,
+  previouslyReceivedAllowance,
   incurredExpenses,
   benefitsUnclaimedRemains,
   burialAllowance,
@@ -232,7 +232,7 @@ const formConfig = {
                 expandUnderCondition: 'vaMC'
               }
             },
-            previouslyReceiveAllowance: {
+            previouslyReceivedAllowance: {
               'ui:title': 'Did you previously receive a VA burial allowance?',
               'ui:widget': 'yesNo',
               'ui:required': form => _.get('relationship.type', form) === 'spouse',
@@ -259,7 +259,7 @@ const formConfig = {
             properties: {
               burialAllowanceRequested,
               burialCost,
-              previouslyReceiveAllowance,
+              previouslyReceivedAllowance,
               incurredExpenses,
               benefitsUnclaimedRemains,
             }

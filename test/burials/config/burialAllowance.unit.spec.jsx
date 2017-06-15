@@ -67,7 +67,7 @@ describe('Burials burial allowance', () => {
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
-    expect(formDOM.querySelector('#root_previouslyReceiveAllowanceYes')).is.not.null;
+    expect(formDOM.querySelector('#root_previouslyReceivedAllowanceYes')).is.not.null;
   });
 
   it('should show unclaimed question', () => {
