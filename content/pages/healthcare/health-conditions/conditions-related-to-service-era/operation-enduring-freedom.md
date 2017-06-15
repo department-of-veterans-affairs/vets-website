@@ -6,6 +6,18 @@ display_title: Operation Enduring Freedom
 concurrence: 
 lastupdate_override: 
 order: 1
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /healthcare/about-va-health-care/
+      title: About VA Health Care Coverage
+      description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
+    - url: /healthcare/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Not sure if you qualify? Find out if you can get VA health care benefits.
+    - url: /healthcare/apply/
+      title: Health Care Application Process
+      description: Ready to apply? Get started now.
 ---
 <div class="va-introtext">
 
@@ -72,15 +84,3 @@ Find out if you can get disability compensation (monthly payments) and other ben
 
 </li>
 </ol>
-
-------
-
-
-**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
-
-**Already signed up?** Manage your VA health and benefits online: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/). 
-
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
