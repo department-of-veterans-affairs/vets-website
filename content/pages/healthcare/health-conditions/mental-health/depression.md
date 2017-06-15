@@ -21,7 +21,7 @@ relatedlinks:
     - url: /healthcare/health-conditions/mental-health/suicide-prevention/
       title: Suicide Prevention
       description: Learn more about VA services to help support Veterans at risk of suicide and their families.
- ---
+---
 
 <div class="va-introtext">
 
