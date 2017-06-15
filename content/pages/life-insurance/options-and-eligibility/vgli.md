@@ -625,33 +625,23 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 <br>
 
+<br>
+
 ### Can I convert my VGLI policy into a commercial policy? 
 
 Yes. You can convert your policy into a commercial (civilian) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
 
 To convert your VGLI policy:
 
-<ol class="process">
-<li class="step one">
-
-Choose your new insurance company. [View our list of companies that take part in this program]( http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).
-
-</li>
-
-<li class="step two">
-
-Apply at the local sales office of your chosen company.
-
-</li>
-
-<li class="step last three">
-
-Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Conversion Notice) and give the letter to the agent who takes your application.
-
-</li>
+<ol class="process" markdown="1">
+  <li class="process-step list-one">Choose your new insurance company. [View our list of companies that take part in this program]( http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).</li>
+  <li class="process-step list-two">Apply at the local sales office of your chosen company.</li>
+  <li class="process-step list-three">Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Conversion Notice) and give the letter to the agent who takes your application.</li>
 </ol>
 
 **Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like term, variable life, or universal life insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
+
+<br>
 
 ### Where can I find more information?
 
