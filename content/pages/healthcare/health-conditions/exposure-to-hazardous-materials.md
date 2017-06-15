@@ -25,17 +25,17 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Veterans may come in contact with a range of toxic chemicals or other hazardous materials during military service that may cause health problems. Learn more about the questions your VA primary care provider may ask about your exposures—and get more information about specific health concerns.
+Veterans may come in contact with a range of toxic chemicals or other hazardous materials during military service that may cause health problems. Learn more about specific health concerns.
 
 </div>
 
-### Agent Orange-related health conditions
+### Agent Orange-related illnesses
 
 Certain cancers (like prostate cancer and non-Hodgkin’s lymphoma) and other illnesses (like Type 2 Diabetes) have been linked to Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War era.
 <br />
-[See the list of Agent Orange-related health conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 <br />
-[Learn more about disability benefits for Agent Orange-related conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
+[Learn more about disability benefits for Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
 <br>
 
@@ -49,13 +49,13 @@ Illnesses with unexplained symptoms, like chronic fatigue syndrome and fibromyal
 
 <br>
 
-### Conditions linked to radiation exposure 
+### Illnesses linked to radiation exposure 
 
-Some cancers and other conditions (like certain thyroid conditions and tumors of the brain and central nervous system) may be linked to radiation exposure. 
+Some cancers and other illnesses (like certain thyroid conditions and tumors of the brain and central nervous system) may be linked to radiation exposure. 
 <br />
-[Learn more about health conditions linked to radiation exposure](https://www.publichealth.va.gov/exposures/radiation/diseases.asp). 
+[Learn more about illnesses linked to radiation exposure](https://www.publichealth.va.gov/exposures/radiation/diseases.asp). 
 <br />
-[Learn more about disability benefits for conditions caused by radiation exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/). 
+[Learn more about disability benefits for illnesses caused by radiation exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/). 
 
 <br>
 
