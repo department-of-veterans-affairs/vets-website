@@ -38,9 +38,9 @@ You may be at risk of illnesses or injuries caused by contact with:
 - **[Occupational (job-related) hazards](https://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Noise](https://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
-You may also be at risk of illnesses caused by contact with hazards found in certain locations, such as:
+You may also be at risk of illnesses caused by contact with hazards found in certain projects and locations, such as:
 
-- **[Projects 112 or SHAD](/disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/):** Military tests of chemical and biological warfare materials that took place in the 1960s to early 1970s
+- **[Projects 112 or Shipboard Hazard and Defense (SHAD)](/disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/):** Military tests of chemical and biological warfare materials that took place in the 1960s to early 1970s
 - **[The Atsugi Waste Incinerator](https://www.publichealth.va.gov/exposures/sand-dust-particulates/atsugi.asp):** Combustion waste disposal that burned industrial and medical waste
 - **[The Edgewood/Aberdeen Experiments](https://www.publichealth.va.gov/exposures/edgewood-aberdeen/index.asp):** Classified medical studies of low-dose chemical agents conducted from 1955 to 1975
 - **[Camp Lejeune and Marine Corps Air Station (MCAS) New River](/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/):** Sites of contaminated drinking water from August 1953 through December 1987
@@ -67,7 +67,7 @@ Ask your local VA environmental health coordinator about getting a free Ionizing
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
 </li>
 </ol>
