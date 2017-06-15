@@ -17,6 +17,8 @@ If you have VA life insurance, the easiest way to manage your policy is online. 
 - Find out about your plan and renewal options. These will depend on which type of plan you have. 
 - Update your beneficiary (the person you’ve picked to get the money from your policy if you die). You’ll want to review your beneficiary information at least once a year to make sure the name and contact information is still correct. You’ll also need to review the information—and make any changes—if you get divorced, have a child, or go through other big life changes.
 
+<br>
+
 ### How do I access my policy?
 
 If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military), access your policy online through VA. [Find your policy through VA](http://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
