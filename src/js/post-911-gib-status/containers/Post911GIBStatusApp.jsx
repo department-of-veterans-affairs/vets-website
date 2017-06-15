@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-import Main from './Main';
-
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, isDataAvailable }) {
@@ -42,7 +40,6 @@ class Post911GIBStatusApp extends React.Component {
         <AppContent>
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns">
-              <Main/>
               {this.props.children}
             </div>
           </div>
