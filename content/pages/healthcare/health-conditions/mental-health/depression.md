@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 2
 relatedlinks:
-  - heading: Related conditions you may want to learn about
+  - heading: Related health problems you may want to learn about
     links:
     - url: /healthcare/health-conditions/military-sexual-trauma/
       title: Military Sexual Trauma (MST)
@@ -15,7 +15,13 @@ relatedlinks:
     - url: /healthcare/health-conditions/substance-use-problems/
       title: Substance Use Problems
       description: Learn more about VA health services to help support Veterans with substance use problems.
----
+    - url: /healthcare/health-conditions/mental-health/ptsd/
+      title: Posttraumatic Stress Disorder (PTSD)
+      description: Learn more about VA health services to help support Veterans with PTSD.
+    - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+      title: Suicide Prevention
+      description: Learn more about VA services to help support Veterans at risk of suicide and their families.
+ ---
 
 <div class="va-introtext">
 
@@ -51,8 +57,6 @@ We offer treatments such as:
 - Medicine proven to help treat depression, anxiety, sleep issues, and other related problems
 - Psychotherapy (also called “talk therapy”) to help treat depression. These sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more. 
 
-<br>
-
 [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
  
 </div>
@@ -66,7 +70,9 @@ Once you’re signed up:
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have depression—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>, **or**
-  - [Contact your local VA medical center](/facilities/).
+  - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
+
+<br>
 
 ### What if I don’t have VA health benefits? 
 
@@ -77,6 +83,8 @@ You may still be able to get care:
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
+  
+<br>
 
 ### Where can I find more information and support? 
 
