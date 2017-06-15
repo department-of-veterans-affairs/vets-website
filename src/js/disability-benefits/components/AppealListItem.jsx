@@ -16,7 +16,7 @@ export default function AppealListItem({ claim }) {
   const firstEvent = claim.attributes.events[0];
 
   return (
-    <Link className="claim-list-item" to={`your-claims/${claim.id}/status`}>
+    <Link className="claim-list-item" to={`appeals/${claim.id}/status`}>
       <h4 className="claim-list-item-header">Compensation Appeal – Received {moment(firstEvent.date).format('MMMM D, YYYY')}</h4>
       <p className="status"><span className="claim-item-label">Status:</span> {getAppealsStatusDescription(lastEvent)}</p>
       <div className="communications">
