@@ -34,6 +34,18 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Sign in before saving your application');
   });
+  it('should render expired message when not logged in and noAuth status', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+          user={user}
+          savedStatus={SAVE_STATUSES.noAuth}
+          saveForm={saveFormSpy}
+          onUpdateLoginUrl={updateLoginSpy}/>
+    );
+
+    expect(tree.text()).to.contain('Sorry, your session has expired');
+    expect(tree.subTree('a')).not.to.be.null;
+  });
   it('should render save message when logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
@@ -43,7 +55,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.equal('Save and come back later');
+    expect(tree.text()).to.equal('Save and finish later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(

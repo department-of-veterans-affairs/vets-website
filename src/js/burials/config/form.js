@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 // import { transform } from '../helpers';
+import { validateMatch } from '../../common/schemaform/validation';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { relationshipLabels, locationOfDeathLabels } from '../labels.jsx';
@@ -153,18 +155,29 @@ const formConfig = {
           title: 'Claimant Contact Information',
           path: 'claimant-contact-information',
           uiSchema: {
+            'ui:validation': validateMatch('claimantEmail', 'view:claimantConfirmationEmail'),
             claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
-              'ui:title': 'Email address'
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:claimantEmailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
             },
             claimantPhone: phoneUI('Phone number')
           },
           schema: {
             type: 'object',
-            required: ['claimantAddress', 'claimantEmail', 'claimantPhone'],
+            required: ['claimantAddress', 'claimantEmail', 'view:claimantEmailConfirmation', 'claimantPhone'],
             properties: {
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
+              'view:claimantEmailConfirmation': claimantEmail,
               claimantPhone
             }
           }

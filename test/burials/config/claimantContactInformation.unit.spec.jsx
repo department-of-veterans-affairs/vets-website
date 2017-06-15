@@ -19,7 +19,7 @@ describe('Burials claimant information', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(9);
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
@@ -33,7 +33,7 @@ describe('Burials claimant information', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(6);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(7);
     expect(onSubmit.called).not.to.be.true;
   });
   it('should submit when all required fields are filled in', () => {
@@ -53,6 +53,7 @@ describe('Burials claimant information', () => {
     formDOM.fillData('#root_claimantAddress_state', 'MA');
     formDOM.fillData('#root_claimantAddress_postalCode', '01060');
     formDOM.fillData('#root_claimantEmail', 'Jane.Smith@gmail.com');
+    formDOM.fillData('#root_view\\:claimantEmailConfirmation', 'Jane.Smith@gmail.com');
     formDOM.fillData('#root_claimantPhone', '4444444444');
 
     submitForm(form);

@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FormTitle from '../../common/schemaform/FormTitle';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-
-import Main from './Main';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -43,15 +40,7 @@ class Post911GIBStatusApp extends React.Component {
         <AppContent>
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns">
-              <FormTitle title="Post-9/11 GI Bill Status"/>
-              <div className="va-introtext">
-                <p>
-                  View your Post-9/11 GI Bill enrollment information below. This is the same information
-                  in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
-                  print a copy of this screen for benefit and eligibility verification.
-                </p>
-              </div>
-              <Main/>
+              {this.props.children}
             </div>
           </div>
         </AppContent>

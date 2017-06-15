@@ -52,6 +52,7 @@ describe('Schemaform helpers:', () => {
   describe('createRoutes', () => {
     it('should create routes', () => {
       const formConfig = {
+        disableSave: true,
         chapters: {
           firstChapter: {
             pages: {
@@ -85,6 +86,25 @@ describe('Schemaform helpers:', () => {
       const routes = createRoutes(formConfig);
 
       expect(routes[0].path).to.equal('introduction');
+    });
+    it('should create routes with save', () => {
+      const formConfig = {
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page'
+              }
+            }
+          }
+        }
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('test-page');
+      expect(routes[1].path).to.equal('form-saved');
+      expect(routes[2].path).to.equal('review-and-submit');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
