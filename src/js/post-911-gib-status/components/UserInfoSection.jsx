@@ -14,9 +14,9 @@ class UserInfoSection extends React.Component {
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
-    let currentOfAlert;
-    if (this.props.showCurrentOfAlert) {
-      currentOfAlert = (
+    let currentAsOfAlert;
+    if (this.props.showCurrentAsOfAlert) {
+      currentAsOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
@@ -27,7 +27,7 @@ class UserInfoSection extends React.Component {
 
     return (
       <div>
-        {currentOfAlert}
+        {currentAsOfAlert}
         <InfoPair label="Name" value={fullName}/>
         <InfoPair label="Date of Birth" value={formatDateShort(enrollmentData.dateOfBirth)}/>
         {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
@@ -52,7 +52,7 @@ class UserInfoSection extends React.Component {
 
 UserInfoSection.propTypes = {
   enrollmentData: PropTypes.object,
-  showCurrentOfAlert: PropTypes.bool
+  showCurrentAsOfAlert: PropTypes.bool
 };
 
 export default UserInfoSection;

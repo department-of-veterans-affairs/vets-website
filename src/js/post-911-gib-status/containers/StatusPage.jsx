@@ -15,8 +15,6 @@ class StatusPage extends React.Component {
   }
 
   render() {
-    // TODO: change the service name below from "user-profile" to
-    // something like "post-911-gib-status" once its defined in vets-api
     const { enrollmentData } = this.props;
 
     return (
@@ -34,7 +32,7 @@ class StatusPage extends React.Component {
             Print This Page as COE
           </Link>
         </div>
-        <UserInfoSection enrollmentData={enrollmentData} showCurrentOfAlert/>
+        <UserInfoSection enrollmentData={enrollmentData} showCurrentAsOfAlert/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>
