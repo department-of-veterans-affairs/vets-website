@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Co-op Training
 concurrence: complete
 plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+order: 3
 ---
 
 <div class="va-introtext">

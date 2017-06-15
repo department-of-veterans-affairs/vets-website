@@ -1,8 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Work Study
 concurrence: incomplete
-template: 4-action-page-pending
+order: 1
 ---
 
 <div class="va-introtext">

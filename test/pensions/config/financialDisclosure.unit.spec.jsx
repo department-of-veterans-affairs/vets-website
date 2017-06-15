@@ -154,10 +154,10 @@ describe('Pensions financial disclosure', () => {
     runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 6);
   });
   describe('Expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 3);
+    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 2);
   });
   describe('Spouse expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 3);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 2);
   });
   describe('Dependent expected income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
@@ -165,7 +165,7 @@ describe('Pensions financial disclosure', () => {
       title: page.title,
       schema: page.schema.properties.children.items,
       uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 3);
+    }, 'childFullName', 2);
   });
   describe('Dependent monthly income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;

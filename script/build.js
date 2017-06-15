@@ -151,25 +151,115 @@ smith.use(define({
 // property to the Markdown document.
 
 smith.use(collections({
-  disabilityAgentOrange: {
+  burials: {
+    sortBy: 'order',
+    metadata: {
+      name: 'Burials and Memorials'
+    }
+  },
+  burialsPlanning: {
+    pattern: 'burials-and-memorials/burial-planning/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Burials and Memorials'
+    }
+  },
+  burialsSurvivors: {
+    pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Survivor and Dependent Benefits'
+    }
+  },
+  disability: {
+    pattern: 'disability-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Disability Benefits'
+    }
+  },
+  disabilityAfterYouApply: {
+    pattern: 'disability-benefits/after-you-apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
+  disabilityApply: {
+    pattern: 'disability-benefits/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
+  disabilityClaimsAppeal: {
+    pattern: 'disability-benefits/claims-appeal/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Appeals'
+    }
+  },
+  disabilityClaimTypes: {
+    pattern: 'disability-benefits/apply/claim-types/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Claim Types'
+    }
+  },
+  disabilityClaimTypesPredischarge: {
+    pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Predischarge Claims'
+    }
+  },
+  disabilityConditions: {
+    pattern: 'disability-benefits/conditions/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Conditions'
+    }
+  },
+  disabilityConditionsExposure: {
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Contact with Hazardous Materials'
+    }
+  },
+  disabilityConditionsSpecial: {
+    pattern: 'disability-benefits/conditions/special-claims/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Special Claims'
+    }
+  },
+  disabilityConditionsAgentOrange: {
     pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Agent Orange'
     }
   },
-  disabilityExposureHazMat: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
-    sortBy: 'title',
+  disabilityEligibility: {
+    pattern: 'disability-benefits/eligibility/*.md',
+    sortBy: 'order',
     metadata: {
-      name: 'Exposure to Hazardous Materials'
+      name: 'Eligibility'
     }
   },
   education: {
-    pattern: 'education/*.md',
+    pattern: '',
     sortBy: 'order',
     metadata: {
       name: 'Education Benefits'
+    }
+  },
+  educationAdvancedTraining: {
+    pattern: 'education/advanced-training-and-certifications/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Advanced Training and Certifications'
     }
   },
   educationGIBill: {
@@ -178,7 +268,48 @@ smith.use(collections({
     metadata: {
       name: 'GI Bill'
     }
-  }
+  },
+  educationGIBillSurvivors: {
+    pattern: 'education/gi-bill/survivors-dependent-assistance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Survivors and Dependents'
+    }
+  },
+  educationNonTraditional: {
+    pattern: 'education/work-learn/non-traditional/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Non-Traditional Options'
+    }
+  },
+  educationOtherPrograms: {
+    pattern: 'education/other-educational-assistance-programs/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Other Educational Assistance Programs'
+    }
+  },
+  educationToolsPrograms: {
+    pattern: 'education/tools-programs/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Career Counseling'
+    }
+  },
+  educationWorkLearn: {
+    pattern: 'education/work-learn/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Work and Learn'
+    }
+  },
+  healthcare: {
+    sortBy: 'order',
+    metadata: {
+      name: 'Health Care'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));

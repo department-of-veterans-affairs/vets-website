@@ -1,13 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Support Veteran Employees
 concurrence: incomplete
-template: 1-topic-landing
 relatedlinks:
-  - url: /employment/job-seekers/search-jobs
-    title: Search the Veterans Job Bank
-  - url: /employment/employers/post-a-job/
-    title: Post a Job
+  - heading: Resources for Employers
+    links:
+    - url: /employment/job-seekers/search-jobs
+      title: Job Search
+      description: Search the Veterans Job Bank to view current positions.
+    - url: /employment/employers/post-a-job/
+      title: Post a Job
+      description: Post jobs available for Veterans, transitioning Servicemembers, and their families.
 ---
 
 <div class="va-introtext">
@@ -28,5 +32,5 @@ Federal, state, or local government offices can set up a Non-paid Work Experienc
 
 ### Learn more about how to support your Veteran employees with disabilities:
 
-- Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/service-connected/).
+- Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/).
 - [Understanding Your Employment Rights Under the Americans with Disabilities Act (ADA): A Guide for Veterans](http://www.eeoc.gov/eeoc/publications/ada_veterans.cfm) briefly explains how protections for Veterans with service-connected disabilities differ under USERRA and the ADA. It also describes how the ADA, in particular, applies to recruiting, hiring, and accommodating Veterans with service-connected disabilities.

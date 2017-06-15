@@ -51,9 +51,6 @@ class SaveFormLink extends React.Component {
       content = <span>failure message</span>;
     } else if (savedStatus === SAVE_STATUSES.pending) {
       content = <span>spinner or something</span>;
-    } else if (savedStatus === SAVE_STATUSES.success) {
-      content = <span>success message</span>;
-      // TODO: Redirect to a page like: https://marvelapp.com/2hj59b1/screen/28358414
     }
 
     return content;
