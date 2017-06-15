@@ -41,13 +41,6 @@ class IntroductionPage extends React.Component {
             <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mma')}</div>
             <div>Complete the form before submitting to apply for health care with the 10-10ez.</div>
           </div>);
-      } else {
-        alert = (
-          <div className="usa-alert usa-alert-info">
-            <div className="usa-alert-body">
-              <strong>Note:</strong> You can now save your application and come back to save it at a later time.
-            </div>
-          </div>);
       }
     } else {
       alert = (
