@@ -50,6 +50,8 @@ Servicemembers
 
 </div>
 
+<br>
+
 ### What kind of life insurance benefits can I get with SGLI?
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
@@ -71,9 +73,7 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
 
-#### If your branch of service has started using the new SGLI Online Enrollment System (SOES)
-
-Submit your changes online. To access SOES:
+**If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
@@ -84,7 +84,9 @@ Submit your changes online. To access SOES:
 
 You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
 
-#### If your branch of service hasn't yet started using SOES
+<br>
+
+**If your branch of service hasn't yet started using SOES,**
 
 Fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
