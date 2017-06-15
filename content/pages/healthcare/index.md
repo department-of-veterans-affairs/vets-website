@@ -19,6 +19,9 @@ majorlinks:
     - url: /healthcare/messaging/
       title: Send a Message to Your Health Care Team
       description: Send a secure, private note to your doctor or other members of your VA health care team.
+    - url: /healthcare/health-records/
+      title: Get Your VA Health Records
+      description: View, print, and download your VA health records.
 ---
 
 <div class="va-introtext">
