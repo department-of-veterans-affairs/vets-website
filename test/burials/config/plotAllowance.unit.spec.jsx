@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
-describe.only('Burials plot allowance', () => {
+describe('Burials plot allowance', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.benefitsSelection.pages.plotAllowance;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
