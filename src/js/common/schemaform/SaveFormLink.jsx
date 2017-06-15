@@ -43,7 +43,8 @@ class SaveFormLink extends React.Component {
             onClose={this.closeLoginModal}
             visible={this.state.modalOpened}
             user={this.props.user}
-            onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
+            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
+            onLogin={saveForm}/>
       </div>);
     }
 

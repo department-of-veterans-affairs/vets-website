@@ -57,7 +57,12 @@ class LoginModal extends React.Component {
     const loginUrl = this.props.user.login.loginUrl;
     const onUpdateLoginUrl = this.props.onUpdateLoginUrl;
     this.loginUrlRequest = handleLogin(loginUrl, onUpdateLoginUrl);
-    this.loginUrlRequest.then(() => this.props.onClose());
+    this.loginUrlRequest.then(() => {
+      this.props.onClose();
+      if (this.props.onLogin) {
+        this.props.onLogin();
+      }
+    });
   }
 
   render() {
@@ -76,7 +81,8 @@ LoginModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
   user: PropTypes.object.isRequired, // Taken from the redux store
-  onUpdateLoginUrl: PropTypes.func.isRequired // Dispatches updateLogInUrl()
+  onUpdateLoginUrl: PropTypes.func.isRequired, // Dispatches updateLogInUrl()
+  onLogin: PropTypes.func
 };
 
 
