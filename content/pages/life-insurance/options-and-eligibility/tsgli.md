@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Traumatic Injury Protection Life Insurance (TSGLI)
-display_title: Traumatic Injury Protection
+display_title: Traumatic Injury Protection (TSGLI)
 concurrence: 
 order: 3
 ---
