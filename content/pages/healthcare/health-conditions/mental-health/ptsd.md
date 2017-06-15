@@ -7,7 +7,7 @@ concurrence:
 lastupdate_override: 
 order: 1
 relatedlinks:
-  - heading: Related conditions you may want to learn about
+  - heading: Related health problems you may want to learn about
     links:
     - url: /healthcare/health-conditions/military-sexual-trauma/
       title: Military Sexual Trauma (MST)
@@ -15,11 +15,17 @@ relatedlinks:
     - url: /healthcare/health-conditions/substance-use-problems/
       title: Substance Use Problems
       description: Learn more about VA health services to help support Veterans with substance use problems.
+    - url: /healthcare/health-conditions/mental-health/depression/
+      title: Depression
+      description: Learn more about VA health services to help support Veterans with depression.
+    - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+      title: Suicide Prevention
+      description: Learn more about VA services to help support Veterans at risk of suicide and their families.
 ---
 
 <div class="va-introtext">
 
-Whether you just returned from a deployment or have been home for 40 years, it’s never too late to get help for posttraumatic stress disorder (PTSD). Getting counseling or treatment can help manage your symptoms and keep them from getting worse.
+Whether you just returned from a deployment or have been home for 40 years, it’s never too late to get help for posttraumatic stress disorder (PTSD). Getting counseling or treatment can help you manage your symptoms and keep them from getting worse.
 
 Our National Center for PTSD is the world leader in PTSD research, education, and treatment. Find out how to access PTSD health services through VA.
 
@@ -48,7 +54,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 
 ### What services does VA provide for PTSD?
 
-We have almost 200 PTSD treatment programs across the country that offer:
+#### We have almost 200 PTSD treatment programs across the country that offer:
 
 - 1-to-1 mental health assessment and testing to figure out if you have PTSD
 - Medicine proven to work for treating PTSD
@@ -57,13 +63,15 @@ We have almost 200 PTSD treatment programs across the country that offer:
 - Group therapy for special needs, like anger or stress management or combat support
 - Group therapy for Veterans who served in certain combat zones or who’ve been through similar traumas
 
-We also offer other forms of treatment and support:
+<br>
+
+#### We also offer other forms of treatment and support:
 
 - PTSD specialists provide regular outpatient care to Veterans with PTSD in each VA medical center across the U.S. 
 - Special residential (live-in) or inpatient care programs—found in each region of the U.S.—help Veterans with severe PTSD symptoms who have trouble doing normal daily activities (like going to work).
 - Providers offer added PTSD care in some of our large community-based outpatient clinics. <br />
 
-[Find a VA medical center or clinic](https://www.va.gov/directory/guide/division.asp?dnum=1). 
+[Find a VA medical center or clinic near you](/facilities/). 
 
 <br>
 
@@ -80,21 +88,27 @@ Once you’re signed up:
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have PTSD—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>, **or**
-  - [Contact your local VA medical center](https://www.va.gov/health/vamc/), **or** 
+  - [Contact your local VA medical center](/facilities/), **or** 
   - [Contact a VA PTSD program near you](https://www.va.gov/directory/guide/PTSD.asp).
+
+<br>
 
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care: 
-- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
+- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
+<br>
+
 ### Can I get disability compensation (monthly payments) or other benefits from VA if I think I have PTSD linked to military service?
 
 If you have symptoms of PTSD and suffered a serious injury, personal trauma, sexual trauma, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits. [Find out if you can get disability benefits](/disability-benefits/conditions/ptsd/). 
+
+<br>
 
 ### Where can I find more information and support?
 
