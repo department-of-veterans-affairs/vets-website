@@ -28,11 +28,23 @@ class UserInfoSection extends React.Component {
     return (
       <div>
         {currentAsOfAlert}
-        <InfoPair label="Name" value={fullName}/>
-        <InfoPair label="Date of Birth" value={formatDateShort(enrollmentData.dateOfBirth)}/>
+        <InfoPair
+            label="Name"
+            value={fullName}
+            spacingClass="section-line"/>
+        <InfoPair
+            label="Date of Birth"
+            value={formatDateShort(enrollmentData.dateOfBirth)}
+            spacingClass="section-line"/>
         {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
-        <InfoPair label="VA File Number" value={enrollmentData.vaFileNumber}/>
-        <InfoPair label="Regional Processing Office" value={enrollmentData.regionalProcessingOffice}/>
+        <InfoPair
+            label="VA File Number"
+            value={enrollmentData.vaFileNumber}
+            spacingClass="section-line"/>
+        <InfoPair
+            label="Regional Processing Office"
+            value={enrollmentData.regionalProcessingOffice}
+            spacingClass="section-line"/>
         <div>
           <h4>When You Can Receive Benefits</h4>
           <div className="section-line">
@@ -45,6 +57,9 @@ class UserInfoSection extends React.Component {
             You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong>.
           </div>
         </div>
+        <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
+        <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
+        <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
       </div>
     );
   }

@@ -18,12 +18,8 @@ class PrintPage extends React.Component {
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
           <h1 className="section-header">Post-9/11 GI Bill Certificate of Eligibility</h1>
           <UserInfoSection enrollmentData={enrollmentData}/>
-          <h3 className="section-header">Enrollment History</h3>
-          <p>This information is current as of {todayFormatted}.</p>
-          <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-          <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
-          <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
           <InfoPair label="Benefits expire on" value={formatDateLong(enrollmentData.delimitingDate)}/>
+          <p>This information is current as of {todayFormatted}.</p>
         </div>
       </div>
     );
