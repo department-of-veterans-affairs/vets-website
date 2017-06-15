@@ -5,6 +5,12 @@ title: Traumatic Injury Protection Life Insurance (TSGLI)
 display_title: Traumatic Injury Protection (TSGLI)
 concurrence: 
 order: 3
+relatedlinks:
+  - heading: More information about your benefits
+    links:
+    - url: /life-insurance/manage-your-policy/
+      title: Managing Your Policy
+      description: Already have VA life insurance? Manage your policy online.
 ---
 
 <div class="va-introtext">
@@ -53,9 +59,13 @@ Servicemembers covered by SGLI
 
 </div>
 
+<br>
+
 ### What kind of life insurance benefits can I get through TSGLI?
 
 You may get $25,000 to $100,000 in short-term financial support to help in your recovery from a traumatic injury.
+
+<br>
 
 ### How do I get these benefits?
 
@@ -65,6 +75,8 @@ To get payments—including retroactive TSGLI payments—you’ll need to apply.
 
 [Download the Application for TSGLI Benefits](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
 
+<br>
+
 ### How do I appeal a decision if I’m denied benefits?
 
 First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use the TSGLI Appeal Request Form—and how long you’ll have to submit your appeal.
@@ -73,12 +85,14 @@ If your letter says to complete this form, fill it out and submit it to your bra
 
 [Download the TSGLI Appeal Request Form](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
 
+<br>
+
 ### How much will I pay for these benefits? 
 
 If you have SGLI coverage, your SGLI premium (which is automatically deducted from your base pay) includes a $1-per-month flat-rate premium for TSGLI. This is all you’ll pay for this benefit.
 
-### Need help?
+<br>
 
-Already have VA life insurance? [Manage your policy online](/life-insurance/manage-your-policy/)
+### Where can I find more information?
 
-Need more information? [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp)
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
