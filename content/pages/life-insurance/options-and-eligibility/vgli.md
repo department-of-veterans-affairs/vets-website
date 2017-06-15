@@ -29,7 +29,7 @@ You may be able to get VGLI if:
 
 #### Who’s covered?
 
-Veterans
+Veterans and former Servicemembers
 
 </div>
 
