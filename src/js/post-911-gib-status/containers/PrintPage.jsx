@@ -19,14 +19,11 @@ class PrintPage extends React.Component {
           <h1 className="section-header">Post-9/11 GI Bill Certificate of Eligibility</h1>
           <UserInfoSection enrollmentData={enrollmentData}/>
           <h3 className="section-header">Enrollment History</h3>
-          <p>This information is current as of {todayFormatted}</p>
+          <p>This information is current as of {todayFormatted}.</p>
           <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
           <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
           <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
-          <p>
-            <strong>Your benefit expires on {formatDateLong(enrollmentData.delimitingDate)}</strong>.
-            You have {enrollmentData.remainingEntitlement} months left on your Chapter 33 Post-9/11 GI Bill benefit before it expires on {formatDateShort(enrollmentData.delimitingDate)}.
-          </p>
+          <InfoPair label="Benefits expire on" value={formatDateLong(enrollmentData.delimitingDate)}/>
         </div>
       </div>
     );
