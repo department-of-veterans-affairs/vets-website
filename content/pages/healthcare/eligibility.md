@@ -25,7 +25,7 @@ You should know:
 
 - **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
 
-  - Were discharged for a disability that was caused—or made worse by—your active-duty service, **or**
+  - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
   - Were discharged for a hardship or "early out," **or**
   - Served prior to September 7, 1980
 
@@ -113,11 +113,11 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
-No. Whether or not you have health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
 <br>
 
-<span id="other-health-insurance">
+<span id="vision-care">
 
 #### I need vision care. Can I get it through VA? 
 
@@ -137,6 +137,6 @@ In certain cases, you may receive dental care as part of your VA health benefits
 
 #### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? 
 
-If you have an illness or injury—caused or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/conditions/).
+If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/conditions/).
 
 <div markdown="0"><br></div>
