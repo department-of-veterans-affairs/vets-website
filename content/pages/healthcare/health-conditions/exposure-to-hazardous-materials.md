@@ -29,6 +29,8 @@ Veterans may come in contact with a range of toxic chemicals or other hazardous 
 
 </div>
 
+<br>
+
 ### Agent Orange-related illnesses
 
 Certain cancers (like prostate cancer and non-Hodgkin’s lymphoma) and other illnesses (like Type 2 Diabetes) have been linked to Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War era.
