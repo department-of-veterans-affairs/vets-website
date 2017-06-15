@@ -33,8 +33,6 @@ Each Veteran’s medical benefits package is unique. Yours will include care and
 - Improve your ability to function
 - Enhance your quality of life
 
-<br>
-
 All Veterans receive coverage for most care and services, but only some will qualify for added benefits like dental care. The full list of your covered benefits depends on:
 
 - Your priority group, **and**
@@ -42,8 +40,6 @@ All Veterans receive coverage for most care and services, but only some will qua
 - The medical standards for treating any health conditions you may have
 
 [Learn more about priority groups](/healthcare/eligibility/).
-
-<br>
 
 You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having "minimum essential health coverage." We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
@@ -184,7 +180,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 
 #### What if I need help accessing services?
 
-If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <br>
 
