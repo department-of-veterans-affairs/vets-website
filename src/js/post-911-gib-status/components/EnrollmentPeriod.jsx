@@ -33,13 +33,10 @@ class EnrollmentPeriod extends React.Component {
   render() {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
-
-    // TODO: should fullTimeHours be used anywhere?
-    // const fullTimeHours = <InfoPair label="Full-time Hours" value={enrollment.fullTimeHours}/>;
     const onCampusHours = <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>;
     const onlineHours = <InfoPair label="Online Hours" value={enrollment.onlineHours}/>;
 
-    const amendmentList = this.state.historyExpanded ? (
+    const changes = this.state.historyExpanded ? (
       <div id={`collapsible-${id}`} className="usa-accordion-content">
         {amendments.map((amendment, index) => {
           return (
@@ -70,7 +67,7 @@ class EnrollmentPeriod extends React.Component {
                 See Change History
               </button>
             </div>
-            {amendmentList}
+            {changes}
           </li>
         </ul>
       </div>
@@ -79,7 +76,7 @@ class EnrollmentPeriod extends React.Component {
     return (
       <div>
         <hr/>
-        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{enrollment.facilityName.toLowerCase()}</span> ({enrollment.facilityCode})</h4>
+        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
         {onCampusHours}
         {onlineHours}
         {changeHistory}
