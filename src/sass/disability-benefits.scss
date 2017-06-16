@@ -249,10 +249,21 @@ a.claim-list-item {
   color: $color-primary-darker;
 }
 
-.your-claims {
+.your-claims, .claims-status {
   padding-top: 1em;
   h3 {
     margin-top: 1em;
+  }
+
+  h1 {
+    margin-bottom: 0;
+  }
+}
+
+.claims-status {
+  .next-action {
+    padding: 1em;
+    background: $color-inset-bg;
   }
 }
 
@@ -544,7 +555,7 @@ p.first-of-type {
 }
 
 .db-breadcrumbs {
-  padding-top: 1em;
+  padding: 1em 0;
 
   span {
     strong {
