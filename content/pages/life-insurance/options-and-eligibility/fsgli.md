@@ -54,9 +54,45 @@ Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your 
 
 ### How do I get these benefits?
 
-- **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your Servicemember’s pay.
+### If you’re the civilian spouse of a Servicemember signed up for full-time SGLI
 
-- **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using the Spouse Coverage Election and Certificate. Fill out this form and have your Servicemember hand it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-04.PDF).
+We’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your Servicemember’s pay.
+
+### If you’re a military spouse and you were married on or after January 2, 2013
+
+We won’t automatically cover you. You’ll need to sign up through your Servicemember.
+
+**If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember sign you up online. To access SOES, have your Servicemember:
+
+<ol class="process" markdown="1">
+
+  <li class="process-step list-one">
+  
+  [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
+  
+  </li>
+  
+  <li class="process-step list-two">
+  
+  Sign in.
+  
+  </li>
+  <li class="process-step list-three">
+  
+  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System.
+  
+  </li>
+  
+  <li class="process-step list-four">
+  
+  Look for Spouse Coverage Election and follow the directions to sign up.
+  
+ </li>
+ </ol>
+
+Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
+
+**If your Servicemember's branch of service hasn't yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-04.PDF).
 
 <br>
 
@@ -210,7 +246,7 @@ If you’re signed up as a spouse in the Defense Enrollment Eligibility Reportin
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-**If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES:
+**If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES, have your Servicemember:
 
 <ol class="process" markdown="1">
 
@@ -233,7 +269,7 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
   
   <li class="process-step list-four">
   
-  Check your coverage and beneficiary info and make any needed updates.
+  Check their coverage and beneficiary info and make any needed updates.
   
   </li>
  </ol>
