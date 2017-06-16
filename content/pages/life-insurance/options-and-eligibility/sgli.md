@@ -138,6 +138,8 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 
 <br>
 
+<span id="extension"></span>
+
 ### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
 You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
