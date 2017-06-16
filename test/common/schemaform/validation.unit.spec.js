@@ -10,7 +10,8 @@ import {
   validateCurrentOrPastDate,
   validateMatch,
   validateDateRange,
-  validateFileField
+  validateFileField,
+  validateBooleanGroup
 } from '../../../src/js/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
@@ -337,6 +338,41 @@ describe('Schemaform validations', () => {
       }]);
 
       expect(errors[0].__errors).not.to.be.empty;
+    });
+  });
+  describe('validateBooleanGroup', () => {
+    it('should add error if no props are true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: false
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should add error if empty object', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {});
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add error if at least one prop is true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: true
+      });
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: false
+      }, null, null, { atLeastOne: 'testing' });
+
+      expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
   });
 });
