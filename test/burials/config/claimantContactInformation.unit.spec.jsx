@@ -33,7 +33,7 @@ describe('Burials claimant information', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(7);
+    expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(7);
     expect(onSubmit.called).not.to.be.true;
   });
   it('should submit when all required fields are filled in', () => {
@@ -57,7 +57,7 @@ describe('Burials claimant information', () => {
     formDOM.fillData('#root_claimantPhone', '4444444444');
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
+    expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
   it('should not submit when emails do not match', () => {
@@ -81,7 +81,7 @@ describe('Burials claimant information', () => {
     formDOM.fillData('#root_claimantPhone', '4444444444');
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(1);
+    expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 });
