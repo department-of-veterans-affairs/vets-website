@@ -3,12 +3,11 @@ import _ from 'lodash/fp';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 // import { transform } from '../helpers';
-import { validateMatch } from '../../common/schemaform/validation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
