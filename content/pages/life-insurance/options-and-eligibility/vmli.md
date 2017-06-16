@@ -15,7 +15,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a severe disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active-duty service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs. Find out if you qualify—and how to apply.
+If you have a severe service-connected disability that we’ve concluded was caused—or made worse—by your service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs. Find out if you qualify—and how to apply.
 
 </div>
 
@@ -49,7 +49,7 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 
 #### Important details about VMLI:
 
-- The money will be paid directly to the bank or other lender that holds your mortgage—not to your life insurance beneficiary (the person you’ve picked to receive the money from your policy when you die).
+- The money will be paid directly to the bank or other lender that holds your mortgage—not to a life insurance beneficiary (a person chosen to receive the money from a policy when the insured dies).
 - The amount of coverage will equal the amount you still owe on your mortgage, but won’t be more than $200,000. 
 - VMLI is a decreasing-term insurance. This means your coverage amount goes down as your mortgage balance goes down. If you pay off your mortgage, your VMLI coverage will end. 
 - VMLI has no loan or cash value—and it doesn’t pay dividends (cash payments made to policy holders when the company makes a profit).
