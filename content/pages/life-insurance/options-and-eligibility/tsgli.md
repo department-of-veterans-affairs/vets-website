@@ -45,7 +45,7 @@ To qualify for TSGLI, your injury can't:
 
 <br>
 
-### Can I get retroactive TSGLI for a past injury?
+#### Can I get retroactive TSGLI for a past injury?
 
 You may be able to get retroactive TSGLI (meaning that it takes effect starting from a date in the past) if you were injured between October 7, 2001, and November 30, 2005, and you meet all of the TSGLI qualifications listed above.
 
