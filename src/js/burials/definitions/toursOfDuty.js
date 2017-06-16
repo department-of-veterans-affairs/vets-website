@@ -1,5 +1,5 @@
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import ServicePeriodView from '../components/ServicePeriodView';
+import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 export default {
   'ui:title': 'Service periods',

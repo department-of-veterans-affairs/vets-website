@@ -6,12 +6,13 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../components/FullNameField';
+
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import FullNameField from '../../common/schemaform/FullNameField';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
