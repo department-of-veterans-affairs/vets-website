@@ -13,6 +13,7 @@ class UserInfoSection extends React.Component {
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
+    const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     let currentAsOfAlert;
     if (this.props.showCurrentAsOfAlert) {
@@ -26,7 +27,7 @@ class UserInfoSection extends React.Component {
     }
 
     let entitlementInfo;
-    if (enrollmentData.percentageBenefit === 0 && enrollmentData.originalEntitlement === 0) {
+    if (!currentlyAllowed) {
       entitlementInfo = (
         <div>
           <h4>When You Can Receive Benefits</h4>
