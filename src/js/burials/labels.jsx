@@ -12,3 +12,9 @@ export const locationOfDeathLabels = {
   nursingHome: 'Nursing Home under VA Contract',
   other: 'Other'
 };
+
+export const allowanceLabels = {
+  nonService: 'Non-Service-Connected Death',
+  service: 'Service-Connected Death',
+  vaMC: 'VA Medical Center Death'
+};
