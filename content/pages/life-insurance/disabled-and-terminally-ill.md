@@ -21,6 +21,63 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 <hr>
 
+<span id="waiver"></span>
+
+### Extension of Servicemembers' Group Life Insurance (SGLI) for policyholders who become disabled
+
+<br>
+
+<div class="feature">
+
+#### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military?
+
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you're totally disabled or have certain conditions.
+
+[Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-and-eligibility/sgli/).
+
+<br>
+
+<hr>
+<span id="waiver"></span>
+
+### Waiver of premiums for policyholders who become totally disabled
+
+<br>
+
+<div class="feature">
+
+#### Can I get a waiver so I don’t have to pay my life insurance premiums?
+
+You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you're covered under Service-Disabled Veterans Life Insurance (S-DVI), and your total disability:
+-	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
+-	Continues for at least 6 months in a row
+
+There are certain exceptions to the above conditions. But if you think you’re entitled to a waiver of premiums, you should apply as soon as possible and we’ll let you know if you qualify.
+
+</div>
+
+<br>
+
+#### What benefits can I get?
+
+A waiver of premiums. This means you won’t have to pay your life insurance premiums (the monthly payments you make to hold your policy). In most cases, premiums can only be waived up to 1 year prior to receipt of a claim.
+
+<br>
+
+#### How do I get these benefits?
+
+You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
+
+To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+
+<br>
+
+#### Where can I find more information?
+
+[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+
+<hr>
+
 ### Accelerated benefits for terminally ill policyholders
 
 <br>
@@ -84,42 +141,3 @@ We pay the remaining amount of the face value of the insurance policy to your de
 [Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
 
 [Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
-
-<hr>
-<span id="waiver"></span>
-
-### Waiver of premiums for policyholders who become totally disabled
-
-<br>
-
-<div class="feature">
-
-#### Can I get a waiver so I don’t have to pay my life insurance premiums?
-
-You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you're covered under Service-Disabled Veterans Life Insurance (S-DVI), and your total disability:
--	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
--	Continues for at least 6 months in a row
-
-There are certain exceptions to the above conditions. But if you think you’re entitled to a waiver of premiums, you should apply as soon as possible and we’ll let you know if you qualify.
-
-</div>
-
-<br>
-
-#### What benefits can I get?
-
-A waiver of premiums. This means you won’t have to pay your life insurance premiums (the monthly payments you make to hold your policy). In most cases, premiums can only be waived up to 1 year prior to receipt of a claim.
-
-<br>
-
-#### How do I get these benefits?
-
-You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
-
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
-
-<br>
-
-#### Where can I find more information?
-
-[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
