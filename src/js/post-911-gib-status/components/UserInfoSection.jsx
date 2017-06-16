@@ -33,7 +33,7 @@ class UserInfoSection extends React.Component {
           <h4>When You Can Receive Benefits</h4>
           <div className="usa-alert usa-alert-warning usa-content">
             <div className="usa-alert-body">
-              <h2>Currently Disallowed</h2>
+              <h2>Currently Not Qualified</h2>
               We have received your application and have determined that you are not currently eligible
               for Post-9/11 GI Bill benefits. Additional service time could change this determination.
             </div>
