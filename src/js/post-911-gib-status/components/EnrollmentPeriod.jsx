@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
+import { Link } from 'react-router';
 
 import InfoPair from './InfoPair';
 
@@ -33,8 +34,14 @@ class EnrollmentPeriod extends React.Component {
   render() {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
-    const onCampusHours = <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>;
-    const onlineHours = <InfoPair label="Online Hours" value={enrollment.onlineHours}/>;
+    const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
+      <span>
+        <span>This is a Yellow Ribbon School. </span>
+        <Link to="/" target="_blank">
+          Learn more about the Yellow Ribbon Program.
+        </Link>
+      </span>
+    );
 
     const changes = this.state.historyExpanded ? (
       <div id={`collapsible-${id}`} className="usa-accordion-content">
@@ -77,8 +84,9 @@ class EnrollmentPeriod extends React.Component {
       <div>
         <hr/>
         <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
-        {onCampusHours}
-        {onlineHours}
+        {yellowRibbonStatus}
+        <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>
+        <InfoPair label="Online Hours" value={enrollment.onlineHours}/>
         {changeHistory}
       </div>
     );
