@@ -1,11 +1,12 @@
 import React from 'react';
 import Scroll from 'react-scroll';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES } from './save-load-actions';
+import { LOAD_STATUSES, setFetchFormStatus } from './save-load-actions';
 import LoadingPage from './LoadingPage';
 
 
@@ -21,6 +22,14 @@ class FormApp extends React.Component {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.loadedStatus === LOAD_STATUSES.success) {
+      this.props.router.push(newProps.returnUrl);
+      // Set loadedStatus in redux to not-attempted to not show the loading page
+      this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     }
   }
 
@@ -57,11 +66,7 @@ class FormApp extends React.Component {
     // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
     if (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted) {
       // Show the loading screen instead of the children.
-      content = (
-        <LoadingPage
-            loadedStatus={this.props.loadedStatus}
-            returnUrl={this.props.returnUrl}/>
-      );
+      content = <LoadingPage loadedStatus={this.props.loadedStatus}/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -94,9 +99,13 @@ class FormApp extends React.Component {
   }
 }
 
-const mapStateToDispatch = (state) => ({
+const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl
 });
 
-export default connect(mapStateToDispatch)(FormApp);
+const mapDispatchToProps = {
+  setFetchFormStatus
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));

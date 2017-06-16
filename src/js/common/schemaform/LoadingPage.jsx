@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 import { LOAD_STATUSES } from './save-load-actions';
 
 class LoadingPage extends React.Component {
-  componentWillReceiveProps(newProps) {
-    if (newProps.loadedStatus === LOAD_STATUSES.success) {
-      // Redirect here
-      // Set loadedStatus in redux to not-attempted
-    }
-  }
-
   render() {
     const { loadedStatus } = this.props;
     let content;
@@ -33,8 +26,7 @@ class LoadingPage extends React.Component {
 }
 
 LoadingPage.propTypes = {
-  loadedStatus: PropTypes.string.isRequired,
-  returnUrl: PropTypes.string
+  loadedStatus: PropTypes.string.isRequired
 };
 
 export default LoadingPage;
