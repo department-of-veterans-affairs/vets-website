@@ -71,7 +71,6 @@ export default class FileField extends React.Component {
       idSchema,
       formData,
       schema,
-      required,
       formContext
     } = this.props;
 
@@ -81,37 +80,9 @@ export default class FileField extends React.Component {
 
     const isUploading = files.some(file => file.uploading);
     const isEditing = this.state.editing.some(editing => editing);
-    const showAddAnother = (maxItems === null || files.length < maxItems) && !isUploading && !isEditing;
 
     return (
       <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
-        {formContext.reviewMode && <div className="form-review-panel-page-header-row">
-          <h5 className="form-review-panel-page-header">
-            {uiSchema['ui:title']}
-            {required && <span className="schemaform-required-span">(*Required)</span>}
-          </h5>
-          <div
-              style={{
-                visibility: !showAddAnother
-                  ? 'hidden'
-                  : undefined
-              }}>
-            <label
-                role="button"
-                tabIndex="0"
-                htmlFor={idSchema.$id}
-                className="usa-button usa-button-outline schemaform-upload-label">
-              Add Another
-            </label>
-            <input
-                type="file"
-                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                style={{ display: 'none' }}
-                id={idSchema.$id}
-                name={idSchema.$id}
-                onChange={this.onAddFile}/>
-          </div>
-        </div>}
         {files.length > 0 &&
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -176,14 +147,14 @@ export default class FileField extends React.Component {
             })}
           </ul>
         }
-        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing && !formContext.reviewMode &&
+        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
           <div>
             <label
                 role="button"
                 tabIndex="0"
                 htmlFor={idSchema.$id}
                 className="usa-button usa-button-outline">
-                {files.length > 0 ? 'Add another' : 'Upload'}
+                {files.length > 0 ? 'Add Another' : 'Upload'}
             </label>
             <input
                 type="file"
