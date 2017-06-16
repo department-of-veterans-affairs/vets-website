@@ -79,7 +79,7 @@ We pay the remaining amount of the face value of the insurance policy to your de
 
 <br>
  
-### Where can I find more information?
+#### Where can I find more information?
  	
 [Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
 
@@ -120,6 +120,6 @@ To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mai
 
 <br>
 
-### Where can I find more information?
+#### Where can I find more information?
 
 [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
