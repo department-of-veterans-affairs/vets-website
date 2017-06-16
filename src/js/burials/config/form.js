@@ -5,13 +5,15 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 // import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { relationshipLabels, locationOfDeathLabels } from '../labels.jsx';
+import { relationshipLabels, locationOfDeathLabels } from '../labels';
+import { fileHelp } from '../helpers';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 
 const {
   relationship,
@@ -166,6 +168,86 @@ const formConfig = {
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
               claimantPhone
+            }
+          }
+        }
+      }
+    },
+    documentUpload: {
+      title: 'Document Upload',
+      pages: {
+        documentUpload: {
+          title: 'Document upload',
+          path: 'document-upload',
+          uiSchema: {
+            'ui:description': fileHelp,
+            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+              endpoint: '/v0/ui_upload',
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              maxSize: 2 * 1024 * 1024
+            }), {
+              'ui:required': () => true
+            }),
+            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veterns remains', {
+              endpoint: '/v0/ui_upload',
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              maxSize: 2 * 1024 * 1024
+            }), {
+              'ui:required': () => true
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              deathCertificate: {
+                type: 'array',
+                minItems: 1,
+                maxItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    fileName: {
+                      type: 'string'
+                    },
+                    fileSize: {
+                      type: 'integer'
+                    },
+                    confirmationNumber: {
+                      type: 'string'
+                    },
+                    errorMessage: {
+                      type: 'string'
+                    },
+                    uploading: {
+                      type: 'boolean'
+                    }
+                  }
+                }
+              },
+              transportationReceipts: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    fileName: {
+                      type: 'string'
+                    },
+                    fileSize: {
+                      type: 'integer'
+                    },
+                    confirmationNumber: {
+                      type: 'string'
+                    },
+                    errorMessage: {
+                      type: 'string'
+                    },
+                    uploading: {
+                      type: 'boolean'
+                    }
+                  }
+                }
+              }
             }
           }
         }
