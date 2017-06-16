@@ -310,6 +310,27 @@ smith.use(collections({
       name: 'Health Care'
     }
   },
+  pension: {
+    pattern: 'pension/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Pension Benefits'
+    }
+  },
+  pensionEligibility: {
+    pattern: 'pension/eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Eligibility'
+    }
+  },
+  pensionSurvivors: {
+    pattern: 'pension/survivors-pension/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Survivors Pension'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
