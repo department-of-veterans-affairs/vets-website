@@ -32,22 +32,24 @@ export default class FileField extends React.Component {
   }
 
   onAddFile = (event, index = null) => {
-    const files = this.props.formData || [];
-    let idx = index;
-    if (idx === null) {
-      if (files.length === 0) {
-        idx = 0;
-      } else {
-        idx = files.length;
+    if (event.target.files && event.target.files.length) {
+      const files = this.props.formData || [];
+      let idx = index;
+      if (idx === null) {
+        if (files.length === 0) {
+          idx = 0;
+        } else {
+          idx = files.length;
+        }
       }
+      const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
+      this.props.formContext.uploadFile(event.target.files[0], filePath, this.props.uiSchema['ui:options'])
+        .catch(() => {
+          // rather not use the promise here, but seems better than trying to pass
+          // a blur function
+          this.props.onBlur(this.props.idSchema.$id);
+        });
     }
-    const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
-    this.props.formContext.uploadFile(event.target.files[0], filePath, this.props.uiSchema['ui:options'])
-      .catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        this.props.onBlur(this.props.idSchema.$id);
-      });
   }
 
   editFile = (index, isEditing = true) => {
@@ -68,7 +70,9 @@ export default class FileField extends React.Component {
       errorSchema,
       idSchema,
       formData,
-      schema
+      schema,
+      required,
+      formContext
     } = this.props;
 
     const uiOptions = uiSchema['ui:options'];
@@ -77,9 +81,37 @@ export default class FileField extends React.Component {
 
     const isUploading = files.some(file => file.uploading);
     const isEditing = this.state.editing.some(editing => editing);
+    const showAddAnother = (maxItems === null || files.length < maxItems) && !isUploading && !isEditing;
 
     return (
-      <div>
+      <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
+        {formContext.reviewMode && <div className="form-review-panel-page-header-row">
+          <h5 className="form-review-panel-page-header">
+            {uiSchema['ui:title']}
+            {required && <span className="schemaform-required-span">(*Required)</span>}
+          </h5>
+          <div
+              style={{
+                visibility: !showAddAnother
+                  ? 'hidden'
+                  : undefined
+              }}>
+            <label
+                role="button"
+                tabIndex="0"
+                htmlFor={idSchema.$id}
+                className="usa-button usa-button-outline schemaform-upload-label">
+              Add Another
+            </label>
+            <input
+                type="file"
+                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+                style={{ display: 'none' }}
+                id={idSchema.$id}
+                name={idSchema.$id}
+                onChange={this.onAddFile}/>
+          </div>
+        </div>}
         {files.length > 0 &&
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -144,7 +176,7 @@ export default class FileField extends React.Component {
             })}
           </ul>
         }
-        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
+        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing && !formContext.reviewMode &&
           <div>
             <label
                 role="button"

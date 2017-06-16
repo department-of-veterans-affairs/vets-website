@@ -21,6 +21,7 @@ export default function fileUiSchema(label, userOptions = {}) {
       maxSize: options.maxSize,
       showFieldLabel: true,
       addAnotherLabel: userOptions.addAnotherLabel,
+      keepInPageOnReview: true,
       classNames: 'schemaform-file-upload'
     },
     'ui:errorMessages': {

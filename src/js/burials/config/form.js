@@ -344,20 +344,34 @@ const formConfig = {
       pages: {
         documentUpload: {
           title: 'Document upload',
-          path: 'document-upload',
+          path: 'documents',
+          editModeOnReviewPage: true,
+          initialData: {
+            'view:claimedBenefits': {
+              transportation: true
+            }
+          },
+          depends: form =>
+            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
             'ui:description': fileHelp,
-            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+            deathCertificate: _.merge(fileUploadUI('Veterans death certificate', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               maxSize: 2 * 1024 * 1024
             }), {
-              'ui:required': () => true
+              'ui:required': form => form.burialAllowanceRequested === 'service',
+              'ui:options': {
+                hideIf: form => form.burialAllowanceRequested !== 'service'
+              }
             }),
-            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veterns remains', {
+            transportationReceipts: _.merge(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               maxSize: 2 * 1024 * 1024
             }), {
-              'ui:required': () => true
+              'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
+              'ui:options': {
+                hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+              }
             })
           },
           schema: {
