@@ -11,15 +11,33 @@ class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
+
+    // I don't like this, but we need to make sure componentWillReceiveProps
+    //  doesn't call onLogin() when a page with a LoginModal is refreshed and
+    //  a user is logged in.
+    this.state = {
+      loginButtonClicked: false
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     // If the loggedIn status went from false to true, close the modal
     const wasLoggedIn = this.props.user.login.currentlyLoggedIn;
     const isLoggedIn = nextProps.user.login.currentlyLoggedIn;
-    if (!wasLoggedIn && isLoggedIn) {
+    if (!wasLoggedIn && isLoggedIn && this.state.loginButtonClicked) {
+      if (this.props.onLogin) {
+        this.props.onLogin();
+      }
+      this.setState({ loginButtonClicked: false });
       this.props.onClose();
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const wasLoggedIn = this.props.user.login.currentlyLoggedIn;
+    const isLoggedIn = nextProps.user.login.currentlyLoggedIn;
+
+    return (wasLoggedIn !== isLoggedIn) || (this.props.visible !== nextProps.visible);
   }
 
   // Copied from src/js/login/containers/Main.jsx
@@ -54,15 +72,10 @@ class LoginModal extends React.Component {
 
   handleLogin(e) {
     e.preventDefault(); // Don't try to submit the page
+    this.setState({ loginButtonClicked: true });
     const loginUrl = this.props.user.login.loginUrl;
     const onUpdateLoginUrl = this.props.onUpdateLoginUrl;
     this.loginUrlRequest = handleLogin(loginUrl, onUpdateLoginUrl);
-    this.loginUrlRequest.then(() => {
-      this.props.onClose();
-      if (this.props.onLogin) {
-        this.props.onLogin();
-      }
-    });
   }
 
   render() {
