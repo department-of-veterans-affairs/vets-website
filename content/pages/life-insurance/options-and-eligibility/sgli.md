@@ -56,7 +56,7 @@ Servicemembers
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
 - 120 days of free coverage from the date you left the military
-- Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. See below for information on the SGLI-Disability Extension.
+- Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. [See below for information on the SGLI-Disability Extension](#extension).
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
 <br>
