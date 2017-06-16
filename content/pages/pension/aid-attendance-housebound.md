@@ -14,7 +14,7 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 <div class="feature" markdown=“1”>
 
-### Can I get Aid and Attendance (A&A) or Housebound benefits from VA?
+### Can I get A&A or Housebound benefits from VA?
 
 **You may qualify for A&A** if you get a VA pension and:
 
