@@ -26,24 +26,23 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 <br>
 
-<div class="feature">
-
 #### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military?
 
 You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you're totally disabled or have certain conditions.
 
-[Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-and-eligibility/sgli/).
+[Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-and-eligibility/sgli#extension).
 
 <br>
 
 <hr>
 <span id="waiver"></span>
 
+<div class="feature">
+
 ### Waiver of premiums for policyholders who become totally disabled
 
 <br>
 
-<div class="feature">
 
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
