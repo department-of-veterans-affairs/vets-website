@@ -96,5 +96,13 @@ export function getFormDOM(form) {
     submitForm(form);
   };
 
+  formDOM.setCheckbox = function toggleCheckbox(id, checked) {
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        checked
+      }
+    });
+  };
+
   return formDOM;
 }
