@@ -406,60 +406,6 @@ const formConfig = {
     householdInformation: {
       title: 'Household Information',
       pages: {
-        dependents: {
-          title: 'Dependents',
-          path: 'household/dependents',
-          uiSchema: {
-            'ui:title': 'Dependents',
-            'view:hasDependents': {
-              'ui:title': 'Do you have any child or parent dependents?',
-              'ui:widget': 'yesNo'
-            },
-            dependents: {
-              'ui:options': {
-                expandUnder: 'view:hasDependents',
-                viewField: DependentField
-              },
-              items: {
-                relationship: {
-                  'ui:title': 'Relationship to Veteran',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: relationshipLabels
-                  }
-                },
-                fullName: fullNameUI,
-                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
-                  }
-                })
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['view:hasDependents'],
-            properties: {
-              'view:hasDependents': {
-                type: 'boolean'
-              },
-              dependents: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['relationship', 'fullName'],
-                  properties: {
-                    relationship: dependents.items.properties.relationship,
-                    fullName: dependents.items.properties.fullName,
-                    childDateOfBirth: dependents.items.properties.childDateOfBirth
-                  }
-                }
-              }
-            }
-          }
-        },
         marriageInfo: {
           title: 'Marriage history',
           path: 'household/marriage-info',
@@ -789,7 +735,61 @@ const formConfig = {
               }
             }
           }
-        }
+        },
+        dependents: {
+          title: 'Dependents',
+          path: 'household/dependents',
+          uiSchema: {
+            'ui:title': 'Dependents',
+            'view:hasDependents': {
+              'ui:title': 'Do you have any child or parent dependents?',
+              'ui:widget': 'yesNo'
+            },
+            dependents: {
+              'ui:options': {
+                expandUnder: 'view:hasDependents',
+                viewField: DependentField
+              },
+              items: {
+                relationship: {
+                  'ui:title': 'Relationship to Veteran',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: relationshipLabels
+                  }
+                },
+                fullName: fullNameUI,
+                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  }
+                })
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasDependents'],
+            properties: {
+              'view:hasDependents': {
+                type: 'boolean'
+              },
+              dependents: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['relationship', 'fullName'],
+                  properties: {
+                    relationship: dependents.items.properties.relationship,
+                    fullName: dependents.items.properties.fullName,
+                    childDateOfBirth: dependents.items.properties.childDateOfBirth
+                  }
+                }
+              }
+            }
+          }
+        },
       }
     },
     financialDisclosure: {
