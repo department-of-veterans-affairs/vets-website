@@ -54,11 +54,11 @@ Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your 
 
 ### How do I get these benefits?
 
-### If you’re the civilian spouse of a Servicemember signed up for full-time SGLI
+#### If you’re the civilian spouse of a Servicemember signed up for full-time SGLI
 
 We’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your Servicemember’s pay.
 
-### If you’re a military spouse and you were married on or after January 2, 2013
+#### If you’re a military spouse and you were married on or after January 2, 2013
 
 We won’t automatically cover you. You’ll need to sign up through your Servicemember.
 
