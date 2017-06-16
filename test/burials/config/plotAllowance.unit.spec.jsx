@@ -18,7 +18,7 @@ describe('Burials plot allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(5);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -33,8 +33,24 @@ describe('Burials plot allowance', () => {
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
+  });
+
+  it('should show state cemetery field', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_federalCemetaryNo', 'N');
+
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
+    expect(formDOM.querySelector('#root_stateCemetaryYes')).not.to.be.null;
   });
 
   it('should show actual govt contribution text field', () => {
@@ -49,7 +65,7 @@ describe('Burials plot allowance', () => {
 
     formDOM.fillData('#root_govtContributionsYes', 'Y');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(6);
     expect(formDOM.querySelector('#root_amountGovtContribution')).not.to.be.null;
   });
 
@@ -66,7 +82,7 @@ describe('Burials plot allowance', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_placeOfRemains', 'Cemetary');
-    formDOM.fillData('#root_federalCemetaryYes', 'Y');
+    formDOM.fillData('#root_federalCemetaryNo', 'N');
     formDOM.fillData('#root_stateCemetaryNo', 'N');
     formDOM.fillData('#root_govtContributionsYes', 'Y');
     formDOM.fillData('#root_amountGovtContribution', '50');

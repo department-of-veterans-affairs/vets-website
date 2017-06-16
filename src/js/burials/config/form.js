@@ -281,6 +281,7 @@ const formConfig = {
             stateCemetary: {
               'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
               'ui:widget': 'yesNo',
+              'ui:required': form => form.federalCemetary === false,
               'ui:options': {
                 expandUnder: 'federalCemetary',
                 expandUnderCondition: false
@@ -299,7 +300,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['placeOfRemains', 'federalCemetary', 'stateCemetary', 'govtContributions'],
+            required: ['placeOfRemains', 'federalCemetary', 'govtContributions'],
             properties: {
               placeOfRemains,
               federalCemetary,
