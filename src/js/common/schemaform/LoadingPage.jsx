@@ -10,12 +10,15 @@ class LoadingPage extends React.Component {
     let content;
 
     switch (loadedStatus) {
+      // TODO: make the Back and Sign in buttons
+      case LOAD_STATUSES.noAuth:
+        content = <div className="usa-alert usa-alert-error no-background-image">You have been signed out. Please sign in again to resume your application for health care.</div>;
+        break;
+      // TODO: Make the Back and Resume previous application buttons
       case LOAD_STATUSES.failure:
-        content = 'there has been a catastrophic failure'; break;
       case LOAD_STATUSES.notFound:
-        content = 'well we really screwed this one up!'; break;
-      case LOAD_STATUSES.success:
-        content = 'oh goody! does this mean I win? no, because we should have redirected by now :('; break;
+        content = <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. Please try applying again in a few moments.</div>;
+        break;
       default: // pending
         content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>; break;
     }
