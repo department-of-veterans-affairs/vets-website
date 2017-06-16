@@ -279,8 +279,12 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             stateCemetary: {
-              'ui:title': 'Was the Veteran buried in a state Veteran’s cemetery?',
-              'ui:widget': 'yesNo'
+              'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                expandUnder: 'federalCemetary',
+                expandUnderCondition: false
+              }
             },
             govtContributions: {
               'ui:title': 'Did a federal/state government or the veterans employer contribute to the burial?',
@@ -301,7 +305,7 @@ const formConfig = {
               federalCemetary,
               stateCemetary,
               govtContributions,
-              amountGovtContribution,
+              amountGovtContribution
             }
           }
         }
