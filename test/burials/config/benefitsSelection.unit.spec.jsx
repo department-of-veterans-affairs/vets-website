@@ -33,7 +33,7 @@ describe('Burials benefits selection', () => {
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -67,7 +67,7 @@ describe('Burials benefits selection', () => {
     formDOM.setCheckbox('#root_view\\:claimedBenefits_transportation', true);
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });

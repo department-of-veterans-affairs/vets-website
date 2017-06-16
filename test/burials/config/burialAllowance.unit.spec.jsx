@@ -33,7 +33,7 @@ describe('Burials burial allowance', () => {
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -103,7 +103,7 @@ describe('Burials burial allowance', () => {
     formDOM.fillData('#root_burialAllowanceRequested_2', 'vaMC');
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 

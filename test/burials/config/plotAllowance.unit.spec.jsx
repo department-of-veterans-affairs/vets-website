@@ -33,7 +33,7 @@ describe('Burials plot allowance', () => {
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -72,7 +72,7 @@ describe('Burials plot allowance', () => {
     formDOM.fillData('#root_amountGovtContribution', '50');
 
     formDOM.submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
