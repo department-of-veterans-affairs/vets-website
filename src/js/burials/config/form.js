@@ -6,7 +6,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-// import FullNameField from '../components/FullNameField';
+import FullNameField from '../components/FullNameField';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -40,7 +40,8 @@ const {
   burialAllowance,
   plotAllowance,
   transportation,
-  amountIncurred
+  amountIncurred,
+  previousNames
 } = fullSchemaBurials.properties;
 
 const {
@@ -174,13 +175,13 @@ const formConfig = {
           title: 'Military History',
           path: 'military-history',
           uiSchema: {
-            // previousNames: {
-            //   'ui:options': {
-            //     expandUnder: 'view:serveUnderOtherNames',
-            //     viewField: FullNameField
-            //   },
-            //   items: fullNameUI
-            // },
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField
+              },
+              items: fullNameUI
+            },
             'view:serveUnderOtherNames': {
               'ui:title': 'Did you serve under another name?',
               'ui:widget': 'yesNo'
@@ -194,9 +195,9 @@ const formConfig = {
               'view:serveUnderOtherNames': {
                 type: 'boolean'
               },
-              // previousNames: _.assign(previousNames, {
-              //   minItems: 1
-              // }),
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              }),
               // toursOfDuty
             }
           }
