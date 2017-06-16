@@ -10,7 +10,7 @@ class EnrollmentHistory extends React.Component {
     const enrollmentData = this.props.enrollmentData || {};
     const enrollments = enrollmentData.enrollments || [];
     const todayFormatted = formatDateShort(new Date());
-    const currentlyDisallowed = enrollmentData.percentageBenefit !== 0 && enrollmentData.originalEntitlement !== 0;
+    const currentlyAllowed = enrollmentData.percentageBenefit !== 0 && enrollmentData.originalEntitlement !== 0;
 
     // TODO: find out when this warning should be shown.
     /*
@@ -60,7 +60,7 @@ class EnrollmentHistory extends React.Component {
     });
 
     let sectionContent;
-    if (currentlyDisallowed) {
+    if (currentlyAllowed) {
       sectionContent = (
         <div>
           <h3 className="section-header">Enrollment History</h3>
