@@ -31,9 +31,9 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 - Have survived for a period of not less than 7 full days from the date of the traumatic injury (the 7-day period begins on the date and time of the traumatic injury and ends 168 full hours later), **and**
 - Were an active-duty military member, a Reservist, a National Guard member, on funeral-honors duty, or on 1-day muster duty
 
-#### Exclusions 
+#### Are any injuries excluded from TSGLI? 
 
-To qualify for TSGLI, your injury can't:
+Yes. To qualify for TSGLI, your injury can't:
 
 - Be self-inflicted on purpose or the result of an attempt at self-injury, **or**
 - Involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **or**
