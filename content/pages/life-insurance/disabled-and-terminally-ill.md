@@ -19,6 +19,7 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 </div>
 
+<hr>
 
 ### Extension of Servicemembers' Group Life Insurance (SGLI) for policyholders who become disabled
 
