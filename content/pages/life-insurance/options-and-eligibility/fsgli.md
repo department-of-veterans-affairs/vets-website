@@ -33,7 +33,7 @@ You may be able to get FSGLI if you’re the spouse or dependent child of:
 - An active-duty Servicemember covered by full-time SGLI, **or**
 - A member of the National Guard or Ready Reserve covered by full-time SGLI
 
-You can get FSGLI as the spouse of someone with SGLI coverage no matter if your own status is active duty, retired, or civilian.
+You may qualify to get FSGLI as the spouse of someone with SGLI coverage no matter if your own status is active duty, retired, or civilian.
 
 <br>
 
@@ -213,10 +213,29 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
 **If your Servicemember's branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES:
 
 <ol class="process" markdown="1">
-  <li class="process-step list-one">[Go to milConnect](https://www.dmdc.osd.mil/milconnect).</li>
-  <li class="process-step list-two">Sign in.</li>
-  <li class="process-step list-three">Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.</li>
-  <li class="process-step list-four">Check your coverage and beneficiary info and make any needed updates.</li>
+
+  <li class="process-step list-one">
+  
+  [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
+  
+  </li>
+  
+  <li class="process-step list-two">
+  
+  Sign in.
+  
+  </li>
+  <li class="process-step list-three">
+  
+  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
+  
+  </li>
+  
+  <li class="process-step list-four">
+  
+  Check your coverage and beneficiary info and make any needed updates.
+  
+  </li>
  </ol>
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
