@@ -5,6 +5,7 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import MviRecordsUnavailable from '../components/MviRecordsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
+import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 const unavailableView = (
@@ -52,6 +53,11 @@ class DisabilityBenefitsApp extends React.Component {
         <AppContent
             authorized={authorized}
             available={available}>
+          <div>
+            <div className="row">
+              <Breadcrumbs location={this.props.location}/>
+            </div>
+          </div>
           {this.props.children}
         </AppContent>
       </RequiredLoginView>

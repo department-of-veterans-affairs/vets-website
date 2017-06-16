@@ -543,6 +543,16 @@ p.first-of-type {
   margin: 0 5px;
 }
 
+.db-breadcrumbs {
+  padding-top: 1em;
+
+  span {
+    strong {
+      color: $color-link-default;
+    }
+  }
+}
+
 .usa-input-error {
   padding-left: 1rem;
   right: 0.9em;
