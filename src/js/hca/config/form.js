@@ -24,8 +24,8 @@ import {
   disclosureWarning
 } from '../helpers';
 
-import IntroductionPage from '../components/IntroductionPage';
-// import IntroductionPage from '../components/SIPIntroductionPage';
+// import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -118,7 +118,7 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: 'hca',
   version: 0,
-  disableSave: true,
+  // disableSave: true,
   transformForSubmit: transform,
   // TODO: When save in progress is released, change the intro page
   introduction: IntroductionPage,

@@ -1,9 +1,12 @@
 import React from 'react';
 import Scroll from 'react-scroll';
+import { connect } from 'react-redux';
 
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
+import { LOAD_STATUSES } from './save-load-actions';
+import LoadingPage from './LoadingPage';
 
 
 import { isInProgress } from '../utils/helpers';
@@ -13,7 +16,7 @@ const Element = Scroll.Element;
 /*
  * Primary component for a schema generated form app.
  */
-export default class FormApp extends React.Component {
+class FormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -50,7 +53,16 @@ export default class FormApp extends React.Component {
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
-    if (!isInProgress(trimmedPathname)) {
+
+    // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
+    if (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted) {
+      // Show the loading screen instead of the children.
+      content = (
+        <LoadingPage
+            loadedStatus={this.props.loadedStatus}
+            returnUrl={this.props.returnUrl}/>
+      );
+    } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
       content = (
@@ -81,3 +93,10 @@ export default class FormApp extends React.Component {
     );
   }
 }
+
+const mapStateToDispatch = (state) => ({
+  loadedStatus: state.form.loadedStatus,
+  returnUrl: state.form.loadedData.metadata.returnUrl
+});
+
+export default connect(mapStateToDispatch)(FormApp);
