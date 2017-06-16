@@ -15,7 +15,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
+If you have a disability that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -30,7 +30,7 @@ You can apply for S-DVI if you meet these 4 criteria:
 - You're in good health except for any service-connected conditions
 - You apply within 2 years from the date we grant your new service-connected disability
 
-**Note:** Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
+**Note:** An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
 
 <br>
 
@@ -38,7 +38,7 @@ You can apply for S-DVI if you meet these 4 criteria:
 
 If you carry the basic S-DVI coverage and become totally disabled and unable to work, you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
 
-You may also be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you:
+You may be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you:
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
 - Are younger than age 65
 
@@ -69,7 +69,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
  
- Fax it to 888-748-5522, or mail it to: 
+ Fax it to 888-748-5822, or mail it to: 
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
@@ -88,7 +88,8 @@ If you want to apply for Supplemental S-DVI, you must have already applied for a
 
 Your premium rate (the amount you’ll pay each month for your coverage) depends on:
 -	Your age, **and**
--	The amount of insurance you want
+-	The amount of insurance you want **and**
+- The coverage plan requested
 
 Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
