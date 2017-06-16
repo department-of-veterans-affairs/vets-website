@@ -31,23 +31,25 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 - Have survived for a period of not less than 7 full days from the date of the traumatic injury (the 7-day period begins on the date and time of the traumatic injury and ends 168 full hours later), **and**
 - Were an active-duty military member, a Reservist, a National Guard member, on funeral-honors duty, or on 1-day muster duty
 
+#### Exclusions 
+
+To qualify for TSGLI, your injury can't:
+
+- Be self-inflicted on purpose or the result of an attempt at self-injury, **or**
+- Involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **or**
+- Be the result of medical or surgical treatment of an illness or disease, **or**
+- Occur while you're committing or trying to commit a felony, **or**
+- Be the result of a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
+
 [View TSGLI loss standards](http://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp).
 
 <br>
 
-### Can I get retroactive TSGLI?
+### Can I get retroactive TSGLI for a past injury?
 
-You may be able to get retroactive TSGLI (meaning that it takes effect starting from a date in the past) if you were injured between October 7, 2001, and November 30, 2005, and:
-
-- Your injury was not self-inflicted on purpose or an attempt at self-injury, **and**
-- Your injury didn’t involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **and**
-- You weren’t injured as the result of medical or surgical treatment of an illness or disease, **and**
-- You weren’t injured while committing or trying to commit a felony, **and**
-- You weren’t injured by a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
+You may be able to get retroactive TSGLI (meaning that it takes effect starting from a date in the past) if you were injured between October 7, 2001, and November 30, 2005, and you meet all of the TSGLI qualifications listed above.
 
 You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured. 
-
-<br>
 
 **Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
 
