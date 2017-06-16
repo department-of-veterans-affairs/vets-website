@@ -27,20 +27,7 @@ class UserInfoSection extends React.Component {
     }
 
     let entitlementInfo;
-    if (!currentlyAllowed) {
-      entitlementInfo = (
-        <div>
-          <h4>When You Can Receive Benefits</h4>
-          <div className="usa-alert usa-alert-warning usa-content">
-            <div className="usa-alert-body">
-              <h2>Currently Not Qualified</h2>
-              We have received your application and have determined that you are not currently eligible
-              for Post-9/11 GI Bill benefits. Additional service time could change this determination.
-            </div>
-          </div>
-        </div>
-      );
-    } else {
+    if (currentlyAllowed) {
       entitlementInfo = (
         <div>
           <div>
@@ -58,6 +45,19 @@ class UserInfoSection extends React.Component {
           <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
           <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
           <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
+        </div>
+      );
+    } else {
+      entitlementInfo = (
+        <div>
+          <h4>When You Can Receive Benefits</h4>
+          <div className="usa-alert usa-alert-warning usa-content">
+            <div className="usa-alert-body">
+              <h2>Currently Not Qualified</h2>
+              We have received your application and have determined that you are not currently eligible
+              for Post-9/11 GI Bill benefits. Additional service time could change this determination.
+            </div>
+          </div>
         </div>
       );
     }
