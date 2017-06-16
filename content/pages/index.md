@@ -6,6 +6,9 @@ plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
   - heading:
     links: 
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: Apply for disability compensation and other benefits for conditions related to your military service.
     - url: /healthcare/
       title: Health Care Benefits
       description: Apply for and manage VA health care.
@@ -15,9 +18,9 @@ majorlinks:
     - url: /employment/
       title: Careers and Employment
       description: Get help building your career skills and finding a job.
-    - url: /disability-benefits/
-      title: Disability Benefits
-      description: Apply for disability compensation and other benefits for conditions related to your military service.
+    - url: /pension/
+      title: Pension Benefits
+      description: Apply for monthly pension benefits for wartime Veterans and survivors.
     - url: /burials-and-memorials/
       title: Burials and Memorials
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
