@@ -26,7 +26,7 @@ const {
   deathDate,
   claimantEmail,
   claimantPhone,
-  // toursOfDuty,
+  toursOfDuty,
   placeOfRemains,
   federalCemetary,
   stateCemetary,
@@ -186,8 +186,7 @@ const formConfig = {
               'ui:title': 'Did you serve under another name?',
               'ui:widget': 'yesNo'
             },
-            // another name->need to change back end schema?
-            toursOfDutyUI
+            toursOfDuty: toursOfDutyUI
           },
           schema: {
             type: 'object',
@@ -198,7 +197,7 @@ const formConfig = {
               previousNames: _.assign(previousNames, {
                 minItems: 1
               }),
-              // toursOfDuty
+              toursOfDuty
             }
           }
         }
