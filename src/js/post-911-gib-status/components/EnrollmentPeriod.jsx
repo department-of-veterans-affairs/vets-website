@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
-import { Link } from 'react-router';
 
 import InfoPair from './InfoPair';
 
@@ -35,12 +34,8 @@ class EnrollmentPeriod extends React.Component {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
     const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
-      <span>
-        <span>This is a Yellow Ribbon School. </span>
-        <Link to="/" target="_blank">
-          Learn more about the Yellow Ribbon Program.
-        </Link>
-      </span>
+      <div>This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
+      </div>
     );
 
     const changes = this.state.historyExpanded ? (
