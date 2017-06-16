@@ -29,4 +29,12 @@ export function getMarriageTitle(index) {
   return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
 }
 
+export function getMarriageTitleWithCurrent(form, index) {
+  if (form.maritalStatus === 'Married' && (form.marriages.length - 1) === index) {
+    return 'Current marriage';
+  }
+
+  return getMarriageTitle(index);
+}
+
 export const spouseContribution = <span>How much do you <strong>contribute monthly</strong> to your spouse’s support?</span>;

@@ -15,7 +15,6 @@ import { SAVE_STATUSES, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
-
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
   if (legend && legend.getBoundingClientRect().height > 0) {
