@@ -19,8 +19,6 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 </div>
 
-<hr>
-
 
 ### Extension of Servicemembers' Group Life Insurance (SGLI) for policyholders who become disabled
 
@@ -37,12 +35,13 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 <hr>
 <span id="waiver"></span>
 
-<div class="feature">
+
 
 ### Waiver of premiums for policyholders who become totally disabled
 
 <br>
 
+<div class="feature">
 
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
