@@ -107,8 +107,7 @@ export function uploadFile(file, filePath, uiOptions = {}) {
     if (file.size > uiOptions.maxSize) {
       dispatch(
         setData(_.set(filePath, {
-          errorMessage: 'File is too large to be uploaded',
-          uploading: false
+          errorMessage: 'File is too large to be uploaded'
         }, getState().form.data))
       );
 
@@ -133,22 +132,22 @@ export function uploadFile(file, filePath, uiOptions = {}) {
         return resp.json();
       }
 
-      return Promise.reject(resp.statusText);
+      return Promise.reject(new Error(`vets_upload_error: ${resp.statusText}`));
     }).then(fileInfo => {
       dispatch(
         setData(_.set(filePath, {
-          errorMessage: null,
-          uploading: false,
           fileName: fileInfo.name,
           size: fileInfo.size,
           confirmationCode: fileInfo.confirmationCode
         }, getState().form.data))
       );
-    }).catch(message => {
-      setData(_.set(filePath, {
-        uploading: false,
-        errorMessage: message
-      }, getState().form.data));
+    }).catch(error => {
+      dispatch(
+        setData(_.set(filePath, {
+          errorMessage: error.message.replace('vets_upload_error: ', '')
+        }, getState().form.data))
+      );
+      Raven.captureException(error);
     });
   };
 }

@@ -80,68 +80,70 @@ export default class FileField extends React.Component {
 
     return (
       <div>
-        <ul className="schemaform-file-list">
-          {files.map((file, index) => {
-            const errors = _.get([index, '__errors'], errorSchema) || [];
+        {files.length > 0 &&
+          <ul className="schemaform-file-list">
+            {files.map((file, index) => {
+              const errors = _.get([index, '__errors'], errorSchema) || [];
 
-            if (this.state.editing[index] || errors.length > 0) {
+              if (this.state.editing[index] || errors.length > 0) {
+                return (
+                  <li key={index} className="va-growable-background schemaform-file-item-edit">
+                    {file.uploading && 'Uploading file...'}
+                    {file.confirmationCode && <span>{file.fileName}</span>}
+                    {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
+                    <div className="schemaform-file-list-buttons-editing">
+                      <label
+                          role="button"
+                          tabIndex="0"
+                          htmlFor={idSchema.$id}
+                          className="usa-button schemaform-upload-label">
+                        Replace
+                      </label>
+                      <input
+                          type="file"
+                          accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+                          style={{ display: 'none' }}
+                          id={idSchema.$id}
+                          name={idSchema.$id}
+                          onChange={(e) => this.onAddFile(e, index)}/>
+                      {errors.length === 0 &&
+                        <button
+                            onClick={() => this.editFile(index, false)}
+                            className="usa-button usa-button-outline schemaform-file-remove-button"
+                            type="button">
+                          Cancel
+                        </button>
+                      }
+                    </div>
+                    <a href onClick={(e) => {
+                      e.preventDefault();
+                      this.removeFile(index);
+                    }}>
+                      Delete file
+                    </a>
+                  </li>
+                );
+              }
               return (
-                <li key={index} className="va-growable-background schemaform-file-item-edit">
+                <li key={index} className="va-growable-background">
                   {file.uploading && 'Uploading file...'}
                   {file.confirmationCode && <span>{file.fileName}</span>}
                   {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
-                  <div className="schemaform-file-list-buttons-editing">
-                    <label
-                        role="button"
-                        tabIndex="0"
-                        htmlFor={idSchema.$id}
-                        className="usa-button usa-button-outline schemaform-upload-label">
-                      Replace
-                    </label>
-                    <input
-                        type="file"
-                        accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                        style={{ display: 'none' }}
-                        id={idSchema.$id}
-                        name={idSchema.$id}
-                        onChange={(e) => this.onAddFile(e, index)}/>
-                    {errors.length === 0 &&
+                  {!file.uploading &&
+                    <div className="schemaform-file-list-buttons">
                       <button
-                          onClick={() => this.editFile(index, false)}
+                          onClick={() => this.editFile(index)}
                           className="usa-button usa-button-outline schemaform-file-remove-button"
                           type="button">
-                        Cancel
+                        Edit
                       </button>
-                    }
-                  </div>
-                  <a href onClick={(e) => {
-                    e.preventDefault();
-                    this.removeFile(index);
-                  }}>
-                    Delete file
-                  </a>
+                    </div>
+                  }
                 </li>
               );
-            }
-            return (
-              <li key={index} className="va-growable-background">
-                {file.uploading && 'Uploading file...'}
-                {file.confirmationCode && <span>{file.fileName}</span>}
-                {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
-                {!file.uploading &&
-                  <div className="schemaform-file-list-buttons">
-                    <button
-                        onClick={() => this.editFile(index)}
-                        className="usa-button usa-button-outline schemaform-file-remove-button"
-                        type="button">
-                      Edit
-                    </button>
-                  </div>
-                }
-              </li>
-            );
-          })}
-        </ul>
+            })}
+          </ul>
+        }
         {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
           <div>
             <label

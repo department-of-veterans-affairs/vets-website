@@ -6,7 +6,8 @@ import { validateFileField } from '../validation';
 const defaults = {
   fileTypes: ['pdf', 'txt', 'jpg', 'jpeg', 'gif'],
   maxSize: 26214400,
-  endpoint: '/v0/uploads'
+  endpoint: '/v0/ui_upload',
+  addAnotherLabel: 'Add Another'
 };
 
 export default function fileUiSchema(label, userOptions = {}) {
@@ -18,7 +19,9 @@ export default function fileUiSchema(label, userOptions = {}) {
       endpoint: options.endpoint,
       fileTypes: options.fileTypes,
       maxSize: options.maxSize,
-      showFieldLabel: true
+      showFieldLabel: true,
+      addAnotherLabel: userOptions.addAnotherLabel,
+      classNames: 'schemaform-file-upload'
     },
     'ui:errorMessages': {
       required: 'You must upload a file',

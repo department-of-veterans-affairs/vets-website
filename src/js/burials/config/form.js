@@ -182,14 +182,12 @@ const formConfig = {
           uiSchema: {
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
-              endpoint: '/v0/ui_upload',
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               maxSize: 2 * 1024 * 1024
             }), {
               'ui:required': () => true
             }),
             transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veterns remains', {
-              endpoint: '/v0/ui_upload',
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               maxSize: 2 * 1024 * 1024
             }), {
