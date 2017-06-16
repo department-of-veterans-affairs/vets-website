@@ -6,6 +6,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+// import FullNameField from '../components/FullNameField';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -25,7 +26,7 @@ const {
   deathDate,
   claimantEmail,
   claimantPhone,
-  toursOfDuty,
+  // toursOfDuty,
   placeOfRemains,
   federalCemetary,
   stateCemetary,
@@ -47,7 +48,8 @@ const {
   vaFileNumber,
   ssn,
   date,
-  usaPhone
+  usaPhone,
+  dateRange
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -64,7 +66,8 @@ const formConfig = {
     vaFileNumber,
     ssn,
     date,
-    usaPhone
+    usaPhone,
+    dateRange
   },
   chapters: {
     claimantInformation: {
@@ -171,10 +174,32 @@ const formConfig = {
           title: 'Military History',
           path: 'military-history',
           uiSchema: {
+            // previousNames: {
+            //   'ui:options': {
+            //     expandUnder: 'view:serveUnderOtherNames',
+            //     viewField: FullNameField
+            //   },
+            //   items: fullNameUI
+            // },
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
             // another name->need to change back end schema?
             toursOfDutyUI
           },
-          schema: toursOfDuty
+          schema: {
+            type: 'object',
+            properties: {
+              'view:serveUnderOtherNames': {
+                type: 'boolean'
+              },
+              // previousNames: _.assign(previousNames, {
+              //   minItems: 1
+              // }),
+              // toursOfDuty
+            }
+          }
         }
       }
     },
