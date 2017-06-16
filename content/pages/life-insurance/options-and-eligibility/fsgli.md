@@ -79,16 +79,10 @@ We won’t automatically cover you. You’ll need to sign up through your Servic
   </li>
   <li class="process-step list-three">
   
-  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System.
+  Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to sign up.
   
   </li>
-  
-  <li class="process-step list-four">
-  
-  Look for Spouse Coverage Election and follow the directions to sign up.
-  
- </li>
- </ol>
+</ol>
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
 
