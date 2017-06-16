@@ -22,49 +22,20 @@ describe('Schemaform <FormIntroButtons>', () => {
       }
     ]
   };
-  const form = {
-    pages: {
-      testPage: {
-        schema: {
-          type: 'object',
-          properties: {
-            field: { type: 'string' }
-          }
-        },
-        uiSchema: {},
-      }
-    },
-    data: {},
-    formId: 'unique id here',
-    migrations: []
-  };
-
-  const formWithLoadedData = Object.assign({}, form, {
-    loadedStatus: 'success',
-    loadedData: {
-      formData: {
-        field: 'foo'
-      },
-      metadata: {
-        returnUrl: 'some/url'
-      }
-    }
-  });
-
 
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
       push: sinon.spy()
     };
     const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          form={form}
+          formId="hca"
+          migrations={[]}
+          formSaved={false}
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn={false}/>
     );
 
@@ -75,14 +46,14 @@ describe('Schemaform <FormIntroButtons>', () => {
       push: sinon.spy()
     };
     const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          form={form}
+          formId="hca"
+          migrations={[]}
+          formSaved={false}
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn/>
     );
 
@@ -93,77 +64,32 @@ describe('Schemaform <FormIntroButtons>', () => {
       push: sinon.spy()
     };
     const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          form={formWithLoadedData}
+          formId="hca"
+          migrations={[]}
+          formSaved
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
-  });
-  it('should query for a saved form upon load', () => {
-    const routerSpy = {
-      push: sinon.spy()
-    };
-    const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
-    SkinDeep.shallowRender(
-      <FormIntroButtons
-          form={formWithLoadedData}
-          route={route}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
-          loggedIn/>
-    );
-
-    expect(fetchSpy.calledWith(form.formId, form.migrations));
-  });
-  it('should query for a saved form after logging in', () => {
-    const routerSpy = {
-      push: sinon.spy()
-    };
-    const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
-          form={formWithLoadedData}
-          route={route}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
-          loggedIn={false}/>
-    );
-
-    // Log in
-    tree.reRender({
-      form: formWithLoadedData,
-      route,
-      router: routerSpy,
-      fetchInProgressForm: fetchSpy,
-      loadInProgressDataIntoForm: loadDataSpy,
-      loggedIn: true
-    });
-    expect(fetchSpy.calledTwice).to.be.true;
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
       push: sinon.spy()
     };
     const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          form={form}
+          formId="hca"
+          migrations={[]}
+          formSaved
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn/>
     );
     const findDOM = findDOMNode(tree);
@@ -177,14 +103,14 @@ describe('Schemaform <FormIntroButtons>', () => {
       push: sinon.spy()
     };
     const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          form={formWithLoadedData}
+          formId="hca"
+          migrations={[]}
+          formSaved
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn/>
     );
     const findDOM = findDOMNode(tree);
@@ -196,20 +122,21 @@ describe('Schemaform <FormIntroButtons>', () => {
     const routerSpy = {
       push: sinon.spy()
     };
-    const fetchSpy = sinon.spy();
-    const loadDataSpy = sinon.spy();
+    const fetchSpy = sinon.stub();
+    fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          form={formWithLoadedData}
+          formId="hca"
+          migrations={[]}
+          formSaved
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loadInProgressDataIntoForm={loadDataSpy}
           loggedIn/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
-    expect(routerSpy.push.calledWith(formWithLoadedData.loadedData.metadata.returnUrl));
+    expect(routerSpy.push.calledWith('return/url'));
   });
 });

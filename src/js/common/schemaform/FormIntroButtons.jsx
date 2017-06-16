@@ -4,40 +4,17 @@ import PropTypes from 'prop-types';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class FormIntroButtons extends React.Component {
-  componentWillMount() {
-    // TODO: When the api is available to get a list of all the saved forms, query
-    //  for that instead and save it in the redux store
-
-    // Load the form data into the redux store if possible
-    // NOTE: This does not fill the data into the form yet; just grabs it and
-    //  saves it for later (when we want to fill in the blanks).
-    // TODO: Probably should wrap this in
-    // if (this.props.loggedIn) { ... }
-    this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
-  }
-
-  // Load the form data again if we weren't logged in before but are now.
-  componentWillReceiveProps(newProps) {
-    // Ugh. So verbose.
-    let wasLoggedIn;
-    let isLoggedIn;
-    try {
-      wasLoggedIn = this.props.loggedIn;
-    } catch (e) {
-      if (e instanceof TypeError) {
-        // Probably couldn't read a property somewhere along the way
-        wasLoggedIn = false;
-      }
-    }
-    try {
-      isLoggedIn = newProps.loggedIn;
-    } catch (e) {
-      if (e instanceof TypeError) {
-        isLoggedIn = false;
-      }
-    }
-    if (!wasLoggedIn && isLoggedIn) {
-      this.props.fetchInProgressForm(this.props.form.formId, this.props.form.migrations);
+  componentWillReceiveProps = (newProps) => {
+    if (!this.props.returnUrl && newProps.returnUrl) {
+      // Navigate to the last page they were on
+      // TODO: The props haven't updated with the metadata yet...
+      this.props.router.push(newProps.returnUrl);
+      // TODO: Handle this scenario:
+      //  1) I fill out some information and save my progress.
+      //  2) The form is updated and a field I've not filled out yet gets moved
+      //     to a page I have already completed.
+      //  3) I load my saved progress.
+      //  4) I should be put in the page with the missing information.
     }
   }
 
@@ -46,24 +23,16 @@ class FormIntroButtons extends React.Component {
   }
 
   handleLoadForm = () => {
-    // This is where we take the formData we pre-loaded in componentWillMount
-    //  and fill in the form.
-    this.props.loadInProgressDataIntoForm();
-    // Navigate to the last page they were on
-    this.props.router.push(this.props.form.loadedData.metadata.returnUrl);
-    // TODO: Handle this scenario:
-    //  1) I fill out some information and save my progress.
-    //  2) The form is updated and a field I've not filled out yet gets moved
-    //     to a page I have already completed.
-    //  3) I load my saved progress.
-    //  4) I should be put in the page with the missing information.
+    // If successful, this will set form.loadedData.metadata.returnUrl and will
+    //  trickle down to this.props to be caught in componentWillReceiveProps
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
   render() {
     let resumeButton = null;
     let firstPageButtonText = 'Continue';
     let firstPageButtonClass = 'usa-button-primary';
-    if (this.props.loggedIn && this.props.form.loadedStatus === 'success') {
+    if (this.props.formSaved) {
       firstPageButtonText = 'Start over';
       firstPageButtonClass = 'usa-button-outline';
       resumeButton = (
@@ -89,11 +58,13 @@ class FormIntroButtons extends React.Component {
 
 FormIntroButtons.propTypes = {
   route: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
+  migrations: PropTypes.array.isRequired,
+  returnUrl: PropTypes.string,
   loggedIn: PropTypes.bool.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
-  loadInProgressDataIntoForm: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  formSaved: PropTypes.bool.isRequired
 };
 
 export default FormIntroButtons;

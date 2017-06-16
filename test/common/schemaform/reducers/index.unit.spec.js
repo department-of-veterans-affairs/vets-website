@@ -11,7 +11,6 @@ import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
-  LOAD_DATA_INTO_FORM,
   SAVE_STATUSES,
   LOAD_STATUSES
 } from '../../../../src/js/common/schemaform/save-load-actions';
@@ -208,17 +207,6 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.success);
       expect(state.loadedData).to.equal(data);
-    });
-    it('should load saved data into form', () => {
-      const state = reducer({
-        // Because this calls recalculateSchemaAndData(), we need pages
-        pages: formConfig.chapters.test.pages,
-        loadedData: data
-      }, {
-        type: LOAD_DATA_INTO_FORM,
-      });
-
-      expect(state.data).to.equal(data.formData);
     });
   });
 });

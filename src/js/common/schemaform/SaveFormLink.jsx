@@ -28,35 +28,31 @@ class SaveFormLink extends React.Component {
       saveForm,
       savedStatus
     } = this.props;
-    let content = (<div>
-      <a onClick={this.openLoginModal}>Sign in before saving your application</a>
-      <LoginModal
-          key={1}
-          title="Sign in to save your application"
-          onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}
-          user={this.props.user}
-          onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
-    </div>);
+    let content = <a onClick={saveForm}>Save and finish later</a>;
 
-    if (this.props.user.login.currentlyLoggedIn) {
-      content = <a onClick={saveForm}>Save and come back later</a>;
+    if (!this.props.user.login.currentlyLoggedIn) {
+      // if we have a noAuth status, that means they tried to save and got a 401, which
+      // likely means their session is expired (since they were logged in before)
+      content = (<div>
+        {savedStatus === SAVE_STATUSES.noAuth
+            ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again.</span>
+            : <span><a onClick={this.openLoginModal}>Sign in</a> before saving your application</span>}
+        <LoginModal
+            key={1}
+            title="Sign in to save your application"
+            onClose={this.closeLoginModal}
+            visible={this.state.modalOpened}
+            user={this.props.user}
+            onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
+      </div>);
     }
 
-    if (savedStatus === SAVE_STATUSES.noAuth) {
-      content = <p>no-auth message</p>;
-    } else if (savedStatus === SAVE_STATUSES.failure) {
-      content = <p>failure message</p>;
+    if (savedStatus === SAVE_STATUSES.failure) {
+      content = <span>failure message</span>;
     } else if (savedStatus === SAVE_STATUSES.pending) {
-      content = <p>spinner or something</p>;
-    } else if (savedStatus === SAVE_STATUSES.success) {
-      content = <p>success message</p>;
-      // TODO: Redirect to a page like: https://marvelapp.com/2hj59b1/screen/28358414
+      content = <span>spinner or something</span>;
     }
 
-    // TODO: If we get a no-auth, we should reset the link after login
-    //  Or, as a temporary solution, include the save link in the no-auth
-    //  message..?
     return content;
   }
 }
