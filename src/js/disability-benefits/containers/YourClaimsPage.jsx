@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Modal from '../../common/components/Modal';
 import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
@@ -41,7 +42,7 @@ class YourClaimsPage extends React.Component {
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
     // TODO: bring this back in after error handling is refactored to be non-blocking
-    // this.props.getClaims(this.getFilter(this.props));
+    this.props.getClaims(this.getFilter(this.props));
     this.props.getAppeals(this.getFilter(this.props));
 
     if (this.props.loading) {
@@ -76,6 +77,16 @@ class YourClaimsPage extends React.Component {
       return <AppealListItem key={claim.id} claim={claim}/>;
     }
     return <ClaimsListItem claim={claim} key={claim.id}/>;
+  }
+
+  renderErrorMessages() {
+    const { claimsAvailable } = this.props;
+
+    if (!claimsAvailable) {
+      return <ClaimsUnavailable/>;
+    }
+
+    return null;
   }
 
   render() {
@@ -135,6 +146,9 @@ class YourClaimsPage extends React.Component {
     return (
       <div className="your-claims">
         <div className="row">
+          {this.renderErrorMessages()}
+        </div>
+        <div className="row">
           <div>
             <h1>Your Claims</h1>
           </div>
@@ -175,6 +189,7 @@ function mapStateToProps(state) {
   const claimsRoot = claimsState.claims;
 
   return {
+    claimsAvailable: claimsState.claimSync.available,
     loading: claimsRoot.loading,
     claims: claimsRoot.visibleRows,
     unfilteredClaims: claimsRoot.claims,
