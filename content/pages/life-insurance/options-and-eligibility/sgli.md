@@ -116,7 +116,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 
 If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
-These are the SGLI premium rates effective July 1, 2014.
+These are the SGLI premium rates effective July 1, 2014:
 
 | Coverage amount | Monthly premium rate | TSGLI premium | Total monthly premium deduction |
 | --- | --- | --- | --- |
