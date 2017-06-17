@@ -157,6 +157,7 @@ const formConfig = {
               }
             }),
             sponsorAddress: _.merge(address.uiSchema(), {
+              'ui:title': 'Sponsor address',
               'ui:options': {
                 expandUnder: 'sponsorDeceased',
                 expandUnderCondition: 'N'
@@ -217,12 +218,13 @@ const formConfig = {
               sponsorMilitaryServiceNumber: { type: 'string' },
               sponsorVAClaimNumber: { type: 'string' },
               sponsorDateOfBirth,
-              sponsorDateOfDeath,
               sponsorPlaceOfBirth: { type: 'string' },
               sponsorDeceased: {
                 type: 'string',
                 enum: ['Y', 'N', 'U']
               },
+              sponsorDateOfDeath,
+              sponsorAddress: address.schema(fullSchemaPreNeed),
               sponsorGender: {
                 type: 'string',
                 enum: ['M', 'F']
