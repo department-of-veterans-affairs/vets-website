@@ -40,7 +40,7 @@ describe('<EnrollmentPeriod>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.be.defined;
+    expect(vdom).to.exist;
   });
 
   it('should display enrollment data', () => {
