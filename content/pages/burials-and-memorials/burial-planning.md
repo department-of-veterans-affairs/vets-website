@@ -19,7 +19,9 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this:
 
-**Fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
+**First, check to see if you qualify** for VA burial and memorial benefits. [Find out if you qualify](/burials-and-memorials/eligibility/). 
+
+**Then, fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
 
 **Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 
