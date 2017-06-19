@@ -74,7 +74,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
 <dd>Regional Office and Insurance Center (RH)</dd>
-<dd>P.O. Box 7208</dd>
+<dd>PO Box 7208</dd>
 <dd>Philadelphia, PA 19101</dd>
 </dl> 
 
@@ -88,7 +88,7 @@ If you want to apply for Supplemental S-DVI, you must have already applied for a
 
 Your premium rate (the amount you’ll pay each month for your coverage) depends on:
 -	Your age, **and**
--	The amount of insurance you want **and**
+-	The amount of insurance you want, **and**
 - The coverage plan requested
 
 Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
