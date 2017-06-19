@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { LOAD_STATUSES } from './save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import SignInLink from '../components/SignInLink';
+import ProgressButton from '../components/form-elements/ProgressButton';
 
 
 // TODO: Determine whether I can connect() and withRouter() this component and still
@@ -12,7 +13,11 @@ class LoadingPage extends React.Component {
   getBackButton = (primary = false) => {
     const buttonClass = primary ? 'usa-button-primary' : 'usa-button-outline';
     return (
-      <button className={buttonClass} onClick={this.props.goBack}>&lt; Back</button>
+      <ProgressButton
+          onButtonClick={this.props.goBack}
+          buttonClass={buttonClass}
+          buttonText="Back"
+          beforeText="«"/>
     );
   }
 
@@ -30,16 +35,20 @@ class LoadingPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
-            // TODO: Make the Back and sign in buttons
+            {
+              // TODO: Make the Back and sign in buttons
+            }
             <div>
-              {this.getBackButton()}
-              <SignInLink
-                  type="button"
-                  className="usa-button-primary"
-                  onLogin={this.loadForm}
-                  isLoggedIn={this.props.isLoggedIn}
-                  loginUrl={this.props.loginUrl}
-                  onUpdateLoginUrl={this.props.onUpdateLoginUrl}>Sign in</SignInLink>
+              <div style={{ marginTop: '30px' }}>
+                {this.getBackButton()}
+                <SignInLink
+                    type="button"
+                    className="usa-button-primary"
+                    onLogin={this.loadForm}
+                    isLoggedIn={this.props.isLoggedIn}
+                    loginUrl={this.props.loginUrl}
+                    onUpdateLoginUrl={this.props.onUpdateLoginUrl}>Sign in</SignInLink>
+              </div>
             </div>
           </div>
         );
@@ -48,8 +57,10 @@ class LoadingPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. Please try applying again in a few moments.</div>
-            {this.getBackButton()}
-            <button className="usa-button-primary" onClick={this.props.resumeForm}>Resume previous application</button>
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton()}
+              <button className="usa-button-primary" onClick={this.props.resumeForm}>Resume previous application</button>
+            </div>
           </div>
         );
         break;
@@ -57,7 +68,9 @@ class LoadingPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. We can't find your application. {notFound}</div>
-            {this.getBackButton(true)}
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton(true)}
+            </div>
           </div>
           // <button className="usa-button-primary" onClick={this.props.startOver}>Start over</button>
         );
