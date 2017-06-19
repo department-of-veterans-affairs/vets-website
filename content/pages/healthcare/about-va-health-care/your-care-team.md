@@ -105,3 +105,6 @@ It depends. We may pay for you to receive care from a non-VA provider in some ca
 Any non-VA provider and their services must meet our quality standards and be approved by us before they can provide care for you. <br />
 [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).<br />
 [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).
+
+<br>
+
