@@ -4,7 +4,6 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-import _ from 'lodash';
 
 import StatusPage from '../../../src/js/post-911-gib-status/containers/StatusPage.jsx';
 
@@ -12,13 +11,6 @@ import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);
-
-const defaultProps = {
-  enrollmentData: {
-    enrollments: [
-    ]
-  }
-};
 
 let oldFetch;
 const setup = () => {
