@@ -1,4 +1,5 @@
 @charset "UTF-8";
+// Note: if you add variable files in here, make sure you updated shared-variables.scss
 
 //============ VENDOR PARTIALS ==============//
 @import "~uswds/src/stylesheets/lib/bourbon";
@@ -16,7 +17,8 @@
 @font-face {
   font-family: "FontAwesome";
   src: url("~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}") format("woff2"),
-       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff");
+       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff"),
+       url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
   font-weight: normal;
   font-style: normal;
 }

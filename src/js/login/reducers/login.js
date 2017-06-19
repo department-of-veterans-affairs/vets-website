@@ -5,10 +5,9 @@ import {
   UPDATE_LOGIN_URL,
   UPDATE_VERIFY_URL,
   UPDATE_LOGOUT_URL,
-  UPDATE_SEARCH_HELP_USER_MENU
+  UPDATE_SEARCH_HELP_USER_MENU,
+  LOG_OUT
 } from '../actions';
-
-import { LOG_OUT } from '../../common/actions';
 
 const initialState = {
   currentlyLoggedIn: false,

@@ -125,7 +125,7 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('education/gi-bill/post-9-11/status/*');
+  ignoreList.push('education/gi-bill/post-9-11/status.md');
   ignoreList.push('pensions/application.md');
   ignoreList.push('burials-and-memorials/application.md');
   ignoreList.push('va-letters/*');
@@ -322,6 +322,27 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Options'
+    }
+  },
+  pension: {
+    pattern: 'pension/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Pension Benefits'
+    }
+  },
+  pensionEligibility: {
+    pattern: 'pension/eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Eligibility'
+    }
+  },
+  pensionSurvivors: {
+    pattern: 'pension/survivors-pension/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Survivors Pension'
     }
   },
 }));
