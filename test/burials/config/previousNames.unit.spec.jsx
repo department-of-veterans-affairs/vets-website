@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
-describe('Burial military history', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.militaryHistory;
+describe('Burial military history previous names', () => {
+  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.previousNames;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -18,7 +18,7 @@ describe('Burial military history', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
   });
 
   it('should submit an empty completed form', () => {
@@ -81,7 +81,7 @@ describe('Burial military history', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(17);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
   it('should add another name', () => {
@@ -156,11 +156,10 @@ describe('Burial military history', () => {
         value: 'Jr.'
       }
     });
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });

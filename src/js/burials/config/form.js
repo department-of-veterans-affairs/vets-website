@@ -1,8 +1,7 @@
 import _ from 'lodash/fp';
 
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
-
 // import { transform } from '../helpers';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
