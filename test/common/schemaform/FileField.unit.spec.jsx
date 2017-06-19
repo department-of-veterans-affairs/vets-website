@@ -42,7 +42,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'asdfds',
-        fileName: 'Test file name'
+        name: 'Test file name'
       }
     ];
     const tree = SkinDeep.shallowRender(
@@ -130,7 +130,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'asdfds',
-        fileName: 'Test file name'
+        name: 'Test file name'
       }
     ];
     const tree = SkinDeep.shallowRender(

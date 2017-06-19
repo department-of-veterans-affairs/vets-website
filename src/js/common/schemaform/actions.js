@@ -136,7 +136,7 @@ export function uploadFile(file, filePath, uiOptions = {}) {
     }).then(fileInfo => {
       dispatch(
         setData(_.set(filePath, {
-          fileName: fileInfo.name,
+          name: fileInfo.name,
           size: fileInfo.size,
           confirmationCode: fileInfo.confirmationCode
         }, getState().form.data))

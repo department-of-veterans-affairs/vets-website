@@ -95,7 +95,7 @@ export default class FileField extends React.Component {
               return (
                 <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
                   {file.uploading && 'Uploading file...'}
-                  {file.confirmationCode && <span>{file.fileName}</span>}
+                  {file.confirmationCode && <span>{file.name}</span>}
                   {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
                   {!file.uploading && !editingOrErrors &&
                     <div className="schemaform-file-list-buttons">

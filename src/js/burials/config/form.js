@@ -47,7 +47,8 @@ const {
   vaFileNumber,
   ssn,
   date,
-  usaPhone
+  usaPhone,
+  files
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -357,11 +358,6 @@ const formConfig = {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
-          initialData: {
-            'view:claimedBenefits': {
-              transportation: true
-            }
-          },
           depends: form =>
             form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
@@ -383,55 +379,13 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              deathCertificate: {
-                type: 'array',
+              deathCertificate: _.assign(files, {
                 minItems: 1,
-                maxItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    fileName: {
-                      type: 'string'
-                    },
-                    fileSize: {
-                      type: 'integer'
-                    },
-                    confirmationNumber: {
-                      type: 'string'
-                    },
-                    errorMessage: {
-                      type: 'string'
-                    },
-                    uploading: {
-                      type: 'boolean'
-                    }
-                  }
-                }
-              },
-              transportationReceipts: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    fileName: {
-                      type: 'string'
-                    },
-                    fileSize: {
-                      type: 'integer'
-                    },
-                    confirmationNumber: {
-                      type: 'string'
-                    },
-                    errorMessage: {
-                      type: 'string'
-                    },
-                    uploading: {
-                      type: 'boolean'
-                    }
-                  }
-                }
-              }
+                maxItems: 1
+              }),
+              transportationReceipts: _.assign(files, {
+                minItems: 1
+              })
             }
           }
         }

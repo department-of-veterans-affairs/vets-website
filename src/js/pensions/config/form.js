@@ -6,7 +6,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, spouseContribution } from '../helpers';
+import { transform, employmentDescription, getMarriageTitle, spouseContribution, fileHelp } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import MarriageTitle from '../components/MarriageTitle';
@@ -25,6 +25,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 
 const {
   nationalGuardActivation,
@@ -56,7 +57,8 @@ const {
   marriages,
   expectedIncome,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  files
 } = fullSchemaPensions.definitions;
 
 function isUnder65(formData) {
@@ -951,6 +953,28 @@ const formConfig = {
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
               }
+            }
+          }
+        }
+      }
+    },
+    documentUpload: {
+      title: 'Document Upload',
+      pages: {
+        documentUpload: {
+          title: 'Document upload',
+          path: 'documents',
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': fileHelp,
+            files: fileUploadUI('Documents relevant to your pension application', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              files
             }
           }
         }

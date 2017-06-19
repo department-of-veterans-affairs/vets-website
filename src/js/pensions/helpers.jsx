@@ -30,3 +30,16 @@ export function getMarriageTitle(index) {
 }
 
 export const spouseContribution = <span>How much do you <strong>contribute monthly</strong> to your spouse’s support?</span>;
+
+export function fileHelp({ formContext }) {
+  if (formContext.reviewMode) {
+    return <p/>;
+  }
+
+  return (
+    <p>
+      Files we accept: pdf, jpg, png<br/>
+      Maximum file size: 2MB
+    </p>
+  );
+}
