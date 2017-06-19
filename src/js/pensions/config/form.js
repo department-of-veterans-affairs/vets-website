@@ -1008,7 +1008,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Documents relevant to your pension application', {
+            files: fileUploadUI('Please upload any documentation that you need to support your claim', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
             })
           },
