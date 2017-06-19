@@ -12,7 +12,7 @@ describe('<InfoPair>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<InfoPair {...props}/>);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    expect(vdom).to.exist;
   });
 
   it('should show truthy values', () => {
