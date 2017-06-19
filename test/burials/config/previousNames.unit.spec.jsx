@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
 describe('Burial military history previous names', () => {
@@ -49,13 +49,9 @@ describe('Burial military history previous names', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    formDOM.fillData('input[type="radio"]', 'Y');
 
     submitForm(form);
 
@@ -73,13 +69,9 @@ describe('Burial military history previous names', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    formDOM.fillData('input[type="radio"]', 'Y');
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
@@ -94,29 +86,13 @@ describe('Burial military history previous names', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    formDOM.fillData('input[type="radio"]', 'Y');
+    formDOM.fillData('#root_previousNames_0_first', 'Jane');
+    formDOM.fillData('#root_previousNames_0_last', 'Doe');
+    formDOM.fillData('#root_previousNames_0_suffix', 'Jr.');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_first'), {
-      target: {
-        value: 'Jane'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_last'), {
-      target: {
-        value: 'Doe'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_suffix'), {
-      target: {
-        value: 'Jr.'
-      }
-    });
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)
@@ -133,29 +109,12 @@ describe('Burial military history previous names', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
-
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_first'), {
-      target: {
-        value: 'Jane'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_last'), {
-      target: {
-        value: 'Doe'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_suffix'), {
-      target: {
-        value: 'Jr.'
-      }
-    });
+    formDOM.fillData('input[type="radio"]', 'Y');
+    formDOM.fillData('#root_previousNames_0_first', 'Jane');
+    formDOM.fillData('#root_previousNames_0_last', 'Doe');
+    formDOM.fillData('#root_previousNames_0_suffix', 'Jr.');
 
     submitForm(form);
 
