@@ -193,8 +193,6 @@ Yes. If you're signed up for the VA health care program, you can manage your VA 
 [Refill your prescriptions](/healthcare/prescriptions/). <br> 
 [Send a message to your VA health care provider](/healthcare/messaging/). 
 
-<br> 
-
 You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).
 
 <br>
