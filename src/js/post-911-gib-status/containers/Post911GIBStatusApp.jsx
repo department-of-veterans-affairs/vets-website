@@ -28,12 +28,10 @@ function AppContent({ children, isDataAvailable }) {
 class Post911GIBStatusApp extends React.Component {
 
   render() {
-    // TODO: change the service name below from "user-profile" to
-    // something like "post-911-gib-status" once its defined in vets-api
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"user-profile"}
+          serviceRequired={"evss-claims"}
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>

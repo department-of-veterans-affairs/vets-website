@@ -16,13 +16,15 @@ const response = {
     };
   }
 };
+let fetchPromise;
 
 const setup = () => {
   oldFetch = global.fetch;
   oldWindow = global.window;
+  fetchPromise = Promise.resolve(response); // Reset it every time.
 
   global.fetch = sinon.spy(() => {
-    return Promise.resolve(response);
+    return fetchPromise;
   });
   global.window = {
     dataLayer: [],
@@ -112,6 +114,37 @@ describe('<LoginModal>', () => {
       { event: 'login-link-clicked' },
       { event: 'login-link-opened' }
     ]);
+
+    teardown();
+  });
+
+  // TODO: While this _does_ test that the function is called, it doesn't test
+  //  that the function is called _at the right time_. We should circle back to
+  //  this and fix that.
+  it('should call onLogin after a successful login', () => {
+    setup();
+    const loginSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <LoginModal
+          user={user}
+          visible
+          onClose={onCloseSpy}
+          onUpdateLoginUrl={updateLoginSpy}
+          title="Some title"
+          onLogin={loginSpy}/>
+    );
+    const findDOM = findDOMNode(tree);
+
+    // Poke the button!
+    ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
+
+    // setTimeout is gross, but the test doesn't have visibility into
+    //  LoginModal's loginUrlRequest, so...we have to wait until it's done doing
+    //  its thing
+    // If this fails consistently, increase the timeout
+    setTimeout(() => {
+      expect(loginSpy.called).to.be.true;
+    }, 200);
 
     teardown();
   });
