@@ -12,7 +12,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import MarriageTitle from '../components/MarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../components/FullNameField';
+import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import createDisclosureTitle from '../components/DisclosureTitle';
