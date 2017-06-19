@@ -14,7 +14,7 @@ const formContext = {
 };
 const requiredSchema = {};
 
-describe.only('Schemaform <FileField>', () => {
+describe('Schemaform <FileField>', () => {
   it('should render', () => {
     const idSchema = {
       $id: 'field'
@@ -98,9 +98,11 @@ describe.only('Schemaform <FileField>', () => {
       }
     ];
     const errorSchema = {
-      __errors: [
-        'Bad error'
-      ]
+      0: {
+        __errors: [
+          'Bad error'
+        ]
+      }
     };
     const tree = SkinDeep.shallowRender(
       <FileField
@@ -170,6 +172,7 @@ describe.only('Schemaform <FileField>', () => {
 
     formDOM.click('button.usa-button-outline');
 
+    expect(formDOM.querySelectorAll('.usa-button').length).to.equal(2);
     expect(formDOM.querySelectorAll('.usa-button')[0].textContent).to.equal('Replace');
     expect(formDOM.querySelectorAll('.usa-button')[1].textContent).to.equal('Cancel');
     expect(formDOM.querySelector('.va-growable-background a').textContent).to.equal('Delete file');
