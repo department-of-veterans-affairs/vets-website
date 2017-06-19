@@ -39,7 +39,7 @@ All Veterans receive coverage for most care and services, but only some will qua
 - The advice of your VA primary care provider (your main doctor, nurse practitioner, or physician’s assistant), **and**
 - The medical standards for treating any health conditions you may have
 
-[Learn more about priority groups](/healthcare/eligibility/).
+[Learn more about priority groups](/healthcare/eligibility#priority-groups).
 
 You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having "minimum essential health coverage." We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
@@ -55,10 +55,10 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
-- [What services are *not* covered under VA health care?](#health-about-not-covered)
+- [What services are **not** covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
-- [How will VA health care work if I have Medicare, Medicaid, or private insurance too?](#health-about-other-insurance)
+- [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
 - [What if I need help accessing services?](#health-accessing-services)
 - [Can I manage my VA health and benefits online?](#health-manage-online)
 
@@ -81,7 +81,7 @@ You should also know that being signed up for VA health care meets your Affordab
   - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp). 
 - Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA health facility near you](https://www.vets.gov/facilities/). 
 - Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp). 
-- Mental health services to treat certain issues like posttraumatic stress (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/healthcare/health-conditions/mental-health/).
+- Mental health services to treat certain issues like posttraumatic stress disorder (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/healthcare/health-conditions/mental-health/).
 - Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 - Prescriptions written by a VA doctor. [Refill your prescriptions](/healthcare/prescriptions/). 
 
@@ -115,7 +115,7 @@ You may be able to get help with some non-medical services, like:
 
 #### Will VA cover my vision care?
 
-We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
+We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
 
 <br>
 
@@ -137,9 +137,9 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 <span id="health-about-not-covered">
 
-#### What services are *not* covered under VA health care?
+#### What services are **not** covered under VA health care?
 
-These services are *not* included in your VA medical benefits package:
+These services are **not** included in your VA medical benefits package:
 
 - Abortions and abortion counseling
 - Cosmetic surgery, unless we conclude that it’s medically necessary (needed to prevent or treat a certain illness, injury, condition, disease, or symptoms)
@@ -170,7 +170,7 @@ When you sign up for VA health care, you become part of the country’s largest 
 
 <span id="health-about-other-insurance">
 
-#### How will VA health care work if I have Medicare, Medicaid, or private insurance too?
+#### How will VA health care work if I also have Medicare, Medicaid, or private insurance?
 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
@@ -180,7 +180,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 
 #### What if I need help accessing services?
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <br>
 
@@ -190,6 +190,6 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 
 Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
 
-[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Refill your prescriptions](/healthcare/prescriptions/). <br> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br> 
 [Check the status of a disability or pension claim](/track-claims/).
