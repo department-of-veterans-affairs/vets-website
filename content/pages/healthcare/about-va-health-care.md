@@ -55,7 +55,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
-- [What services are **not** covered under VA health care?](#health-about-not-covered)
+- [What services aren't covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -137,7 +137,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 <span id="health-about-not-covered">
 
-#### What services are **not** covered under VA health care?
+#### What services aren't covered under VA health care?
 
 These services are **not** included in your VA medical benefits package:
 
@@ -191,5 +191,10 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
 
 [Refill your prescriptions](/healthcare/prescriptions/). <br> 
-[Send a message to your VA health care provider](/healthcare/messaging/). <br> 
-[Check the status of a disability or pension claim](/track-claims/).
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+
+<br> 
+
+You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).
+
+<br>
