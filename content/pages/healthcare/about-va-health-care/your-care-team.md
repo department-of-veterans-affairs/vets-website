@@ -50,10 +50,10 @@ When you need other services to meet your goals and needs, your team may call ot
 
 **Jump to a section:**
 
-- [How will my health care team work with me?](#health-care-team)
-- [Do I get to choose my primary care provider?](#choose-primary-care-provider)
-- [What happens if my primary care provider leaves VA?](#primary-care-provider-leaves)
-- [Can I see a non-VA provider for care?](#non-va-provider)
+- [How will my health care team work with me](#health-care-team)?
+- [Do I get to choose my primary care provider](#choose-primary-care-provider)?
+- [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
+- [Can I see a non-VA provider for care](#non-va-provider)?
 
 <br>
 
@@ -63,9 +63,9 @@ When you need other services to meet your goals and needs, your team may call ot
 
 Your team’s goal is to plan for all the care you need to help you stay healthy and well throughout your life. Your team will:
 
-- **Build a partnership with you**. You’ll be an active member of the team, and you’ll work with your team to plan and make decisions to meet your personal health goals. Your team will offer wellness care, education, and lifestyle coaching to help you stay healthy.
+- **Build a partnership with you.** You’ll be an active member of the team, and you’ll work with your team to plan and make decisions to meet your personal health goals. Your team will offer wellness care, education, and lifestyle coaching to help you stay healthy.
 
-- **Provide or arrange for preventive care**, such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
+- **Provide or arrange for preventive care,** such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
 
 - **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Heath***e***Vet portal. [Visit My Health***e***Vet](https://www.myhealth.va.gov/).
 
@@ -77,7 +77,7 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 #### Do I get to choose my primary care provider?
 
-You get to choose the main VA location where you’ll get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
+No. You’ll choose the main VA location where you’d like to get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
 
 If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Find a medical center near you](/facilities/).
 
