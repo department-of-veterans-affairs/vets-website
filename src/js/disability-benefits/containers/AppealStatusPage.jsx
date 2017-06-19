@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
+import moment from 'moment';
 
 import { getAppeals } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -14,10 +15,16 @@ class AppealStatusPage extends React.Component {
 
   render() {
     return (
-      <div className="your-claims">
+      <div className="claims-status">
         <div className="row">
           <div>
             <h1>Your Compensation Appeal Status {this.props.params.id}</h1>
+            <p>This information is accurate as of {moment().format('MMM DD, YYYY')}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="next-action">
+            next action explanation
           </div>
         </div>
         <div className="row">
