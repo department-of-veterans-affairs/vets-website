@@ -33,18 +33,13 @@ class SaveFormLink extends React.Component {
     if (!this.props.user.login.currentlyLoggedIn) {
       // if we have a noAuth status, that means they tried to save and got a 401, which
       // likely means their session is expired (since they were logged in before)
-      content = (<div>
-        {savedStatus === SAVE_STATUSES.noAuth
-            ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again.</span>
-            : <span><a onClick={this.openLoginModal}>Sign in</a> before saving your application</span>}
-        <LoginModal
-            key={1}
-            title="Sign in to save your application"
-            onClose={this.closeLoginModal}
-            visible={this.state.modalOpened}
-            user={this.props.user}
-            onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
-      </div>);
+      content = (
+        <div>
+          {savedStatus === SAVE_STATUSES.noAuth
+              ? <span>Sorry, your session has expired. Please <a onClick={this.openLoginModal}>sign in</a> again.</span>
+              : <span><a onClick={this.openLoginModal}>Save and finish later</a></span>}
+        </div>
+      );
     }
 
     if (savedStatus === SAVE_STATUSES.failure) {
@@ -53,7 +48,19 @@ class SaveFormLink extends React.Component {
       content = <span>spinner or something</span>;
     }
 
-    return content;
+    return (
+      <div>
+        <LoginModal
+            key={1}
+            title="Sign in to save your application"
+            onClose={this.closeLoginModal}
+            visible={this.state.modalOpened}
+            user={this.props.user}
+            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
+            onLogin={saveForm}/>
+        {content}
+      </div>
+    );
   }
 }
 

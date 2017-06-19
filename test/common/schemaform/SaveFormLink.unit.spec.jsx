@@ -15,6 +15,9 @@ describe('Schemaform <SaveFormLink>', () => {
     }
   };
   const loggedInUser = {
+    profile: {
+      userFullName: 'something'
+    },
     login: {
       currentlyLoggedIn: true
     }
@@ -32,7 +35,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('Sign in before saving your application');
+    expect(tree.text()).to.contain('Save and finish later');
   });
   it('should render expired message when not logged in and noAuth status', () => {
     const tree = SkinDeep.shallowRender(
@@ -55,7 +58,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.equal('Save and finish later');
+    expect(tree.text()).to.contain('Save and finish later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(

@@ -6,12 +6,14 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, spouseContribution, fileHelp } from '../helpers';
+import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
+import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import MarriageTitle from '../components/MarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
+import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import createDisclosureTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
@@ -43,7 +45,8 @@ const {
   liveWithSpouse,
   reasonForNotLivingWithSpouse,
   spouseIsVeteran,
-  monthlySpousePayment
+  monthlySpousePayment,
+  dependents
 } = fullSchemaPensions.properties;
 
 const {
@@ -441,14 +444,20 @@ const formConfig = {
           }
         },
         marriageHistory: {
-          title: (form, { pagePerItemIndex }) => getMarriageTitle(pagePerItemIndex),
+          title: (form, { pagePerItemIndex }) => getMarriageTitleWithCurrent(form, pagePerItemIndex),
           path: 'household/marriages/:index',
           showPagePerItem: true,
           arrayPath: 'marriages',
           uiSchema: {
             marriages: {
               items: {
-                'ui:title': MarriageTitle,
+                'ui:options': {
+                  updateSchema: (form, schema, uiSchema, index) => {
+                    return {
+                      title: getMarriageTitleWithCurrent(form, index)
+                    };
+                  }
+                },
                 spouseFullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': 'Spouse first name'
@@ -728,7 +737,61 @@ const formConfig = {
               }
             }
           }
-        }
+        },
+        dependents: {
+          title: 'Dependents',
+          path: 'household/dependents',
+          uiSchema: {
+            'ui:title': 'Dependents',
+            'view:hasDependents': {
+              'ui:title': 'Do you have any child or parent dependents?',
+              'ui:widget': 'yesNo'
+            },
+            dependents: {
+              'ui:options': {
+                expandUnder: 'view:hasDependents',
+                viewField: DependentField
+              },
+              items: {
+                relationship: {
+                  'ui:title': 'Relationship to Veteran',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: relationshipLabels
+                  }
+                },
+                fullName: fullNameUI,
+                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  }
+                })
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasDependents'],
+            properties: {
+              'view:hasDependents': {
+                type: 'boolean'
+              },
+              dependents: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['relationship', 'fullName'],
+                  properties: {
+                    relationship: dependents.items.properties.relationship,
+                    fullName: dependents.items.properties.fullName,
+                    childDateOfBirth: dependents.items.properties.childDateOfBirth
+                  }
+                }
+              }
+            }
+          }
+        },
       }
     },
     financialDisclosure: {
@@ -737,12 +800,6 @@ const formConfig = {
         netWorth: {
           path: 'financial-disclosure/net-worth',
           title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} net worth`,
-          initialData: {
-            spouseFullName: {
-              first: 'Rick',
-              last: 'Test'
-            }
-          },
           schema: {
             type: 'object',
             required: ['netWorth'],
@@ -805,7 +862,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouseFullName', 'Net worth'),
+            'ui:title': createDisclosureTitle('spouse', 'Net worth'),
             'ui:description': 'Bank accounts, investments, and property',
             spouseNetWorth: netWorthUI
           }
@@ -823,7 +880,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouseFullName', 'Monthly income'),
+            'ui:title': createDisclosureTitle('spouse', 'Monthly income'),
             'ui:description': 'Social Security or other pensions',
             spouseMonthlyIncome: monthlyIncomeUI
           }
@@ -841,37 +898,21 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouseFullName', 'Expected income'),
+            'ui:title': createDisclosureTitle('spouse', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: expectedIncomeUI
           }
         },
         dependentsNetWorth: {
           path: 'financial-disclosure/net-worth/dependents/:index',
-          title: item => `${item.childFullName.first} ${item.childFullName.last} net worth`,
+          title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
           showPagePerItem: true,
-          arrayPath: 'children',
+          arrayPath: 'dependents',
           itemFilter: (item) => !item.childNotInHousehold,
-          initialData: {
-            children: [
-              {
-                childFullName: {
-                  first: 'First',
-                  last: 'Child'
-                }
-              },
-              {
-                childFullName: {
-                  first: 'Second',
-                  last: 'Child'
-                }
-              }
-            ]
-          },
           schema: {
             type: 'object',
             properties: {
-              children: {
+              dependents: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -883,9 +924,9 @@ const formConfig = {
             }
           },
           uiSchema: {
-            children: {
+            dependents: {
               items: {
-                'ui:title': createDisclosureTitle('childFullName', 'Net worth'),
+                'ui:title': createDisclosureTitle('fullName', 'Net worth'),
                 'ui:description': 'Bank accounts, investments, and property',
                 netWorth: netWorthUI
               }
@@ -894,16 +935,16 @@ const formConfig = {
         },
         dependentsMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/dependents/:index',
-          title: item => `${item.childFullName.first} ${item.childFullName.last} monthly income`,
+          title: item => `${item.fullName.first} ${item.fullName.last} monthly income`,
           showPagePerItem: true,
-          arrayPath: 'children',
+          arrayPath: 'dependents',
           itemFilter: (item) => !item.childNotInHousehold,
           initialData: {
           },
           schema: {
             type: 'object',
             properties: {
-              children: {
+              dependents: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -915,9 +956,9 @@ const formConfig = {
             }
           },
           uiSchema: {
-            children: {
+            dependents: {
               items: {
-                'ui:title': createDisclosureTitle('childFullName', 'Monthly income'),
+                'ui:title': createDisclosureTitle('fullName', 'Monthly income'),
                 'ui:description': 'Social Security or other pensions',
                 monthlyIncome: monthlyIncomeUI
               }
@@ -926,16 +967,16 @@ const formConfig = {
         },
         dependentsExpectedIncome: {
           path: 'financial-disclosure/expected-income/dependents/:index',
-          title: item => `${item.childFullName.first} ${item.childFullName.last} expected income`,
+          title: item => `${item.fullName.first} ${item.fullName.last} expected income`,
           showPagePerItem: true,
-          arrayPath: 'children',
+          arrayPath: 'dependents',
           itemFilter: (item) => !item.childNotInHousehold,
           initialData: {
           },
           schema: {
             type: 'object',
             properties: {
-              children: {
+              dependents: {
                 type: 'array',
                 items: {
                   type: 'object',
@@ -947,9 +988,9 @@ const formConfig = {
             }
           },
           uiSchema: {
-            children: {
+            dependents: {
               items: {
-                'ui:title': createDisclosureTitle('childFullName', 'Expected income'),
+                'ui:title': createDisclosureTitle('fullName', 'Expected income'),
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
               }
