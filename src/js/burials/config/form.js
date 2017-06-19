@@ -172,9 +172,22 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        militaryHistory: {
-          title: 'Military History',
-          path: 'military-history',
+        servicePeriods: {
+          title: 'Service Periods',
+          path: 'military-history/service-periods',
+          uiSchema: {
+            toursOfDuty: toursOfDutyUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
+            }
+          }
+        },
+        previousNames: {
+          title: 'Previous Names',
+          path: 'military-history/previous-names',
           uiSchema: {
             previousNames: {
               'ui:options': {
@@ -186,8 +199,7 @@ const formConfig = {
             'view:serveUnderOtherNames': {
               'ui:title': 'Did the veteran serve under another name?',
               'ui:widget': 'yesNo'
-            },
-            toursOfDuty: toursOfDutyUI
+            }
           },
           schema: {
             type: 'object',
@@ -197,8 +209,7 @@ const formConfig = {
               },
               previousNames: _.assign(previousNames, {
                 minItems: 1
-              }),
-              toursOfDuty
+              })
             }
           }
         }
