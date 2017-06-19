@@ -42,7 +42,8 @@ describe('<EnrollmentHistory>', () => {
 
   it('should show enrollments', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
-    expect(tree.subTree('EnrollmentPeriod')).to.be.ok;
+    expect(tree.subTree('EnrollmentPeriod')).to.exist;
+    expect(tree.dive(['.section-header']).text()).to.equal('Enrollment History');
   });
 
   it('should show history may be incorrect warning', () => {
