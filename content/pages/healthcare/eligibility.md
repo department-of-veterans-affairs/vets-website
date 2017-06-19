@@ -90,6 +90,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <span id="priority-groups">
 
+<span id="priority-groups"></span>
 #### What are priority groups and how do they affect me? 
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
