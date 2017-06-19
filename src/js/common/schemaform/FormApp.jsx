@@ -27,9 +27,7 @@ class FormApp extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.loadedStatus === LOAD_STATUSES.success) {
-      this.props.router.push(newProps.returnUrl);
-      // Set loadedStatus in redux to not-attempted to not show the loading page
-      this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+      this.resumeForm(newProps);
     }
   }
 
@@ -55,6 +53,20 @@ class FormApp extends React.Component {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
+  resetLoading = () => {
+    this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+  }
+
+  resumeForm = (props = this.props) => {
+    props.router.push(props.returnUrl);
+    // Set loadedStatus in redux to not-attempted to not show the loading page
+    props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+  }
+
+  goToBeginning = () => {
+    this.props.router.push(this.props.route.pageList[1].path);
+  }
+
   render() {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
@@ -68,7 +80,10 @@ class FormApp extends React.Component {
       // Show the loading screen instead of the children.
       content = (<LoadingPage
           loadedStatus={this.props.loadedStatus}
-          notFoundMessage={formConfig.savedFormNotFoundMessage}/>);
+          errorMessages={formConfig.savedFormErrorMessages}
+          goBack={this.resetLoading}
+          resumeForm={this.resumeForm}
+          startOver={this.goToBeginning}/>);
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
