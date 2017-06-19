@@ -310,7 +310,7 @@ You can’t convert other types of policies—such as term, variable, or univers
 **If you’d like to convert FSGLI coverage, you must also:**
 
 - Choose a company from the list of companies that take part in this program. [View the companies you can choose from](http://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
-- Apply at the local sales office of the company you chose
+- Apply at the local sales office of the company you chose.
 - Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
   - The Servicemember's separation document (Form DD214 or NGB-22, or written orders)
   - The Certificate of Dissolution of Marriage between the spouse and the Servicemember
@@ -323,6 +323,8 @@ You can’t convert other types of policies—such as term, variable, or univers
 ### Where can I find more information?
 
 [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+
+<br>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
