@@ -366,23 +366,18 @@ const formConfig = {
             form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
             'ui:description': fileHelp,
-            deathCertificate: _.merge(fileUploadUI('Veterans death certificate', {
+            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-              maxSize: 2 * 1024 * 1024
+              hideIf: form => form.burialAllowanceRequested !== 'service'
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
-              'ui:options': {
-                hideIf: form => form.burialAllowanceRequested !== 'service'
-              }
             }),
-            transportationReceipts: _.merge(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
+            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-              maxSize: 2 * 1024 * 1024
+              addAnotherLabel: 'Add Another Receipt',
+              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
-              'ui:options': {
-                hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
-              }
             })
           },
           schema: {
