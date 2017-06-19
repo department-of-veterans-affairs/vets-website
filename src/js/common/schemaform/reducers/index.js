@@ -103,6 +103,7 @@ export default function createSchemaFormReducer(formConfig) {
       loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
+      lastSaveDate: null,
       disableSave: formConfig.disableSave,
       loadedData: {
         formData: {},
@@ -143,7 +144,14 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set('submission', submission, state);
       }
       case SET_SAVE_FORM_STATUS: {
-        return _.set('savedStatus', action.status, state);
+        const newState = _.set('savedStatus', action.status, state);
+
+        // This is the only time we have a saved datetime
+        if (action.status === SAVE_STATUSES.success) {
+          return _.set('lastSavedDate', action.lastSavedDate, newState);
+        }
+
+        return newState;
       }
       case SET_FETCH_FORM_STATUS: {
         return _.set('loadedStatus', action.status, state);

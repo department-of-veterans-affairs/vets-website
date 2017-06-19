@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { pull, startCase } from 'lodash';
+import { some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 
@@ -11,6 +11,15 @@ export default class AppointmentInfo extends Component {
       newPatientTimesExpanded: false,
       existingPatientTimesExpanded: false,
     };
+  }
+
+  anyWaitTimes(accessAttrs, category) {
+    return some(Object.keys(accessAttrs),
+        (key) => {
+          return (typeof accessAttrs[key][category] !== 'undefined' &&
+             accessAttrs[key][category] !== null);
+        }
+        );
   }
 
   render() {
@@ -25,8 +34,7 @@ export default class AppointmentInfo extends Component {
     }
 
     const healthAccessAttrs = facility.attributes.access.health;
-
-    if (!healthAccessAttrs.primaryCare || !healthAccessAttrs.primaryCare.new) {
+    if (!this.anyWaitTimes(healthAccessAttrs, 'new') && !this.anyWaitTimes(healthAccessAttrs, 'established')) {
       return null;
     }
 
@@ -100,15 +108,15 @@ export default class AppointmentInfo extends Component {
       <div className="mb2">
         <h4 className="highlight">Appointments</h4>
         <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM, YYYY')}</strong></p>
-        <div className="mb2">
+        {this.anyWaitTimes(healthAccessAttrs, 'new') && <div className="mb2">
           <h4>New patient wait times</h4>
           <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
           <ul>
             {renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
             {renderSpecialtyTimes()}
           </ul>
-        </div>
-        {healthAccessAttrs.primaryCare.established !== null && <div className="mb2">
+        </div>}
+        {this.anyWaitTimes(healthAccessAttrs, 'established') && <div className="mb2">
           <h4>Existing patient wait times</h4>
           <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
           <ul>

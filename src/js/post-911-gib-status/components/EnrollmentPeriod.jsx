@@ -18,8 +18,12 @@ class EnrollmentPeriod extends React.Component {
   }
 
   scrollToEnrollment() {
-    const options = getScrollOptions({ delay: 2 });
-    scroller.scrollTo(`collapsible-${this.props.id}`, options);
+    const options = getScrollOptions({
+      duration: 500,
+      delay: 2,
+      smooth: true,
+    });
+    scroller.scrollTo(this.props.id, options);
   }
 
   toggleHistory() {
@@ -33,14 +37,13 @@ class EnrollmentPeriod extends React.Component {
   render() {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
+    const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
+      <div>This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
+      </div>
+    );
 
-    // TODO: should fullTimeHours be used anywhere?
-    // const fullTimeHours = <InfoPair label="Full-time Hours" value={enrollment.fullTimeHours}/>;
-    const onCampusHours = <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>;
-    const onlineHours = <InfoPair label="Online Hours" value={enrollment.onlineHours}/>;
-
-    const amendmentList = this.state.historyExpanded ? (
-      <div id={`collapsible-${id}`} className="usa-accordion-content">
+    const changes = this.state.historyExpanded ? (
+      <div className="usa-accordion-content">
         {amendments.map((amendment, index) => {
           return (
             <div key={`amendment-${index}`}>
@@ -70,18 +73,21 @@ class EnrollmentPeriod extends React.Component {
                 See Change History
               </button>
             </div>
-            {amendmentList}
+            <div id={`collapsible-${id}`}>
+              {changes}
+            </div>
           </li>
         </ul>
       </div>
     ) : null;
 
     return (
-      <div>
+      <div id={id}>
         <hr/>
-        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{enrollment.facilityName.toLowerCase()}</span> ({enrollment.facilityCode})</h4>
-        {onCampusHours}
-        {onlineHours}
+        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
+        {yellowRibbonStatus}
+        <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>
+        <InfoPair label="Online Hours" value={enrollment.onlineHours}/>
         {changeHistory}
       </div>
     );

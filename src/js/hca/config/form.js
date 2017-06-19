@@ -25,7 +25,7 @@ import {
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
-// import IntroductionPage from '../components/SIPIntroductionPage';
+import SIPIntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -118,10 +118,11 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: 'hca',
   version: 0,
-  disableSave: true,
+  // Disable save in progress for production
+  disableSave: __BUILDTYPE__ === 'production',
   transformForSubmit: transform,
-  // TODO: When save in progress is released, change the intro page
-  introduction: IntroductionPage,
+  // Use the old intro page for production, but SiP for dev and staging
+  introduction: __BUILDTYPE__ === 'production' ? IntroductionPage : SIPIntroductionPage,
   confirmation: ConfirmationPage,
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
