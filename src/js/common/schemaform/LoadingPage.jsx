@@ -16,21 +16,29 @@ class LoadingPage extends React.Component {
         break;
       // TODO: Make the Back and Resume previous application buttons
       case LOAD_STATUSES.failure:
-      case LOAD_STATUSES.notFound:
         content = <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. Please try applying again in a few moments.</div>;
+        // TODO: Make a resume button
+        break;
+      case LOAD_STATUSES.notFound:
+        content = <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. We can't find your application. {this.props.notFoundMessage}</div>;
+        // TODO: Make a start over button
         break;
       default: // pending
-        content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>; break;
+        content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+        break;
     }
 
     return (
-      <div>{content}</div>
+      <div>
+        {content}
+      </div>
     );
   }
 }
 
 LoadingPage.propTypes = {
-  loadedStatus: PropTypes.string.isRequired
+  loadedStatus: PropTypes.string.isRequired,
+  notFoundMessage: PropTypes.string
 };
 
 export default LoadingPage;

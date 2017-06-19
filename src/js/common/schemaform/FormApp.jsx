@@ -66,7 +66,9 @@ class FormApp extends React.Component {
     // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
     if (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted) {
       // Show the loading screen instead of the children.
-      content = <LoadingPage loadedStatus={this.props.loadedStatus}/>;
+      content = (<LoadingPage
+          loadedStatus={this.props.loadedStatus}
+          notFoundMessage={formConfig.savedFormNotFoundMessage}/>);
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -86,7 +88,12 @@ class FormApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           <div className="usa-width-two-thirds medium-8 columns">
-            {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+            {
+              formConfig.title &&
+              // If we're on the introduction page, show the title if we're actually on the loading screen
+              (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
+                <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
+            }
             {content}
           </div>
         </div>
