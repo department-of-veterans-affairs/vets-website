@@ -27,7 +27,7 @@ majorlinks:
       description: Send a secure, private note to your primary care provider or other members of your VA health care team.
     - url: /healthcare/health-conditions/conditions-related-to-service-era/
       title: Conditions Related to When and Where You Served
-      description: Find out what service-connected health concerns may affect you, based on when and where you served.
+      description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
 ---
 
 <div class="va-introtext">
