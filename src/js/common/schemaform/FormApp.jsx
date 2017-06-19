@@ -9,6 +9,7 @@ import AskVAQuestions from './AskVAQuestions';
 import { LOAD_STATUSES, setFetchFormStatus } from './save-load-actions';
 import LoadingPage from './LoadingPage';
 
+import { updateLogInUrl } from '../../login/actions';
 
 import { isInProgress } from '../utils/helpers';
 
@@ -57,6 +58,7 @@ class FormApp extends React.Component {
     this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
   }
 
+  // NOTE: This won't work on the loading page yet
   resumeForm = (props = this.props) => {
     props.router.push(props.returnUrl);
     // Set loadedStatus in redux to not-attempted to not show the loading page
@@ -78,12 +80,16 @@ class FormApp extends React.Component {
     // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
     if (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted) {
       // Show the loading screen instead of the children.
+      // Agh! The prop threading!
       content = (<LoadingPage
           loadedStatus={this.props.loadedStatus}
           errorMessages={formConfig.savedFormErrorMessages}
           goBack={this.resetLoading}
           resumeForm={this.resumeForm}
-          startOver={this.goToBeginning}/>);
+          startOver={this.goToBeginning}
+          isLoggedIn={this.props.isLoggedIn}
+          loginUrl={this.props.loginUrl}
+          onUpdateLoginUrl={this.props.updateLogInUrl}/>);
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -123,11 +129,14 @@ class FormApp extends React.Component {
 
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
-  returnUrl: state.form.loadedData.metadata.returnUrl
+  returnUrl: state.form.loadedData.metadata.returnUrl,
+  isLoggedIn: state.user.login.currentlyLoggedIn,
+  loginUrl: state.user.login.loginUrl,
 });
 
 const mapDispatchToProps = {
-  setFetchFormStatus
+  setFetchFormStatus,
+  updateLogInUrl
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
