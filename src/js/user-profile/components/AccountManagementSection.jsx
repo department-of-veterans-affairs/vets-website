@@ -3,14 +3,19 @@ import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import Modal from '../../common/components/Modal';
 
-const modalContents = () => (
-  <AcceptTermsPrompt/>
-);
+import {
+  fetchLatestTerms,
+  acceptTerms,
+} from '../actions';
 
 class AccountManagementSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
+  }
+
+  componentDidMount() {
+    this.props.fetchLatestTerms('mhvac');
   }
 
   openModal = () => {
@@ -19,6 +24,29 @@ class AccountManagementSection extends React.Component {
 
   closeModal = () => {
     this.setState({ modalOpen: false });
+  }
+
+  acceptAndClose = (arg) => {
+    this.props.acceptTerms(arg);
+    this.closeModal();
+  }
+
+  renderModalContents() {
+    const { terms } = this.props;
+    const termsAccepted = this.props.profile.healthTermsCurrent;
+    if (termsAccepted) {
+      return (
+        <div>
+          <h3>
+            You have already accepted the terms and conditions.
+          </h3>
+          <div>
+            <button type="submit" onClick={this.closeModal}>Ok</button>
+          </div>
+        </div>
+      );
+    }
+    return <AcceptTermsPrompt terms={terms} onAccept={this.acceptAndClose}/>;
   }
 
   render() {
@@ -33,7 +61,7 @@ class AccountManagementSection extends React.Component {
         </div>
         <Modal
             cssClass="va-modal-large"
-            contents={modalContents()}
+            contents={this.renderModalContents()}
             id="mhvac-modal"
             visible={this.state.modalOpen}
             onClose={() => this.closeModal()}/>
@@ -42,12 +70,18 @@ class AccountManagementSection extends React.Component {
   }
 }
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return userState;
+const mapDispatchToProps = {
+  fetchLatestTerms,
+  acceptTerms,
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps)(AccountManagementSection);
+const mapStateToProps = (state) => {
+  const userState = state.user;
+  return {
+    terms: userState.profile.terms,
+    profile: userState.profile
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountManagementSection);
 export { AccountManagementSection };
