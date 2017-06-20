@@ -42,11 +42,10 @@ We offer blind and low vision rehabilitation services such as:
 - Counseling and group therapy to help you adjust to blindness
 - Family-centered care that helps your family learn how to support you as you adjust to blindness
 
-Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time). <br />
+Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time). <br>
 
-[Find inpatient Blind Rehabilitation Centers](http://www.rehab.va.gov/PROSTHETICS/blindrehab/locations.asp). <br />
-
-[Learn more about other blind rehabilitation services](http://www.rehab.va.gov/PROSTHETICS/blindrehab/BRS_Coordinated_Care.asp).
+[Find inpatient Blind Rehabilitation Centers](https://www.prosthetics.va.gov/blindrehab/locations.asp). <br>
+[Learn more about other blind rehabilitation services](https://www.prosthetics.va.gov/blindrehab/BRS_Coordinated_Care.asp).
 
 </div>
 
@@ -56,11 +55,9 @@ No. But we do work with non-VA agencies that provide guide dogs.
 
 ### How do I access these services?
 
-To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you(/facilities/).
+To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you](/facilities/).
 
-Or, contact the Blind Rehabilitation Service Program office at:
-
-<a href="tel:+1-202-461-7317">202-461-7317</a>
+Or, contact the Blind Rehabilitation Service Program office by phone (<a href="tel:+1-202-461-7317">202-461-7317</a>) or by mail: 
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
@@ -70,8 +67,10 @@ Or, contact the Blind Rehabilitation Service Program office at:
 <dd>Washington, DC 20420</dd>
 </dl>
 
+<br>
+
 ### If I'm blind and have hearing loss, will VA cover the cost of my hearing aids?
 
-[Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
+[Find out how to get hearing aids through VA](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp). 
 
 
