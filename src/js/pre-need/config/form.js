@@ -14,6 +14,7 @@ import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+// import { validateBooleanGroup } from '../../common/schemaform/validation';
 
 const {
   relationship,
@@ -186,20 +187,18 @@ const formConfig = {
                 }
               }
             },
-            sponsorMilitaryStatus: {
+            'view:sponsorMilitaryStatus': {
               'ui:title': 'Sponsor military status to determine eligibility. Check all that apply.',
-              'ui:widget': 'checkboxes',
+              veteran: { 'ui:title': 'Veteran' },
+              retiredActiveDuty: { 'ui:title': 'Retired Active Duty' },
+              diedOnActiveDuty: { 'ui:title': 'Died on Active Duty' },
+              retiredReserve: { 'ui:title': 'Retired Reserve' },
+              retiredNationalGuard: { 'ui:title': 'Retired National Guard' },
+              deathInactiveDuty: { 'ui:title': 'Death Related to Inactive Duty Training' },
+              other: { 'ui:title': 'Other' },
+              // 'ui:validations': [validateBooleanGroup],
               'ui:options': {
-                viewField: (formData) => <div>{formData.sponsorMilitaryStatus}</div>,
-                labels: {
-                  veteran: 'Veteran',
-                  retiredActiveDuty: 'Retired Active Duty',
-                  diedOnActiveDuty: 'Died on Active Duty',
-                  retiredReserve: 'Retired Reserve',
-                  retiredNationalGuard: 'Retired National Guard',
-                  deathInactiveDuty: 'Death Related to Inactive Duty Training',
-                  other: 'Other'
-                }
+                showFieldLabel: true
               }
             }
           },
@@ -210,7 +209,7 @@ const formConfig = {
               'sponsorDeceased',
               'sponsorGender',
               'sponsorMaritalStatus',
-              'sponsorMilitaryStatus'
+              'view:sponsorMilitaryStatus'
             ],
             properties: {
               sponsorFullName,
@@ -239,20 +238,16 @@ const formConfig = {
                   'widowed'
                 ]
               },
-              sponsorMilitaryStatus: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'string',
-                  enum: [
-                    'veteran',
-                    'retiredActiveDuty',
-                    'diedOnActiveDuty',
-                    'retiredReserve',
-                    'retiredNationalGuard',
-                    'deathInactiveDuty',
-                    'other'
-                  ]
+              'view:sponsorMilitaryStatus': {
+                type: 'object',
+                properties: {
+                  veteran: { type: 'boolean' },
+                  retiredActiveDuty: { type: 'boolean' },
+                  diedOnActiveDuty: { type: 'boolean' },
+                  retiredReserve: { type: 'boolean' },
+                  retiredNationalGuard: { type: 'boolean' },
+                  deathInactiveDuty: { type: 'boolean' },
+                  other: { type: 'boolean' }
                 }
               }
             }
