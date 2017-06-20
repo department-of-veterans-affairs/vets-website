@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// TODO: style this properly once design is settled
+import FormTitle from '../../common/schemaform/FormTitle';
+
 class DownloadLetters extends React.Component {
   render() {
     const destination = this.props.destination || {};
@@ -14,6 +15,12 @@ class DownloadLetters extends React.Component {
     });
     return (
       <div>
+        <FormTitle title="Download Your VA Verification Letters"/>
+        <div className="va-introtext">
+          <p>
+            For some benefits, Veterans or surviving spouses and dependents need a letter from the VA proving Veteran or surviving status. This tool will allow you to get these letters online.
+          </p>
+        </div>
         <div className="letters-form-panel">
           <p>The address on file for you with VA Compensation and Pension is:</p>
           <span>{destination.fullName}</span><br/>
