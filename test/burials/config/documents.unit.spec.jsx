@@ -7,7 +7,7 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form';
 
 describe('Burials document upload', () => {
-  const { schema, uiSchema, depends } = formConfig.chapters.documentUpload.pages.documentUpload;
+  const { schema, uiSchema, depends } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
