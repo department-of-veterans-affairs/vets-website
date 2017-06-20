@@ -29,10 +29,10 @@ export function command(context, config, _callback) {
       done({ err, results });
     });
   }, [context, (config || {}).rules || this.globals.rules || ['section508', 'wcag2a']], response => {
-    if (response.state !== 'success') {
-      this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
-      return;
-    }
+    // if (response.state !== 'success') {
+    //   this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
+    //   return;
+    // }
 
     const { err, results } = response.value;
 
