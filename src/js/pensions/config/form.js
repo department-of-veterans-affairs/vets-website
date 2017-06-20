@@ -66,6 +66,10 @@ function isUnder65(formData) {
   return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
 }
 
+function isBetween18And23(childDOB) {
+  return moment().startOf('day').subtract(23, 'years').isBefore(childDOB) && moment().startOf('day').subtract(18, 'years').isAfter(childDOB);
+}
+
 function isMarried(form) {
   return form.maritalStatus === 'Married';
 }
@@ -124,13 +128,17 @@ const formConfig = {
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
+    address: address.schema(fullSchemaPensions),
     additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,
     fullName,
     ssn,
-    vaFileNumber
+    vaFileNumber,
+    monthlyIncome,
+    expectedIncome,
+    netWorth
   },
   chapters: {
     applicantInformation: {
@@ -748,7 +756,8 @@ const formConfig = {
             dependents: {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
-                viewField: DependentField
+                viewField: DependentField,
+                //'ui:order': ['relationship', 'fullName', 'childDateOfBirth', 'attendingCollege', 'disabled']
               },
               items: {
                 relationship: {
@@ -759,11 +768,107 @@ const formConfig = {
                   }
                 },
                 fullName: fullNameUI,
+                childPlaceOfBirth: {
+                  'ui:title': 'Place of Birth',
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  }
+                },
+                childSocialSecurityNumber: _.merge(ssnUI, {
+                  'ui:title': 'Social Security Number',
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
+                  }
+                }),
+                'view:relationship': {
+                  'ui:title': 'Relationship',
+                  'ui:widget': 'checkbox',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
+                    labels: {
+                      biological: 'biological',
+                      adopted: 'adopted',
+                      stepchild: 'stepchild'
+                    }
+                  }
+                },
                 childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
                   'ui:options': {
                     hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
                   }
-                })
+                }),
+                attendingCollege: {
+                  'ui:options': {
+                    expandUnder: 'childDateOfBirth',
+                    expandUnderCondition: (childDOB) => !!isBetween18And23(childDOB)
+                  },
+                  'ui:title': 'Is your child in school?',
+                  'ui:widget': 'yesNo'
+                },
+                disabled: {
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  },
+                  'ui:title': 'Is your child seriously disabled?',
+                  'ui:widget': 'yesNo'
+                },
+                previouslyMarried: {
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  },
+                  'ui:title': 'Has your child ever been married?',
+                  'ui:widget': 'yesNo'
+                },
+                married: {
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:options': {
+                    expandUnder: 'previouslyMarried'
+                  },
+                  'ui:title': 'Are they currently married?',
+                  'ui:widget': 'yesNo'
+                },
+                childNotInHousehold: {
+                  'ui:title': 'Does your child live with you?',
+                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
+                    labels: {
+                      'false': 'Yes',
+                      'true': 'No'
+                    }
+                  }
+                },
+                childAddress: _.merge(address.uiSchema('Child address', false, form => form.childNotInHousehold === true),
+                  {
+                    'ui:required': (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form),
+                    'ui:options': {
+                      expandUnder: 'childNotInHousehold',
+                      hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child' // included to prevent from showing unexpectedly
+                    }
+                  }
+                ),
+                personWhoLivesWithChild: _.merge(fullNameUI,
+                  {
+                    'ui:title': 'Who do they live with?',
+                    'ui:options': {
+                      expandUnder: 'childNotInHousehold',
+                      hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child' // included to prevent from showing unexpectedly
+                    }
+                  }
+                ),
+                monthlyPayment: {
+                  'ui:title': 'How much do you contribute per month to their support?',
+                  'ui:required': (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form),
+                  'ui:options': {
+                    classNames: 'schemaform-currency-input',
+                    expandUnder: 'childNotInHousehold'
+                  }
+                }
               }
             }
           },
@@ -774,6 +879,7 @@ const formConfig = {
               'view:hasDependents': {
                 type: 'boolean'
               },
+              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
               dependents: {
                 type: 'array',
                 minItems: 1,
@@ -783,7 +889,20 @@ const formConfig = {
                   properties: {
                     relationship: dependents.items.properties.relationship,
                     fullName: dependents.items.properties.fullName,
-                    childDateOfBirth: dependents.items.properties.childDateOfBirth
+                    childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
+                    childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
+                    biological: dependents.items.properties.biological,
+                    adopted: dependents.items.properties.adopted,
+                    stepchild: dependents.items.properties.stepchild,
+                    childDateOfBirth: dependents.items.properties.childDateOfBirth,
+                    attendingCollege: dependents.items.properties.attendingCollege,
+                    disabled: dependents.items.properties.disabled,
+                    previouslyMarried: dependents.items.properties.previouslyMarried,
+                    married: dependents.items.properties.married,
+                    childNotInHousehold: dependents.items.properties.childNotInHousehold,
+                    childAddress: dependents.items.properties.childAddress,
+                    personWhoLivesWithChild: dependents.items.properties.personWhoLivesWithChild,
+                    monthlyPayment: dependents.items.properties.monthlyPayment
                   }
                 }
               }
