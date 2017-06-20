@@ -20,7 +20,7 @@ relatedlinks:
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /disability-benefits/
       title: Disability Benefits
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA. 
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation from VA. 
 ---
 
 <div class="va-introtext">
@@ -76,7 +76,7 @@ Click on the statement below that describes you best to find out your benefits c
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-unemployable">I’m unemployable (unable to work), and I get disability compensation (monthly payments) at the 100% disabling rate due to service-connected conditions.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-unemployable">I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions.</button>
 <div id="dental-care-unemployable" class="usa-accordion-content">
 
 **You’re in:** Class IV
@@ -123,7 +123,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class III
 
-**You may qualify for:** Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse.
+**You may qualify for:** Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse
 
 </div>
 </li>
@@ -151,7 +151,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class VI
 
-**You may qualify for:** Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.
+**You may qualify for:** Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat
 
 </div>
 </li>
@@ -176,7 +176,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Inpatient status
 
-**You may qualify for:** Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.
+**You may qualify for:** Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for
 
 </div>
 </li>
@@ -200,7 +200,7 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
 
 - Are signed up for VA health care ([apply now](/healthcare/apply/)), **or**
-- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). [Find out if you can sign up for CHAMPVA](https://www.va.gov/purchasedcare/programs/dependents/champva/index.asp). 
+- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). [Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp). 
 
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/). 
 
