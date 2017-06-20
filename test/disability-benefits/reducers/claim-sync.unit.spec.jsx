@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
 import claimSync from '../../../src/js/disability-benefits/reducers/claim-sync';
-import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_UNAVAILABLE, SET_UNAUTHORIZED } from '../../../src/js/disability-benefits/actions';
+import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_CLAIMS_UNAVAILABLE, SET_UNAUTHORIZED } from '../../../src/js/disability-benefits/actions';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {
     const state = claimSync(undefined, {
-      type: SET_UNAVAILABLE
+      type: SET_CLAIMS_UNAVAILABLE
     });
 
     expect(state.available).to.be.false;
