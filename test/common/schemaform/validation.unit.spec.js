@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from 'moment';
 import sinon from 'sinon';
 
 import {
@@ -6,9 +7,11 @@ import {
   uiSchemaValidate,
   validateSSN,
   validateDate,
+  validateCurrentOrPastDate,
   validateMatch,
   validateDateRange,
-  validateFileField
+  validateFileField,
+  validateBooleanGroup
 } from '../../../src/js/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
@@ -241,6 +244,24 @@ describe('Schemaform validations', () => {
       expect(errors.addError.callCount).to.equal(1);
     });
   });
+  describe('validateCurrentOrPastDate', () => {
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
+      validateCurrentOrPastDate(errors, futureDate);
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
+    });
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      const futureDate = moment().add(2, 'year').format('YYYY-MM-DD');
+      validateCurrentOrPastDate(errors, futureDate, null, null, { futureDate: 'Blah blah' });
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal('Blah blah');
+    });
+  });
   describe('validateMatch', () => {
     it('should set message if emails do not match', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
@@ -317,6 +338,41 @@ describe('Schemaform validations', () => {
       }]);
 
       expect(errors[0].__errors).not.to.be.empty;
+    });
+  });
+  describe('validateBooleanGroup', () => {
+    it('should add error if no props are true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: false
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should add error if empty object', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {});
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add error if at least one prop is true', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: true
+      });
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, {
+        tests: false
+      }, null, null, { atLeastOne: 'testing' });
+
+      expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
   });
 });
