@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 } from '../../user-profile/actions';
@@ -64,7 +63,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 };

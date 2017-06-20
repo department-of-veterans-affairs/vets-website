@@ -4,7 +4,6 @@ import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import Modal from '../../common/components/Modal';
 
 import {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 } from '../actions';
@@ -16,7 +15,6 @@ class AccountManagementSection extends React.Component {
   }
 
   componentDidMount() {
-    this.props.checkAcceptance('mhvac');
     this.props.fetchLatestTerms('mhvac');
   }
 
@@ -28,10 +26,15 @@ class AccountManagementSection extends React.Component {
     this.setState({ modalOpen: false });
   }
 
+  acceptAndClose = (arg) => {
+    this.props.acceptTerms(arg);
+    this.closeModal();
+  }
+
   renderModalContents() {
-    const { terms } = this.props.profile;
-    // terms.terms is not a typo
-    if (terms.acceptance) {
+    const { terms } = this.props;
+    const termsAccepted = this.props.profile.healthTermsCurrent;
+    if (termsAccepted) {
       return (
         <div>
           <h3>
@@ -43,7 +46,7 @@ class AccountManagementSection extends React.Component {
         </div>
       );
     }
-    return <AcceptTermsPrompt terms={terms.terms} onAccept={this.props.acceptTerms}/>;
+    return <AcceptTermsPrompt terms={terms} onAccept={this.acceptAndClose}/>;
   }
 
   render() {
@@ -68,17 +71,17 @@ class AccountManagementSection extends React.Component {
 }
 
 const mapDispatchToProps = {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
   const userState = state.user;
-  return userState;
+  return {
+    terms: userState.profile.terms,
+    profile: userState.profile
+  };
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
 export default connect(mapStateToProps, mapDispatchToProps)(AccountManagementSection);
 export { AccountManagementSection };
