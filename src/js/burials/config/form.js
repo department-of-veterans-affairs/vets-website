@@ -374,6 +374,7 @@ const formConfig = {
           title: 'Claimant Contact Information',
           path: 'claimant-contact-information',
           uiSchema: {
+            'ui:title': 'Claimant contact information',
             'ui:validations': [
               validateMatch('claimantEmail', 'view:claimantEmailConfirmation')
             ],
