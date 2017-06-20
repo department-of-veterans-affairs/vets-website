@@ -18,6 +18,10 @@
 
   .title-section {
     padding: 0.5rem 0;
+
+    h1:first-child {
+      padding: 0 0 0 1.5rem;
+    }
   }
 
   .flex-center {
@@ -329,17 +333,18 @@
       }
 
       span {
-        height: 2.4em;
+        min-height: 2.4em;
         text-align: left;
       }
 
       button.facility-option {
-        height: 2.4em;
+        min-height: 2.4em;
         padding: 0;
         margin: 0;
-        background: inherit;
+        background: none;
         color: inherit;
         font-weight: normal;
+        width: 100%;
 
         &:focus {
           box-shadow: none;
