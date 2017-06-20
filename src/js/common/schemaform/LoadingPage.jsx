@@ -30,7 +30,7 @@ class LoadingPage extends React.Component {
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } = this.props.errorMessages;
+    const { noAuth, notFound } = this.props.errorMessages || {};
     let content;
     let errorText;
 
