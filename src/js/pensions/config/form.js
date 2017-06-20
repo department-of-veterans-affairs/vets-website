@@ -80,6 +80,12 @@ function isCurrentMarriage(form, index) {
   return status === 'Married' && numMarriages - 1 === index;
 }
 
+/*
+function hasChildren(form) {
+  return form.dependents.some((dependent) => !!(dependent.dependentRelationship === 'child'));
+}
+*/
+
 const marriageProperties = marriages.items.properties;
 
 const marriageType = _.assign(marriageProperties.marriageType, {
@@ -842,9 +848,8 @@ const formConfig = {
                     }
                   }
                 },
-                childAddress: _.merge(address.uiSchema('Child address', false, form => form.childNotInHousehold === true),
+                childAddress: _.merge(address.uiSchema('Child address', false, (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form)),
                   {
-                    'ui:required': (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form),
                     'ui:options': {
                       expandUnder: 'childNotInHousehold',
                       hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child' // included to prevent from showing unexpectedly
