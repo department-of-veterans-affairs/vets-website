@@ -14,14 +14,6 @@ import { fetchInProgressForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpened: false
-    };
-  }
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -52,14 +44,6 @@ class IntroductionPage extends React.Component {
     }
 
     return alert;
-  }
-
-  openLoginModal = () => {
-    this.setState({ modalOpened: true });
-  }
-
-  closeLoginModal = () => {
-    this.setState({ modalOpened: false });
   }
 
   render() {
