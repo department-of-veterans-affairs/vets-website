@@ -1,16 +1,11 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Education Benefits Application Process
+display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-relatedlinks:
- - url: /education/gi-bill/
-   title: GI Bill
-   description: "Learn about the GI Bill benefits that millions of Veterans like you have used to pay for college."
- - url: /education/advanced-training-and-certifications/
-   title: Advanced Training and Certifications
-   description: "The GI Bill can pay for more than just academic programs. Use it to help cover the costs of becoming a licensed or certified professional (like a mechanic or medical technician) or a business owner."
+collection: education
+order: 2
 ---
 
 <div class="va-introtext">
