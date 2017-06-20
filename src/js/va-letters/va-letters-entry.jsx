@@ -26,7 +26,7 @@ function init() {
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={VALettersApp}>
-          <IndexRedirect to="/confirm-address"/>
+          <IndexRedirect to="/download-letters"/>
           {routes}
         </Route>
       </Router>
