@@ -154,6 +154,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       } else {
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         Raven.captureException(resOrError);
+        Raven.captureMessage('vets_sip_error_save');
       }
     });
   };
