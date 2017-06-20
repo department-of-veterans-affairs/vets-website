@@ -44,16 +44,7 @@ describe('<DisabilityBenefitsApp>', () => {
     expect(tree.everySubTree('MviRecordsUnavailable')).not.to.be.empty;
     expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
   });
-  it('should render unavailable', () => {
-    const tree = SkinDeep.shallowRender(
-      <AppContent authorized>
-        <div className="test-child"/>
-      </AppContent>
-    );
 
-    expect(tree.everySubTree('.test-child')).to.be.empty;
-    expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
-  });
   it('should render unauthorized', () => {
     const tree = SkinDeep.shallowRender(
       <AppContent>
