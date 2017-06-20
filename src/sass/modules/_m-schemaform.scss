@@ -186,12 +186,15 @@ label {
 }
 
 .schemaform-block-header {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.7em;
   > legend, > h5, > p {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
   }
   > p {
+    margin-top: 0;
+  }
+  > .schemaform-block-title + p {
     margin-top: 0.5em;
   }
 }

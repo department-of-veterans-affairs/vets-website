@@ -1,8 +1,7 @@
 import _ from 'lodash/fp';
 
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
-
 // import { transform } from '../helpers';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,9 +11,11 @@ import { validateBooleanGroup, validateMatch } from '../../common/schemaform/val
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import FullNameField from '../../common/schemaform/FullNameField';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 
 const {
@@ -26,6 +27,7 @@ const {
   deathDate,
   claimantEmail,
   claimantPhone,
+  toursOfDuty,
   placeOfRemains,
   federalCemetary,
   stateCemetary,
@@ -39,7 +41,8 @@ const {
   burialAllowance,
   plotAllowance,
   transportation,
-  amountIncurred
+  amountIncurred,
+  previousNames
 } = fullSchemaBurials.properties;
 
 const {
@@ -48,7 +51,8 @@ const {
   ssn,
   date,
   usaPhone,
-  files
+  files,
+  dateRange
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -65,7 +69,8 @@ const formConfig = {
     vaFileNumber,
     ssn,
     date,
-    usaPhone
+    usaPhone,
+    dateRange
   },
   chapters: {
     claimantInformation: {
@@ -160,6 +165,52 @@ const formConfig = {
               burialDate,
               deathDate,
               locationOfDeath
+            }
+          }
+        }
+      }
+    },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        servicePeriods: {
+          title: 'Service Periods',
+          path: 'military-history/service-periods',
+          uiSchema: {
+            toursOfDuty: toursOfDutyUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
+            }
+          }
+        },
+        previousNames: {
+          title: 'Previous Names',
+          path: 'military-history/previous-names',
+          uiSchema: {
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField
+              },
+              items: fullNameUI
+            },
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did the veteran serve under another name?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:serveUnderOtherNames': {
+                type: 'boolean'
+              },
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              })
             }
           }
         }
