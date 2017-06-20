@@ -1,19 +1,21 @@
 import _ from 'lodash/fp';
 
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
-
 // import { transform } from '../helpers';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import FullNameField from '../../common/schemaform/FullNameField';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import toursOfDutyUI from '../definitions/toursOfDuty';
 
 const {
   relationship,
@@ -24,9 +26,10 @@ const {
   deathDate,
   claimantEmail,
   claimantPhone,
+  toursOfDuty,
   placeOfRemains,
-  federalCemetary,
-  stateCemetary,
+  federalCemetery,
+  stateCemetery,
   govtContributions,
   amountGovtContribution,
   burialAllowanceRequested,
@@ -37,7 +40,8 @@ const {
   burialAllowance,
   plotAllowance,
   transportation,
-  amountIncurred
+  amountIncurred,
+  previousNames
 } = fullSchemaBurials.properties;
 
 const {
@@ -45,7 +49,8 @@ const {
   vaFileNumber,
   ssn,
   date,
-  usaPhone
+  usaPhone,
+  dateRange
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -62,7 +67,8 @@ const formConfig = {
     vaFileNumber,
     ssn,
     date,
-    usaPhone
+    usaPhone,
+    dateRange
   },
   chapters: {
     claimantInformation: {
@@ -157,6 +163,52 @@ const formConfig = {
               burialDate,
               deathDate,
               locationOfDeath
+            }
+          }
+        }
+      }
+    },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        servicePeriods: {
+          title: 'Service Periods',
+          path: 'military-history/service-periods',
+          uiSchema: {
+            toursOfDuty: toursOfDutyUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
+            }
+          }
+        },
+        previousNames: {
+          title: 'Previous Names',
+          path: 'military-history/previous-names',
+          uiSchema: {
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField
+              },
+              items: fullNameUI
+            },
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did the veteran serve under another name?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:serveUnderOtherNames': {
+                type: 'boolean'
+              },
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              })
             }
           }
         }
@@ -275,16 +327,16 @@ const formConfig = {
             placeOfRemains: {
               'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
             },
-            federalCemetary: {
+            federalCemetery: {
               'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
               'ui:widget': 'yesNo'
             },
-            stateCemetary: {
+            stateCemetery: {
               'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
               'ui:widget': 'yesNo',
-              'ui:required': form => form.federalCemetary === false,
+              'ui:required': form => form.federalCemetery === false,
               'ui:options': {
-                expandUnder: 'federalCemetary',
+                expandUnder: 'federalCemetery',
                 expandUnderCondition: false
               }
             },
@@ -301,11 +353,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['placeOfRemains', 'federalCemetary', 'govtContributions'],
+            required: ['placeOfRemains', 'federalCemetery', 'govtContributions'],
             properties: {
               placeOfRemains,
-              federalCemetary,
-              stateCemetary,
+              federalCemetery,
+              stateCemetery,
               govtContributions,
               amountGovtContribution
             }
