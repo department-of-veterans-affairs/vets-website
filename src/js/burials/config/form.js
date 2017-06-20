@@ -367,8 +367,8 @@ const formConfig = {
         }
       }
     },
-    claimantContactInformation: {
-      title: 'Claimant Contact Information',
+    additionalInformation: {
+      title: 'Additional Information',
       pages: {
         claimantContactInformation: {
           title: 'Claimant Contact Information',
@@ -399,12 +399,7 @@ const formConfig = {
               claimantPhone
             }
           }
-        }
-      }
-    },
-    documentUpload: {
-      title: 'Document Upload',
-      pages: {
+        },
         documentUpload: {
           title: 'Document upload',
           path: 'documents',
