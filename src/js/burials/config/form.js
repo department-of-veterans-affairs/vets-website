@@ -29,8 +29,8 @@ const {
   claimantPhone,
   toursOfDuty,
   placeOfRemains,
-  federalCemetary,
-  stateCemetary,
+  federalCemetery,
+  stateCemetery,
   govtContributions,
   amountGovtContribution,
   burialAllowanceRequested,
@@ -329,16 +329,16 @@ const formConfig = {
             placeOfRemains: {
               'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
             },
-            federalCemetary: {
+            federalCemetery: {
               'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
               'ui:widget': 'yesNo'
             },
-            stateCemetary: {
+            stateCemetery: {
               'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
               'ui:widget': 'yesNo',
-              'ui:required': form => form.federalCemetary === false,
+              'ui:required': form => form.federalCemetery === false,
               'ui:options': {
-                expandUnder: 'federalCemetary',
+                expandUnder: 'federalCemetery',
                 expandUnderCondition: false
               }
             },
@@ -355,11 +355,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['placeOfRemains', 'federalCemetary', 'govtContributions'],
+            required: ['placeOfRemains', 'federalCemetery', 'govtContributions'],
             properties: {
               placeOfRemains,
-              federalCemetary,
-              stateCemetary,
+              federalCemetery,
+              stateCemetery,
               govtContributions,
               amountGovtContribution
             }

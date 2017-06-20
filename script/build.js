@@ -310,6 +310,20 @@ smith.use(collections({
       name: 'Health Care'
     }
   },
+  lifeInsurance: {
+    pattern: 'life-insurance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Life Insurance'
+    }
+  },
+  lifeInsuranceOptions: {
+    pattern: 'life-insurance/options-and-eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Options'
+    }
+  },
   pension: {
     pattern: 'pension/*.md',
     sortBy: 'order',
