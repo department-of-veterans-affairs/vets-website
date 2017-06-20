@@ -10,14 +10,18 @@ import {
   changePage,
   CLEAR_NOTIFICATION,
   clearNotification,
+  FETCH_APPEALS,
   FETCH_CLAIMS,
   GET_CLAIM_DETAIL,
+  getAppeals,
   getClaimDetail,
   getClaims,
   REMOVE_FILE,
   removeFile,
   RESET_UPLOADS,
   resetUploads,
+  SET_APPEALS_UNAVAILABLE,
+  SET_APPEALS,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
   SET_CLAIMS,
@@ -193,6 +197,46 @@ describe('Actions', () => {
       expect(uploaderSpy.called).to.be.true;
       expect(dispatchSpy.firstCall.args[0].type).to.equal(CANCEL_UPLOAD);
     });
+  });
+  describe('getAppeals', () => {
+    beforeEach(mockFetch);
+    it('should fetch claims', (done) => {
+      const appeals = [];
+      fetchMock.returns({
+        then: (fn) => fn({ ok: true, json: () => Promise.resolve(appeals) })
+      });
+      const thunk = getAppeals();
+      const dispatchSpy = sinon.spy();
+      const dispatch = (action) => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    it('should fail on error', (done) => {
+      const appeals = [];
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(appeals) })
+      });
+      const thunk = getAppeals();
+      const dispatchSpy = sinon.spy();
+      const dispatch = (action) => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS_UNAVAILABLE);
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    afterEach(unMockFetch);
   });
   describe('getClaims', () => {
     beforeEach(mockFetch);
