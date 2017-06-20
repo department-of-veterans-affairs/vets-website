@@ -56,7 +56,7 @@ class SaveFormLink extends React.Component {
             onUpdateLoginUrl={this.props.onUpdateLoginUrl}
             onLogin={saveForm}/>
         {savedStatus === SAVE_STATUSES.failure &&
-          <div className="usa-alert usa-alert-error no-background-image schemaform-save-error">We're sorry, but something went wrong. Please try saving your application again.</div>}
+          <div className="usa-alert usa-alert-error no-background-image schemaform-save-error">We’re sorry, but something went wrong. Please try saving your application again.</div>}
         {content}
       </div>
     );
