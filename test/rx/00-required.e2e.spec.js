@@ -14,9 +14,6 @@ module.exports = E2eHelpers.createE2eTest(
     // Test flow for unauthed and LOA1 users
     LoginHelpers.testUnauthedUserFlow(client, '/healthcare/prescriptions');
 
-    // Test flow for unauthed and LOA1 users
-    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/prescriptions');
-
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .assert.title('Refill your prescriptions: Vets.gov')

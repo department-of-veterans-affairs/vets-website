@@ -14,9 +14,6 @@ module.exports = E2eHelpers.createE2eTest(
     // Test flow for unauthed and LOA1 users
     LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
 
-    // Test flow for unauthed and LOA1 users
-    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/messaging');
-
     // Ensure main page (inbox) renders.
     LoginHelpers.logIn(token, client, '/healthcare/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
