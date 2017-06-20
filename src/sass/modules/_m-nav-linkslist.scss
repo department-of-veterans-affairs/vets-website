@@ -9,12 +9,13 @@
 //============================================
 
 .va-nav-linkslist {
-  margin-bottom: 4rem;
-  padding: 0;
+  margin: 1rem 0 0;
+  padding: 0 0 1rem 0;
 
   &--related {
     background: $color-gray-lightest;
-    padding: 0 1.6rem;
+    padding: 0.1rem 1.6rem;
+    margin: 2.6rem 0 4rem;
   }
 
   &-heading {
