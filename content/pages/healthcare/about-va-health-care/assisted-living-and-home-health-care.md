@@ -33,7 +33,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 ### What kinds of long-term care services does VA offer for sick or disabled Veterans?
 
-We offer services, including:
+Our long-term care services include:
 
 - 24/7 nursing and medical care
 - Physical therapy
@@ -49,7 +49,7 @@ You can get this care in many different settings—some run by VA and others run
 - Adult day health centers
 - Veterans’ own homes
 
-You can learn more about the different types of care below or on our va.gov website. [Visit our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
+You can learn more about the different types of care below or on our va.gov website. [See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
 
 </div>
 
@@ -63,7 +63,7 @@ You may be able to use one or more of these services if:
 
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
-To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
+To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
 If you're not currently in the VA health care program, you can apply for benefits now. [Apply now](/healthcare/apply/).
 
@@ -73,11 +73,11 @@ We cover some of these services under your standard health benefits if you’re 
 
 Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
 
-[Visit our guide to paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
+[Learn more about paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
 
 ### Where can I get more information and support?
 
-- Get help setting goals and priorities and making tough decisions about things like long-term care. [Visit our guide to shared decision making](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+- Get help setting goals and priorities and making tough decisions about things like long-term care. [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
 - Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).  
 - Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
@@ -88,8 +88,8 @@ Other services aren’t covered under VA health care benefits. For these service
 **Jump to a section:**
 
 - [What are my options for nursing home care through VA?](#health-assisted-options)
-- [What if I don’t need nursing home care, but can’t live alone because of physical or mental health conditions and don’t have family to help me?](#health-assisted-alone)
-- [What if I have a disability or chronic (long-term) health condition, but want to stay in my home?](#health-assisted-disability)
+- [What if I don’t need nursing home care, but I can’t live alone because of physical or mental health conditions and I don’t have family to help me?](#health-assisted-alone)
+- [What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?](#health-assisted-disability)
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
 
@@ -99,7 +99,7 @@ Other services aren’t covered under VA health care benefits. For these service
 
 You can get nursing home care in 1 of the 3 different nursing home settings listed below. In each, you’d live there full time and have access to nursing and medical care as well as help with daily tasks 24 hours a day.
 
-You may be able to get VA benefits to help pay for nursing home care. This would depend on your income and the level of your service-connected disability (a disability that resulted from your military service).
+You may be able to get VA benefits to help pay for nursing home care. It depends on your income and the level of your service-connected disability (a disability that resulted from your military service).
 
 Learn more about:
 
@@ -114,7 +114,7 @@ State-owned and -managed centers that provide full-time care for Veterans and, s
 
 <span id="health-assisted-alone">
 
-#### What if I don’t need nursing home care, but can’t live alone because of physical or mental health conditions and don’t have family to help me?
+#### What if I don’t need nursing home care, but I can’t live alone because of physical or mental health conditions and I don’t have family to help me?
 
 You may be able to get community residential (live-in) care in settings such as those listed below. In each setting, a trained professional will provide care and support with daily tasks 24 hours a day.
 
@@ -123,7 +123,7 @@ These places are not run, staffed, or paid for by VA, but we do inspect and appr
 Learn more about:
 
 [Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp)
-Private homes where a few people live together and get care.
+Private homes where a few people live together and get care
 
 [Adult family homes (or adult foster homes)](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Adult_Family_Homes.asp)
 Private homes with rooms to rent for 6 or fewer people
@@ -133,7 +133,7 @@ Centers where Veterans can live in a rented room or apartment, and have access t
 
 <span id="health-assisted-disability">
 
-#### What if I have a disability or chronic (long-term) health condition, but want to stay in my home?
+#### What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?
 
 If you’re signed up for VA health care, you can get help managing your disability or health condition while living at home. The services you qualify for will depend on your needs and whether a service is available in your area. If you need to, you may be able to use more than 1 service at the same time.
 
