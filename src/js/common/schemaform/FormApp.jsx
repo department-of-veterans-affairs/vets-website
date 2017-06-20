@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES, setFetchFormStatus } from './save-load-actions';
+import { LOAD_STATUSES, setFetchFormStatus, fetchInProgressForm } from './save-load-actions';
 import LoadingPage from './LoadingPage';
 
 import { updateLogInUrl } from '../../login/actions';
@@ -28,7 +28,9 @@ class FormApp extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.loadedStatus === LOAD_STATUSES.success) {
-      this.resumeForm(newProps);
+      newProps.router.push(newProps.returnUrl);
+      // Set loadedStatus in redux to not-attempted to not show the loading page
+      newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     }
   }
 
@@ -58,11 +60,8 @@ class FormApp extends React.Component {
     this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
   }
 
-  // NOTE: This won't work on the loading page yet
-  resumeForm = (props = this.props) => {
-    props.router.push(props.returnUrl);
-    // Set loadedStatus in redux to not-attempted to not show the loading page
-    props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+  resumeForm = () => {
+    this.props.fetchInProgressForm(this.props.formConfig.formId, this.props.formConfig.migrations);
   }
 
   goToBeginning = () => {
@@ -85,7 +84,7 @@ class FormApp extends React.Component {
           loadedStatus={this.props.loadedStatus}
           errorMessages={formConfig.savedFormErrorMessages}
           goBack={this.resetLoading}
-          resumeForm={this.resumeForm}
+          retry={this.resumeForm}
           startOver={this.goToBeginning}
           isLoggedIn={this.props.isLoggedIn}
           loginUrl={this.props.loginUrl}
@@ -136,6 +135,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setFetchFormStatus,
+  fetchInProgressForm,
   updateLogInUrl
 };
 

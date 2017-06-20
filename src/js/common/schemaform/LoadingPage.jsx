@@ -21,30 +21,31 @@ class LoadingPage extends React.Component {
     );
   }
 
-  loadForm = () => {
-    // console.log('Placeholder for loading the form after logging in.');
+  getRetryButton = () => {
+    const text = this.props.type === 'loading'
+      ? 'Resume previous application'
+      : 'Save';
+    return <button className="usa-button-primary" onClick={this.props.retry}>{text}</button>;
   }
 
   render() {
     const { loadedStatus } = this.props;
     const { noAuth, notFound } = this.props.errorMessages;
     let content;
+    let errorText;
 
     switch (loadedStatus) {
       case LOAD_STATUSES.noAuth:
         content = (
           <div>
             <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
-            {
-              // TODO: Make the Back and sign in buttons
-            }
             <div>
               <div style={{ marginTop: '30px' }}>
                 {this.getBackButton()}
                 <SignInLink
                     type="button"
                     className="usa-button-primary"
-                    onLogin={this.loadForm}
+                    onLogin={this.props.retry}
                     isLoggedIn={this.props.isLoggedIn}
                     loginUrl={this.props.loginUrl}
                     onUpdateLoginUrl={this.props.onUpdateLoginUrl}>Sign in</SignInLink>
@@ -54,20 +55,26 @@ class LoadingPage extends React.Component {
         );
         break;
       case LOAD_STATUSES.failure:
+        errorText = this.props.type === 'loading'
+          ? 'Please try applying again in a few moments.'
+          : 'Please try saving again in a few moments.';
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. Please try applying again in a few moments.</div>
+            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. {errorText}</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
-              <button className="usa-button-primary" onClick={this.props.resumeForm}>Resume previous application</button>
+              {this.getRetryButton()}
             </div>
           </div>
         );
         break;
       case LOAD_STATUSES.notFound:
+        errorText = this.props.type === 'loading'
+          ? "We can't find your application."
+          : "We couldn't save your application";
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. We can't find your application. {notFound}</div>
+            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. {errorText} {notFound}</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton(true)}
             </div>
@@ -76,7 +83,11 @@ class LoadingPage extends React.Component {
         );
         break;
       default: // pending
-        content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+        content = (<LoadingIndicator message={
+            this.props.type === 'loading'
+              ? 'Wait a moment while we retrieve your saved form.'
+              : 'Wait a moment while we save your form.'
+          }/>);
         break;
     }
 
@@ -94,13 +105,20 @@ LoadingPage.propTypes = {
     notFound: PropTypes.string,
     noAuth: PropTypes.string
   }),
+  type: PropTypes.oneOf(['loading', 'saving']),
   goBack: PropTypes.func.isRequired,
-  resumeForm: PropTypes.func.isRequired,
   startOver: PropTypes.func.isRequired,
+  // Function to duplicate the action which got you to this page
+  retry: PropTypes.func.isRequired,
+
   // Prop threading for SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
   loginUrl: PropTypes.string,
   onUpdateLoginUrl: PropTypes.func.isRequired
+};
+
+LoadingPage.defaultProps = {
+  type: 'loading'
 };
 
 export default LoadingPage;

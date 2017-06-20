@@ -48,6 +48,7 @@ class SaveFormLink extends React.Component {
       content = <span>spinner or something</span>;
     }
 
+    // TODO: Remove LoginModal from here
     return (
       <div>
         <LoginModal

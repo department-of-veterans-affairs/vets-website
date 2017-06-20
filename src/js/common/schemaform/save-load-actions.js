@@ -192,21 +192,16 @@ export function fetchInProgressForm(formId, migrations) {
       },
     }).then((res) => {
       if (res.ok) {
-        // return res.json();
+        return res.json();
       }
 
-      // For testing purposes only.
-      const statusCode = 401;
-
       let status = LOAD_STATUSES.failure;
-      // if (res.status === 401) {
-      if (statusCode === 401) {
+      if (res.status === 401) {
         // TODO: If they've sat on the page long enough for their token to expire
         //  and try to load, tell them their session expired and they need to log
         //  back in and try again.
         status = LOAD_STATUSES.noAuth;
-      // } else if (res.status === 404) {
-      } else if (statusCode === 404) {
+      } else if (res.status === 404) {
         status = LOAD_STATUSES.notFound;
       }
       return Promise.reject(status);
@@ -258,7 +253,7 @@ export function fetchInProgressForm(formId, migrations) {
       dispatch(setFetchFormStatus(loadedStatus));
 
       // Return a rejected promise to tell the caller there was a problem
-      return Promise.reject();
+      return Promise.reject(status);
     });
   };
 }
