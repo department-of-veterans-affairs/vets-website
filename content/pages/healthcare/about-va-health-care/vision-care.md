@@ -38,7 +38,7 @@ Yes. If you have VA health care benefits, we’ll cover your routine eye exams a
 
 To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Find a VA medical center near you](/facilities/).
 
-If you’re a Blind or Low Vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for Blind and Low Vision Veteran services](/healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
+If you’re a blind or low vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for blind and low vision Veteran services](/healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
 
 </div>
 
@@ -64,11 +64,11 @@ We’ll also cover the cost of your eyeglasses if you have any of these issues:
   - A reaction to prescribed medicines
   - Cataract surgery or other surgeries of the eye, ear, or brain
   - Traumatic brain injury or polytrauma (injuries to more than 1 body part or organ, often caused by a blast)
-- Functional impairment (parts of your body that don’t work as well as they should) or cognitive impairment (problems with memory or thinking skills) that’s severe enough to make it hard for you to do everyday tasks
+- Functional impairment (parts of your body that don’t work as well as they should) or cognitive impairment (a problem with memory or thinking skills) that’s severe enough to make it hard for you to do everyday tasks
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
 For more information, contact the prosthetic representative at your nearest VA medical center or clinic. [Find a VA health facility near you](/facilities/).
 
 ### If I have vision and hearing loss, will VA cover the cost of hearing aids too?
 
-[Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp).
+[Find out how to get hearing aids through VA](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp).
