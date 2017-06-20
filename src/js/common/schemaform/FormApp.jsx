@@ -140,3 +140,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
+
+export { FormApp };
