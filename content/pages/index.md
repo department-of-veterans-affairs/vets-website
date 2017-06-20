@@ -18,6 +18,9 @@ majorlinks:
     - url: /employment/
       title: Careers and Employment
       description: Get help building your career skills and finding a job.
+    - url: /life-insurance/
+      title: Life Insurance
+      description: Explore VA life insurance options, manage your policy online, and file claims.
     - url: /pension/
       title: Pension Benefits
       description: Apply for monthly pension benefits for wartime Veterans and survivors.
