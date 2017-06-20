@@ -231,7 +231,7 @@ const formConfig = {
                 expandUnder: 'nationalGuardActivation',
               },
               name: {
-                'ui:title': 'Name of Reserve/NG unit',
+                'ui:title': 'Name of Reserve/National Guard unit',
               },
               address: address.uiSchema('Unit address'),
               phone: phoneUI('Unit phone number'),
