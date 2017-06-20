@@ -757,7 +757,6 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField,
-                //'ui:order': ['relationship', 'fullName', 'childDateOfBirth', 'attendingCollege', 'disabled']
               },
               items: {
                 relationship: {
@@ -782,15 +781,15 @@ const formConfig = {
                     hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
                   }
                 }),
-                'view:relationship': {
+                childRelationship: {
                   'ui:title': 'Relationship',
-                  'ui:widget': 'checkbox',
+                  'ui:widget': 'radio',
                   'ui:options': {
                     hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
                     labels: {
-                      biological: 'biological',
-                      adopted: 'adopted',
-                      stepchild: 'stepchild'
+                      biological: 'Biological child',
+                      adopted: 'Adopted child',
+                      stepchild: 'Stepchild'
                     }
                   }
                 },
@@ -891,9 +890,14 @@ const formConfig = {
                     fullName: dependents.items.properties.fullName,
                     childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
                     childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
-                    biological: dependents.items.properties.biological,
-                    adopted: dependents.items.properties.adopted,
-                    stepchild: dependents.items.properties.stepchild,
+                    childRelationship: {
+                      type: 'string',
+                      'enum': [
+                        'biological',
+                        'adopted',
+                        'stepchild'
+                      ]
+                    },
                     childDateOfBirth: dependents.items.properties.childDateOfBirth,
                     attendingCollege: dependents.items.properties.attendingCollege,
                     disabled: dependents.items.properties.disabled,
