@@ -42,7 +42,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### Ready to apply?
 
 <div class="wizard-container">
-  <button class="usa-button-primary va-button-primary wizard-button">Apply for or Update Benefits</button>
+  <button class="usa-button-primary va-button-primary wizard-button">Select Correct Form</button>
 
   <p>
     <div class="form-expanding-group-open wizard-content wizard-content-closed">
@@ -66,8 +66,8 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           </div>
         </div>
         <div class="wizard-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
-        <label>Are you claiming a National Call to Service education benefit?<br />
-              (This is very rare)
+        <label>Are you claiming a <strong>National Call to Service</strong> education benefit?<br />
+              (This is uncommon)
           </label>
           <div class="form-radio-buttons">
             <input type="radio" name="national-call-to-service" id="is-ncts" value="is-ncts" data-selected-form="1990n" data-alternate="is-not-ncts">
@@ -111,8 +111,8 @@ If you’re a Servicemember, Veteran, or family member interested in education a
           <p style="margin:0;">Are all of the following things true of your service?</p>
           <ul>
             <li>Enlisted under the National Call to Service program, <strong>and</strong></li>
-            <li>Chose education benefits, <strong>and</strong></li>
-            <li>Entered service between 10/01/03 and 12/31/07</li>
+            <li>Entered service between 10/01/03 and 12/31/07, <strong>and</strong></li>
+            <li>Chose education benefits</li>
           </ul>
         </div>
         </div>
