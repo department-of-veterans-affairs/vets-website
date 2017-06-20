@@ -14,7 +14,7 @@ import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-// import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { validateBooleanGroup } from '../../common/schemaform/validation';
 
 const {
   relationship,
@@ -189,14 +189,30 @@ const formConfig = {
             },
             'view:sponsorMilitaryStatus': {
               'ui:title': 'Sponsor military status to determine eligibility. Check all that apply.',
-              veteran: { 'ui:title': 'Veteran' },
-              retiredActiveDuty: { 'ui:title': 'Retired Active Duty' },
-              diedOnActiveDuty: { 'ui:title': 'Died on Active Duty' },
-              retiredReserve: { 'ui:title': 'Retired Reserve' },
-              retiredNationalGuard: { 'ui:title': 'Retired National Guard' },
-              deathInactiveDuty: { 'ui:title': 'Death Related to Inactive Duty Training' },
-              other: { 'ui:title': 'Other' },
-              // 'ui:validations': [validateBooleanGroup],
+              veteran: {
+                'ui:title': 'Veteran'
+              },
+              retiredActiveDuty: {
+                'ui:title': 'Retired Active Duty'
+              },
+              diedOnActiveDuty: {
+                'ui:title': 'Died on Active Duty'
+              },
+              retiredReserve: {
+                'ui:title': 'Retired Reserve'
+              },
+              retiredNationalGuard: {
+                'ui:title': 'Retired National Guard'
+              },
+              deathInactiveDuty: {
+                'ui:title': 'Death Related to Inactive Duty Training'
+              },
+              other: {
+                'ui:title': 'Other'
+              },
+              'ui:validations': [
+                validateBooleanGroup
+              ],
               'ui:options': {
                 showFieldLabel: true
               }
