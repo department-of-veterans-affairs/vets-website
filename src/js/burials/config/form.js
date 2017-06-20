@@ -407,6 +407,7 @@ const formConfig = {
           depends: form =>
             form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
+            'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
