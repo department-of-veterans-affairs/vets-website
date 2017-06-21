@@ -6,40 +6,37 @@ import fullSchemaPreNeed from './schema.json';
 // import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { relationshipLabels, locationOfDeathLabels } from '../utils/labels.jsx';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
-import * as personId from '../../common/schemaform/definitions/personId';
-import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 
 const {
   relationship,
-  claimantFullName,
   veteranFullName,
   veteranMaidenName,
   veteranSocialSecurityNumber,
   veteranDateOfBirth,
   sponsorFullName,
   sponsorSocialSecurityNumber,
+  sponsorMilitaryServiceNumber,
+  sponsorVAClaimNumber,
   sponsorDateOfBirth,
+  sponsorPlaceOfBirth,
+  sponsorDeceased,
   sponsorDateOfDeath,
+  sponsorGender,
   sponsorMaritalStatus,
-  locationOfDeath,
-  burialDate,
-  deathDate,
-  claimantEmail,
-  claimantPhone
+  sponsorMilitaryStatus
 } = fullSchemaPreNeed.properties;
 
 const {
   fullName,
-  vaFileNumber,
   ssn,
   date,
+  gender,
   usaPhone
 } = fullSchemaPreNeed.definitions;
 
@@ -54,9 +51,9 @@ const formConfig = {
   subTitle: 'Form 40-10007',
   defaultDefinitions: {
     fullName,
-    vaFileNumber,
     ssn,
     date,
+    gender,
     usaPhone
   },
   chapters: {
@@ -187,7 +184,7 @@ const formConfig = {
                 }
               }
             },
-            'view:sponsorMilitaryStatus': {
+            sponsorMilitaryStatus: {
               'ui:title': 'Sponsor military status to determine eligibility. Check all that apply.',
               veteran: {
                 'ui:title': 'Veteran'
@@ -225,89 +222,26 @@ const formConfig = {
               'sponsorDeceased',
               'sponsorGender',
               'sponsorMaritalStatus',
-              'view:sponsorMilitaryStatus'
+              'sponsorMilitaryStatus'
             ],
             properties: {
               sponsorFullName,
               sponsorSocialSecurityNumber,
-              sponsorMilitaryServiceNumber: { type: 'string' },
-              sponsorVAClaimNumber: { type: 'string' },
+              sponsorMilitaryServiceNumber,
+              sponsorVAClaimNumber,
               sponsorDateOfBirth,
-              sponsorPlaceOfBirth: { type: 'string' },
-              sponsorDeceased: {
-                type: 'string',
-                enum: ['Y', 'N', 'U']
-              },
+              sponsorPlaceOfBirth,
+              sponsorDeceased,
               sponsorDateOfDeath,
               sponsorAddress: address.schema(fullSchemaPreNeed),
-              sponsorGender: {
-                type: 'string',
-                enum: ['M', 'F']
-              },
-              sponsorMaritalStatus: {
-                type: 'string',
-                enum: [
-                  'single',
-                  'separated',
-                  'married',
-                  'divorced',
-                  'widowed'
-                ]
-              },
-              'view:sponsorMilitaryStatus': {
-                type: 'object',
-                properties: {
-                  veteran: { type: 'boolean' },
-                  retiredActiveDuty: { type: 'boolean' },
-                  diedOnActiveDuty: { type: 'boolean' },
-                  retiredReserve: { type: 'boolean' },
-                  retiredNationalGuard: { type: 'boolean' },
-                  deathInactiveDuty: { type: 'boolean' },
-                  other: { type: 'boolean' }
-                }
-              }
+              sponsorGender,
+              sponsorMaritalStatus,
+              sponsorMilitaryStatus
             }
           }
         }
       }
     },
-    claimantInformation: {
-      title: 'Claimant Information',
-      pages: {
-        claimantInformation: {
-          title: 'Claimant information',
-          path: 'claimant-information',
-          uiSchema: {
-            claimantFullName: fullNameUI,
-            relationship: {
-              type: {
-                'ui:title': 'Relationship to the deceased veteran',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: relationshipLabels
-                }
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': (form) => _.get('relationship.type', form) === 'other',
-                'ui:options': {
-                  expandUnder: 'type',
-                  expandUnderCondition: 'other'
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantFullName', 'relationship'],
-            properties: {
-              claimantFullName,
-              relationship
-            }
-          }
-        }
-      }
-    }
   }
 };
 
