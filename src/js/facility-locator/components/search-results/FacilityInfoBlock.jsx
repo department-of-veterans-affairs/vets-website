@@ -27,7 +27,7 @@ class FacilityInfoBlock extends Component {
 
   render() {
     const { facility } = this.props;
-    const { name, facility_type: facilityType } = facility.attributes;
+    const { name, facilityType } = facility.attributes;
 
     return (
       <div>

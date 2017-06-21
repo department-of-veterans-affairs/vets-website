@@ -1,9 +1,13 @@
+import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
+import 'isomorphic-fetch';
+import { logOut } from '../../login/actions';
+
+import { setData } from './actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
-export const LOAD_DATA_INTO_FORM = 'LOAD_DATA_INTO_FORM';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -23,10 +27,11 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export function setSaveFormStatus(status) {
+export function setSaveFormStatus(status, lastSavedDate = null) {
   return {
     type: SET_SAVE_FORM_STATUS,
-    status
+    status,
+    lastSavedDate
   };
 }
 
@@ -44,11 +49,6 @@ export function setInProgressForm(data) {
   };
 }
 
-export function loadInProgressDataIntoForm() {
-  return {
-    type: LOAD_DATA_INTO_FORM
-  };
-}
 
 /**
  * Transforms the data from an old version of a form to be used in the latest
@@ -62,7 +62,7 @@ export function loadInProgressDataIntoForm() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-function migrateFormData(savedData, savedVersion, migrations) {
+export function migrateFormData(savedData, savedVersion, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -99,11 +99,14 @@ function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {Object}  formData  The data the user has entered so far
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
   // Double stringify because of api reasons. Olive Branch issues, methinks.
+  // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
-      returnUrl
+      returnUrl,
+      savedAt
     }),
     formData: JSON.stringify(formData)
   });
@@ -112,14 +115,15 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      return;
+      return Promise.resolve();
     }
 
     // Update UI while we're waiting for the API
     dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
 
     // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    // (returning for testing purposes only)
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -129,17 +133,26 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success));
-      } else {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
-        if (res.status === 401) {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
+        return Promise.resolve();
+      }
+
+      return Promise.reject(res);
+    })
+    .catch((resOrError) => {
+      if (resOrError instanceof Response) {
+        if (resOrError.status === 401) {
+          // This likely means their session expired, so mark them as logged out
+          dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         }
+
+        Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        Raven.captureException(resOrError);
       }
     });
   };
@@ -156,19 +169,21 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  */
 export function fetchInProgressForm(formId, migrations) {
   // TODO: Test if the form is still saved after submission.
+  // TODO: Migrations currently aren't sent; they're taken from `form` in the
+  //  redux store, but form.migrations doesn't exist (nor should it, really)
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      return;
+      return Promise.reject('no auth');
     }
 
     // Update UI while we're waiting for the API
     dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
-    // Query the api
-    fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    // Query the api and return a promise (for navigation / error handling afterward)
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
@@ -176,7 +191,6 @@ export function fetchInProgressForm(formId, migrations) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      // console.log('res', res);
       if (res.ok) {
         return res.json();
       }
@@ -191,9 +205,10 @@ export function fetchInProgressForm(formId, migrations) {
         status = LOAD_STATUSES.notFound;
       }
       return Promise.reject(status);
-    }).then((resBody) => {  // eslint-disable-line consistent-return
+    }).then((resBody) => {
       // Just in case something funny happens where the json returned isn't an object as expected
-      if (typeof resBody !== 'object') {
+      // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
+      if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
 
@@ -220,17 +235,25 @@ export function fetchInProgressForm(formId, migrations) {
       //  function to see if the form has been filled in, so this is setting the
       //  data in a separate place to be pulled in when we _actually_ want to load
       //  the formData.
-      // dispatch(setData(formData));
+      dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
+
+      return Promise.resolve();
     }).catch((status) => {
       let loadedStatus = status;
-      // if res.json() has a parsing error, it'll reject with a SyntaxError
       if (status instanceof SyntaxError) {
+        // if res.json() has a parsing error, it'll reject with a SyntaxError
         // TODO: Log this somehow...Sentry error?
         console.error('Could not parse response.', status); // eslint-disable-line no-console
         loadedStatus = LOAD_STATUSES.invalidData;
+      } else if (status instanceof Error) {
+        // If we've got an error that isn't a SyntaxError, it's probably a network error
+        loadedStatus = LOAD_STATUSES.failure;
       }
       dispatch(setFetchFormStatus(loadedStatus));
+
+      // Return a rejected promise to tell the caller there was a problem
+      return Promise.reject();
     });
   };
 }

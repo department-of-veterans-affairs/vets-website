@@ -3,6 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import VALettersApp from '../../../src/js/va-letters/containers/VALettersApp';
+
 import reducer from '../../../src/js/va-letters/reducers';
 import createCommonStore from '../../../src/js/common/store';
 

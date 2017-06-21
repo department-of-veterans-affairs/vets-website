@@ -25,7 +25,8 @@ const initialState = {
   terms: {
     loading: false,
     terms: {},
-  }
+  },
+  savedForms: []
 };
 
 function profileInformation(state = initialState, action) {

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node script/build.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "node script/build.js --entry no-react",
+    "heroku-postbuild": "node script/build.js --entry no-react,style",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
@@ -192,6 +192,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#90e51bdfe77b29cf1a55e63bc473e9fecc7a7842"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ef8badb778d1764b91311a62c041d9df0fc9fe09"
   }
 }

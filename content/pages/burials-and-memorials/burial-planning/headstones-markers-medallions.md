@@ -1,14 +1,11 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Headstones, Markers, Niche Covers, and Medallions
 concurrence: incomplete
-template: 6-info-page
-relatedlinks:
- - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
-   title: Burial Flags and Presidential Memorial Certificates
-   description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial      Certificate.
 ---
 
+<div class="va-introtext">
 
 To honor the military service of a deceased Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
@@ -36,7 +33,7 @@ You can apply for this benefit if you’re:
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
-- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s internment or memorialization, **or**
+- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s interment or memorialization, **or**
 - Any individual, if the Veteran’s service ended before April 6, 1917
 
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.

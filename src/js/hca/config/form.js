@@ -8,6 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
@@ -24,6 +25,7 @@ import {
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
+import SIPIntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -41,6 +43,7 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 
 const childSchema = createChildSchema(fullSchemaHca);
 const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
+const emptyFacilityList = [];
 
 const {
   mothersMaidenName,
@@ -115,14 +118,16 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: 'hca',
   version: 0,
-  disableSave: true,
+  // Disable save in progress for production
+  disableSave: __BUILDTYPE__ === 'production',
   transformForSubmit: transform,
-  // TODO: When save in progress is released, change the intro page
-  introduction: IntroductionPage,
+  // Use the old intro page for production, but SiP for dev and staging
+  introduction: __BUILDTYPE__ === 'production' ? IntroductionPage : SIPIntroductionPage,
   confirmation: ConfirmationPage,
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10ez',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     provider,
@@ -804,12 +809,12 @@ const formConfig = {
                     const state = _.get('view:preferredFacility.view:facilityState', form);
                     if (state) {
                       return {
-                        'enum': medicalCentersByState[state]
+                        'enum': medicalCentersByState[state] || emptyFacilityList
                       };
                     }
 
                     return {
-                      'enum': []
+                      'enum': emptyFacilityList
                     };
                   }
                 }
@@ -833,10 +838,12 @@ const formConfig = {
                 properties: {
                   'view:facilityState': {
                     type: 'string',
-                    'enum': states.USA.map(state => state.value)
+                    'enum': states.USA
+                      .map(state => state.value)
+                      .filter(state => !!medicalCentersByState[state])
                   },
                   vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    'enum': []
+                    'enum': emptyFacilityList
                   })
                 }
               },

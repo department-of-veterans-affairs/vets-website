@@ -16,10 +16,12 @@ require('../../sass/hca.scss');
 const store = createCommonStore(reducer);
 createLoginWidget(store);
 
-// Change the basename path once we replace hca with this form
-// (should be 'healthcare/appy/application')
+const folderName = window.location.pathname.indexOf('health-care/') >= 0
+  ? 'health-care'
+  : 'healthcare';
+
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/healthcare/apply/application'
+  basename: `/${folderName}/apply/application`
 });
 
 function init() {

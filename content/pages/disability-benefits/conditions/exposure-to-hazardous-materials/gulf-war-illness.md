@@ -4,7 +4,7 @@ title: Gulf War Illness
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -46,8 +46,7 @@ We consider these illnesses to be presumed disabilities:
 - Shigella
 - West Nile Virus
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
-
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/). <br>
 [Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
 
@@ -78,3 +77,7 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 - The Gulf of Aden and the Gulf of Oman
 - The waters of the Persian Gulf, the Arabian Sea, and the Red Sea
 - The airspace above these locations
+
+### What if I need help filing my disability claim?
+
+You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).

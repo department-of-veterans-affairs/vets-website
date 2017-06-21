@@ -23,7 +23,6 @@ import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
-  LOAD_DATA_INTO_FORM,
   SAVE_STATUSES,
   LOAD_STATUSES
 } from '../save-load-actions';
@@ -104,8 +103,12 @@ export default function createSchemaFormReducer(formConfig) {
       loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
+      lastSaveDate: null,
       disableSave: formConfig.disableSave,
-      // loadedData: undefined
+      loadedData: {
+        formData: {},
+        metadata: {}
+      },
       migrations: formConfig.migrations
     });
 
@@ -141,22 +144,23 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set('submission', submission, state);
       }
       case SET_SAVE_FORM_STATUS: {
-        return _.set('savedStatus', action.status, state);
-      }
-      case SET_FETCH_FORM_STATUS: {
-        const newState = _.set('loadedStatus', action.status, state);
-        newState.loadedStatus = LOAD_STATUSES.success;
+        const newState = _.set('savedStatus', action.status, state);
+
+        // This is the only time we have a saved datetime
+        if (action.status === SAVE_STATUSES.success) {
+          return _.set('lastSavedDate', action.lastSavedDate, newState);
+        }
 
         return newState;
       }
-      case SET_IN_PROGRESS_FORM: {
-        return _.set('loadedData', action.data, state);
+      case SET_FETCH_FORM_STATUS: {
+        return _.set('loadedStatus', action.status, state);
       }
-      case LOAD_DATA_INTO_FORM: {
-        // Mirrors SET_DATA, but uses state.loadedData
-        const newState = _.set('data', state.loadedData.formData, state);
+      case SET_IN_PROGRESS_FORM: {
+        const newState = _.set('loadedData', action.data, state);
+        newState.loadedStatus = LOAD_STATUSES.success;
 
-        return recalculateSchemaAndData(newState);
+        return newState;
       }
       default:
         return state;
