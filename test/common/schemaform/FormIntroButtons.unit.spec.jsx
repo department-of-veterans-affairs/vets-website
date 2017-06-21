@@ -30,7 +30,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved={false}
           route={route}
@@ -48,7 +48,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved={false}
           route={route}
@@ -66,7 +66,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
@@ -84,7 +84,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
@@ -105,7 +105,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
@@ -126,7 +126,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}

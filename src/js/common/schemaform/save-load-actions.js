@@ -167,7 +167,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations) {
+export function fetchInProgressForm(formId, migrations, prefill = false) {
   // TODO: Test if the form is still saved after submission.
   // TODO: Migrations currently aren't sent; they're taken from `form` in the
   //  redux store, but form.migrations doesn't exist (nor should it, really)
@@ -250,7 +250,14 @@ export function fetchInProgressForm(formId, migrations) {
         // If we've got an error that isn't a SyntaxError, it's probably a network error
         loadedStatus = LOAD_STATUSES.failure;
       }
-      dispatch(setFetchFormStatus(loadedStatus));
+
+      // If prefilling went wrong for a non-auth reason, it probably means that
+      // they didn't have info to use and we can continue on as usual
+      if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
+        dispatch(setFetchFormStatus(LOAD_STATUSES.success));
+      } else {
+        dispatch(setFetchFormStatus(loadedStatus));
+      }
 
       // Return a rejected promise to tell the caller there was a problem
       return Promise.reject(status);

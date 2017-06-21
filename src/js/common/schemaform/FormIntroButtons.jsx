@@ -22,10 +22,18 @@ class FormIntroButtons extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
 
-  handleLoadForm = () => {
+  handleLoadPrefill = () => {
+    if (this.props.isLoggedIn) {
+      this.handleLoadForm(true);
+    } else {
+      this.goToBeginning();
+    }
+  }
+
+  handleLoadForm = (prefill = false) => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations)
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations, prefill)
       // Should probably do GA or sentry or something, but for now...
       .catch((e) => console.error('Error loading form:', e)); // eslint-disable-line no-console
   }
@@ -49,7 +57,7 @@ class FormIntroButtons extends React.Component {
       <div>
         {resumeButton}
         <ProgressButton
-            onButtonClick={this.goToBeginning}
+            onButtonClick={this.handleLoadPrefill}
             buttonText={firstPageButtonText}
             buttonClass={firstPageButtonClass}
             afterText="»"/>
