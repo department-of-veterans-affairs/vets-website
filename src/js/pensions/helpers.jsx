@@ -41,7 +41,7 @@ export const spouseContribution = <span>How much do you <strong>contribute month
 
 export function fileHelp({ formContext }) {
   if (formContext.reviewMode) {
-    return <p/>;
+    return null;
   }
 
   return (

@@ -172,9 +172,10 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.click('button.usa-button-outline');
 
-    expect(formDOM.querySelectorAll('.usa-button').length).to.equal(2);
-    expect(formDOM.querySelectorAll('.usa-button')[0].textContent).to.equal('Replace');
-    expect(formDOM.querySelectorAll('.usa-button')[1].textContent).to.equal('Cancel');
+    const buttons = formDOM.querySelectorAll('.usa-button');
+    expect(buttons.length).to.equal(2);
+    expect(buttons[0].textContent).to.equal('Replace');
+    expect(buttons[1].textContent).to.equal('Cancel');
     expect(formDOM.querySelector('.va-growable-background a').textContent).to.equal('Delete file');
   });
 
