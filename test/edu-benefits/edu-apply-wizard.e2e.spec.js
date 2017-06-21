@@ -122,6 +122,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Navigate to application
     client
       .click('#apply-now-button')
+      .pause(1000)
       .assert.urlContains('/education/apply-for-education-benefits/application/1995/introduction');
 
     client
