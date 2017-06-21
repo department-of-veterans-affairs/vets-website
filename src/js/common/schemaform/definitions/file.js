@@ -10,7 +10,7 @@ export default function fileUiSchema(label, userOptions = {}) {
     'ui:options': _.assign({
       fileTypes: ['pdf', 'txt', 'jpg', 'jpeg', 'gif'],
       maxSize: 2097152,
-      endpoint: '/v0/ui_upload',
+      endpoint: '/v0/claim_attachments',
       addAnotherLabel: 'Add Another',
       showFieldLabel: true,
       keepInPageOnReview: true,
