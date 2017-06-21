@@ -33,7 +33,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Conditions related to when and where you served](/healthcare/health-conditions/conditions-related-to-service-era/)
 
-- [Mental health](/healthcare/health-conditions/mental-health/)
+- [Mental health](/healthcare/health-conditions/mental-health/), such as:
 
   - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
 
@@ -47,7 +47,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Women’s health care needs](/healthcare/health-conditions/womens-health-care-needs/)
 
-- [Cancers and other conditions caused by contact with harmful chemicals or other hazardous materials](/healthcare/health-conditions/exposure-to-hazardous-materials/)
+- [Cancers and other conditions caused by contact with hazardous materials](/healthcare/health-conditions/exposure-to-hazardous-materials/)
 
 - [Dental care](/healthcare/about-va-health-care/dental-care/)
 
@@ -65,7 +65,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/healthcare/about-va-health-care/).
 
-If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 <br>
 
