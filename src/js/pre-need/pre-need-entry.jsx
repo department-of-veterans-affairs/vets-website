@@ -16,8 +16,6 @@ require('../../sass/burials.scss');
 const store = createCommonStore(reducer);
 createLoginWidget(store);
 
-// Change the basename path once we replace hca with this form
-// (should be 'healthcare/appy/application')
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/burials-and-memorials/burial-planning/application'
 });
