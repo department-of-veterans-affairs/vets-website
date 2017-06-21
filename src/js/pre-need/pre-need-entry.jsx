@@ -1,34 +1,30 @@
-import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
-import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
+import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import VALettersApp from './containers/VALettersApp.jsx';
 import initReact from '../common/init-react';
-import routes from './routes.jsx';
-import reducer from './reducers';
+import route from './routes';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
+import reducer from './reducer';
 
 require('../common');
-require('../../sass/va-letters.scss');
+require('../../sass/burials.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);
-const history = useRouterHistory(createHistory)({
-  basename: '/va-letters'
+
+const browserHistory = useRouterHistory(createHistory)({
+  basename: '/burials-and-memorials/burial-planning/application'
 });
 
 function init() {
   ReactDOM.render((
     <Provider store={store}>
-      <Router history={history}>
-        <Route path="/" component={VALettersApp}>
-          <IndexRedirect to="/download-letters"/>
-          {routes}
-        </Route>
+      <Router history={browserHistory}>
+        {route}
       </Router>
     </Provider>
     ), document.getElementById('react-root'));

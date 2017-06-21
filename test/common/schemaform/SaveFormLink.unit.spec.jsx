@@ -46,7 +46,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('Sorry, your session has expired');
+    expect(tree.text()).to.contain('Sorry, you’re signed out.');
     expect(tree.subTree('a')).not.to.be.null;
   });
   it('should render save message when logged in', () => {
@@ -59,6 +59,18 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('Save and finish later');
+  });
+  it('should show error message', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+          user={user}
+          savedStatus={SAVE_STATUSES.failure}
+          saveForm={saveFormSpy}
+          onUpdateLoginUrl={updateLoginSpy}/>
+    );
+
+    expect(tree.text()).to.contain('We’re sorry, but something went wrong.');
+    expect(tree.subTree('a').text()).to.contain('Save and finish later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(

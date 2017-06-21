@@ -1,3 +1,13 @@
+{% comment %}
+Paths are generally in the form: 
+  `directory/markdown-file-name-without-extension`.
+
+Use `if path contains` to display content for a particular category and 
+its children.
+
+Use `if path ==` to display content for *exactly* a particular path. 
+{% endcomment %}
+
 <div class="small-12 usa-width-one-third medium-4 columns">
   <div>
     {% if path contains 'job-seekers' %}
@@ -17,17 +27,13 @@
       {% endif %}
 
       {% if path contains 'agent-orange/navy-coast-guard' %}
-
       <li>
       To contact VA:
 
       <li>- Call <a href="tel:+18008271000">800-827-1000</a> or <a href="tel:+18008294833">800-829-4833</a> (TDD for hearing impaired).</li>
       <li>- Go to your <a href="http://www.va.gov/directory/guide/division.asp?dnum=3">nearest VA benefits office</a>.</li>
-      </li>
 
-      <li>
-      Get more information about <a href="http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf">ships that may have been exposed to Agent Orange</a>.
-      </li>
+      <li>Get more information about <a href="http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf">ships that may have been exposed to Agent Orange</a>.</li>
         {% endif %}
 
         {% if path contains 'agent-orange/test-storage' %}
@@ -58,7 +64,17 @@
       {% if path contains 'contaminated-drinking-water-at-camp-lejeune' %}
         <li><a href="https://www.vets.gov/facility-locator/">Go to your VA regional office</a>.</li>
       {% endif %}
+        
+      {% if path contains 'life-insurance/options-and-eligibility' %}
+      <li>Already have VA life insurance? <a href="/life-insurance/manage-your-policy/">Manage your policy online</a>.</li>
+      <li>Need more information? <a href="http://www.benefits.va.gov/INSURANCE/ins_publications.asp">Read our insurance publications</a>.</li>
+      <li>Think you might have unclaimed funds? <a href="https://insurance.va.gov/UnclaimedFunds/">Search for unclaimed funds</a>.</li>
+      {% endif %}
 
+      {% if path contains 'disabled-and-terminally-ill' %}
+      <li> Need to file a benefits claim after your family member has died? <a href="/life-insurance/manage-your-policy/">Manage your policy online</a>.</li>
+      <li>Need more information? <a href="http://www.benefits.va.gov/INSURANCE/ins_publications.asp">Read our insurance publications</a>.</li>
+      {% endif %}
     </ul>
   </div>
 </div>
