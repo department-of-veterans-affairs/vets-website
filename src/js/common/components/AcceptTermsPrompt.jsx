@@ -20,7 +20,7 @@ class AcceptTermsPrompt extends React.Component {
 
   handleScroll(event) {
     const ct = event.currentTarget;
-    if ((ct.scrollTop + ct.offsetHeight) >= ct.scrollHeight) {
+    if ((ct.scrollTop + ct.offsetHeight + 100) >= ct.scrollHeight) {
       this.setState({ scrolledToBottom: true, yesSelected: this.state.yesSelected });
     }
   }
@@ -55,6 +55,8 @@ class AcceptTermsPrompt extends React.Component {
       noRadio = <div></div>;
     }
 
+    const actionButtonClass = `form-radio-buttons ${this.state.scrolledToBottom ? null : 'disabled'}`;
+
     return (
       <div className="row primary terms-acceptance">
         <div className="small-12 columns usa-content">
@@ -67,20 +69,20 @@ class AcceptTermsPrompt extends React.Component {
             <div className="terms-scroller" onScroll={this.handleScroll}>
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
-          </div>
-          <div className="form-radio-buttons">
-            <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer}/>
-            <label htmlFor="form-yes">
-              {terms.yesContent}
-            </label>
-            {noRadio}
+            <div className={actionButtonClass}>
+              <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer} disabled={!this.state.scrolledToBottom}/>
+              <label htmlFor="form-yes">
+                {terms.yesContent}
+              </label>
+              {noRadio}
+            </div>
           </div>
           <div>
             <div dangerouslySetInnerHTML={{ __html: terms.footerContent }}/>
           </div>
           <div>
             {submitButton}
-            <a href="/healthcare" className="usa-button usa-button-outline">
+            <a href={this.props.cancelPath} className="usa-button usa-button-outline">
               Cancel
             </a>
           </div>

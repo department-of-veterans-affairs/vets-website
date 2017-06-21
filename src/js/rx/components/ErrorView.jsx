@@ -37,7 +37,7 @@ class ErrorView extends React.Component {
       title = "We couldn't retrieve your prescriptions";
       detail = (
         <p>
-          Please <a onClick={window.location.reload(true)}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
         </p>
       );
     }
