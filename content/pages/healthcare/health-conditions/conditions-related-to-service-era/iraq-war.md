@@ -32,7 +32,7 @@ If you served in Iraq during Operation Iraqi Freedom or Operation New Dawn—fro
 
 You may be at risk of:
 
-- Health problems caused by toxic chemicals or other hazardous material in the environment, like:
+- Health problems caused by toxic chemicals or other hazardous materials in the environment, like:
   - **[Sand, dust, and particulates](http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp):** Tiny matter found in the air 
   - **[Burn pit smoke](http://www.publichealth.va.gov/exposures/burnpits/index.asp):** Smoke from open-air pits often used to get rid of waste (like chemicals, paints, munitions, and other substances) at military sites in Iraq  
   - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets
