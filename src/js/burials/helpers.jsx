@@ -7,11 +7,3 @@ export const expensesWarning = (
     </div>
   </div>
 );
-
-export const benefitsWarning = (
-  <div className="usa-alert usa-alert-error">
-    <div className="usa-alert-body">
-      <span>No allowance or reimbursement will be issued if you are not claiming a benefit.</span>
-    </div>
-  </div>
-);

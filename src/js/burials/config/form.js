@@ -6,7 +6,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { expensesWarning, benefitsWarning } from '../helpers';
+import { expensesWarning } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -222,50 +222,47 @@ const formConfig = {
           title: 'Benefits selection',
           path: 'benefits/selection',
           uiSchema: {
-            'ui:title': 'What benefits are you claiming?',
-            burialAllowance: {
-              'ui:title': 'Burial allowance',
-              'ui:widget': 'yesNo'
-            },
-            plotAllowance: {
-              'ui:title': 'Plot or interment allowance',
-              'ui:widget': 'yesNo'
-            },
-            transportation: {
-              'ui:title': 'Transportation reimbursement',
-              'ui:widget': 'yesNo'
-            },
-            amountIncurred: {
-              'ui:title': 'Amount incurred',
+            'view:claimedBenefits': {
+              'ui:title': 'What benefits are you claiming?',
+              burialAllowance: {
+                'ui:title': 'Burial allowance'
+              },
+              plotAllowance: {
+                'ui:title': 'Plot or interment allowance'
+              },
+              transportation: {
+                'ui:title': 'Transportation reimbursement'
+              },
+              amountIncurred: {
+                'ui:title': 'Amount incurred',
+                'ui:options': {
+                  expandUnder: 'transportation',
+                  classNames: 'schemaform-currency-input'
+                }
+              },
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:errorMessages': {
+                atLeastOne: 'Please choose at least one benefit'
+              },
               'ui:options': {
-                expandUnder: 'transportation',
-                classNames: 'schemaform-currency-input'
+                showFieldLabel: true
               }
-            },
-            'view:benefitsWarning': {
-              'ui:description': benefitsWarning,
-              'ui:options': {
-                hideIf: form => form.burialAllowance !== false || form.plotAllowance !== false || form.transportation !== false
-              }
-            },
-            'ui:validations': [
-              validateBooleanGroup
-            ],
-            'ui:errorMessages': {
-              atLeastOne: 'Please choose at least one benefit'
             }
           },
           schema: {
             type: 'object',
-            required: ['burialAllowance', 'plotAllowance', 'transportation'],
+            required: ['view:claimedBenefits'],
             properties: {
-              burialAllowance,
-              plotAllowance,
-              transportation,
-              amountIncurred,
-              'view:benefitsWarning': {
+              'view:claimedBenefits': {
                 type: 'object',
-                properties: {}
+                properties: {
+                  burialAllowance,
+                  plotAllowance,
+                  transportation,
+                  amountIncurred
+                }
               }
             }
           }
@@ -334,13 +331,13 @@ const formConfig = {
           }
         },
         plotAllowance: {
-          title: 'Plot or Interment Allowance',
+          title: 'Plot or interment allowance',
           path: 'benefits/plot-allowance',
           depends: form => _.get('view:claimedBenefits.plotAllowance', form) === true,
           uiSchema: {
-            'ui:title': 'Plot or Interment Allowance',
+            'ui:title': 'Plot or interment allowance',
             placeOfRemains: {
-              'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
+              'ui:title': 'Place of burial or location of deceased Veteran’s remains'
             },
             federalCemetery: {
               'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
@@ -362,7 +359,8 @@ const formConfig = {
             amountGovtContribution: {
               'ui:title': 'Amount of government or employer contribution:',
               'ui:options': {
-                expandUnder: 'govtContributions'
+                expandUnder: 'govtContributions',
+                classNames: 'schemaform-currency-input'
               }
             }
           },
@@ -384,7 +382,7 @@ const formConfig = {
       title: 'Claimant Contact Information',
       pages: {
         claimantContactInformation: {
-          title: 'Claimant Contact Information',
+          title: 'Claimant contact information',
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:validations': [
