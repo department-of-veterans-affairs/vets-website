@@ -15,7 +15,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../components/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
-import createDisclosureTitle from '../components/DisclosureTitle';
+import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
@@ -27,6 +27,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import nonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
   nationalGuardActivation,
@@ -67,7 +68,7 @@ function isUnder65(formData) {
 }
 
 function isBetween18And23(childDOB) {
-  return moment().startOf('day').subtract(23, 'years').isBefore(childDOB) && moment().startOf('day').subtract(18, 'years').isAfter(childDOB);
+  return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
 function isMarried(form) {
@@ -78,6 +79,14 @@ function isCurrentMarriage(form, index) {
   const status = form ? form.maritalStatus : undefined;
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return status === 'Married' && numMarriages - 1 === index;
+}
+
+function hasChildren(form) {
+  return form.dependents.some((dependent) => dependent.dependentRelationship === 'child');
+}
+
+function isChild(item) {
+  return !!_.get(['dependentRelationship'], item) === 'child';
 }
 
 const marriageProperties = marriages.items.properties;
@@ -759,17 +768,24 @@ const formConfig = {
                 viewField: DependentField,
               },
               items: {
-                relationship: {
+                dependentRelationship: {
                   'ui:title': 'Relationship to Veteran',
                   'ui:widget': 'radio',
                   'ui:options': {
                     labels: relationshipLabels
                   }
                 },
-                fullName: fullNameUI,
-                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
+                fullName: _.merge(fullNameUI, {
                   'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                    expandUnder: 'dependentRelationship',
+                    expandUnderCondition: () => true
+                  }
+                }),
+                childDateOfBirth: _.assign(currentOrPastDateUI('Date of birth'), {
+                  'ui:required': (form, index) => isChild(_.get(['dependents', index], form)),
+                  'ui:options': {
+                    expandUnder: 'dependentRelationship',
+                    expandUnderCondition: 'child'
                   }
                 }),
               }
@@ -788,9 +804,9 @@ const formConfig = {
                 minItems: 1,
                 items: {
                   type: 'object',
-                  required: ['relationship', 'fullName'],
+                  required: ['dependentRelationship', 'fullName'],
                   properties: {
-                    relationship: dependents.items.properties.relationship,
+                    dependentRelationship: dependents.items.properties.dependentRelationship,
                     fullName: dependents.items.properties.fullName,
                     childDateOfBirth: dependents.items.properties.childDateOfBirth,
                   }
@@ -802,9 +818,10 @@ const formConfig = {
         childrenInformation: {
           path: 'household/dependents/child/information/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} information`,
+          depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !!(item.relationship === 'child'),
+          itemFilter: (item) => !isChild(item),
           schema: {
             type: 'object',
             properties: {
@@ -812,17 +829,11 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'disabled', 'previouslyMarried'],
                   properties: {
                     childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
                     childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
-                    childRelationship: {
-                      type: 'string',
-                      'enum': [
-                        'biological',
-                        'adopted',
-                        'stepchild'
-                      ]
-                    },
+                    childRelationship: dependents.items.properties.childRelationship,
                     attendingCollege: dependents.items.properties.attendingCollege,
                     disabled: dependents.items.properties.disabled,
                     previouslyMarried: dependents.items.properties.previouslyMarried,
@@ -835,26 +846,17 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createDisclosureTitle('fullName', 'Information'),
+                'ui:title': createHouseholdMemberTitle('', 'Information'),
                 childPlaceOfBirth: {
-                  'ui:title': 'Place of Birth',
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
-                  }
+                  'ui:title': 'Place of Birth'
                 },
                 childSocialSecurityNumber: _.merge(ssnUI, {
-                  'ui:title': 'Social Security Number',
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
-                  }
+                  'ui:title': 'Social Security Number'
                 }),
                 childRelationship: {
                   'ui:title': 'Relationship',
                   'ui:widget': 'radio',
                   'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
                     labels: {
                       biological: 'Biological child',
                       adopted: 'Adopted child',
@@ -863,36 +865,28 @@ const formConfig = {
                   }
                 },
                 attendingCollege: {
-                  'ui:options': {
-                    expandUnder: 'childDateOfBirth',
-                    expandUnderCondition: (childDOB) => !!isBetween18And23(childDOB)
-                  },
                   'ui:title': 'Is your child in school?',
-                  'ui:widget': 'yesNo'
+                  'ui:widget': 'yesNo',
+                  'ui:required': (form, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                  'ui:options': {
+                    hideIf: (form, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                  }
                 },
                 disabled: {
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
-                  },
                   'ui:title': 'Is your child seriously disabled?',
-                  'ui:widget': 'yesNo'
+                  'ui:widget': 'yesNo',
                 },
                 previouslyMarried: {
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
-                  },
                   'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo'
+                  'ui:widget': 'yesNo',
                 },
                 married: {
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
+                  'ui:title': 'Are they currently married?',
+                  'ui:widget': 'yesNo',
+                  'ui:required': (form, index) => !!_.get(['dependents', index, 'previouslyMarried'], form),
                   'ui:options': {
                     expandUnder: 'previouslyMarried'
-                  },
-                  'ui:title': 'Are they currently married?',
-                  'ui:widget': 'yesNo'
+                  }
                 }
               }
             }
@@ -901,9 +895,10 @@ const formConfig = {
         childrenAddress: {
           path: 'household/dependents/child/address/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
+          depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !!(item.relationship === 'child'),
+          itemFilter: (item) => !isChild(item),
           schema: {
             type: 'object',
             properties: {
@@ -911,8 +906,9 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['childInHousehold'],
                   properties: {
-                    childNotInHousehold: dependents.items.properties.childNotInHousehold,
+                    childInHousehold: dependents.items.properties.childInHousehold,
                     childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild: dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment
@@ -924,24 +920,16 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createDisclosureTitle('fullName', 'Address'),
-                childNotInHousehold: {
+                'ui:title': createHouseholdMemberTitle('', 'Address'),
+                childInHousehold: {
                   'ui:title': 'Does your child live with you?',
-                  'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child',
-                    labels: {
-                      'false': 'Yes',
-                      'true': 'No'
-                    }
-                  }
+                  'ui:widget': 'yesNo'
                 },
-                childAddress: _.merge(address.uiSchema('Child address', false, (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form)),
+                childAddress: _.merge(address.uiSchema('Address', false, (form, index) => !_.get(['dependents', index, 'childInHousehold'], form)),
                   {
                     'ui:options': {
-                      expandUnder: 'childNotInHousehold',
-                      hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child' // included to prevent from showing unexpectedly
+                      expandUnder: 'childInHousehold',
+                      expandUnderCondition: false
                     }
                   }
                 ),
@@ -949,17 +937,24 @@ const formConfig = {
                   {
                     'ui:title': 'Who do they live with?',
                     'ui:options': {
-                      expandUnder: 'childNotInHousehold',
-                      hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child' // included to prevent from showing unexpectedly
+                      updateSchema: (form, index) => {
+                        if (!isChild(_.get('dependents', index), form)) {
+                          return fullName;
+                        }
+                        return nonRequiredFullName(fullName);
+                      },
+                      expandUnder: 'childInHousehold',
+                      expandUnderCondition: false
                     }
                   }
                 ),
                 monthlyPayment: {
                   'ui:title': 'How much do you contribute per month to their support?',
-                  'ui:required': (form, index) => !!_.get(['dependents', index, 'childNotInHousehold'], form),
+                  'ui:required': (form, index) => !_.get(['dependents', index, 'childInHousehold'], form),
                   'ui:options': {
                     classNames: 'schemaform-currency-input',
-                    expandUnder: 'childNotInHousehold'
+                    expandUnder: 'childInHousehold',
+                    expandUnderCondition: false
                   }
                 }
               }
@@ -982,7 +977,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('veteranFullName', 'Net worth'),
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Net worth'),
             'ui:description': 'Bank accounts, investments, and property',
             netWorth: netWorthUI
           }
@@ -1000,7 +995,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('veteranFullName', 'Monthly income'),
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Monthly income'),
             'ui:description': 'Social Security or other pensions',
             monthlyIncome: monthlyIncomeUI
           }
@@ -1018,7 +1013,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('veteranFullName', 'Expected income'),
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Expected income'),
             'ui:description': 'Any income you expect to receive in the next 12 months',
             expectedIncome: expectedIncomeUI
           }
@@ -1036,7 +1031,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouse', 'Net worth'),
+            'ui:title': createHouseholdMemberTitle('spouse', 'Net worth'),
             'ui:description': 'Bank accounts, investments, and property',
             spouseNetWorth: netWorthUI
           }
@@ -1054,7 +1049,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouse', 'Monthly income'),
+            'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
             'ui:description': 'Social Security or other pensions',
             spouseMonthlyIncome: monthlyIncomeUI
           }
@@ -1072,7 +1067,7 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': createDisclosureTitle('spouse', 'Expected income'),
+            'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: expectedIncomeUI
           }
@@ -1082,7 +1077,7 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !item.childNotInHousehold,
+          itemFilter: (item) => item.childInHousehold,
           schema: {
             type: 'object',
             properties: {
@@ -1100,7 +1095,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createDisclosureTitle('fullName', 'Net worth'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'Net worth'),
                 'ui:description': 'Bank accounts, investments, and property',
                 netWorth: netWorthUI
               }
@@ -1112,7 +1107,7 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} monthly income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !item.childNotInHousehold,
+          itemFilter: (item) => item.childInHousehold,
           initialData: {
           },
           schema: {
@@ -1132,7 +1127,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createDisclosureTitle('fullName', 'Monthly income'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'Monthly income'),
                 'ui:description': 'Social Security or other pensions',
                 monthlyIncome: monthlyIncomeUI
               }
@@ -1144,7 +1139,7 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} expected income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !item.childNotInHousehold,
+          itemFilter: (item) => item.childInHousehold,
           initialData: {
           },
           schema: {
@@ -1164,7 +1159,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createDisclosureTitle('fullName', 'Expected income'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
               }
