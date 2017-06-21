@@ -1,9 +1,7 @@
 import { apiRequest } from '../../common/helpers/api';
+import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELD = 'UPDATE_PROFILE_FIELD';
-export const FETCHING_MHV_TERMS_ACCEPTANCE = 'FETCHING_MHV_TERMS_ACCEPTANCE';
-export const FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS = 'FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS';
-export const FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE = 'FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE';
 export const FETCHING_LATEST_MHV_TERMS = 'FETCHING_LATEST_MHV_TERMS';
 export const FETCHING_LATEST_MHV_TERMS_SUCCESS = 'FETCHING_LATEST_MHV_TERMS_SUCCESS';
 export const FETCHING_LATEST_MHV_TERMS_FAILURE = 'FETCHING_LATEST_MHV_TERMS_FAILURE';
@@ -17,22 +15,6 @@ export function updateProfileField(propertyPath, value) {
     type: UPDATE_PROFILE_FIELD,
     propertyPath,
     value
-  };
-}
-
-export function checkAcceptance(termsName) {
-  return dispatch => {
-    dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE });
-
-    apiRequest(
-      `/terms_and_conditions/${termsName}/versions/latest/user_data`,
-      null,
-      response => dispatch({
-        type: FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS,
-        acceptance: response.data.attributes.createdAt
-      }),
-      () => dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE })
-    );
   };
 }
 
@@ -67,9 +49,10 @@ export function acceptTerms(termsName) {
     apiRequest(
       `/terms_and_conditions/${termsName}/versions/latest/user_data`,
       settings,
-      () => dispatch({
-        type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
-      }),
+      () => {
+        dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
+        getUserData(dispatch);
+      },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
   };
