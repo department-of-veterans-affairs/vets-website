@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
-template: 1-topic-landing
 ---
 
 <div class="va-introtext">

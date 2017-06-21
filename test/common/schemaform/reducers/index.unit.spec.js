@@ -7,6 +7,14 @@ import { SET_DATA,
   SET_SUBMITTED
 } from '../../../../src/js/common/schemaform/actions';
 
+import {
+  SET_SAVE_FORM_STATUS,
+  SET_FETCH_FORM_STATUS,
+  SET_IN_PROGRESS_FORM,
+  SAVE_STATUSES,
+  LOAD_STATUSES
+} from '../../../../src/js/common/schemaform/save-load-actions';
+
 import createSchemaFormReducer from '../../../../src/js/common/schemaform/reducers';
 
 describe('schemaform createSchemaFormReducer', () => {
@@ -62,6 +70,16 @@ describe('schemaform createSchemaFormReducer', () => {
       }
     };
     const reducer = createSchemaFormReducer(formConfig);
+
+    const data = {
+      formData: {
+        field: 'foo',
+      },
+      metadata: {
+        version: 0,
+        returnUrl: 'foo/bar'
+      }
+    };
 
     it('should set data state', () => {
       const state = reducer({
@@ -158,6 +176,37 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.submission.status).to.equal('applicationSubmitted');
       expect(state.submission.response).to.eql({ field: 'test' });
+    });
+    it('should set save form status', () => {
+      const state = reducer({
+        savedStatus: SAVE_STATUSES.notAttempted
+      }, {
+        type: SET_SAVE_FORM_STATUS,
+        status: SAVE_STATUSES.success
+      });
+
+      expect(state.savedStatus).to.equal(SAVE_STATUSES.success);
+    });
+    it('should set fetch form status', () => {
+      const state = reducer({
+        loadedStatus: LOAD_STATUSES.notAttempted
+      }, {
+        type: SET_FETCH_FORM_STATUS,
+        status: LOAD_STATUSES.pending
+      });
+
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+    });
+    it('should set in progress form data', () => {
+      const state = reducer({
+        loadedStatus: LOAD_STATUSES.notAttempted
+      }, {
+        type: SET_IN_PROGRESS_FORM,
+        data
+      });
+
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.success);
+      expect(state.loadedData).to.equal(data);
     });
   });
 });

@@ -69,6 +69,10 @@ class YourClaimsPage extends React.Component {
 
   render() {
     const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
+    const tabs = [
+      'OpenClaims',
+      'ClosedClaims'
+    ];
 
     let content;
 
@@ -91,17 +95,28 @@ class YourClaimsPage extends React.Component {
       content = (
         <div>
           <MainTabNav/>
-          <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
-            <div className="claims-list-sort">
-              <ErrorableSelect
-                  label="Sort by"
-                  includeBlankOption={false}
-                  options={sortOptions}
-                  value={{ value: this.props.sortProperty }}
-                  onValueChange={this.handleSort}/>
+          {tabs.map(tab => (
+            <div
+                key={tab}
+                role="tabpanel"
+                id={`tabPanel${tab}`}
+                aria-labelledby={`tab${tab}`}
+                aria-hidden={currentTab !== tab}>
+              {currentTab === tab &&
+                <div className="va-tab-content">
+                  <div className="claims-list-sort">
+                    <ErrorableSelect
+                        label="Sort by"
+                        includeBlankOption={false}
+                        options={sortOptions}
+                        value={{ value: this.props.sortProperty }}
+                        onValueChange={this.handleSort}/>
+                  </div>
+                  {content}
+                </div>
+              }
             </div>
-            {content}
-          </div>
+          ))}
         </div>
       );
     }
@@ -130,6 +145,7 @@ class YourClaimsPage extends React.Component {
                 onClose={() => true}
                 visible={this.props.consolidatedModal}
                 hideCloseButton
+                id="consolidated-claims"
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>

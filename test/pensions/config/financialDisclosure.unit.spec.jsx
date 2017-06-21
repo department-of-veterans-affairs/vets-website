@@ -10,16 +10,30 @@ import formConfig from '../../../src/js/pensions/config/form.js';
 describe('Pensions financial disclosure', () => {
   function runTests(page, namePath, fieldCount) {
     const { schema, uiSchema, title } = page;
+    let nameData = {
+      [namePath]: {
+        first: 'Jane',
+        last: 'Doe'
+      }
+    };
+
+    if (namePath === 'spouseFullName') {
+      nameData = {
+        maritalStatus: 'Married',
+        marriages: [{
+          [namePath]: {
+            first: 'Jane',
+            last: 'Doe'
+          }
+        }]
+      };
+    }
+
     it('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
             schema={schema}
-            data={{
-              [namePath]: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }}
+            data={nameData}
             definitions={formConfig.defaultDefinitions}
             uiSchema={uiSchema}/>
       );
@@ -37,12 +51,7 @@ describe('Pensions financial disclosure', () => {
               reviewMode
               title={title}
               schema={schema}
-              data={{
-                [namePath]: {
-                  first: 'Jane',
-                  last: 'Doe'
-                }
-              }}
+              data={nameData}
               definitions={formConfig.defaultDefinitions}
               uiSchema={uiSchema}/>
         );
@@ -58,6 +67,7 @@ describe('Pensions financial disclosure', () => {
         <DefinitionTester
             schema={schema}
             definitions={formConfig.defaultDefinitions}
+            data={nameData}
             onSubmit={onSubmit}
             uiSchema={uiSchema}/>
       );
@@ -76,6 +86,7 @@ describe('Pensions financial disclosure', () => {
         <DefinitionTester
             schema={schema}
             definitions={formConfig.defaultDefinitions}
+            data={nameData}
             onSubmit={onSubmit}
             uiSchema={uiSchema}/>
       );
@@ -119,6 +130,7 @@ describe('Pensions financial disclosure', () => {
         <DefinitionTester
             schema={schema}
             definitions={formConfig.defaultDefinitions}
+            data={nameData}
             onSubmit={onSubmit}
             uiSchema={uiSchema}/>
       );
@@ -154,33 +166,33 @@ describe('Pensions financial disclosure', () => {
     runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 6);
   });
   describe('Expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 3);
+    runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 2);
   });
   describe('Spouse expected income', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 3);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome, 'spouseFullName', 2);
   });
   describe('Dependent expected income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
     runTests({
       title: page.title,
-      schema: page.schema.properties.children.items,
-      uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 3);
+      schema: page.schema.properties.dependents.items,
+      uiSchema: page.uiSchema.dependents.items
+    }, 'fullName', 2);
   });
   describe('Dependent monthly income', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
     runTests({
       title: page.title,
-      schema: page.schema.properties.children.items,
-      uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 6);
+      schema: page.schema.properties.dependents.items,
+      uiSchema: page.uiSchema.dependents.items
+    }, 'fullName', 6);
   });
   describe('Dependent net worth', () => {
     const page = formConfig.chapters.financialDisclosure.pages.dependentsNetWorth;
     runTests({
       title: page.title,
-      schema: page.schema.properties.children.items,
-      uiSchema: page.uiSchema.children.items
-    }, 'childFullName', 6);
+      schema: page.schema.properties.dependents.items,
+      uiSchema: page.uiSchema.dependents.items
+    }, 'fullName', 6);
   });
 });

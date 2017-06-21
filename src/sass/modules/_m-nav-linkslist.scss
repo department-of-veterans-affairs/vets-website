@@ -4,17 +4,18 @@
 //
 // - Used for link lists.
 // - Find an example on /disability-benefits or home page
-// - Find corresponding markup in 
+// - Find corresponding markup in
 //   content/includes/navigation-links-list.html
 //============================================
 
 .va-nav-linkslist {
-  margin-bottom: 4rem;
-  padding: 0;
+  margin: 1rem 0 0;
+  padding: 0 0 1rem 0;
 
   &--related {
     background: $color-gray-lightest;
-    padding: 0 1.6rem;
+    padding: 0.1rem 1.6rem;
+    margin: 2.6rem 0 4rem;
   }
 
   &-heading {
@@ -36,6 +37,17 @@
       display: block;
       padding: 0;
       text-decoration: none;
+
+      &[href^=http],
+      &[rel=external] {
+        h1, h2, h3, h4, h5, span {
+          &:first-child{
+            @include exit-icon;
+
+            display: inline-block;
+          }
+        }
+      }
     }
 
     li {

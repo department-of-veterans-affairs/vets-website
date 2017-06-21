@@ -15,7 +15,10 @@ export function schema(currentSchema) {
   };
 }
 
-export function uiSchema(prefix = 'veteran', noSSN = 'view:veteranId.view:noSSN') {
+export function uiSchema(
+  prefix = 'veteran',
+  noSSN = 'view:veteranId.view:noSSN',
+  labelText = 'I don’t have a Social Security number') {
   const fileNumberProp = (prefix === 'veteran') ? 'va' : 'relativeVa';
 
   return {
@@ -23,7 +26,7 @@ export function uiSchema(prefix = 'veteran', noSSN = 'view:veteranId.view:noSSN'
       'ui:required': (formData) => !_.get(noSSN, formData)
     }),
     'view:noSSN': {
-      'ui:title': 'I don’t have a Social Security number',
+      'ui:title': labelText,
       'ui:options': {
         hideOnReview: true
       }

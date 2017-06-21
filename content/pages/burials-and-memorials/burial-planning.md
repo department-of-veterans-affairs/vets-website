@@ -1,21 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Burial Planning
-template: 7-get-page-alt
-showactionbar: false
-relatedlinks:
- - url: /burials-and-memorials/eligibility
-   title: Burial and Memorial Benefits Eligibility
-   description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
- - url: /burials-and-memorials/burial-planning/headstones-markers-medallions
-   title: Headstones, Markers, Niche Covers, and Medallions
-   description: Learn about ways to memorialize the deceased.
- - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
-   title: Burial Flags and Presidential Memorial Certificates
-   description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.
+collection: burials
+children: burialsPlanning
+order: 1
 ---
 
+<div class="va-introtext">
+
 When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of our 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
+
+</div>
 
 <div class="feature" markdown="0">
 
@@ -23,7 +19,9 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this:
 
-**Fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
+**First, check to see if you qualify** for VA burial and memorial benefits. [Find out if you qualify](/burials-and-memorials/eligibility/). 
+
+**Then, fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
 
 **Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 

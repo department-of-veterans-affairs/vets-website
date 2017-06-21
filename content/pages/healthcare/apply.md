@@ -1,16 +1,11 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Health Care Application Process
+display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-relatedlinks:
- - url: /healthcare/eligibility/
-   title: Health Care Benefits Eligibility
-   description: "Not sure if you qualify? Find out if you can get VA health care benefits."
- - url: /healthcare/after-you-apply/
-   title: After You Apply for Health Care Benefits
-   description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
+collection: healthcare
+order: 2
 ---
 
 <div class="va-introtext">
@@ -21,7 +16,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Prepare
 - Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
-- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
+- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ).
 
 <div markdown="0"><br></div>
 
@@ -45,7 +40,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 #### By phone
 
-Call the vets.gov Help Desk at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Contact the Health Eligibility Center at <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 #### By mail
 
@@ -73,7 +68,7 @@ To update your personal, insurance, or financial information from an earlier app
 
 [Find out what happens after you apply](/healthcare/after-you-apply).
 
-You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim.
 
 <a class="usa-button-primary" href="/healthcare/prescriptions/">Manage Your Health and Benefits</a>
 
@@ -81,7 +76,7 @@ You can manage your VA health care online. This means you can refill a prescript
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
-<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
 </div>
 
 <div markdown="0"><br></div>

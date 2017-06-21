@@ -10,6 +10,7 @@ import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
+import AppointmentInfo from '../components/AppointmentInfo';
 import { facilityTypes } from '../config';
 
 class FacilityDetail extends Component {
@@ -37,7 +38,7 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, facility_type: facilityType } = facility.attributes;
+    const { name, facilityType } = facility.attributes;
 
     return (
       <div>
@@ -62,25 +63,12 @@ class FacilityDetail extends Component {
     );
   }
 
-  renderAccessToCare() {
-    const { facility } = this.props;
-
-    if (facility.attributes.facility_type !== 'va_health_facility') {
-      return null;
-    }
-
-    return (
-      <AccessToCare facility={facility}/>
-    );
-  }
-
   render() {
     const { facility, currentQuery } = this.props;
 
     if (!facility) {
       return null;
     }
-
 
     if (currentQuery.inProgress) {
       return (
@@ -97,6 +85,10 @@ class FacilityDetail extends Component {
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility}/>
           </div>
+          <div>
+            <AppointmentInfo facility={facility}/>
+            <AccessToCare facility={facility}/>
+          </div>
         </div>
         <div className="usa-width-one-third medium-4 columns">
           <div>
@@ -104,7 +96,6 @@ class FacilityDetail extends Component {
             <div className="mb2">
               <FacilityHours facility={facility}/>
             </div>
-            {this.renderAccessToCare()}
           </div>
         </div>
       </div>

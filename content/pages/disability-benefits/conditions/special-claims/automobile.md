@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Automobile Allowance and Adaptive Equipment
 concurrence: incomplete
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 4-action-page-pending
+template: detail-page
+order: 1
 ---
 
 <div class="va-introtext">

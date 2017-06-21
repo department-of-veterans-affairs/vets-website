@@ -6,6 +6,8 @@ import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 import { getInactivePages } from '../utils/helpers';
+import FormSaved from './FormSaved';
+
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
@@ -74,7 +76,8 @@ export function createRoutes(formConfig) {
         path: page.path,
         component: page.component || FormPage,
         pageConfig: page,
-        pageList
+        pageList,
+        urlPrefix: formConfig.urlPrefix
       };
     });
 
@@ -86,6 +89,14 @@ export function createRoutes(formConfig) {
         pageList
       }
     ].concat(routes);
+  }
+
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'form-saved',
+      component: FormSaved,
+      pageList
+    });
   }
 
   return routes.concat([
@@ -416,7 +427,7 @@ export function createUSAStateLabels(states) {
  * for each item in an array
  */
 function generateArrayPages(arrayPages, data) {
-  const items = _.get(arrayPages[0].arrayPath, data);
+  const items = _.get(arrayPages[0].arrayPath, data) || [];
   return items
     .reduce((pages, item, index) =>
       pages.concat(arrayPages.map(page =>
