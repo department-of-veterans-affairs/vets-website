@@ -126,8 +126,8 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status.md');
-  ignoreList.push('pension/application/527.md');
-  ignoreList.push('burials-and-memorials/application/530.md');
+  ignoreList.push('pension/apply/527.md');
+  ignoreList.push('burials-and-memorials/survivor-and-dependent-benefits/burial-costs/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
   ignoreList.push('va-letters/*');
 }
@@ -377,8 +377,8 @@ if (options.watch) {
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/va-letters(.*)', to: '/va-letters/' },
-        { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
-        { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
+        { from: '^/pension/apply/527EZ(.*)', to: '/pension/apply/527EZ/' },
+        { from: '^/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/530(.*)', to: '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/530/' },
         { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
