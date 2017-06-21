@@ -47,7 +47,7 @@ You may be at risk of:
   - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
 - Illnesses caused by:
-  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetiid (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus.
+  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetii (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus.
   - **[Rabies](http://www.publichealth.va.gov/exposures/rabies/index.asp):** A disease that you get from a bite or contact with saliva from an infected animal
 
 - **[Illnesses or injuries caused by occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
