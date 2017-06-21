@@ -23,12 +23,16 @@ class AppealStatusPage extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="next-action">
-            next action explanation
-          </div>
-        </div>
-        <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div className="row">
+              <div className="next-action">
+                <h4></h4>
+                next action explanation
+              </div>
+            </div>
+            <div className="row">
+
+            </div>
             <Link to="appeals/learn-more">Learn more about the appeals process</Link>
             <pre>
               {JSON.stringify(this.props.appeal, null, 2)}

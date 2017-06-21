@@ -15,15 +15,6 @@ const phaseMap = {
   8: 'Complete'
 };
 
-const appealsStatusMap = {
-  ssoc: 'SSOC Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  soc: 'SOC Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-};
-
-export function getAppealsStatusDescription(event) {
-  return `${appealsStatusMap[event.type]} ${event.date}`;
-}
-
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }

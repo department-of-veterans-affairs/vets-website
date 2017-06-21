@@ -1,32 +1,30 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import _ from 'lodash';
 import { Link } from 'react-router';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import { getAppealsStatusDescription } from '../utils/helpers';
+import { appealStatusDescriptions } from '../utils/appeal-helpers';
 
-function nextAction(claim) {
-  const iconName = 'fa-exclamation-triangle';
-  const icon = claim ? <i className={`fa ${iconName}`}></i> : null;
-  return <p>{icon} Next action text</p>;
-}
-
-export default function AppealListItem({ claim }) {
-  const lastEvent = claim.attributes.events.slice(-1)[0];
-  const firstEvent = claim.attributes.events[0];
+export default function AppealListItem({ appeal }) {
+  const events = _.orderBy(appeal.attributes.events, [(e) => {
+    return moment(e.date).unix();
+  }]);
+  const lastEvent = events.slice(-1)[0];
+  const firstEvent = events[0];
 
   return (
-    <Link className="claim-list-item" to={`appeals/${claim.id}/status`}>
-      <h4 className="claim-list-item-header">Compensation Appeal – Received {moment(firstEvent.date).format('MMMM D, YYYY')}</h4>
-      <p className="status"><span className="claim-item-label">Status:</span> {getAppealsStatusDescription(lastEvent)}</p>
+    <Link className="claim-list-item" to={`appeals/${appeal.id}/status`}>
+      <h4 className="claim-list-item-header">Compensation Appeal – Last updated {moment(lastEvent.date).format('MMMM D, YYYY')}</h4>
+      <p className="status"><span className="claim-item-label">Status:</span> {appealStatusDescriptions[lastEvent.type].status.title}</p>
       <div className="communications">
-        {nextAction(lastEvent)}
+        {appealStatusDescriptions[lastEvent.type].nextAction.title}
       </div>
-      <p><span className="claim-item-label">Last update:</span> {moment(lastEvent.date).format('MMM D, YYYY')}</p>
+      <p><span className="claim-item-label">Appeal received:</span> {moment(firstEvent.date).format('MMM D, YYYY')}</p>
     </Link>
   );
 }
 
 AppealListItem.propTypes = {
-  claim: PropTypes.object
+  appeal: PropTypes.object
 };
