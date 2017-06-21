@@ -104,5 +104,9 @@ export function getFormDOM(form) {
     });
   };
 
+  formDOM.click = function click(selector) {
+    ReactTestUtils.Simulate.click(this.querySelector(selector));
+  };
+
   return formDOM;
 }

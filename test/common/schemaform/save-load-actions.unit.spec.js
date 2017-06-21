@@ -365,7 +365,7 @@ describe('Schemaform save / load actions:', () => {
         }));
 
         thunk(dispatch).catch(() => {
-          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.success))).to.be.true;
+          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
           done();
         });
       });
@@ -378,7 +378,7 @@ describe('Schemaform save / load actions:', () => {
         }));
 
         thunk(dispatch).catch(() => {
-          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.success))).to.be.true;
+          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
           done();
         });
       });

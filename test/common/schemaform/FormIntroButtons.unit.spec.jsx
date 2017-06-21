@@ -5,6 +5,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import { getFormDOM } from '../../util/schemaform-utils';
 import FormIntroButtons from '../../../src/js/common/schemaform/FormIntroButtons';
 
 describe('Schemaform <FormIntroButtons>', () => {
@@ -97,7 +98,7 @@ describe('Schemaform <FormIntroButtons>', () => {
 
     expect(routerSpy.push.calledWith(route.pageList[0].path));
   });
-  // This test is probably extraneous
+
   it('should go to the first page when "Start over" is clicked', () => {
     const routerSpy = {
       push: sinon.spy()
@@ -110,8 +111,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
@@ -138,5 +138,25 @@ describe('Schemaform <FormIntroButtons>', () => {
     findDOM.querySelector('.usa-button-primary').click();
 
     expect(routerSpy.push.calledWith('return/url'));
+  });
+
+  it('should do prefill when "Continue" is clicked', () => {
+    const routerSpy = {
+      push: sinon.spy()
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormIntroButtons
+          formId="1010ez"
+          migrations={[]}
+          route={route}
+          router={routerSpy}
+          fetchInProgressForm={fetchSpy}
+          loggedIn/>
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 });

@@ -24,7 +24,8 @@ export const LOAD_STATUSES = Object.freeze({
   failure: 'failure',
   notFound: 'not-found',
   invalidData: 'invalid-data',
-  success: 'success'
+  success: 'success',
+  prefillComplete: 'prefill-complete'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -254,7 +255,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // If prefilling went wrong for a non-auth reason, it probably means that
       // they didn't have info to use and we can continue on as usual
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
-        dispatch(setFetchFormStatus(LOAD_STATUSES.success));
+        dispatch(setFetchFormStatus(LOAD_STATUSES.prefillComplete));
       } else {
         dispatch(setFetchFormStatus(loadedStatus));
       }
