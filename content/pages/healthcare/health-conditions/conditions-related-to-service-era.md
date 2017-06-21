@@ -24,18 +24,18 @@ majorlinks:
       description: 1945—1991
     - url: /healthcare/health-conditions/conditions-related-to-service-era/vietnam-war/
       title: Vietnam War
-      description: Nov. 1, 1965—April 30, 1975
+      description: November 1, 1965—April 30, 1975
     - url: /healthcare/health-conditions/conditions-related-to-service-era/korean-war/
       title: Korean War
       description: June 25, 1950—July 27, 1953
     - url: /healthcare/health-conditions/conditions-related-to-service-era/world-war-ii/
       title: World War II
-      description: Sept. 1, 1939—Sept. 2, 1945
+      description: September 1, 1939—September 2, 1945
 ---
 
 <div class="va-introtext">
 
-Certain health concerns may be more likely to affect Veterans who served in a specific time and place. See what health concerns are a risk to you depending on where and when you served.
+Certain health concerns may be more likely to affect Veterans who served in a specific time and place. See what health concerns are a risk to you depending on when and where you served.
 
 </div>
 
