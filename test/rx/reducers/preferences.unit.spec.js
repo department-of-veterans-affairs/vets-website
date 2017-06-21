@@ -45,7 +45,13 @@ describe('preferencesducer', () => {
     const state = preferencesReducer({
       email: makeField('test@vets.gov'),
       flag: makeField('true')
-    }, { type: 'RX_SAVE_PREFERENCES_SUCCESS' });
+    }, {
+      type: 'RX_SAVE_PREFERENCES_SUCCESS',
+      preferences: {
+        emailAddress: 'test@vets.gov',
+        rxFlag: true
+      }
+    });
     expect(state.email.value).to.eql('test@vets.gov');
     expect(state.flag.value).to.eql('true');
     expect(state.saving).to.be.false;

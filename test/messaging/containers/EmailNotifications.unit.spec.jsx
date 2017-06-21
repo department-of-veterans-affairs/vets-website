@@ -102,4 +102,9 @@ describe('<EmailNotifications>', () => {
     expect(tree.subTree('#notifications-off').props.checked).to.be.false;
     expect(tree.subTree('ErrorableRadioButtons').props.value.value).to.eql('each_message');
   });
+
+  it('should hide email input if notifications are off', () => {
+    const tree = SkinDeep.shallowRender(<EmailNotifications {...props }/>);
+    expect(tree.subTree('ErrorableTextInput')).to.not.be.ok;
+  });
 });

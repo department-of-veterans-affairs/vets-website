@@ -1,10 +1,11 @@
 ---
 layout: page-breadcrumbs.html
-title: Board of Veterans' Appeals
+title: Board of Veterans’ Appeals
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+template: detail-page
 concurrence: complete
 source: http://www.bva.va.gov/index.asp
+order: 1
 ---
 
 <div class="va-introtext">
@@ -17,7 +18,7 @@ If you don't agree with the Statement of the Case, you can file	a	Substantive Ap
 
 <div class="feature" markdown="0">
 
-##### The Board of Veterans’ Appeals (also known as BVA or the "Board") will review your appeal and send you a letter with their decision. The Board is made up of lawyers who are experts in:
+The Board of Veterans’ Appeals (also known as BVA or the "Board") will review your appeal and send you a letter with their decision. The Board is made up of lawyers who are experts in:
   - Veterans law
   - Reviewing benefit claims
 </div>

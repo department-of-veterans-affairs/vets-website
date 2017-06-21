@@ -29,7 +29,8 @@ const initialState = {
     loading: false,
     acceptance: false,
     terms: {},
-  }
+  },
+  savedForms: []
 };
 
 function profileInformation(state = initialState, action) {

@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Non-College Degree Programs
 concurrence: incomplete
 plainlanguage: 11-22-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+order: 4
 ---
 
 <div class="va-introtext">

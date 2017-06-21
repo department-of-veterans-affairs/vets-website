@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Educational and Career Counseling
-template: 4-action-page-pending
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 1
 ---
 
 <div class="va-introtext">

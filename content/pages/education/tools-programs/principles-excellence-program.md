@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Principles of Excellence Program
-template: 1-topic-landing
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 3
 ---
 
 <div class="va-introtext">

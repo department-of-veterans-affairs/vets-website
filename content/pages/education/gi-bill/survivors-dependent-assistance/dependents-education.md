@@ -1,9 +1,11 @@
 ---
 layout: page-breadcrumbs.html
-title: Survivors' and Dependents' Educational Assistance Program
-template: 1-topic-landing
+template: detail-page
+title: Survivors’ and Dependents’ Educational Assistance Program
+display_title: Educational Assistance Program
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 2
 ---
 
 <div class="va-introtext">
@@ -12,7 +14,7 @@ Find out if you can get help paying for school or job training through the Survi
 
 </div>
 
-<div class="call-out usa-content" markdown="1">
+<div class="feature">
 
 ### Can I get education benefits?
 
@@ -57,6 +59,10 @@ For both children and spouses, if you qualify for both DEA and the Fry Scholarsh
 
 **Exception:** 
 If you're the child of a Servicemember who died in the line of duty before August 1, 2011, you can use both DEA and the Fry Scholarship and get up to 81 months of education and training.
+
+
+-----
+
 
 ### How do I get these benefits? 
 1. First, contact your school's certifying official to make sure your program is approved for VA benefits.

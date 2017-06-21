@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import PrescriptionCard from '../components/PrescriptionCard';
-import PrescriptionGroup from '../components/PrescriptionGroup';
+import PrescriptionCard from './PrescriptionCard';
+import PrescriptionGroup from './PrescriptionGroup';
+import SortMenu from './SortMenu';
 
 class PrescriptionList extends React.Component {
   render() {
@@ -61,9 +62,27 @@ class PrescriptionList extends React.Component {
       prescriptions = items.map(makeItem);
     }
 
+    const sortOptions = [
+      { value: 'prescriptionName', label: 'Prescription name' },
+      { value: 'facilityName', label: 'Facility name' },
+      { value: 'lastSubmitDate', label: 'Last submit date' },
+      { value: 'lastFillDate', label: 'Last fill date' },
+    ];
+
+    const sortMenu = (
+      <SortMenu
+          onChange={this.props.handleSort}
+          onClick={this.props.handleSort}
+          options={sortOptions}
+          selected={this.props.currentSort}/>
+    );
+
     return (
-      <div className="rx-prescription-items cf">
-        {prescriptions}
+      <div>
+        {sortMenu}
+        <div className="rx-prescription-items cf">
+          {prescriptions}
+        </div>
       </div>
     );
   }

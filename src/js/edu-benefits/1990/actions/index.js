@@ -1,3 +1,5 @@
+import Raven from 'raven-js';
+import _ from 'lodash/fp';
 import { veteranToApplication } from '../utils/veteran';
 
 import environment from '../../../common/helpers/environment';
@@ -104,7 +106,6 @@ export function submitForm(data) {
     });
     fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
@@ -118,18 +119,27 @@ export function submitForm(data) {
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
-          event: 'edu-submission-successful',
+          event: 'edu-submission-successful'
         });
         return res.json();
       }
-      window.dataLayer.push({
-        event: 'edu-submission-failed',
-      });
-      return Promise.reject(res.statusText);
+
+      return Promise.reject(new Error(`vets_server_error: ${res.statusText}`));
     })
-    .then(
-      (resp) => dispatch(updateSubmissionDetails(resp.data.attributes)),
-      () => dispatch(updateSubmissionStatus('error'))
-    );
+    .then((resp) => dispatch(updateSubmissionDetails(resp.data.attributes)))
+    .catch(error => {
+      // overly cautious
+      const errorMessage = _.get('message', error);
+      const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
+      Raven.captureException(error, {
+        extra: {
+          clientError
+        }
+      });
+      window.dataLayer.push({
+        event: `edu-submission-failed${clientError ? '-client' : ''}`,
+      });
+      dispatch(updateSubmissionStatus(clientError ? 'clientError' : 'error'));
+    });
   };
 }

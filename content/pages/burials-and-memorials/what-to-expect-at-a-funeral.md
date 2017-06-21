@@ -1,23 +1,16 @@
 ---
 layout: page-breadcrumbs.html
 title: What to Expect at a Funeral
-template: 6-info-page
-relatedlinks:  
- - url: /burials-and-memorials/eligibility/
-   title: Burial and Memorial Benefits Eligibility
-   description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
- - url: /burials-and-memorials/burial-planning/
-   title: Burial Planning
-   description: Find out how to plan ahead or what to do if your family member has just died.
- - url: /burials-and-memorials/find-a-cemetery/
-   title: Find a Cemetery or Gravesite
-   description: Find out if you can get paid back for funeral and other burial costs.
- - url: /burials-and-memorials/survivor-and-dependent-benefits/
-   title: Survivor and Dependent Benefits
-   description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
+template: detail-page
+collection: burials
+order: 4
 ---
 
+<div class="va-introtext">
+
 We carry out burial and memorial services at national cemeteries with dignity and respect. Find out what happens at a burial or memorial service. 
+
+</div>
 
 ### What happens during the ceremony?
 
