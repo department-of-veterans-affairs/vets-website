@@ -11,7 +11,7 @@ lastupdate_override:
 
 <div class="va-introtext">
 
-After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out what happens next.
+After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out when to expect your letter—and what to do next.
 
 </div>
 
@@ -41,7 +41,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 <li class="process-step list-three">
 
-**Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and ask for the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
+**Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
 [Find a VA medical center near you](/facilities/). 
 
 </li>
@@ -88,7 +88,7 @@ If you're signed up for VA health care, you can manage your VA health and benefi
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
 
-If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 <br>
 
@@ -106,7 +106,7 @@ Mail this form and any supporting materials to:
 <dd>Atlanta, GA 30329</dd>
 </dl>
  
-You can also get help updating your personal information by visiting your local VA facility or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
+You can also get help updating your personal information by visiting your local VA facility or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
 <br>
 
