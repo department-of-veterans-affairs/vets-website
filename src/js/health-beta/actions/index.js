@@ -12,7 +12,7 @@ export function registerBeta() {
       method: 'POST',
     };
 
-    apiRequest('/health_beta_registrations',
+    apiRequest('/beta_registration/health_account',
       settings,
       response => dispatch({
         type: BETA_REGISTER_SUCCESS,

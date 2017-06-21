@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 } from '../../user-profile/actions';
@@ -20,7 +19,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
   }
 
   render() {
-    const { terms } = this.props;
+    const { terms, topContent } = this.props;
     const enabled = this.props.isDataAvailable === true || typeof this.props.isDataAvailable === 'undefined';
 
     let view;
@@ -38,11 +37,12 @@ export class RequiredTermsAcceptanceView extends React.Component {
         }
       );
     } else {
-      view = <AcceptTermsPrompt terms={terms} onAccept={this.props.acceptTerms}/>;
+      view = <AcceptTermsPrompt terms={terms} cancelPath={this.props.cancelPath} onAccept={this.props.acceptTerms}/>;
     }
 
     return (
       <div>
+        {topContent}
         {view}
       </div>
     );
@@ -50,7 +50,8 @@ export class RequiredTermsAcceptanceView extends React.Component {
 }
 
 RequiredTermsAcceptanceView.propTypes = {
-  termsName: PropTypes.string.isRequired
+  termsName: PropTypes.string.isRequired,
+  cancelPath: PropTypes.string.isRequired
 };
 
 
@@ -63,7 +64,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  checkAcceptance,
   fetchLatestTerms,
   acceptTerms,
 };

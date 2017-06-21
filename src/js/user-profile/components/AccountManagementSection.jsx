@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 
-const modalContents = () => (
-  <AcceptTermsPrompt/>
-);
+import {
+  fetchLatestTerms,
+  acceptTerms,
+} from '../actions';
 
 class AccountManagementSection extends React.Component {
   constructor(props) {
@@ -21,6 +23,37 @@ class AccountManagementSection extends React.Component {
     this.setState({ modalOpen: false });
   }
 
+  acceptAndClose = (arg) => {
+    this.props.acceptTerms(arg);
+    this.closeModal();
+  }
+
+  renderModalContents() {
+    const { terms } = this.props;
+    const termsAccepted = this.props.profile.healthTermsCurrent;
+    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
+      setTimeout(() => {
+        this.props.fetchLatestTerms('mhvac');
+      }, 100);
+      return <LoadingIndicator setFocus message="Loading your information"/>;
+    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
+      return <LoadingIndicator setFocus message="Loading your information"/>;
+    } else if (termsAccepted) {
+      return (
+        <div>
+          <h3>
+            You have already accepted the terms and conditions.
+          </h3>
+          <div>
+            <button type="submit" onClick={this.closeModal}>Ok</button>
+          </div>
+        </div>
+      );
+    }
+
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose}/>;
+  }
+
   render() {
     return (
       <div className="profile-section medium-12 columns">
@@ -33,7 +66,7 @@ class AccountManagementSection extends React.Component {
         </div>
         <Modal
             cssClass="va-modal-large"
-            contents={modalContents()}
+            contents={this.renderModalContents()}
             id="mhvac-modal"
             visible={this.state.modalOpen}
             onClose={() => this.closeModal()}/>
@@ -42,12 +75,18 @@ class AccountManagementSection extends React.Component {
   }
 }
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return userState;
+const mapDispatchToProps = {
+  fetchLatestTerms,
+  acceptTerms,
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps)(AccountManagementSection);
+const mapStateToProps = (state) => {
+  const userState = state.user;
+  return {
+    terms: userState.profile.terms,
+    profile: userState.profile
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountManagementSection);
 export { AccountManagementSection };
