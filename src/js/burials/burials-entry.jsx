@@ -17,7 +17,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/530'
+  basename: '/burials-and-memorials/application/530'
 });
 
 function init() {

@@ -17,7 +17,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/pension/apply/527EZ'
+  basename: '/pension/application/527EZ'
 });
 
 function init() {
