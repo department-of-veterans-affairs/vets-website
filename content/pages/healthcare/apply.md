@@ -17,7 +17,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Prepare
 
-- If you haven't done so already, find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
+- If you haven't done so already, check to see if you qualify. [Check your eligibility](/healthcare/eligibility/).
 - Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
 
 <div markdown="0"><br></div>
