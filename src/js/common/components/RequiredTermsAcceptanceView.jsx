@@ -37,7 +37,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
         }
       );
     } else {
-      view = <AcceptTermsPrompt terms={terms} onAccept={this.props.acceptTerms}/>;
+      view = <AcceptTermsPrompt terms={terms} cancelPath={this.props.cancelPath} onAccept={this.props.acceptTerms}/>;
     }
 
     return (
@@ -50,7 +50,8 @@ export class RequiredTermsAcceptanceView extends React.Component {
 }
 
 RequiredTermsAcceptanceView.propTypes = {
-  termsName: PropTypes.string.isRequired
+  termsName: PropTypes.string.isRequired,
+  cancelPath: PropTypes.string.isRequired
 };
 
 
