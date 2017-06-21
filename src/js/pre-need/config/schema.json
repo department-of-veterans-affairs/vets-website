@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "APPLICATION FOR BURIAL BENEFITS",
+  "title": "APPLICATION FOR PRE-NEED DETERMINATION OF ELIGIBILITY IN A VA NATIONAL CEMETARY",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -15,9 +15,45 @@
         }
       }
     },
-    "usaPhone": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "ssn": {
       "type": "string",
-      "pattern": "^\\d{10}$"
+      "pattern": "^[0-9]{9}$"
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
     },
     "address": {
       "type": "object",
@@ -227,49 +263,12 @@
         }
       }
     },
-    "fullName": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "middle": {
-          "type": "string"
-        },
-        "last": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 30
-        },
-        "suffix": {
-          "type": "string",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
-        }
-      },
-      "required": [
-        "first",
-        "last"
+    "gender": {
+      "type": "string",
+      "enum": [
+        "F",
+        "M"
       ]
-    },
-    "ssn": {
-      "type": "string",
-      "pattern": "^[0-9]{9}$"
-    },
-    "vaFileNumber": {
-      "type": "string",
-      "pattern": "^[cC]{0,1}\\d{8}$"
-    },
-    "date": {
-      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
-      "type": "string"
     }
   },
   "properties": {
@@ -292,23 +291,62 @@
         }
       }
     },
-    "locationOfDeath": {
+    "veteranMaidenName": {
+      "type": "string"
+    },
+    "sponsorMilitaryServiceNumber": {
+      "type": "string"
+    },
+    "sponsorVAClaimNumber": {
+      "type": "string"
+    },
+    "sponsorPlaceOfBirth": {
+      "type": "string"
+    },
+    "sponsorDeceased": {
+      "type": "string",
+      "enum": [
+        "Y",
+        "N",
+        "U"
+      ]
+    },
+    "sponsorGender": {
+      "$ref": "#/definitions/gender"
+    },
+    "sponsorMaritalStatus": {
+      "type": "string",
+      "enum": [
+        "single",
+        "separated",
+        "married",
+        "divorced",
+        "widowed"
+      ]
+    },
+    "sponsorMilitaryStatus": {
       "type": "object",
-      "required": [
-        "location"
-      ],
       "properties": {
-        "location": {
-          "type": "string",
-          "enum": [
-            "vaMedicalCenter",
-            "stateVeteransHome",
-            "nursingHome",
-            "other"
-          ]
+        "veteran": {
+          "type": "boolean"
+        },
+        "retiredActiveDuty": {
+          "type": "boolean"
+        },
+        "diedOnActiveDuty": {
+          "type": "boolean"
+        },
+        "retiredReserve": {
+          "type": "boolean"
+        },
+        "retiredNationalGuard": {
+          "type": "boolean"
+        },
+        "deathInactiveDuty": {
+          "type": "boolean"
         },
         "other": {
-          "type": "string"
+          "type": "boolean"
         }
       }
     },
@@ -323,39 +361,31 @@
           "serviceBranch": {
             "type": "string"
           },
+          "dischargeType": {
+            "type": "string",
+            "enum": [
+              "honorable",
+              "general",
+              "other",
+              "bad-conduct",
+              "dishonorable",
+              "undesirable"
+            ]
+          },
           "rank": {
-            "type": "string"
-          },
-          "serviceNumber": {
-            "type": "string"
-          },
-          "placeOfEntry": {
-            "type": "string"
-          },
-          "placeOfSeparation": {
             "type": "string"
           }
         }
       }
     },
-    "claimantEmail": {
-      "type": "string",
-      "format": "email"
-    },
-    "claimantPhone": {
-      "$ref": "#/definitions/usaPhone"
-    },
-    "claimantAddress": {
-      "$ref": "#/definitions/address"
-    },
-    "claimantFullName": {
-      "$ref": "#/definitions/fullName"
+    "previousNames": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/fullName"
+      }
     },
     "veteranFullName": {
       "$ref": "#/definitions/fullName"
-    },
-    "veteranMaidenName": {
-      "type": "string"
     },
     "veteranSocialSecurityNumber": {
       "$ref": "#/definitions/ssn"
@@ -375,18 +405,8 @@
     "sponsorDateOfDeath": {
       "$ref": "#/definitions/date"
     },
-    "sponsorPlaceOfBirth": {
-      "type": "string"
-    },
-    "vaFileNumber": {
-      "$ref": "#/definitions/vaFileNumber"
-    },
-    "burialDate": {
-      "$ref": "#/definitions/date"
-    },
-    "deathDate": {
-      "$ref": "#/definitions/date"
+    "sponsorAddress": {
+      "$ref": "#/definitions/address"
     }
   }
 }
-
