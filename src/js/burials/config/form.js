@@ -6,6 +6,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { expensesWarning } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -81,7 +82,7 @@ const formConfig = {
             claimantFullName: fullNameUI,
             relationship: {
               type: {
-                'ui:title': 'Relationship to the deceased veteran',
+                'ui:title': 'Relationship to the deceased Veteran',
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: relationshipLabels
@@ -160,8 +161,8 @@ const formConfig = {
             type: 'object',
             required: ['burialDate', 'deathDate', 'locationOfDeath'],
             properties: {
-              burialDate,
               deathDate,
+              burialDate,
               locationOfDeath
             }
           }
@@ -235,7 +236,8 @@ const formConfig = {
               amountIncurred: {
                 'ui:title': 'Amount incurred',
                 'ui:options': {
-                  expandUnder: 'transportation'
+                  expandUnder: 'transportation',
+                  classNames: 'schemaform-currency-input'
                 }
               },
               'ui:validations': [
@@ -297,8 +299,14 @@ const formConfig = {
               'ui:title': 'Did you incur expenses for the Veteran’s burial?',
               'ui:widget': 'yesNo'
             },
+            'view:expensesWarning': {
+              'ui:description': expensesWarning,
+              'ui:options': {
+                hideIf: form => form.incurredExpenses !== false
+              }
+            },
             benefitsUnclaimedRemains: {
-              'ui:title': 'Are you seeking burial benefits for the unclaimed remains of a veteran?',
+              'ui:title': 'Are you seeking burial benefits for the unclaimed remains of a Veteran?',
               'ui:widget': 'yesNo',
               'ui:required': form => _.get('relationship.type', form) === 'other',
               'ui:options': {
@@ -314,6 +322,10 @@ const formConfig = {
               burialCost,
               previouslyReceivedAllowance,
               incurredExpenses,
+              'view:expensesWarning': {
+                type: 'object',
+                properties: {}
+              },
               benefitsUnclaimedRemains,
             }
           }
@@ -328,11 +340,11 @@ const formConfig = {
               'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
             },
             federalCemetery: {
-              'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
+              'ui:title': 'Is the location above a national cemetery, or one owned by the federal government?',
               'ui:widget': 'yesNo'
             },
             stateCemetery: {
-              'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
+              'ui:title': 'Is the location a state Veterans cemetery?',
               'ui:widget': 'yesNo',
               'ui:required': form => form.federalCemetery === false,
               'ui:options': {
@@ -341,7 +353,7 @@ const formConfig = {
               }
             },
             govtContributions: {
-              'ui:title': 'Did a federal/state government or the veterans employer contribute to the burial?',
+              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?',
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
