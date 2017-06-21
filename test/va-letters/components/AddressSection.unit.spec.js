@@ -1,14 +1,13 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import _ from 'lodash';
 
 import AddressSection from '../../../src/js/va-letters/components/AddressSection.jsx';
 
 const defaultProps = {
   destination: {
     addressLine1: '2476 Main Street',
-    addressLine2: 'Ste #12',
-    addressLine3: 'West',
     city: 'Reston',
     country: 'US',
     foreignCode: '865',
@@ -25,10 +24,25 @@ describe('<AddressSection>', () => {
     expect(vdom).to.exist;
   });
 
-  it('should format address', () => {
+  it('should format 1 address line', () => {
     const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-    const vdom = tree.getRenderOutput();
+    expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street');
+  });
+
+  it('should format address 2 address lines', () => {
+    const props = _.merge({}, defaultProps, { destination: { addressLine2: 'Ste #12' } });
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street, Ste #12');
+  });
+
+  it('should format address 3 address lines', () => {
+    const props = _.merge({}, defaultProps, {
+      destination: {
+        addressLine2: 'Ste #12',
+        addressLine3: 'West'
+      }
+    });
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street, Ste #12 West');
-    expect(vdom).to.exist;
   });
 });
