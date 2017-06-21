@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served in Iraq during Operation Iraqi Freedom or Operation New Dawn—from March 19, 2003 to December 15, 2011—you may be at risk of certain health conditions. Learn about these conditions and what to do to take care of your health.
+If you served in Iraq during Operation Iraqi Freedom or Operation New Dawn—from March 19, 2003, to December 15, 2011—you may be at risk of certain health conditions. Learn about these conditions and what to do to take care of your health.
 
 </div>
 
@@ -34,7 +34,7 @@ You may be at risk of:
 
 - Health problems caused by toxic chemicals or other hazardous material in the environment, like:
   - **[Sand, dust, and particulates](http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp):** Tiny matter found in the air 
-  - **[Burn pit smoke](http://www.publichealth.va.gov/exposures/burnpits/index.asp):** Smoke from open-air pits often used to get rid of waste (like chemicals, paints, munitions, and other substances) at military sites in Iraq and Afghanistan  
+  - **[Burn pit smoke](http://www.publichealth.va.gov/exposures/burnpits/index.asp):** Smoke from open-air pits often used to get rid of waste (like chemicals, paints, munitions, and other substances) at military sites in Iraq  
   - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets
   - **[Sulfur fire (Al Mishraq, Iraq)](http://www.publichealth.va.gov/exposures/mishraq-sulfur-fire/index.asp):** A fire at a sulfur plant that burned for almost a month in June 2003 and released large amounts of sulfur dioxide into the air 
   - **[Chemical warfare agents (OIF)](http://www.publichealth.va.gov/exposures/chemical-warfare-agents-oif.asp):** Exposure to mustard or nerve agents from demolishing or handling explosive ordinance in Iraq
@@ -66,7 +66,7 @@ Take these steps to make sure you’re taking care of your health:
 Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
 - **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
-- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
+- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the Depleted Uranium Follow-up Program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
 
 </li>
 
@@ -86,7 +86,7 @@ Find out if you can get disability compensation (monthly payments) and other ben
 <br />
 [See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
 </li>
 </ol>
