@@ -74,7 +74,7 @@ class YourClaimsPage extends React.Component {
 
   renderListItem(claim) {
     if (claim.type === 'appeals_status_models_appeals') {
-      return <AppealListItem key={claim.id} claim={claim}/>;
+      return <AppealListItem key={claim.id} appeal={claim}/>;
     }
     return <ClaimsListItem claim={claim} key={claim.id}/>;
   }
@@ -90,7 +90,7 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
+    const { unfilteredClaims, list, pages, page, loading, show30DayNotice, route, synced } = this.props;
     const tabs = [
       'OpenClaims',
       'ClosedClaims'
@@ -100,11 +100,11 @@ class YourClaimsPage extends React.Component {
 
     if (loading) {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
-    } else if (claims.length > 0) {
+    } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
-          {claims.map(claim => this.renderListItem(claim))}
+          {list.map(claim => this.renderListItem(claim))}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
         </div>
       </div>);
@@ -152,7 +152,7 @@ class YourClaimsPage extends React.Component {
           <div>
             <h1>Your Claims</h1>
           </div>
-          {!loading && !synced && <ClaimSyncWarning olderVersion={claims.length}/>}
+          {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
@@ -191,7 +191,7 @@ function mapStateToProps(state) {
   return {
     claimsAvailable: claimsState.claimSync.available,
     loading: claimsRoot.loading,
-    claims: claimsRoot.visibleRows,
+    list: claimsRoot.visibleRows,
     unfilteredClaims: claimsRoot.claims,
     page: claimsRoot.page,
     pages: claimsRoot.pages,

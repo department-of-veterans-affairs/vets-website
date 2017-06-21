@@ -255,8 +255,12 @@ a.claim-list-item {
     margin-top: 1em;
   }
 
-  h1 {
+  h1:first-child {
     margin-bottom: 0;
+  }
+
+  p:first-of-type {
+    margin-top: 0;
   }
 }
 

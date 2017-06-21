@@ -14,7 +14,7 @@ describe('<YourClaimsPage>', () => {
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
           route={routeParams}
-          claims={claims}/>
+          list={claims}/>
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });
@@ -26,7 +26,7 @@ describe('<YourClaimsPage>', () => {
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
           route={routeParams}
-          claims={claims}/>
+          list={claims}/>
     );
     const sortDiv = tree.subTree('claims-list-sort');
     expect(sortDiv).to.exist;
@@ -58,7 +58,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
@@ -77,7 +77,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
@@ -96,7 +96,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
@@ -116,7 +116,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           show30DayNotice
@@ -135,7 +135,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
@@ -153,7 +153,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          claims={claims}
+          list={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
