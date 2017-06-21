@@ -43,7 +43,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
 }
 
 export function isInProgress(trimmedPathname) {
-  return !(trimmedPathname.endsWith('introduction') || trimmedPathname.endsWith('confirmation'));
+  return !(trimmedPathname.endsWith('introduction') || trimmedPathname.endsWith('confirmation') || trimmedPathname.endsWith('form-saved'));
 }
 
 export function isActivePage(page, data) {
@@ -134,4 +134,18 @@ export function scrollAndFocus(errorEl) {
   const position = errorEl.getBoundingClientRect().top + currentPosition;
   Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
   focusElement(errorEl);
+}
+
+export function displayFileSize(size) {
+  if (size < 1024) {
+    return `${size}B`;
+  }
+
+  const kbSize = size / 1024;
+  if (kbSize < 1024) {
+    return `${Math.round(kbSize)}KB`;
+  }
+
+  const mbSize = kbSize / 1024;
+  return `${Math.round(mbSize)}MB`;
 }

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+// Note: if you add variable files in here, make sure you updated shared-variables.scss
 
 //============ VENDOR PARTIALS ==============//
 @import "~uswds/src/stylesheets/lib/bourbon";
@@ -16,7 +17,8 @@
 @font-face {
   font-family: "FontAwesome";
   src: url("~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}") format("woff2"),
-       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff");
+       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff"),
+       url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
   font-weight: normal;
   font-style: normal;
 }
@@ -29,9 +31,10 @@
 @import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
 
-// A VA partial. Here so that we can override the 
+// A VA partial. Here so that we can override the
 // USWDS breakpoint and grid variables from above before
 // the grid, alerts, etc are loaded.
+@import "base/b-variables";
 @import "base/b-breakpoints";
 
 @import "~uswds/src/stylesheets/core/grid";
@@ -48,7 +51,7 @@
 @import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
-@import "base/b-variables";
+@import "base/b-element-overrides";
 @import "base/b-mixins";
 @import "base/b-functions";
 @import "base/b-utils";
@@ -75,6 +78,7 @@
 @import "modules/m-dropdown";
 @import "modules/m-nav-sidebar";
 @import "modules/m-overlay";
+@import "modules/m-education-wizard";
 
 // ----- VA SHAME ---- //
 

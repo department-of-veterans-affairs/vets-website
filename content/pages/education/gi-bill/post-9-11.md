@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Post-9/11 GI Bill
-template: 1-topic-landing
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
+order: 3
 ---
 
 <div class="va-introtext">

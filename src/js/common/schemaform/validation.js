@@ -214,11 +214,12 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+    errors.addError(futureDate);
   }
 }
 
@@ -289,5 +290,47 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
 
   if (!isValidDateRange(fromDate, toDate)) {
     errors.to.addError(errorMessages.pattern || 'To date must be after from date');
+  }
+}
+
+export function validateFileField(errors, fileList) {
+  let hasError = false;
+  fileList.forEach((file, index) => {
+    let error;
+    if (file.errorMessage) {
+      hasError = true;
+      error = `Error: ${file.errorMessage}`;
+    } else if (file.uploading) {
+      error = 'Uploading file...';
+    } else if (!file.confirmationNumber) {
+      error = 'Something went wrong...';
+    }
+
+    if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        __errors: [],
+        addError(msg) {
+          this.__errors.push(msg);
+        }
+      };
+      /* eslint-enable no-param-reassign */
+    }
+
+    if (error) {
+      errors[index].addError(error);
+    }
+  });
+
+  if (hasError) {
+    errors.addError('Please addresses the errors listed below');
+  }
+}
+
+export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  if (!Object.keys(group).filter(item => !!group[item]).length) {
+    errors.addError(atLeastOne);
   }
 }

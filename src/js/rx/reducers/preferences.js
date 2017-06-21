@@ -32,9 +32,10 @@ export default function preferences(state = initialState, action) {
     }
 
     case 'RX_SAVE_PREFERENCES_SUCCESS': {
+      const { emailAddress, rxFlag } = action.preferences;
       return {
-        email: makeField(state.email.value),
-        flag: makeField(state.flag.value),
+        email: makeField(emailAddress),
+        flag: makeField(rxFlag.toString()),
         saving: false
       };
     }

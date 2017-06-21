@@ -14,7 +14,7 @@ class FacilityPhoneLink extends Component {
         <i className={`fa fa-${icon}`}/>
         <strong>{title}:</strong><br/>
         <i className="fa fa-fw"/>
-        <a href={`tel:${phone}`}>
+        <a href={`tel:${phone.replace(/[ ]?x/, '')}`}>
           {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
         </a>
       </div>

@@ -42,7 +42,7 @@ function sortByLastSubmitDate(items) {
   return new Date(items.attributes.refillSubmitDate).getTime();
 }
 
-function sortByRefillDate(items) {
+function sortByLastFillDate(items) {
   return new Date(items.attributes.refillDate).getTime();
 }
 
@@ -132,8 +132,8 @@ export default function prescriptions(state = initialState, action) {
           return set('items', _.orderBy(state.items, sortByFacilityName, [order]), newState);
         case 'lastSubmitDate':
           return set('items', _.orderBy(state.items, sortByLastSubmitDate, [order]), newState);
-        case 'refillDate':
-          return set('items', _.orderBy(state.items, sortByRefillDate, [order]), newState);
+        case 'lastFillDate':
+          return set('items', _.orderBy(state.items, sortByLastFillDate, [order]), newState);
         default:
           return set('active.sort', {
             value: 'prescriptionName',
