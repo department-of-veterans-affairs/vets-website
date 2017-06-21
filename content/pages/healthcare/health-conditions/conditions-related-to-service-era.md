@@ -35,7 +35,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-Certain health concerns may be more likely to affect Veterans who served in a specific time and place. See what health concerns are a risk to you depending on when and where you served.
+Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served.
 
 </div>
 
