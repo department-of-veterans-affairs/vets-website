@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served in the Gulf War in Operation Desert Shield or Operation Desert Storm any time after August 2, 1990, you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
+If you served in the Gulf War in Operation Desert Shield or Operation Desert Storm anytime after August 2, 1990, you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
 </div>
 
@@ -32,7 +32,7 @@ If you served in the Gulf War in Operation Desert Shield or Operation Desert Sto
 
 You may be at risk of:
 
-- Health problems caused by toxic chemicals or other hazardous material in the environment, like:
+- Health problems caused by toxic chemicals or other hazardous materials in the environment, like:
   - **[Sand, dust, and particulates](http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp):** Tiny matter found in the air 
   - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets 
   - **[Oil well fires](http://www.publichealth.va.gov/exposures/gulfwar/sources/oil-well-fires.asp):** Oil or gas wells that caught on fire and burned
@@ -44,12 +44,12 @@ You may be at risk of:
   - **[Extreme heat](http://www.publichealth.va.gov/exposures/heat-injuries/index.asp):** Health problems (like heat stroke, heat exhaustion, and sunburn) that can be caused by serving in hot desert climates
   - **[Toxic embedded fragments](http://www.publichealth.va.gov/exposures/toxic_fragments/index.asp):** Shrapnel and other metals (some containing chemicals) that stay in your body after an injury and can cause injury at the site of the fragment or in other parts of your body 
   - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetiid (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus. 
+  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetii (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus. 
   - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 
 - Possible side effects of:
-  - **[Vaccinations](http://www.publichealth.va.gov/exposures/gulfwar/sources/vaccinations.asp):** Vaccines given to help prevent infectious diseases as well as anthrax and botulinum toxoid. These vaccines are being studied as 1 possible cause of chronic multi-symptom illnesses in Gulf War Veterans.
-  - **[Pyridostigmine bromide (PB)](http://www.publichealth.va.gov/exposures/gulfwar/sources/pyridostigmine-bromide.asp):** An anti-nerve agent pill used as a pretreatment to protect military personnel in an attack with the nerve agent soman. So far, research shows that there’s no evidence to link PB to multi-symptom illnesses in Gulf War Veterans, but we’re continue to monitor these Veterans’ health issues. 
+  - **[Vaccinations](http://www.publichealth.va.gov/exposures/gulfwar/sources/vaccinations.asp):** Vaccines given to help prevent infectious diseases as well as anthrax and botulinum toxoid. These vaccines are being studied as one possible cause of chronic multi-symptom illnesses in Gulf War Veterans.
+  - **[Pyridostigmine bromide (PB)](http://www.publichealth.va.gov/exposures/gulfwar/sources/pyridostigmine-bromide.asp):** An anti-nerve agent pill used as a pretreatment to protect military personnel in the event of an attack with the nerve agent soman. So far, research shows that there’s no evidence to link PB to multi-symptom illnesses in Gulf War Veterans, but we continue to monitor these Veterans’ health issues. 
 
 </div>
 
@@ -64,7 +64,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 - **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
 
-- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
+- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the Depleted Uranium Follow-up Program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
 
 </li>
 
@@ -86,7 +86,7 @@ Find out if you can get disability compensation (monthly payments) and other ben
 <br />
 [See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
 </li>
 </ol>
