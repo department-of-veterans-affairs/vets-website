@@ -192,6 +192,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#1f656661958459d90e468c9ebd13c390d5bf483c"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ef8badb778d1764b91311a62c041d9df0fc9fe09"
   }
 }
