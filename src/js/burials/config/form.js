@@ -6,7 +6,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { expensesWarning } from '../helpers';
+import { expensesWarning, benefitsWarning } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -222,47 +222,50 @@ const formConfig = {
           title: 'Benefits selection',
           path: 'benefits/selection',
           uiSchema: {
-            'view:claimedBenefits': {
-              'ui:title': 'What benefits are you claiming?',
-              burialAllowance: {
-                'ui:title': 'Burial Allowance'
-              },
-              plotAllowance: {
-                'ui:title': 'Plot or Interment Allowance'
-              },
-              transportation: {
-                'ui:title': 'Transportation Reimbursement'
-              },
-              amountIncurred: {
-                'ui:title': 'Amount incurred',
-                'ui:options': {
-                  expandUnder: 'transportation',
-                  classNames: 'schemaform-currency-input'
-                }
-              },
-              'ui:validations': [
-                validateBooleanGroup
-              ],
-              'ui:errorMessages': {
-                atLeastOne: 'Please choose at least one benefit'
-              },
+            'ui:title': 'What benefits are you claiming?',
+            burialAllowance: {
+              'ui:title': 'Burial allowance',
+              'ui:widget': 'yesNo'
+            },
+            plotAllowance: {
+              'ui:title': 'Plot or interment allowance',
+              'ui:widget': 'yesNo'
+            },
+            transportation: {
+              'ui:title': 'Transportation reimbursement',
+              'ui:widget': 'yesNo'
+            },
+            amountIncurred: {
+              'ui:title': 'Amount incurred',
               'ui:options': {
-                showFieldLabel: true
+                expandUnder: 'transportation',
+                classNames: 'schemaform-currency-input'
               }
+            },
+            'view:benefitsWarning': {
+              'ui:description': benefitsWarning,
+              'ui:options': {
+                hideIf: form => form.burialAllowance !== false || form.plotAllowance !== false || form.transportation !== false
+              }
+            },
+            'ui:validations': [
+              validateBooleanGroup
+            ],
+            'ui:errorMessages': {
+              atLeastOne: 'Please choose at least one benefit'
             }
           },
           schema: {
             type: 'object',
-            required: ['view:claimedBenefits'],
+            required: ['burialAllowance', 'plotAllowance', 'transportation'],
             properties: {
-              'view:claimedBenefits': {
+              burialAllowance,
+              plotAllowance,
+              transportation,
+              amountIncurred,
+              'view:benefitsWarning': {
                 type: 'object',
-                properties: {
-                  burialAllowance,
-                  plotAllowance,
-                  transportation,
-                  amountIncurred
-                }
+                properties: {}
               }
             }
           }
@@ -340,11 +343,11 @@ const formConfig = {
               'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
             },
             federalCemetery: {
-              'ui:title': 'Is the location above a national cemetery, or one owned by the federal government?',
+              'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
               'ui:widget': 'yesNo'
             },
             stateCemetery: {
-              'ui:title': 'Is the location a state Veterans cemetery?',
+              'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
               'ui:widget': 'yesNo',
               'ui:required': form => form.federalCemetery === false,
               'ui:options': {
