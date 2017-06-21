@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 
 import {
@@ -12,10 +13,6 @@ class AccountManagementSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
-  }
-
-  componentDidMount() {
-    this.props.fetchLatestTerms('mhvac');
   }
 
   openModal = () => {
@@ -34,7 +31,14 @@ class AccountManagementSection extends React.Component {
   renderModalContents() {
     const { terms } = this.props;
     const termsAccepted = this.props.profile.healthTermsCurrent;
-    if (termsAccepted) {
+    if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
+      setTimeout(() => {
+        this.props.fetchLatestTerms('mhvac');
+      }, 100);
+      return <LoadingIndicator setFocus message="Loading your information"/>;
+    } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
+      return <LoadingIndicator setFocus message="Loading your information"/>;
+    } else if (termsAccepted) {
       return (
         <div>
           <h3>
@@ -46,7 +50,8 @@ class AccountManagementSection extends React.Component {
         </div>
       );
     }
-    return <AcceptTermsPrompt terms={terms} onAccept={this.acceptAndClose}/>;
+
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose}/>;
   }
 
   render() {

@@ -52,6 +52,7 @@ class RxRefillsApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
             termsName={"mhvac"}
+            cancelPath={"/healthcare"}
             topContent={breadcrumbs}
             termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
