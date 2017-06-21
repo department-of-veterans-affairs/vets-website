@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CollapsiblePanel from './CollapsiblePanel';
+import { Link } from 'react-router';
+
+import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 
 class LetterList extends React.Component {
   render() {
@@ -9,9 +11,10 @@ class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter, index) => {
       return (
         <CollapsiblePanel panelName={letter.name} key={`collapsiblePanel-${index}`}>
-          <li key={letter.letterType}>
-            <a href="#">{letter.name}</a>
-          </li>
+          <p>Some content for each letter, need custom content still.</p>
+          <Link to="/" target="_blank" className="usa-button-primary va-button-primary">
+            Download Letter
+          </Link>
         </CollapsiblePanel>
       );
     });
