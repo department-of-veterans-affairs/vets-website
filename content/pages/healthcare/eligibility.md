@@ -138,6 +138,6 @@ In certain cases, you may receive dental care as part of your VA health benefits
 
 #### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? 
 
-If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/conditions/).
+If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
 
 <div markdown="0"><br></div>
