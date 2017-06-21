@@ -375,7 +375,10 @@
           "rank": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "serviceBranch"
+        ]
       }
     },
     "previousNames": {
