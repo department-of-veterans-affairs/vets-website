@@ -31,9 +31,9 @@ If you served in Afghanistan during Operation Enduring Freedom (OEF) any time af
 
 You may be at risk of:
 
-- Health problems caused by toxic chemicals or other hazardous material in the environment, like:
+- Health problems caused by toxic chemicals or other hazardous materials in the environment, like:
   - **[Sand, dust, and particulates](http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp):** Tiny matter found in the air 
-  - **[Burn pit smoke](http://www.publichealth.va.gov/exposures/burnpits/index.asp):** Smoke from open-air pits often used to get rid of waste (like chemicals, paints, munitions, and other substances) at military sites in Iraq and Afghanistan  
+  - **[Burn pit smoke](http://www.publichealth.va.gov/exposures/burnpits/index.asp):** Smoke from open-air pits often used to get rid of waste (like chemicals, paints, munitions, and other substances) at military sites in Afghanistan  
   - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets
 
 - Injuries caused by:
@@ -44,7 +44,7 @@ You may be at risk of:
   - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
 - Illnesses caused by:
-  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetiid (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus.
+  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus.
   - **[Rabies](http://www.publichealth.va.gov/exposures/rabies/index.asp):** A disease that you get from a bite or contact with saliva from an infected animal
 
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
@@ -70,7 +70,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 - **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
 
-- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp). 
+- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the Depleted Uranium Follow-up Program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp). 
 
 </li>
 
@@ -80,7 +80,7 @@ Find out if you can get disability compensation (monthly payments) and other ben
 <br />
 [See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
+[See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
 </li>
 </ol>
