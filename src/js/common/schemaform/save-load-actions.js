@@ -115,6 +115,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
+      Raven.captureMessage('vets_sip_missing_token');
       return Promise.resolve();
     }
 
@@ -145,11 +146,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           // This likely means their session expired, so mark them as logged out
           dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+          Raven.captureException(new Error(`vets_sip_error_server_unauthorized: ${resOrError.statusText}`));
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+          Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
         }
-
-        Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
       } else {
         dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
         Raven.captureException(resOrError);
