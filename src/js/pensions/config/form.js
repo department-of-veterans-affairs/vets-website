@@ -80,12 +80,6 @@ function isCurrentMarriage(form, index) {
   return status === 'Married' && numMarriages - 1 === index;
 }
 
-/*
-function hasChildren(form) {
-  return form.dependents.some((dependent) => !!(dependent.dependentRelationship === 'child'));
-}
-*/
-
 const marriageProperties = marriages.items.properties;
 
 const marriageType = _.assign(marriageProperties.marriageType, {
@@ -773,6 +767,75 @@ const formConfig = {
                   }
                 },
                 fullName: fullNameUI,
+                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
+                  }
+                }),
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasDependents'],
+            properties: {
+              'view:hasDependents': {
+                type: 'boolean'
+              },
+              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
+              dependents: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['relationship', 'fullName'],
+                  properties: {
+                    relationship: dependents.items.properties.relationship,
+                    fullName: dependents.items.properties.fullName,
+                    childDateOfBirth: dependents.items.properties.childDateOfBirth,
+                  }
+                }
+              }
+            }
+          }
+        },
+        childrenInformation: {
+          path: 'household/dependents/child/information/:index',
+          title: item => `${item.fullName.first} ${item.fullName.last} information`,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          itemFilter: (item) => !!(item.relationship === 'child'),
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
+                    childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
+                    childRelationship: {
+                      type: 'string',
+                      'enum': [
+                        'biological',
+                        'adopted',
+                        'stepchild'
+                      ]
+                    },
+                    attendingCollege: dependents.items.properties.attendingCollege,
+                    disabled: dependents.items.properties.disabled,
+                    previouslyMarried: dependents.items.properties.previouslyMarried,
+                    married: dependents.items.properties.married,
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createDisclosureTitle('fullName', 'Information'),
                 childPlaceOfBirth: {
                   'ui:title': 'Place of Birth',
                   'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
@@ -799,11 +862,6 @@ const formConfig = {
                     }
                   }
                 },
-                childDateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
-                  'ui:options': {
-                    hideIf: (form, index) => _.get(['dependents', index, 'relationship'], form) !== 'child'
-                  }
-                }),
                 attendingCollege: {
                   'ui:options': {
                     expandUnder: 'childDateOfBirth',
@@ -835,7 +893,38 @@ const formConfig = {
                   },
                   'ui:title': 'Are they currently married?',
                   'ui:widget': 'yesNo'
-                },
+                }
+              }
+            }
+          }
+        },
+        childrenAddress: {
+          path: 'household/dependents/child/address/:index',
+          title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          itemFilter: (item) => !!(item.relationship === 'child'),
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    childNotInHousehold: dependents.items.properties.childNotInHousehold,
+                    childAddress: dependents.items.properties.childAddress,
+                    personWhoLivesWithChild: dependents.items.properties.personWhoLivesWithChild,
+                    monthlyPayment: dependents.items.properties.monthlyPayment
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createDisclosureTitle('fullName', 'Address'),
                 childNotInHousehold: {
                   'ui:title': 'Does your child live with you?',
                   'ui:required': (form, index) => _.get(['dependents', index, 'relationship'], form) === 'child',
@@ -875,49 +964,8 @@ const formConfig = {
                 }
               }
             }
-          },
-          schema: {
-            type: 'object',
-            required: ['view:hasDependents'],
-            properties: {
-              'view:hasDependents': {
-                type: 'boolean'
-              },
-              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
-              dependents: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['relationship', 'fullName'],
-                  properties: {
-                    relationship: dependents.items.properties.relationship,
-                    fullName: dependents.items.properties.fullName,
-                    childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
-                    childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
-                    childRelationship: {
-                      type: 'string',
-                      'enum': [
-                        'biological',
-                        'adopted',
-                        'stepchild'
-                      ]
-                    },
-                    childDateOfBirth: dependents.items.properties.childDateOfBirth,
-                    attendingCollege: dependents.items.properties.attendingCollege,
-                    disabled: dependents.items.properties.disabled,
-                    previouslyMarried: dependents.items.properties.previouslyMarried,
-                    married: dependents.items.properties.married,
-                    childNotInHousehold: dependents.items.properties.childNotInHousehold,
-                    childAddress: dependents.items.properties.childAddress,
-                    personWhoLivesWithChild: dependents.items.properties.personWhoLivesWithChild,
-                    monthlyPayment: dependents.items.properties.monthlyPayment
-                  }
-                }
-              }
-            }
           }
-        },
+        }
       }
     },
     financialDisclosure: {
