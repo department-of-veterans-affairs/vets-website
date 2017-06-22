@@ -7,7 +7,7 @@ class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter) => {
       return (
         <li key={letter.letterType}>
-          <a href="#">{letter.letterName}</a>
+          <a href="#">{letter.name}</a>
         </li>
       );
     });

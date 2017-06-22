@@ -120,12 +120,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       data={pageData}
                       schema={pageSchema}
                       uiSchema={pageUiSchema}
+                      hideHeaderRow={page.hideHeaderRow}
                       hideTitle={expandedPages.length === 1}
                       pagePerItemIndex={page.index}
                       onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
                       onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
                       onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
-                      reviewMode={!editing}>
+                      uploadFile={this.props.uploadFile}
+                      reviewMode={!editing}
+                      editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
                         submitButton
                         buttonText="Update page"

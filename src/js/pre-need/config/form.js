@@ -8,10 +8,12 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import * as address from '../../common/schemaform/definitions/address';
-import fullNameUI from '../../common/schemaform/definitions/fullName';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
+import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 const {
   relationship,
@@ -29,13 +31,15 @@ const {
   sponsorDateOfDeath,
   sponsorGender,
   sponsorMaritalStatus,
-  sponsorMilitaryStatus
+  sponsorMilitaryStatus,
+  toursOfDuty
 } = fullSchemaPreNeed.properties;
 
 const {
   fullName,
   ssn,
   date,
+  dateRange,
   gender,
   usaPhone
 } = fullSchemaPreNeed.definitions;
@@ -53,6 +57,7 @@ const formConfig = {
     fullName,
     ssn,
     date,
+    dateRange,
     gender,
     usaPhone
   },
@@ -242,6 +247,60 @@ const formConfig = {
         }
       }
     },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        militaryHistory: {
+          title: 'Military history',
+          path: 'military-history',
+          uiSchema: {
+            toursOfDuty: {
+              'ui:title': 'Service periods',
+              'ui:description': 'Please record all periods of service',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView
+              },
+              items: {
+                'ui:order': ['serviceBranch', '*'],
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: _.merge(dateRangeUI(
+                  'Start of service period',
+                  'End of service period',
+                  'End of service must be after start of service'
+                ), {
+                  'ui:title': '',
+                }),
+                dischargeType: {
+                  'ui:title': 'Discharge character of service',
+                  'ui:options': {
+                    labels: {
+                      honorable: 'Honorable',
+                      general: 'General',
+                      other: 'Other Than Honorable',
+                      'bad-conduct': 'Bad Conduct',
+                      dishonorable: 'Dishonorable',
+                      undesirable: 'Undesirable'
+                    }
+                  }
+                },
+                rank: {
+                  'ui:title': 'Highest rank attained'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
+            }
+          }
+        }
+      }
+    }
   }
 };
 
