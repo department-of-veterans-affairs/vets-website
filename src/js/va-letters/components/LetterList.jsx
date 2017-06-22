@@ -5,13 +5,17 @@ import { Link } from 'react-router';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 
+import { letterContent } from '../utils/helpers';
+
 class LetterList extends React.Component {
   render() {
     // Replace this with collapsible panels
     const letterItems = (this.props.letters || []).map((letter, index) => {
+      let content = letterContent[letter.letterType] || '';
+
       return (
         <CollapsiblePanel panelName={letter.name} key={`collapsiblePanel-${index}`}>
-          <p>Some content for each letter, need custom content still.</p>
+          <p>{content}</p>
           <Link to="/" target="_blank" className="usa-button-primary va-button-primary">
             Download Letter
           </Link>
