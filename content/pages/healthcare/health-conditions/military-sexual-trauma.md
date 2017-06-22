@@ -93,7 +93,7 @@ You can’t get compensation for the traumatic event itself. But you may be able
 
 Or, get help applying for disability compensation by:
 
-- Reading our fact sheet on disability compensation for conditions related to MST. [Download the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
+- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
 - Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp). 
 
 <br>
