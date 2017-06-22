@@ -257,17 +257,66 @@ a.claim-list-item {
 
   h1:first-child {
     margin-bottom: 0;
-  }
 
-  p:first-of-type {
-    margin-top: 0;
+    & + p {
+      margin-top: 0;
+    }
   }
 }
 
 .claims-status {
+  i.fa {
+    font-size: 1.25em;
+  }
+
   .next-action {
     padding: 1em;
     background: $color-inset-bg;
+  }
+
+  .last-status {
+    margin-top: 1em;
+    padding: 1em;
+
+    h4:first-of-type {
+      padding: 0;
+    }
+
+    .content {
+      position: relative;
+      padding-left: 1.5em;
+
+      i.fa {
+        color: $color-green;
+        left: 0;
+        position: absolute;
+        top: 0.2em;
+      }
+    }
+  }
+
+  .previous-activity {
+    margin-top: 1em;
+  }
+
+  .events-list {
+    margin-top: 0;
+
+    tr {
+      td {
+        border: none;
+        border-bottom: solid thin $color-gray-light;
+        vertical-align: middle;
+
+        i.fa {
+          color: $color-gray;
+        }
+      }
+
+      &:last-child td {
+        border: none;
+      }
+    }
   }
 }
 
