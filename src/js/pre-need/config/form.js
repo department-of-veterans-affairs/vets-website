@@ -7,8 +7,9 @@ import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -35,7 +36,9 @@ const {
   toursOfDuty,
   desiredCemetary,
   currentlyBuried,
-  eligibleBuried
+  eligibleBuried,
+  email,
+  phoneNumber
 } = fullSchemaPreNeed.properties;
 
 const {
@@ -44,7 +47,7 @@ const {
   date,
   dateRange,
   gender,
-  usaPhone
+  phone
 } = fullSchemaPreNeed.definitions;
 
 const formConfig = {
@@ -62,7 +65,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
-    usaPhone
+    phone
   },
   chapters: {
     veteranInformation: {
@@ -345,6 +348,52 @@ const formConfig = {
               desiredCemetary,
               currentlyBuried,
               eligibleBuried
+            }
+          }
+        }
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        personalInformation: {
+          title: 'Personal information',
+          path: 'personal-information',
+          uiSchema: {
+            personalAddress: address.uiSchema(),
+            'view:otherContactInfo': {
+              'ui:title': 'Other contact information',
+              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+              'ui:validations': [
+                validateMatch('email', 'view:confirmEmail')
+              ],
+              email: {
+                'ui:title': 'Email address'
+              },
+              'view:confirmEmail': {
+                'ui:title': 'Re-enter email address',
+                'ui:options': {
+                  hideOnReview: true
+                }
+              },
+              phoneNumber: phoneUI('Primary telephone number')
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              personalAddress: address.schema(fullSchemaPreNeed),
+              'view:otherContactInfo': {
+                type: 'object',
+                properties: {
+                  email,
+                  'view:confirmEmail': {
+                    type: 'string',
+                    format: 'email'
+                  },
+                  phoneNumber
+                }
+              }
             }
           }
         }
