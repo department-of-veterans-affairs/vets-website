@@ -47,10 +47,10 @@ describe('Burials plot allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_federalCemetaryNo', 'N');
+    formDOM.fillData('#root_federalCemeteryNo', 'N');
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
-    expect(formDOM.querySelector('#root_stateCemetaryYes')).not.to.be.null;
+    expect(formDOM.querySelector('#root_stateCemeteryYes')).not.to.be.null;
   });
 
   it('should show actual govt contribution text field', () => {
@@ -81,9 +81,9 @@ describe('Burials plot allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_placeOfRemains', 'Cemetary');
-    formDOM.fillData('#root_federalCemetaryNo', 'N');
-    formDOM.fillData('#root_stateCemetaryNo', 'N');
+    formDOM.fillData('#root_placeOfRemains', 'Cemetery');
+    formDOM.fillData('#root_federalCemeteryNo', 'N');
+    formDOM.fillData('#root_stateCemeteryNo', 'N');
     formDOM.fillData('#root_govtContributionsYes', 'Y');
     formDOM.fillData('#root_amountGovtContribution', '50');
 

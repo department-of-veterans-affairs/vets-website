@@ -2,11 +2,6 @@ import merge from 'lodash/fp/merge';
 
 import environment from '../../common/helpers/environment';
 
-export const chapterNames = {
-  confirmAddress: 'Confirm Address',
-  downloadLetters: 'Download Letters'
-};
-
 function isJson(response) {
   const contentType = response.headers.get('content-type');
   return contentType && contentType.indexOf('application/json') !== -1;
