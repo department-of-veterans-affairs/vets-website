@@ -34,7 +34,7 @@ const {
   sponsorMaritalStatus,
   sponsorMilitaryStatus,
   toursOfDuty,
-  desiredCemetary,
+  desiredCemetery,
   currentlyBuried,
   eligibleBuried,
   email,
@@ -57,7 +57,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetary',
+  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetery',
   subTitle: 'Form 40-10007',
   defaultDefinitions: {
     fullName,
@@ -312,11 +312,11 @@ const formConfig = {
           title: 'Burial benefits',
           path: 'burial-benefits',
           uiSchema: {
-            desiredCemetary: {
-              'ui:title': 'Your desired VA National Cemetary'
+            desiredCemetery: {
+              'ui:title': 'Your desired VA National Cemetery'
             },
             currentlyBuried: {
-              'ui:title': 'Is there anyone currently buried in a VA National Cemetary under your eligibility?',
+              'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -336,8 +336,8 @@ const formConfig = {
                 name: {
                   'ui:title': 'Name of deceased'
                 },
-                cemetary: {
-                  'ui:title': 'VA National Cemetary where they are buried'
+                cemetery: {
+                  'ui:title': 'VA National Cemetery where they are buried'
                 }
               }
             }
@@ -345,7 +345,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              desiredCemetary,
+              desiredCemetery,
               currentlyBuried,
               eligibleBuried
             }

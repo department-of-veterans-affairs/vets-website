@@ -385,7 +385,7 @@
         ]
       }
     },
-    "desiredCemetary": {
+    "desiredCemetery": {
       "type": "string"
     },
     "currentlyBuried": {
@@ -404,7 +404,7 @@
           "name": {
             "type": "string"
           },
-          "cemetary": {
+          "cemetery": {
             "type": "string"
           }
         }
