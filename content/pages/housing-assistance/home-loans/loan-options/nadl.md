@@ -36,7 +36,7 @@ You may be able to get a NADL if you’re a Native American Veteran or a non–N
 A NADL offers many benefits, including:
 
 - **No down payment** required in most cases
-- **No need for Private Mortgage Insurance (PMI)**, which is commonly charged to conventional loan borrowers. 
+- **No need for Private Mortgage Insurance (PMI)**, which is commonly charged to conventional loan borrowers 
 - **Limited closing costs** (fees you pay for services and other costs related to getting a loan and buying a home)
 - **A low-interest, 30-year fixed mortgage** (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
 - **A reusable benefit**, which means you can get more than one NADL to buy, build, or improve another residence in the future
