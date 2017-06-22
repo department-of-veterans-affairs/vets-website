@@ -60,7 +60,7 @@ If you have the Certificate of Eligibility (COE) you used to get your original V
 <li class="process-step list-three">
 
 #### Follow your lender’s process for closing on the IRRRL loan, and pay your closing costs.
-With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank or mortgage company providing your loan) can pay the costs.
+With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank, mortgage company, or credit union providing your loan) can pay the costs.
 
 </li>
 </ol>
