@@ -38,7 +38,7 @@ A NADL offers many benefits, including:
 - Limited closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
 - A low-interest, 30-year fixed mortgage (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
 - A reusable benefit, which means you can get more than one NADL to buy, build, or improve another residence in the future
-- The ability to borrow up to $424,100 in most areas, with higher loan limits for some high-cost counties
+- The ability to borrow up to the FannieMae/FreddieMac conforming loan limit on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 ### How do I get a NADL?
 
