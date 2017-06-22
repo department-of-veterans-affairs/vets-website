@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served during World War II—from September 1, 1939 to September 2, 1945—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
+If you served during World War II—anytime between September 1, 1939, and September 2, 1945—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
 </div>
 
@@ -35,7 +35,7 @@ You may be at risk of illnesses or injuries caused by:
 - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 - **[Ionizing Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
-- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold mountainous climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
+- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
 - **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless, poisonous gas used during combat in World Wars I and II 
 
 </div>
@@ -53,7 +53,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 <li class="process-step list-two">
 
-Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
+Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the Ionizing Radiation Registry health exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
 </li>
 
