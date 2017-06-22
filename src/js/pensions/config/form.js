@@ -292,7 +292,10 @@ const formConfig = {
                 expandUnder: 'view:receivedSeverancePay'
               },
               amount: {
-                'ui:title': 'Amount'
+                'ui:title': 'Amount',
+                'ui:options': {
+                  classNames: 'schemaform-currency-input'
+                }
               },
               type: {
                 'ui:title': 'Pay Type',
@@ -349,7 +352,7 @@ const formConfig = {
             },
             // TODO: update schema with this field if stakeholders approve
             hasVisitedVAMC: {
-              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
             }
           },
@@ -395,7 +398,10 @@ const formConfig = {
                   'ui:title': 'How many days lost to disability'
                 },
                 annualEarnings: {
-                  'ui:title': 'Total annual earnings'
+                  'ui:title': 'Total annual earnings',
+                  'ui:options': {
+                    classNames: 'schemaform-currency-input'
+                  }
                 }
               }
             }
@@ -621,6 +627,7 @@ const formConfig = {
               'ui:title': spouseContribution,
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
+                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
@@ -798,7 +805,6 @@ const formConfig = {
               'view:hasDependents': {
                 type: 'boolean'
               },
-              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
               dependents: {
                 type: 'array',
                 minItems: 1,
