@@ -24,7 +24,6 @@ export function fileHelp({ formContext }) {
 }
 
 export function transform(formConfig, form) {
-  // delete form.data.privacyAgreementAccepted;
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     burialClaim: {
