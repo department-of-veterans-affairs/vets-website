@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served during the Vietnam War—from November 1, 1965 to April 30, 1975—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
+If you served during the Vietnam War—anytime between November 1, 1965, and April 30, 1975—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
 </div>
 
@@ -62,7 +62,7 @@ Find out if you can get disability compensation (monthly payments) and other ben
 <br />
 [See if you qualify for disability benefits due to conditions related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
 </li>
 </ol>
