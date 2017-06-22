@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served during the Korean War—from June 25, 1950 to July 27, 1953—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
+If you served during the Korean War—anytime between June 25, 1950, and July 27, 1953—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
 </div>
 
@@ -32,7 +32,7 @@ If you served during the Korean War—from June 25, 1950 to July 27, 1953—you 
 
 You may be at risk of illnesses or injuries caused by:
 
-- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October 1950 through December 1950 in extreme subzero temperatures.
+- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October through December 1950 in extreme subzero temperatures.
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
