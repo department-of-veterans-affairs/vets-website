@@ -23,7 +23,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-To get a VA direct or VA-backed home loan, you’ll need a Certificate of Eligibility (COE) to show your lender that you qualify for this benefit based on your service history and duty status. Find out if you can get a COE. And keep in mind that you’ll also need to meet your lender’s credit and income requirements to get a loan.
+To get a VA direct or VA-backed home loan, you’ll need a Certificate of Eligibility (COE) to show your lender that you qualify for this benefit based on your service history and duty status. Find out if you can get a COE. Keep in mind that you’ll also need to meet your lender’s credit and income requirements to get a loan.
 
 </div>
 
