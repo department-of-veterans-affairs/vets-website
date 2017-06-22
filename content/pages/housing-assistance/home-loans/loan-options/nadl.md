@@ -9,7 +9,7 @@ order: 2
 
 <div class="va-introtext">
 
-If you’re a Veteran, and either you or your spouse is Native American, our Native American Direct Loans (NADL) program may help you get a loan to buy, build, or improve a home on Federal Trust Land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for a NADL—and how to apply.
+If you’re a Veteran, and either you or your spouse is Native American, our Native American Direct Loan (NADL) program may help you get a loan to buy, build, or improve a home on Federal Trust Land. You may also get a loan to refinance an existing NADL and reduce your interest rate. Find out if you qualify for a NADL—and how to apply.
 
 </div>
 
@@ -29,16 +29,20 @@ You may be able to get a NADL if you’re a Native American Veteran or a non–N
 
 </div>
 
+<br>
+
 ### Why might I want to get a NADL?
 
 A NADL offers many benefits, including:
 
-- No down payment required in most cases
-- No need for Private Mortgage Insurance (PMI), which is commonly charged to conventional loan borrowers. 
-- Limited closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
-- A low-interest, 30-year fixed mortgage (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
-- A reusable benefit, which means you can get more than one NADL to buy, build, or improve another residence in the future
-- The ability to borrow up to the FannieMae/FreddieMac conforming loan limit on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **No down payment** required in most cases
+- **No need for Private Mortgage Insurance (PMI)**, which is commonly charged to conventional loan borrowers. 
+- **Limited closing costs** (fees you pay for services and other costs related to getting a loan and buying a home)
+- **A low-interest, 30-year fixed mortgage** (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
+- **A reusable benefit**, which means you can get more than one NADL to buy, build, or improve another residence in the future
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+
+<br>
 
 ### How do I get a NADL?
 
@@ -49,7 +53,6 @@ A NADL offers many benefits, including:
 This certification confirms that you qualify for the VA home loan benefit. <br />
 [Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/). 
 <br />
-
 [Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
