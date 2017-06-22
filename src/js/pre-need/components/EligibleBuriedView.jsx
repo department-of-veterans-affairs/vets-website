@@ -4,7 +4,7 @@ export default function EligibleBuriedView({ formData }) {
   return (
     <div>
       <div><strong>{formData.name}</strong></div>
-      <div>{formData.cemetary}</div>
+      <div>{formData.cemetery}</div>
     </div>
   );
 }
