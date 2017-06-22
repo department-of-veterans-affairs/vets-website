@@ -32,7 +32,7 @@ describe('post911GIBStatus reducer', () => {
       }
     );
 
-    expect(state.enrollmentData.firstName).to.eql('Jane');
+    expect(state.enrollmentData.firstName).to.equal('Jane');
     expect(state.available).to.be.true;
   });
 });
