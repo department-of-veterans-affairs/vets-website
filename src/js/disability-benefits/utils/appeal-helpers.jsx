@@ -61,4 +61,4 @@ export const appealStatusDescriptions = (eventType) => {
   };
 
   return definitionMap[eventType];
-}
+};

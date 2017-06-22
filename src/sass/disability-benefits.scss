@@ -336,14 +336,9 @@ a.claim-list-item {
 }
 
 .ask-va-questions.claims-sidebar-box {
-  padding: 2em 0;
-  @include media($medium-large-screen) {
-    padding-top: 0.6em;
+  h2 {
+    margin-top: 0;
   }
-}
-
-.claims-sidebar-box {
-  padding-top: 0.3em;
 }
 
 .claim-title {
