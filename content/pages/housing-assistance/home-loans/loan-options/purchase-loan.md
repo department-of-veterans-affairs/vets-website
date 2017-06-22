@@ -8,7 +8,7 @@ order: 1
 
 <div class="va-introtext">
 
-A VA-backed purchase loan can help you if you're looking for a competitive interest rate or if you’ve had trouble finding  financing to buy a house. Find out if you can get this loan—and how to apply. 
+Lenders offer competitive interest rates on VA-backed purchase loans. This can help you buy a home—especially if you don't want to make a down payment. Find out if you can get this loan—and how to apply. 
 
 </div>
 
@@ -27,16 +27,17 @@ You may be able to get a VA-backed purchase loan if you:
 
 A VA-backed purchase loan often offers:
 
-- **Better terms and interest rates** than other loans from private banks or mortgage companies (also called lenders)
-- **The ability to borrow up to $424,100** in most areas, with higher loan limits for some high-cost counties
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
+- **Better terms and interest rates** than other loans from private banks or mortgage companies (also called lenders)
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 - **No need for private mortgage insurance (PMI)**, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
 - **Fewer closing costs**, which may be paid by the seller
 - **No penalty fee** if you pay the loan off early
 
-If you qualify for a VA-backed home loan, you can use the loan to:
+If you qualify for a VA-backed purchase loan, you can use the loan to:
 
--	Buy a house or a condo unit in a VA-approved project
+-	Buy a single-family home, up to 4 units
+- Buy a condo in a VA-approved project
 -	Buy a home and improve it
 -	Buy a manufactured home or lot
 -	Build a new home
@@ -70,7 +71,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 ##### Look at your current finances.
 
-Go over your credit score, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
@@ -108,15 +109,15 @@ Once you’ve found the house you want to buy:
 
 ##### Work with your agent to put together and sign a purchase agreement.
 
-Be sure the sales contract includes the “VA Escape Clause.” This voids the contract if the property doesn’t appraise for the contract price. 
+Be sure the sales contract includes the “VA Escape Clause.” This provides an option to void the contract if the property doesn't appraise for the contract price. 
 
 </li>
 
 <li class="process-step list-two">
 
-##### Have the house appraised and inspected.
+##### Have the house inspected and appraised.
 
-A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements, and will determine the value of the house. Please be aware that an appraisal isn't the same as an inspection. We strongly recommend that you get an inspection to check for any major defects before you purchase a house.
+A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements, and will provide an opinion of value on the house. Please be aware that an appraisal isn't the same as an inspection. We strongly recommend that you get an inspection to check for any major defects before you purchase a house.
 
 </li>
 
