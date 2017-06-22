@@ -118,7 +118,7 @@ function createSpouseLabelSelector(nameTemplate) {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/pension_claims',
-  trackingPrefix: 'pensions-527EZ',
+  trackingPrefix: 'pensions-527EZ-',
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
