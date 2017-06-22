@@ -20,7 +20,7 @@ class UserInfoSection extends React.Component {
       currentAsOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h4 id="up-to-date-header" className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
+            <h4 id="current-as-of" className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
           </div>
         </div>
       );

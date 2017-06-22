@@ -9,7 +9,7 @@ const props = {
   enrollmentData: {
   }
 };
-const currentHeadingSelector = '#up-to-date-header';
+const currentHeadingSelector = '#current-as-of';
 
 describe('<UserInfoSection>', () => {
   it('should render', () => {
@@ -18,22 +18,20 @@ describe('<UserInfoSection>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  describe('props.showCurrentAsOfAlert=false', () => {
+  describe('showCurrentAsOfAlert is falsey', () => {
     it('should omit the "current as of" date', () => {
       const currentAsOfProps = _.merge({}, props, { showCurrentAsOfAlert: false });
       const tree = SkinDeep.shallowRender(<UserInfoSection {...currentAsOfProps}/>);
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
-  });
 
-  describe('props.showCurrentAsOfAlert=null', () => {
     it('should omit the "current as of" date', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
   });
 
-  describe('props.showCurrentAsOfAlert=true', () => {
+  describe('showCurrentAsOfAlert is truthy', () => {
     it('should display the "current as of" date', () => {
       const currentAsOfProps = _.merge({}, props, { showCurrentAsOfAlert: true });
       const tree = SkinDeep.shallowRender(<UserInfoSection {...currentAsOfProps}/>);
@@ -41,7 +39,8 @@ describe('<UserInfoSection>', () => {
     });
   });
 
-  describe('props.percentageBenefit=null', () => {
+  describe('percentageBenefit is not provided', () => {
+    // TODO: handle corrupt data department-of-veterans-affairs/vets.gov-team#3336
     it('should display "unavilable"', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       const benefitLevel = tree.subTree('#benefit-level');
