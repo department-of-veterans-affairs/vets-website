@@ -70,6 +70,7 @@ export class DefinitionTester extends React.Component {
           data={formData}
           pagePerItemIndex={this.props.pagePerItemIndex}
           onChange={this.handleChange}
+          uploadFile={this.props.uploadFile}
           onSubmit={this.props.onSubmit}/>
     );
   }
@@ -92,6 +93,14 @@ export function getFormDOM(form) {
     });
   };
 
+  formDOM.files = function fillFiles(id, files) {
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        files
+      }
+    });
+  };
+
   formDOM.submitForm = () => {
     submitForm(form);
   };
@@ -102,6 +111,10 @@ export function getFormDOM(form) {
         checked
       }
     });
+  };
+
+  formDOM.click = function click(id) {
+    ReactTestUtils.Simulate.click(this.querySelector(id));
   };
 
   return formDOM;

@@ -5,8 +5,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import { expensesWarning } from '../helpers';
+import { fileHelp, expensesWarning } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -17,6 +16,7 @@ import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 
 const {
   relationship,
@@ -51,6 +51,7 @@ const {
   ssn,
   date,
   usaPhone,
+  files,
   dateRange
 } = fullSchemaBurials.definitions;
 
@@ -378,13 +379,14 @@ const formConfig = {
         }
       }
     },
-    claimantContactInformation: {
-      title: 'Claimant Contact Information',
+    additionalInformation: {
+      title: 'Additional Information',
       pages: {
         claimantContactInformation: {
           title: 'Claimant contact information',
           path: 'claimant-contact-information',
           uiSchema: {
+            'ui:title': 'Claimant contact information',
             'ui:validations': [
               validateMatch('claimantEmail', 'view:claimantEmailConfirmation')
             ],
@@ -408,6 +410,42 @@ const formConfig = {
               claimantEmail,
               'view:claimantEmailConfirmation': claimantEmail,
               claimantPhone
+            }
+          }
+        },
+        documentUpload: {
+          title: 'Document upload',
+          path: 'documents',
+          editModeOnReviewPage: true,
+          depends: form =>
+            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
+          uiSchema: {
+            'ui:title': 'Document upload',
+            'ui:description': fileHelp,
+            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              hideIf: form => form.burialAllowanceRequested !== 'service'
+            }), {
+              'ui:required': form => form.burialAllowanceRequested === 'service',
+            }),
+            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              addAnotherLabel: 'Add Another Receipt',
+              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+            }), {
+              'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              deathCertificate: _.assign(files, {
+                minItems: 1,
+                maxItems: 1
+              }),
+              transportationReceipts: _.assign(files, {
+                minItems: 1
+              })
             }
           }
         }
