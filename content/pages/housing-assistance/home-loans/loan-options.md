@@ -28,12 +28,16 @@ We offer several home loan options to help you buy, build, or improve a home or 
 
 </div>
 
+<br>
+
 ### How does a VA direct home loan work?
 
-With a VA direct home loan, we serve as your mortgage lender. This means you'll work directly with us to apply for and manage your loan. The Native American Direct Loan (NADL) Program often has better terms than a home loan from a private lender (a private bank or mortgage company). [Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-options/nadl/). 
+With a VA direct home loan, we serve as your mortgage lender. This means you'll work directly with us to apply for and manage your loan. The Native American Direct Loan (NADL) Program often has better terms than a home loan from a private lender (a private bank, mortgage company, or credit union). [Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-options/nadl/). 
+
+<br>
 
 ### How does a VA-backed home loan work?
 
-With a VA-backed home loan, we guarantee (or stand behind) a portion of the loan you get from a private lender. If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, nearly 90% of all VA-backed home loans are made without a downpayment.
+With a VA-backed home loan, we guarantee (or stand behind) a portion of the loan you get from a private lender. If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, nearly 90% of all VA-backed home loans are made without a down payment.
 
 Lenders follow our VA standards when making VA-backed home loans. They may also require you to meet additional standards before giving you a loan. These standards may include having a high enough credit score or getting an updated home appraisal (an expert’s estimate of the value of your home).
