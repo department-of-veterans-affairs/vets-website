@@ -25,9 +25,7 @@ class FormIntroButtons extends React.Component {
   handleLoadForm = () => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations)
-      // Should probably do GA or sentry or something, but for now...
-      .catch((e) => console.error('Error loading form:', e)); // eslint-disable-line no-console
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations); // eslint-disable-line no-console
   }
 
   render() {

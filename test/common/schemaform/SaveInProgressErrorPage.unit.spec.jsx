@@ -27,15 +27,15 @@ describe('<SaveInProgressErrorPage>', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  const formConfig = {
-    formId: '1010ez',
-    migrations: []
+  const route = {
+    formConfig: {
+      formId: '1010ez',
+      migrations: []
+    }
   };
 
   const router = {
-    History: {
-      back: sinon.spy()
-    }
+    goBack: sinon.spy()
   };
 
   it('should render the no auth error', () => {
@@ -45,7 +45,7 @@ describe('<SaveInProgressErrorPage>', () => {
           isLoggedIn
           router={router}
           loginUrl="login/url"
-          formConfig={formConfig}
+          route={route}
           loadedStatus={LOAD_STATUSES.noAuth}/>
     );
     const findDOM = findDOMNode(tree);
@@ -61,7 +61,7 @@ describe('<SaveInProgressErrorPage>', () => {
           isLoggedIn
           router={router}
           loginUrl="login/url"
-          formConfig={formConfig}
+          route={route}
           loadedStatus={LOAD_STATUSES.notFound}/>
     );
     const findDOM = findDOMNode(tree);
@@ -76,7 +76,7 @@ describe('<SaveInProgressErrorPage>', () => {
           isLoggedIn
           router={router}
           loginUrl="login/url"
-          formConfig={formConfig}
+          route={route}
           loadedStatus={LOAD_STATUSES.failure}/>
     );
     const findDOM = findDOMNode(tree);
@@ -86,19 +86,22 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Resume previous application');
   });
   it('should go back', () => {
+    const fetchFormStatusSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
           updateLogInUrl={f => f}
+          setFetchFormStatus={fetchFormStatusSpy}
           isLoggedIn
           router={router}
           loginUrl="login/url"
-          formConfig={formConfig}
+          route={route}
           loadedStatus={LOAD_STATUSES.noAuth}/>
     );
     const findDOM = findDOMNode(tree);
     const button = findDOM.querySelector('.usa-button-outline');
     ReactTestUtils.Simulate.click(button);
-    expect(router.History.back.called).to.be.true;
+    expect(router.goBack.called).to.be.true;
+    expect(fetchFormStatusSpy.calledWith(LOAD_STATUSES.notAttempted));
   });
   it.skip('should start over at the beginning of the form with no data', () => {});
   it('should attempt to fetch the form again', () => {
@@ -109,7 +112,7 @@ describe('<SaveInProgressErrorPage>', () => {
           isLoggedIn
           router={router}
           loginUrl="login/url"
-          formConfig={formConfig}
+          route={route}
           loadedStatus={LOAD_STATUSES.failure}
           fetchInProgressForm={fetchSpy}/>
     );

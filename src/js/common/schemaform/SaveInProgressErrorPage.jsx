@@ -15,29 +15,29 @@ import { updateLogInUrl } from '../../login/actions';
 class SaveInProgressErrorPage extends React.Component {
   getBackButton = (primary = false) => {
     const buttonClass = primary ? 'usa-button-primary' : 'usa-button-outline';
-    const goBack = () => {
-      this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
-      this.props.router.goBack();
-    };
     return (
       <ProgressButton
-          onButtonClick={goBack}
+          onButtonClick={this.goBack}
           buttonClass={buttonClass}
           buttonText="Back"
           beforeText="«"/>
     );
   }
 
+  goBack = () => {
+    this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+    this.props.router.goBack();
+  }
   // Reload the form and try again.
   reloadForm = () => {
     // formConfig is put in this.props.routes[length - 1]
-    const formConfig = this.props.routes[this.props.routes.length - 1].formConfig;
+    const formConfig = this.props.route.formConfig;
     this.props.fetchInProgressForm(formConfig.formId, formConfig.migrations);
   }
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } = this.props.errorMessages || {};
+    const { noAuth, notFound } = this.props.route.formConfig.savedFormErrorMessages || {};
     let content;
 
     switch (loadedStatus) {
@@ -96,9 +96,8 @@ class SaveInProgressErrorPage extends React.Component {
 }
 
 SaveInProgressErrorPage.propTypes = {
-  formConfig: PropTypes.object.isRequired,
   loadedStatus: PropTypes.string.isRequired,
-  errorMessages: PropTypes.shape({
+  savedFormErrorMessages: PropTypes.shape({
     notFound: PropTypes.string,
     noAuth: PropTypes.string
   }),

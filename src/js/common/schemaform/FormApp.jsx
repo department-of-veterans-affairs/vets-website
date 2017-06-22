@@ -68,7 +68,6 @@ class FormApp extends React.Component {
     const GetFormHelp = formConfig.getHelp;
     let content;
 
-    // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
     } else if (!isInProgress(trimmedPathname)) {

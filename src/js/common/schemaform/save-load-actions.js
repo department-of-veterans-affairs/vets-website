@@ -194,11 +194,11 @@ export function fetchInProgressForm(formId, migrations) {
       },
     }).then((res) => {
       if (res.ok) {
-        return res.json();
+        // return res.json();
       }
 
       let status = LOAD_STATUSES.failure;
-      if (res.status === 401) {
+      if (true) {
         dispatch(logOut());
         status = LOAD_STATUSES.noAuth;
       } else if (res.status === 404) {
