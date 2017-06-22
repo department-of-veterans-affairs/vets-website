@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { transformForSubmit } from '../common/schemaform/helpers';
+
 export const expensesWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
@@ -7,3 +9,13 @@ export const expensesWarning = (
     </div>
   </div>
 );
+
+export function transform(formConfig, form) {
+  // delete form.data.privacyAgreementAccepted;
+  const formData = transformForSubmit(formConfig, form);
+  return JSON.stringify({
+    burialClaim: {
+      form: formData
+    }
+  });
+}
