@@ -44,7 +44,7 @@ function reInitWidget() {
     const otherChoice = radio.dataset.alternate;
     const otherNextQuestion = container.querySelector(`#${otherChoice}`).dataset.nextQuestion;
     if (otherNextQuestion) {
-      const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}`);
+      const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}]`);
       closeStateAndCheckChild(otherNextQuestionElement, container);
     }
 
