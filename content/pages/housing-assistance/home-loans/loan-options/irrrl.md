@@ -27,6 +27,8 @@ You may be able to get an IRRRL if you:
 
 </div>
 
+<br>
+
 ### Why might I want to get an IRRRL?
 
 Often called a “streamline” refinance, an IRRRL may help you to:
@@ -37,8 +39,10 @@ Often called a “streamline” refinance, an IRRRL may help you to:
 On a no-down payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you'll want to be sure you understand what you're getting into. <br>
-[Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/).
+[Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/). <br />
 [Download the Bureau's home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+
+<br>
 
 ### How do I get an IRRRL?
 
@@ -46,7 +50,7 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 <li class="process-step list-one">
 
 #### Find a lender.
-You’ll go through a private lender—not directly through us—to get an IRRRL. Terms and fees may vary, so contact several lenders to check out your options.
+You’ll go through a private bank, mortgage company, or credit union—not directly through us—to get an IRRRL. Terms and fees may vary, so contact several lenders to check out your options.
 
 </li>
 
@@ -60,7 +64,7 @@ If you have the Certificate of Eligibility (COE) you used to get your original V
 <li class="process-step list-three">
 
 #### Follow your lender’s process for closing on the IRRRL loan, and pay your closing costs.
-With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank, mortgage company, or credit union providing your loan) can pay the costs.
+With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender can pay the costs.
 
 </li>
 </ol>
