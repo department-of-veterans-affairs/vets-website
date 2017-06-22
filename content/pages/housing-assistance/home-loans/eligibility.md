@@ -62,7 +62,7 @@ You may be able to get a COE if you were discharged under conditions other than 
 | When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
 | --- | --- | 
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
-| Any time period | 6 years in the Selected Reserve or National Guard, and you:<ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
+| Any time period | 6 creditable years in the Selected Reserve or National Guard, and you:<ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
 
 </div>
 </li>
@@ -117,7 +117,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
 - You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
-To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Eligibility Center for your state that's listed at the bottom of the form. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
+To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Regional Loan Center for your state that's listed at the bottom of the form. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
