@@ -22,13 +22,13 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served during the Cold War Era—from 1945 to 1991—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
+If you served during the Cold War era—anytime between 1945 and 1991—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
 </div>
 
 <div class="feature" markdown=“1”>
 
-### What health risks should I know about related to service during the Cold War Era?
+### What health risks should I know about related to service during the Cold War era?
 
 You may be at risk of illnesses or injuries caused by contact with:
 
@@ -61,13 +61,13 @@ Talk to your primary health care provider or your local VA environmental health 
 
 <li class="process-step list-two">
 
-Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
+Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the Ionizing Radiation Registry health exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
 </li>
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
 </li>
 </ol>
