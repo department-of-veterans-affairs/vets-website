@@ -82,11 +82,11 @@ function isCurrentMarriage(form, index) {
 }
 
 function hasChildren(form) {
-  return form.dependents.some((dependent) => dependent.dependentRelationship === 'child');
+  return form.dependents && form.dependents.some((dependent) => dependent.dependentRelationship === 'child');
 }
 
 function isChild(item) {
-  return !!_.get(['dependentRelationship'], item) === 'child';
+  return item.dependentRelationship === 'child';
 }
 
 const marriageProperties = marriages.items.properties;
@@ -782,7 +782,7 @@ const formConfig = {
                   }
                 }),
                 childDateOfBirth: _.assign(currentOrPastDateUI('Date of birth'), {
-                  'ui:required': (form, index) => isChild(_.get(['dependents', index], form)),
+                  'ui:required': (form, index) => form.dependents[index].dependentRelationship === 'child',
                   'ui:options': {
                     expandUnder: 'dependentRelationship',
                     expandUnderCondition: 'child'
@@ -816,12 +816,12 @@ const formConfig = {
           }
         },
         childrenInformation: {
-          path: 'household/dependents/child/information/:index',
+          path: 'household/dependents/children/information/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} information`,
           depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !isChild(item),
+          itemFilter: (item) => isChild(item),
           schema: {
             type: 'object',
             properties: {
@@ -846,7 +846,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createHouseholdMemberTitle('', 'Information'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
                 childPlaceOfBirth: {
                   'ui:title': 'Place of Birth'
                 },
@@ -893,12 +893,12 @@ const formConfig = {
           }
         },
         childrenAddress: {
-          path: 'household/dependents/child/address/:index',
+          path: 'household/dependents/children/address/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
           depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => !isChild(item),
+          itemFilter: (item) => isChild(item),
           schema: {
             type: 'object',
             properties: {
@@ -920,7 +920,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createHouseholdMemberTitle('', 'Address'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
                 childInHousehold: {
                   'ui:title': 'Does your child live with you?',
                   'ui:widget': 'yesNo'
@@ -937,8 +937,8 @@ const formConfig = {
                   {
                     'ui:title': 'Who do they live with?',
                     'ui:options': {
-                      updateSchema: (form, index) => {
-                        if (!isChild(_.get('dependents', index), form)) {
+                      updateSchema: (form, UISchema, schema, index) => {
+                        if (!_.get(['dependents', index, 'childInHousehold'], form)) {
                           return fullName;
                         }
                         return nonRequiredFullName(fullName);
