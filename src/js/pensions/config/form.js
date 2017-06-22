@@ -1073,7 +1073,6 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => item.childInHousehold,
           schema: {
             type: 'object',
             properties: {
@@ -1103,7 +1102,6 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} monthly income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => item.childInHousehold,
           initialData: {
           },
           schema: {
@@ -1135,7 +1133,6 @@ const formConfig = {
           title: item => `${item.fullName.first} ${item.fullName.last} expected income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => item.childInHousehold,
           initialData: {
           },
           schema: {
