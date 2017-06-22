@@ -75,6 +75,8 @@ You may be able to get a COE if you were discharged under conditions other than 
 
 [Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility)
 
+<br>
+
 ### What if I don’t meet the minimum service requirements?
 
 You may still be able to get a COE if you were discharged due to:
@@ -84,6 +86,8 @@ You may still be able to get a COE if you were discharged due to:
 - Reduction in force, **or**
 - Certain medical conditions, **or**
 - A service-connected disability (a disability related to your military service)
+
+<br>
 
 ### Can I get a COE as the spouse of a Veteran? 
 
@@ -97,6 +101,8 @@ You may be able to get a COE if you're the spouse of a Veteran who:
 
 **Note:** A surviving spouse who remarried before December 16, 2003, and on or after their 57th birthday, must have applied no later than December 15, 2004, to establish home loan eligibility. We must deny applications we received after December 15, 2004, from surviving spouses who remarried before December 16, 2003.
 
+<br>
+
 ### Can I get a COE in any other situations? 
 
 You may be able to get a COE if you:
@@ -108,7 +114,9 @@ You may be able to get a COE if you:
   - Midshipman at the United States Naval Academy
   - Officer of the National Oceanic & Atmospheric Administration
   - Merchant seaman during World War II
-  
+
+<br>
+
 ### Can I use a COE I used before?
 
 You may be able to “restore” an entitlement you used in the past to buy another home with a VA direct or VA-backed loan if:
@@ -117,7 +125,9 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
 - You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
-To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Regional Loan Center for your state that's listed at the bottom of the form. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
+To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Regional Loan Center for your state that's listed at the bottom of the form. <br />
+[Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br />
+[Find your state's VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
