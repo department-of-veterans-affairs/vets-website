@@ -269,6 +269,10 @@
         "F",
         "M"
       ]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
     }
   },
   "properties": {
@@ -406,6 +410,10 @@
         }
       }
     },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
     "previousNames": {
       "type": "array",
       "items": {
@@ -435,6 +443,12 @@
     },
     "sponsorAddress": {
       "$ref": "#/definitions/address"
+    },
+    "personalAddress": {
+      "$ref": "#/definitions/address"
+    },
+    "phoneNumber": {
+      "$ref": "#/definitions/phone"
     }
   }
 }
