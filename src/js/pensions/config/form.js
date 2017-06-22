@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
-import { validateMatch } from '../../common/schemaform/validation';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
 import { relationshipLabels } from '../labels';
@@ -47,11 +46,7 @@ const {
   reasonForNotLivingWithSpouse,
   spouseIsVeteran,
   monthlySpousePayment,
-  dependents,
-  email,
-  dayPhone,
-  nightPhone,
-  mobilePhone
+  dependents
 } = fullSchemaPensions.properties;
 
 const {
@@ -123,7 +118,7 @@ function createSpouseLabelSelector(nameTemplate) {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/pension_claims',
-  trackingPrefix: 'pensions-530-',
+  trackingPrefix: 'pensions-527EZ',
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -1004,45 +999,6 @@ const formConfig = {
         }
       }
     },
-    contactInformation: {
-      title: 'Contact Information',
-      pages: {
-        contactInformation: {
-          title: 'Contact information',
-          path: 'contact-information',
-          uiSchema: {
-            'ui:validations': [
-              validateMatch('email', 'view:emailConfirmation')
-            ],
-            veteranAddress: address.uiSchema('Address'),
-            email: {
-              'ui:title': 'Email address'
-            },
-            'view:emailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
-            dayPhone: phoneUI('Day phone number'),
-            nightPhone: phoneUI('Night phone number'),
-            mobilePhone: phoneUI('Mobile phone number'),
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranAddress'],
-            properties: {
-              veteranAddress: address.schema(fullSchemaPensions, true),
-              email,
-              'view:emailConfirmation': email,
-              dayPhone,
-              nightPhone,
-              mobilePhone
-            }
-          }
-        }
-      }
-    },
     documentUpload: {
       title: 'Document Upload',
       pages: {
@@ -1064,7 +1020,7 @@ const formConfig = {
           }
         }
       }
-    },
+    }
   }
 };
 

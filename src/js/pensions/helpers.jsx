@@ -2,8 +2,6 @@ import React from 'react';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
-  // delete form.data.privacyAgreementAccepted;
-  // delete form.data.hasVisitedVAMC;
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     pensionClaim: {
