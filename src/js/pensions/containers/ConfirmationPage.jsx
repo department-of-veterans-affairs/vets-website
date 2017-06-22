@@ -15,19 +15,9 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.pensions-page-title');
     scrollToTop();
-  }
-
-  toggleExpanded = (e) => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
   }
 
   render() {
