@@ -36,7 +36,6 @@ class SaveInProgressErrorPage extends React.Component {
   }
 
   render() {
-    console.log('rendering SaveInProgressErrorPage');
     const { loadedStatus } = this.props;
     const { noAuth, notFound } = this.props.errorMessages || {};
     let content;
@@ -84,7 +83,6 @@ class SaveInProgressErrorPage extends React.Component {
         );
         break;
       default: // Shouldn't get here...
-        console.log('set the load status to view the appropriate error message');
         content = null;
         break;
     }

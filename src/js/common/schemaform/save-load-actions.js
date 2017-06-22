@@ -191,18 +191,13 @@ export function fetchInProgressForm(formId, migrations) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      if (res.ok && window.localStorage.calledOnce === 'true') {
+      if (res.ok) {
         return res.json();
       }
-      console.log('force-failing the fetch');
-
-      window.localStorage.calledOnce = 'true';
 
       let status = LOAD_STATUSES.failure;
       if (res.status === 401) {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to load, tell them their session expired and they need to log
-        //  back in and try again.
+        dispatch(logOut());
         status = LOAD_STATUSES.noAuth;
       } else if (res.status === 404) {
         status = LOAD_STATUSES.notFound;

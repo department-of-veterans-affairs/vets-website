@@ -27,7 +27,6 @@ class FormApp extends React.Component {
   componentWillReceiveProps(newProps) {
     const status = newProps.loadedStatus;
     if (status === LOAD_STATUSES.success) {
-      console.log('redirecting to returnUrl');
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -35,10 +34,7 @@ class FormApp extends React.Component {
       && status !== LOAD_STATUSES.pending
       && !window.location.pathname.endsWith('/error')
     ) {
-      console.log(`${newProps.formConfig.urlPrefix || ''}error`);
       newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
-    } else {
-      console.log('not redirecting anywhere');
     }
   }
 
