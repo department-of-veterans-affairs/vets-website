@@ -191,9 +191,12 @@ export function fetchInProgressForm(formId, migrations) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      if (res.ok) {
+      if (res.ok && window.localStorage.calledOnce === 'true') {
         return res.json();
       }
+      console.log('force-failing the fetch');
+
+      window.localStorage.calledOnce = 'true';
 
       let status = LOAD_STATUSES.failure;
       if (res.status === 401) {
