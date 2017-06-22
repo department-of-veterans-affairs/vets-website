@@ -23,7 +23,7 @@ class FormIntroButtons extends React.Component {
   }
 
   handleLoadPrefill = () => {
-    if (this.props.loggedIn) {
+    if (this.props.prefillAvailable) {
       this.handleLoadForm(true);
     } else {
       this.goToBeginning();
@@ -69,10 +69,10 @@ FormIntroButtons.propTypes = {
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
-  loggedIn: PropTypes.bool.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
-  formSaved: PropTypes.bool.isRequired
+  formSaved: PropTypes.bool.isRequired,
+  prefillAvailable: PropTypes.bool.isRequired
 };
 
 export default FormIntroButtons;

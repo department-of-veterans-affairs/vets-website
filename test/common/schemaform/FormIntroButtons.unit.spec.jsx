@@ -36,8 +36,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved={false}
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn={false}/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -54,8 +53,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved={false}
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -72,8 +70,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
@@ -90,8 +87,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -131,8 +127,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -152,7 +147,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           route={route}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          prefillAvailable/>
     );
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
