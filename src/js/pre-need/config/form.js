@@ -3,10 +3,6 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from './schema.json';
 
-// import { transform } from '../helpers';
-import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -14,6 +10,10 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
+
+import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import EligibleBuriedView from '../components/EligibleBuriedView';
 
 const {
   relationship,
@@ -32,7 +32,10 @@ const {
   sponsorGender,
   sponsorMaritalStatus,
   sponsorMilitaryStatus,
-  toursOfDuty
+  toursOfDuty,
+  desiredCemetary,
+  currentlyBuried,
+  eligibleBuried
 } = fullSchemaPreNeed.properties;
 
 const {
@@ -266,13 +269,11 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service'
                 },
-                dateRange: _.merge(dateRangeUI(
+                dateRange: dateRangeUI(
                   'Start of service period',
                   'End of service period',
                   'End of service must be after start of service'
-                ), {
-                  'ui:title': '',
-                }),
+                ),
                 dischargeType: {
                   'ui:title': 'Discharge character of service',
                   'ui:options': {
@@ -296,6 +297,54 @@ const formConfig = {
             type: 'object',
             properties: {
               toursOfDuty
+            }
+          }
+        }
+      }
+    },
+    burialBenefits: {
+      title: 'Burial Benefits',
+      pages: {
+        burialBenefits: {
+          title: 'Burial benefits',
+          path: 'burial-benefits',
+          uiSchema: {
+            desiredCemetary: {
+              'ui:title': 'Your desired VA National Cemetary'
+            },
+            currentlyBuried: {
+              'ui:title': 'Is there anyone currently buried in a VA National Cemetary under your eligibility?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  Y: 'Yes',
+                  N: 'No',
+                  U: 'I don\'t know'
+                }
+              }
+            },
+            eligibleBuried: {
+              'ui:options': {
+                viewField: EligibleBuriedView,
+                expandUnder: 'currentlyBuried',
+                expandUnderCondition: 'Y'
+              },
+              items: {
+                name: {
+                  'ui:title': 'Name of deceased'
+                },
+                cemetary: {
+                  'ui:title': 'VA National Cemetary where they are buried'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              desiredCemetary,
+              currentlyBuried,
+              eligibleBuried
             }
           }
         }
