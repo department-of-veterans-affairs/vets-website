@@ -6,9 +6,8 @@ import _ from 'lodash';
 
 import { getAppeals } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
-import { appealStatusDescriptions } from '../utils/appeal-helpers';
+import { appealStatusDescriptions } from '../utils/appeal-helpers.jsx';
 
-/* eslint-disable react/no-danger */
 class AppealStatusPage extends React.Component {
   componentDidMount() {
     if (!this.props.appeal) {
@@ -17,7 +16,6 @@ class AppealStatusPage extends React.Component {
   }
 
   render() {
-    // console.log(this.props.appeal, !this.props.appeal)
     if (!this.props.appeal) {
       return null;
     }
@@ -25,10 +23,9 @@ class AppealStatusPage extends React.Component {
     const { appeal } = this.props;
     const events = _.orderBy(appeal.attributes.events, [(e) => {
       return moment(e.date).unix();
-    }]);
-    const lastEvent = events.slice(-1)[0];
-
-    const { status, nextAction } = appealStatusDescriptions[lastEvent.type];
+    }], ['desc']);
+    const lastEvent = events[0];
+    const { status, nextAction } = appealStatusDescriptions(lastEvent.type);
 
     return (
       <div className="claims-status">
@@ -42,26 +39,40 @@ class AppealStatusPage extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="next-action">
-                <h4>{nextAction.title}</h4>
+                <h5>{nextAction.title}</h5>
                 {nextAction.description}
               </div>
             </div>
             <div className="row">
               <div className="last-status">
-                <h4>{status.title}</h4>
-                <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
-                <p dangerouslySetInnerHTML={{ __html: status.description }}/>
-                <Link to="appeals/learn-more">Learn more about the appeals process</Link>
+                <div className="content">
+                  <i className="fa fa-check-circle"></i>
+                  <h5>{status.title}</h5>
+                  <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
+
+                  {status.description}
+                  <Link to="appeals/learn-more">Learn more about the appeals process</Link>
+                </div>
               </div>
             </div>
             <div className="row">
               <div className="previous-activity">
-                <h3>Previous Activity for Your Appeal</h3>
+                <h4>Previous Activity for Your Appeal</h4>
+                <table className="events-list">
+                  <tbody>
+                    {events.slice(1).map((e, i) => {
+                      return (
+                        <tr key={i}>
+                          <td><i className="fa fa-check-circle"></i></td>
+                          <td><strong>{moment(e.date).format('MMM DD, YYYY')}</strong></td>
+                          <td>{appealStatusDescriptions(e.type).status.title}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
-            <pre>
-              {JSON.stringify(this.props.appeal, null, 2)}
-            </pre>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns">
             <AskVAQuestions/>

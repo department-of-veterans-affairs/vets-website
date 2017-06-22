@@ -4,7 +4,7 @@ display_title: Check Claim Status
 entryname: disability-benefits
 layout: page-react.html
 gatePage: true
-collection: disability
+collection: [disability, disabilityBeta]
 order: 4
 includeBreadcrumbs: true
 ---
