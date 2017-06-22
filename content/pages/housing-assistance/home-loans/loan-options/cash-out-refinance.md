@@ -24,15 +24,22 @@ You may be able to get a cash-out refinance loan if you:
 
 </div>
 
+<br>
+
 ### Why might I want to get a cash-out refinance loan?
 
 A cash-out refinance loan may help you to:
 
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
-- Borrow up to the FannieMae/FreddieMac conforming loan limit on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
-You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Make sure you understand how your new loan amount relates to the value of your home. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. The Consumer Financial Protection Bureau's home loan tool kit can help. [Download the home loan tool kit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+On a no-down payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+
+You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Make sure you understand how your new loan amount relates to the value of your home. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. 
+
+The Consumer Financial Protection Bureau's home loan tool kit can help. [Download the home loan tool kit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+
+<br>
 
 ### How can I get a cash-out refinance loan?
 
@@ -41,7 +48,7 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 
 #### Find a lender.
 
-You’ll go through a private bank or mortgage company—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
+You’ll go through a private bank, mortgage company, or credit union—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
 
 </li>
 
