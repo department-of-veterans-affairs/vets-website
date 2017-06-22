@@ -34,6 +34,6 @@ With a VA direct home loan, we serve as your mortgage lender. This means you'll 
 
 ### How does a VA-backed home loan work?
 
-With a VA-backed home loan, we guarantee (or stand behind) a portion of the loan you get from a private lender. If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, Veterans don’t need to make a down payment on nearly 90% of all VA-backed home loans.
+With a VA-backed home loan, we guarantee (or stand behind) a portion of the loan you get from a private lender. If your VA-backed home loan goes into foreclosure, the guaranty allows the lender to recover some or all of their losses. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, nearly 90% of all VA-backed home loans are made without a downpayment.
 
 Lenders follow our VA standards when making VA-backed home loans. They may also require you to meet additional standards before giving you a loan. These standards may include having a high enough credit score or getting an updated home appraisal (an expert’s estimate of the value of your home).
