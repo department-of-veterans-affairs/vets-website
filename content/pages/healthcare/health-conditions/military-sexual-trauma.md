@@ -56,10 +56,10 @@ We provide free, confidential (private) counseling and treatment to male and fem
 
 Our services include:
 
-- Treatment under the guidance of health care providers who are knowledgeable about issues linked to MST at every VA medical center and health care clinic
+- Treatment under the guidance of health care providers who have knowledge about issues linked to MST at every VA medical center and health care clinic
 - Specialized outpatient mental health services focused on sexual trauma at many VA locations
 - Counseling with professionals who are specially trained to treat conditions related to sexual trauma at Vet Centers across the country
-- Specialized MST treatment in a residential (live-in) or inpatient setting—including gender-specific programs—for Veterans who need more intense care
+- Specialized MST treatment in a residential (live-in) or inpatient setting—including gender-specific programs—for Veterans who need more intensive care
 - Treatment and support for health conditions linked to MST, like:
   - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
   - [Depression](/healthcare/health-conditions/mental-health/depression/)
@@ -77,19 +77,19 @@ Here’s how to access VA services for MST:
 - **If you don’t have a VA primary care provider,** call your local VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable. [Find a VA medical center near you](/facilities/). 
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
-  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 You can also call the VA general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>.
 
-[Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
+[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
 
 <br>
 
 ### Can I get disability compensation (monthly payments) or other benefits from VA?
 
-You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/). 
+You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd#ptsd-disability-eligibility). 
 
 Or, get help applying for disability compensation by:
 
