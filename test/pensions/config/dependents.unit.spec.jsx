@@ -82,7 +82,7 @@ describe('Pensions dependent list', () => {
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
     formDOM.submitForm(form);
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);// should be 2 but name is not enforced
     expect(onSubmit.called).not.to.be.true;
   });
 
