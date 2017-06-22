@@ -57,19 +57,20 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 <ol class="process">
 <li class="process-step list-one">
 
-##### Look at your current finances.
-Go over your credit score, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
-
-</li>
-
-<li class="process-step list-two">
-
 ##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
 You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
 <br>
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br>
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+
+</li>
+
+<li class="process-step list-two">
+
+##### Look at your current finances.
+
+Go over your credit score, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
