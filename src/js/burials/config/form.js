@@ -1,19 +1,22 @@
 import _ from 'lodash/fp';
 
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
-
 // import { transform } from '../helpers';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { fileHelp, expensesWarning } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import FullNameField from '../../common/schemaform/FullNameField';
 import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import toursOfDutyUI from '../definitions/toursOfDuty';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 
 const {
   relationship,
@@ -24,9 +27,10 @@ const {
   deathDate,
   claimantEmail,
   claimantPhone,
+  toursOfDuty,
   placeOfRemains,
-  federalCemetary,
-  stateCemetary,
+  federalCemetery,
+  stateCemetery,
   govtContributions,
   amountGovtContribution,
   burialAllowanceRequested,
@@ -37,7 +41,8 @@ const {
   burialAllowance,
   plotAllowance,
   transportation,
-  amountIncurred
+  amountIncurred,
+  previousNames
 } = fullSchemaBurials.properties;
 
 const {
@@ -45,7 +50,9 @@ const {
   vaFileNumber,
   ssn,
   date,
-  usaPhone
+  usaPhone,
+  files,
+  dateRange
 } = fullSchemaBurials.definitions;
 
 const formConfig = {
@@ -62,7 +69,8 @@ const formConfig = {
     vaFileNumber,
     ssn,
     date,
-    usaPhone
+    usaPhone,
+    dateRange
   },
   chapters: {
     claimantInformation: {
@@ -75,7 +83,7 @@ const formConfig = {
             claimantFullName: fullNameUI,
             relationship: {
               type: {
-                'ui:title': 'Relationship to the deceased veteran',
+                'ui:title': 'Relationship to the deceased Veteran',
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: relationshipLabels
@@ -154,9 +162,55 @@ const formConfig = {
             type: 'object',
             required: ['burialDate', 'deathDate', 'locationOfDeath'],
             properties: {
-              burialDate,
               deathDate,
+              burialDate,
               locationOfDeath
+            }
+          }
+        }
+      }
+    },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+        servicePeriods: {
+          title: 'Service Periods',
+          path: 'military-history/service-periods',
+          uiSchema: {
+            toursOfDuty: toursOfDutyUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              toursOfDuty
+            }
+          }
+        },
+        previousNames: {
+          title: 'Previous Names',
+          path: 'military-history/previous-names',
+          uiSchema: {
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField
+              },
+              items: fullNameUI
+            },
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did the veteran serve under another name?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:serveUnderOtherNames': {
+                type: 'boolean'
+              },
+              previousNames: _.assign(previousNames, {
+                minItems: 1
+              })
             }
           }
         }
@@ -172,18 +226,19 @@ const formConfig = {
             'view:claimedBenefits': {
               'ui:title': 'What benefits are you claiming?',
               burialAllowance: {
-                'ui:title': 'Burial Allowance'
+                'ui:title': 'Burial allowance'
               },
               plotAllowance: {
-                'ui:title': 'Plot or Interment Allowance'
+                'ui:title': 'Plot or interment allowance'
               },
               transportation: {
-                'ui:title': 'Transportation Reimbursement'
+                'ui:title': 'Transportation reimbursement'
               },
               amountIncurred: {
                 'ui:title': 'Amount incurred',
                 'ui:options': {
-                  expandUnder: 'transportation'
+                  expandUnder: 'transportation',
+                  classNames: 'schemaform-currency-input'
                 }
               },
               'ui:validations': [
@@ -245,8 +300,14 @@ const formConfig = {
               'ui:title': 'Did you incur expenses for the Veteran’s burial?',
               'ui:widget': 'yesNo'
             },
+            'view:expensesWarning': {
+              'ui:description': expensesWarning,
+              'ui:options': {
+                hideIf: form => form.incurredExpenses !== false
+              }
+            },
             benefitsUnclaimedRemains: {
-              'ui:title': 'Are you seeking burial benefits for the unclaimed remains of a veteran?',
+              'ui:title': 'Are you seeking burial benefits for the unclaimed remains of a Veteran?',
               'ui:widget': 'yesNo',
               'ui:required': form => _.get('relationship.type', form) === 'other',
               'ui:options': {
@@ -262,50 +323,55 @@ const formConfig = {
               burialCost,
               previouslyReceivedAllowance,
               incurredExpenses,
+              'view:expensesWarning': {
+                type: 'object',
+                properties: {}
+              },
               benefitsUnclaimedRemains,
             }
           }
         },
         plotAllowance: {
-          title: 'Plot or Interment Allowance',
+          title: 'Plot or interment allowance',
           path: 'benefits/plot-allowance',
           depends: form => _.get('view:claimedBenefits.plotAllowance', form) === true,
           uiSchema: {
-            'ui:title': 'Plot or Interment Allowance',
+            'ui:title': 'Plot or interment allowance',
             placeOfRemains: {
-              'ui:title': 'Place of Burial or Location of Deceased Veteran’s Remains'
+              'ui:title': 'Place of burial or location of deceased Veteran’s remains'
             },
-            federalCemetary: {
+            federalCemetery: {
               'ui:title': 'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
               'ui:widget': 'yesNo'
             },
-            stateCemetary: {
+            stateCemetery: {
               'ui:title': 'Was the Veteran buried in a state Veterans cemetery?',
               'ui:widget': 'yesNo',
-              'ui:required': form => form.federalCemetary === false,
+              'ui:required': form => form.federalCemetery === false,
               'ui:options': {
-                expandUnder: 'federalCemetary',
+                expandUnder: 'federalCemetery',
                 expandUnderCondition: false
               }
             },
             govtContributions: {
-              'ui:title': 'Did a federal/state government or the veterans employer contribute to the burial?',
+              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?',
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
               'ui:title': 'Amount of government or employer contribution:',
               'ui:options': {
-                expandUnder: 'govtContributions'
+                expandUnder: 'govtContributions',
+                classNames: 'schemaform-currency-input'
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['placeOfRemains', 'federalCemetary', 'govtContributions'],
+            required: ['placeOfRemains', 'federalCemetery', 'govtContributions'],
             properties: {
               placeOfRemains,
-              federalCemetary,
-              stateCemetary,
+              federalCemetery,
+              stateCemetery,
               govtContributions,
               amountGovtContribution
             }
@@ -313,13 +379,14 @@ const formConfig = {
         }
       }
     },
-    claimantContactInformation: {
-      title: 'Claimant Contact Information',
+    additionalInformation: {
+      title: 'Additional Information',
       pages: {
         claimantContactInformation: {
-          title: 'Claimant Contact Information',
+          title: 'Claimant contact information',
           path: 'claimant-contact-information',
           uiSchema: {
+            'ui:title': 'Claimant contact information',
             'ui:validations': [
               validateMatch('claimantEmail', 'view:claimantEmailConfirmation')
             ],
@@ -343,6 +410,42 @@ const formConfig = {
               claimantEmail,
               'view:claimantEmailConfirmation': claimantEmail,
               claimantPhone
+            }
+          }
+        },
+        documentUpload: {
+          title: 'Document upload',
+          path: 'documents',
+          editModeOnReviewPage: true,
+          depends: form =>
+            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
+          uiSchema: {
+            'ui:title': 'Document upload',
+            'ui:description': fileHelp,
+            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              hideIf: form => form.burialAllowanceRequested !== 'service'
+            }), {
+              'ui:required': form => form.burialAllowanceRequested === 'service',
+            }),
+            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+              addAnotherLabel: 'Add Another Receipt',
+              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+            }), {
+              'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              deathCertificate: _.assign(files, {
+                minItems: 1,
+                maxItems: 1
+              }),
+              transportationReceipts: _.assign(files, {
+                minItems: 1
+              })
             }
           }
         }

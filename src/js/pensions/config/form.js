@@ -6,13 +6,13 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution } from '../helpers';
+import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import MarriageTitle from '../components/MarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../components/FullNameField';
+import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
@@ -27,6 +27,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
@@ -60,7 +61,8 @@ const {
   marriages,
   expectedIncome,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  files
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
@@ -125,7 +127,7 @@ function createSpouseLabelSelector(nameTemplate) {
 }
 
 const formConfig = {
-  urlPrefix: '/527EZ/',
+  urlPrefix: '/',
   submitUrl: '/v0/pensions_applications',
   trackingPrefix: 'pensions',
   transformForSubmit: transform,
@@ -246,7 +248,7 @@ const formConfig = {
                 expandUnder: 'nationalGuardActivation',
               },
               name: {
-                'ui:title': 'Name of Reserve/NG unit',
+                'ui:title': 'Name of Reserve/National Guard unit',
               },
               address: address.uiSchema('Unit address'),
               phone: phoneUI('Unit phone number'),
@@ -1156,6 +1158,28 @@ const formConfig = {
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
               }
+            }
+          }
+        }
+      }
+    },
+    documentUpload: {
+      title: 'Document Upload',
+      pages: {
+        documentUpload: {
+          title: 'Document upload',
+          path: 'documents',
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': fileHelp,
+            files: fileUploadUI('Please upload any documentation that you need to support your claim', {
+              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              files
             }
           }
         }

@@ -8,7 +8,7 @@ import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-
 import formConfig from '../../../src/js/burials/config/form.js';
 
 describe('Burials claimant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.claimantContactInformation.pages.claimantContactInformation;
+  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.claimantContactInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
