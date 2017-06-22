@@ -42,6 +42,15 @@ class ObjectField extends React.Component {
     return shouldRender(this, nextProps, nextState);
   }
 
+  onPropertyChange(name) {
+    return (value) => {
+      const formData = Object.keys(this.props.formData || {}).length
+        ? this.props.formData
+        : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
+      this.props.onChange(_.set(name, value, formData));
+    };
+  }
+
   getStateFromProps(props) {
     const { schema, formData, registry } = props;
     return getDefaultFormState(schema, formData, registry.definitions) || {};
@@ -75,8 +84,8 @@ class ObjectField extends React.Component {
             uiSchema={uiSchema[propName]}
             errorSchema={errorSchema[propName]}
             idSchema={idSchema[propName]}
-            onChange={f => f}
-            onBlur={f => f}
+            onChange={this.onPropertyChange(propName)}
+            onBlur={this.props.onBlur}
             required={this.isRequired(propName)}
             formData={formData[propName]}
             registry={this.props.registry}/>
@@ -108,10 +117,10 @@ class ObjectField extends React.Component {
       }
       return (
         <div>
-          <div className="form-review-panel-page-header-row">
+          {!formContext.hideHeaderRow && <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
             <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
-          </div>
+          </div>}
           <dl className="review usa-table-borderless">
             {renderedProperties}
           </dl>
