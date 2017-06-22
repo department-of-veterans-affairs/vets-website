@@ -24,11 +24,15 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 </div>
 
+<br>
+
 ### What should I do if I’m having trouble paying my mortgage?
 
 If you’re late with a mortgage payment, or think you might be late with your next payment, contact your loan servicer right away. The sooner you contact them, the sooner they can help you find a solution.   
 
 If you’re nervous about contacting your servicer, or if you’d like our help and advice, please contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>.  
+
+<br>
 
 ### How can I avoid foreclosure?
 
