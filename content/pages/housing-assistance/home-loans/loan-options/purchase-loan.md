@@ -23,12 +23,14 @@ You may be able to get a VA-backed purchase loan if you:
 
 </div>
 
+<br>
+
 ### Why might I want a VA-backed purchase loan?
 
 A VA-backed purchase loan often offers:
 
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
-- **Better terms and interest rates** than other loans from private banks or mortgage companies (also called lenders)
+- **Better terms and interest rates** than other loans from private banks, mortgage companies, or credit unions (also called lenders)
 - **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 - **No need for private mortgage insurance (PMI) or mortgage insurance premiums (MIP)**. PMR is a type of insurance that protects the lender if you end up not being able to pay your mortgage. It's usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount. MIP is what the Federal Housing Administration (FHA) requires borrowers to pay to self-insure their loans against future loss.
 - **Fewer closing costs**, which may be paid by the seller
@@ -48,6 +50,8 @@ You can also:
 - Get a VA-backed home loan to buy your first home
 - Use your VA loan benefit again if you sell or refinance a home you bought with a VA-backed home loan
 - Assume a VA-backed home loan (which means that instead of opening a new mortgage loan, the buyer takes over the seller’s loan)
+
+<br>
 
 ### How can I buy a home with a VA-backed purchase loan?
 
@@ -79,7 +83,7 @@ Go over your credit profile, income, expenses, and monthly budget to make sure y
 
 ##### Choose a lender.
 
-You’ll go through a private bank or mortgage company—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
+You’ll go through a private bank, mortgage company, or credit union—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
 
 </li>
 
