@@ -2,9 +2,10 @@ import React from 'react';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
+  // delete form.data.privacyAgreementAccepted;
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData
+    pensionClaim: formData
   });
 }
 
@@ -51,3 +52,4 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+
