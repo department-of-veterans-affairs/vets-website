@@ -45,7 +45,7 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import nonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';
+import createNonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
   benefit,
@@ -72,6 +72,8 @@ const {
   phone,
   ssn
 } = fullSchema5490.definitions;
+
+const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -274,7 +276,7 @@ const formConfig = {
                     if (_.get('previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
-                    return nonRequiredFullName(fullName);
+                    return nonRequiredFullName;
                   }
                 },
                 // Re-label the inputs to add 'sponsor'
@@ -372,7 +374,7 @@ const formConfig = {
                     if (!_.get('view:currentSameAsPrevious', form)) {
                       return fullName;
                     }
-                    return nonRequiredFullName(fullName);
+                    return nonRequiredFullName;
                   }
                 },
                 'ui:title': 'Name of Sponsor',

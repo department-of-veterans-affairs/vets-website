@@ -27,7 +27,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import nonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
+import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
   nationalGuardActivation,
@@ -63,6 +63,8 @@ const {
   vaFileNumber
 } = fullSchemaPensions.definitions;
 
+const nonRequiredFullName = createNonRequiredFullName(fullName);
+
 function isUnder65(formData) {
   return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
 }
@@ -79,10 +81,6 @@ function isCurrentMarriage(form, index) {
   const status = form ? form.maritalStatus : undefined;
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return status === 'Married' && numMarriages - 1 === index;
-}
-
-function hasChildren(form) {
-  return form.dependents && form.dependents.some((dependent) => dependent.dependentRelationship === 'child');
 }
 
 function isChild(item) {
@@ -818,7 +816,6 @@ const formConfig = {
         childrenInformation: {
           path: 'household/dependents/children/information/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} information`,
-          depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
           itemFilter: (item) => isChild(item),
@@ -851,7 +848,7 @@ const formConfig = {
                   'ui:title': 'Place of Birth'
                 },
                 childSocialSecurityNumber: _.merge(ssnUI, {
-                  'ui:title': 'Social Security Number'
+                  'ui:title': 'Social Security number'
                 }),
                 childRelationship: {
                   'ui:title': 'Relationship',
@@ -895,7 +892,6 @@ const formConfig = {
         childrenAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
-          depends: hasChildren,
           showPagePerItem: true,
           arrayPath: 'dependents',
           itemFilter: (item) => isChild(item),
@@ -941,7 +937,7 @@ const formConfig = {
                         if (!_.get(['dependents', index, 'childInHousehold'], form)) {
                           return fullName;
                         }
-                        return nonRequiredFullName(fullName);
+                        return nonRequiredFullName;
                       },
                       expandUnder: 'childInHousehold',
                       expandUnderCondition: false
