@@ -281,6 +281,42 @@ label {
 .schemaform-file-list {
   list-style: none;
   padding-left: 0;
+  > li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  > .schemaform-file-item-edit {
+    flex-direction: column;
+    align-items: left;
+  }
+}
+
+.schemaform-file-list-buttons-editing {
+  display: flex;
+  > .schemaform-file-remove-button {
+    width: inherit;
+  }
+}
+
+.usa-input-error .schemaform-upload-label {
+  margin-top: 0.5em;
+}
+
+.schemaform-file-upload .schemaform-label {
+  font-weight: bold;
+}
+
+.schemaform-file-list-buttons-editing > .usa-button {
+  margin: 0.5em 0.5em 0.5em 0;
+}
+
+.schemaform-file-upload-review {
+  margin-bottom: 1.5em;
+}
+
+.va-growable-background:focus {
+  outline: none;
 }
 
 .schemaform-save-error {
