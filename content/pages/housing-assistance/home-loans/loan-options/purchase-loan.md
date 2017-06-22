@@ -27,6 +27,8 @@ You may be able to get a VA-backed purchase loan if you:
 
 ### Why might I want a VA-backed purchase loan?
 
+<br>
+
 #### A VA-backed purchase loan often offers:
 
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
@@ -36,6 +38,8 @@ You may be able to get a VA-backed purchase loan if you:
 - **Fewer closing costs**, which may be paid by the seller
 - **No penalty fee** if you pay the loan off early
 
+<br>
+
 #### If you qualify for a VA-backed purchase loan, you can use the loan to:
 
 -	Buy a single-family home, up to 4 units
@@ -44,6 +48,8 @@ You may be able to get a VA-backed purchase loan if you:
 -	Buy a manufactured home or lot
 -	Build a new home
 -	Make changes or add new features (like solar power) to make your home more energy efficient
+
+<br>
 
 #### You can also:
 
