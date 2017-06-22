@@ -38,7 +38,7 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 ### What mental health problems does VA treat?
 
-We offer treatment and support for mental health problems such as:
+We offer treatment and support for mental health problems, like:
 
 - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
 - [Depression](/healthcare/health-conditions/mental-health/depression/)
@@ -73,7 +73,7 @@ We also treat anxiety-related conditions, like:
 #### We also provide care to Veterans in crisis. This includes:
 
 - **Emergency mental health care** 24 hours a day, 7 days a week, through VA medical centers and some local, non-VA hospitals
-- **The Veterans Crisis Line**, which offers 24/7 support for Veterans in crisis and their families and friends
+- **The Veterans Crisis Line**, which offers support 24 hours a day, 7 days a week, for Veterans in crisis and their families and friends
 
 All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran. 
 
@@ -81,7 +81,7 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 #### Get more information
 
-[Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
+[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
 <br>
 [Visit MentalHealth.va.gov](https://www.mentalhealth.va.gov/). 
 
@@ -91,7 +91,7 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 The VA health care program covers mental health services. To get these services, first apply for VA health care. [Apply for health care](/healthcare/apply/).
 
-Once you’re signed up: 
+Once you’ve signed up: 
 
 - **If you have a VA primary care provider,** talk to them about your mental health concerns. Your provider will offer support and treatment as needed, and can connect you with a mental health specialist (like a psychiatrist) for more support.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
@@ -107,7 +107,7 @@ You may still be able to get care:
 - **If you’ve served in a combat zone,** get free, confidential (private) counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
-  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1-800-827-1000">800-827-1000</a> to find out what your care options may be.
