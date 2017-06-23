@@ -125,7 +125,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
 - You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
-To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA Regional Loan Center for your state that's listed at the bottom of the form. <br />
+To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA regional loan center for your state. <br />
 [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br />
 [Find your state's VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
