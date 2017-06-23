@@ -1259,10 +1259,10 @@ const formConfig = {
             'ui:title': 'Contact information',
             veteranAddress: address.uiSchema('Mailing address'),
             email: {
-              'ui:title': 'Primary email address'
+              'ui:title': 'Primary email'
             },
             altEmail: {
-              'ui:title': 'Secondary email address'
+              'ui:title': 'Secondary email'
             },
             dayPhone: phoneUI('Daytime phone'),
             nightPhone: phoneUI('Evening phone'),
