@@ -214,11 +214,12 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+    errors.addError(futureDate);
   }
 }
 
@@ -301,7 +302,7 @@ export function validateFileField(errors, fileList) {
       error = `Error: ${file.errorMessage}`;
     } else if (file.uploading) {
       error = 'Uploading file...';
-    } else if (!file.confirmationNumber) {
+    } else if (!file.confirmationCode) {
       error = 'Something went wrong...';
     }
 
@@ -323,5 +324,13 @@ export function validateFileField(errors, fileList) {
 
   if (hasError) {
     errors.addError('Please addresses the errors listed below');
+  }
+}
+
+export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  if (!Object.keys(group).filter(item => !!group[item]).length) {
+    errors.addError(atLeastOne);
   }
 }

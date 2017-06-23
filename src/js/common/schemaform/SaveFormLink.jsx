@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import LoginModal from '../components/LoginModal';
 import { SAVE_STATUSES } from './save-load-actions';
 
-// TODO: Come up with a better name than SaveFormLink
 class SaveFormLink extends React.Component {
   constructor(props) {
     super(props);
@@ -28,36 +27,39 @@ class SaveFormLink extends React.Component {
       saveForm,
       savedStatus
     } = this.props;
-    let content = (<div>
-      <a onClick={this.openLoginModal}>Sign in before saving your application</a>
-      <LoginModal
-          key={1}
-          title="Sign in to save your application"
-          onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}
-          user={this.props.user}
-          onUpdateLoginUrl={this.props.onUpdateLoginUrl}/>
-    </div>);
+    let content = <a onClick={saveForm}>Save and finish later</a>;
 
-    if (this.props.user.login.currentlyLoggedIn) {
-      content = <a onClick={saveForm}>Save and come back later</a>;
+    if (!this.props.user.login.currentlyLoggedIn) {
+      // if we have a noAuth status, that means they tried to save and got a 401, which
+      // likely means their session is expired (since they were logged in before)
+      content = (
+        <div>
+          {savedStatus === SAVE_STATUSES.noAuth
+              ? <div className="usa-alert usa-alert-error no-background-image schemaform-save-error">Sorry, you’re signed out. Please <a onClick={this.openLoginModal}>sign in</a> again to save your application.</div>
+              : <span><a onClick={this.openLoginModal}>Save and finish later</a></span>}
+        </div>
+      );
     }
 
-    if (savedStatus === SAVE_STATUSES.noAuth) {
-      content = <p>no-auth message</p>;
-    } else if (savedStatus === SAVE_STATUSES.failure) {
-      content = <p>failure message</p>;
-    } else if (savedStatus === SAVE_STATUSES.pending) {
-      content = <p>spinner or something</p>;
-    } else if (savedStatus === SAVE_STATUSES.success) {
-      content = <p>success message</p>;
-      // TODO: Redirect to a page like: https://marvelapp.com/2hj59b1/screen/28358414
+    if (savedStatus === SAVE_STATUSES.pending) {
+      content = <span>Saving application...</span>;
     }
 
-    // TODO: If we get a no-auth, we should reset the link after login
-    //  Or, as a temporary solution, include the save link in the no-auth
-    //  message..?
-    return content;
+    return (
+      <div>
+        <LoginModal
+            key={1}
+            title="Sign in to save your application"
+            onClose={this.closeLoginModal}
+            visible={this.state.modalOpened}
+            user={this.props.user}
+            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
+            onLogin={saveForm}/>
+        {savedStatus === SAVE_STATUSES.failure &&
+          <div className="usa-alert usa-alert-error no-background-image schemaform-save-error">We’re sorry, but something went wrong. Please try saving your application again.</div>}
+        {content}
+      </div>
+    );
   }
 }
 
