@@ -4,7 +4,9 @@ import { transformForSubmit } from '../common/schemaform/helpers';
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData
+    pensionClaim: {
+      form: formData
+    }
   });
 }
 
@@ -51,3 +53,4 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+
