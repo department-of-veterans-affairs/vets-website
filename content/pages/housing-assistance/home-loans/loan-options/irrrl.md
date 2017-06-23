@@ -57,7 +57,7 @@ You’ll go through a private bank, mortgage company, or credit union—not dire
 <li class="process-step list-two">
 
 #### Give your lender any needed information.
-If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. Or, if you don’t have your original COE, ask your lender to get your COE electronically through the VA Home Loan Program portal.
+If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. If you don’t have your original COE, ask your lender to get your COE electronically through the VA Home Loan program portal.
 
 </li>
 
