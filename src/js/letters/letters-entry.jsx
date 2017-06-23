@@ -5,7 +5,7 @@ import { createHistory } from 'history';
 import { Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import LettersApp from './containers/VALettersApp.jsx';
+import LettersApp from './containers/LettersApp.jsx';
 import initReact from '../common/init-react';
 import routes from './routes.jsx';
 import reducer from './reducers';
