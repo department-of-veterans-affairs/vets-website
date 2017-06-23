@@ -49,9 +49,13 @@ Depending on your needs, you may get care in an outpatient setting or in an inpa
 
 </div>
 
+<br>
+
 ### Does VA provide guide dogs for blind Veterans?
 
 No. But we do work with non-VA agencies that provide guide dogs.
+
+<br>
 
 ### How do I access these services?
 
