@@ -57,13 +57,13 @@ We offer treatments such as:
 - Medicine proven to help treat depression, anxiety, sleep issues, and other related problems
 - Psychotherapy (also called “talk therapy”) to help treat depression. These sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more. 
 
-[Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
+[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
  
 </div>
 
 ### How do I access VA services for depression?
 
-Depression health services are covered under the VA health care program. To access these services, first apply for VA health care. [Apply for health care](/healthcare/apply/). 
+The VA health care program covers depression health services. To access these services, first apply for VA health care. [Apply for health care](/healthcare/apply/). 
 
 Once you’re signed up: 
 
@@ -78,9 +78,9 @@ Once you’re signed up:
 
 You may still be able to get care:
 
-- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
   
