@@ -52,7 +52,7 @@ We provide many options for Veterans seeking treatment for substance use problem
 
 <br>
 
-#### We offer proven medication options, such as:
+#### We offer proven medication options, like:
 
 - Medically managed detoxification to stop substance use safely, and services to get stable
 - Drug substitution therapies and newer medicines to reduce cravings (like Methadone and Buprenorphine for opiate addiction)
@@ -60,7 +60,7 @@ We provide many options for Veterans seeking treatment for substance use problem
 
 <br>
 
-#### We offer counseling and other therapy options, such as:
+#### We offer counseling and other therapy options, like:
 
 - Short-term outpatient counseling 
 - Intensive outpatient treatment
@@ -72,7 +72,7 @@ We provide many options for Veterans seeking treatment for substance use problem
 
 <br>
 
-#### We also offer treatment and support for health conditions that can be related to substance use problems, such as:
+#### We also offer treatment and support for health conditions that can be related to substance use problems, like:
 
 - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
 - [Depression](/healthcare/health-conditions/mental-health/depression/)
