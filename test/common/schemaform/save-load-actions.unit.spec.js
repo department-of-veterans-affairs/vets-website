@@ -335,7 +335,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     describe('prefill', () => {
-      it('dispatches a no-auth if the api returns a 401', (done) => {
+      it('dispatches a no-auth if the api returns a 401', () => {
         const thunk = fetchInProgressForm('1010ez', {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(Promise.resolve({
@@ -343,12 +343,11 @@ describe('Schemaform save / load actions:', () => {
           status: 401
         }));
 
-        thunk(dispatch).catch(() => {
+        return thunk(dispatch).then(() => {
           expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-          done();
         });
       });
-      it('dispatches a success if the api returns a 404', (done) => {
+      it('dispatches a success if the api returns a 404', () => {
         const thunk = fetchInProgressForm('1010ez', {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(Promise.resolve({
@@ -356,12 +355,11 @@ describe('Schemaform save / load actions:', () => {
           status: 404
         }));
 
-        thunk(dispatch).catch(() => {
+        return thunk(dispatch).then(() => {
           expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
-          done();
         });
       });
-      it('dispatches a success if the api returns an empty object', (done) => {
+      it('dispatches a success if the api returns an empty object', () => {
         const thunk = fetchInProgressForm('1010ez', {}, true);
         const dispatch = sinon.spy();
         global.fetch.returns(Promise.resolve({
@@ -369,9 +367,8 @@ describe('Schemaform save / load actions:', () => {
           json: () => ({}) // Return an empty object
         }));
 
-        thunk(dispatch).catch(() => {
+        return thunk(dispatch).then(() => {
           expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
-          done();
         });
       });
     });

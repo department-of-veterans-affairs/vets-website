@@ -16,7 +16,7 @@ export const SAVE_STATUSES = Object.freeze({
   failure: 'failure',
   success: 'success'
 });
-// TODO: Use these statuses to display an error message somewhere
+
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',
