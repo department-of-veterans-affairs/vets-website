@@ -5,8 +5,17 @@ import { createSelector } from 'reselect';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
+import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
+import {
+  transform,
+  employmentDescription,
+  getMarriageTitle,
+  getMarriageTitleWithCurrent,
+  spouseContribution,
+  fileHelp,
+  directDepositWarning
+} from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -47,7 +56,12 @@ const {
   reasonForNotLivingWithSpouse,
   spouseIsVeteran,
   monthlySpousePayment,
-  dependents
+  dependents,
+  email,
+  altEmail,
+  dayPhone,
+  nightPhone,
+  mobilePhone,
 } = fullSchemaPensions.properties;
 
 const {
@@ -62,7 +76,8 @@ const {
   expectedIncome,
   ssn,
   vaFileNumber,
-  files
+  files,
+  bankAccount
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
@@ -87,6 +102,10 @@ function isCurrentMarriage(form, index) {
 
 function isChild(item) {
   return item.dependentRelationship === 'child';
+}
+
+function setupDirectDeposit(form) {
+  return _.get('view:bankAccountChange', form) === 'start';
 }
 
 const marriageProperties = marriages.items.properties;
@@ -1178,6 +1197,107 @@ const formConfig = {
         }
       }
     },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            'view:bankAccountChange': {
+              'ui:title': 'Benefit payment method',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  start: 'Setup direct deposit',
+                  'continue': 'I already have direct deposit working',
+                  stop: 'Don’t use direct deposit'
+                }
+              }
+            },
+            bankAccount: _.merge(bankAccountUI, {
+              'ui:order': [
+                'accountType',
+                'bankName',
+                'accountNumber',
+                'routingNumber'
+              ],
+              'ui:options': {
+                expandUnder: 'view:bankAccountChange',
+                expandUnderCondition: 'start'
+              },
+              bankName: {
+                'ui:title': 'Bank name'
+              },
+              accountType: {
+                'ui:required': setupDirectDeposit
+              },
+              accountNumber: {
+                'ui:required': setupDirectDeposit
+              },
+              routingNumber: {
+                'ui:required': setupDirectDeposit
+              }
+            }),
+            'view:stopWarning': {
+              'ui:description': directDepositWarning,
+              'ui:options': {
+                hideIf: (formData) => formData['view:bankAccountChange'] !== 'stop'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:bankAccountChange': {
+                type: 'string',
+                'enum': [
+                  'start',
+                  'continue',
+                  'stop'
+                ]
+              },
+              bankAccount,
+              'view:stopWarning': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'additional-information/contact',
+          uiSchema: {
+            'ui:title': 'Contact information',
+            veteranAddress: address.uiSchema('Mailing address'),
+            email: {
+              'ui:title': 'Primary email'
+            },
+            altEmail: {
+              'ui:title': 'Secondary email'
+            },
+            dayPhone: phoneUI('Daytime phone'),
+            nightPhone: phoneUI('Evening phone'),
+            mobilePhone: phoneUI('Mobile phone'),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              veteranAddress: address.schema(fullSchemaPensions, true),
+              email,
+              altEmail,
+              dayPhone,
+              nightPhone,
+              mobilePhone
+            }
+          }
+        }
+      }
+    },
     documentUpload: {
       title: 'Document Upload',
       pages: {
@@ -1199,7 +1319,7 @@ const formConfig = {
           }
         }
       }
-    }
+    },
   }
 };
 
