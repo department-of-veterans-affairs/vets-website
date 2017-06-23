@@ -5,39 +5,22 @@ title: Burial Planning
 collection: burials
 children: burialsPlanning
 order: 1
+relatedlinks:
+  - heading: Planning ahead
+  links:
+  - url: /burials-and-memorials/pre-need/
+    title: Pre-Need Determination of Eligibility
+    description: Apply in advance to confirm that you can be buried in a VA national cemetery and make the process of planning your burial easier for your family members when you die. 
+  
 ---
 
 <div class="va-introtext">
 
-When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of our 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
+When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. Find out  what to do if your family member has just died. 
 
 </div>
 
 <div class="feature" markdown="0">
-
-### Can I plan ahead for my burial?
-
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this:
-
-**First, check to see if you qualify** for VA burial and memorial benefits. [Find out if you qualify](/burials-and-memorials/eligibility/). 
-
-**Then, fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
-
-**Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
-- Send it by U.S. mail to: 
-  
-<dl class="va-address-block">
-    <dd>National Cemetery Scheduling Office</dd>
-    <dd>P.O. Box 510543</dd>
-    <dd>St. Louis, MO 63151</dd>
-</dl>
-
-- Fax it to 855-840-8299
-
-
-You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you've died. 
-
-</div>
 
 ### How do I plan a burial for a deceased family member?
 
@@ -60,13 +43,13 @@ To start, you may want to choose a funeral director to help you plan the burial.
  - Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
  - Marital status
- 
-You may also need:
-
- - If the deceased was married, the surviving spouse’s status as Veteran or family member
- - The status and detailed information for any disabled children who may be buried in the future in a national cemetery
  - The Veteran’s zip code and county at the time of death
- - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
+
+You may also need more information in certain cases:
+
+- **If the deceased was married**, you'll also need the surviving spouse’s status as Veteran or family member
+- **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery
+- **If the deceased is a spouse or a Veteran whose spouse has already died**, you'll need the full name of the family member, cemetery section, and site number
  
  </li>
  
@@ -74,13 +57,13 @@ You may also need:
 
 ##### Decide on the burial details and gather all related information, including:
 
-  - Your cemetery of choice
+  - Your cemetery of choice. [Find A VA National Cemetery or State Veterans Cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
   - Type of gravesite memorial. [See your options for a headstone, marker, or niche cover](/burials-and-memorials/burial-planning/headstones-markers-medallions).
  - Type of burial: casket or cremation and size of the casket or cremation urn
  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
  
  [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
- [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
+ [Learn about flags and memorial certificates](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
 
 </li>
 
