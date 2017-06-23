@@ -81,7 +81,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 
 ### How do I access VA services for PTSD? 
 
-PTSD health services are covered under the VA health care program. To access these services, first apply for VA health care. [Apply for health care](/healthcare/apply).
+The VA health care program covers PTSD health services. To access these services, first apply for VA health care. [Apply for health care](/healthcare/apply).
 
 Once you’ve signed up: 
 
@@ -96,7 +96,7 @@ Once you’ve signed up:
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care: 
-- **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
