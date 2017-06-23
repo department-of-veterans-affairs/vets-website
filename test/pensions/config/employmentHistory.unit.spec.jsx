@@ -31,9 +31,24 @@ describe('Pensions employment history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', true);
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
+  });
+
+  it('should should have no required fields if "no" is selected', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledNo', 'N');
+    formDOM.submitForm();
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
 
   it('should not submit empty form', () => {
@@ -47,7 +62,7 @@ describe('Pensions employment history', () => {
     );
 
     const formDOM = getFormDOM(form);
-    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', true);
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
     formDOM.submitForm();
 
@@ -66,7 +81,7 @@ describe('Pensions employment history', () => {
     );
 
     const formDOM = getFormDOM(form);
-    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', true);
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
     formDOM.fillData('#root_view\\:history_jobs_0_employer', 'Smith');
     formDOM.fillData('#root_view\\:history_jobs_0_address_street', '101 Elm st');
