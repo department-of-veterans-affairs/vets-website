@@ -85,7 +85,7 @@ We provide many options for Veterans seeking treatment for substance use problem
 
 The VA health care program covers services to treat substance use problems. To access these services, first apply for VA health care. [Apply for VA health care](/healthcare/apply/).
 
-Once you’re signed up: 
+Once you’ve signed up: 
 
 - **If you have a VA primary care provider,** talk to them about your substance use. Your provider can help you get screened for substance use problems and related issues (like PTSD or depression)—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
