@@ -299,9 +299,6 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Longevity: 'Longevity',
-                    Separation: 'Separation',
-                    Severance: 'Severance',
                     PDRL: 'Permanent Disability Retirement List (PDRL)',
                     TDRL: 'Temporary Disability Retirement List (TDRL)'
                   }
