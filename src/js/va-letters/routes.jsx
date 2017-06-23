@@ -1,14 +1,18 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import DownloadLetters from './containers/DownloadLetters.jsx';
+import Main from './containers/Main.jsx';
 
 const routes = [
   <Route
-      component={DownloadLetters}
-      name="Download Letters"
-      key="/download-letters"
-      path="/download-letters"/>
+      component={Main}
+      key="main">
+    <IndexRoute
+        component={DownloadLetters}
+        name="Download Letters"
+        key="download-letters"/>
+  </Route>
 ];
 
 export default routes;
