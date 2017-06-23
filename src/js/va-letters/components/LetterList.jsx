@@ -9,7 +9,6 @@ import { letterContent } from '../utils/helpers';
 
 class LetterList extends React.Component {
   render() {
-    // Replace this with collapsible panels
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content = letterContent[letter.letterType] || '';
 

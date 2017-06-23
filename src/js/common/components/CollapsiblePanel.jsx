@@ -18,7 +18,7 @@ export default class CollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`collapsiblePanel-${this.id}-ScrollElement`, {
+    scroller.scrollTo(`collapsible-panel-${this.id}-scroll-element`, {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -49,7 +49,7 @@ export default class CollapsiblePanel extends React.Component {
 
     return (
       <div className="usa-accordion-bordered form-review-panel">
-        <Element name={`collapsiblePanel-${this.id}-ScrollElement`}/>
+        <Element name={`collapsible-panel-${this.id}-scroll-element`}/>
         <div className="accordion-header clearfix">
           <button
               className="usa-button-unstyled"

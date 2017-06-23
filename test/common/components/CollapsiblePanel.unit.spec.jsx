@@ -25,5 +25,9 @@ describe('<CollapsiblePanel>', () => {
     tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('.form-review-panel-page')).not.to.be.empty;
+
+    tree.getMountedInstance().toggleChapter();
+
+    expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
   });
 });
