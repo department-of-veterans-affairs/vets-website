@@ -5,8 +5,17 @@ import { createSelector } from 'reselect';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
+import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
+import {
+  transform,
+  employmentDescription,
+  getMarriageTitle,
+  getMarriageTitleWithCurrent,
+  spouseContribution,
+  fileHelp,
+  directDepositWarning
+} from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -48,7 +57,12 @@ const {
   reasonForNotLivingWithSpouse,
   spouseIsVeteran,
   monthlySpousePayment,
-  dependents
+  dependents,
+  email,
+  altEmail,
+  dayPhone,
+  nightPhone,
+  mobilePhone,
 } = fullSchemaPensions.properties;
 
 const {
@@ -64,7 +78,8 @@ const {
   ssn,
   vaFileNumber,
   files,
-  otherExpenses
+  otherExpenses,
+  bankAccount
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
@@ -89,6 +104,10 @@ function isCurrentMarriage(form, index) {
 
 function isChild(item) {
   return item.dependentRelationship === 'child';
+}
+
+function setupDirectDeposit(form) {
+  return _.get('view:bankAccountChange', form) === 'start';
 }
 
 const marriageProperties = marriages.items.properties;
@@ -130,8 +149,8 @@ function createSpouseLabelSelector(nameTemplate) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/pensions_applications',
-  trackingPrefix: 'pensions',
+  submitUrl: '/v0/pension_claims',
+  trackingPrefix: 'pensions-527EZ-',
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -379,25 +398,34 @@ const formConfig = {
           path: 'employment/history',
           depends: isUnder65,
           uiSchema: {
-            'ui:description': employmentDescription,
-            jobs: {
+            'view:workedBeforeDisabled': {
+              'ui:title': 'Have you worked between now and one year before you became to disabled to continue?',
+              'ui:widget': 'yesNo'
+            },
+            'view:history': {
               'ui:options': {
-                viewField: EmploymentField
+                expandUnder: 'view:workedBeforeDisabled'
               },
-              items: {
-                employer: {
-                  'ui:title': 'Name of employer'
+              'ui:description': employmentDescription,
+              jobs: {
+                'ui:options': {
+                  viewField: EmploymentField
                 },
-                address: address.uiSchema('Address of employer'),
-                jobTitle: {
-                  'ui:title': 'Job title'
-                },
-                dateRange: dateRangeUI(),
-                daysMissed: {
-                  'ui:title': 'How many days lost to disability'
-                },
-                annualEarnings: {
-                  'ui:title': 'Total annual earnings'
+                items: {
+                  employer: {
+                    'ui:title': 'Name of employer'
+                  },
+                  address: address.uiSchema('Address of employer'),
+                  jobTitle: {
+                    'ui:title': 'Job title'
+                  },
+                  dateRange: dateRangeUI(),
+                  daysMissed: {
+                    'ui:title': 'How many days lost to disability'
+                  },
+                  annualEarnings: {
+                    'ui:title': 'Total annual earnings'
+                  }
                 }
               }
             }
@@ -405,16 +433,22 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              jobs: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
-                  properties: _.assign(jobs.items.properties, {
-                    address: address.schema(fullSchemaPensions, true),
-                    dateRange: _.set('required', ['to', 'from'], dateRange)
-                  })
+              'view:workedBeforeDisabled': { type: 'boolean' },
+              'view:history': {
+                type: 'object',
+                properties: {
+                  jobs: {
+                    type: 'array',
+                    minItems: 1,
+                    items: {
+                      type: 'object',
+                      required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
+                      properties: _.assign(jobs.items.properties, {
+                        address: address.schema(fullSchemaPensions, true),
+                        dateRange: _.set('required', ['to', 'from'], dateRange)
+                      })
+                    }
+                  }
                 }
               }
             }
@@ -1223,6 +1257,107 @@ const formConfig = {
         }
       }
     },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            'view:bankAccountChange': {
+              'ui:title': 'Benefit payment method',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  start: 'Setup direct deposit',
+                  'continue': 'I already have direct deposit working',
+                  stop: 'Don’t use direct deposit'
+                }
+              }
+            },
+            bankAccount: _.merge(bankAccountUI, {
+              'ui:order': [
+                'accountType',
+                'bankName',
+                'accountNumber',
+                'routingNumber'
+              ],
+              'ui:options': {
+                expandUnder: 'view:bankAccountChange',
+                expandUnderCondition: 'start'
+              },
+              bankName: {
+                'ui:title': 'Bank name'
+              },
+              accountType: {
+                'ui:required': setupDirectDeposit
+              },
+              accountNumber: {
+                'ui:required': setupDirectDeposit
+              },
+              routingNumber: {
+                'ui:required': setupDirectDeposit
+              }
+            }),
+            'view:stopWarning': {
+              'ui:description': directDepositWarning,
+              'ui:options': {
+                hideIf: (formData) => formData['view:bankAccountChange'] !== 'stop'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:bankAccountChange': {
+                type: 'string',
+                'enum': [
+                  'start',
+                  'continue',
+                  'stop'
+                ]
+              },
+              bankAccount,
+              'view:stopWarning': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'additional-information/contact',
+          uiSchema: {
+            'ui:title': 'Contact information',
+            veteranAddress: address.uiSchema('Mailing address'),
+            email: {
+              'ui:title': 'Primary email'
+            },
+            altEmail: {
+              'ui:title': 'Secondary email'
+            },
+            dayPhone: phoneUI('Daytime phone'),
+            nightPhone: phoneUI('Evening phone'),
+            mobilePhone: phoneUI('Mobile phone'),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              veteranAddress: address.schema(fullSchemaPensions, true),
+              email,
+              altEmail,
+              dayPhone,
+              nightPhone,
+              mobilePhone
+            }
+          }
+        }
+      }
+    },
     documentUpload: {
       title: 'Document Upload',
       pages: {
@@ -1244,7 +1379,7 @@ const formConfig = {
           }
         }
       }
-    }
+    },
   }
 };
 

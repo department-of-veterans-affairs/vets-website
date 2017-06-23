@@ -70,5 +70,5 @@ export function handleLogin(loginUrl, onUpdateLoginUrl) {
     receiver.focus();
     return getLoginUrl(onUpdateLoginUrl);
   }
-  return new Promise(); // Just in case we need to .abort() nothing
+  return Promise.reject('Could not log in; loginUrl not provided.');
 }
