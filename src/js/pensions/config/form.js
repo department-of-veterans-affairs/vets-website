@@ -50,16 +50,13 @@ const {
   dependents
 } = fullSchemaPensions.properties;
 
-const netWorth = _.assign({}, fullSchemaPensions.definitions.netWorth);
-delete netWorth.properties.otherProperty;
-
 const {
   fullName,
   usaPhone,
   dateRange,
   date,
   monthlyIncome,
-  // netWorth,
+  netWorth,
   maritalStatus,
   marriages,
   expectedIncome,
