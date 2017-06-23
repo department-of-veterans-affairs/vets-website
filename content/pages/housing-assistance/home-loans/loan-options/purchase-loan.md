@@ -155,7 +155,7 @@ Your closing may be held at a title company, escrow office, or attorney’s offi
 
 ##### Move in.
 
-After closing, you’re ready to move in to your new home. Congratulations!  
+After closing, you’re ready to move into your new home. Congratulations!  
 
 </li>
 </ol>
