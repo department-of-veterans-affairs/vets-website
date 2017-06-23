@@ -123,10 +123,6 @@ export function getFormDOM(form) {
     });
   };
 
-  formDOM.click = function click(id) {
-    ReactTestUtils.Simulate.click(this.querySelector(id));
-  };
-
   formDOM.click = function click(selector) {
     ReactTestUtils.Simulate.click(this.querySelector(selector));
   };

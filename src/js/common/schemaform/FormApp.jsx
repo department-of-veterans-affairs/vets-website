@@ -63,18 +63,6 @@ class FormApp extends React.Component {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
-  resetLoading = () => {
-    this.props.setFetchFormStatus(LOAD_STATUSES.notAttempted);
-  }
-
-  resumeForm = () => {
-    this.props.fetchInProgressForm(this.props.formConfig.formId, this.props.formConfig.migrations);
-  }
-
-  goToBeginning = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
-  }
-
   render() {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
