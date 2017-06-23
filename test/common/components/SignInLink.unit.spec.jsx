@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import LoginModal from '../../../src/js/common/components/LoginModal';
+import SignInLink from '../../../src/js/common/components/SignInLink';
 
 
 let oldWindow;
@@ -38,73 +38,53 @@ const teardown = () => {
   global.fetch = oldFetch;
 };
 
-describe('<LoginModal>', () => {
+describe('<SignInLink>', () => {
   // Don't need this for each test, so I'm calling them in just the tests I need
   // beforeEach(setup);
   // afterEach(teardown);
 
-  const user = {
-    login: {
-      currentlyLoggedIn: false,
-      loginUrl: 'login/url'
-    }
-  };
-  const onCloseSpy = sinon.spy();
-  const updateLoginSpy = sinon.spy();
+  const onUpdateLoginUrl = sinon.spy();
   it('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+      <div>
+        <SignInLink
+            isLoggedIn={false}
+            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+      </div>
     );
     const findDOM = findDOMNode(tree);
 
-    // 3 buttons: sign in, cancel, close modal
-    expect(findDOM.querySelectorAll('button').length).to.equal(3);
+    const link = findDOM.querySelector('a');
+    expect(link).to.exist;
+    expect(link.textContent).to.equal('Sign in');
   });
-  it('should be hidden when not visible', () => {
+  it('should render as a button', () => {
     const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-          user={user}
-          visible={false}
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+      <div>
+        <SignInLink
+            type="button"
+            isLoggedIn={false}
+            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+      </div>
     );
     const findDOM = findDOMNode(tree);
 
-    // 3 buttons: sign in, cancel, close modal
-    expect(findDOM.querySelectorAll('button')).to.be.empty;
-  });
-  it('should render a title', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
-    );
-    const findDOM = findDOMNode(tree);
-
-    // 3 buttons: sign in, cancel, close modal
-    expect(findDOM.querySelector('h1').textContent).to.equal('Some title');
+    expect(findDOM.querySelectorAll('button').length).to.equal(1);
   });
   it('should attempt to login', () => {
     setup();
     const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
+      <div>
+        <SignInLink
+            loginUrl="login/url"
+            isLoggedIn={false}
+            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+      </div>
     );
     const findDOM = findDOMNode(tree);
 
     // Poke the button!
-    ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
+    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
 
     // Not exactly definitive tests...and possibly brittle...
     // url called to get a new user session
@@ -125,21 +105,21 @@ describe('<LoginModal>', () => {
     setup();
     const loginSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"
-          onLogin={loginSpy}/>
+      <div>
+        <SignInLink
+            loginUrl="login/url"
+            isLoggedIn={false}
+            onUpdateLoginUrl={onUpdateLoginUrl}
+            onLogin={loginSpy}>Sign in</SignInLink>
+      </div>
     );
     const findDOM = findDOMNode(tree);
 
     // Poke the button!
-    ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
+    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
 
     // setTimeout is gross, but the test doesn't have visibility into
-    //  LoginModal's loginUrlRequest, so...we have to wait until it's done doing
+    //  SignInLink's loginUrlRequest, so...we have to wait until it's done doing
     //  its thing
     // If this fails consistently, increase the timeout
     setTimeout(() => {
