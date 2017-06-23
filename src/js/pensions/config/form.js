@@ -377,25 +377,34 @@ const formConfig = {
           path: 'employment/history',
           depends: isUnder65,
           uiSchema: {
-            'ui:description': employmentDescription,
-            jobs: {
+            'view:workedBeforeDisabled': {
+              'ui:title': 'Have you worked between now and one year before you became to disabled to continue?',
+              'ui:widget': 'yesNo'
+            },
+            'view:history': {
               'ui:options': {
-                viewField: EmploymentField
+                expandUnder: 'view:workedBeforeDisabled'
               },
-              items: {
-                employer: {
-                  'ui:title': 'Name of employer'
+              'ui:description': employmentDescription,
+              jobs: {
+                'ui:options': {
+                  viewField: EmploymentField
                 },
-                address: address.uiSchema('Address of employer'),
-                jobTitle: {
-                  'ui:title': 'Job title'
-                },
-                dateRange: dateRangeUI(),
-                daysMissed: {
-                  'ui:title': 'How many days lost to disability'
-                },
-                annualEarnings: {
-                  'ui:title': 'Total annual earnings'
+                items: {
+                  employer: {
+                    'ui:title': 'Name of employer'
+                  },
+                  address: address.uiSchema('Address of employer'),
+                  jobTitle: {
+                    'ui:title': 'Job title'
+                  },
+                  dateRange: dateRangeUI(),
+                  daysMissed: {
+                    'ui:title': 'How many days lost to disability'
+                  },
+                  annualEarnings: {
+                    'ui:title': 'Total annual earnings'
+                  }
                 }
               }
             }
@@ -403,16 +412,22 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              jobs: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
-                  properties: _.assign(jobs.items.properties, {
-                    address: address.schema(fullSchemaPensions, true),
-                    dateRange: _.set('required', ['to', 'from'], dateRange)
-                  })
+              'view:workedBeforeDisabled': { type: 'boolean' },
+              'view:history': {
+                type: 'object',
+                properties: {
+                  jobs: {
+                    type: 'array',
+                    minItems: 1,
+                    items: {
+                      type: 'object',
+                      required: ['address', 'employer', 'jobTitle', 'dateRange', 'daysMissed', 'annualEarnings'],
+                      properties: _.assign(jobs.items.properties, {
+                        address: address.schema(fullSchemaPensions, true),
+                        dateRange: _.set('required', ['to', 'from'], dateRange)
+                      })
+                    }
+                  }
                 }
               }
             }
