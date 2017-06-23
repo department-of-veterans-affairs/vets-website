@@ -3,7 +3,8 @@ import ExpenseField from '../components/ExpenseField';
 
 export default {
   'ui:options': {
-    viewField: ExpenseField
+    viewField: ExpenseField,
+    itemName: 'Expense'
   },
   items: {
     'ui:order': [
