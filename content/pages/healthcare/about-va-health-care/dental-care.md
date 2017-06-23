@@ -37,6 +37,8 @@ It depends on a number of factors, like your military service history and your c
 
 </div>
 
+<br>
+
 ### What VA dental care benefits do I qualify for?
 
 Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
@@ -191,9 +193,13 @@ You can apply online by filling out the 10-10EZ health care application.
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
+<br>
+
 ### Where do I go for VA dental care? 
 
 We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp). 
+
+<br>
 
 ### If I can't get VA dental care benefits, can I get help buying dental insurance? 
 
