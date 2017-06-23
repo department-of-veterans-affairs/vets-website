@@ -45,6 +45,7 @@ class SaveFormLink extends React.Component {
       content = <span>Saving application...</span>;
     }
 
+    // TODO: Remove LoginModal from here
     return (
       <div>
         <LoginModal

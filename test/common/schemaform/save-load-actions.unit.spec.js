@@ -256,7 +256,8 @@ describe('Schemaform save / load actions:', () => {
       }));
 
       return thunk(dispatch).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.calledThrice).to.be.true;
+        expect(dispatch.calledWith(logOut())).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
       });
     });
