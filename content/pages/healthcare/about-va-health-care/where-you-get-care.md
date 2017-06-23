@@ -57,6 +57,8 @@ Your provider will work with you to find the best place to get the care you need
 
 </div>
 
+<br>
+
 ### More about where you'll get care
 
 **Jump to a section:**
