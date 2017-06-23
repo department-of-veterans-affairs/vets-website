@@ -53,6 +53,8 @@ You can learn more about the different types of care below or on our va.gov webs
 
 </div>
 
+<br>
+
 ### How do I access these services?
 
 You may be able to use one or more of these services if:
@@ -67,6 +69,8 @@ To find out how to access these services, contact your VA social worker. Or, cal
 
 If you're not currently in the VA health care program, you can apply for benefits now. [Apply now](/healthcare/apply/).
 
+<br>
+
 ### Does VA pay for these services?
 
 We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. [Apply for VA health care](/healthcare/apply/).
@@ -74,6 +78,8 @@ We cover some of these services under your standard health benefits if you’re 
 Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
 
 [Learn more about paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
+
+<br>
 
 ### Where can I get more information and support?
 
@@ -92,6 +98,8 @@ Other services aren’t covered under VA health care benefits. For these service
 - [What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?](#health-assisted-disability)
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
+
+<br>
 
 <span id="health-assisted-options">
 
@@ -112,6 +120,8 @@ Non-VA nursing homes that we contract with in many parts of the country so you c
 [State Veterans Homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/State_Veterans_Homes.asp#)
 State-owned and -managed centers that provide full-time care for Veterans and, sometimes, non-Veteran spouses and Gold Star parents
 
+<br>
+
 <span id="health-assisted-alone">
 
 #### What if I don’t need nursing home care, but I can’t live alone because of physical or mental health conditions and I don’t have family to help me?
@@ -130,6 +140,8 @@ Private homes with rooms to rent for 6 or fewer people
 
 [Assisted living facilities](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Assisted_Living.asp)
 Centers where Veterans can live in a rented room or apartment, and have access to shared living spaces like a dining room
+
+<br>
 
 <span id="health-assisted-disability">
 
@@ -154,6 +166,8 @@ Skilled caregivers who come into your home to provide comfort care to you and yo
 [Palliative care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Palliative_Care.asp)
 Skilled caregivers who come into your home to provide comfort care to help ease your pain and control your symptoms so you can do as much as possible in your daily life
 
+<br>
+
 <span id="health-assisted-remote">
 
 #### What if I’m homebound or live far away from VA?
@@ -167,6 +181,8 @@ Health care providers from a community-based home health agency who come to your
 
 [Home Telehealth](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Telehealth_Care.asp)
 A VA care coordinator who keeps track of your health remotely using special equipment in your home and will check in with you by phone, if needed. If there are any signs of a problem, your care coordinator will work with you and your VA doctor and nurse to figure out what to do next.
+
+<br>
 
 <span id="health-assisted-caregiver">
 
