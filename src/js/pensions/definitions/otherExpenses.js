@@ -4,7 +4,8 @@ import ExpenseField from '../components/ExpenseField';
 export default {
   'ui:options': {
     viewField: ExpenseField,
-    itemName: 'Expense'
+    itemName: 'Expense',
+    keepInPageOnReview: true
   },
   items: {
     'ui:order': [
