@@ -45,6 +45,8 @@ You should also know that being signed up for VA health care meets your Affordab
 
 </div>
 
+<br>
+
 ### More about your medical benefits package
 
 **Jump to a section:**
