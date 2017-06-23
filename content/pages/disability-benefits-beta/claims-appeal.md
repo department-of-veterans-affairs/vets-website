@@ -25,9 +25,15 @@ The process has many steps that can repeat themselves
 <ul class="vertical-list-group">
   <li class="list-group-item">
     <h4>File a Notice of Disagreement (NOD)</h4>
+    <p>
+      By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. To file an NOD, fill out and turn in VA Form 21-0958.
+    </p>
   </li>
   <li class="list-group-item">
-    <h4>File a Notice of Disagreement (NOD)</h4>
+    <h4>RO prepares the Statement of the Case (SOC)</h4>
+    <p>
+      Once you file your NOD, the RO will make a decision or develop the SOC for your appeal. This means they review all of the evidence related to your appeal, including any new evidence you submit. When the SOC is prepared, you will receive a copy of it in the mail.
+    </p>
   </li>
 </ul>
 
