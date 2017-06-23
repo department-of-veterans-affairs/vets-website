@@ -4,11 +4,13 @@ import { transformForSubmit } from '../common/schemaform/helpers';
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData
+    pensionClaim: {
+      form: formData
+    }
   });
 }
 
-export const employmentDescription = <p>Please tell us about all of your employment, including self-employment, <strong>from one year before you became disabled</strong> to the present.</p>;
+export const employmentDescription = <p className="pension-employment-desc">Please tell us about all of your employment, including self-employment, <strong>from one year before you became disabled</strong> to the present.</p>;
 
 const numberToWords = {
   0: 'First',
@@ -51,3 +53,4 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+

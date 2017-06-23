@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "APPLICATION FOR PRE-NEED DETERMINATION OF ELIGIBILITY IN A VA NATIONAL CEMETARY",
+  "title": "APPLICATION FOR PRE-NEED DETERMINATION OF ELIGIBILITY IN A VA NATIONAL CEMETERY",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -269,6 +269,10 @@
         "F",
         "M"
       ]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
     }
   },
   "properties": {
@@ -381,6 +385,35 @@
         ]
       }
     },
+    "desiredCemetery": {
+      "type": "string"
+    },
+    "currentlyBuried": {
+      "type": "string",
+      "enum": [
+        "Y",
+        "N",
+        "U"
+      ]
+    },
+    "eligibleBuried": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cemetery": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
     "previousNames": {
       "type": "array",
       "items": {
@@ -410,6 +443,12 @@
     },
     "sponsorAddress": {
       "$ref": "#/definitions/address"
+    },
+    "personalAddress": {
+      "$ref": "#/definitions/address"
+    },
+    "phoneNumber": {
+      "$ref": "#/definitions/phone"
     }
   }
 }

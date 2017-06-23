@@ -2,7 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import FormApp from '../../../src/js/common/schemaform/FormApp';
+import { FormApp } from '../../../src/js/common/schemaform/FormApp';
+import { LOAD_STATUSES } from '../../../src/js/common/schemaform/save-load-actions';
 
 describe('Schemaform <FormApp>', () => {
   it('should render children', () => {
@@ -14,7 +15,8 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
-          currentLocation={currentLocation}>
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -32,7 +34,8 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
-          currentLocation={currentLocation}>
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -51,11 +54,33 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
-          currentLocation={currentLocation}>
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
 
     expect(tree.everySubTree('FormTitle')).not.to.be.empty;
+  });
+  it('should render the loading screen', () => {
+    const formConfig = {
+      title: 'Testing'
+    };
+    const currentLocation = {
+      pathname: 'test'
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+          formConfig={formConfig}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.pending}
+          isLoggedIn
+          updateLogInUrl={() => {}}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
 });
