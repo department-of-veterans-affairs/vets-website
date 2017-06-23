@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-// import { getLetterList } from '../actions/letters';
-
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, isDataAvailable }) {
@@ -28,11 +26,7 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-class VALettersApp extends React.Component {
-  // componentDidMount() {
-  //   this.props.getLetterList();
-  // }
-
+class LettersApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
@@ -60,8 +54,4 @@ function mapStateToProps(state) {
   };
 }
 
-// const mapDispatchToProps = {
-//   getLetterList
-// };
-
-export default connect(mapStateToProps)(VALettersApp);
+export default connect(mapStateToProps)(LettersApp);

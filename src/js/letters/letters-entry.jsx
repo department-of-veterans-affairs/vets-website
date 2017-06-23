@@ -5,7 +5,7 @@ import { createHistory } from 'history';
 import { Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import VALettersApp from './containers/VALettersApp.jsx';
+import LettersApp from './containers/VALettersApp.jsx';
 import initReact from '../common/init-react';
 import routes from './routes.jsx';
 import reducer from './reducers';
@@ -13,7 +13,7 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
 require('../common');
-require('../../sass/va-letters.scss');
+require('../../sass/letters.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);
@@ -25,7 +25,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>
-        <Route path="/" component={VALettersApp}>
+        <Route path="/" component={LettersApp}>
           {routes}
         </Route>
       </Router>
