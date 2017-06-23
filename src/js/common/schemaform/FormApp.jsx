@@ -6,10 +6,8 @@ import { connect } from 'react-redux';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES, setFetchFormStatus, fetchInProgressForm } from './save-load-actions';
-import LoadingPage from './LoadingPage';
-
-import { updateLogInUrl } from '../../login/actions';
+import { LOAD_STATUSES, setFetchFormStatus } from './save-load-actions';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
 
@@ -27,13 +25,19 @@ class FormApp extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.loadedStatus === LOAD_STATUSES.success) {
+    const status = newProps.loadedStatus;
+    if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (newProps.loadedStatus === LOAD_STATUSES.prefillComplete) {
       newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+    } else if (status !== LOAD_STATUSES.notAttempted
+      && status !== LOAD_STATUSES.pending
+      && !window.location.pathname.endsWith('/error')
+    ) {
+      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
     }
   }
 
@@ -79,19 +83,8 @@ class FormApp extends React.Component {
     const GetFormHelp = formConfig.getHelp;
     let content;
 
-    // TODO: As soon as we've redirected, remember to set loadedStatus back to 'not-attempted'
-    if (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted) {
-      // Show the loading screen instead of the children.
-      // Agh! The prop threading!
-      content = (<LoadingPage
-          loadedStatus={this.props.loadedStatus}
-          errorMessages={formConfig.savedFormErrorMessages}
-          goBack={this.resetLoading}
-          retry={this.resumeForm}
-          startOver={this.goToBeginning}
-          isLoggedIn={this.props.isLoggedIn}
-          loginUrl={this.props.loginUrl}
-          onUpdateLoginUrl={this.props.updateLogInUrl}/>);
+    if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
+      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -132,14 +125,10 @@ class FormApp extends React.Component {
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  loginUrl: state.user.login.loginUrl,
 });
 
 const mapDispatchToProps = {
   setFetchFormStatus,
-  fetchInProgressForm,
-  updateLogInUrl
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));

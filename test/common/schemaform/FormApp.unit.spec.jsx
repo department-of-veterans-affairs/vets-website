@@ -81,6 +81,6 @@ describe('Schemaform <FormApp>', () => {
       </FormApp>
     );
 
-    expect(tree.everySubTree('LoadingPage')).not.to.be.empty;
+    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
 });

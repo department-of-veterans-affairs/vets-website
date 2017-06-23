@@ -16,28 +16,42 @@ const scrollToTop = () => {
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('.pensions-page-title');
     scrollToTop();
   }
 
   render() {
-    const time = this.props.form.submission.timestamp;
+    const form = this.props.form;
+    // const response = this.props.form.submission.response
+    //   ? this.props.form.submission.response.attributes
+    //   : {};
+    const name = form.data.veteranFullName;
 
     return (
-      <div>
-        <div className="usa-width-one-sixth medium-2 columns">
-          <i className="fa fa-check-circle hca-success-icon"></i>
+      <div className="edu-benefits-submit-success">
+        <h3 className="pensions-page-title">Claim received</h3>
+        <p>Normally processed within <strong>30 days</strong></p>
+        <p>
+          We may contact you for more information or documents.<br/>
+          <i>Please print this page for your records.</i>
+        </p>
+        <div className="inset">
+          <h4>Pension Benefit Claim <span className="additional">(Form 21-527EZ)</span></h4>
+          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+
+          <ul className="claim-list">
+            <li>
+              <strong>Date received</strong><br/>
+              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+            </li>
+          </ul>
         </div>
-        <div className="usa-width-five-sixths medium-10 columns">
-          <h4 className="success-copy">You have successfully submitted your application!</h4>
-        </div>
-        <div>
-          <p>We are processing your application. The Department of Veterans Affairs will contact you when we finish our review.</p>
-          <div className="success-alert-box">
-            <p className="success-copy">Form submitted: {moment(time).format('MMMM D, YYYY, h:mm a')}</p>
+        <div className="row form-progress-buttons schemaform-back-buttons">
+          <div className="small-6 usa-width-one-half medium-6 columns">
+            <a href="/">
+              <button className="usa-button-primary">Go Back to Vets.gov</button>
+            </a>
           </div>
-          <p>Please print this page for your records.</p>
-          <p>If you have questions, call 1-877-222-VETS (8387) and press 2.</p>
         </div>
       </div>
     );

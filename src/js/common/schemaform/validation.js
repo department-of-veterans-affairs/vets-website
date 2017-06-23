@@ -302,7 +302,7 @@ export function validateFileField(errors, fileList) {
       error = `Error: ${file.errorMessage}`;
     } else if (file.uploading) {
       error = 'Uploading file...';
-    } else if (!file.confirmationNumber) {
+    } else if (!file.confirmationCode) {
       error = 'Something went wrong...';
     }
 

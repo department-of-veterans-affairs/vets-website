@@ -205,7 +205,7 @@ class ObjectField extends React.Component {
                     required={required}
                     formContext={formContext}/> : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+            {DescriptionField && <DescriptionField formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
           {this.orderedProperties.map((objectFields, index) => {

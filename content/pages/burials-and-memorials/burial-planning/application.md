@@ -1,13 +1,14 @@
 ---
-title: Apply for burial benefits
-entryname: burials
+title: Apply online for pre-need determination of eligibility in a VA National Cemetary
+entryname: pre-need
 layout: page-react.html
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
-      <li><a href="/burials-and-memorials/">Burials and memorials</a></li>
+      <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
+      <li><a href="/burials-and-memorials/burial-planning">Burial Planning</a></li>
       <li class="active">Apply Online</li>
     </ul>
   </nav>

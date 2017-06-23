@@ -16,10 +16,8 @@ require('../../sass/pensions.scss');
 const store = createCommonStore(reducer);
 createLoginWidget(store);
 
-// Change the basename path once we replace hca with this form
-// (should be 'healthcare/appy/application')
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/pensions/application'
+  basename: '/pension/application/527EZ'
 });
 
 function init() {
