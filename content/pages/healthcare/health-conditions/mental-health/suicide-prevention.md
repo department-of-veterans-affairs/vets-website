@@ -95,9 +95,9 @@ Learn about common suicide myths and realities, Veteran-specific suicide risks, 
 
 Yes. If you’re a family member or friend of a Veteran who’s having trouble adjusting to life at home, we can help. Through our national Coaching Into Care program, our licensed psychologists and social workers will talk with you by phone, free of charge, to help you find your way around the VA system and figure out the best way to help the Veteran you care about. All calls are confidential (private).
 
-To speak with a VA coach, call <a href="tel:+1-888-823-7458">888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
+To speak with a VA coach, call <a href="tel:+1-888-823-7458">888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
-To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching Into Care](https://www.mirecc.va.gov/coaching/). 
+To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching into Care](https://www.mirecc.va.gov/coaching/). 
 
 <br>
 
