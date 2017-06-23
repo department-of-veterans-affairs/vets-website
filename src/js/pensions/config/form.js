@@ -300,10 +300,10 @@ const formConfig = {
                 'ui:options': {
                   labels: {
                     Longevity: 'Longevity',
-                    PDRL: 'PDRL',
                     Separation: 'Separation',
                     Severance: 'Severance',
-                    TDRL: 'TDRL'
+                    PDRL: 'Permanent Disability Retirement List (PDRL)',
+                    TDRL: 'Temporary Disability Retirement List (TDRL)'
                   }
                 }
               }
