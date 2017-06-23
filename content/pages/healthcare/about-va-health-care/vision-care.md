@@ -42,6 +42,8 @@ If you’re a blind or low vision Veteran, you may be able to get more advanced 
 
 </div>
 
+<br>
+
 ### Will VA cover the cost of eyeglasses?
 
 We’ll cover the cost of your eyeglasses if you:
@@ -68,6 +70,8 @@ We’ll also cover the cost of your eyeglasses if you have any of these issues:
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
 For more information, contact the prosthetic representative at your nearest VA medical center or clinic. [Find a VA health facility near you](/facilities/).
+
+<br>
 
 ### If I have vision and hearing loss, will VA cover the cost of hearing aids too?
 
