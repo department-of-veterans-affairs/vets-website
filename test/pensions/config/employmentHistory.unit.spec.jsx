@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions employment history', () => {
