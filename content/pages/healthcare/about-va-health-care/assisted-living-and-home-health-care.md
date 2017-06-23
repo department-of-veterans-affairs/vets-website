@@ -87,7 +87,7 @@ Other services aren’t covered under VA health care benefits. For these service
 - Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).  
 - Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
-<br>
+------
 
 ### More details about your care options
 
