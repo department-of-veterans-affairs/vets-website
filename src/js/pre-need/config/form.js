@@ -423,9 +423,13 @@ const formConfig = {
                 expandUnder: 'view:isPreparer',
                 expandUnderCondition: 'Y'
               },
-              preparerFullName: _.assign(fullNameUI, {
+              preparerFullName: _.merge(fullNameUI, {
                 'ui:title': 'Preparer information',
-                suffix: undefined
+                suffix: {
+                  'ui:options': {
+                    hideIf: () => true
+                  }
+                }
               }),
               preparerAddress: address.uiSchema('Mailing address'),
               'view:contactInfo': {
