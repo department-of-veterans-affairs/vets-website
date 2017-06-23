@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
-import LoginModal from '../../common/components/LoginModal';
+import SignInLink from '../../common/components/SignInLink';
 import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
@@ -14,14 +14,6 @@ import { fetchInProgressForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpened: false
-    };
-  }
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -46,25 +38,12 @@ class IntroductionPage extends React.Component {
       alert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <a onClick={this.openLoginModal}>sign in</a>.
-            <LoginModal
-                onClose={this.closeLoginModal}
-                visible={this.state.modalOpened}
-                user={this.props.user}
-                onUpdateLoginUrl={this.props.updateLogInUrl}/>
+            <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
           </div>
         </div>);
     }
 
     return alert;
-  }
-
-  openLoginModal = () => {
-    this.setState({ modalOpened: true });
-  }
-
-  closeLoginModal = () => {
-    this.setState({ modalOpened: false });
   }
 
   render() {
