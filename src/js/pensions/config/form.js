@@ -1256,6 +1256,7 @@ const formConfig = {
           title: 'Contact information',
           path: 'additional-information/contact',
           uiSchema: {
+            'ui:title': 'Contact information',
             veteranAddress: address.uiSchema('Mailing address'),
             email: {
               'ui:title': 'Primary email address'
