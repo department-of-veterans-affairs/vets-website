@@ -51,7 +51,7 @@ Care settings may include:
 
 <br>
 
-### What if no VA location near me provides the services I need?
+#### What if no VA location near me provides the services I need?
 
 Your provider will work with you to find the best place to get the care you need. This may mean you’ll need to travel to another VA location. Or, we may give you permission to receive the service in a non-VA community care setting. [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).
 
