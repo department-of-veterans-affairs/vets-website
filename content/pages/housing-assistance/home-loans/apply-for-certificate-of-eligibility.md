@@ -112,7 +112,7 @@ If you are a **discharged member of the Reserves** and were **never activated**,
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-survivor">Surviving spouse of a Veteran who died on active duty or who had a service-connected disability</button>
 <div id="apply-coe-survivor" class="usa-accordion-content">
 
-If you're a **surviving spouse** who's eligible for home loan benefits, you'll need the Veteran’s discharge documents (DD214)—if available—**and:**
+If you're a **surviving spouse** who qualifies for home loan benefits, you'll need the Veteran’s discharge documents (DD214)—if available—**and:**
 
 - **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
@@ -120,13 +120,12 @@ If you're a **surviving spouse** who's eligible for home loan benefits, you'll n
   - The Veteran's death certificate
   
   <br>
-  
- [Find out if you're eligible for home loan benefits](/housing-assistance/home-loans/eligibility/). 
+ [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
  
-  <br>
-  
-  [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). <br>
-  [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
+ <br> 
+ 
+ [Find out if you qualify for home loan benefits](/housing-assistance/home-loans/eligibility/). <br /> 
+ [Get military service records online](http://www.archives.gov/veterans/military-service-records/).
 
 </div>
 </li>
