@@ -157,11 +157,17 @@ smith.use(collections({
       name: 'Burials and Memorials'
     }
   },
-  burialsPlanning: {
-    pattern: 'burials-and-memorials/burial-planning/*.md',
+  burialsEligibility: {
+    pattern: 'burials-and-memorials/eligibility/*.md',
     sortBy: 'title',
     metadata: {
-      name: 'Burials and Memorials'
+      name: 'Eligibility'
+    }
+  },
+  burialsPlanning: {
+    sortBy: 'title',
+    metadata: {
+      name: 'Burial Planning'
     }
   },
   burialsSurvivors: {

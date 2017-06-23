@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Burial Flags and Presidential Memorial Certificates
 display_title: Flags and Memorial Certificates
+collection: burialsPlanning
 concurrence: incomplete
 ---
 

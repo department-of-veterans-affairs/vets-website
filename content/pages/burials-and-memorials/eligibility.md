@@ -4,6 +4,7 @@ template: detail-page
 title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
+children: burialsEligibility
 order: 2
 relatedlinks:
   - heading: What to do next
