@@ -65,7 +65,7 @@ We offer treatments such as:
 
 The VA health care program covers depression health services. To access these services, first apply for VA health care. [Apply for health care](/healthcare/apply/). 
 
-Once you’re signed up: 
+Once you’ve signed up: 
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have depression—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
