@@ -113,8 +113,18 @@ export function getFormDOM(form) {
     });
   };
 
-  formDOM.click = function click(id) {
-    ReactTestUtils.Simulate.click(this.querySelector(id));
+  // Accepts 'Y', 'N', true, false
+  formDOM.setYesNo = function setYesNo(id, value) {
+    const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        value: isYes ? 'Y' : 'N'
+      }
+    });
+  };
+
+  formDOM.click = function click(selector) {
+    ReactTestUtils.Simulate.click(this.querySelector(selector));
   };
 
   return formDOM;

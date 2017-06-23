@@ -5,7 +5,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, expensesWarning } from '../helpers';
+import { fileHelp, expensesWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 
@@ -57,10 +57,11 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/burials',
-  trackingPrefix: 'burials-',
+  submitUrl: '/v0/burial_claims',
+  trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   disableSave: true,
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
