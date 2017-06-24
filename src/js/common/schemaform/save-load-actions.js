@@ -16,7 +16,7 @@ export const SAVE_STATUSES = Object.freeze({
   failure: 'failure',
   success: 'success'
 });
-// TODO: Use these statuses to display an error message somewhere
+
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',
@@ -24,7 +24,8 @@ export const LOAD_STATUSES = Object.freeze({
   failure: 'failure',
   notFound: 'not-found',
   invalidData: 'invalid-data',
-  success: 'success'
+  success: 'success',
+  prefillComplete: 'prefill-complete'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -169,7 +170,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations) {
+export function fetchInProgressForm(formId, migrations, prefill = false) {
   // TODO: Test if the form is still saved after submission.
   // TODO: Migrations currently aren't sent; they're taken from `form` in the
   //  redux store, but form.migrations doesn't exist (nor should it, really)
@@ -252,7 +253,14 @@ export function fetchInProgressForm(formId, migrations) {
         Raven.captureMessage('vets_sip_error_fetch');
         loadedStatus = LOAD_STATUSES.failure;
       }
-      dispatch(setFetchFormStatus(loadedStatus));
+
+      // If prefilling went wrong for a non-auth reason, it probably means that
+      // they didn't have info to use and we can continue on as usual
+      if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
+        dispatch(setFetchFormStatus(LOAD_STATUSES.prefillComplete));
+      } else {
+        dispatch(setFetchFormStatus(loadedStatus));
+      }
     });
   };
 }
