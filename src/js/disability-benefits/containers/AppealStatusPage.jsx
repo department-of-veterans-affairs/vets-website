@@ -15,19 +15,28 @@ class AppealStatusPage extends React.Component {
     }
   }
 
-  renderStatusNextAction(eventType) {
+  renderStatusNextAction(lastEvent) {
+    const eventType = lastEvent.type;
     const { nextAction } = appealStatusDescriptions[eventType];
+    const className = `next-action ${eventType}`;
+    let title = nextAction.title;
+
     switch (eventType) {
       case 'form9':
-        return (
-          <div className="next-action">
-            <h5>{nextAction.title}</h5>
-            {nextAction.description}
-          </div>
-        );
+        break;
+      case 'soc':
+        title = title.concat(` ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`);
+        break;
       default:
-        return null;
+        break;
     }
+
+    return (
+      <div className={className}>
+        <h5>{title}</h5>
+        {nextAction.description}
+      </div>
+    );
   }
 
   renderPreviousActivity(lastEvent, eventHistory) {
@@ -48,7 +57,9 @@ class AppealStatusPage extends React.Component {
             return (
               <tr key={i}>
                 <td><i className="fa fa-check-circle"></i></td>
-                <td><strong>{moment(e.date).format('MMM DD, YYYY')}</strong></td>
+                <td className="date">
+                  <strong>{moment(e.date).format('MMM DD, YYYY')}</strong>
+                </td>
                 <td>{appealStatusDescriptions[e.type].status.title}</td>
               </tr>
             );
@@ -81,7 +92,9 @@ class AppealStatusPage extends React.Component {
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
-              {this.renderStatusNextAction(lastEvent.type)}
+              <div className="next-action-container">
+                {this.renderStatusNextAction(lastEvent)}
+              </div>
             </div>
             <div className="row">
               <div className="last-status">

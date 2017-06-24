@@ -270,9 +270,40 @@ a.claim-list-item {
     font-size: 1.25em;
   }
 
+  .next-action-container {
+    padding-right: 1em;
+  }
+
   .next-action {
     padding: 1em;
-    background: $color-inset-bg;
+    position: relative;
+
+    p {
+      margin-top: 0;
+    }
+
+    &.form9 {
+      background: $color-inset-bg;
+    }
+
+    &.soc {
+      background: $color-gibill-accent;
+      padding-left: 2.5em;
+
+      &:before {
+        left: 1em;
+        top: 1.5em;
+        position: absolute;
+        font-size: 1.25em;
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        content: "\F071";
+      }
+    }
   }
 
   .last-status {
@@ -308,6 +339,11 @@ a.claim-list-item {
         border: none;
         border-bottom: solid thin $color-gray-light;
         vertical-align: middle;
+        padding: 0 0.5em;
+
+        &.date {
+          min-width: 7em;
+        }
 
         i.fa {
           color: $color-gray;

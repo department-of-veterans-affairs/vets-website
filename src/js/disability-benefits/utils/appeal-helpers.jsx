@@ -29,12 +29,20 @@ export const appealStatusDescriptions = {
   },
   soc: {
     status: {
-      title: 'SOC status title',
-      description: <p>SOC description.</p>,
+      title: 'Your Statement of the Case (SOC) was Prepared by the Regional Office (RO)',
+      description: <div>
+        <p>The Veterans Benefits Administration (VBA) RO has mailed you the SOC for your appeal. Included with your SOC is a Form 9, which you can use to ask for your appeal to continue.</p>
+        <p>
+          To continue your appeal, you need to complete and send back your Form 9 by July 28, 2017. If you do not send back a Form 9 in time, your appeal will be closed.
+        </p>
+      </div>,
     },
     nextAction: {
-      title: 'SOC next action title.',
-      description: 'SOC next action description.'
+      title: 'To continue with your appeal, we need your Form 9 by',
+      description: <div>
+        <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
+        <p><a href="#">Learn more about hearings.</a></p>
+      </div>,
     }
   },
   nod: {
