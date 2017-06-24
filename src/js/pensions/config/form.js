@@ -38,6 +38,7 @@ import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
+import otherExpensesUI from '../definitions/otherExpenses';
 
 const {
   nationalGuardActivation,
@@ -77,6 +78,7 @@ const {
   ssn,
   vaFileNumber,
   files,
+  otherExpenses,
   bankAccount
 } = fullSchemaPensions.definitions;
 
@@ -1050,6 +1052,20 @@ const formConfig = {
             expectedIncome: expectedIncomeUI
           }
         },
+        otherExpenses: {
+          path: 'financial-disclosure/other-expenses',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
+            otherExpenses: otherExpensesUI
+          }
+        },
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
           title: 'Spouse net worth',
@@ -1102,6 +1118,22 @@ const formConfig = {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: expectedIncomeUI
+          }
+        },
+        spouseOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/spouse',
+          depends: isMarried,
+          title: createSpouseLabelSelector(spouseName =>
+            `${spouseName.first} ${spouseName.last} expenses`),
+          schema: {
+            type: 'object',
+            properties: {
+              spouseOtherExpenses: otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
+            spouseOtherExpenses: otherExpensesUI
           }
         },
         dependentsNetWorth: {
@@ -1191,6 +1223,34 @@ const formConfig = {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
+              }
+            }
+          }
+        },
+        dependentsOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/dependents/:index',
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          title: item => `${item.fullName.first} ${item.fullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    otherExpenses
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
+                otherExpenses: otherExpensesUI
               }
             }
           }
