@@ -6,7 +6,7 @@ import {
   deepEquals
 } from 'react-jsonschema-form/lib/utils';
 
-class BasicArrayField extends React.Component {
+class ReadOnlyArrayField extends React.Component {
   shouldComponentUpdate = (nextProps) => {
     return !deepEquals(this.props, nextProps);
   }
@@ -67,14 +67,11 @@ class BasicArrayField extends React.Component {
   }
 }
 
-BasicArrayField.propTypes = {
+ReadOnlyArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
   errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
   idSchema: PropTypes.object,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
   formData: PropTypes.array,
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
@@ -89,4 +86,4 @@ BasicArrayField.propTypes = {
   })
 };
 
-export default BasicArrayField;
+export default ReadOnlyArrayField;
