@@ -31,6 +31,8 @@ You may be able to get disability compensation or benefits if you have symptoms 
 
 <div class="feature" markdown="1">
 
+<span id="ptsd-disability-eligibility"></span>
+
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:

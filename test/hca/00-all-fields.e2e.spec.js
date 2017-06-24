@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}/healthcare/apply/application`)
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Apply for Health Care: Vets.gov')
+      .assert.title('Apply Online for Health Care with the 10-10EZ: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
       .click('.schemaform-buttons .usa-button-primary');
 
