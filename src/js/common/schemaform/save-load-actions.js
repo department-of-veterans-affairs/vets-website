@@ -3,8 +3,6 @@ import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
-import { setData } from './actions';
-
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
@@ -249,11 +247,6 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
       // Set the data in the redux store
-      // NOTE: Until we get the api for the list of filled forms, we're using this
-      //  function to see if the form has been filled in, so this is setting the
-      //  data in a separate place to be pulled in when we _actually_ want to load
-      //  the formData.
-      dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }, prefill));
       window.dataLayer.push({
         event: `${trackingPrefix}sip-form-loaded`
