@@ -24,7 +24,7 @@ class SaveFormLink extends React.Component {
 
   saveFormAfterLogin = (...args) => {
     window.dataLayer.push({
-      event: 'sip-login-before-save'
+      event: `${this.props.trackingPrefix}sip-login-before-save`
     });
     this.props.saveForm(...args);
   }
@@ -75,7 +75,8 @@ SaveFormLink.propTypes = {
   saveForm: PropTypes.func.isRequired,
   savedStatus: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
-  onUpdateLoginUrl: PropTypes.func.isRequired
+  onUpdateLoginUrl: PropTypes.func.isRequired,
+  trackingPrefix: PropTypes.string
 };
 
 export default SaveFormLink;

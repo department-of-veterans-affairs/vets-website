@@ -110,7 +110,8 @@ export default function createSchemaFormReducer(formConfig) {
         metadata: {}
       },
       prefilled: false,
-      migrations: formConfig.migrations
+      migrations: formConfig.migrations,
+      trackingPrefix: formConfig.trackingPrefix
     });
 
   // Take another pass and recalculate the schema and data based on the default data

@@ -24,16 +24,16 @@ class FormIntroButtons extends React.Component {
 
   handleLoadPrefill = () => {
     if (this.props.prefillAvailable) {
-      this.handleLoadForm(true);
+      this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true);
     } else {
       this.goToBeginning();
     }
   }
 
-  handleLoadForm = (prefill = false) => {
+  handleLoadForm = () => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations, prefill);
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
   render() {

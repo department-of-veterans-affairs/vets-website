@@ -111,14 +111,15 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     }),
     formData: JSON.stringify(formData)
   });
-  return dispatch => {
+  return (dispatch, getState) => {
+    const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
       Raven.captureMessage('vets_sip_missing_token');
       window.dataLayer.push({
-        event: 'sip-form-save-failed'
+        event: `${trackingPrefix}sip-form-save-failed`
       });
       return Promise.resolve();
     }
@@ -140,7 +141,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       if (res.ok) {
         dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
         window.dataLayer.push({
-          event: 'sip-form-saved'
+          event: `${trackingPrefix}sip-form-saved`
         });
         return Promise.resolve();
       }
@@ -155,13 +156,13 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
           Raven.captureException(new Error(`vets_sip_error_server_unauthorized: ${resOrError.statusText}`));
           window.dataLayer.push({
-            event: 'sip-form-save-signed-out'
+            event: `${trackingPrefix}sip-form-save-signed-out`
           });
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
           Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
           window.dataLayer.push({
-            event: 'sip-form-save-failed'
+            event: `${trackingPrefix}sip-form-save-failed`
           });
         }
       } else {
@@ -169,7 +170,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
         Raven.captureException(resOrError);
         Raven.captureMessage('vets_sip_error_save');
         window.dataLayer.push({
-          event: 'sip-form-save-failed-client'
+          event: `${trackingPrefix}sip-form-save-failed-client`
         });
       }
     });
@@ -188,7 +189,8 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
 export function fetchInProgressForm(formId, migrations, prefill = false) {
   // TODO: Migrations currently aren't sent; they're taken from `form` in the
   //  redux store, but form.migrations doesn't exist (nor should it, really)
-  return dispatch => {
+  return (dispatch, getState) => {
+    const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
@@ -254,7 +256,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }, prefill));
       window.dataLayer.push({
-        event: 'sip-form-loaded'
+        event: `${trackingPrefix}sip-form-loaded`
       });
 
       return Promise.resolve();
@@ -276,12 +278,12 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
         dispatch(setFetchFormStatus(LOAD_STATUSES.prefillComplete));
         window.dataLayer.push({
-          event: 'sip-form-prefill-failed'
+          event: `${trackingPrefix}sip-form-prefill-failed`
         });
       } else {
         dispatch(setFetchFormStatus(loadedStatus));
         window.dataLayer.push({
-          event: 'sip-form-load-failed'
+          event: `${trackingPrefix}sip-form-load-failed`
         });
       }
     });

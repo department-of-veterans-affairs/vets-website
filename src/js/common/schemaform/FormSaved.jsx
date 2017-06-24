@@ -48,7 +48,7 @@ class FormSaved extends React.Component {
     const lastSavedDate = this.props.lastSavedDate;
 
     return (
-      <div className="schemaform-intro">
+      <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your application has been saved!</strong><br/>
