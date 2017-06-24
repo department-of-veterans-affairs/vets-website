@@ -22,6 +22,13 @@ class SaveFormLink extends React.Component {
     this.setState({ modalOpened: false });
   }
 
+  saveFormAfterLogin = (...args) => {
+    window.dataLayer.push({
+      event: 'sip-login-before-save'
+    });
+    this.props.saveForm(...args);
+  }
+
   render() {
     const {
       saveForm,
@@ -55,7 +62,7 @@ class SaveFormLink extends React.Component {
             visible={this.state.modalOpened}
             user={this.props.user}
             onUpdateLoginUrl={this.props.onUpdateLoginUrl}
-            onLogin={saveForm}/>
+            onLogin={this.saveFormAfterLogin}/>
         {savedStatus === SAVE_STATUSES.failure &&
           <div className="usa-alert usa-alert-error no-background-image schemaform-save-error">We’re sorry, but something went wrong. Please try saving your application again.</div>}
         {content}
