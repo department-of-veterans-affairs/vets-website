@@ -15,6 +15,49 @@ class AppealStatusPage extends React.Component {
     }
   }
 
+  renderStatusNextAction(eventType) {
+    const { nextAction } = appealStatusDescriptions[eventType];
+    switch (eventType) {
+      case 'form9':
+        return (
+          <div className="next-action">
+            <h5>{nextAction.title}</h5>
+            {nextAction.description}
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
+
+  renderPreviousActivity(lastEvent, eventHistory) {
+    if (lastEvent.type === 'nod') {
+      return (
+        <div>
+          <p>
+            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 532 days for VBA to complete the necessary action.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <table className="events-list">
+        <tbody>
+          {eventHistory.map((e, i) => {
+            return (
+              <tr key={i}>
+                <td><i className="fa fa-check-circle"></i></td>
+                <td><strong>{moment(e.date).format('MMM DD, YYYY')}</strong></td>
+                <td>{appealStatusDescriptions[e.type].status.title}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  }
+
   render() {
     if (!this.props.appeal) {
       return null;
@@ -25,23 +68,20 @@ class AppealStatusPage extends React.Component {
       return moment(e.date).unix();
     }], ['desc']);
     const lastEvent = events[0];
-    const { status, nextAction } = appealStatusDescriptions(lastEvent.type);
+    const { status } = appealStatusDescriptions[lastEvent.type];
 
     return (
       <div className="claims-status">
         <div className="row">
           <div>
-            <h1>Your Compensation Appeal Status {this.props.params.id}</h1>
+            <h1>Your Compensation Appeal Status</h1>
             <p>This information is accurate as of {moment().format('MMM DD, YYYY')}</p>
           </div>
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
-              <div className="next-action">
-                <h5>{nextAction.title}</h5>
-                {nextAction.description}
-              </div>
+              {this.renderStatusNextAction(lastEvent.type)}
             </div>
             <div className="row">
               <div className="last-status">
@@ -58,19 +98,7 @@ class AppealStatusPage extends React.Component {
             <div className="row">
               <div className="previous-activity">
                 <h4>Previous Activity for Your Appeal</h4>
-                <table className="events-list">
-                  <tbody>
-                    {events.slice(1).map((e, i) => {
-                      return (
-                        <tr key={i}>
-                          <td><i className="fa fa-check-circle"></i></td>
-                          <td><strong>{moment(e.date).format('MMM DD, YYYY')}</strong></td>
-                          <td>{appealStatusDescriptions(e.type).status.title}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                {this.renderPreviousActivity(lastEvent, events.slice(1))}
               </div>
             </div>
           </div>

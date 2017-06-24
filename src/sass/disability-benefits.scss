@@ -250,7 +250,8 @@ a.claim-list-item {
 }
 
 .your-claims, .claims-status {
-  padding-top: 1em;
+  padding: 1em 0 3em 0;
+
   h3 {
     margin-top: 1em;
   }
@@ -276,7 +277,7 @@ a.claim-list-item {
 
   .last-status {
     margin-top: 1em;
-    padding: 1em;
+    padding: 0 1em 1em 0;
 
     h4:first-of-type {
       padding: 0;
