@@ -2,8 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import Modal from '../../common/components/Modal';
 
 class FormIntroButtons extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
+  }
+
   componentWillReceiveProps = (newProps) => {
     if (!this.props.returnUrl && newProps.returnUrl) {
       // Navigate to the last page they were on
@@ -36,28 +42,54 @@ class FormIntroButtons extends React.Component {
     this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
+  toggleModal = () => {
+    this.setState({ modalOpen: !this.state.modalOpen });
+  }
+
+  startOver = () => {
+    this.toggleModal();
+    this.props.removeInProgressForm(this.props.formId, this.props.migrations);
+  }
+
   render() {
-    let resumeButton = null;
-    let firstPageButtonText = 'Continue';
-    let firstPageButtonClass = 'usa-button-primary';
     if (this.props.formSaved) {
-      firstPageButtonText = 'Start over';
-      firstPageButtonClass = 'usa-button-outline';
-      resumeButton = (
-        <ProgressButton
-            onButtonClick={this.handleLoadForm}
-            buttonText="Resume previous application"
-            buttonClass="usa-button-primary"/>
+      return (
+        <div>
+          <ProgressButton
+              onButtonClick={this.handleLoadForm}
+              buttonText="Resume previous application"
+              buttonClass="usa-button-primary"/>
+          <ProgressButton
+              onButtonClick={this.toggleModal}
+              buttonText="Start over"
+              buttonClass="usa-button-outline"
+              afterText="»"/>
+          <Modal
+              cssClass="va-modal-large"
+              id="start-over-modal"
+              onClose={this.toggleModal}
+              visible={this.state.modalOpen}>
+            <h4>Starting over would erase all your previous information.</h4>
+            <p>Are you sure you want to start over?</p>
+            <ProgressButton
+                onButtonClick={this.startOver}
+                buttonText="Start over"
+                buttonClass="usa-button-primary"/>
+            <ProgressButton
+                onButtonClick={this.toggleModal}
+                buttonText="Cancel"
+                buttonClass="usa-button-outline"/>
+          </Modal>
+        </div>
       );
     }
 
     return (
       <div>
-        {resumeButton}
         <ProgressButton
             onButtonClick={this.handleLoadPrefill}
-            buttonText={firstPageButtonText}
-            buttonClass={firstPageButtonClass}
+            buttonText="Continue"
+            buttonClass="usa-button-primary"
             afterText="»"/>
       </div>
     );
@@ -70,6 +102,7 @@ FormIntroButtons.propTypes = {
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
+  removeInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired
