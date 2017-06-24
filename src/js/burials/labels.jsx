@@ -24,9 +24,3 @@ export const benefitsLabels = {
   plotAllowance: 'Plot allowance',
   transportation: 'Tranportation'
 };
-
-export const documentLabels = {
-  deathCertificate: 'Death certificate',
-  transportationReceipts: 'Transportation receipts'
-};
-

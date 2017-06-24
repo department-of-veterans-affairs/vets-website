@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../common/utils/helpers';
-import { benefitsLabels, documentLabels } from '../labels';
+import benefitsLabels from '../labels';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -34,13 +34,14 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response
-         ? this.props.form.submission.response.attributes
+    const response = form.submission.response
+         ? form.submission.response.attributes
          : {};
     const { 'view:claimedBenefits': benefits,
             claimantFullName: claimantName,
             veteranFullName: veteranName } = form.data;
-    const documents = form.data.pages.schema.properties;
+    const { deathCertificate, transportationReceipts } = form.data.pages.schema.properties;
+    const hasDocuments = !!(deathCertificate.items.length || transportationReceipts.items.length);
 
     return (
       <div className="edu-benefits-submit-success">
@@ -71,17 +72,11 @@ class ConfirmationPage extends React.Component {
               <strong>Benefits claimed</strong><br/>
               {_.map(benefits, (isRequested, benefitName) => isRequested && <p>{benefitsLabels[benefitName]}</p>)}
             </li>
-            <li>
+            {hasDocuments && <li>
               <strong>Documents Uploaded</strong><br/>
-              {_.map(documents, (contents, documentName) => { // eslint-disable-line consistent-return
-                const fileNumber = contents.items.length;
-                const fileString = (fileNumber > 1) ? 'files' : 'file';
-                if (fileNumber) {
-                  return <p>{documentLabels[documentName]}: {fileNumber} {fileString}</p>;
-                }
-              })
-              }
-            </li>
+              {deathCertificate.items.length && <p>Death certificate: 1 file</p>}
+              {transportationReceipts.items.length && <p>Transportation receipts: {transportationReceipts.items.length} {transportationReceipts.items.length > 1 ? 'files' : 'files'}</p>}
+            </li>}
             <li>
               <strong>Your claim was sent to</strong><br/>
               <address className="schemaform-address-view">{response.regionalOffice}</address>
