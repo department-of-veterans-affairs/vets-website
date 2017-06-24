@@ -12,7 +12,9 @@ import {
   setInProgressForm,
   migrateFormData,
   saveInProgressForm,
-  fetchInProgressForm
+  fetchInProgressForm,
+  setPrefillComplete,
+  setFetchFormPending
 } from '../../../src/js/common/schemaform/save-load-actions';
 
 import { logOut } from '../../../src/js/login/actions';
@@ -217,7 +219,7 @@ describe('Schemaform save / load actions:', () => {
       }));
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.pending))).to.be.true;
+        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
       });
     });
     it('attempts to fetch an in-progress form', () => {
@@ -357,7 +359,7 @@ describe('Schemaform save / load actions:', () => {
         }));
 
         return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
+          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });
       it('dispatches a success if the api returns an empty object', () => {
@@ -369,7 +371,7 @@ describe('Schemaform save / load actions:', () => {
         }));
 
         return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.prefillComplete))).to.be.true;
+          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });
     });

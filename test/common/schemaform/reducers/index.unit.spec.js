@@ -12,7 +12,8 @@ import {
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
   SAVE_STATUSES,
-  LOAD_STATUSES
+  LOAD_STATUSES,
+  PREFILL_STATUSES
 } from '../../../../src/js/common/schemaform/save-load-actions';
 
 import createSchemaFormReducer from '../../../../src/js/common/schemaform/reducers';
@@ -214,11 +215,11 @@ describe('schemaform createSchemaFormReducer', () => {
     it('should merge prefill data with current form', () => {
       const state = reducer({
         data: { existingProp: true },
+        prefillStatus: PREFILL_STATUSES.pending,
         pages: {}
       }, {
         type: SET_IN_PROGRESS_FORM,
         data,
-        prefilled: true
       });
 
       expect(state.data.existingProp).to.be.true;

@@ -58,7 +58,7 @@ describe('Schemaform <FormIntroButtons>', () => {
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
-  it('should render 2 buttons when logged in with a saved form', () => {
+  it('should render 4 buttons when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy()
     };
@@ -73,7 +73,8 @@ describe('Schemaform <FormIntroButtons>', () => {
           fetchInProgressForm={fetchSpy}/>
     );
 
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('ProgressButton').length).to.equal(4);
+    expect(tree.subTree('Modal').everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
