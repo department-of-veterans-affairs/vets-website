@@ -33,56 +33,13 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // const form = this.props.form;
-    const form = {
-      data: {
-        claimantFullName: {
-          first: 'Sally',
-          middle: 'Jane',
-          last: 'Doe'
-        },
-        veteranFullName: {
-          first: 'Josie',
-          middle: 'Henrietta',
-          last: 'Smith'
-        },
-        'view:claimedBenefits': {
-          burialAllowance: true,
-          plotAllowance: true,
-          transportation: true
-        },
-        pages: {
-          schema: {
-            properties: {
-              deathCertificate: {
-                items: {
-                  length: 1
-                }
-              },
-              transportationReceipts: {
-                items: {
-                  length: 2
-                }
-              }
-            }
-          }
-        }
-      },
-      submission: {
-        submittedAt: Date.now()
-      }
-    };
-//    const response = this.props.form.submission.response
-//       ? this.props.form.submission.response.attributes
-//       : {};
-    const response = {
-      confirmationNumber: 'V-EBC-177',
-      regionalOffice: <div><p>Western Region</p><p>VA Regional Office</p><p>P.O. Box 8888</p><p>Muskogee, OK 74402-8888</p></div>
-    };
+    const form = this.props.form;
+    const response = this.props.form.submission.response
+         ? this.props.form.submission.response.attributes
+         : {};
     const { 'view:claimedBenefits': benefits,
             claimantFullName: claimantName,
             veteranFullName: veteranName } = form.data;
-
     const documents = form.data.pages.schema.properties;
 
     return (
