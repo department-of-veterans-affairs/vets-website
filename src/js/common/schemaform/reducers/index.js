@@ -109,6 +109,7 @@ export default function createSchemaFormReducer(formConfig) {
         formData: {},
         metadata: {}
       },
+      prefilled: false,
       migrations: formConfig.migrations
     });
 
@@ -159,6 +160,7 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_IN_PROGRESS_FORM: {
         const newState = _.set('loadedData', action.data, state);
         newState.loadedStatus = LOAD_STATUSES.success;
+        newState.prefilled = action.prefilled;
 
         return newState;
       }

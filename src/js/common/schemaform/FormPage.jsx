@@ -147,6 +147,7 @@ class FormPage extends React.Component {
             uiSchema={uiSchema}
             pagePerItemIndex={params ? params.index : undefined}
             uploadFile={this.props.uploadFile}
+            prefilled={this.props.form.prefilled}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">

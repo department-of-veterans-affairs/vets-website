@@ -55,6 +55,8 @@ class SchemaForm extends React.Component {
       this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
+    } else if (!!newProps.prefilled !== !!this.state.formContext.prefilled) {
+      this.setState(this.getEmptyState(newProps));
     }
   }
 
@@ -91,7 +93,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow } = props;
+    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow, prefilled } = props;
     return {
       formContext: {
         touched: {},
@@ -103,7 +105,8 @@ class SchemaForm extends React.Component {
         pagePerItemIndex,
         reviewMode,
         hideHeaderRow,
-        uploadFile
+        uploadFile,
+        prefilled
       }
     };
   }
