@@ -23,21 +23,11 @@ describe('<ConfirmationPage>', () => {
           plotAllowance: true,
           transportation: true
         },
-        pages: {
-          schema: {
-            properties: {
-              deathCertificate: {
-                items: {
-                  length: 1
-                }
-              },
-              transportationReceipts: {
-                items: {
-                  length: 2
-                }
-              }
-            }
-          }
+        deathCertificate: {
+          length: 1
+        },
+        transportationReceipts: {
+          length: 2
         }
       },
       submission: {
@@ -80,22 +70,6 @@ describe('<ConfirmationPage>', () => {
           burialAllowance: true,
           plotAllowance: true,
           transportation: true
-        },
-        pages: {
-          schema: {
-            properties: {
-              deathCertificate: {
-                items: {
-                  length: 0
-                }
-              },
-              transportationReceipts: {
-                items: {
-                  length: 0
-                }
-              }
-            }
-          }
         }
       },
       submission: {
