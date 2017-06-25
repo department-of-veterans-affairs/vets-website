@@ -62,7 +62,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
-  formId: '530',
+  formId: '21P-530',
   version: 0,
   savedFormErrorMessages: {
     notFound: 'Please start over to apply for burial benefits.',
