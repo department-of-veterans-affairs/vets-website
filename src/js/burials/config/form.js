@@ -103,6 +103,9 @@ const formConfig = {
                   expandUnderCondition: 'other'
                 }
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
