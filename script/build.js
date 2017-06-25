@@ -372,10 +372,10 @@ if (options.watch) {
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/status(.*)', to: '/education/gi-bill/post-9-11/status/' },
-        { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
-        { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
-        { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
+        { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
+        { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
+        { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
+        { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
         { from: '^/va-letters(.*)', to: '/va-letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
@@ -527,7 +527,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
-       '/healthcare/apply/application',
+       '/health-care/apply/application',
        '/va-letters'].join('|'))
   }));
 }
