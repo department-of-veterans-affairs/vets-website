@@ -25,10 +25,6 @@ legend {
   }
 }
 
-.form-review-panel-page .va-growable-add-btn {
-  display: none;
-}
-
 .va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date {
   &:focus {
     outline: none;
@@ -328,4 +324,6 @@ label {
   white-space: pre-wrap;
 }
 
-
+.schemaform-array-readonly-header {
+  padding-bottom: 1.5rem;
+}

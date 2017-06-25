@@ -22,10 +22,18 @@ class FormIntroButtons extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
 
-  handleLoadForm = () => {
+  handleLoadPrefill = () => {
+    if (this.props.prefillAvailable) {
+      this.handleLoadForm(true);
+    } else {
+      this.goToBeginning();
+    }
+  }
+
+  handleLoadForm = (prefill = false) => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations); // eslint-disable-line no-console
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations, prefill);
   }
 
   render() {
@@ -47,7 +55,7 @@ class FormIntroButtons extends React.Component {
       <div>
         {resumeButton}
         <ProgressButton
-            onButtonClick={this.goToBeginning}
+            onButtonClick={this.handleLoadPrefill}
             buttonText={firstPageButtonText}
             buttonClass={firstPageButtonClass}
             afterText="»"/>
@@ -61,10 +69,10 @@ FormIntroButtons.propTypes = {
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
-  loggedIn: PropTypes.bool.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
-  formSaved: PropTypes.bool.isRequired
+  formSaved: PropTypes.bool.isRequired,
+  prefillAvailable: PropTypes.bool.isRequired
 };
 
 export default FormIntroButtons;
