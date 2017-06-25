@@ -6,23 +6,14 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../util/schemaform-utils';
-import FormIntroButtons from '../../../src/js/common/schemaform/FormIntroButtons';
+import { FormIntroButtons } from '../../../src/js/common/schemaform/FormIntroButtons';
 
 describe('Schemaform <FormIntroButtons>', () => {
-  const route = {
-    pageConfig: {
-      pageKey: 'testPage',
-      schema: {},
-      uiSchema: {},
-      errorMessages: {},
-      title: ''
-    },
-    pageList: [
-      {
-        path: 'testing'
-      }
-    ]
-  };
+  const pageList = [
+    {
+      path: 'testing'
+    }
+  ];
 
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
@@ -34,7 +25,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -51,7 +42,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -68,7 +59,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -85,14 +76,14 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
-    expect(routerSpy.push.calledWith(route.pageList[0].path));
+    expect(routerSpy.push.calledWith(pageList[0].path));
   });
 
   it('should go to the first page when "Start over" is clicked', () => {
@@ -105,14 +96,14 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
 
-    expect(routerSpy.push.calledWith(route.pageList[0].path));
+    expect(routerSpy.push.calledWith(pageList[0].path));
   });
   it('should go to the returnUrl when "Resume previous application" is clicked', () => {
     const routerSpy = {
@@ -125,7 +116,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -144,7 +135,7 @@ describe('Schemaform <FormIntroButtons>', () => {
       <FormIntroButtons
           formId="1010ez"
           migrations={[]}
-          route={route}
+          pageList={pageList}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
           prefillAvailable/>
