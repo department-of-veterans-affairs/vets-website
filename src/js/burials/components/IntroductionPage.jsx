@@ -33,7 +33,7 @@ class IntroductionPage extends React.Component {
         <br/>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
           <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/healthcare/apply">
+            <a href="/health-care/apply">
               <button className="usa-button-outline">« Back</button>
             </a>
           </div>
