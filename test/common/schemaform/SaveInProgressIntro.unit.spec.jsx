@@ -9,7 +9,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          '1010ez'
+          { form: '1010ez' }
         ],
         prefillsAvailable: []
       },
@@ -32,7 +32,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          '1010ez'
+          { form: '1010ez' }
         ],
         prefillsAvailable: ['1010ez']
       },
@@ -53,7 +53,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          '1010ez'
+          { form: '1010ez' }
         ],
         prefillsAvailable: []
       },

@@ -9,18 +9,21 @@ import SignInLink from '../components/SignInLink';
 import FormIntroButtons from './FormIntroButtons';
 
 export default class SaveInProgressIntro extends React.Component {
-  getAlert(formSaved) {
+  getAlert(savedForm) {
     let alert;
 
     if (this.props.user.login.currentlyLoggedIn) {
-      if (formSaved) {
-        const savedAt = this.props.savedAt;
+      if (!!savedForm) {
+        const savedAt = this.props.lastSavedDate
+          ? moment(this.props.lastSavedDate)
+          : moment.unix(savedForm.last_updated);
+
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image">
               <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
               <br/>
-              <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mma')}</div>
+              <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}</div>
               <div>{this.props.children}</div>
             </div>
             <br/>
@@ -45,12 +48,12 @@ export default class SaveInProgressIntro extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const formSaved = !!(profile && profile.savedForms.some(f => f.form === this.props.formId));
+    const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     return (
       <div>
-        {this.getAlert(formSaved)}
+        {this.getAlert(savedForm)}
         <FormIntroButtons
             pageList={this.props.pageList}
             formId={this.props.formId}
@@ -58,7 +61,7 @@ export default class SaveInProgressIntro extends React.Component {
             migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
             prefillAvailable={prefillAvailable}
-            formSaved={formSaved}/>
+            formSaved={!!savedForm}/>
         <br/>
       </div>
     );
@@ -69,7 +72,7 @@ SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
-  savedAt: PropTypes.number,
+  lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
@@ -81,12 +84,13 @@ export const introSelector = createSelector(
   state => state.form.migrations,
   state => state.form.loadedData,
   state => state.user,
-  (formId, migrations, loadedData, user) => {
+  state => state.form.lastSavedDate,
+  (formId, migrations, loadedData, user, lastSavedDate) => {
     return {
       formId,
       migrations,
       returnUrl: loadedData.metadata.returnUrl,
-      savedAt: loadedData.metadata.savedAt,
+      lastSavedDate,
       user
     };
   }
