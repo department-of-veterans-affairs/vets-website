@@ -11,6 +11,9 @@ import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
+  SET_FETCH_FORM_PENDING,
+  SET_PREFILL_COMPLETE,
+  SET_START_OVER,
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES
@@ -51,6 +54,9 @@ describe('schemaform createSchemaFormReducer', () => {
     expect(state.data.privacyAgreementAccepted).to.be.false;
     expect(state.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
     expect(state.page2).to.be.defined;
+    expect(state.isStartingOver).to.be.false;
+    expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
+    expect(state.initialData).to.equal(state.data);
   });
   describe('reducer', () => {
     const formConfig = {
@@ -187,6 +193,8 @@ describe('schemaform createSchemaFormReducer', () => {
       });
 
       expect(state.savedStatus).to.equal(SAVE_STATUSES.success);
+      expect(state.startingOver).to.be.false;
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     });
     it('should set fetch form status', () => {
       const state = reducer({
@@ -224,6 +232,49 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.data.existingProp).to.be.true;
       expect(state.data.field).to.equal('foo');
+    });
+    it('should set fetch form pending', () => {
+      const state = reducer({
+      }, {
+        type: SET_FETCH_FORM_PENDING,
+      });
+
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+    });
+    it('should set fetch form pending and prefill', () => {
+      const state = reducer({
+      }, {
+        type: SET_FETCH_FORM_PENDING,
+        prefill: true
+      });
+
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.pending);
+    });
+    it('should start over form', () => {
+      const initialData = { field: true };
+      const state = reducer({
+        initialData,
+        data: { field1: false }
+      }, {
+        type: SET_START_OVER,
+      });
+
+      expect(state.isStartingOver).to.be.true;
+      expect(state.data).to.equal(initialData);
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+    });
+    it('should set prefill as complete', () => {
+      const initialData = { field: true };
+      const state = reducer({
+        initialData
+      }, {
+        type: SET_PREFILL_COMPLETE,
+      });
+
+      expect(state.data).to.equal(initialData);
+      expect(state.loadedStatus).to.equal(LOAD_STATUSES.notAttempted);
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.complete);
     });
   });
 });

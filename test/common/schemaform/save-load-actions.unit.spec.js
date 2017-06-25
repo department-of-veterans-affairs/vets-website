@@ -13,8 +13,10 @@ import {
   migrateFormData,
   saveInProgressForm,
   fetchInProgressForm,
+  removeInProgressForm,
   setPrefillComplete,
-  setFetchFormPending
+  setFetchFormPending,
+  setStartOver
 } from '../../../src/js/common/schemaform/save-load-actions';
 
 import { logOut } from '../../../src/js/login/actions';
@@ -373,6 +375,83 @@ describe('Schemaform save / load actions:', () => {
         return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
+      });
+    });
+  });
+  describe('removeInProgressForm', () => {
+    beforeEach(setup);
+    afterEach(teardown);
+    window.dataLayer = [];
+
+    it('dispatches a no-auth if the user has no session token', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      delete sessionStorage.userToken;
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledOnce).to.be.true;
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
+      });
+    });
+    it('dispatches a start over action', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledWith(setStartOver())).to.be.true;
+      });
+    });
+    it('attempts to remove an in-progress form', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+
+      thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain('/v0/in_progress_forms/1010ez');
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+      });
+    });
+    it('removes a form and fetches prefill data', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.reset();
+      global.fetch.onCall(0).returns(Promise.resolve({
+        ok: true
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.lastCall.args[0]).to.be.a.function;
+      });
+    });
+    it('handles remove error and fetches prefill data', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false,
+        status: 400
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.lastCall.args[0]).to.be.a.function;
+      });
+    });
+    it('sets no-auth status if session expires', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false,
+        status: 401
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.calledWith(logOut()));
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)));
+        expect(dispatch.lastCall.args[0]).not.to.be.a.function;
       });
     });
   });
