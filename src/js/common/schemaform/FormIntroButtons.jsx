@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
@@ -19,7 +20,7 @@ class FormIntroButtons extends React.Component {
   }
 
   goToBeginning = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
+    this.props.router.push(this.props.pageList[1].path);
   }
 
   handleLoadPrefill = () => {
@@ -65,14 +66,16 @@ class FormIntroButtons extends React.Component {
 }
 
 FormIntroButtons.propTypes = {
-  route: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
-  prefillAvailable: PropTypes.bool.isRequired
+  prefillAvailable: PropTypes.bool.isRequired,
+  pageList: PropTypes.array.isRequired
 };
 
-export default FormIntroButtons;
+export default withRouter(FormIntroButtons);
+
+export { FormIntroButtons };
