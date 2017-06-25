@@ -40,8 +40,8 @@ class ConfirmationPage extends React.Component {
     const { 'view:claimedBenefits': benefits,
             claimantFullName: claimantName,
             veteranFullName: veteranName } = form.data;
-    const { deathCertificate, transportationReceipts } = form.data.pages.schema.properties;
-    const hasDocuments = !!(deathCertificate.items.length || transportationReceipts.items.length);
+    const hasDocuments = form.data.pages;
+    const { deathCertificate, transportationReceipts } = form.data.pages.schema.properties || {};
 
     return (
       <div className="edu-benefits-submit-success">
