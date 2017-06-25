@@ -186,12 +186,15 @@ label {
 }
 
 .schemaform-block-header {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.7em;
   > legend, > h5, > p {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
   }
   > p {
+    margin-top: 0;
+  }
+  > .schemaform-block-title + p {
     margin-top: 0.5em;
   }
 }
@@ -278,4 +281,45 @@ label {
 .schemaform-file-list {
   list-style: none;
   padding-left: 0;
+  > li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  > .schemaform-file-item-edit {
+    flex-direction: column;
+    align-items: left;
+  }
+}
+
+.schemaform-file-list-buttons-editing {
+  display: flex;
+  > .schemaform-file-remove-button {
+    width: inherit;
+  }
+}
+
+.usa-input-error .schemaform-upload-label {
+  margin-top: 0.5em;
+}
+
+.schemaform-file-upload .schemaform-label {
+  font-weight: bold;
+}
+
+.schemaform-file-list-buttons-editing > .usa-button {
+  margin: 0.5em 0.5em 0.5em 0;
+}
+
+.schemaform-file-upload-review {
+  margin-bottom: 1.5em;
+}
+
+.va-growable-background:focus {
+  outline: none;
+}
+
+.schemaform-save-error {
+  margin-top: 0;
+  margin-bottom: 1em;
 }

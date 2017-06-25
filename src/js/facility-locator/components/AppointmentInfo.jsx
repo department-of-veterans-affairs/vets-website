@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { pull, startCase } from 'lodash';
+import { some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
+import moment from 'moment';
 
 export default class AppointmentInfo extends Component {
   constructor() {
@@ -10,6 +11,15 @@ export default class AppointmentInfo extends Component {
       newPatientTimesExpanded: false,
       existingPatientTimesExpanded: false,
     };
+  }
+
+  anyWaitTimes(accessAttrs, category) {
+    return some(Object.keys(accessAttrs),
+        (key) => {
+          return (typeof accessAttrs[key][category] !== 'undefined' &&
+             accessAttrs[key][category] !== null);
+        }
+        );
   }
 
   render() {
@@ -24,12 +34,7 @@ export default class AppointmentInfo extends Component {
     }
 
     const healthAccessAttrs = facility.attributes.access.health;
-    const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
-    pull(specialtyKeys, 'primaryCare');
-    pull(specialtyKeys, 'effectiveDate');
-    specialtyKeys.sort();
-
-    if (specialtyKeys && specialtyKeys.length === 0) {
+    if (!this.anyWaitTimes(healthAccessAttrs, 'new') && !this.anyWaitTimes(healthAccessAttrs, 'established')) {
       return null;
     }
 
@@ -44,6 +49,14 @@ export default class AppointmentInfo extends Component {
     };
 
     const renderSpecialtyTimes = (existing = false) => {
+      const specialtyKeys = healthAccessAttrs && Object.keys(healthAccessAttrs);
+      pull(specialtyKeys, 'primaryCare', 'effectiveDate');
+      specialtyKeys.sort();
+
+      if (specialtyKeys && specialtyKeys.length === 0) {
+        return null;
+      }
+
       const firstThree = specialtyKeys.slice(0, 3);
       const lastToEnd = specialtyKeys.slice(3);
       let showHideKey;
@@ -94,15 +107,16 @@ export default class AppointmentInfo extends Component {
     return (
       <div className="mb2">
         <h4 className="highlight">Appointments</h4>
-        <div className="mb2">
+        <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM, YYYY')}</strong></p>
+        {this.anyWaitTimes(healthAccessAttrs, 'new') && <div className="mb2">
           <h4>New patient wait times</h4>
           <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
           <ul>
             {renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
             {renderSpecialtyTimes()}
           </ul>
-        </div>
-        {healthAccessAttrs.primaryCare.established && <div className="mb2">
+        </div>}
+        {this.anyWaitTimes(healthAccessAttrs, 'established') && <div className="mb2">
           <h4>Existing patient wait times</h4>
           <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
           <ul>

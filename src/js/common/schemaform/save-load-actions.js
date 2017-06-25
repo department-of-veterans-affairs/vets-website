@@ -1,9 +1,13 @@
+import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
+import 'isomorphic-fetch';
+import { logOut } from '../../login/actions';
+
+import { setData } from './actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
-export const LOAD_DATA_INTO_FORM = 'LOAD_DATA_INTO_FORM';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -23,10 +27,11 @@ export const LOAD_STATUSES = Object.freeze({
   success: 'success'
 });
 
-export function setSaveFormStatus(status) {
+export function setSaveFormStatus(status, lastSavedDate = null) {
   return {
     type: SET_SAVE_FORM_STATUS,
-    status
+    status,
+    lastSavedDate
   };
 }
 
@@ -44,11 +49,6 @@ export function setInProgressForm(data) {
   };
 }
 
-export function loadInProgressDataIntoForm() {
-  return {
-    type: LOAD_DATA_INTO_FORM
-  };
-}
 
 /**
  * Transforms the data from an old version of a form to be used in the latest
@@ -99,12 +99,14 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {Object}  formData  The data the user has entered so far
  */
 export function saveInProgressForm(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
   // Double stringify because of api reasons. Olive Branch issues, methinks.
   // TODO: Stop double stringifying
   const body = JSON.stringify({
     metadata: JSON.stringify({
       version,
-      returnUrl
+      returnUrl,
+      savedAt
     }),
     formData: JSON.stringify(formData)
   });
@@ -113,11 +115,8 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject('no auth'); // Returning a rejected promise for testing purposes only
-      }
-
-      return; // eslint-disable-line consistent-return
+      Raven.captureMessage('vets_sip_missing_token');
+      return Promise.resolve();
     }
 
     // Update UI while we're waiting for the API
@@ -135,29 +134,28 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success));
-      } else {
-        // TODO: If they've sat on the page long enough for their token to expire
-        //  and try to save, tell them their session expired and they need to log
-        //  back in and try again. Unfortunately, this means they'll lose all
-        //  their information.
-        if (res.status === 401) {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
-        } else {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-        }
-      }
-      return Promise.resolve(); // For unit testing
-    }).catch((error) => {
-      // Probably a network error has occurred
-      // TODO: Log this in GA or something
-      console.error('Error saving form:', error.message); // eslint-disable-line no-console
-      dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject(); // For unit testing
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
+        return Promise.resolve();
       }
 
-      return; // eslint-disable-line consistent-return
+      return Promise.reject(res);
+    })
+    .catch((resOrError) => {
+      if (resOrError instanceof Response) {
+        if (resOrError.status === 401) {
+          // This likely means their session expired, so mark them as logged out
+          dispatch(logOut());
+          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+          Raven.captureException(new Error(`vets_sip_error_server_unauthorized: ${resOrError.statusText}`));
+        } else {
+          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+          Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+        }
+      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        Raven.captureException(resOrError);
+        Raven.captureMessage('vets_sip_error_save');
+      }
     });
   };
 }
@@ -173,22 +171,20 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  */
 export function fetchInProgressForm(formId, migrations) {
   // TODO: Test if the form is still saved after submission.
+  // TODO: Migrations currently aren't sent; they're taken from `form` in the
+  //  redux store, but form.migrations doesn't exist (nor should it, really)
   return dispatch => {
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
-      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth)); // Shouldn't get here, but just in case
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject('no auth'); // Returns rejected Promise for testing only
-      }
-
-      return; // eslint-disable-line consistent-return
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+      return Promise.resolve();
     }
 
     // Update UI while we're waiting for the API
     dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
 
-    // Query the api
+    // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       // TODO: These headers should work, but trigger an api error right now
       headers: {
@@ -197,7 +193,6 @@ export function fetchInProgressForm(formId, migrations) {
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
-      // console.log('res', res);
       if (res.ok) {
         return res.json();
       }
@@ -231,10 +226,11 @@ export function fetchInProgressForm(formId, migrations) {
       try {
         // NOTE: This may change to be migrated in the back end before sent over
         formData = migrateFormData(resBody.form_data, resBody.metadata.version, migrations);
-        // formData = migrateFormData(resBody.formData, resBody.metadata.version, migrations);
       } catch (e) {
-        // TODO: Log e.message somewhere; it's the reason the data couldn't be
-        //  transformed. Sentry error?
+        // We don't want to lose the stacktrace, but want to be able to search for migration errors
+        // related to SiP
+        Raven.captureException(e);
+        Raven.captureMessage('vets_sip_error_migration');
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
       // Set the data in the redux store
@@ -242,32 +238,23 @@ export function fetchInProgressForm(formId, migrations) {
       //  function to see if the form has been filled in, so this is setting the
       //  data in a separate place to be pulled in when we _actually_ want to load
       //  the formData.
-      // dispatch(setData(formData));
+      dispatch(setData(formData));
       dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
 
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.resolve(); // For unit tests only
-      }
-
-      return; // eslint-disable-line consistent-return
+      return Promise.resolve();
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
         // if res.json() has a parsing error, it'll reject with a SyntaxError
-        // TODO: Log this somehow...Sentry error?
-        console.error('Could not parse response.', status); // eslint-disable-line no-console
+        Raven.captureException(new Error(`vets_sip_error_server_json: ${status.message}`));
         loadedStatus = LOAD_STATUSES.invalidData;
       } else if (status instanceof Error) {
         // If we've got an error that isn't a SyntaxError, it's probably a network error
+        Raven.captureException(status);
+        Raven.captureMessage('vets_sip_error_fetch');
         loadedStatus = LOAD_STATUSES.failure;
       }
       dispatch(setFetchFormStatus(loadedStatus));
-
-      if (__BUILDTYPE__ === 'development') {
-        return Promise.reject(); // For unit tests only
-      }
-
-      return; // eslint-disable-line consistent-return
     });
   };
 }

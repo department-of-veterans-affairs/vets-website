@@ -1,8 +1,11 @@
 ---
 title: Track Claims
+display_title: Check Claim Status
 entryname: disability-benefits
 layout: page-react.html
 gatePage: true
+collection: disability
+order: 4
 includeBreadcrumbs: true
 ---
 <div id="main">

@@ -27,6 +27,7 @@ export function getUserData(dispatch) {
       if (userData.first_name) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
+      dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
       dispatch(updateProfileField('accountType', userData.loa.current));
       dispatch(updateProfileField('email', userData.email));
       dispatch(updateProfileField('userFullName.first', userData.first_name));

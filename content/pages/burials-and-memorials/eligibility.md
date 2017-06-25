@@ -1,24 +1,17 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Burial and Memorial Benefits Eligibility
-template: 6-info-page
-relatedlinks:
-  - url: /burials-and-memorials/burial-planning/
-    title: Burial Planning
-    description: Find out how to plan ahead or what to do if your family member has just died.
-  - url: /burials-and-memorials/find-a-cemetery/
-    title: Find a Cemetery or Gravesite
-    description: Find where a Veteran or family member is buried in a national, state, tribal, military, or Department of the       Interior cemetery.
-  - url: /burials-and-memorials/survivor-and-dependent-benefits/
-    title: Survivor and Dependent Benefits
-    description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
-  - url: /burials-and-memorials/what-to-expect-at-a-funeral/
-    title: What to Expect at a Funeral
-    description: Find out what will happen to help you prepare for this day.
+display_title: Eligibility
+collection: burials
+order: 2
 ---
 
+<div class="va-introtext">
 
 Servicemembers, Veterans, and family members may be eligible for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out who can get these benefits. 
+
+</div>
 
 <div class="feature" markdown="0">
 
