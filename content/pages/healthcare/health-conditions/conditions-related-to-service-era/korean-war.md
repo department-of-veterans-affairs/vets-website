@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Korean War
 display_title: Korean War
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 6
 relatedlinks:
   - heading: More information about your benefits
