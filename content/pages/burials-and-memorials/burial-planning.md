@@ -5,11 +5,11 @@ title: Planning a Burial
 displaytitle: Planning a Burial
 collection: burials
 children: burialsPlanning
-order: 1
+order: 2
 relatedlinks:
   - heading: Planning ahead
     links:
-    - url: /burials-and-memorials/pre-need/
+    - url: /burials-and-memorials/eligibility/pre-need/
       title: Pre-Need Determination of Eligibility
       description: Apply in advance to confirm that you can be buried in a VA national cemetery and make the process of planning your burial easier for your family members when you die. 
   
