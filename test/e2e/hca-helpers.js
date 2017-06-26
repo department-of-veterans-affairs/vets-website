@@ -1,5 +1,6 @@
 const mock = require('./mock-helpers');
 const Timeouts = require('./timeouts.js');
+const LoginHelpers = require('./login-helpers.js');
 
 function completePersonalInformation(client, data) {
   client
@@ -188,6 +189,67 @@ function initApplicationSubmitMock() {
   });
 }
 
+function initSaveInProgressMock(url, client) {
+  const token = LoginHelpers.getUserToken();
+
+  mock(null, {
+    path: '/v0/health_care_applications',
+    verb: 'post',
+    value: {
+      formSubmissionId: '123fake-submission-id-567',
+      timestamp: '2016-05-16'
+    }
+  });
+
+  /* eslint-disable camelcase */
+  mock(token, {
+    path: '/v0/user',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          profile: {
+            email: 'fake@fake.com',
+            loa: {
+              current: 3
+            },
+            first_name: 'Jane',
+            middle_name: '',
+            last_name: 'Doe',
+            gender: 'F',
+            birth_date: '1985-01-01',
+            in_progress_forms: [{
+              form: '1010ez'
+            }]
+          },
+          services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          va_profile: {
+            status: 'OK',
+            birth_date: '19511118',
+            family_name: 'Hunter',
+            gender: 'M',
+            given_names: ['Julio', 'E'],
+            active_status: 'active'
+          }
+        }
+      }
+    }
+  });
+  /* eslint-enable camelcase */
+
+  mock(token, {
+    path: '/v0/in_progress_forms/hca',
+    verb: 'get',
+    value: {
+    }
+  });
+
+  client
+    .url(url);
+
+  LoginHelpers.setUserToken(token, client);
+}
+
 module.exports = {
   completePersonalInformation,
   completeBirthInformation,
@@ -205,5 +267,6 @@ module.exports = {
   completeInsuranceInformation,
   completeVaInsuranceInformation,
   completeAdditionalInformation,
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
+  initSaveInProgressMock
 };

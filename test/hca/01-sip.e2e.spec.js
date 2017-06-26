@@ -4,7 +4,7 @@ const HcaHelpers = require('../e2e/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    HcaHelpers.initSaveInProgressMock();
+    HcaHelpers.initSaveInProgressMock(client);
 
     // Ensure introduction page renders.
     client
@@ -12,7 +12,8 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
-      .click('.schemaform-buttons .usa-button-primary');
+      .pause(3000)
+      .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
