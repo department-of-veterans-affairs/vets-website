@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import lettersReducer from '../../../src/js/va-letters/reducers';
+import lettersReducer from '../../../src/js/letters/reducers';
 
 const initialState = {
   letters: [],

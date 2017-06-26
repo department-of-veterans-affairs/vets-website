@@ -1,6 +1,6 @@
 ---
 title: Download VA Letters
-entryname: va-letters
+entryname: letters
 layout: page-react.html
 includeBreadcrumbs: true
 in_maintenance: false
