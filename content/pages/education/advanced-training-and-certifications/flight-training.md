@@ -51,6 +51,6 @@ The benefits depend on the benefit program you use:
 
 ### How do I get these benefits? 
 
-You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/).
+You'll need to apply for benefits. [Apply for education benefits](/education/apply/).
 
 

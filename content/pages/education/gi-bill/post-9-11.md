@@ -40,7 +40,7 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 
 ### How do I get these benefits?
 
-You'll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). 
+You'll need to apply. [Apply for education benefits](/education/apply/). 
 
 The benefit amount depends on which school you go to, how much active-duty service you've had since September 10, 2001, and how many credits or training hours you're taking.
 
