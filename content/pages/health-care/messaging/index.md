@@ -3,7 +3,7 @@ title: Send a Message to Your Provider
 layout: page-react.html
 entryname: messaging
 gatePage: true
-collection: health-care
+collection: healthCare
 order: 5
 includeBreadcrumbs: true
 ---
