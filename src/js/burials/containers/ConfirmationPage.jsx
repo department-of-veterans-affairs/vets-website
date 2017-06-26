@@ -73,7 +73,7 @@ class ConfirmationPage extends React.Component {
               {_.map(benefits, (isRequested, benefitName) => isRequested && <p>{benefitsLabels[benefitName]}</p>)}
             </li>
             {hasDocuments && <li>
-              <strong>Documents Uploaded</strong><br/>
+              <strong>Documents uploaded</strong><br/>
               {deathCertificate && <p>Death certificate: 1 file</p>}
               {transportationReceipts && <p>Transportation receipts: {transportationReceipts.length} {transportationReceipts.length > 1 ? 'files' : 'files'}</p>}
             </li>}
