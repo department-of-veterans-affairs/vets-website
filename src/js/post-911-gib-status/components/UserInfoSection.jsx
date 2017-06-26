@@ -20,7 +20,7 @@ class UserInfoSection extends React.Component {
       currentAsOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
+            <h4 id="current-as-of" className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
           </div>
         </div>
       );
@@ -38,7 +38,7 @@ class UserInfoSection extends React.Component {
           </div>
           <div>
             <h4>Your Benefit Level</h4>
-            <div className="section-line">
+            <div className="section-line" id="benefit-level">
               You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong>.
             </div>
           </div>
