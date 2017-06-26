@@ -81,10 +81,6 @@ The funeral director you've chosen can help you with these steps too:
 </li>
 </ol>
 
-<div class="call-out" markdown="0">
-
 ### Can I get information about the Burial at Sea program?
 
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
-
-</div>
