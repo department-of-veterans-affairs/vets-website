@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Operation Enduring Freedom in Afghanistan
 display_title: Operation Enduring Freedom
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 1
 relatedlinks:
   - heading: More information about your benefits
