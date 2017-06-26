@@ -376,7 +376,7 @@ if (options.watch) {
         { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
         { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
-        { from: '^/letters(.*)', to: '/va-letters/' },
+        { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
         { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
