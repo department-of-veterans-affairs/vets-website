@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: About VA Health Care Coverage
 display_title: VA Health Care Coverage
-concurrence: 
+concurrence: complete
 lastupdate_override: 2017-06-26
 collection: healthcare
 children: healthcareCoverage
