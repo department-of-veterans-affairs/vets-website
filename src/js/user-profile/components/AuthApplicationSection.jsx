@@ -35,7 +35,7 @@ class AuthApplicationSection extends React.Component {
 
     return (
       <div className="profile-section medium-12 columns">
-        <h4 className="section-header">Available Services</h4>
+        <h4 className="section-header">Available services</h4>
         {content}
       </div>
     );
