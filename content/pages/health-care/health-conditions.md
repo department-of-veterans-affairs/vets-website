@@ -5,7 +5,7 @@ title: Health Needs and Conditions
 display_title: 
 concurrence: complete
 lastupdate_override: 2017-06-26
-collection: healthcare
+collection: healthCare
 order: 5
 children: healthcareConditions
 relatedlinks:
