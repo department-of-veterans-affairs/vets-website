@@ -160,10 +160,10 @@ describe('Pensions financial disclosure', () => {
     runTests(formConfig.chapters.financialDisclosure.pages.spouseMonthlyIncome, 'spouseFullName', 6);
   });
   describe('Net worth', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.netWorth, 'veteranFullName', 6);
+    runTests(formConfig.chapters.financialDisclosure.pages.netWorth, 'veteranFullName', 5);
   });
   describe('Spouse net worth', () => {
-    runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 6);
+    runTests(formConfig.chapters.financialDisclosure.pages.spouseNetWorth, 'spouseFullName', 5);
   });
   describe('Expected income', () => {
     runTests(formConfig.chapters.financialDisclosure.pages.expectedIncome, 'veteranFullName', 2);
@@ -193,6 +193,6 @@ describe('Pensions financial disclosure', () => {
       title: page.title,
       schema: page.schema.properties.dependents.items,
       uiSchema: page.uiSchema.dependents.items
-    }, 'fullName', 6);
+    }, 'fullName', 5);
   });
 });

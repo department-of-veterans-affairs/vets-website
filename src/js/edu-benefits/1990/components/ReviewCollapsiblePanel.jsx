@@ -129,7 +129,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
             const editing = this.getPage(page.path).editOnReview;
 
             return (
-              <div key={page.path} className="form-review-panel-page" id={getPageId(page.path)}>
+              <div key={page.path} className="form-review-panel-page form-review-panel-page-edu" id={getPageId(page.path)}>
                 <Element name={`${page.path}ScrollElement`}/>
                 {!editing && !!ReviewComponent &&
                   <div className="form-review-panel-page-header-row">

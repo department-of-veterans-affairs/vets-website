@@ -38,7 +38,9 @@ const {
   currentlyBuried,
   eligibleBuried,
   email,
-  phoneNumber
+  phoneNumber,
+  preparerFullName,
+  preparerPhoneNumber
 } = fullSchemaPreNeed.properties;
 
 const {
@@ -392,6 +394,70 @@ const formConfig = {
                     format: 'email'
                   },
                   phoneNumber
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    certification: {
+      title: 'Certification',
+      pages: {
+        certification: {
+          title: 'Certification',
+          path: 'certification',
+          uiSchema: {
+            'view:isPreparer': {
+              'ui:title': 'Is someone else filling out this application for you?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  N: 'No',
+                  Y: 'Yes'
+                }
+              }
+            },
+            'view:preparer': {
+              'ui:options': {
+                expandUnder: 'view:isPreparer',
+                expandUnderCondition: 'Y'
+              },
+              preparerFullName: _.merge(fullNameUI, {
+                'ui:title': 'Preparer information',
+                suffix: {
+                  'ui:options': {
+                    hideIf: () => true
+                  }
+                }
+              }),
+              preparerAddress: address.uiSchema('Mailing address'),
+              'view:contactInfo': {
+                'ui:title': 'Contact information',
+                preparerPhoneNumber: phoneUI('Primary telephone number')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:isPreparer'],
+            properties: {
+              'view:isPreparer': {
+                type: 'string',
+                'enum': ['N', 'Y']
+              },
+              'view:preparer': {
+                type: 'object',
+                properties: {
+                  preparerFullName,
+                  preparerAddress: address.schema(fullSchemaPreNeed, true),
+                  'view:contactInfo': {
+                    type: 'object',
+                    required: ['preparerPhoneNumber'],
+                    properties: {
+                      preparerPhoneNumber
+                    }
+                  }
                 }
               }
             }

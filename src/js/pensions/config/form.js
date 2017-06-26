@@ -38,6 +38,7 @@ import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
+import otherExpensesUI from '../definitions/otherExpenses';
 
 const {
   nationalGuardActivation,
@@ -77,6 +78,7 @@ const {
   ssn,
   vaFileNumber,
   files,
+  otherExpenses,
   bankAccount
 } = fullSchemaPensions.definitions;
 
@@ -311,18 +313,18 @@ const formConfig = {
                 expandUnder: 'view:receivedSeverancePay'
               },
               amount: {
-                'ui:title': 'Amount'
+                'ui:title': 'Amount',
+                'ui:options': {
+                  classNames: 'schemaform-currency-input'
+                }
               },
               type: {
                 'ui:title': 'Pay Type',
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Longevity: 'Longevity',
-                    PDRL: 'PDRL',
-                    Separation: 'Separation',
-                    Severance: 'Severance',
-                    TDRL: 'TDRL'
+                    PDRL: 'Permanent Disability Retirement List (PDRL)',
+                    TDRL: 'Temporary Disability Retirement List (TDRL)'
                   }
                 }
               }
@@ -368,7 +370,7 @@ const formConfig = {
             },
             // TODO: update schema with this field if stakeholders approve
             hasVisitedVAMC: {
-              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
             }
           },
@@ -422,7 +424,10 @@ const formConfig = {
                     'ui:title': 'How many days lost to disability'
                   },
                   annualEarnings: {
-                    'ui:title': 'Total annual earnings'
+                    'ui:title': 'Total annual earnings',
+                    'ui:options': {
+                      classNames: 'schemaform-currency-input'
+                    }
                   }
                 }
               }
@@ -655,6 +660,7 @@ const formConfig = {
               'ui:title': spouseContribution,
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
+                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
@@ -832,7 +838,6 @@ const formConfig = {
               'view:hasDependents': {
                 type: 'boolean'
               },
-              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
               dependents: {
                 type: 'array',
                 minItems: 1,
@@ -1050,6 +1055,20 @@ const formConfig = {
             expectedIncome: expectedIncomeUI
           }
         },
+        otherExpenses: {
+          path: 'financial-disclosure/other-expenses',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
+            otherExpenses: otherExpensesUI
+          }
+        },
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
           title: 'Spouse net worth',
@@ -1102,6 +1121,22 @@ const formConfig = {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: expectedIncomeUI
+          }
+        },
+        spouseOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/spouse',
+          depends: isMarried,
+          title: createSpouseLabelSelector(spouseName =>
+            `${spouseName.first} ${spouseName.last} expenses`),
+          schema: {
+            type: 'object',
+            properties: {
+              spouseOtherExpenses: otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
+            spouseOtherExpenses: otherExpensesUI
           }
         },
         dependentsNetWorth: {
@@ -1191,6 +1226,34 @@ const formConfig = {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
                 'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
                 expectedIncome: expectedIncomeUI
+              }
+            }
+          }
+        },
+        dependentsOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/dependents/:index',
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          title: item => `${item.fullName.first} ${item.fullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    otherExpenses
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
+                otherExpenses: otherExpensesUI
               }
             }
           }
