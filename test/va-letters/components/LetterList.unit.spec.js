@@ -27,5 +27,5 @@ describe('<LetterList>', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
-  // Add tests for collapsible panel headers, toggling, and empty letter list messaging.
+  // Add tests for empty letter list messaging.
 });
