@@ -4,7 +4,7 @@ template: detail-page
 title: Health Care Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: health-care
+collection: healthCare
 order: 1
 relatedlinks:
 ---
