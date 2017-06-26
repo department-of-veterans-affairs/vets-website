@@ -4,7 +4,7 @@ template: detail-page
 title: VA Health Care and Other Insurance
 display_title: 
 concurrence: 
-lastupdate_override: 
+lastupdate_override: 2017-06-26
 order: 10
 relatedlinks: 
   - heading: More information about your benefits
