@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Substance Use Problems
 display_title: 
-concurrence: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 6
 relatedlinks:
   - heading: Related health problems you may want to learn about
