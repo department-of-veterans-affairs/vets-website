@@ -2,7 +2,7 @@
 title: Refill Your Prescriptions
 layout: page-react.html
 entryname: rx
-collection: healthcare
+collection: health-care
 order: 4
 ---
 
