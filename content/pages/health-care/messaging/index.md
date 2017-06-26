@@ -1,9 +1,11 @@
 ---
-title: Refill Your Prescriptions
+title: Send a Message to Your Provider
 layout: page-react.html
-entryname: rx
-collection: healthcare
-order: 4
+entryname: messaging
+gatePage: true
+collection: healthCare
+order: 5
+includeBreadcrumbs: true
 ---
 
 <div id="main">

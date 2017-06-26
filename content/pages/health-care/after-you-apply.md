@@ -4,7 +4,7 @@ template: detail-page
 title: After You Apply for Health Care Benefits
 display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: healthcare
+collection: healthCare
 order: 3
 relatedlinks:
   - heading: 
