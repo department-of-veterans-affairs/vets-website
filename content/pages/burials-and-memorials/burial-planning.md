@@ -21,8 +21,6 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 
 </div>
 
-<div class="feature" markdown="0">
-
 ### How do I plan a burial for a deceased family member?
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
@@ -30,6 +28,8 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">800-535-1117</a> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a funeral](/burials-and-memorials/what-to-expect-at-a-funeral/). 
+
+<br>
 
 #### If you don't have a pre-need decision letter:
 
