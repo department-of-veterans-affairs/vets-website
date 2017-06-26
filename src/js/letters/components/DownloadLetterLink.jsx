@@ -11,125 +11,58 @@ class DownloadLetterLink extends React.Component {
     this.downloadLetter = this.downloadLetter.bind(this);
   }
 
-  // This opens a duplicate window for some inexplicable reason,
-  // possibly related to some blob response nuance.
-  /*
   downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-        });
-      });
-  */
+    const ie10 = window.navigator.msSaveOrOpenBlob;
 
-  // This opens a new duplicate window, focuses on it, and then opens
-  // the PDF in the original window (so it appears in the browser tab to
-  // the left of the current tab, which is weird.
-  /*
-  downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-          window.URL = window.URL || window.webkitURL;
-          const downloadUrl = window.URL.createObjectURL(blob);
-          window.location.href = downloadUrl;
-        });
-      });
-  }
-  */
-
-  // This opens a new blank window and renders the pdf in it (to the
-  // right of the current browser as expected, but also tries to open
-  // a window from the original window as above (which may be blocked
-  // by the popup blocker, or if not blocked will pop up an extra window
-  // for no apparent reason).
-  downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    const downloadWindow = window.open();
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-          const URLobj = window.URL || window.webkitURL;
-          // const URLobj = downloadWindow.URL || downloadWindow.webkitURL;
-          const downloadUrl = URLobj.createObjectURL(blob);
-          downloadWindow.location.href = downloadUrl;
-        });
-      });
-  }
-
-  // This is a longer solution that handles various browsers and also
-  // gives the file a nicer name, but does not render it in a window.
-  // Instead, it opens a blank window and downloads the nicely named
-  // file. It suffers from the same issue above that it attempts to
-  // open an extra duplicate window. This should be manually tested on
-  // multiple browsers before launching.
-  /*
-  downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    const ie10 = !!window.navigator.msSaveOrOpenBlob;
+    // Open window outside of the fetch response or it will be suppressed by pop-up blockers
     let downloadWindow;
     if (!ie10) {
-      downloadWindow = window.open();
+      downloadWindow = window.open(null, '_blank');
     }
 
-    // TODO: in addition to the new blank browser window, this tries to
-    // pop up a duplicate window which may or may not be suppressed
-    // by the user's browser content settings.
+    // When this.props.letterType is 'benefit_summary' or 'dependent_benefit_summary'
+    // use { method: 'POST' } and pass in benefit summary options as URL parameters
+
+    // Note that the mock service only has a 'commissary' letter type
+    const requestUrl = `/v0/letters/${this.props.letterType}`;
     apiRequest(
       requestUrl,
-      { method: 'POST' },
+      null,
       response => {
         response.blob().then(blob => {
           if (ie10) {
-            window.navigator.msSaveOrOpenBlob(blob, this.props.letterName);
-            return Promise.resolve();
+            // May want to include timestamp and/or first/last name in filename
+            window.navigator.msSaveOrOpenBlob(blob, `${this.props.letterName}`);
+          } else { // Chrome/Firefox/Opera
+            // Figure out how to get a nicer URL for this, or use something other than createObjectURL()
+            const downloadUrl = URL.createObjectURL(blob);
+            downloadWindow.location.href = downloadUrl;
+            /*
+            const a = document.createElement("a");
+            a.style = "display: none";
+            a.href = downloadUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            //            a.attr("href", downloadUrl);
+            //            a.attr("download", name);
+            //            a[0].click();
+            URL.revokeObjectURL(url);
+            a.remove();
+            */
           }
-          window.URL = window.URL || window.webkitURL;
-          const downloadUrl = window.URL.createObjectURL(blob);
-          // Make sure blob URLs are supported
-          const blobSupported = !!(/^blob:/.exec(downloadUrl));
-          if (blobSupported) {
-            // Try to give the file a nice name instead of an ugly hash
-            // by creating a new link element and setting its download attribute.
-            const link = document.createElement('a');
-            if (typeof link.download !== 'undefined') {
-              document.body.appendChild(link);
-              // downloadWindow.document.body.appendChild(link);
-              link.style = 'display: none';
-              link.target = '_blank';
-              link.href = downloadUrl;
-              link.download = this.props.letterName;
-              link.click();
-            } else {
-              // The download attribute is not supported on IE11 or
-              // iOS Safari, so live with the ugly hash name.
-              downloadWindow.location.href = downloadUrl;
-            }
-            // document.body.removeChild(link);
-            // urlObj.revokeObjectURL(downloadUrl);
-            return Promise.resolve();
-          }
-          // Make sure this gets to sentry
-          return Promise.reject(new Error('Cannot download pdf blob'));
+          // Test/figure out what to do for Safari and for older IE versions
+          // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3465
         });
-      });
+      }
+    );
+
+    // If we use createObjectURL(), At some point call revokeObjectURL() to free memory
   }
-  */
 
   render() {
     return (
-      <Link
-          onClick={this.downloadLetter}
-          to="/" target="_blank"
-          className="usa-button-primary va-button-primary">
+      <Link onClick={this.downloadLetter} to="/" target="_blank" className="usa-button-primary va-button-primary">
         Download Letter
       </Link>
     );
