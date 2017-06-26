@@ -11,7 +11,7 @@ relatedlinks:
     links:
     - url: /burials-and-memorials/eligibility/pre-need/
       title: Pre-Need Determination of Eligibility
-      description: Apply in advance to confirm that you can be buried in a VA national cemetery and make the process of planning your burial easier for your family members when you die. 
+      description: Apply in advance to find out if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members when you die. 
   
 ---
 
