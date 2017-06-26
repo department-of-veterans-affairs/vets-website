@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: World War II
 display_title: 
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 7
 relatedlinks:
   - heading: More information about your benefits
