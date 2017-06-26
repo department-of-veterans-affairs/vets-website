@@ -39,11 +39,11 @@ You can apply online to find out in advance if you can be buried in a VA nationa
   
 **Please note:**
 
-- Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in the specific VA national cemetery. We’ll consider your preference, but will assign a gravesite in a cemetery with available space at the time of need.
+- **Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in the specific VA national cemetery.** We’ll consider your preference, but will assign a gravesite in a cemetery with available space at the time of need.
 
-- This application is only for national cemeteries. If you'd like to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find state Veterans cemeteries](https://www.cem.va.gov/cem/cems/listcem.asp). 
+- **This application is only for national cemeteries.** If you'd like to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find state Veterans cemeteries](https://www.cem.va.gov/cem/cems/listcem.asp). 
 
-- This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery. If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
+- **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
 
 </li>
   
@@ -114,6 +114,8 @@ You’ll need to provide supporting documents or an affidavit showing that you�
 - An attorney or agent acting on behalf of the applicant under a durable power of attorney, or
 - The manager or principal officer of an institution in which the applicant is being care for
 
+<br>
+
 #### What additional supporting documents do I need if I'm applying for an unmarried adult child of a Veteran?
 
 An unmarried adult child of a Veteran is someone who became permanently physically or mentally disabled and incapable of supporting themselves:
@@ -152,6 +154,8 @@ Print the form, fill it out, and send it to this address:
 <dd>P.O. Box 510543</dd>
 <dd>St. Louis, MO 63151</dd>
 </dl>
+
+<br>
 
 ##### By fax 
 
