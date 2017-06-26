@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Vision Care
 display_title: 
-concurrence: 
+concurrence: complete
 lastupdate_override: 2017-06-26
 children: healthcareCoverageVision
 order: 5
