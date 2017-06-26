@@ -9,7 +9,7 @@ majorlinks:
     - url: /disability-benefits/
       title: Disability Benefits
       description: Apply for disability compensation and other benefits for conditions related to your military service.
-    - url: /healthcare/
+    - url: /health-care/
       title: Health Care Benefits
       description: Apply for and manage VA health care.
     - url: /education/
@@ -39,7 +39,7 @@ you’ve earned.</div>
 <div class="popular-container usa-grid-full">
 <h3>Get started with Vets.gov</h3>
 <div class="popular-container-links">
-  <a href="/healthcare/apply/" class="usa-button usa-button-outline">
+  <a href="/health-care/apply/" class="usa-button usa-button-outline">
     Apply for health care
   </a>
 

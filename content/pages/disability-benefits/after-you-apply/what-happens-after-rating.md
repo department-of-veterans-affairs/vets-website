@@ -34,7 +34,7 @@ If you disagree with your disability rating, you can file an appeal. You'll need
 
 ### How do I get other benefits?
 
-- **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/healthcare/apply/).
+- **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/health-care/apply/).
 - **For Life Insurance:** If you're in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](http://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">800-669-8477</a>.
 - **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education).
 - **For Dependent Benefits:** If you're 30% or more disabled due to a disability caused by service in the military, you can get financial support and benefits for your qualified dependents. There are 2 ways to register:

@@ -5,8 +5,17 @@ import { createSelector } from 'reselect';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
+import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import applicantInformation from '../../common/schemaform/pages/applicantInformation';
-import { transform, employmentDescription, getMarriageTitle, getMarriageTitleWithCurrent, spouseContribution, fileHelp } from '../helpers';
+import {
+  transform,
+  employmentDescription,
+  getMarriageTitle,
+  getMarriageTitleWithCurrent,
+  spouseContribution,
+  fileHelp,
+  directDepositWarning
+} from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -29,6 +38,7 @@ import ArrayCountWidget from '../../common/schemaform/widgets/ArrayCountWidget';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
+import otherExpensesUI from '../definitions/otherExpenses';
 
 const {
   nationalGuardActivation,
@@ -47,7 +57,12 @@ const {
   reasonForNotLivingWithSpouse,
   spouseIsVeteran,
   monthlySpousePayment,
-  dependents
+  dependents,
+  email,
+  altEmail,
+  dayPhone,
+  nightPhone,
+  mobilePhone,
 } = fullSchemaPensions.properties;
 
 const {
@@ -62,7 +77,9 @@ const {
   expectedIncome,
   ssn,
   vaFileNumber,
-  files
+  files,
+  otherExpenses,
+  bankAccount
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
@@ -87,6 +104,10 @@ function isCurrentMarriage(form, index) {
 
 function isChild(item) {
   return item.dependentRelationship === 'child';
+}
+
+function setupDirectDeposit(form) {
+  return _.get('view:bankAccountChange', form) === 'start';
 }
 
 const marriageProperties = marriages.items.properties;
@@ -299,11 +320,8 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Longevity: 'Longevity',
-                    PDRL: 'PDRL',
-                    Separation: 'Separation',
-                    Severance: 'Severance',
-                    TDRL: 'TDRL'
+                    PDRL: 'Permanent Disability Retirement List (PDRL)',
+                    TDRL: 'Temporary Disability Retirement List (TDRL)'
                   }
                 }
               }
@@ -1031,6 +1049,20 @@ const formConfig = {
             expectedIncome: expectedIncomeUI
           }
         },
+        otherExpenses: {
+          path: 'financial-disclosure/other-expenses',
+          title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
+            otherExpenses: otherExpensesUI
+          }
+        },
         spouseNetWorth: {
           path: 'financial-disclosure/net-worth/spouse',
           title: 'Spouse net worth',
@@ -1083,6 +1115,22 @@ const formConfig = {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
             'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
             spouseExpectedIncome: expectedIncomeUI
+          }
+        },
+        spouseOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/spouse',
+          depends: isMarried,
+          title: createSpouseLabelSelector(spouseName =>
+            `${spouseName.first} ${spouseName.last} expenses`),
+          schema: {
+            type: 'object',
+            properties: {
+              spouseOtherExpenses: otherExpenses
+            }
+          },
+          uiSchema: {
+            'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
+            spouseOtherExpenses: otherExpensesUI
           }
         },
         dependentsNetWorth: {
@@ -1175,6 +1223,135 @@ const formConfig = {
               }
             }
           }
+        },
+        dependentsOtherExpenses: {
+          path: 'financial-disclosure/other-expenses/dependents/:index',
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          title: item => `${item.fullName.first} ${item.fullName.last} expenses`,
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    otherExpenses
+                  }
+                }
+              }
+            }
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
+                otherExpenses: otherExpensesUI
+              }
+            }
+          }
+        }
+      }
+    },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            'view:bankAccountChange': {
+              'ui:title': 'Benefit payment method',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  start: 'Setup direct deposit',
+                  'continue': 'I already have direct deposit working',
+                  stop: 'Don’t use direct deposit'
+                }
+              }
+            },
+            bankAccount: _.merge(bankAccountUI, {
+              'ui:order': [
+                'accountType',
+                'bankName',
+                'accountNumber',
+                'routingNumber'
+              ],
+              'ui:options': {
+                expandUnder: 'view:bankAccountChange',
+                expandUnderCondition: 'start'
+              },
+              bankName: {
+                'ui:title': 'Bank name'
+              },
+              accountType: {
+                'ui:required': setupDirectDeposit
+              },
+              accountNumber: {
+                'ui:required': setupDirectDeposit
+              },
+              routingNumber: {
+                'ui:required': setupDirectDeposit
+              }
+            }),
+            'view:stopWarning': {
+              'ui:description': directDepositWarning,
+              'ui:options': {
+                hideIf: (formData) => formData['view:bankAccountChange'] !== 'stop'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:bankAccountChange': {
+                type: 'string',
+                'enum': [
+                  'start',
+                  'continue',
+                  'stop'
+                ]
+              },
+              bankAccount,
+              'view:stopWarning': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'additional-information/contact',
+          uiSchema: {
+            'ui:title': 'Contact information',
+            veteranAddress: address.uiSchema('Mailing address'),
+            email: {
+              'ui:title': 'Primary email'
+            },
+            altEmail: {
+              'ui:title': 'Secondary email'
+            },
+            dayPhone: phoneUI('Daytime phone'),
+            nightPhone: phoneUI('Evening phone'),
+            mobilePhone: phoneUI('Mobile phone'),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              veteranAddress: address.schema(fullSchemaPensions, true),
+              email,
+              altEmail,
+              dayPhone,
+              nightPhone,
+              mobilePhone
+            }
+          }
         }
       }
     },
@@ -1199,7 +1376,7 @@ const formConfig = {
           }
         }
       }
-    }
+    },
   }
 };
 

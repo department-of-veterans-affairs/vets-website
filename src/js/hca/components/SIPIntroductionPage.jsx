@@ -27,19 +27,25 @@ class IntroductionPage extends React.Component {
       if (formSaved) {
         const savedAt = this.props.savedAt;
         alert = (
-          <div className="usa-alert usa-alert-info no-background-image">
-            <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
+          <div>
+            <div className="usa-alert usa-alert-info no-background-image">
+              <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
+              <br/>
+              <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mma')}</div>
+              <div>Complete the form before submitting to apply for health care with the 10-10EZ.</div>
+            </div>
             <br/>
-            <div>Last saved on {moment(savedAt).format('MM/DD/YYYY [at] hh:mma')}</div>
-            <div>Complete the form before submitting to apply for health care with the 10-10ez.</div>
           </div>);
       }
     } else {
       alert = (
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
+        <div>
+          <div className="usa-alert usa-alert-info">
+            <div className="usa-alert-body">
+              <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
+            </div>
           </div>
+          <br/>
         </div>);
     }
 
@@ -48,7 +54,9 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const formSaved = !!(profile && profile.savedForms.includes(this.props.formId));
+    const formSaved = !!(profile && profile.savedForms.some(f => f.form === this.props.formId));
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for health care with the 10-10ez"/>
@@ -62,7 +70,6 @@ class IntroductionPage extends React.Component {
           Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
         </p>
         {this.getAlert(formSaved)}
-        <br/>
         <FormIntroButtons
             route={this.props.route}
             router={this.props.router}
@@ -70,7 +77,7 @@ class IntroductionPage extends React.Component {
             returnUrl={this.props.returnUrl}
             migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
-            loggedIn={this.props.user.login.currentlyLoggedIn}
+            prefillAvailable={prefillAvailable}
             formSaved={formSaved}/>
         <br/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
