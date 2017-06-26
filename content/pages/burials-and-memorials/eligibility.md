@@ -6,9 +6,6 @@ display_title: Eligibility
 collection: burials
 children: burialsEligibility
 order: 1
-relatedlinks:
-  - heading: 
-    links:
 ---
 
 <div class="va-introtext">
