@@ -56,7 +56,6 @@ export class DownloadLetterLink extends React.Component {
       downloadWindow = window.open();
     }
     let downloadUrl;
-
     apiRequest(
       requestUrl,
       settings,
