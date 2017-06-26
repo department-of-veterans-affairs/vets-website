@@ -7,6 +7,7 @@ import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 import { getInactivePages } from '../utils/helpers';
 import FormSaved from './FormSaved';
+import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -96,6 +97,15 @@ export function createRoutes(formConfig) {
       path: 'form-saved',
       component: FormSaved,
       pageList
+    });
+  }
+
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'error',
+      component: SaveInProgressErrorPage,
+      pageList, // In case we need it for startOver?
+      formConfig
     });
   }
 
@@ -476,4 +486,3 @@ export function expandArrayPages(pageList, data) {
 
   return result.currentList;
 }
-

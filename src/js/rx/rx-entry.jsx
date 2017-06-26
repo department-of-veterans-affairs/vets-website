@@ -17,7 +17,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/healthcare/prescriptions'
+  basename: '/health-care/prescriptions'
 });
 
 function init() {

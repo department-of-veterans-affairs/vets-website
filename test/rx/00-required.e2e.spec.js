@@ -12,10 +12,10 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Test flow for unauthed and LOA1 users
-    LoginHelpers.testUnauthedUserFlow(client, '/healthcare/prescriptions');
+    LoginHelpers.testUnauthedUserFlow(client, '/health-care/prescriptions');
 
     // Ensure active page renders
-    LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
+    LoginHelpers.logIn(token, client, '/health-care/prescriptions', 3)
       .assert.title('Refill Your Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
@@ -57,7 +57,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#rx-prescription h1').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
     // Assert existence of correct message provider link
-    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/healthcare/messaging/compose');
+    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/health-care/messaging/compose');
 
     // Ensure track package page renders
     client
@@ -75,7 +75,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.va-nav-breadcrumbs a[href="/healthcare/prescriptions/"]')
+      .click('.va-nav-breadcrumbs a[href="/health-care/prescriptions/"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)

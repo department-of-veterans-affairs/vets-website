@@ -22,11 +22,12 @@ const initialState = {
   dob: null,
   gender: null,
   accountType: null,
+  savedForms: [],
+  prefillsAvailable: [],
   terms: {
     loading: false,
     terms: {},
-  },
-  savedForms: []
+  }
 };
 
 function profileInformation(state = initialState, action) {
