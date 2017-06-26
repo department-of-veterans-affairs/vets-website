@@ -54,11 +54,22 @@ class AccountManagementSection extends React.Component {
     return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose}/>;
   }
 
+  renderTermsLink() {
+    if (this.props.profile.healthTermsCurrent) {
+      return (
+        <p>You have accepted the latest health terms and conditions for this site.</p>
+      );
+    }
+    return (
+      <p><a onClick={this.openModal}>Terms and Conditions for Health Tools</a></p>
+    );
+  }
+
   render() {
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Account Management</h4>
-        <p><a onClick={this.openModal}>Terms and Conditions for Health Tools</a></p>
+        {this.renderTermsLink()}
         <div className="button-container medium-12 columns">
           <a href="https://wallet.id.me/settings" target="_blank" className="warn-exit usa-button-primary usa-button-outline usa-button-outline-exit transparent">
             Delete Your Account
