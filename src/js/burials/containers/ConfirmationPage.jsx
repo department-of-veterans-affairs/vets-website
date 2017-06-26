@@ -83,8 +83,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <p>Find out what happens <a href="/burials-and-memorials/after-you-apply">after you apply</a>.</p>
-        <p>Need help? If you have questions, call <a href="tel:888-442-4551">xxx-xxx-xxxx</a> from x:xx a.m. - x:xx p.m. ET Mon - Fri and have the Veteran’s Social security number or VA file number ready.</p>
+        <p>Need help? If you have questions, call <a href="tel:800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
