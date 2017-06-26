@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Vision Care for Blind and Low Vision Veterans
 display_title: Care for Blind and Low Vision Veterans
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 relatedlinks:
   - heading: More information about your benefits
     links:
