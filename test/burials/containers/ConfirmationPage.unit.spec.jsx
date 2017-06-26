@@ -35,7 +35,12 @@ describe('<ConfirmationPage>', () => {
         response: {
           attributes: {
             confirmationNumber: 'V-EBC-177',
-            regionalOffice: <div><p>Western Region</p><p>VA Regional Office</p><p>P.O. Box 8888</p><p>Muskogee, OK 74402-8888</p></div>
+            regionalOffice: [
+              'Western Region',
+              'VA Regional Office',
+              'P.O. Box 8888',
+              'Muskogee, OK 74402-8888'
+            ]
           }
         }
       }
@@ -77,7 +82,12 @@ describe('<ConfirmationPage>', () => {
         response: {
           attributes: {
             confirmationNumber: 'V-EBC-177',
-            regionalOffice: <div><p>Western Region</p><p>VA Regional Office</p><p>P.O. Box 8888</p><p>Muskogee, OK 74402-8888</p></div>
+            regionalOffice: [
+              'Western Region',
+              'VA Regional Office',
+              'P.O. Box 8888',
+              'Muskogee, OK 74402-8888'
+            ]
           }
         }
       }
