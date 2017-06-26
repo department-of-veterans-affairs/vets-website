@@ -1,33 +1,34 @@
 ---
 layout: page-breadcrumbs.html
+title: Disability Benefits
+permalink: /disability-benefits/index.html
+source: http://www.benefits.va.gov/compensation/
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: level2-index
-title: Health Care Benefits
-display_title: Health Care
-permalink: /health-care/index.html
 majorlinks:
   - heading:
     links:
-    - url: /health-care/eligibility/
+    - url: /disability-benefits/eligibility/
       title: Eligibility
-      description: Find out if you can get VA health care benefits.
-    - url: /health-care/apply/
+      description: Find out if you can get disability benefits, like financial support and health care, from VA.
+    - url: /disability-benefits/apply/
       title: Application Process
-      description: Apply online now, or find out how to apply in person or by phone or mail.
-    - url: /health-care/prescriptions/
-      title: Refill Prescriptions
-      description: Refill prescriptions online, and track the status of your refills.
-    - url: /health-care/messaging/
-      title: Send a Message to Your Health Care Team
-      description: Send a secure, private note to your doctor or other members of your VA health care team.
-    - url: /health-care/health-records/
-      title: Get Your VA Health Records
-      description: View, print, and download your VA health records.
+      description: Apply online now, or find out how to apply in person or get help from a trained professional.
+    - url: /track-claims/
+      title: Check Claim Status
+      description: Track the status of your disability claim.
+    - url: /disability-benefits/conditions/
+      title: Conditions
+      description: Discover which illnesses or injuries qualify you for benefits.
+    - url: /disability-benefits/claims-appeal/
+      title: Appeals
+      description: Find out what to do if you disagree with your disability rating decision.
 ---
 
 <div class="va-introtext">
 
-With VA health care, you're covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). Even when a condition doesn’t appear until years after your service ends, if it was the result of an injury or illness that happened during active military service, you may qualify for disability compensation. Find out if you can get financial support and other benefits like health care.
 
 </div>
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/introduction">Apply for VA Health Care</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
