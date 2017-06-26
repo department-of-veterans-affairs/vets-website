@@ -62,7 +62,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{response.regionalOffice}</address>
+              <address className="schemaform-address-view">{response.regionalOffice}</address>
             </li>
           </ul>
         </div>

@@ -2,13 +2,17 @@ import React from 'react';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
+  // delete form.data.privacyAgreementAccepted;
+  // delete form.data.hasVisitedVAMC;
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData
+    pensionClaim: {
+      form: formData
+    }
   });
 }
 
-export const employmentDescription = <p>Please tell us about all of your employment, including self-employment, <strong>from one year before you became disabled</strong> to the present.</p>;
+export const employmentDescription = <p className="pension-employment-desc">Please tell us about all of your employment, including self-employment, <strong>from one year before you became disabled</strong> to the present.</p>;
 
 const numberToWords = {
   0: 'First',
@@ -51,3 +55,9 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+
+export const directDepositWarning = (
+  <div className="pension-dd-warning">
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+  </div>
+);

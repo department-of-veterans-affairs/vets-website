@@ -15,9 +15,9 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply online for pre-need determination of eligibility in a VA National Cemetary"/>
+        <FormTitle title="Apply online for pre-need determination of eligibility in a VA National Cemetery"/>
         <p>
-          This application is equivalent to Form 40-10007 (Application for pre-need determination of eligibility in a VA National Cemetary).
+          This application is equivalent to Form 40-10007 (Application for pre-need determination of eligibility in a VA National Cemetery).
         </p>
         <div className="process schemaform-process">
           <ol>
