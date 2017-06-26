@@ -5,6 +5,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import { getFormDOM } from '../../util/schemaform-utils';
 import FormIntroButtons from '../../../src/js/common/schemaform/FormIntroButtons';
 
 describe('Schemaform <FormIntroButtons>', () => {
@@ -30,13 +31,12 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved={false}
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn={false}/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -48,13 +48,12 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved={false}
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -66,13 +65,12 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
@@ -84,20 +82,19 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
     expect(routerSpy.push.calledWith(route.pageList[0].path));
   });
-  // This test is probably extraneous
+
   it('should go to the first page when "Start over" is clicked', () => {
     const routerSpy = {
       push: sinon.spy()
@@ -105,13 +102,12 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
@@ -126,17 +122,36 @@ describe('Schemaform <FormIntroButtons>', () => {
     fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
       <FormIntroButtons
-          formId="hca"
+          formId="1010ez"
           migrations={[]}
           formSaved
           route={route}
           router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          loggedIn/>
+          fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
     expect(routerSpy.push.calledWith('return/url'));
+  });
+
+  it('should do prefill when "Continue" is clicked', () => {
+    const routerSpy = {
+      push: sinon.spy()
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormIntroButtons
+          formId="1010ez"
+          migrations={[]}
+          route={route}
+          router={routerSpy}
+          fetchInProgressForm={fetchSpy}
+          prefillAvailable/>
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 });

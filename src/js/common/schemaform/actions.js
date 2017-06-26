@@ -101,3 +101,53 @@ export function submitForm(formConfig, form) {
     });
   };
 }
+
+export function uploadFile(file, filePath, uiOptions = {}) {
+  return (dispatch, getState) => {
+    if (file.size > uiOptions.maxSize) {
+      dispatch(
+        setData(_.set(filePath, {
+          errorMessage: 'File is too large to be uploaded'
+        }, getState().form.data))
+      );
+
+      return Promise.reject();
+    }
+
+    dispatch(
+      setData(_.set(filePath, { uploading: true }, getState().form.data))
+    );
+
+    const payload = new FormData();
+    payload.append('file', file);
+
+    return fetch(`${environment.API_URL}${uiOptions.endpoint}`, {
+      method: 'POST',
+      headers: {
+        'X-Key-Inflection': 'camel'
+      },
+      body: payload
+    }).then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
+
+      return Promise.reject(new Error(`vets_upload_error: ${resp.statusText}`));
+    }).then(fileInfo => {
+      dispatch(
+        setData(_.set(filePath, {
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode
+        }, getState().form.data))
+      );
+    }).catch(error => {
+      dispatch(
+        setData(_.set(filePath, {
+          errorMessage: error.message.replace('vets_upload_error: ', '')
+        }, getState().form.data))
+      );
+      Raven.captureException(error);
+    });
+  };
+}
