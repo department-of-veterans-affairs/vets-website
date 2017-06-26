@@ -22,6 +22,24 @@ class DownloadLetters extends React.Component {
         <StepHeader name="Select and Download Letters" current="2" steps="2">
           <LetterList letters={this.props.letters}/>
         </StepHeader>
+        <br/>
+        <h4>Can't find what you're looking for?</h4>
+        <p>This system doesn't include everything VA could send you. Here are some other documents you might be looking for.</p>
+        <ul>
+          <li><a href="/"><strong>Post 9/11 GI Bill Enrollment</strong></a></li>
+          <li><a href="/"><strong>DD 214</strong></a></li>
+        </ul>
+        <div className="feature help-desk">
+          <h2>Get Adobe Reader</h2>
+          <div>To download and view your letters, please make sure you have the latest free version of Adobe Reader.</div>
+          <a href="/">Get Adobe Reader</a>
+        </div>
+        <div className="feature help-desk">
+          <h2>Need help?</h2>
+          <div>Call the Vets.gov Help Desk.</div>
+          <div>1-855-574-7286</div>
+          <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
+        </div>
       </div>
     );
   }
