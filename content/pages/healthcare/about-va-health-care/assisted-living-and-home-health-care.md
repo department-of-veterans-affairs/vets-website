@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Assisted Living and Home Health Care
 display_title: 
-concurrence: 
+concurrence: complete
 lastupdate_override: 2017-06-26
 order: 3
 relatedlinks:
