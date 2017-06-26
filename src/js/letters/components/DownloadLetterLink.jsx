@@ -17,7 +17,7 @@ class DownloadLetterLink extends React.Component {
     // Open window outside of the fetch response or it will be suppressed by pop-up blockers
     let downloadWindow;
     if (!ie10) {
-      downloadWindow = window.open(this.downloadUrl, '_blank');
+      downloadWindow = window.open(null, '_blank');
     }
 
     // When this.props.letterType is 'benefit_summary' or 'dependent_benefit_summary'
@@ -37,6 +37,19 @@ class DownloadLetterLink extends React.Component {
             // Figure out how to get a nicer URL for this, or use something other than createObjectURL()
             const downloadUrl = URL.createObjectURL(blob);
             downloadWindow.location.href = downloadUrl;
+            /*
+            const a = document.createElement("a");
+            a.style = "display: none";
+            a.href = downloadUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            //            a.attr("href", downloadUrl);
+            //            a.attr("download", name);
+            //            a[0].click();
+            URL.revokeObjectURL(url);
+            a.remove();
+            */
           }
           // Test/figure out what to do for Safari and for older IE versions
           // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3465
