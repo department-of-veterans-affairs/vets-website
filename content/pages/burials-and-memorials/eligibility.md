@@ -5,14 +5,10 @@ title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
 children: burialsEligibility
-order: 2
+order: 1
 relatedlinks:
-  - heading: What to do next
+  - heading: 
     links:
-    - url: /burials-and-memorials/pre-need/
-      title: Pre-Need Determination of Eligibility
-      description: 
-    - url: /burials-and-memorials/
 ---
 
 <div class="va-introtext">
@@ -39,7 +35,7 @@ Servicemembers, Veterans, and family members may be able to get burial and memor
 
 ### Can I plan ahead?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this, you’ll need to apply for a pre-need determination of eligibility. [Find out how to apply](/burials-and-memorials/pre-need/).
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this, you’ll need to apply for a pre-need determination of eligibility. [Find out how to apply](/burials-and-memorials/eligibility/pre-need/).
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. Keep this letter in a safe place.
 
