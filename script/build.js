@@ -310,6 +310,27 @@ smith.use(collections({
       name: 'Health Care'
     }
   },
+  housing: {
+    pattern: 'housing-assistance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Housing Assistance'
+    }
+  },
+  housingHomeLoans: {
+    pattern: 'housing-assistance/home-loans/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Home Loans'
+    }
+  },
+  housingVALoans: {
+    pattern: 'housing-assistance/home-loans/loan-options/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Loan Options'
+    }
+  },
   lifeInsurance: {
     pattern: 'life-insurance/*.md',
     sortBy: 'order',
