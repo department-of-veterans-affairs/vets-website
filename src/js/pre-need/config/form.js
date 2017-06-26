@@ -3,17 +3,18 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from './schema.json';
 
-// import { transform } from '../helpers';
-import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
+
+import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import EligibleBuriedView from '../components/EligibleBuriedView';
 
 const {
   relationship,
@@ -32,7 +33,14 @@ const {
   sponsorGender,
   sponsorMaritalStatus,
   sponsorMilitaryStatus,
-  toursOfDuty
+  toursOfDuty,
+  desiredCemetery,
+  currentlyBuried,
+  eligibleBuried,
+  email,
+  phoneNumber,
+  preparerFullName,
+  preparerPhoneNumber
 } = fullSchemaPreNeed.properties;
 
 const {
@@ -41,7 +49,7 @@ const {
   date,
   dateRange,
   gender,
-  usaPhone
+  phone
 } = fullSchemaPreNeed.definitions;
 
 const formConfig = {
@@ -51,7 +59,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetary',
+  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetery',
   subTitle: 'Form 40-10007',
   defaultDefinitions: {
     fullName,
@@ -59,7 +67,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
-    usaPhone
+    phone
   },
   chapters: {
     veteranInformation: {
@@ -266,13 +274,11 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service'
                 },
-                dateRange: _.merge(dateRangeUI(
+                dateRange: dateRangeUI(
                   'Start of service period',
                   'End of service period',
                   'End of service must be after start of service'
-                ), {
-                  'ui:title': '',
-                }),
+                ),
                 dischargeType: {
                   'ui:title': 'Discharge character of service',
                   'ui:options': {
@@ -296,6 +302,164 @@ const formConfig = {
             type: 'object',
             properties: {
               toursOfDuty
+            }
+          }
+        }
+      }
+    },
+    burialBenefits: {
+      title: 'Burial Benefits',
+      pages: {
+        burialBenefits: {
+          title: 'Burial benefits',
+          path: 'burial-benefits',
+          uiSchema: {
+            desiredCemetery: {
+              'ui:title': 'Your desired VA National Cemetery'
+            },
+            currentlyBuried: {
+              'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  Y: 'Yes',
+                  N: 'No',
+                  U: 'I don\'t know'
+                }
+              }
+            },
+            eligibleBuried: {
+              'ui:options': {
+                viewField: EligibleBuriedView,
+                expandUnder: 'currentlyBuried',
+                expandUnderCondition: 'Y'
+              },
+              items: {
+                name: {
+                  'ui:title': 'Name of deceased'
+                },
+                cemetery: {
+                  'ui:title': 'VA National Cemetery where they are buried'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              desiredCemetery,
+              currentlyBuried,
+              eligibleBuried
+            }
+          }
+        }
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        personalInformation: {
+          title: 'Personal information',
+          path: 'personal-information',
+          uiSchema: {
+            personalAddress: address.uiSchema(),
+            'view:otherContactInfo': {
+              'ui:title': 'Other contact information',
+              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+              'ui:validations': [
+                validateMatch('email', 'view:confirmEmail')
+              ],
+              email: {
+                'ui:title': 'Email address'
+              },
+              'view:confirmEmail': {
+                'ui:title': 'Re-enter email address',
+                'ui:options': {
+                  hideOnReview: true
+                }
+              },
+              phoneNumber: phoneUI('Primary telephone number')
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              personalAddress: address.schema(fullSchemaPreNeed),
+              'view:otherContactInfo': {
+                type: 'object',
+                properties: {
+                  email,
+                  'view:confirmEmail': {
+                    type: 'string',
+                    format: 'email'
+                  },
+                  phoneNumber
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    certification: {
+      title: 'Certification',
+      pages: {
+        certification: {
+          title: 'Certification',
+          path: 'certification',
+          uiSchema: {
+            'view:isPreparer': {
+              'ui:title': 'Is someone else filling out this application for you?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  N: 'No',
+                  Y: 'Yes'
+                }
+              }
+            },
+            'view:preparer': {
+              'ui:options': {
+                expandUnder: 'view:isPreparer',
+                expandUnderCondition: 'Y'
+              },
+              preparerFullName: _.merge(fullNameUI, {
+                'ui:title': 'Preparer information',
+                suffix: {
+                  'ui:options': {
+                    hideIf: () => true
+                  }
+                }
+              }),
+              preparerAddress: address.uiSchema('Mailing address'),
+              'view:contactInfo': {
+                'ui:title': 'Contact information',
+                preparerPhoneNumber: phoneUI('Primary telephone number')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:isPreparer'],
+            properties: {
+              'view:isPreparer': {
+                type: 'string',
+                'enum': ['N', 'Y']
+              },
+              'view:preparer': {
+                type: 'object',
+                properties: {
+                  preparerFullName,
+                  preparerAddress: address.schema(fullSchemaPreNeed, true),
+                  'view:contactInfo': {
+                    type: 'object',
+                    required: ['preparerPhoneNumber'],
+                    properties: {
+                      preparerPhoneNumber
+                    }
+                  }
+                }
+              }
             }
           }
         }

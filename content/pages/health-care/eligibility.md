@@ -4,7 +4,7 @@ template: detail-page
 title: Health Care Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: healthcare
+collection: health-care
 order: 1
 relatedlinks:
 ---
@@ -44,8 +44,8 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/introduction">Apply for Benefits</a>
 
-[Learn about the application process](/healthcare/apply/).
+[Learn about the application process](/health-care/apply/).
 
 <div markdown="0"><br></div>
