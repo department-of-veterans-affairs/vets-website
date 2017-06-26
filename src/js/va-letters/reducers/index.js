@@ -11,8 +11,8 @@ function letters(state = initialState, action) {
     case 'GET_LETTERS_SUCCESS':
       return {
         ...state,
-        letters: action.data.letters,
-        destination: action.data.letterDestination,
+        letters: action.data.data.attributes.letters,
+        destination: action.data.meta.address,
         available: true
       };
     case 'GET_LETTERS_FAILURE':

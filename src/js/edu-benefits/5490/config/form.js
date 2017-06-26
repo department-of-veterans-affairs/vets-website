@@ -45,6 +45,7 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
+import createNonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
   benefit,
@@ -72,9 +73,7 @@ const {
   ssn
 } = fullSchema5490.definitions;
 
-const nonRequiredFullName = _.assign(fullName, {
-  required: []
-});
+const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/5490/',

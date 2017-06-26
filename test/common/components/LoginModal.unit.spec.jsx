@@ -144,7 +144,7 @@ describe('<LoginModal>', () => {
     // If this fails consistently, increase the timeout
     setTimeout(() => {
       expect(loginSpy.called).to.be.true;
-    }, 200);
+    }, 500);
 
     teardown();
   });

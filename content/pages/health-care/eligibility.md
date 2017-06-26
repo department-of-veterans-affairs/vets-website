@@ -5,7 +5,7 @@ title: Health Care Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate_override: 2017-06-26
-collection: healthcare
+collection: healthCare
 order: 2
 ---
 
@@ -62,9 +62,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
-[Learn about the application process](/healthcare/apply/).
+[Learn about the application process](/health-care/apply/).
 
 #### Need help filling out your application forms?
 
@@ -114,7 +114,7 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
-No. Whether or not you have other health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
 <br>
 
@@ -122,7 +122,7 @@ No. Whether or not you have other health insurance coverage doesn't affect the V
 
 #### I need vision care. Can I get it through VA? 
 
-We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
+We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
 
 <br>
 
@@ -130,7 +130,7 @@ We cover routine eye exams and preventive tests under VA health care benefits. I
 
 #### I need dental care. Can I get it through VA? 
 
-In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/healthcare/about-va-health-care/dental-care/).
+In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
 
 <br>
 

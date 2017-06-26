@@ -1,11 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import { findDOMNode } from 'react-dom';
+import { getFormDOM } from '../../util/schemaform-utils';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions employment history', () => {
@@ -17,9 +17,38 @@ describe('Pensions employment history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
+  });
+
+  it('should expand to show all questions', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
+  });
+
+  it('should should have no required fields if "no" is selected', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledNo', 'N');
+    formDOM.submitForm();
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
 
   it('should not submit empty form', () => {
@@ -32,9 +61,10 @@ describe('Pensions employment history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(10);
     expect(onSubmit.called).to.be.false;
@@ -50,84 +80,29 @@ describe('Pensions employment history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
+    formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_employer'), {
-      target: {
-        value: 'Smith'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_address_street'), {
-      target: {
-        value: '101 Elm st'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_address_city'), {
-      target: {
-        value: 'Northampton'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_address_state'), {
-      target: {
-        value: 'MA'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_address_postalCode'), {
-      target: {
-        value: '01060'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_jobTitle'), {
-      target: {
-        value: 'Professor'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_fromMonth'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_fromDay'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_fromYear'), {
-      target: {
-        value: '2002'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_toMonth'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_toDay'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_dateRange_toYear'), {
-      target: {
-        value: '2003'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_daysMissed'), {
-      target: {
-        value: '3'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_jobs_0_annualEarnings'), {
-      target: {
-        value: '300'
-      }
-    });
+    formDOM.fillData('#root_view\\:history_jobs_0_employer', 'Smith');
+    formDOM.fillData('#root_view\\:history_jobs_0_address_street', '101 Elm st');
+    formDOM.fillData('#root_view\\:history_jobs_0_address_city', 'Northampton');
+    formDOM.fillData('#root_view\\:history_jobs_0_address_state', 'MA');
+    formDOM.fillData('#root_view\\:history_jobs_0_address_postalCode', '01060');
+    formDOM.fillData('#root_view\\:history_jobs_0_jobTitle', 'Professor');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_fromMonth', '1');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_fromDay', '1');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_fromYear', '2002');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_toMonth', '1');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_toDay', '1');
+    formDOM.fillData('#root_view\\:history_jobs_0_dateRange_toYear', '2003');
+    formDOM.fillData('#root_view\\:history_jobs_0_daysMissed', '3');
+    formDOM.fillData('#root_view\\:history_jobs_0_annualEarnings', '300');
 
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(onSubmit.called).to.be.true;
 
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+    formDOM.click('.va-growable-add-btn');
 
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Smith');

@@ -4,7 +4,7 @@ template: detail-page
 title: After You Apply for Health Care Benefits
 display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-collection: healthcare
+collection: healthCare
 order: 4
 lastupdate_override: 2017-06-26
 ---
@@ -81,11 +81,11 @@ Contact your local VA medical center or clinic and ask for:
 
 #### What if I need help understanding my benefits or accessing services? 
 
-If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/healthcare/about-va-health-care/).
+If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
 If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
+[Refill your prescriptions](/health-care/prescriptions/). <br />
+[Send a message to your VA health care provider](/health-care/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
 
 If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).

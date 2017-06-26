@@ -316,7 +316,7 @@ describe('Schemaform validations', () => {
       const errors = {};
       validateFileField(errors, [{
         uploading: true,
-        confirmationNumber: '23234'
+        confirmationCode: '23234'
       }]);
 
       expect(errors[0].__errors).not.to.be.empty;

@@ -2,17 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FormTitle from '../../common/schemaform/FormTitle';
+import AddressSection from '../components/AddressSection';
+import LetterList from '../components/LetterList';
+import StepHeader from '../components/StepHeader';
 
 class DownloadLetters extends React.Component {
   render() {
-    const destination = this.props.destination || {};
-    const letterItems = (this.props.letters || []).map((letter) => {
-      return (
-        <li key={letter.letterType}>
-          <a href="#">{letter.letterName}</a>
-        </li>
-      );
-    });
     return (
       <div>
         <FormTitle title="Download Your VA Verification Letters"/>
@@ -21,17 +16,29 @@ class DownloadLetters extends React.Component {
             For some benefits, Veterans or surviving spouses and dependents need a letter from the VA proving Veteran or surviving status. This tool will allow you to get these letters online.
           </p>
         </div>
-        <div className="letters-form-panel">
-          <p>The address on file for you with VA Compensation and Pension is:</p>
-          <span>{destination.fullName}</span><br/>
-          <span>{destination.addressLine1}, {destination.addressLine2} {destination.addressLine3}</span><br/>
-          <span>{destination.city}, {destination.state} {destination.zipCode}</span>
+        <StepHeader name="Review your address" current="1" steps="2">
+          <AddressSection destination={this.props.destination}/>
+        </StepHeader>
+        <StepHeader name="Select and Download Letters" current="2" steps="2">
+          <LetterList letters={this.props.letters}/>
+        </StepHeader>
+        <br/>
+        <h4>Can't find what you're looking for?</h4>
+        <p>This system doesn't include everything VA could send you. Here are some other documents you might be looking for.</p>
+        <ul>
+          <li><a href="/"><strong>Post 9/11 GI Bill Enrollment</strong></a></li>
+          <li><a href="/"><strong>DD 214</strong></a></li>
+        </ul>
+        <div className="feature help-desk">
+          <h2>Get Adobe Reader</h2>
+          <div>To download and view your letters, please make sure you have the latest free version of Adobe Reader.</div>
+          <a href="/">Get Adobe Reader</a>
         </div>
-        <div>
-          <p>The following letters are available for download:</p>
-          <ul>
-            {letterItems}
-          </ul>
+        <div className="feature help-desk">
+          <h2>Need help?</h2>
+          <div>Call the Vets.gov Help Desk.</div>
+          <div>1-855-574-7286</div>
+          <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
         </div>
       </div>
     );

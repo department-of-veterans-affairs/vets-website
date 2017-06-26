@@ -104,7 +104,8 @@ describe('Schemaform helpers:', () => {
 
       expect(routes[0].path).to.equal('test-page');
       expect(routes[1].path).to.equal('form-saved');
-      expect(routes[2].path).to.equal('review-and-submit');
+      expect(routes[2].path).to.equal('error');
+      expect(routes[3].path).to.equal('review-and-submit');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
