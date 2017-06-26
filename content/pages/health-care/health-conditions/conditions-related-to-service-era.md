@@ -6,7 +6,7 @@ display_title: Conditions Related to Service Era
 concurrence: complete
 lastupdate_override: 2017-06-26
 order: 1
-children: healthcareServiceRelated
+children: healthCareServiceRelated
 majorlinks: 
   - heading:
     links:

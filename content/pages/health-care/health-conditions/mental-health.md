@@ -6,7 +6,7 @@ display_title:
 concurrence: complete
 lastupdate_override: 2017-06-26
 order: 2
-children: healthcareMentalHealth
+children: healthCareMentalHealth
 ---
 
 <div class="va-introtext">
