@@ -14,13 +14,18 @@ describe('Schemaform <FormSaved>', () => {
         }
       ]
     };
+    const user = {
+      profile: {
+        prefillsAvailable: []
+      }
+    };
     const lastSavedDate = 1497300513914;
 
     const tree = SkinDeep.shallowRender(
-      <FormSaved lastSavedDate={lastSavedDate} route={route}/>
+      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
 
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.subTree('FormIntroButtons')).not.to.be.false;
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
   });
   it('should go back', () => {
@@ -34,11 +39,16 @@ describe('Schemaform <FormSaved>', () => {
     const router = {
       goBack: sinon.spy()
     };
+    const user = {
+      profile: {
+        prefillsAvailable: []
+      }
+    };
 
     const lastSavedDate = 1497300513914;
 
     const tree = SkinDeep.shallowRender(
-      <FormSaved router={router} lastSavedDate={lastSavedDate} route={route}/>
+      <FormSaved router={router} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -55,11 +65,16 @@ describe('Schemaform <FormSaved>', () => {
     const router = {
       push: sinon.spy()
     };
+    const user = {
+      profile: {
+        prefillsAvailable: []
+      }
+    };
 
     const lastSavedDate = 1497300513914;
 
     const tree = SkinDeep.shallowRender(
-      <FormSaved router={router} lastSavedDate={lastSavedDate} route={route}/>
+      <FormSaved router={router} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
 
     tree.getMountedInstance().goToBeginning();

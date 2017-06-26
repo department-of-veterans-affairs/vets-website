@@ -54,7 +54,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const formSaved = !!(profile && profile.savedForms.includes(this.props.formId));
+    const formSaved = !!(profile && profile.savedForms.some(f => f.form === this.props.formId));
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     return (
