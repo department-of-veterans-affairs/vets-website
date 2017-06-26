@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Depression
 display_title: 
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 2
 relatedlinks:
   - heading: Related health problems you may want to learn about
