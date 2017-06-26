@@ -17,7 +17,7 @@ majorlinks:
   - heading: When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning
-      title: Burial Planning
+      title: Planning a Burial
       description: Find out what to do if your family member has just died.  
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Survivor and Dependent Benefits
