@@ -5,7 +5,7 @@ title: Vision Care
 display_title: 
 concurrence: complete
 lastupdate_override: 2017-06-26
-children: healthcareCoverageVision
+children: healthCareCoverageVision
 order: 5
 relatedlinks:
   - heading: More information about your benefits

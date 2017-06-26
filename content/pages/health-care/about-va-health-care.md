@@ -6,7 +6,7 @@ display_title: VA Health Care Coverage
 concurrence: complete
 lastupdate_override: 2017-06-26
 collection: healthCare
-children: healthcareCoverage
+children: healthCareCoverage
 order: 1
 relatedlinks: 
   - heading: Related benefits you may qualify for

@@ -7,7 +7,7 @@ concurrence: complete
 lastupdate_override: 2017-06-26
 collection: healthCare
 order: 5
-children: healthcareConditions
+children: healthCareConditions
 relatedlinks:
   - url: /health-care/about-va-health-care/
     title: About VA Health Care Coverage
