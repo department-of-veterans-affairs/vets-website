@@ -304,7 +304,7 @@ smith.use(collections({
       name: 'Work and Learn'
     }
   },
-  healthcare: {
+  healthCare: {
     sortBy: 'order',
     metadata: {
       name: 'Health Care'
