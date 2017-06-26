@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "APPLICATION FOR PRE-NEED DETERMINATION OF ELIGIBILITY IN A VA NATIONAL CEMETARY",
+  "title": "APPLICATION FOR PRE-NEED DETERMINATION OF ELIGIBILITY IN A VA NATIONAL CEMETERY",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -269,6 +269,10 @@
         "F",
         "M"
       ]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
     }
   },
   "properties": {
@@ -375,14 +379,40 @@
           "rank": {
             "type": "string"
           }
+        },
+        "required": [
+          "serviceBranch"
+        ]
+      }
+    },
+    "desiredCemetery": {
+      "type": "string"
+    },
+    "currentlyBuried": {
+      "type": "string",
+      "enum": [
+        "Y",
+        "N",
+        "U"
+      ]
+    },
+    "eligibleBuried": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cemetery": {
+            "type": "string"
+          }
         }
       }
     },
-    "previousNames": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/fullName"
-      }
+    "email": {
+      "type": "string",
+      "format": "email"
     },
     "veteranFullName": {
       "$ref": "#/definitions/fullName"
@@ -407,6 +437,21 @@
     },
     "sponsorAddress": {
       "$ref": "#/definitions/address"
+    },
+    "personalAddress": {
+      "$ref": "#/definitions/address"
+    },
+    "phoneNumber": {
+      "$ref": "#/definitions/phone"
+    },
+    "preparerFullName": {
+      "$ref": "#/definitions/fullName"
+    },
+    "preparerAddress": {
+      "$ref": "#/definitions/address"
+    },
+    "preparerPhoneNumber": {
+      "$ref": "#/definitions/phone"
     }
   }
 }

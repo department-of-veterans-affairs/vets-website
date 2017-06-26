@@ -28,6 +28,7 @@ export function getUserData(dispatch) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
       dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
+      dispatch(updateProfileField('prefillsAvailable', json.data.attributes.prefills_available));
       dispatch(updateProfileField('accountType', userData.loa.current));
       dispatch(updateProfileField('email', userData.email));
       dispatch(updateProfileField('userFullName.first', userData.first_name));
@@ -71,5 +72,5 @@ export function handleLogin(loginUrl, onUpdateLoginUrl) {
     receiver.focus();
     return getLoginUrl(onUpdateLoginUrl);
   }
-  return new Promise(); // Just in case we need to .abort() nothing
+  return Promise.reject('Could not log in; loginUrl not provided.');
 }

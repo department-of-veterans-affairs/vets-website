@@ -47,7 +47,7 @@ describe('Pensions dependent list', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
-    formDOM.fillData('#root_dependents_0_relationship_0', 'child');
+    formDOM.fillData('#root_dependents_0_dependentRelationship_0', 'child');
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(11);
   });
@@ -64,7 +64,7 @@ describe('Pensions dependent list', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -82,7 +82,7 @@ describe('Pensions dependent list', () => {
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
     formDOM.submitForm(form);
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -99,9 +99,9 @@ describe('Pensions dependent list', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
+    formDOM.fillData('#root_dependents_0_dependentRelationship_1', 'parent');
     formDOM.fillData('#root_dependents_0_fullName_first', 'Jane');
     formDOM.fillData('#root_dependents_0_fullName_last', 'Doe');
-    formDOM.fillData('#root_dependents_0_relationship_0', 'child');
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)
@@ -120,10 +120,7 @@ describe('Pensions dependent list', () => {
 
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
-    formDOM.fillData('#root_dependents_0_fullName_first', 'Jane');
-    formDOM.fillData('#root_dependents_0_fullName_last', 'Doe');
-    formDOM.fillData('#root_dependents_0_relationship_0', 'child');
+    formDOM.fillData('#root_view\\:hasDependentsNo', 'Y');
 
     formDOM.submitForm(form);
     expect(onSubmit.called).to.be.true;
