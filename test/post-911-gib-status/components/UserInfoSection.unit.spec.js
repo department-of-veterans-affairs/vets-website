@@ -41,7 +41,7 @@ describe('<UserInfoSection>', () => {
 
   describe('percentageBenefit is not provided', () => {
     // TODO: handle corrupt data department-of-veterans-affairs/vets.gov-team#3336
-    it('should display "unavilable"', () => {
+    it('should display "unavailable"', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.not.be.false;
