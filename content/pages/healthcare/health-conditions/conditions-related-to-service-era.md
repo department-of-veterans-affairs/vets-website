@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Conditions Related to When and Where You Served
 display_title: Conditions Related to Service Era
-concurrence: 
-lastupdate_override: 
+concurrence: complete
+lastupdate_override: 2017-06-26
 order: 1
 children: healthcareServiceRelated
 majorlinks: 
