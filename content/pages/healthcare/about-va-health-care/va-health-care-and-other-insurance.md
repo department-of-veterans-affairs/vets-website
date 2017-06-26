@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: VA Health Care and Other Insurance
 display_title: 
-concurrence: 
+concurrence: complete
 lastupdate_override: 2017-06-26
 order: 10
 relatedlinks: 
