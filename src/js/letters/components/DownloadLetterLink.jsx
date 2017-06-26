@@ -5,6 +5,16 @@ import { Link } from 'react-router';
 
 import { apiRequest } from '../utils/helpers';
 
+const Modernizr = require('modernizr');
+if (!Modernizr.bloburls) {
+  require('classlist-polyfill'); // DOM element classList support.
+}
+if (!Modernizr.adownload) {
+  require('dataset');  // dataSet accessor support.
+}
+
+// const FileSaver = require('file-saver');
+
 class DownloadLetterLink extends React.Component {
   constructor(props) {
     super(props);
@@ -12,52 +22,53 @@ class DownloadLetterLink extends React.Component {
   }
 
   downloadLetter() {
-    const ie10 = window.navigator.msSaveOrOpenBlob;
+    // When this.props.letterType is 'benefit_summary' or 'dependent_benefit_summary'
+    // pass in benefit summary options as URL parameters
 
-    // Open window outside of the fetch response or it will be suppressed by pop-up blockers
+    const requestUrl = `/v0/letters/${this.props.letterType}`;
+    const ie10 = !!window.navigator.msSaveOrOpenBlob;
+
     let downloadWindow;
     if (!ie10) {
-      downloadWindow = window.open(null, '_blank');
+      downloadWindow = window.open();
     }
 
-    // When this.props.letterType is 'benefit_summary' or 'dependent_benefit_summary'
-    // use { method: 'POST' } and pass in benefit summary options as URL parameters
-
-    // Note that the mock service only has a 'commissary' letter type
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
+    // TODO: in addition to the new blank browser window, this tries to
+    // pop up a duplicate window which may or may not be suppressed
+    // by the user's browser content settings. Need to test manually on
+    // multiple browsers before launching.
     apiRequest(
       requestUrl,
-      null,
+      { method: 'POST' },
       response => {
         response.blob().then(blob => {
-          if (ie10) {
-            // May want to include timestamp and/or first/last name in filename
-            window.navigator.msSaveOrOpenBlob(blob, `${this.props.letterName}`);
-          } else { // Chrome/Firefox/Opera
-            // Figure out how to get a nicer URL for this, or use something other than createObjectURL()
-            const downloadUrl = URL.createObjectURL(blob);
-            downloadWindow.location.href = downloadUrl;
-            /*
-            const a = document.createElement("a");
-            a.style = "display: none";
-            a.href = downloadUrl;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            //            a.attr("href", downloadUrl);
-            //            a.attr("download", name);
-            //            a[0].click();
-            URL.revokeObjectURL(url);
-            a.remove();
-            */
+          // Blob URLs are not supported on Opera Mini or IE10 and below
+          const urlObj = window.URL || window.webkitURL;
+          const downloadUrl = urlObj.createObjectURL(blob);
+          const blobSupported = !!(/^blob:/.exec(downloadUrl));
+          if (blobSupported) {
+            // This is hack to give the file a nice name instead of an
+            // ugly hash, but is not supported on IE11 or iOS Safari.
+            const link = document.createElement('a');
+            if (typeof link.download !== 'undefined') {
+              document.body.appendChild(link);
+              link.style = 'display: none';
+              link.href = downloadUrl;
+              link.target = '_blank';
+              link.download = this.props.letterName;
+              link.click();
+            } else {
+              downloadWindow.location.href = downloadUrl;
+            }
+            document.body.removeChild(link);
+          } else if (ie10) {
+            window.navigator.msSaveOrOpenBlob(blob, this.props.letterName);
+          } else {
+            // What should we do about Opera Mini?
           }
-          // Test/figure out what to do for Safari and for older IE versions
-          // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3465
+          urlObj.revokeObjectURL(downloadUrl);
         });
-      }
-    );
-
-    // If we use createObjectURL(), At some point call revokeObjectURL() to free memory
+      });
   }
 
   render() {
