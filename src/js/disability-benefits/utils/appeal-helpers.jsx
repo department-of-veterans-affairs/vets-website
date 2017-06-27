@@ -28,8 +28,11 @@ export function appealStatusDescriptions(lastEvent) {
         description: <p>SSOC description.</p>,
       },
       nextAction: {
-        title: 'SSOC next action title.',
-        description: 'SSOC next action description.'
+        title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`,
+        description: <div>
+          <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
+          <p><a href="#">Learn more about hearings.</a></p>
+        </div>,
       }
     },
     soc: {
