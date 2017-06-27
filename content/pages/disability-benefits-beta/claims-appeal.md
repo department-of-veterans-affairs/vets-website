@@ -12,11 +12,12 @@ You have the right to appeal any disability benefits decision made by the Vetera
 </div>
 
 <div class="feature" markdown="0">
+
 ### Have you already filed an appeal?
 
 When the Regional Office (RO) receives your Notice of Disagreement (NOD), you'll be able to check the status of your appeal on Vets.gov.
 
-<a class="usa-button-primary" href="/disability-benefits/your-claims">Track your appeal</a>
+<a class="usa-button-primary" href="/track-claims">Track your appeal</a>
 </div>
 
 ### Appeals Process Overview
