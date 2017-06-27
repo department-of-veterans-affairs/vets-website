@@ -10,15 +10,6 @@ import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 
 import FormStartControls from './FormStartControls';
 
-function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
-  if (legend && legend.getBoundingClientRect().height > 0) {
-    focusElement(legend);
-  } else {
-    focusElement('.nav-header');
-  }
-}
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -30,8 +21,14 @@ const scrollToTop = () => {
 
 class FormSaved extends React.Component {
   componentDidMount() {
-    scrollToTop();
-    focusForm();
+    // if we don't have this then that means we're loading the page
+    // without any data and should just go back to the intro
+    if (!this.props.lastSavedDate) {
+      this.props.router.push(this.props.route.pageList[0].path);
+    } else {
+      scrollToTop();
+      focusElement('.usa-alert');
+    }
   }
 
   render() {
