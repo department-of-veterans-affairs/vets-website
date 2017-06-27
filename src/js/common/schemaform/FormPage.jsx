@@ -147,6 +147,7 @@ class FormPage extends React.Component {
             uiSchema={uiSchema}
             pagePerItemIndex={params ? params.index : undefined}
             uploadFile={this.props.uploadFile}
+            prefilled={this.props.form.prefilled}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
@@ -168,6 +169,7 @@ class FormPage extends React.Component {
           {(!form.disableSave && __BUILDTYPE__ !== 'production') && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
+                  trackingPrefix={form.trackingPrefix}
                   saveForm={this.handleSave}
                   savedStatus={form.savedStatus}
                   user={this.props.user}

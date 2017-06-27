@@ -109,7 +109,9 @@ export default function createSchemaFormReducer(formConfig) {
         formData: {},
         metadata: {}
       },
-      migrations: formConfig.migrations
+      prefilled: false,
+      migrations: formConfig.migrations,
+      trackingPrefix: formConfig.trackingPrefix
     });
 
   // Take another pass and recalculate the schema and data based on the default data
@@ -157,10 +159,22 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set('loadedStatus', action.status, state);
       }
       case SET_IN_PROGRESS_FORM: {
-        const newState = _.set('loadedData', action.data, state);
-        newState.loadedStatus = LOAD_STATUSES.success;
+        let newState;
 
-        return newState;
+        // if we're prefilling, we want to use whatever initial data the form has
+        if (action.prefilled) {
+          const formData = _.merge(state.data, action.data.formData);
+          const loadedData = _.set('formData', formData, action.data);
+          newState = _.set('loadedData', loadedData, state);
+        } else {
+          newState = _.set('loadedData', action.data, state);
+        }
+
+        newState.loadedStatus = LOAD_STATUSES.success;
+        newState.prefilled = action.prefilled;
+        newState.data = newState.loadedData.formData;
+
+        return recalculateSchemaAndData(newState);
       }
       default:
         return state;

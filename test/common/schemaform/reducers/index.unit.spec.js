@@ -199,7 +199,9 @@ describe('schemaform createSchemaFormReducer', () => {
     });
     it('should set in progress form data', () => {
       const state = reducer({
-        loadedStatus: LOAD_STATUSES.notAttempted
+        loadedStatus: LOAD_STATUSES.notAttempted,
+        data: {},
+        pages: {}
       }, {
         type: SET_IN_PROGRESS_FORM,
         data
@@ -207,6 +209,20 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.success);
       expect(state.loadedData).to.equal(data);
+      expect(state.data).to.equal(data.formData);
+    });
+    it('should merge prefill data with current form', () => {
+      const state = reducer({
+        data: { existingProp: true },
+        pages: {}
+      }, {
+        type: SET_IN_PROGRESS_FORM,
+        data,
+        prefilled: true
+      });
+
+      expect(state.data.existingProp).to.be.true;
+      expect(state.data.field).to.equal('foo');
     });
   });
 });
