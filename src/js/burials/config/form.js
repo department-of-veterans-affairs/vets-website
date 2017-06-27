@@ -17,6 +17,7 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
+import { validateBurialDate } from '../validation';
 
 const {
   relationship,
@@ -165,7 +166,10 @@ const formConfig = {
                   expandUnderCondition: 'other'
                 }
               }
-            }
+            },
+            'ui:validations': [
+              validateBurialDate
+            ]
           },
           schema: {
             type: 'object',
