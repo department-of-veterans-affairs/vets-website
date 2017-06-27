@@ -314,11 +314,6 @@ export function removeInProgressForm(formId, migrations) {
   return (dispatch, getState) => {
     const userToken = sessionStorage.userToken;
     const trackingPrefix = getState().form.trackingPrefix;
-    // If we don't have a userToken, fail safely
-    if (!userToken) {
-      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-      return Promise.resolve();
-    }
 
     // Update UI while we're waiting for the API
     dispatch(setStartOver());

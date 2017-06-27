@@ -383,16 +383,6 @@ describe('Schemaform save / load actions:', () => {
     afterEach(teardown);
     window.dataLayer = [];
 
-    it('dispatches a no-auth if the user has no session token', () => {
-      const thunk = removeInProgressForm('1010ez', {});
-      const dispatch = sinon.spy();
-      delete sessionStorage.userToken;
-
-      return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledOnce).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-      });
-    });
     it('dispatches a start over action', () => {
       const thunk = removeInProgressForm('1010ez', {});
       const dispatch = sinon.spy();

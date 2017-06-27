@@ -118,7 +118,7 @@ describe('Schemaform <FormApp>', () => {
       routes
     });
 
-    expect(router.push.called).to.be.true;
+    expect(router.push.calledWith('test-path')).to.be.true;
   });
   it('should route and reset fetch status on success', () => {
     const formConfig = {

@@ -240,6 +240,7 @@ describe('schemaform createSchemaFormReducer', () => {
       });
 
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+      expect(state.prefillStatus).not.to.be.defined;
     });
     it('should set fetch form pending and prefill', () => {
       const state = reducer({
