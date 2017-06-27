@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES, setFetchFormStatus } from './save-load-actions';
+import { LOAD_STATUSES, PREFILL_STATUSES, setFetchFormStatus } from './save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
@@ -30,11 +30,12 @@ class FormApp extends React.Component {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
-    } else if (status !== this.props.loadedStatus
-      && status === LOAD_STATUSES.prefillComplete) {
+    } else if (newProps.prefillStatus !== this.props.prefillStatus
+      && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
       newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
     } else if (status !== LOAD_STATUSES.notAttempted
       && status !== LOAD_STATUSES.pending
+      && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
     ) {
       newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
@@ -112,6 +113,7 @@ class FormApp extends React.Component {
 
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
+  prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
 });
 

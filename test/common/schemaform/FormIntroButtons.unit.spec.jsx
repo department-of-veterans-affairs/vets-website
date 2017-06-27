@@ -58,7 +58,7 @@ describe('Schemaform <FormIntroButtons>', () => {
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
-  it('should render 2 buttons when logged in with a saved form', () => {
+  it('should render 4 buttons when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy()
     };
@@ -73,7 +73,8 @@ describe('Schemaform <FormIntroButtons>', () => {
           fetchInProgressForm={fetchSpy}/>
     );
 
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('ProgressButton').length).to.equal(4);
+    expect(tree.subTree('Modal').everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
@@ -153,5 +154,32 @@ describe('Schemaform <FormIntroButtons>', () => {
     formDOM.click('.usa-button-primary');
 
     expect(fetchSpy.firstCall.args[2]).to.be.true;
+  });
+
+  it('should show modal and remove form when starting over', () => {
+    const routerSpy = {
+      push: sinon.spy()
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormIntroButtons
+          formId="1010ez"
+          migrations={[]}
+          route={route}
+          router={routerSpy}
+          formSaved
+          removeInProgressForm={fetchSpy}
+          prefillAvailable/>
+    );
+    const formDOM = getFormDOM(tree);
+    document.body.appendChild(formDOM);
+    formDOM.click('.usa-button-outline');
+
+    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
+
+    formDOM.click('.va-modal-body .usa-button-primary');
+
+    expect(fetchSpy.called).to.be.true;
+    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
   });
 });

@@ -11,7 +11,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { SAVE_STATUSES, saveInProgressForm } from './save-load-actions';
+import { PREFILL_STATUSES, SAVE_STATUSES, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -147,7 +147,7 @@ class FormPage extends React.Component {
             uiSchema={uiSchema}
             pagePerItemIndex={params ? params.index : undefined}
             uploadFile={this.props.uploadFile}
-            prefilled={this.props.form.prefilled}
+            prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">

@@ -10,7 +10,7 @@ import FormTitle from '../../common/schemaform/FormTitle';
 import FormIntroButtons from '../../common/schemaform/FormIntroButtons';
 
 import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm } from '../../common/schemaform/save-load-actions';
+import { fetchInProgressForm, removeInProgressForm } from '../../common/schemaform/save-load-actions';
 
 
 class IntroductionPage extends React.Component {
@@ -77,6 +77,7 @@ class IntroductionPage extends React.Component {
             returnUrl={this.props.returnUrl}
             migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
             prefillAvailable={prefillAvailable}
             formSaved={formSaved}/>
         <br/>
@@ -105,6 +106,7 @@ function mapStateToProps(state) {
 // Copied from src/js/login/containers/Main.jsx
 const mapDispatchToProps = {
   fetchInProgressForm,
+  removeInProgressForm,
   updateLogInUrl
 };
 
