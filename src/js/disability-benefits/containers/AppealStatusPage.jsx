@@ -16,20 +16,9 @@ class AppealStatusPage extends React.Component {
   }
 
   renderStatusNextAction(lastEvent) {
-    const eventType = lastEvent.type;
-    const { nextAction } = appealStatusDescriptions[eventType];
-    const className = `next-action ${eventType}`;
-    let title = nextAction.title;
-
-    switch (eventType) {
-      case 'form9':
-        break;
-      case 'soc':
-        title = `${title} ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`;
-        break;
-      default:
-        break;
-    }
+    const { nextAction } = appealStatusDescriptions(lastEvent);
+    const className = `next-action ${lastEvent.type}`;
+    const title = nextAction.title;
 
     return (
       <div className={className}>
@@ -60,7 +49,7 @@ class AppealStatusPage extends React.Component {
                 <td className="date">
                   <strong>{moment(e.date).format('MMM DD, YYYY')}</strong>
                 </td>
-                <td>{appealStatusDescriptions[e.type].status.title}</td>
+                <td>{appealStatusDescriptions(e).status.title}</td>
               </tr>
             );
           })}
@@ -79,7 +68,7 @@ class AppealStatusPage extends React.Component {
       return moment(e.date).unix();
     }], ['desc']);
     const lastEvent = events[0];
-    const { status } = appealStatusDescriptions[lastEvent.type];
+    const { status } = appealStatusDescriptions(lastEvent);
 
     return (
       <div className="claims-status">
