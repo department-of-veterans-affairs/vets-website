@@ -67,7 +67,7 @@ function makeMockApiRouter(opts) {
       res.status(500);
       result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
     }
-    opts.logger.info(auth, verb, path, result);
+    opts.logger.verbose(auth, verb, path, result);
     res.json(result);
   });
 
