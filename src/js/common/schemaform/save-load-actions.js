@@ -5,7 +5,10 @@ import { logOut } from '../../login/actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
+export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
+export const SET_START_OVER = 'SET_START_OVER';
+export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -22,8 +25,14 @@ export const LOAD_STATUSES = Object.freeze({
   failure: 'failure',
   notFound: 'not-found',
   invalidData: 'invalid-data',
+  success: 'success'
+});
+
+export const PREFILL_STATUSES = Object.freeze({
+  notAttempted: 'not-attempted',
+  pending: 'pending',
   success: 'success',
-  prefillComplete: 'prefill-complete'
+  unfilled: 'unfilled'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -41,14 +50,31 @@ export function setFetchFormStatus(status) {
   };
 }
 
-export function setInProgressForm(data, prefilled = false) {
+export function setFetchFormPending(prefill) {
   return {
-    type: SET_IN_PROGRESS_FORM,
-    data,
-    prefilled
+    type: SET_FETCH_FORM_PENDING,
+    prefill
   };
 }
 
+export function setInProgressForm(data) {
+  return {
+    type: SET_IN_PROGRESS_FORM,
+    data
+  };
+}
+
+export function setStartOver() {
+  return {
+    type: SET_START_OVER
+  };
+}
+
+export function setPrefillComplete() {
+  return {
+    type: SET_PREFILL_UNFILLED,
+  };
+}
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
@@ -197,7 +223,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
+    dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -269,7 +295,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // If prefilling went wrong for a non-auth reason, it probably means that
       // they didn't have info to use and we can continue on as usual
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
-        dispatch(setFetchFormStatus(LOAD_STATUSES.prefillComplete));
+        dispatch(setPrefillComplete());
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-prefill-failed`
         });
@@ -279,6 +305,50 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
           event: `${trackingPrefix}sip-form-load-failed`
         });
       }
+    });
+  };
+}
+
+export function removeInProgressForm(formId, migrations) {
+  return (dispatch, getState) => {
+    const userToken = sessionStorage.userToken;
+    const trackingPrefix = getState().form.trackingPrefix;
+
+    // Update UI while we're waiting for the API
+    dispatch(setStartOver());
+
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
+      },
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_sip_error_delete');
+        return Promise.resolve();
+      } else if (!res.ok) {
+        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
+      }
+
+      return Promise.resolve(res);
+    }).then((res) => {
+      // If there's some error when deleting, there's not much we can
+      // do aside from not stop the user from continuing on
+      if (!res || res.status !== 401) {
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-start-over`
+        });
+        // after deleting, go fetch prefill info if they've got it
+        return dispatch(fetchInProgressForm(formId, migrations, true));
+      }
+
+      dispatch(logOut());
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+
+      return Promise.resolve();
     });
   };
 }

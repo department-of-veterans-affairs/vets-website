@@ -16,15 +16,19 @@ import { SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED,
+  SET_SUBMITTED
 } from '../actions';
 
 import {
   SET_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
+  SET_FETCH_FORM_PENDING,
   SET_IN_PROGRESS_FORM,
+  SET_START_OVER,
+  SET_PREFILL_UNFILLED,
   SAVE_STATUSES,
-  LOAD_STATUSES
+  LOAD_STATUSES,
+  PREFILL_STATUSES
 } from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -109,7 +113,8 @@ export default function createSchemaFormReducer(formConfig) {
         formData: {},
         metadata: {}
       },
-      prefilled: false,
+      prefillStatus: PREFILL_STATUSES.notAttempted,
+      isStartingOver: false,
       migrations: formConfig.migrations,
       trackingPrefix: formConfig.trackingPrefix
     });
@@ -117,6 +122,7 @@ export default function createSchemaFormReducer(formConfig) {
   // Take another pass and recalculate the schema and data based on the default data
   // We do this to avoid passing undefined for the whole form state when the form first renders
   const initialState = recalculateSchemaAndData(firstPassInitialState);
+  initialState.initialData = initialState.data;
 
   return (state = initialState, action) => {
     switch (action.type) {
@@ -147,10 +153,12 @@ export default function createSchemaFormReducer(formConfig) {
       }
       case SET_SAVE_FORM_STATUS: {
         const newState = _.set('savedStatus', action.status, state);
+        newState.startingOver = false;
+        newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
         // This is the only time we have a saved datetime
         if (action.status === SAVE_STATUSES.success) {
-          return _.set('lastSavedDate', action.lastSavedDate, newState);
+          newState.lastSavedDate = action.lastSavedDate;
         }
 
         return newState;
@@ -158,23 +166,47 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_FETCH_FORM_STATUS: {
         return _.set('loadedStatus', action.status, state);
       }
+      case SET_FETCH_FORM_PENDING: {
+        const newState = _.set('loadedStatus', LOAD_STATUSES.pending, state);
+
+        if (action.prefill) {
+          newState.prefillStatus = PREFILL_STATUSES.pending;
+        }
+
+        return newState;
+      }
       case SET_IN_PROGRESS_FORM: {
         let newState;
 
         // if we're prefilling, we want to use whatever initial data the form has
-        if (action.prefilled) {
+        if (state.prefillStatus === PREFILL_STATUSES.pending) {
           const formData = _.merge(state.data, action.data.formData);
           const loadedData = _.set('formData', formData, action.data);
           newState = _.set('loadedData', loadedData, state);
+          newState.prefillStatus = PREFILL_STATUSES.success;
         } else {
           newState = _.set('loadedData', action.data, state);
+          newState.prefillStatus = PREFILL_STATUSES.notAttempted;
         }
 
         newState.loadedStatus = LOAD_STATUSES.success;
-        newState.prefilled = action.prefilled;
         newState.data = newState.loadedData.formData;
 
         return recalculateSchemaAndData(newState);
+      }
+      case SET_START_OVER: {
+        return _.assign(state, {
+          isStartingOver: true,
+          data: state.initialData,
+          loadedStatus: LOAD_STATUSES.pending
+        });
+      }
+      case SET_PREFILL_UNFILLED: {
+        return _.assign(state, {
+          prefillStatus: PREFILL_STATUSES.unfilled,
+          data: state.initialData,
+          loadedStatus: LOAD_STATUSES.notAttempted
+        });
       }
       default:
         return state;

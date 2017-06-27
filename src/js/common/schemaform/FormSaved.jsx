@@ -5,8 +5,10 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement } from '../utils/helpers';
+import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
+
+import FormIntroButtons from './FormIntroButtons';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -45,7 +47,9 @@ class FormSaved extends React.Component {
   }
 
   render() {
+    const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     return (
       <div>
@@ -58,14 +62,16 @@ class FormSaved extends React.Component {
           </div>
         </div>
         <br/>
-        <ProgressButton
-            onButtonClick={this.goBack}
-            buttonText="Resume previous application"
-            buttonClass="usa-button-primary"/>
-        <ProgressButton
-            onButtonClick={this.goToBeginning}
-            buttonText="Start over"
-            buttonClass="usa-button-outline"/>
+        <FormIntroButtons
+            route={this.props.route}
+            router={this.props.router}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
+            fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
+            prefillAvailable={prefillAvailable}
+            formSaved/>
       </div>
     );
   }
@@ -82,10 +88,19 @@ FormSaved.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    lastSavedDate: state.form.lastSavedDate
+    formId: state.form.formId,
+    returnUrl: state.form.loadedData.metadata.returnUrl,
+    lastSavedDate: state.form.lastSavedDate,
+    migrations: state.form.migrations,
+    user: state.user
   };
 }
 
-export default withRouter(connect(mapStateToProps)(FormSaved));
+const mapDispatchToProps = {
+  fetchInProgressForm,
+  removeInProgressForm
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormSaved));
 
 export { FormSaved };
