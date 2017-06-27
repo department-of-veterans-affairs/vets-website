@@ -43,7 +43,7 @@ class FormSaved extends React.Component {
             <strong>Your application has been saved!</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
 
-            <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application</a> page.</p>
+            <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
             If you're on a public computer, please sign out before you leave to ensure your data is secure.
           </div>
         </div>
