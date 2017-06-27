@@ -8,7 +8,7 @@ export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
-export const SET_PREFILL_COMPLETE = 'SET_PREFILL_COMPLETE';
+export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -32,7 +32,7 @@ export const PREFILL_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
-  complete: 'complete'
+  unfilled: 'unfilled'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -72,7 +72,7 @@ export function setStartOver() {
 
 export function setPrefillComplete() {
   return {
-    type: SET_PREFILL_COMPLETE,
+    type: SET_PREFILL_UNFILLED,
   };
 }
 /**

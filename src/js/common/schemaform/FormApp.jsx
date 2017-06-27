@@ -31,7 +31,7 @@ class FormApp extends React.Component {
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (newProps.prefillStatus !== this.props.prefillStatus
-      && newProps.prefillStatus === PREFILL_STATUSES.complete) {
+      && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
       newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
     } else if (status !== LOAD_STATUSES.notAttempted
       && status !== LOAD_STATUSES.pending

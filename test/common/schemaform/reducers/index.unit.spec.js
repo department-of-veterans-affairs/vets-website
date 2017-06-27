@@ -12,7 +12,7 @@ import {
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
   SET_FETCH_FORM_PENDING,
-  SET_PREFILL_COMPLETE,
+  SET_PREFILL_UNFILLED,
   SET_START_OVER,
   SAVE_STATUSES,
   LOAD_STATUSES,
@@ -265,17 +265,17 @@ describe('schemaform createSchemaFormReducer', () => {
       expect(state.data).to.equal(initialData);
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
     });
-    it('should set prefill as complete', () => {
+    it('should set prefill as unfilled', () => {
       const initialData = { field: true };
       const state = reducer({
         initialData
       }, {
-        type: SET_PREFILL_COMPLETE,
+        type: SET_PREFILL_UNFILLED,
       });
 
       expect(state.data).to.equal(initialData);
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.notAttempted);
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.complete);
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
     });
   });
 });
