@@ -84,6 +84,22 @@ export function appealStatusDescriptions(lastEvent) {
         </div>,
       },
     },
+    bva_remand: { // eslint-disable-line camelcase
+      status: {
+        title: 'Your Appeal Has Been Remanded',
+        description: <div>
+          <p>The Board has made a decision on each issue within your appeal and all or some of the issues have been remanded. This means the Veterans Law Judge who reviewed your appeal needs more information before making a decision on all or some of the issues.</p>
+          <p>On average, about 54% of issues in appeals get remanded. The Board has sent your appeal to the Veterans Benefits Administration (VBA) to add any relevant information to your case. If a physical exam was requested, VBA will reach out to you. If your appeal is not granted during the VBA review, a Supplemental Statement of the Case (SSOC) will be developed and sent to the Board.</p>
+          <p>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</p>
+        </div>
+      }
+    },
+    merged: {
+      status: {
+        title: 'Your Appeal Has Been Merged With Your Earlier Appeal',
+        description: <p>Because you had separate appeals on multiple claims, the appeals have been merged so that all of the issues you appealed can be considered at the same time. Instead of waiting on two (or more) decisions, all of the issues in your appeals will be addressed in a single decision by the Board. Your place in line will is based on your oldest appeal, meaning that the issues from your newer appeal(s) will be decided more quickly than if the appeals were not merged.</p>
+      }
+    }
   };
 
   const emptyResponse = {

@@ -67,9 +67,8 @@ class AppealStatusPage extends React.Component {
     }
 
     const { appeal } = this.props;
-    const events = _.orderBy(appeal.attributes.events, [(e) => {
-      return moment(e.date).unix();
-    }], ['desc']);
+    // always show merged event on top
+    const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
     const { status } = appealStatusDescriptions(lastEvent);
 
