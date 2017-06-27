@@ -5,6 +5,12 @@ import SkinDeep from 'skin-deep';
 import SaveInProgressIntro from '../../../src/js/common/schemaform/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
+  const pageList = [{
+    path: 'wrong-path'
+  }, {
+    path: 'testing'
+  }];
+
   it('should render in progress message', () => {
     const user = {
       profile: {
@@ -20,6 +26,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
+          pageList={pageList}
           formId="1010ez"
           user={user}/>
     );
@@ -27,6 +34,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
     expect(tree.subTree('withRouter(FormIntroButtons)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormIntroButtons)').props.prefillAvailable).to.be.false;
+    expect(tree.subTree('withRouter(FormIntroButtons)').props.startPage).to.equal('testing');
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -43,6 +51,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
+          pageList={pageList}
           formId="1010ez"
           user={user}/>
     );
@@ -64,6 +73,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
+          pageList={pageList}
           formId="1010ez"
           user={user}/>
     );
@@ -85,6 +95,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
+          pageList={pageList}
           formId="1010ez"
           user={user}/>
     );

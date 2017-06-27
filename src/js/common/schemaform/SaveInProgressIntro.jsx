@@ -55,7 +55,7 @@ export default class SaveInProgressIntro extends React.Component {
       <div>
         {this.getAlert(savedForm)}
         <FormIntroButtons
-            pageList={this.props.pageList}
+            startPage={this.props.pageList[1].path}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}
             migrations={this.props.migrations}

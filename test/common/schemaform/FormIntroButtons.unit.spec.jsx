@@ -9,11 +9,7 @@ import { getFormDOM } from '../../util/schemaform-utils';
 import { FormIntroButtons } from '../../../src/js/common/schemaform/FormIntroButtons';
 
 describe('Schemaform <FormIntroButtons>', () => {
-  const pageList = [
-    {
-      path: 'testing'
-    }
-  ];
+  const startPage = 'testing';
 
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
@@ -25,7 +21,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -42,7 +38,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -59,7 +55,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -76,14 +72,14 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
-    expect(routerSpy.push.calledWith(pageList[0].path));
+    expect(routerSpy.push.calledWith(startPage));
   });
 
   it('should go to the first page when "Start over" is clicked', () => {
@@ -96,14 +92,14 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
 
-    expect(routerSpy.push.calledWith(pageList[0].path));
+    expect(routerSpy.push.calledWith(startPage));
   });
   it('should go to the returnUrl when "Resume previous application" is clicked', () => {
     const routerSpy = {
@@ -116,7 +112,7 @@ describe('Schemaform <FormIntroButtons>', () => {
           formId="1010ez"
           migrations={[]}
           formSaved
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -135,7 +131,7 @@ describe('Schemaform <FormIntroButtons>', () => {
       <FormIntroButtons
           formId="1010ez"
           migrations={[]}
-          pageList={pageList}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
           prefillAvailable/>

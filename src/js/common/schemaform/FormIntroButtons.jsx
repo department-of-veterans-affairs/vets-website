@@ -8,19 +8,12 @@ class FormIntroButtons extends React.Component {
   componentWillReceiveProps = (newProps) => {
     if (!this.props.returnUrl && newProps.returnUrl) {
       // Navigate to the last page they were on
-      // TODO: The props haven't updated with the metadata yet...
       this.props.router.push(newProps.returnUrl);
-      // TODO: Handle this scenario:
-      //  1) I fill out some information and save my progress.
-      //  2) The form is updated and a field I've not filled out yet gets moved
-      //     to a page I have already completed.
-      //  3) I load my saved progress.
-      //  4) I should be put in the page with the missing information.
     }
   }
 
   goToBeginning = () => {
-    this.props.router.push(this.props.pageList[1].path);
+    this.props.router.push(this.props.startPage);
   }
 
   handleLoadPrefill = () => {
@@ -73,7 +66,7 @@ FormIntroButtons.propTypes = {
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
-  pageList: PropTypes.array.isRequired
+  startPage: PropTypes.array.isRequired
 };
 
 export default withRouter(FormIntroButtons);
