@@ -5,6 +5,7 @@ order: 6
 concurrence: complete
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
+children: disabilityBetaClaimsAppeal
 ---
 
 <div class="va-introtext">

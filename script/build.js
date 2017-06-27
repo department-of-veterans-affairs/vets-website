@@ -178,6 +178,13 @@ smith.use(collections({
       name: 'Disability Benefits'
     }
   },
+  disabilityBetaClaimsAppeal: {
+    pattern: 'disability-benefits-beta/claims-appeal/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Appeals'
+    }
+  },
   disability: {
     pattern: 'disability-benefits/*.md',
     sortBy: 'order',
