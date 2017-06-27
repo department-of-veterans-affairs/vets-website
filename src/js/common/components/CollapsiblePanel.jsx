@@ -30,6 +30,9 @@ export default class CollapsiblePanel extends React.Component {
     this.setState({ open: !this.state.open }, () => {
       if (isOpening) {
         this.scrollToTop();
+        if (typeof this.props.onClick === typeof Function) {
+          this.props.onClick();
+        }
       }
     });
   }
@@ -68,5 +71,6 @@ export default class CollapsiblePanel extends React.Component {
 }
 
 CollapsiblePanel.propTypes = {
-  panelName: PropTypes.string.isRequired
+  panelName: PropTypes.string.isRequired,
+  onClick: PropTypes.func
 };

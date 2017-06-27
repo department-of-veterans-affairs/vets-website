@@ -5,6 +5,7 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from './DownloadLetterLink';
 
 import { letterContent } from '../utils/helpers';
+import { getBenefitSummaryOptions } from '../actions/letters';
 
 class LetterList extends React.Component {
   render() {
@@ -15,6 +16,7 @@ class LetterList extends React.Component {
 
       return (
         <CollapsiblePanel
+            onClick={getBenefitSummaryOptions}
             panelName={letter.name}
             key={`collapsiblePanel-${index}`}>
           <p>{content}</p>
