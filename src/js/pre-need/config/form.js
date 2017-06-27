@@ -16,6 +16,7 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
+import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 
 const {
   relationship,
@@ -413,7 +414,7 @@ const formConfig = {
           path: 'supporting-documents',
           editModeOnReviewPage: true,
           uiSchema: {
-            'ui:description': 'file help',
+            'ui:description': SupportingDocumentsDescription,
             documents: fileUploadUI('Select files to upload')
           },
           schema: {
