@@ -10,7 +10,6 @@ const defaultProps = {
   letterType: 'commissary'
 };
 
-
 let oldWindow;
 let oldFetch;
 

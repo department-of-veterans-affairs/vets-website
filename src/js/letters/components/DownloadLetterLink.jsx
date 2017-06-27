@@ -5,16 +5,6 @@ import { Link } from 'react-router';
 
 import { apiRequest } from '../utils/helpers';
 
-const Modernizr = require('modernizr');
-if (!Modernizr.bloburls) {
-  require('classlist-polyfill'); // DOM element classList support.
-}
-if (!Modernizr.adownload) {
-  require('dataset');  // dataSet accessor support.
-}
-
-// const FileSaver = require('file-saver');
-
 class DownloadLetterLink extends React.Component {
   constructor(props) {
     super(props);
