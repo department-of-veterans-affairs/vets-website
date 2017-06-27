@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ExpenseField({ formData }) {
-  const noData = !formData.amount && !formData.date;
+  const noData = !formData.amount && !formData.purpose;
 
   return noData
       ? <div><strong>Expense</strong></div>
