@@ -69,7 +69,7 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('We’re sorry, but something went wrong.');
+    expect(tree.text()).to.contain('having some issues');
     expect(tree.subTree('button').text()).to.contain('Save and finish later');
   });
   it('should show client error message', () => {
