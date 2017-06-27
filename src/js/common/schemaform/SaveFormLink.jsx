@@ -75,7 +75,7 @@ class SaveFormLink extends React.Component {
         {saveErrors.has(savedStatus) &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.failure &&
-              'We’re sorry, but something went wrong. Please try saving your application again.'}
+              'We’re sorry, but we’re having some issues and are working to fix them. If you’re on a secure and private computer, you can leave this page open and try again later. You won’t lose any of your information. If you’re on a public computer, please log off and try again later.'}
             {savedStatus === SAVE_STATUSES.clientFailure &&
               'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet and try again.'}
             {savedStatus === SAVE_STATUSES.noAuth &&
