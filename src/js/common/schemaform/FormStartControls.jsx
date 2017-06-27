@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import Modal from '../../common/components/Modal';
 
-class FormIntroButtons extends React.Component {
+class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
@@ -90,7 +90,7 @@ class FormIntroButtons extends React.Component {
   }
 }
 
-FormIntroButtons.propTypes = {
+FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
@@ -102,6 +102,6 @@ FormIntroButtons.propTypes = {
   startPage: PropTypes.string.isRequired
 };
 
-export default withRouter(FormIntroButtons);
+export default withRouter(FormStartControls);
 
-export { FormIntroButtons };
+export { FormStartControls };

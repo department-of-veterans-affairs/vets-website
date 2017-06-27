@@ -8,7 +8,7 @@ import Scroll from 'react-scroll';
 import { focusElement } from '../utils/helpers';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 
-import FormIntroButtons from './FormIntroButtons';
+import FormStartControls from './FormStartControls';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -34,18 +34,6 @@ class FormSaved extends React.Component {
     focusForm();
   }
 
-  // This seems simpler than trying to get the page sent
-  // back from the server response
-  goBack = () => {
-    this.props.router.goBack();
-  }
-
-  // this is sort of naive, but the first page should
-  // always be active (and it is almost certainly the intro page)
-  goToBeginning = () => {
-    this.props.router.push(this.props.route.pageList[0].path);
-  }
-
   render() {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
@@ -62,7 +50,7 @@ class FormSaved extends React.Component {
           </div>
         </div>
         <br/>
-        <FormIntroButtons
+        <FormStartControls
             startPage={this.props.route.pageList[1].path}
             router={this.props.router}
             formId={this.props.formId}

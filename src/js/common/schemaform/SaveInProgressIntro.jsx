@@ -6,7 +6,7 @@ import moment from 'moment';
 import { updateLogInUrl } from '../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
-import FormIntroButtons from './FormIntroButtons';
+import FormStartControls from './FormStartControls';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -54,7 +54,7 @@ export default class SaveInProgressIntro extends React.Component {
     return (
       <div>
         {this.getAlert(savedForm)}
-        <FormIntroButtons
+        <FormStartControls
             startPage={this.props.pageList[1].path}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}

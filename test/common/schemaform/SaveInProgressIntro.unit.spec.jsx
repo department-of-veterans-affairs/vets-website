@@ -32,9 +32,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
-    expect(tree.subTree('withRouter(FormIntroButtons)')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormIntroButtons)').props.prefillAvailable).to.be.false;
-    expect(tree.subTree('withRouter(FormIntroButtons)').props.startPage).to.equal('testing');
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -56,7 +56,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
           user={user}/>
     );
 
-    expect(tree.subTree('withRouter(FormIntroButtons)').props.prefillAvailable).to.be.true;
+    expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
   });
   it('should render sign in message', () => {
     const user = {
@@ -79,7 +79,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('SignInLink')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormIntroButtons)')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
   it('should render no message if signed in with no saved form', () => {
@@ -101,6 +101,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert')).to.be.false;
-    expect(tree.subTree('withRouter(FormIntroButtons)')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 });

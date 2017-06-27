@@ -6,9 +6,9 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../util/schemaform-utils';
-import { FormIntroButtons } from '../../../src/js/common/schemaform/FormIntroButtons';
+import { FormStartControls } from '../../../src/js/common/schemaform/FormStartControls';
 
-describe('Schemaform <FormIntroButtons>', () => {
+describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
 
   it('should render 1 button when not logged in', () => {
@@ -17,7 +17,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved={false}
@@ -34,7 +34,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved={false}
@@ -51,7 +51,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
@@ -69,7 +69,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
@@ -89,7 +89,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
@@ -109,7 +109,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.stub();
     fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
@@ -129,7 +129,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           startPage={startPage}
@@ -149,7 +149,7 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           router={routerSpy}
