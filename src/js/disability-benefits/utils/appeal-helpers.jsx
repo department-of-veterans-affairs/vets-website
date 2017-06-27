@@ -62,13 +62,13 @@ export function appealStatusDescriptions(lastEvent) {
     },
     bva_final_decision: { // eslint-disable-line camelcase
       status: {
-        title: 'bva_final_decision status title',
-        description: <p>bva_final_decision description.</p>,
+        title: 'The Board Has Made a Decision on Your Appeal',
+        description: <div>
+          <p>The Board has made a decision on each issue within your appeal. You will receive a copy of the Board's decision in the mail.</p>
+          <h5>What if I don’t agree with the Board's decision?</h5>
+          <p>If you disagree with issue the Board decided, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a Federal court. You have 120 days from the date written on the front of the Board decision to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></p>
+        </div>,
       },
-      nextAction: {
-        title: 'bva_final_decision next action title.',
-        description: 'bva_final_decision next action description.'
-      }
     },
     certified: {
       status: {
