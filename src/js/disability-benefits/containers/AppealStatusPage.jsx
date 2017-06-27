@@ -25,7 +25,7 @@ class AppealStatusPage extends React.Component {
       case 'form9':
         break;
       case 'soc':
-        title = title.concat(` ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`);
+        title = `${title} ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`;
         break;
       default:
         break;
