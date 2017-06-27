@@ -6,6 +6,7 @@ import fullSchemaPreNeed from './schema.json';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -39,6 +40,7 @@ const {
   eligibleBuried,
   email,
   phoneNumber,
+  documents,
   preparerFullName,
   preparerPhoneNumber
 } = fullSchemaPreNeed.properties;
@@ -49,7 +51,8 @@ const {
   date,
   dateRange,
   gender,
-  phone
+  phone,
+  files
 } = fullSchemaPreNeed.definitions;
 
 const formConfig = {
@@ -67,7 +70,8 @@ const formConfig = {
     date,
     dateRange,
     gender,
-    phone
+    phone,
+    files
   },
   chapters: {
     veteranInformation: {
@@ -396,6 +400,26 @@ const formConfig = {
                   phoneNumber
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    supportingDocuments: {
+      title: 'Supporting documents',
+      pages: {
+        supportingDocuments: {
+          title: 'supportingDocuments',
+          path: 'supporting-documents',
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': 'file help',
+            documents: fileUploadUI('Select files to upload')
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              documents
             }
           }
         }
