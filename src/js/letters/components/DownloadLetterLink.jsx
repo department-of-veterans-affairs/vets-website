@@ -51,12 +51,14 @@ class DownloadLetterLink extends React.Component {
               downloadWindow.location.href = downloadUrl;
             }
             document.body.removeChild(link);
-          } else if (ie10) {
-            window.navigator.msSaveOrOpenBlob(blob, this.props.letterName);
-          } else {
-            // What should we do about Opera Mini?
+            urlObj.revokeObjectURL(downloadUrl);
+            return Promise.resolve();
           }
-          urlObj.revokeObjectURL(downloadUrl);
+          if (ie10) {
+            window.navigator.msSaveOrOpenBlob(blob, this.props.letterName);
+            return Promise.resolve();
+          }
+          return Promise.reject(new Error('DownloadLetterLink: could not download PDF'));
         });
       });
   }
