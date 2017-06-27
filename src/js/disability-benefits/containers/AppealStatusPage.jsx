@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -91,9 +91,8 @@ class AppealStatusPage extends React.Component {
                   <i className="fa fa-check-circle"></i>
                   <h5>{status.title}</h5>
                   <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
-
                   {status.description}
-                  <Link to="appeals/learn-more">Learn more about the appeals process</Link>
+                  <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>
                 </div>
               </div>
             </div>

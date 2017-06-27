@@ -13,9 +13,8 @@ export function appealStatusDescriptions(lastEvent) {
             <li>If you, your legal representative, or your healthcare provider added new evidence, the RO will review the evidence and another SSOC will be developed.</li>
           </ul>
           <p>
-            On average, Veterans with appeals in the Form 9 stage, wait about 365 days for VBA to complete the necessary action.
+            On average, Veterans with appeals in the Form 9 stage, wait about 12 months for VBA to complete the necessary action.
           </p>
-          <p><a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a></p>
         </div>,
       },
       nextAction: {
