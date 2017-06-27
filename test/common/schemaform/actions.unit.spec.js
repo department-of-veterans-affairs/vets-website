@@ -302,9 +302,13 @@ describe('Schemaform actions:', () => {
             ok: true,
             status: 200,
             json: () => Promise.resolve({
-              name: 'Test name',
-              size: 1234,
-              confirmationCode: 'Test code'
+              data: {
+                attributes: {
+                  name: 'Test name',
+                  size: 1234,
+                  confirmationCode: 'Test code'
+                }
+              }
             })
           }
         )

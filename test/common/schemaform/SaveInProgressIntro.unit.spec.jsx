@@ -28,7 +28,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.subTree('withRouter(FormIntroButtons)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormIntroButtons)').props.prefillAvailable).to.be.false;
   });
-  it('should set pass prefills available', () => {
+  it('should pass prefills available prop', () => {
     const user = {
       profile: {
         savedForms: [
