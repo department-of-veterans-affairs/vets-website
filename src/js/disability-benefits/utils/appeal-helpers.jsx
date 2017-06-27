@@ -70,7 +70,26 @@ export function appealStatusDescriptions(lastEvent) {
         description: 'bva_final_decision next action description.'
       }
     },
+    certified: {
+      status: {
+        title: 'The Regional Office (RO) Has Certified Your Appeal',
+        description: <div>
+          <p>The Veterans Benefits Administration (VBA) RO has certified your appeal to the Board. This means it is now waiting for the Board to receive it and place it in line for review by a lawyer. You will be notified when your appeal is activated by the Board.</p>
+          <p>The average time it takes for the Board to activate your appeal is 9 months.</p>
+          <h5>Note:</h5>
+          <ul>
+            <li>If your <strong>Form 9 was received on or after February 2, 2013:</strong> If you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
+            <li>If your <strong>Form 9 was received before February 2, 2013:</strong> If you or anyone submits new evidence on your behalf, then the Board will have to remand the appeal to the RO to review the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
+          </ul>
+        </div>,
+      },
+    },
   };
 
-  return content[lastEvent.type];
+  const emptyResponse = {
+    status: {},
+    nextAction: {}
+  };
+
+  return content[lastEvent.type] || emptyResponse;
 }

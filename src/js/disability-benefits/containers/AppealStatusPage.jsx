@@ -18,14 +18,17 @@ class AppealStatusPage extends React.Component {
   renderStatusNextAction(lastEvent) {
     const { nextAction } = appealStatusDescriptions(lastEvent);
     const className = `next-action ${lastEvent.type}`;
-    const title = nextAction.title;
 
-    return (
-      <div className={className}>
-        <h5>{title}</h5>
-        {nextAction.description}
-      </div>
-    );
+    if (nextAction) {
+      return (
+        <div className={className}>
+          <h5>{nextAction.title}</h5>
+          {nextAction.description}
+        </div>
+      );
+    }
+
+    return null;
   }
 
   renderPreviousActivity(lastEvent, eventHistory) {
@@ -92,7 +95,9 @@ class AppealStatusPage extends React.Component {
                   <h5>{status.title}</h5>
                   <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
                   {status.description}
-                  <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>
+                  <p>
+                    <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>
+                  </p>
                 </div>
               </div>
             </div>
