@@ -18,4 +18,4 @@ Dental benefits are not the same as other VA medical benefits. We look at many f
 
 Check our Dental Benefits for Veterans fact sheet to see if you may be able to get dental care from VA. [Download the Dental Benefits for Veterans fact sheet](http://www.va.gov/healthbenefits/resources/publications/IB10-442_dental_benefits_for_veterans_2_14.pdf).
 
-</div>
+
