@@ -62,7 +62,12 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
-  disableSave: true,
+  formId: '21P-530',
+  version: 0,
+  savedFormErrorMessages: {
+    notFound: 'Please start over to apply for burial benefits.',
+    noAuth: 'Please sign in again to resume your application for burial benefits.'
+  },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
   defaultDefinitions: {
@@ -98,6 +103,9 @@ const formConfig = {
                   expandUnderCondition: 'other'
                 }
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {

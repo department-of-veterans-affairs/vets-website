@@ -6,23 +6,10 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../util/schemaform-utils';
-import FormIntroButtons from '../../../src/js/common/schemaform/FormIntroButtons';
+import { FormStartControls } from '../../../src/js/common/schemaform/FormStartControls';
 
-describe('Schemaform <FormIntroButtons>', () => {
-  const route = {
-    pageConfig: {
-      pageKey: 'testPage',
-      schema: {},
-      uiSchema: {},
-      errorMessages: {},
-      title: ''
-    },
-    pageList: [
-      {
-        path: 'testing'
-      }
-    ]
-  };
+describe('Schemaform <FormStartControls>', () => {
+  const startPage = 'testing';
 
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
@@ -30,11 +17,11 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -47,11 +34,11 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved={false}
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -64,11 +51,11 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -82,18 +69,18 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
 
-    expect(routerSpy.push.calledWith(route.pageList[0].path));
+    expect(routerSpy.push.calledWith(startPage));
   });
 
   it('should go to the first page when "Start over" is clicked', () => {
@@ -102,18 +89,18 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
 
-    expect(routerSpy.push.calledWith(route.pageList[0].path));
+    expect(routerSpy.push.calledWith(startPage));
   });
   it('should go to the returnUrl when "Resume previous application" is clicked', () => {
     const routerSpy = {
@@ -122,11 +109,11 @@ describe('Schemaform <FormIntroButtons>', () => {
     const fetchSpy = sinon.stub();
     fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
           formSaved
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}/>
     );
@@ -142,10 +129,10 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
-          route={route}
+          startPage={startPage}
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
           prefillAvailable/>
@@ -162,10 +149,9 @@ describe('Schemaform <FormIntroButtons>', () => {
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
-      <FormIntroButtons
+      <FormStartControls
           formId="1010ez"
           migrations={[]}
-          route={route}
           router={routerSpy}
           formSaved
           removeInProgressForm={fetchSpy}

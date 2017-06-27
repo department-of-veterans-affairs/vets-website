@@ -107,7 +107,7 @@ export default function createSchemaFormReducer(formConfig) {
       loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
-      lastSaveDate: null,
+      lastSavedDate: null,
       disableSave: formConfig.disableSave,
       loadedData: {
         formData: {},

@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import Modal from '../../common/components/Modal';
 
-class FormIntroButtons extends React.Component {
+class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
@@ -13,19 +14,12 @@ class FormIntroButtons extends React.Component {
   componentWillReceiveProps = (newProps) => {
     if (!this.props.returnUrl && newProps.returnUrl) {
       // Navigate to the last page they were on
-      // TODO: The props haven't updated with the metadata yet...
       this.props.router.push(newProps.returnUrl);
-      // TODO: Handle this scenario:
-      //  1) I fill out some information and save my progress.
-      //  2) The form is updated and a field I've not filled out yet gets moved
-      //     to a page I have already completed.
-      //  3) I load my saved progress.
-      //  4) I should be put in the page with the missing information.
     }
   }
 
   goToBeginning = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
+    this.props.router.push(this.props.startPage);
   }
 
   handleLoadPrefill = () => {
@@ -96,8 +90,7 @@ class FormIntroButtons extends React.Component {
   }
 }
 
-FormIntroButtons.propTypes = {
-  route: PropTypes.object.isRequired,
+FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
   migrations: PropTypes.array.isRequired,
   returnUrl: PropTypes.string,
@@ -105,7 +98,10 @@ FormIntroButtons.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
-  prefillAvailable: PropTypes.bool.isRequired
+  prefillAvailable: PropTypes.bool.isRequired,
+  startPage: PropTypes.string.isRequired
 };
 
-export default FormIntroButtons;
+export default withRouter(FormStartControls);
+
+export { FormStartControls };
