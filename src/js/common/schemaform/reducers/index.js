@@ -25,7 +25,7 @@ import {
   SET_FETCH_FORM_PENDING,
   SET_IN_PROGRESS_FORM,
   SET_START_OVER,
-  SET_PREFILL_COMPLETE,
+  SET_PREFILL_UNFILLED,
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES
@@ -107,7 +107,7 @@ export default function createSchemaFormReducer(formConfig) {
       loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
-      lastSaveDate: null,
+      lastSavedDate: null,
       disableSave: formConfig.disableSave,
       loadedData: {
         formData: {},
@@ -201,9 +201,9 @@ export default function createSchemaFormReducer(formConfig) {
           loadedStatus: LOAD_STATUSES.pending
         });
       }
-      case SET_PREFILL_COMPLETE: {
+      case SET_PREFILL_UNFILLED: {
         return _.assign(state, {
-          prefillStatus: PREFILL_STATUSES.complete,
+          prefillStatus: PREFILL_STATUSES.unfilled,
           data: state.initialData,
           loadedStatus: LOAD_STATUSES.notAttempted
         });

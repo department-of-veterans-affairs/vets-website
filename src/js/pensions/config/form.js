@@ -154,7 +154,12 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
+  formId: '21P-527EZ',
+  version: 0,
+  savedFormErrorMessages: {
+    notFound: 'Please start over to apply for pension benefits.',
+    noAuth: 'Please sign in again to resume your application for pension benefits.'
+  },
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {
@@ -313,18 +318,18 @@ const formConfig = {
                 expandUnder: 'view:receivedSeverancePay'
               },
               amount: {
-                'ui:title': 'Amount'
+                'ui:title': 'Amount',
+                'ui:options': {
+                  classNames: 'schemaform-currency-input'
+                }
               },
               type: {
                 'ui:title': 'Pay Type',
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Longevity: 'Longevity',
-                    PDRL: 'PDRL',
-                    Separation: 'Separation',
-                    Severance: 'Severance',
-                    TDRL: 'TDRL'
+                    PDRL: 'Permanent Disability Retirement List (PDRL)',
+                    TDRL: 'Temporary Disability Retirement List (TDRL)'
                   }
                 }
               }
@@ -370,7 +375,7 @@ const formConfig = {
             },
             // TODO: update schema with this field if stakeholders approve
             hasVisitedVAMC: {
-              'ui:title': 'Have you been treated at a VA Medical Center for the above disability?',
+              'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
             }
           },
@@ -424,7 +429,10 @@ const formConfig = {
                     'ui:title': 'How many days lost to disability'
                   },
                   annualEarnings: {
-                    'ui:title': 'Total annual earnings'
+                    'ui:title': 'Total annual earnings',
+                    'ui:options': {
+                      classNames: 'schemaform-currency-input'
+                    }
                   }
                 }
               }
@@ -657,6 +665,7 @@ const formConfig = {
               'ui:title': spouseContribution,
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
+                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
@@ -834,7 +843,6 @@ const formConfig = {
               'view:hasDependents': {
                 type: 'boolean'
               },
-              // merge with definition, provide minItems: 1, and items.required: ['relationship', 'fullName']
               dependents: {
                 type: 'array',
                 minItems: 1,

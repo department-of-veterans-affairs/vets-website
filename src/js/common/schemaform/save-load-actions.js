@@ -8,7 +8,7 @@ export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
-export const SET_PREFILL_COMPLETE = 'SET_PREFILL_COMPLETE';
+export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -32,7 +32,7 @@ export const PREFILL_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
-  complete: 'complete'
+  unfilled: 'unfilled'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -72,10 +72,9 @@ export function setStartOver() {
 
 export function setPrefillComplete() {
   return {
-    type: SET_PREFILL_COMPLETE,
+    type: SET_PREFILL_UNFILLED,
   };
 }
-
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
@@ -314,11 +313,6 @@ export function removeInProgressForm(formId, migrations) {
   return (dispatch, getState) => {
     const userToken = sessionStorage.userToken;
     const trackingPrefix = getState().form.trackingPrefix;
-    // If we don't have a userToken, fail safely
-    if (!userToken) {
-      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-      return Promise.resolve();
-    }
 
     // Update UI while we're waiting for the API
     dispatch(setStartOver());

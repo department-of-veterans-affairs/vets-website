@@ -84,7 +84,7 @@ describe('Schemaform <FormApp>', () => {
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
-  it('should route when prefill complete', () => {
+  it('should route when prefill unfilled', () => {
     const formConfig = {
       title: 'Testing'
     };
@@ -113,12 +113,12 @@ describe('Schemaform <FormApp>', () => {
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
-      prefillStatus: PREFILL_STATUSES.complete,
+      prefillStatus: PREFILL_STATUSES.unfilled,
       router,
       routes
     });
 
-    expect(router.push.called).to.be.true;
+    expect(router.push.calledWith('test-path')).to.be.true;
   });
   it('should route and reset fetch status on success', () => {
     const formConfig = {
