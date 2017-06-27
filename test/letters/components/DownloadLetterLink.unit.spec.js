@@ -10,6 +10,10 @@ const defaultProps = {
   letterType: 'commissary'
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 372481b... Test pdf fetch
 let oldWindow;
 let oldFetch;
 
@@ -41,6 +45,10 @@ const teardown = () => {
   global.fetch = oldFetch;
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 372481b... Test pdf fetch
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
@@ -56,5 +64,16 @@ describe('<DownloadLetterLink>', () => {
   it('should show download button', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
     expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
+  });
+
+  it('should call download function on click', () => {
+    setup();
+    const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
+    const link = tree.subTree('Link');
+    link.props.onClick({
+      preventDefault() {}
+    });
+    expect(global.fetch.args[0][0]).to.contain('/v0/letters/');
+    teardown();
   });
 });
