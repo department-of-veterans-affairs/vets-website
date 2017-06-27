@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 
 import { updateLogInUrl } from '../../login/actions';
-import { fetchInProgressForm } from './save-load-actions';
+import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
 import FormIntroButtons from './FormIntroButtons';
 
@@ -60,6 +60,7 @@ export default class SaveInProgressIntro extends React.Component {
             returnUrl={this.props.returnUrl}
             migrations={this.props.migrations}
             fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
             prefillAvailable={prefillAvailable}
             formSaved={!!savedForm}/>
         <br/>
@@ -76,6 +77,7 @@ SaveInProgressIntro.propTypes = {
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
+  removeInProgressForm: PropTypes.func.isRequired,
   updateLogInUrl: PropTypes.func.isRequired
 };
 
@@ -98,5 +100,6 @@ export const introSelector = createSelector(
 
 export const introActions = {
   fetchInProgressForm,
+  removeInProgressForm,
   updateLogInUrl
 };

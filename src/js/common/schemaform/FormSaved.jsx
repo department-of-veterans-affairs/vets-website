@@ -63,7 +63,7 @@ class FormSaved extends React.Component {
         </div>
         <br/>
         <FormIntroButtons
-            route={this.props.route}
+            startPage={this.props.route.pageList[1].path}
             router={this.props.router}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}

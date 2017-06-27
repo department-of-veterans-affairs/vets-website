@@ -99,7 +99,7 @@ FormIntroButtons.propTypes = {
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
-  startPage: PropTypes.array.isRequired
+  startPage: PropTypes.string.isRequired
 };
 
 export default withRouter(FormIntroButtons);

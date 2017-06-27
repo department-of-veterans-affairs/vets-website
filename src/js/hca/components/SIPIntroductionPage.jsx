@@ -33,7 +33,6 @@ class IntroductionPage extends React.Component {
             {...this.props.saveInProgress}>
           Complete the form before submitting to apply for health care with the 10-10EZ.
         </SaveInProgressIntro>
-            removeInProgressForm={this.props.removeInProgressForm}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
