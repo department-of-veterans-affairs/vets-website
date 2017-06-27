@@ -32,7 +32,7 @@ export default class ServicePeriodsReview extends React.Component {
             {!tour.applyPeriodToSelected
               ? <tr>
                 <td>Please explain how you’d like this service period applied.</td>
-                <td className="edu-benefits-pre">{tour.benefitsToApplyTo.value}</td>
+                <td className="schemaform-address-view">{tour.benefitsToApplyTo.value}</td>
               </tr>
               : null}
           </tbody>

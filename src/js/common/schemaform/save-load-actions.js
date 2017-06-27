@@ -75,7 +75,6 @@ export function setPrefillComplete() {
     type: SET_PREFILL_COMPLETE,
   };
 }
-
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.

@@ -22,7 +22,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/healthcare/messaging'
+  basename: '/health-care/messaging'
 });
 
 function init() {
