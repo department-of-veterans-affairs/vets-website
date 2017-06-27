@@ -75,6 +75,29 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
     expect(tree.subTree('.form-review-panel-page-header').text()).to.equal('Blah');
   });
+  it('should render function title', () => {
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={{}}
+          schema={schema}
+          formContext={{ pageTitle: () => 'A function title' }}
+          requiredSchema={{}}
+          idSchema={{ $id: 'root' }}
+          formData={{}}
+          onChange={f => f}
+          onBlur={f => f}/>
+    );
+
+    expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal('A function title');
+  });
   it('should hide title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

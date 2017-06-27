@@ -27,16 +27,17 @@ import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
 import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import applicantInformationPage from '../../pages/applicantInformation';
+import applicantInformationPage from '../../../common/schemaform/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
@@ -44,6 +45,7 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
+import createNonRequiredFullName from '../../../common/schemaform/definitions/nonRequiredFullName';
 
 const {
   benefit,
@@ -71,19 +73,21 @@ const {
   ssn
 } = fullSchema5490.definitions;
 
-const nonRequiredFullName = _.assign(fullName, {
-  required: []
-});
+const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const formConfig = {
   urlPrefix: '/5490/',
   submitUrl: '/v0/education_benefits_claims/5490',
   trackingPrefix: 'edu-5490-',
+  formId: '5490',
+  version: 0,
+  disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     educationType,
@@ -168,7 +172,7 @@ const formConfig = {
             relationship: 'child'
           },
           uiSchema: {
-            'ui:title': 'Benefit relinquishment',
+            'ui:title': 'Benefits relinquishment',
             'view:benefitsRelinquishedInfo': {
               'ui:description': benefitsRelinquishedInfo,
             },
@@ -194,11 +198,11 @@ const formConfig = {
           }
         },
         benefitHistory: {
-          title: 'Benefit history',
+          title: 'Benefits history',
           path: 'benefits/history',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Benefit history',
+            'ui:title': 'Benefits history',
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [

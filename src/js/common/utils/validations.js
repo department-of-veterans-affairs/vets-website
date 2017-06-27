@@ -232,7 +232,7 @@ function isValidSSN(value) {
     return false;
   }
 
-  const noBadSameDigitNumber = _.without(_.range(0, 10), 2, 4, 5)
+  const noBadSameDigitNumber = _.range(0, 10)
     .every(i => {
       const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
       return !sameDigitRegex.test(value);

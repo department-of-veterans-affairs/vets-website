@@ -226,6 +226,7 @@ export class Main extends React.Component {
                     selected={startDate}
                     disabled={datePickerDisabled}
                     maxDate={endDate}
+                    tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
                     className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
@@ -239,6 +240,7 @@ export class Main extends React.Component {
                     disabled={datePickerDisabled}
                     minDate={startDate}
                     maxDate={moment()}
+                    tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
                     className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
               </div>
             </div>
@@ -302,7 +304,7 @@ export class Main extends React.Component {
                 disabled={noValuesChecked || hasCustomDateErrors}>
               Submit
             </button>
-            <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
+            <a className="usa-button usa-button-outline" href="/health-care" role="button">Cancel</a>
           </div>
         </form>
       </div>

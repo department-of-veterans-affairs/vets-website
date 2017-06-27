@@ -1,0 +1,58 @@
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { focusElement } from '../../common/utils/helpers';
+import OMBInfo from '../../common/components/OMBInfo';
+import FormTitle from '../../common/schemaform/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
+
+class IntroductionPage extends React.Component {
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs-list');
+  }
+  goForward = () => {
+    this.props.router.push(this.props.route.pageList[1].path);
+  }
+  render() {
+    return (
+      <div className="schemaform-intro">
+        <FormTitle title="Apply for pension with the 21-527EZ"/>
+        <p>
+          Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
+        </p>
+        <p>
+          VA uses the information you submit to determine your eligibility and to provide you with the best service.
+        </p>
+        <p>
+          Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
+        </p>
+        <SaveInProgressIntro
+            pageList={this.props.route.pageList}
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}>
+          Complete the form before submitting to apply for pension benefits with the 21-527EZ.
+        </SaveInProgressIntro>
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="05/31/2018"/>
+        </div>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+
+export { IntroductionPage };

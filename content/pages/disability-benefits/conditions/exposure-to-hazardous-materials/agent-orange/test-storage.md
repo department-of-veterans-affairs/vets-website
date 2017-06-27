@@ -2,8 +2,9 @@
 layout: page-breadcrumbs.html
 title: Testing and Storage Areas Outside of Vietnam
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page
 concurrence: incomplete
+template: detail-page
+order: 5
 ---
 
 <div class="va-introtext">
@@ -40,6 +41,14 @@ You may be able to get disability benefits if:
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. [Apply for benefits](/disability-benefits/apply/).
+
+### Need help?
+
+See these comprehensive lists for dates and locations of herbicide tests and storage:<br>
+[In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)<br>
+[Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
+
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
 

@@ -31,10 +31,11 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <span>You won’t be able to save your work or come back to finish. So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
+                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
-              <p>We strongly encourage you to work with a trained professional who can help you pick the right program. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative.</a> Or call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist.</p>
+              <br/>
+              <p>We encourage you to work with a trained professional, such as <a href="/disability-benefits/apply/help/index.html">an accredited representative with a Veterans Service Organization (VSO),</a> to pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>

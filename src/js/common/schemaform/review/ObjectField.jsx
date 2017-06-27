@@ -30,12 +30,6 @@ class ObjectField extends React.Component {
     this.isRequired = this.isRequired.bind(this);
     this.orderAndFilterProperties = _.flow(
       properties => orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
-      // you can exclude fields from showing up on the review page in the form config, so remove those
-      // before rendering the fields
-      properties => properties.filter(propName => {
-        // skip arrays, we're going to handle those outside of the normal review page
-        return this.props.schema.properties[propName].type !== 'array';
-      }),
       _.groupBy((item) => {
         const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], this.props.uiSchema);
         return expandUnderField || item;
@@ -46,6 +40,15 @@ class ObjectField extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
+  }
+
+  onPropertyChange(name) {
+    return (value) => {
+      const formData = Object.keys(this.props.formData || {}).length
+        ? this.props.formData
+        : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
+      this.props.onChange(_.set(name, value, formData));
+    };
   }
 
   getStateFromProps(props) {
@@ -81,8 +84,8 @@ class ObjectField extends React.Component {
             uiSchema={uiSchema[propName]}
             errorSchema={errorSchema[propName]}
             idSchema={idSchema[propName]}
-            onChange={f => f}
-            onBlur={f => f}
+            onChange={this.onPropertyChange(propName)}
+            onBlur={this.props.onBlur}
             required={this.isRequired(propName)}
             formData={formData[propName]}
             registry={this.props.registry}/>
@@ -108,12 +111,16 @@ class ObjectField extends React.Component {
       });
 
     if (isRoot) {
+      let title = formContext.pageTitle;
+      if (!formContext.hideTitle && typeof title === 'function') {
+        title = title(formData, formContext);
+      }
       return (
         <div>
-          <div className="form-review-panel-page-header-row">
-            <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? formContext.pageTitle : null}</h5>
+          {!formContext.hideHeaderRow && <div className="form-review-panel-page-header-row">
+            <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
             <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
-          </div>
+          </div>}
           <dl className="review usa-table-borderless">
             {renderedProperties}
           </dl>

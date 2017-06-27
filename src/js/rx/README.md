@@ -23,4 +23,4 @@ npm install
 npm run watch
 ```
 
-Then, visit [https://localhost:3001/healthcare/prescriptions](https://localhost:3001/healthcare/prescriptions).
+Then, visit [https://localhost:3001/health-care/prescriptions](https://localhost:3001/health-care/prescriptions).

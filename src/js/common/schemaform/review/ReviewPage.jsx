@@ -10,8 +10,8 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { focusElement, getActivePages } from '../../utils/helpers';
-import { createPageListByChapter } from '../helpers';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
+import { createPageListByChapter, expandArrayPages } from '../helpers';
+import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
 
 const scroller = Scroll.scroller;
 
@@ -58,7 +58,8 @@ class ReviewPage extends React.Component {
 
   goBack() {
     const { eligiblePageList, pageIndex } = this.getEligiblePages();
-    this.props.router.push(eligiblePageList[pageIndex - 1].path);
+    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
+    this.props.router.push(expandedPageList[pageIndex - 1].path);
   }
 
   handleSubmit() {
@@ -84,6 +85,7 @@ class ReviewPage extends React.Component {
                   chapterKey={chapter}
                   setData={this.props.setData}
                   setValid={this.props.setValid}
+                  uploadFile={this.props.uploadFile}
                   chapter={formConfig.chapters[chapter]}
                   form={form}/>
             ))}
@@ -115,7 +117,8 @@ const mapDispatchToProps = {
   setSubmission,
   submitForm,
   setPrivacyAgreement,
-  setData
+  setData,
+  uploadFile
 };
 
 ReviewPage.propTypes = {

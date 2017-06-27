@@ -12,17 +12,16 @@ import {
   SET_PRIVACY_AGREEMENT,
   setSubmitted,
   SET_SUBMITTED,
-  submitForm
+  submitForm,
+  uploadFile
 } from '../../../src/js/common/schemaform/actions';
 
 describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
-      const page = 'page';
       const data = {};
-      const action = setData(page, data);
+      const action = setData(data);
 
-      expect(action.page).to.equal(page);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_DATA);
     });
@@ -64,6 +63,13 @@ describe('Schemaform actions:', () => {
       const action = setSubmitted(response);
 
       expect(action.response).to.equal(response);
+      expect(action.type).to.equal(SET_SUBMITTED);
+    });
+    it('should return action with response.data', () => {
+      const response = { data: false };
+      const action = setSubmitted(response);
+
+      expect(action.response).to.equal(response.data);
       expect(action.type).to.equal(SET_SUBMITTED);
     });
   });
@@ -119,6 +125,36 @@ describe('Schemaform actions:', () => {
         });
       });
     });
+    it('should submit with auth header', () => {
+      const formConfig = {
+        chapters: {}
+      };
+      const form = {
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
+        }
+      };
+      global.sessionStorage = { userToken: 'testing' };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+      const response = { data: {} };
+      fetchMock.returns({
+        then: (fn) => fn(
+          {
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve(response)
+          }
+        )
+      });
+
+      return thunk(dispatch).then(() => {
+        expect(fetchMock.firstCall.args[1].headers.Authorization).to.equal('Token token=testing');
+      });
+    });
     it('should set submission error', () => {
       const formConfig = {
         chapters: {}
@@ -154,6 +190,201 @@ describe('Schemaform actions:', () => {
           type: SET_SUBMISSION,
           field: 'status',
           value: 'error'
+        });
+      });
+    });
+  });
+  describe('uploadFile', () => {
+    let fetchMock;
+    let oldFetch;
+
+    beforeEach(() => {
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy()
+      });
+      oldFetch = global.fetch;
+      fetchMock = sinon.stub().returns(Promise.resolve());
+      global.fetch = fetchMock;
+    });
+
+    afterEach(() => {
+      delete global.FormData;
+      global.fetch = oldFetch;
+    });
+
+    it('should set uploading', (done) => {
+      const thunk = uploadFile(
+        {
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                uploading: true
+              }
+            ]
+          }
+        });
+        done();
+      }).catch(err => {
+        done(err);
+      });
+    });
+
+    it('should reject if file is too big', (done) => {
+      const thunk = uploadFile(
+        {
+          size: 10
+        },
+        ['fileField', 0],
+        {
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      thunk(dispatch, getState).then(() => {
+        done('Should have failed on a file that is too big');
+      }).catch(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'File is too large to be uploaded'
+              }
+            ]
+          }
+        });
+        done();
+      });
+    });
+
+    it('should call set data on success', () => {
+      const thunk = uploadFile(
+        {
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+      fetchMock.returns({
+        then: (fn) => fn(
+          {
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({
+              data: {
+                attributes: {
+                  name: 'Test name',
+                  size: 1234,
+                  confirmationCode: 'Test code'
+                }
+              }
+            })
+          }
+        )
+      });
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                uploading: true
+              }
+            ]
+          }
+        });
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                name: 'Test name',
+                size: 1234,
+                confirmationCode: 'Test code'
+              }
+            ]
+          }
+        });
+      });
+    });
+    it('should set error on failure', () => {
+      const thunk = uploadFile(
+        {
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+      fetchMock.returns({
+        then: (fn) => fn(
+          {
+            ok: false,
+            status: 400,
+            statusText: 'bad request'
+          }
+        )
+      });
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                uploading: true
+              }
+            ]
+          }
+        });
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'bad request'
+              }
+            ]
+          }
         });
       });
     });

@@ -1,58 +1,10 @@
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { Component } from 'react';
+import AlertBox from '../../common/components/AlertBox';
+import { vetCenterServices } from '../config';
 
 class ServicesAtFacility extends Component {
-
-  static services = [
-    'AllergyAndImmunology',
-    'Audiology',
-    'CardiacSurgery',
-    'CardiologyCareServices',
-    'ColoRectalSurgery',
-    'ComplementaryAlternativeMed',
-    'DentalServices',
-    'DermatologyCareServices',
-    'Diabetes',
-    'DiagnosticServices',
-    'Dialysis',
-    'EmergencyDept',
-    'Endocrinology',
-    'ENT',
-    'EyeCare',
-    'Gastroenterology',
-    'GeneralSurgery',
-    'Gynecology',
-    'Hematology',
-    'ImagingAndRadiology',
-    'InfectiousDisease',
-    'InternalMedicine',
-    'LabServices',
-    'MentalHealthCare',
-    'Nephrology',
-    'Neurology',
-    'Neurosurgery',
-    'Oncology',
-    'Orthopedics',
-    'OutpatientMedicalSpecialty',
-    'OutpatientMHCare',
-    'OutpatientSpecMHCare',
-    'OutpatientSurgicalSpecialty',
-    'PainManagement',
-    'PlasticSurgery',
-    'Podiatry',
-    'PrimaryCare',
-    'PulmonaryRespiratoryDisease',
-    'Rehabilitation',
-    'Rheumatology',
-    'SleepMedicine',
-    'ThoracicSurgery',
-    'UrgentCare',
-    'Urology',
-    'VascularSurgery',
-    'VocationalAssistance',
-    'WellnessAndPreventativeCare',
-  ];
 
   renderService(service) {
     const label = service.replace(/([A-Z])/g, ' $1');
@@ -104,14 +56,28 @@ class ServicesAtFacility extends Component {
   renderServices() {
     const { facility } = this.props;
 
-    switch (facility.attributes.facility_type) {
+    switch (facility.attributes.facilityType) {
       case 'va_health_facility':
         return this.renderHealthServices();
       case 'va_benefits_facility':
         return this.renderBenefitsServices();
+      case 'vet_center':
+        return this.renderVetCenterServices();
       default:
         return null;
     }
+  }
+
+  renderVetCenterServices() {
+    return (
+      <div className="mb2">
+        <ul>
+          {vetCenterServices.map(s => {
+            return <li key={s}>{s}</li>;
+          })}
+        </ul>
+      </div>
+    );
   }
 
   renderBenefitsServices() {
@@ -139,17 +105,21 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
+    const alertContent = (<span>
+      <strong>This list may not include all of the services available at this location.</strong><p>Please check on the facility's website or call them for this information.</p>
+    </span>);
+
     return (
       <div>
         <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong></p>
-        <div className="call-out clearfix">
-          <div className="columns small-1">
-            <h3><i className="fa fa-exclamation-circle"></i></h3>
-          </div>
-          <div className="columns small-11">
-            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
-          </div>
+
+        <div className="mb2">
+          <AlertBox
+              isVisible
+              status="warning"
+              content={alertContent}/>
         </div>
+
         <div className="mb2">
           <ul>
             {services.health.map(s => {

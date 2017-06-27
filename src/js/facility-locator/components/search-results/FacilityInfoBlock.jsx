@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import FacilityAddress from './FacilityAddress';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { facilityTypes } from '../../config';
 
 class FacilityInfoBlock extends Component {
   renderDistance() {
@@ -26,15 +27,7 @@ class FacilityInfoBlock extends Component {
 
   render() {
     const { facility } = this.props;
-    const { name, facility_type: facilityType } = facility.attributes;
-
-    /* eslint-disable camelcase */
-    const facilityTypes = {
-      va_health_facility: 'Health',
-      va_cemetery: 'Cemetery',
-      va_benefits_facility: 'Benefits',
-    };
-    /* eslint-enable camelcase */
+    const { name, facilityType } = facility.attributes;
 
     return (
       <div>

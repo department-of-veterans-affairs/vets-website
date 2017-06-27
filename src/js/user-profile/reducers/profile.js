@@ -13,7 +13,9 @@ const initialState = {
   email: null,
   dob: null,
   gender: null,
-  accountType: null
+  accountType: null,
+  savedForms: [],
+  prefillsAvailable: []
 };
 
 function profileInformation(state = initialState, action) {

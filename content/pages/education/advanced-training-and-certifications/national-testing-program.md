@@ -1,13 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 title: National Testing Program
-template: 4-action-page-pending
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: complete
+template: detail-page
 ---
 
 <div class="va-introtext">
+
 If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out if you qualify for this benefit.
+
 </div>
 
 
