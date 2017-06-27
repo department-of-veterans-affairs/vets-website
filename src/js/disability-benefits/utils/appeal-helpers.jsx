@@ -5,7 +5,7 @@ export function appealStatusDescriptions(lastEvent) {
   const content = {
     form9: {
       status: {
-        title: 'form9 Your Form 9 was received by the Regional Office (RO)',
+        title: 'Your Form 9 was received by the Regional Office (RO)',
         description: <div>
           <p>The Veterans Benefits Administration (VBA) RO has received your Form 9, and is now completing the final steps in the processing of your appeal before it is sent to the Board.</p>
           <ul>
