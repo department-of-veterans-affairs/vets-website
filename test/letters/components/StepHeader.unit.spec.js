@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import StepHeader from '../../../src/js/va-letters/components/StepHeader.jsx';
+import StepHeader from '../../../src/js/letters/components/StepHeader.jsx';
 
 const defaultProps = {
   name: 'First step of the process',

@@ -2,9 +2,9 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import DownloadLetters from '../../../src/js/va-letters/containers/DownloadLetters';
+import DownloadLetters from '../../../src/js/letters/containers/DownloadLetters';
 
-import reducer from '../../../src/js/va-letters/reducers/index.js';
+import reducer from '../../../src/js/letters/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);

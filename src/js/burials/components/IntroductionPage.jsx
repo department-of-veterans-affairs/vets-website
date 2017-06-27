@@ -1,9 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import { focusElement } from '../../common/utils/helpers';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -25,27 +27,13 @@ class IntroductionPage extends React.Component {
         <p>
           Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
         </p>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.
-          </div>
-        </div>
-        <br/>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/health-care/apply">
-              <button className="usa-button-outline">« Back</button>
-            </a>
-          </div>
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>
-        <div className="omb-info--container">
+        <SaveInProgressIntro
+            pageList={this.props.route.pageList}
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}>
+          Complete the form before submitting to apply for burial benefits with the 21P-530.
+        </SaveInProgressIntro>
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="05/31/2018"/>
         </div>
       </div>
@@ -53,6 +41,18 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };

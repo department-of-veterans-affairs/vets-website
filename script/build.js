@@ -129,7 +129,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('pension/application/527.md');
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('va-letters/index.md');
+  ignoreList.push('letters/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -310,6 +310,27 @@ smith.use(collections({
       name: 'Health Care'
     }
   },
+  housing: {
+    pattern: 'housing-assistance/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Housing Assistance'
+    }
+  },
+  housingHomeLoans: {
+    pattern: 'housing-assistance/home-loans/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Home Loans'
+    }
+  },
+  housingVALoans: {
+    pattern: 'housing-assistance/home-loans/loan-options/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Loan Options'
+    }
+  },
   lifeInsurance: {
     pattern: 'life-insurance/*.md',
     sortBy: 'order',
@@ -376,7 +397,7 @@ if (options.watch) {
         { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
         { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
-        { from: '^/va-letters(.*)', to: '/va-letters/' },
+        { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
         { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
@@ -528,7 +549,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
        '/health-care/apply/application',
-       '/va-letters'].join('|'))
+       '/letters'].join('|'))
   }));
 }
 

@@ -295,4 +295,32 @@ describe('Schemaform: ObjectField', () => {
 
     expect(onBlur.firstCall.args[0]).to.eql(['test']);
   });
+  it('should show prefill message', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:options': {
+        showPrefillMessage: true
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          onChange={onChange}
+          formContext={{ prefilled: true }}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.subTree('PrefillMessage')).to.not.be.null;
+  });
 });

@@ -136,9 +136,9 @@ export function uploadFile(file, filePath, uiOptions = {}) {
     }).then(fileInfo => {
       dispatch(
         setData(_.set(filePath, {
-          name: fileInfo.name,
-          size: fileInfo.size,
-          confirmationCode: fileInfo.confirmationCode
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode
         }, getState().form.data))
       );
     }).catch(error => {

@@ -15,6 +15,9 @@ majorlinks:
     - url: /education/
       title: Education Benefits
       description: Apply for and manage benefits that help you pay for college and training programs.
+    - url: /housing-assistance/
+      title: Housing Assistance
+      description: Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.
     - url: /employment/
       title: Careers and Employment
       description: Get help building your career skills and finding a job.

@@ -320,6 +320,16 @@ label {
   margin-bottom: 1em;
 }
 
+.schemaform-address-view {
+  white-space: pre-wrap;
+}
+
 .schemaform-array-readonly-header {
   padding-bottom: 1.5rem;
+}
+
+.schemaform-prefill-message {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
 }
