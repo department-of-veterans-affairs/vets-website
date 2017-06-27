@@ -28,7 +28,7 @@ class SaveFormLink extends React.Component {
   componentDidMount() {
     if (saveErrors.has(this.props.savedStatus)) {
       scrollToTop();
-      focusElement('.schemaform-sip-save-link');
+      focusElement('.schemaform-save-error');
     }
   }
 
@@ -79,7 +79,7 @@ class SaveFormLink extends React.Component {
             {savedStatus === SAVE_STATUSES.clientFailure &&
               'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet and try again.'}
             {savedStatus === SAVE_STATUSES.noAuth &&
-              <span>Sorry, you’re signed out. Please <a onClick={this.openLoginModal}>sign in</a> again to save your application.</span>}
+              <span>Sorry, you’re signed out. Please <button className="va-button-link" onClick={this.openLoginModal}>sign in</button> again to save your application.</span>}
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
