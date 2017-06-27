@@ -24,7 +24,7 @@ class FormSaved extends React.Component {
     // if we don't have this then that means we're loading the page
     // without any data and should just go back to the intro
     if (!this.props.lastSavedDate) {
-      this.props.router.push(this.props.route.pageList[0].path);
+      this.props.router.replace(this.props.route.pageList[0].path);
     } else {
       scrollToTop();
       focusElement('.usa-alert');
