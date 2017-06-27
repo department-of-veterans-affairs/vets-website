@@ -117,8 +117,8 @@ SaveInProgressErrorPage.propTypes = {
     noAuth: PropTypes.string
   }),
 
-  // For SignInLink
   isStartingOver: PropTypes.bool.isRequired,
+  // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
   loginUrl: PropTypes.string,
   updateLogInUrl: PropTypes.func.isRequired
