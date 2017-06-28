@@ -6,6 +6,7 @@ import moment from 'moment';
 import { updateLogInUrl } from '../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
+import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 
 export default class SaveInProgressIntro extends React.Component {
@@ -50,6 +51,15 @@ export default class SaveInProgressIntro extends React.Component {
     const { profile } = this.props.user;
     const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+
+    if (profile.loading) {
+      return (
+        <div>
+          <LoadingIndicator message="Please wait while we check for an in progress form."/>
+          <br/>
+        </div>
+      );
+    }
 
     return (
       <div>
