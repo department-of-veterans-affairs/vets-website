@@ -119,6 +119,14 @@ function isValidAnyDate(day, month, year) {
   }).isValid();
 }
 
+function isValidFullDate(day, month, year) {
+  if (!year || !month || !day || !isValidAnyDate(day, month, year)) {
+    return false;
+  }
+
+  return true;
+}
+
 function isValidPartialDate(day, month, year) {
   if (year && !isValidYear(year)) {
     return false;
@@ -346,6 +354,7 @@ export {
   isValidName,
   isValidMonetaryValue,
   isValidPhone,
+  isValidFullDate,
   isValidPartialDate,
   isValidPartialDateField,
   isValidPartialMonthYear,

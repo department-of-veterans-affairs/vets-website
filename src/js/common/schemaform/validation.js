@@ -4,6 +4,7 @@ import { Validator } from 'jsonschema';
 import {
   isValidSSN,
   isValidPartialDate,
+  isValidFullDate,
   isValidCurrentOrPastDate,
   isValidFutureDate,
   isValidDateRange,
@@ -202,13 +203,19 @@ export function validateSSN(errors, ssn) {
   }
 }
 
-export function validateDate(errors, dateString) {
+export function validatePartialDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
 
+export function validateFullDate(errors, dateString) {
+  const { day, month, year } = parseISODate(dateString);
+  if (!isValidFullDate(day, month, year)) {
+    errors.addError('Please provide a complete valid date');
+  }
+}
 /**
  * Adds an error message to errors if a date is an invalid date or in the future.
  *
@@ -216,7 +223,7 @@ export function validateDate(errors, dateString) {
  */
 export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
   const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
-  validateDate(errors, dateString);
+  validatePartialDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
@@ -227,7 +234,7 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
  * Adds an error message to errors if a date is an invalid date or in the past.
  */
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
-  validateDate(errors, dateString);
+  validatePartialDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
     errors.addError('Please provide a valid future date');
