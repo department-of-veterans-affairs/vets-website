@@ -14,6 +14,7 @@ import {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
+  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
@@ -32,6 +33,7 @@ export class Compose extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
     this.saveDraftIfNoAttachments = this.saveDraftIfNoAttachments.bind(this);
+    this.loadApp = this.loadApp.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +45,7 @@ export class Compose extends React.Component {
       });
       return;
     }
-
+    this.loadApp();
     this.props.resetMessage();
   }
 
@@ -55,6 +57,11 @@ export class Compose extends React.Component {
         state: { preserveAlert: true }
       });
     }
+  }
+
+  loadApp() {
+    const { recipients } = this.props;
+    if (!recipients) { this.props.fetchRecipients(); }
   }
 
   apiFormattedMessage() {
@@ -192,6 +199,7 @@ const mapDispatchToProps = {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
+  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
