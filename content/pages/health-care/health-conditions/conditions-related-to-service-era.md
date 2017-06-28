@@ -4,7 +4,6 @@ template: detail-page
 title: Conditions Related to When and Where You Served
 display_title: Conditions Related to Service Era
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 1
 children: healthCareServiceRelated
