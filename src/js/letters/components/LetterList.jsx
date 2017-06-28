@@ -14,7 +14,10 @@ class LetterList extends React.Component {
       return (
         <CollapsiblePanel panelName={letter.name} key={`collapsiblePanel-${index}`}>
           <p>{content}</p>
-          <DownloadLetterLink letterType={letter.letterType} letterName={letter.name} key={`download-link-${index}`}/>
+          <DownloadLetterLink
+              letterType={letter.letterType}
+              letterName={letter.name}
+              key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
     });
