@@ -25,7 +25,7 @@ legend {
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date {
+.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
   &:focus {
     outline: none;
   }
@@ -327,3 +327,10 @@ label {
 .schemaform-array-readonly-header {
   padding-bottom: 1.5rem;
 }
+
+.schemaform-prefill-message {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
+}
+

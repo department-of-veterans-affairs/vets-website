@@ -6,6 +6,7 @@ import fullSchemaPreNeed from './schema.json';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -15,6 +16,7 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
+import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 
 const {
   relationship,
@@ -39,6 +41,7 @@ const {
   eligibleBuried,
   email,
   phoneNumber,
+  documents,
   preparerFullName,
   preparerPhoneNumber
 } = fullSchemaPreNeed.properties;
@@ -49,7 +52,8 @@ const {
   date,
   dateRange,
   gender,
-  phone
+  phone,
+  files
 } = fullSchemaPreNeed.definitions;
 
 const formConfig = {
@@ -67,7 +71,8 @@ const formConfig = {
     date,
     dateRange,
     gender,
-    phone
+    phone,
+    files
   },
   chapters: {
     veteranInformation: {
@@ -396,6 +401,26 @@ const formConfig = {
                   phoneNumber
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    supportingDocuments: {
+      title: 'Supporting documents',
+      pages: {
+        supportingDocuments: {
+          title: 'supportingDocuments',
+          path: 'supporting-documents',
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': SupportingDocumentsDescription,
+            documents: fileUploadUI('Select files to upload')
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              documents
             }
           }
         }

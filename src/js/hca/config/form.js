@@ -159,6 +159,9 @@ const formConfig = {
             }),
             mothersMaidenName: {
               'ui:title': 'Mother’s maiden name'
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
