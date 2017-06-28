@@ -18,6 +18,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { validateBurialDate } from '../validation';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   relationship,
@@ -71,6 +72,7 @@ const formConfig = {
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     vaFileNumber,
