@@ -108,6 +108,19 @@ export function appealStatusDescriptions(lastEvent) {
         title: 'Your Appeal Has Been Granted by the Regional Office (RO)',
         description: 'This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.',
       }
+    },
+    cavc_decision: { // eslint-disable-line camelcase
+      status: {
+        title: 'The Court of Appeals for Veterans Claims (CAVC) Has Made a Decision',
+        description: <div>
+          <p>The CAVC has made a decision on your appeal. You will receive a copy of the CAVC's decision in the mail.</p>
+          <ul>
+            <li>If the CAVC denied your appeal, your appeal is now closed.</li>
+            <li>If the CAVC reversed the Board decision and granted your appeal, the Board will issue a decision following the CAVC's instructions to grant you the benefits you sought on appeal.</li>
+            <li>If the CAVC remanded your case, that means the Board needs to further review your case. The Board will review the CAVC's decision and gather more evidence or make a new decision on your appeal. After a CAVC remand, your appeal has priority status at the Board. The Board will send you a letter when it receives your appeal, and let you know how to submit any additional evidence you may have. If you have additional evidence for the Board to review, you can submit it within 90 days from the date of the Board's letter.</li>
+          </ul>
+        </div>,
+      }
     }
   };
 
