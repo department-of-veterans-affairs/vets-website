@@ -1,10 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 
 export default function ExpenseField({ formData }) {
-  const noData = !formData.amount && !formData.date;
+  const noData = !formData.amount && !formData.purpose;
 
   return noData
       ? <div><strong>Expense</strong></div>
-      : <div><strong>${formData.amount}</strong><br/>{formData.date && moment(formData.date).format('MMM D, YYYY')}</div>;
+      : <div><strong>{formData.purpose}</strong><br/>${formData.amount}</div>;
 }

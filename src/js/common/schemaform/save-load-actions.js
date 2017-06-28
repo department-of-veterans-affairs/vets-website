@@ -15,8 +15,11 @@ export const SAVE_STATUSES = Object.freeze({
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
+  clientFailure: 'clientFailure',
   success: 'success'
 });
+
+export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
 
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -190,7 +193,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           });
         }
       } else {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
         Raven.captureException(resOrError);
         Raven.captureMessage('vets_sip_error_save');
         window.dataLayer.push({
@@ -305,6 +308,50 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
           event: `${trackingPrefix}sip-form-load-failed`
         });
       }
+    });
+  };
+}
+
+export function removeInProgressForm(formId, migrations) {
+  return (dispatch, getState) => {
+    const userToken = sessionStorage.userToken;
+    const trackingPrefix = getState().form.trackingPrefix;
+
+    // Update UI while we're waiting for the API
+    dispatch(setStartOver());
+
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
+      },
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_sip_error_delete');
+        return Promise.resolve();
+      } else if (!res.ok) {
+        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
+      }
+
+      return Promise.resolve(res);
+    }).then((res) => {
+      // If there's some error when deleting, there's not much we can
+      // do aside from not stop the user from continuing on
+      if (!res || res.status !== 401) {
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-start-over`
+        });
+        // after deleting, go fetch prefill info if they've got it
+        return dispatch(fetchInProgressForm(formId, migrations, true));
+      }
+
+      dispatch(logOut());
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+
+      return Promise.resolve();
     });
   };
 }

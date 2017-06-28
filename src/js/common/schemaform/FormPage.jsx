@@ -11,7 +11,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { PREFILL_STATUSES, SAVE_STATUSES, saveInProgressForm } from './save-load-actions';
+import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -48,15 +48,9 @@ class FormPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
-    focusForm();
-  }
-
-  // A successful form save will mean we go from pending to success,
-  // and we need to redirect
-  componentWillReceiveProps(newProps) {
-    if (this.props.form.savedStatus === SAVE_STATUSES.pending && newProps.form.savedStatus === SAVE_STATUSES.success) {
-      this.props.router.push(`${newProps.urlPrefix || ''}form-saved`);
+    if (!saveErrors.has(this.props.form.savedStatus)) {
+      scrollToTop();
+      focusForm();
     }
   }
 

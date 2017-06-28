@@ -10,15 +10,6 @@ import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 
 import FormStartControls from './FormStartControls';
 
-function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
-  if (legend && legend.getBoundingClientRect().height > 0) {
-    focusElement(legend);
-  } else {
-    focusElement('.nav-header');
-  }
-}
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -30,8 +21,14 @@ const scrollToTop = () => {
 
 class FormSaved extends React.Component {
   componentDidMount() {
-    scrollToTop();
-    focusForm();
+    // if we don't have this then that means we're loading the page
+    // without any data and should just go back to the intro
+    if (!this.props.lastSavedDate) {
+      this.props.router.replace(this.props.route.pageList[0].path);
+    } else {
+      scrollToTop();
+      focusElement('.usa-alert');
+    }
   }
 
   render() {
@@ -46,6 +43,7 @@ class FormSaved extends React.Component {
             <strong>Your application has been saved!</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
 
+            <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
             If you're on a public computer, please sign out before you leave to ensure your data is secure.
           </div>
         </div>
