@@ -6,12 +6,20 @@ import { connect } from 'react-redux';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES, PREFILL_STATUSES, setFetchFormStatus } from './save-load-actions';
+import { LOAD_STATUSES, PREFILL_STATUSES, SAVE_STATUSES, setFetchFormStatus } from './save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
 
 const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  });
+};
 
 /*
  * Primary component for a schema generated form app.
@@ -39,6 +47,19 @@ class FormApp extends React.Component {
       && !window.location.pathname.endsWith('/error')
     ) {
       newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
+    } else if (newProps.savedStatus !== this.props.savedStatus &&
+      newProps.savedStatus === SAVE_STATUSES.success) {
+      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
+    }
+  }
+
+  // should scroll up to top while user is waiting for form to load or save
+  componentDidUpdate(oldProps) {
+    if ((oldProps.loadedStatus !== this.props.loadedStatus &&
+      this.props.loadedStatus === LOAD_STATUSES.pending)
+      || ((oldProps.savedStatus !== this.props.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.pending))) {
+      scrollToTop();
     }
   }
 
@@ -74,6 +95,8 @@ class FormApp extends React.Component {
 
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
       content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+    } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
+      content = <LoadingIndicator message="Wait a moment while we save your form."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -113,6 +136,7 @@ class FormApp extends React.Component {
 
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
+  savedStatus: state.form.savedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
 });
