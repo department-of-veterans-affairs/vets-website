@@ -4,7 +4,8 @@ template: detail-page
 title: Health Care Application Process
 display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate_override: 2017-06-26
+show_git_lastupdate: true
+lastupdate: 2017-06-28
 collection: healthCare
 order: 3
 ---
