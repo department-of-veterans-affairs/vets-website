@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router';
-
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
+import DownloadLetterLink from './DownloadLetterLink';
 
 import { letterContent } from '../utils/helpers';
 
@@ -15,9 +14,10 @@ class LetterList extends React.Component {
       return (
         <CollapsiblePanel panelName={letter.name} key={`collapsiblePanel-${index}`}>
           <p>{content}</p>
-          <Link to="/" target="_blank" className="usa-button-primary va-button-primary">
-            Download Letter
-          </Link>
+          <DownloadLetterLink
+              letterType={letter.letterType}
+              letterName={letter.name}
+              key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
     });
