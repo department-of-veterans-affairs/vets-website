@@ -20,24 +20,17 @@ relatedlinks:
 
 <div class="va-introtext">
 
-You can apply online to find out in advance if you can be buried in a VA national cemetery when you die. This is called a pre-need determination of eligibility. Follow the steps below to apply.
+You can apply online to find out in advance if you can be buried in a VA national cemetery when you die. This is called a pre-need determination of eligibility. Follow the steps below to apply. 
 
 </div>
 
 ### Prepare
 
-<ol class="process">
-<li class="process-step list-one">
-  
 **If you haven't done so already, check to see if you qualify for burial in a VA national cemetery.** [Check your eligibility](/burials-and-memorials/eligibility/).
-  
-</li>
-  
-<li class="process-step list-two">
   
 **Choose the VA national cemetery where you’d like to be buried.** [Find VA national cemeteries](https://www.cem.va.gov/cem/cems/listcem.asp). 
   
-**Please note:**
+Please note:
 
 - **Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in the specific VA national cemetery.** We’ll consider your preference, but will assign a gravesite in a cemetery with available space at the time of need.
 
@@ -45,28 +38,17 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
 
-</li>
-  
-<li class="process-step list-three">
-  
-**Gather the supporting documents and information you’ll need to fill out the application.** We base our decision on the service history of the Servicemember or Veteran who’s applying for burial for themselves—or who’s sponsoring the application for their spouse, surviving spouse, or unmarried adult child. So if you’re applying as a spouse or child, you’ll need information for both you and your Servicemember or Veteran sponsor. 
-
-Please see more about the required documents and information below. If you don’t have all the information, you can still apply. But the more information you can give us, the faster we can review your application and give you a decision.
-
-</li>
-
-<li class="process-step list-four">
+**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have all the information, you can still apply. But the more information you can give us, the faster we can review your application and give you a decision.
 
 **Be ready to fill out an application for each person requesting a pre-need eligibility determination**. If both you and your spouse are applying, you’ll each need to fill out your own application.
-
-</li>
-</ol>
 
 <div class="feature" markdown=“1”>
 
 ### What documents and information do I need to apply?
 
-You’ll need information about the Servicemember or Veteran sponsoring the application, such as:
+We base our decision on the service history of the Servicemember or Veteran who’s applying for burial for themselves—or who’s sponsoring the application for their spouse, surviving spouse, or unmarried adult child. 
+
+You’ll the Servicemember or Veteran's:
 
 - Social Security number
 - Date and place of birth
@@ -87,7 +69,7 @@ You’ll need information about the Servicemember or Veteran sponsoring the appl
 
 You can start your application right now.
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for Pre-Need Determination of Eligibility</a>
+<a class="usa-button-primary va-button-primary" href="TBD">Apply for pre-need determination of eligibility</a>
 
 <div markdown="0"><br></div>
 
