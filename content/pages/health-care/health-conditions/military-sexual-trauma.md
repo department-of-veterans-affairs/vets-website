@@ -4,7 +4,8 @@ template: detail-page
 title: Military Sexual Trauma
 display_title: 
 concurrence: complete
-lastupdate_override: 2017-06-26
+show_git_lastupdate: true
+lastupdate: 2017-06-28
 order: 3
 relatedlinks:
   - heading: Related health problems you may want to learn about
