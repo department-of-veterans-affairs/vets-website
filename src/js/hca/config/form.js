@@ -21,7 +21,8 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning
+  disclosureWarning,
+  resumeMessage
 } from '../helpers';
 
 import SIPIntroductionPage from '../components/SIPIntroductionPage';
@@ -117,9 +118,10 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: '1010ez',
   version: 0,
-  savedFormErrorMessages: {
+  savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.'
+    noAuth: 'Please sign in again to resume your application for health care.',
+    success: resumeMessage
   },
   transformForSubmit: transform,
   introduction: SIPIntroductionPage,
