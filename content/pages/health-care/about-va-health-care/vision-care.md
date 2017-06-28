@@ -4,7 +4,8 @@ template: detail-page
 title: Vision Care
 display_title: 
 concurrence: complete
-lastupdate_override: 2017-06-26
+show_git_lastupdate: true
+lastupdate: 2017-06-28
 children: healthCareCoverageVision
 order: 5
 relatedlinks:
