@@ -185,13 +185,13 @@ describe('Schemaform save / load actions:', () => {
         done(err);
       });
     });
-    it('dispatches a failure when a network error occurs', (done) => {
+    it('dispatches a client failure when a network error occurs', (done) => {
       const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
       thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.clientFailure))).to.be.true;
         done();
       }).catch((err) => {
         done(err);

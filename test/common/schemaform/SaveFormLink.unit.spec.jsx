@@ -69,8 +69,20 @@ describe('Schemaform <SaveFormLink>', () => {
           onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('We’re sorry, but something went wrong.');
-    expect(tree.subTree('a').text()).to.contain('Save and finish later');
+    expect(tree.text()).to.contain('having some issues');
+    expect(tree.subTree('button').text()).to.contain('Save and finish later');
+  });
+  it('should show client error message', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+          user={user}
+          savedStatus={SAVE_STATUSES.clientFailure}
+          saveForm={saveFormSpy}
+          onUpdateLoginUrl={updateLoginSpy}/>
+    );
+
+    expect(tree.text()).to.contain('connect to Vets.gov');
+    expect(tree.subTree('button').text()).to.contain('Save and finish later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(
@@ -91,7 +103,7 @@ describe('Schemaform <SaveFormLink>', () => {
     // NOTE: I'm not sure why we have to use ReactTestUtils.Simulate.click() here,
     //  but just querying for the link and .click()ing it didn't call SaveFormLink's
     //  openLoginModal().
-    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
+    ReactTestUtils.Simulate.click(findDOM.querySelector('button'));
 
     // Reset it for subsequent tests
     document.querySelector = oldQuerySelector;
@@ -117,7 +129,7 @@ describe('Schemaform <SaveFormLink>', () => {
     const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('a').click();
+    findDOM.querySelector('button').click();
 
     expect(saveFormSpy.called);
   });
