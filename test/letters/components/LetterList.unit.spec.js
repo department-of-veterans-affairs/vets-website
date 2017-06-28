@@ -7,15 +7,15 @@ import LetterList from '../../../src/js/letters/components/LetterList.jsx';
 const defaultProps = {
   letters: [
     {
-      letterName: 'Commissary Letter',
+      name: 'Commissary Letter',
       letterType: 'commissary'
     },
     {
-      letterName: 'Benefit Summary Letter',
+      name: 'Benefit Summary Letter',
       letterType: 'benefit_summary'
     },
     {
-      letterName: 'Benefit Verification Letter',
+      name: 'Benefit Verification Letter',
       letterType: 'benefit_verification'
     }
   ]
@@ -27,5 +27,10 @@ describe('<LetterList>', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
-  // Add tests for empty letter list messaging.
+
+  it('should show collapsible panels for all letters', () => {
+    const tree = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
+    const collapsibles = tree.everySubTree('CollapsiblePanel');
+    expect(collapsibles.length).to.equal(3);
+  });
 });

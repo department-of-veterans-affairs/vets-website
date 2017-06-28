@@ -126,7 +126,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status.md');
-  ignoreList.push('pension/application/527.md');
+  ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
   ignoreList.push('letters/index.md');
@@ -308,6 +308,41 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Health Care'
+    }
+  },
+  healthCareCoverage: {
+    pattern: 'health-care/about-va-health-care/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'VA Health Care Coverage'
+    }
+  },
+  healthCareCoverageVision: {
+    pattern: 'health-care/about-va-health-care/vision-care/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vision Care'
+    }
+  },
+  healthCareConditions: {
+    pattern: 'health-care/health-conditions/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Health Needs and Conditions'
+    }
+  },
+  healthCareMentalHealth: {
+    pattern: 'health-care/health-conditions/mental-health/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Mental Health'
+    }
+  },
+  healthCareServiceRelated: {
+    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Conditions Related to Service Era'
     }
   },
   housing: {
