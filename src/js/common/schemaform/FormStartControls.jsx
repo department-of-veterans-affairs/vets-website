@@ -46,6 +46,8 @@ class FormStartControls extends React.Component {
   }
 
   render() {
+    const { startOver } = this.props.messages || {};
+
     if (this.props.formSaved) {
       return (
         <div>
@@ -63,7 +65,7 @@ class FormStartControls extends React.Component {
               id="start-over-modal"
               onClose={this.toggleModal}
               visible={this.state.modalOpen}>
-            <h4>Starting over would erase all your previous information.</h4>
+            <h4>{startOver || 'Starting over would erase your in progress form.'}</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
                 onButtonClick={this.startOver}

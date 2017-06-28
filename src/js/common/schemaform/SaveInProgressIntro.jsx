@@ -65,6 +65,7 @@ export default class SaveInProgressIntro extends React.Component {
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
+            messages={this.props.messages}
             startPage={this.props.pageList[1].path}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}
@@ -81,6 +82,7 @@ export default class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
+  messages: PropTypes.object,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
