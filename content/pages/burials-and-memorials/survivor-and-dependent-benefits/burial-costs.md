@@ -40,15 +40,29 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - An allowance for the plot or burial
 - A transportation allowance
 
-### How do I get these benefits?
+<div class="feature" markdown="1">
 
-- Fill out the Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
-- Attach a copy of the Veteran’s military discharge papers (DD214 or other separation documents).
-- Attach a copy of the Veteran’s death certificate.
-- To get paid back for transportation costs, attach receipts that show how much you paid.
-- Mail the application form and other paperwork to your local Regional Benefits Office. [Find your local regional benefits office](/facilities).
+### What documents and information do I need to apply?
 
-- If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
+- A copy of the Veteran’s military discharge papers (DD214 or other separation documents)
+- A copy of the Veteran’s death certificate
+- Copies of any receipts you have incurred for transportation costs 
+
+</div>
+
+### Ready to apply? 
+
+<a class="usa-button-primary va-button-primary" href="TBD">Apply for a burial allowance</a>
+
+<div markdown="0"><br></div>
+
+#### Other ways to apply
+
+##### By mail
+
+Apply by mail using VA Form 21P-530 (Application for Burial Benefits). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf) and mail the application form and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
+
+If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
 
 #### What are the burial allowance amounts for a service-connected death?
 
