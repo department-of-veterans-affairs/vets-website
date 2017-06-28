@@ -25,6 +25,7 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
+import GetFormHelp from '../components/GetFormHelp';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
@@ -162,6 +163,7 @@ const formConfig = {
   },
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
     additionalSources: additionalSourcesSchema(fullSchemaPensions),

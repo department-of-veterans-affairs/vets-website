@@ -5,6 +5,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../components/GetFormHelp';
 import { fileHelp, expensesWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
@@ -71,6 +72,7 @@ const formConfig = {
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     vaFileNumber,
