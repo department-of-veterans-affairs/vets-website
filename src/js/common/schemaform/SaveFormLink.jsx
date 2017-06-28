@@ -12,7 +12,7 @@ const scrollToTop = () => {
   scroller.scrollTo('saveFormLinkTop', window.VetsGov.scroll || {
     duration: 500,
     delay: 0,
-    smooth: true,
+    smooth: true
   });
 };
 
