@@ -74,6 +74,7 @@ class AppealStatusPage extends React.Component {
     // always show merged event on top
     const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
+
     const previousHistory = events.slice(1);
     const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 

@@ -120,6 +120,7 @@ export function uploadFile(file, filePath, uiOptions = {}) {
 
     const payload = new FormData();
     payload.append('file', file);
+    payload.append('form_id', getState().form.formId);
 
     return fetch(`${environment.API_URL}${uiOptions.endpoint}`, {
       method: 'POST',
@@ -136,9 +137,9 @@ export function uploadFile(file, filePath, uiOptions = {}) {
     }).then(fileInfo => {
       dispatch(
         setData(_.set(filePath, {
-          name: fileInfo.name,
-          size: fileInfo.size,
-          confirmationCode: fileInfo.confirmationCode
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode
         }, getState().form.data))
       );
     }).catch(error => {

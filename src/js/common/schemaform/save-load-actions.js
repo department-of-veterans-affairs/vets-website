@@ -3,19 +3,23 @@ import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
-import { setData } from './actions';
-
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
+export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
+export const SET_START_OVER = 'SET_START_OVER';
+export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
+  clientFailure: 'clientFailure',
   success: 'success'
 });
+
+export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
 
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -24,8 +28,14 @@ export const LOAD_STATUSES = Object.freeze({
   failure: 'failure',
   notFound: 'not-found',
   invalidData: 'invalid-data',
+  success: 'success'
+});
+
+export const PREFILL_STATUSES = Object.freeze({
+  notAttempted: 'not-attempted',
+  pending: 'pending',
   success: 'success',
-  prefillComplete: 'prefill-complete'
+  unfilled: 'unfilled'
 });
 
 export function setSaveFormStatus(status, lastSavedDate = null) {
@@ -43,6 +53,13 @@ export function setFetchFormStatus(status) {
   };
 }
 
+export function setFetchFormPending(prefill) {
+  return {
+    type: SET_FETCH_FORM_PENDING,
+    prefill
+  };
+}
+
 export function setInProgressForm(data) {
   return {
     type: SET_IN_PROGRESS_FORM,
@@ -50,7 +67,17 @@ export function setInProgressForm(data) {
   };
 }
 
+export function setStartOver() {
+  return {
+    type: SET_START_OVER
+  };
+}
 
+export function setPrefillComplete() {
+  return {
+    type: SET_PREFILL_UNFILLED,
+  };
+}
 /**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
@@ -111,12 +138,16 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     }),
     formData: JSON.stringify(formData)
   });
-  return dispatch => {
+  return (dispatch, getState) => {
+    const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn't get here, but...
       Raven.captureMessage('vets_sip_missing_token');
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-save-failed`
+      });
       return Promise.resolve();
     }
 
@@ -136,6 +167,9 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     }).then((res) => {
       if (res.ok) {
         dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-saved`
+        });
         return Promise.resolve();
       }
 
@@ -148,14 +182,23 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
           Raven.captureException(new Error(`vets_sip_error_server_unauthorized: ${resOrError.statusText}`));
+          window.dataLayer.push({
+            event: `${trackingPrefix}sip-form-save-signed-out`
+          });
         } else {
           dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
           Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+          window.dataLayer.push({
+            event: `${trackingPrefix}sip-form-save-failed`
+          });
         }
       } else {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
         Raven.captureException(resOrError);
         Raven.captureMessage('vets_sip_error_save');
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-save-failed-client`
+        });
       }
     });
   };
@@ -171,10 +214,10 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
  *                                is different from the current version.
  */
 export function fetchInProgressForm(formId, migrations, prefill = false) {
-  // TODO: Test if the form is still saved after submission.
   // TODO: Migrations currently aren't sent; they're taken from `form` in the
   //  redux store, but form.migrations doesn't exist (nor should it, really)
-  return dispatch => {
+  return (dispatch, getState) => {
+    const trackingPrefix = getState().form.trackingPrefix;
     const userToken = sessionStorage.userToken;
     // If we don't have a userToken, fail safely
     if (!userToken) {
@@ -183,7 +226,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
     }
 
     // Update UI while we're waiting for the API
-    dispatch(setFetchFormStatus(LOAD_STATUSES.pending));
+    dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -233,12 +276,10 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
       // Set the data in the redux store
-      // NOTE: Until we get the api for the list of filled forms, we're using this
-      //  function to see if the form has been filled in, so this is setting the
-      //  data in a separate place to be pulled in when we _actually_ want to load
-      //  the formData.
-      dispatch(setData(formData));
-      dispatch(setInProgressForm({ formData, metadata: resBody.metadata }));
+      dispatch(setInProgressForm({ formData, metadata: resBody.metadata }, prefill));
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-loaded`
+      });
 
       return Promise.resolve();
     }).catch((status) => {
@@ -257,10 +298,60 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // If prefilling went wrong for a non-auth reason, it probably means that
       // they didn't have info to use and we can continue on as usual
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
-        dispatch(setFetchFormStatus(LOAD_STATUSES.prefillComplete));
+        dispatch(setPrefillComplete());
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-prefill-failed`
+        });
       } else {
         dispatch(setFetchFormStatus(loadedStatus));
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-load-failed`
+        });
       }
+    });
+  };
+}
+
+export function removeInProgressForm(formId, migrations) {
+  return (dispatch, getState) => {
+    const userToken = sessionStorage.userToken;
+    const trackingPrefix = getState().form.trackingPrefix;
+
+    // Update UI while we're waiting for the API
+    dispatch(setStartOver());
+
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
+      },
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_sip_error_delete');
+        return Promise.resolve();
+      } else if (!res.ok) {
+        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
+      }
+
+      return Promise.resolve(res);
+    }).then((res) => {
+      // If there's some error when deleting, there's not much we can
+      // do aside from not stop the user from continuing on
+      if (!res || res.status !== 401) {
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-start-over`
+        });
+        // after deleting, go fetch prefill info if they've got it
+        return dispatch(fetchInProgressForm(formId, migrations, true));
+      }
+
+      dispatch(logOut());
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+
+      return Promise.resolve();
     });
   };
 }
