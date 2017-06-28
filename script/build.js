@@ -126,7 +126,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('education/gi-bill/post-9-11/status.md');
-  ignoreList.push('pension/application/527.md');
+  ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
   ignoreList.push('letters/index.md');
