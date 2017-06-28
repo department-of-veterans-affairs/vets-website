@@ -79,7 +79,7 @@ class ConfirmationPage extends React.Component {
             </li>}
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="schemaform-address-view">{_.map(response.regionalOffice, (line) => <p>{line}</p>)}</address>
+              <address className="schemaform-address-view">{_.map(response.regionalOffice, (line, index) => <p key={index}>{line}</p>)}</address>
             </li>
           </ul>
         </div>
