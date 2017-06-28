@@ -11,7 +11,7 @@ import createLoginWidget from '../login/login-entry';
 import reducer from './reducer';
 
 require('../common');
-require('../../sass/burials.scss');
+require('../../sass/pre-need.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

@@ -273,6 +273,23 @@
     "phone": {
       "type": "string",
       "minLength": 10
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "confirmationCode": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "properties": {
@@ -443,6 +460,9 @@
     },
     "phoneNumber": {
       "$ref": "#/definitions/phone"
+    },
+    "documents": {
+      "$ref": "#/definitions/files"
     },
     "preparerFullName": {
       "$ref": "#/definitions/fullName"
