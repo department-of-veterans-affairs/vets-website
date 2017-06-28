@@ -18,7 +18,7 @@ describe('Pensions document upload', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
 
 

@@ -14,7 +14,8 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
-  directDepositWarning
+  directDepositWarning,
+  rapidProcessingWarning
 } from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
@@ -64,6 +65,7 @@ const {
   dayPhone,
   nightPhone,
   mobilePhone,
+  noRapidProcessing
 } = fullSchemaPensions.properties;
 
 const {
@@ -1379,12 +1381,26 @@ const formConfig = {
             'ui:description': fileHelp,
             files: fileUploadUI('Please upload any documentation that you need to support your claim', {
               fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-            })
+            }),
+            noRapidProcessing: {
+              'ui:title': 'I do not want my application considered for rapid processing. I plan to submit more documentation in the future.'
+            },
+            'view:rapidProcessingWarning': {
+              'ui:description': rapidProcessingWarning,
+              'ui:options': {
+                hideIf: form => form.noRapidProcessing !== true
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              noRapidProcessing,
+              'view:rapidProcessingWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
