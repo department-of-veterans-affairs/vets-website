@@ -5,8 +5,10 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement } from '../utils/helpers';
+import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
+
+import FormStartControls from './FormStartControls';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -32,23 +34,13 @@ class FormSaved extends React.Component {
     focusForm();
   }
 
-  // This seems simpler than trying to get the page sent
-  // back from the server response
-  goBack = () => {
-    this.props.router.goBack();
-  }
-
-  // this is sort of naive, but the first page should
-  // always be active (and it is almost certainly the intro page)
-  goToBeginning = () => {
-    this.props.router.push(this.props.route.pageList[0].path);
-  }
-
   render() {
+    const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
     return (
-      <div className="schemaform-intro">
+      <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your application has been saved!</strong><br/>
@@ -58,14 +50,16 @@ class FormSaved extends React.Component {
           </div>
         </div>
         <br/>
-        <ProgressButton
-            onButtonClick={this.goBack}
-            buttonText="Resume previous application"
-            buttonClass="usa-button-primary"/>
-        <ProgressButton
-            onButtonClick={this.goToBeginning}
-            buttonText="Start over"
-            buttonClass="usa-button-outline"/>
+        <FormStartControls
+            startPage={this.props.route.pageList[1].path}
+            router={this.props.router}
+            formId={this.props.formId}
+            returnUrl={this.props.returnUrl}
+            migrations={this.props.migrations}
+            fetchInProgressForm={this.props.fetchInProgressForm}
+            removeInProgressForm={this.props.removeInProgressForm}
+            prefillAvailable={prefillAvailable}
+            formSaved/>
       </div>
     );
   }
@@ -82,10 +76,19 @@ FormSaved.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    lastSavedDate: state.form.lastSavedDate
+    formId: state.form.formId,
+    returnUrl: state.form.loadedData.metadata.returnUrl,
+    lastSavedDate: state.form.lastSavedDate,
+    migrations: state.form.migrations,
+    user: state.user
   };
 }
 
-export default withRouter(connect(mapStateToProps)(FormSaved));
+const mapDispatchToProps = {
+  fetchInProgressForm,
+  removeInProgressForm
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormSaved));
 
 export { FormSaved };
