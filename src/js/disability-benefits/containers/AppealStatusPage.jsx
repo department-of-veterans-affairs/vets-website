@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -15,31 +15,27 @@ class AppealStatusPage extends React.Component {
     }
   }
 
-  renderStatusNextAction(lastEvent) {
-    const eventType = lastEvent.type;
-    const { nextAction } = appealStatusDescriptions[eventType];
-    const className = `next-action ${eventType}`;
-    let title = nextAction.title;
+  renderStatusNextAction(lastEvent, previousHistory) {
+    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory);
+    const className = `next-action ${lastEvent.type}`;
 
-    switch (eventType) {
-      case 'form9':
-        break;
-      case 'soc':
-        title = `${title} ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`;
-        break;
-      default:
-        break;
+    if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
+      return null;
     }
 
-    return (
-      <div className={className}>
-        <h5>{title}</h5>
-        {nextAction.description}
-      </div>
-    );
+    if (nextAction) {
+      return (
+        <div className={className}>
+          <h5>{nextAction.title}</h5>
+          {nextAction.description}
+        </div>
+      );
+    }
+
+    return null;
   }
 
-  renderPreviousActivity(lastEvent, eventHistory) {
+  renderPreviousActivity(lastEvent, previousHistory) {
     if (lastEvent.type === 'nod') {
       return (
         <div>
@@ -53,14 +49,14 @@ class AppealStatusPage extends React.Component {
     return (
       <table className="events-list">
         <tbody>
-          {eventHistory.map((e, i) => {
+          {previousHistory.map((e, i) => {
             return (
               <tr key={i}>
                 <td><i className="fa fa-check-circle"></i></td>
                 <td className="date">
                   <strong>{moment(e.date).format('MMM DD, YYYY')}</strong>
                 </td>
-                <td>{appealStatusDescriptions[e.type].status.title}</td>
+                <td>{appealStatusDescriptions(e).status.title}</td>
               </tr>
             );
           })}
@@ -75,11 +71,12 @@ class AppealStatusPage extends React.Component {
     }
 
     const { appeal } = this.props;
-    const events = _.orderBy(appeal.attributes.events, [(e) => {
-      return moment(e.date).unix();
-    }], ['desc']);
+    // always show merged event on top
+    const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
-    const { status } = appealStatusDescriptions[lastEvent.type];
+
+    const previousHistory = events.slice(1);
+    const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 
     return (
       <div className="claims-status">
@@ -93,7 +90,7 @@ class AppealStatusPage extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="next-action-container">
-                {this.renderStatusNextAction(lastEvent)}
+                {this.renderStatusNextAction(lastEvent, previousHistory)}
               </div>
             </div>
             <div className="row">
@@ -102,16 +99,17 @@ class AppealStatusPage extends React.Component {
                   <i className="fa fa-check-circle"></i>
                   <h5>{status.title}</h5>
                   <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
-
                   {status.description}
-                  <Link to="appeals/learn-more">Learn more about the appeals process</Link>
+                  <p>
+                    <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>
+                  </p>
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="previous-activity">
                 <h4>Previous Activity for Your Appeal</h4>
-                {this.renderPreviousActivity(lastEvent, events.slice(1))}
+                {this.renderPreviousActivity(lastEvent, previousHistory)}
               </div>
             </div>
           </div>

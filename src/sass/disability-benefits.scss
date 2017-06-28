@@ -286,7 +286,7 @@ a.claim-list-item {
       background: $color-inset-bg;
     }
 
-    &.soc {
+    &.soc, &.ssoc {
       background: $color-gibill-accent;
       padding-left: 2.5em;
 
@@ -339,7 +339,7 @@ a.claim-list-item {
         border: none;
         border-bottom: solid thin $color-gray-light;
         vertical-align: middle;
-        padding: 0 0.5em;
+        padding: 0.75em 0.5em;
 
         &.date {
           min-width: 7em;
