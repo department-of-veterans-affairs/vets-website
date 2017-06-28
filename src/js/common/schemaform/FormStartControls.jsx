@@ -63,7 +63,7 @@ class FormStartControls extends React.Component {
               id="start-over-modal"
               onClose={this.toggleModal}
               visible={this.state.modalOpen}>
-            <h4>Starting over would erase all your previous information.</h4>
+            <h4>This will remove anything you have put into the Health Care Application.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
                 onButtonClick={this.startOver}
