@@ -19,7 +19,7 @@ export function getLetterList() {
 export function getBenefitSummaryOptions() {
   return (dispatch) => {
     apiRequest(
-      'v0/letters/beneficiary',
+      '/v0/letters/beneficiary',
       null,
       (response) => {
         return dispatch({

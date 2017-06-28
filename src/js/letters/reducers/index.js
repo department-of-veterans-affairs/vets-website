@@ -25,8 +25,8 @@ function letters(state = initialState, action) {
     case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS':
       return {
         ...state,
-        benefitInfo: action.data.attributes.benefitInformation,
-        serviceInfo: action.data.attributes.militaryService,
+        benefitInfo: action.data.data.attributes.benefitInformation,
+        serviceInfo: action.data.data.attributes.militaryService,
         optionsAvailable: true
       };
     case 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE':
