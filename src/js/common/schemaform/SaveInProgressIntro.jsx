@@ -55,7 +55,7 @@ export default class SaveInProgressIntro extends React.Component {
     if (profile.loading) {
       return (
         <div>
-          <LoadingIndicator message="Please wait while we check for an in progress form."/>
+          <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>
           <br/>
         </div>
       );
