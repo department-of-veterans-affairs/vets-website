@@ -4,7 +4,6 @@ template: detail-page
 title: Operation Enduring Freedom in Afghanistan
 display_title: Operation Enduring Freedom
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 1
 relatedlinks:

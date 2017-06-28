@@ -4,7 +4,6 @@ template: detail-page
 title: Gulf War—Operation Desert Shield and Desert Storm
 display_title: Gulf War
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 3
 relatedlinks:

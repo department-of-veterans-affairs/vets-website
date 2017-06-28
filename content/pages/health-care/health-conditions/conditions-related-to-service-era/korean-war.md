@@ -4,7 +4,6 @@ template: detail-page
 title: Korean War
 display_title: Korean War
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 6
 relatedlinks:

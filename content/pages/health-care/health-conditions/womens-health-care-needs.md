@@ -4,7 +4,6 @@ template: detail-page
 title: Women’s Health Care Needs
 display_title: Women’s Health Care
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 4
 relatedlinks:

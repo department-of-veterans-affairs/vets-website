@@ -4,7 +4,6 @@ template: detail-page
 title: Iraq War—Operation Iraqi Freedom and Operation New Dawn
 display_title: Iraq War
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 2
 relatedlinks:

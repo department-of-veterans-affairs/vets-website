@@ -4,7 +4,6 @@ template: detail-page
 title: Your Care Team
 display_title: 
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 1
 relatedlinks:

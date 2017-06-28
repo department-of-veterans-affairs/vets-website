@@ -4,7 +4,6 @@ template: detail-page
 title: Posttraumatic Stress Disorder (PTSD)
 display_title: PTSD
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 1
 relatedlinks:

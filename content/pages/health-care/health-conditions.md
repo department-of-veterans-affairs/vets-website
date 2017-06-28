@@ -4,7 +4,6 @@ template: detail-page
 title: Health Needs and Conditions
 display_title: 
 concurrence: complete
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 collection: healthCare
 order: 5

@@ -4,7 +4,6 @@ template: detail-page
 title: Chemical or Hazardous Material Exposure
 display_title: Exposure to Hazardous Materials
 concurrence: complete 
-show_git_lastupdate: true
 lastupdate: 2017-06-28
 order: 5
 relatedlinks:
