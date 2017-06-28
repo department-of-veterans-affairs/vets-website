@@ -30,9 +30,6 @@ export default class CollapsiblePanel extends React.Component {
     this.setState({ open: !this.state.open }, () => {
       if (isOpening) {
         this.scrollToTop();
-        if (typeof this.props.onClick === typeof Function) {
-          this.props.onClick();
-        }
       }
     });
   }
@@ -57,8 +54,7 @@ export default class CollapsiblePanel extends React.Component {
           <button
               className="usa-button-unstyled"
               aria-expanded={this.state.open ? 'true' : 'false'}
-              aria-controls={`collapsible-${this.id}`}
-              onClick={this.toggleChapter}>
+              aria-controls={`collapsible-${this.id}`}>
             {this.props.panelName}
           </button>
         </div>
@@ -71,6 +67,5 @@ export default class CollapsiblePanel extends React.Component {
 }
 
 CollapsiblePanel.propTypes = {
-  panelName: PropTypes.string.isRequired,
-  onClick: PropTypes.func
+  panelName: PropTypes.string.isRequired
 };
