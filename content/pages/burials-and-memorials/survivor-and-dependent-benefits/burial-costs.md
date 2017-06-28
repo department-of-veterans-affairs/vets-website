@@ -52,7 +52,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 ### Ready to apply? 
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for a burial allowance</a>
+<a class="usa-button-primary va-button-primary" href="TBD">Apply for a Burial Allowance</a>
 
 <div markdown="0"><br></div>
 
