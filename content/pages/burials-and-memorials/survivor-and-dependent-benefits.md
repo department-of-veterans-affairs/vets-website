@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Survivor and Dependent Benefits
-display_title: Survivors and Dependents
+title: Survivor Benefits and Planning
+display_title: Survivor Benefits and Planning
 collection: burials
 children: burialsSurvivors
 order: 3
