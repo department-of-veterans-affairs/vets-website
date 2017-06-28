@@ -9,7 +9,6 @@ const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
-const git = require('simple-git')(`${__dirname}/..`);
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
@@ -138,32 +137,6 @@ smith.use(ignore(ignoreList));
 // during templating end up not showing which file they came from. Load it very early in in the
 // plugin chain.
 smith.use(filenames());
-
-smith.use((files, metalsmith, done) => {
-  /* eslint-disable no-var */
-  var runningCount = 0;
-  /* eslint-enable no-var */
-  Object.keys(files).forEach((filename) => {
-    if (filename.match(/\.md$/) !== null) {
-      runningCount += 1;
-      const fullPath = `content/pages/${filename}`;
-      git.log({ file: fullPath }, (err, log) => {
-        if (log.all.length > 1 && files[filename]) {
-          /* eslint-disable no-param-reassign */
-          /* eslint-disable camelcase */
-          files[filename].git_lastupdate = new Date(log.latest.date);
-          /* eslint-enable camelcase */
-          /* eslint-enable no-param-reassign */
-        }
-      }).then(() => {
-        runningCount -= 1;
-        if (runningCount === 0) {
-          done();
-        }
-      });
-    }
-  });
-});
 
 smith.use(define({
   // Does anything even look at `site`?
