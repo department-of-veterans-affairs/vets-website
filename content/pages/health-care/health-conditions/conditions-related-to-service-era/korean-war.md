@@ -4,7 +4,8 @@ template: detail-page
 title: Korean War
 display_title: Korean War
 concurrence: complete
-lastupdate_override: 2017-06-26
+show_git_lastupdate: true
+lastupdate: 2017-06-28
 order: 6
 relatedlinks:
   - heading: More information about your benefits
