@@ -15,9 +15,13 @@ class AppealStatusPage extends React.Component {
     }
   }
 
-  renderStatusNextAction(lastEvent) {
-    const { nextAction } = appealStatusDescriptions(lastEvent);
+  renderStatusNextAction(lastEvent, previousHistory) {
+    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory);
     const className = `next-action ${lastEvent.type}`;
+
+    if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
+      return null;
+    }
 
     if (nextAction) {
       return (
@@ -31,7 +35,7 @@ class AppealStatusPage extends React.Component {
     return null;
   }
 
-  renderPreviousActivity(lastEvent, eventHistory) {
+  renderPreviousActivity(lastEvent, previousHistory) {
     if (lastEvent.type === 'nod') {
       return (
         <div>
@@ -45,7 +49,7 @@ class AppealStatusPage extends React.Component {
     return (
       <table className="events-list">
         <tbody>
-          {eventHistory.map((e, i) => {
+          {previousHistory.map((e, i) => {
             return (
               <tr key={i}>
                 <td><i className="fa fa-check-circle"></i></td>
@@ -70,7 +74,8 @@ class AppealStatusPage extends React.Component {
     // always show merged event on top
     const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
-    const { status } = appealStatusDescriptions(lastEvent);
+    const previousHistory = events.slice(1);
+    const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 
     return (
       <div className="claims-status">
@@ -84,7 +89,7 @@ class AppealStatusPage extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="next-action-container">
-                {this.renderStatusNextAction(lastEvent)}
+                {this.renderStatusNextAction(lastEvent, previousHistory)}
               </div>
             </div>
             <div className="row">
@@ -103,7 +108,7 @@ class AppealStatusPage extends React.Component {
             <div className="row">
               <div className="previous-activity">
                 <h4>Previous Activity for Your Appeal</h4>
-                {this.renderPreviousActivity(lastEvent, events.slice(1))}
+                {this.renderPreviousActivity(lastEvent, previousHistory)}
               </div>
             </div>
           </div>

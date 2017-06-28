@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-export function appealStatusDescriptions(lastEvent) {
-  const content = {
+export function appealStatusDescriptions(lastEvent, previousHistory = []) {
+  const contentMap = {
     form9: {
       status: {
         title: 'Your Form 9 was received by the Regional Office (RO)',
@@ -24,8 +24,29 @@ export function appealStatusDescriptions(lastEvent) {
     },
     ssoc: {
       status: {
-        title: 'SSOC status title',
-        description: <p>SSOC description.</p>,
+        soc: {
+          title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
+          description: <div>
+            <p>The Veterans Benefits Administration (VBA) RO has prepared the SSOC for your appeal. An SSOC was created because you, your legal representative, your healthcare provider, or the VA added new evidence to your appeal.</p>
+            <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf">complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you would like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
+            <p>On a Form 9, you can also let the Board know if you would like a hearing for your appeal. Learn more about hearings.</p>
+            <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.</p>
+          </div>,
+        },
+        form9: {
+          title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
+          description: <div>
+            <p>The Veterans Benefits Administration (VBA) RO has prepared an SSOC for your appeal. An SSOC was created because you, your legal representative, your healthcare provider, or the VA added new evidence to your appeal.</p>
+            <ul>
+              <li>Your appeal is now ready for the RO to certify it to the Board.</li>
+              <li>If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed.</li>
+            </ul>
+          </div>,
+        },
+        activated: {
+          title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Veterans Benefits Administration (VBA)',
+          description: <p>VBA has followed the Board's remand instructions to find additional evidence for your appeal. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you will get a copy of it in the mail.</p>
+        },
       },
       nextAction: {
         title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`,
@@ -33,6 +54,12 @@ export function appealStatusDescriptions(lastEvent) {
           <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
           <p><a href="#">Learn more about hearings.</a></p>
         </div>,
+      }
+    },
+    remand_ssoc: { // eslint-disable-line camelcase
+      status: {
+        title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Veterans Benefits Administration (VBA)',
+        description: <p>VBA has followed the Board's remand instructions to find additional evidence for your appeal. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you will get a copy of it in the mail.</p>
       }
     },
     soc: {
@@ -129,5 +156,20 @@ export function appealStatusDescriptions(lastEvent) {
     nextAction: {}
   };
 
-  return content[lastEvent.type] || emptyResponse;
+  const eventContent = contentMap[lastEvent.type];
+
+  if (lastEvent.type === 'ssoc') {
+    if (previousHistory[0]) {
+      return {
+        ...eventContent,
+        status: eventContent.status[previousHistory[0].type],
+      };
+    }
+    return {
+      ...eventContent,
+      status: eventContent.status.soc,
+    };
+  }
+
+  return contentMap[lastEvent.type] || emptyResponse;
 }
