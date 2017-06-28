@@ -5,7 +5,6 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../components/GetFormHelp';
 import { fileHelp, expensesWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
@@ -19,6 +18,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { validateBurialDate } from '../validation';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   relationship,

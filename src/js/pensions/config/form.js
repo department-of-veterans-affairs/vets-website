@@ -25,7 +25,6 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import GetFormHelp from '../components/GetFormHelp';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
@@ -40,6 +39,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   nationalGuardActivation,
