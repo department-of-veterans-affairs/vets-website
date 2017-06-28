@@ -102,6 +102,12 @@ export function appealStatusDescriptions(lastEvent) {
         title: 'Your Appeal Has Been Merged With Your Earlier Appeal',
         description: <p>Because you had separate appeals on multiple claims, the appeals have been merged so that all of the issues you appealed can be considered at the same time. Instead of waiting on two (or more) decisions, all of the issues in your appeals will be addressed in a single decision by the Board. Your place in line will is based on your oldest appeal, meaning that the issues from your newer appeal(s) will be decided more quickly than if the appeals were not merged.</p>
       }
+    },
+    field_grant: { // eslint-disable-line camelcase
+      status: {
+        title: 'Your Appeal Has Been Granted by the Regional Office (RO)',
+        description: 'This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.',
+      }
     }
   };
 
