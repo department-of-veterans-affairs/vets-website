@@ -96,7 +96,8 @@ export function createRoutes(formConfig) {
     routes.push({
       path: 'form-saved',
       component: FormSaved,
-      pageList
+      pageList,
+      formConfig
     });
   }
 

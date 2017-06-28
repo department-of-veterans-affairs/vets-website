@@ -21,7 +21,8 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning
+  disclosureWarning,
+  resumeMessage
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -120,9 +121,9 @@ const formConfig = {
   version: 0,
   // Disable save in progress for production
   disableSave: __BUILDTYPE__ === 'production',
-  savedFormErrorMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.'
+    noAuth: 'Please sign in again to resume your application for health care.',
+    success: resumeMessage
   },
   transformForSubmit: transform,
   // Use the old intro page for production, but SiP for dev and staging
