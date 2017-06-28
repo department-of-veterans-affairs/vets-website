@@ -10,10 +10,7 @@ const defaultProps = {
   letterType: 'commissary'
 };
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 372481b... Test pdf fetch
 let oldWindow;
 let oldFetch;
 
@@ -45,10 +42,7 @@ const teardown = () => {
   global.fetch = oldFetch;
 };
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 372481b... Test pdf fetch
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
