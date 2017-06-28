@@ -148,6 +148,31 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
           </ul>
         </div>,
       }
+    },
+    activated: {
+      status: {
+        defaultStatus: {
+          title: 'The Board Has Activated Your Appeal',
+          description: <div>
+            <p>Your appeal has been activated by the Board. It is now in line for review by a Veterans Law Judge. An appeal typically reaches its place in line for review 3 to 5 years after the receipt of your Form 9.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+          </div>
+        },
+        bva_remand: { // eslint-disable-line camelcase
+          title: 'The Board Has Activated Your Appeal',
+          description: <div>
+            <p>The Veterans Benefits Administration (VBA) sent the Board the evidence asked for in the remand of your appeal. Your appeal has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+          </div>
+        },
+        cavc_decision: { // eslint-disable-line camelcase
+          title: 'The Board Has Activated Your Appeal from the Court of Appeals for Veterans Claims (CAVC)',
+          description: <div>
+            <p>Your appeal has been returned to the Board from the CAVC. It has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
+            <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You will receive a letter from the Board about how to submit new evidence during this time period.</p>
+          </div>
+        }
+      }
     }
   };
 
@@ -157,18 +182,30 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
   };
 
   const eventContent = contentMap[lastEvent.type];
+  const previousEventType = previousHistory[0] && previousHistory[0].type;
+  let prevType = previousEventType;
 
-  if (lastEvent.type === 'ssoc') {
-    if (previousHistory[0]) {
+  if (!eventContent) {
+    return emptyResponse;
+  }
+
+  switch (lastEvent.type) {
+    case 'ssoc':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'soc';
+
       return {
         ...eventContent,
-        status: eventContent.status[previousHistory[0].type],
+        status: eventContent.status[prevType || 'soc'],
       };
-    }
-    return {
-      ...eventContent,
-      status: eventContent.status.soc,
-    };
+    case 'activated':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'defaultStatus';
+
+      return {
+        ...eventContent,
+        status: eventContent.status[prevType || 'defaultStatus'],
+      };
+    default:
+      break;
   }
 
   return contentMap[lastEvent.type] || emptyResponse;
