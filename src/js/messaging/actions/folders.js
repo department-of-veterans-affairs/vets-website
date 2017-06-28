@@ -37,7 +37,7 @@ export function fetchFolders() {
       url,
       null,
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
-      () => dispatch({ type: FETCH_FOLDERS_FAILURE })
+      (response) => dispatch({ type: FETCH_FOLDERS_FAILURE, errors: response.errors })
     );
   };
 }
