@@ -3,7 +3,10 @@ import set from 'lodash/fp/set';
 const initialState = {
   letters: [],
   destination: {},
-  available: false
+  lettersAvailable: false,
+  benefitInfo: {},
+  serviceInfo: [],
+  optionsAvailable: false
 };
 
 function letters(state = initialState, action) {
@@ -13,10 +16,23 @@ function letters(state = initialState, action) {
         ...state,
         letters: action.data.data.attributes.letters,
         destination: action.data.meta.address,
-        available: true
+        lettersAvailable: true
       };
     case 'GET_LETTERS_FAILURE':
-      return set('available', false, state);
+      // We are currently ignoring this; consider removing once we're sure we've handled
+      // the various error scenarios
+      return set('lettersAvailable', false, state);
+    case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS':
+      return {
+        ...state,
+        benefitInfo: action.data.data.attributes.benefitInformation,
+        serviceInfo: action.data.data.attributes.militaryService,
+        optionsAvailable: true
+      };
+    case 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE':
+      // We are currently ignoring this; consider removing once we're sure we've handled
+      // the various error scenarios
+      return set('optionsAvailable', false, state);
     default:
       return state;
   }
