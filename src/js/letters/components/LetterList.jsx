@@ -5,16 +5,16 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from './DownloadLetterLink';
 
 import { letterContent } from '../utils/helpers';
-import { getBenefitSummaryOptions } from '../actions/letters';
 
 class LetterList extends React.Component {
   render() {
     const letterItems = (this.props.letters || []).map((letter, index) => {
+      // TODO: if letter.letterType === 'benefit_summary', render the bsl
+      // custom component and pass in this.props.benefitSummaryOptions
       let content = letterContent[letter.letterType] || '';
 
       return (
         <CollapsiblePanel
-            onClick={getBenefitSummaryOptions}
             panelName={letter.name}
             key={`collapsiblePanel-${index}`}>
           <p>{content}</p>
@@ -38,7 +38,8 @@ class LetterList extends React.Component {
 }
 
 LetterList.PropTypes = {
-  letters: PropTypes.array
+  letters: PropTypes.array,
+  benefitSummaryOptions: PropTypes.object
 };
 
 export default LetterList;
