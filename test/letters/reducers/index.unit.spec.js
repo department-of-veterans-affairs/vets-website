@@ -58,6 +58,6 @@ describe('letters reducer', () => {
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
     expect(state.destination.addressLine1).to.eql('2476 MAIN STREET');
-    expect(state.available).to.be.true;
+    expect(state.lettersAvailable).to.be.true;
   });
 });
