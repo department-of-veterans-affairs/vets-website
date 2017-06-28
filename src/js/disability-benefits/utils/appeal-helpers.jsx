@@ -171,5 +171,6 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
     };
   }
 
-  return contentMap[lastEvent.type] || emptyResponse;
+  return eventContent || emptyResponse;
 }
+

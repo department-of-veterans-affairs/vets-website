@@ -414,12 +414,6 @@
       "type": "string",
       "format": "email"
     },
-    "previousNames": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/fullName"
-      }
-    },
     "veteranFullName": {
       "$ref": "#/definitions/fullName"
     },
@@ -448,6 +442,15 @@
       "$ref": "#/definitions/address"
     },
     "phoneNumber": {
+      "$ref": "#/definitions/phone"
+    },
+    "preparerFullName": {
+      "$ref": "#/definitions/fullName"
+    },
+    "preparerAddress": {
+      "$ref": "#/definitions/address"
+    },
+    "preparerPhoneNumber": {
       "$ref": "#/definitions/phone"
     }
   }
