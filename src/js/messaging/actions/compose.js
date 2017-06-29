@@ -52,7 +52,7 @@ export function fetchRecipients() {
       url,
       null,
       (recipients) => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
-      () => dispatch({ type: FETCH_RECIPIENTS_FAILURE })
+      (response) => dispatch({ type: FETCH_RECIPIENTS_FAILURE, errors: response.errors })
     );
   };
 }

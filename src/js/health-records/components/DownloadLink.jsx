@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { apiRequest } from '../utils/helpers';
+import { apiRequest } from '../../common/helpers/api';
 
 class DownloadLink extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class DownloadLink extends React.Component {
     }
 
     this.setState({ downloading: true });
-    const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;
+    const requestUrl = `/health_records?doc_type=${this.props.docType}`;
     apiRequest(
       requestUrl,
       null,

@@ -17,6 +17,7 @@ require('../common');
 require('../../sass/post-911-gib-status.scss');
 
 const store = createCommonStore(reducer);
+
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
@@ -36,4 +37,3 @@ function init() {
 }
 
 initReact(init);
-
