@@ -120,6 +120,7 @@ export function uploadFile(file, filePath, uiOptions = {}) {
 
     const payload = new FormData();
     payload.append('file', file);
+    payload.append('form_id', getState().form.formId);
 
     return fetch(`${environment.API_URL}${uiOptions.endpoint}`, {
       method: 'POST',

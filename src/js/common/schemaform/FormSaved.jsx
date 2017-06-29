@@ -10,15 +10,6 @@ import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 
 import FormStartControls from './FormStartControls';
 
-function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
-  if (legend && legend.getBoundingClientRect().height > 0) {
-    focusElement(legend);
-  } else {
-    focusElement('.nav-header');
-  }
-}
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -30,14 +21,21 @@ const scrollToTop = () => {
 
 class FormSaved extends React.Component {
   componentDidMount() {
-    scrollToTop();
-    focusForm();
+    // if we don't have this then that means we're loading the page
+    // without any data and should just go back to the intro
+    if (!this.props.lastSavedDate) {
+      this.props.router.replace(this.props.route.pageList[0].path);
+    } else {
+      scrollToTop();
+      focusElement('.usa-alert');
+    }
   }
 
   render() {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const { success } = this.props.route.formConfig.savedFormMessages || {};
 
     return (
       <div>
@@ -45,7 +43,7 @@ class FormSaved extends React.Component {
           <div className="usa-alert-body">
             <strong>Your application has been saved!</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
-
+            {success}
             If you're on a public computer, please sign out before you leave to ensure your data is secure.
           </div>
         </div>
@@ -69,7 +67,8 @@ FormSaved.propTypes = {
   route: PropTypes.shape({
     pageList: PropTypes.arrayOf(PropTypes.shape({
       path: PropTypes.string
-    }))
+    })),
+    formConfig: PropTypes.object.isRequired
   }),
   lastSavedDate: PropTypes.number.isRequired,
 };

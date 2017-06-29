@@ -11,11 +11,11 @@ order: 1
 
 ### Are you in crisis? You have options.
 
--	Call the Veterans Crisis Line at <a href="tel:+8002738255">800-273-8255</a> and press 1 to talk to someone now.
--	[Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
--	Text 838255 to get help right away.
--	Call 911.
--	Go to the nearest emergency room.
+- Call the Veterans Crisis Line at <a href="tel:+8002738255">800-273-8255</a> and press 1 to talk to someone now.
+- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+- Text 838255 to get help right away.
+- Call 911.
+- Go to the nearest emergency room.
 
 Get more information and resources on the Veterans Crisis Line website. [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
@@ -31,12 +31,14 @@ You may be able to get disability compensation or benefits if you have symptoms 
 
 <div class="feature" markdown="1">
 
+<span id="ptsd-disability-eligibility"></span>
+
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
--	The stressor happened during your service, **and**
--	You can’t function as well as you once could because of your symptoms, **and**
--	A doctor has diagnosed you with PTSD
+- The stressor happened during your service, **and**
+- You can’t function as well as you once could because of your symptoms, **and**
+- A doctor has diagnosed you with PTSD
 
 <br>
 
@@ -47,9 +49,9 @@ Veterans
 
 ### What kind of disability benefits can I get?
 
--	Health care
+- Health care
 - Compensation (payments)
--	Treatment for PTSD
+- Treatment for PTSD
 
 --------
 

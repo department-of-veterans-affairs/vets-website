@@ -103,4 +103,29 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.subTree('.usa-alert')).to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
+
+  it('should render loading indicator while profile is loading', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          { form: '1010ez' }
+        ],
+        prefillsAvailable: [],
+        loading: true
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <SaveInProgressIntro
+          pageList={pageList}
+          formId="1010ez"
+          user={user}/>
+    );
+
+    expect(tree.subTree('LoadingIndicator')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)')).to.be.false;
+  });
 });

@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getLetterList } from '../actions/letters';
+import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
 
 class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
+    this.props.getBenefitSummaryOptions();
   }
 
   render() {
@@ -22,11 +23,17 @@ function mapStateToProps(state) {
   return {
     letters: letterState.letters,
     destination: letterState.destination,
-    available: letterState.available
+    lettersAvailable: letterState.lettersAvailable,
+    benefitSummaryOptions: {
+      benefitInfo: letterState.benefitInfo,
+      serviceInfo: letterState.serviceInfo
+    },
+    optionsAvailable: letterState.optionsAvailable
   };
 }
 
 const mapDispatchToProps = {
+  getBenefitSummaryOptions,
   getLetterList
 };
 

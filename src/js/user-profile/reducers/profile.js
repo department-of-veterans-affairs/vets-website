@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import {
   UPDATE_PROFILE_FIELD,
+  PROFILE_LOADING_FINISHED,
   FETCHING_LATEST_MHV_TERMS,
   FETCHING_LATEST_MHV_TERMS_SUCCESS,
   FETCHING_LATEST_MHV_TERMS_FAILURE,
@@ -9,6 +10,7 @@ import {
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
  } from '../actions';
+import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
@@ -27,13 +29,20 @@ const initialState = {
     terms: {},
   },
   savedForms: [],
-  prefillsAvailable: []
+  prefillsAvailable: [],
+  loading: true
 };
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELD: {
       return _.set(action.propertyPath, action.value, state);
+    }
+    case PROFILE_LOADING_FINISHED: {
+      return _.set('loading', false, state);
+    }
+    case UPDATE_LOGGEDIN_STATUS: {
+      return _.set('loading', false, state);
     }
     case FETCHING_LATEST_MHV_TERMS: {
       return {
@@ -83,7 +92,6 @@ function profileInformation(state = initialState, action) {
         }
       };
     }
-
     default:
       return state;
   }
