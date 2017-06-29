@@ -8,7 +8,7 @@ template: detail-page
 
 <div class="va-introtext">
 
-If you got a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability), you may be able to get disability compensation or benefits. Find out what benefits you can get.
+If you got a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability), you may be able to get disability compensation or benefits. Find out what benefits you can get. 
 
 </div>
 
