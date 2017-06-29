@@ -12,6 +12,7 @@ import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import ReadOnlyArrayField from './review/ReadOnlyArrayField';
 import BasicArrayField from './BasicArrayField';
 import TitleField from './TitleField';
 import ReviewObjectField from './review/ObjectField';
@@ -26,7 +27,7 @@ const fields = {
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
-  ArrayField,
+  ArrayField: ReadOnlyArrayField,
   BasicArrayField,
   address: ReviewObjectField,
   StringField
@@ -55,6 +56,8 @@ class SchemaForm extends React.Component {
       this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
+    } else if (!!newProps.prefilled !== !!this.state.formContext.prefilled) {
+      this.setState(this.getEmptyState(newProps));
     }
   }
 
@@ -64,7 +67,7 @@ class SchemaForm extends React.Component {
    * displayed on this particular page hasn't changed
    */
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.reviewMode
+    if ((nextProps.reviewMode && !nextProps.editModeOnReviewPage)
       && nextProps.reviewMode === this.props.reviewMode
       && deepEquals(this.state, nextState)
       && nextProps.schema === this.props.schema
@@ -91,7 +94,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex } = props;
+    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow, prefilled } = props;
     return {
       formContext: {
         touched: {},
@@ -101,7 +104,10 @@ class SchemaForm extends React.Component {
         setTouched: this.setTouched,
         pageTitle: title,
         pagePerItemIndex,
-        reviewMode
+        reviewMode,
+        hideHeaderRow,
+        uploadFile,
+        prefilled
       }
     };
   }
@@ -134,17 +140,20 @@ class SchemaForm extends React.Component {
       schema,
       uiSchema,
       reviewMode,
+      editModeOnReviewPage,
       children,
       onSubmit,
       onChange,
       safeRenderCompletion
     } = this.props;
 
+    const useReviewMode = reviewMode && !editModeOnReviewPage;
+
     return (
       <div>
         <Form
             safeRenderCompletion={safeRenderCompletion}
-            FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
+            FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
             formContext={this.state.formContext}
             liveValidate
             noHtml5Validate
@@ -157,8 +166,8 @@ class SchemaForm extends React.Component {
             validate={this.validate}
             showErrorList={false}
             formData={data}
-            widgets={reviewMode ? reviewWidgets : widgets}
-            fields={reviewMode ? reviewFields : fields}
+            widgets={useReviewMode ? reviewWidgets : widgets}
+            fields={useReviewMode ? reviewFields : fields}
             transformErrors={this.transformErrors}>
           {children}
         </Form>
@@ -177,6 +186,7 @@ SchemaForm.propTypes = {
   uiSchema: PropTypes.object.isRequired,
   data: PropTypes.any,
   reviewMode: PropTypes.bool,
+  editModeOnReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   hideTitle: PropTypes.bool

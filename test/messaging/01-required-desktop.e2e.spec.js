@@ -10,14 +10,14 @@ module.exports = E2eHelpers.createE2eTest(
 
     MessagingHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
-    LoginHelpers.logIn(token, client, '/healthcare/messaging', 3);
+    LoginHelpers.logIn(token, client, '/health-care/messaging', 3);
 
     // Desktop test
     client.resizeWindow(1000, 800);
 
     // Ensure messaging home page renders
     client
-      .url(`${E2eHelpers.baseUrl}/healthcare/messaging`)
+      .url(`${E2eHelpers.baseUrl}/health-care/messaging`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Send a Message to Your Provider: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);

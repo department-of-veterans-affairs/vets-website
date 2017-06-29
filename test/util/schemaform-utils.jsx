@@ -70,6 +70,7 @@ export class DefinitionTester extends React.Component {
           data={formData}
           pagePerItemIndex={this.props.pagePerItemIndex}
           onChange={this.handleChange}
+          uploadFile={this.props.uploadFile}
           onSubmit={this.props.onSubmit}/>
     );
   }
@@ -92,6 +93,14 @@ export function getFormDOM(form) {
     });
   };
 
+  formDOM.files = function fillFiles(id, files) {
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        files
+      }
+    });
+  };
+
   formDOM.submitForm = () => {
     submitForm(form);
   };
@@ -102,6 +111,20 @@ export function getFormDOM(form) {
         checked
       }
     });
+  };
+
+  // Accepts 'Y', 'N', true, false
+  formDOM.setYesNo = function setYesNo(id, value) {
+    const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
+    ReactTestUtils.Simulate.change(this.querySelector(id), {
+      target: {
+        value: isYes ? 'Y' : 'N'
+      }
+    });
+  };
+
+  formDOM.click = function click(selector) {
+    ReactTestUtils.Simulate.click(this.querySelector(selector));
   };
 
   return formDOM;

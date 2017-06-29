@@ -25,10 +25,6 @@ legend {
   }
 }
 
-.form-review-panel-page .va-growable-add-btn {
-  display: none;
-}
-
 .va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date {
   &:focus {
     outline: none;
@@ -281,4 +277,59 @@ label {
 .schemaform-file-list {
   list-style: none;
   padding-left: 0;
+  > li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  > .schemaform-file-item-edit {
+    flex-direction: column;
+    align-items: left;
+  }
+}
+
+.schemaform-file-list-buttons-editing {
+  display: flex;
+  > .schemaform-file-remove-button {
+    width: inherit;
+  }
+}
+
+.usa-input-error .schemaform-upload-label {
+  margin-top: 0.5em;
+}
+
+.schemaform-file-upload .schemaform-label {
+  font-weight: bold;
+}
+
+.schemaform-file-list-buttons-editing > .usa-button {
+  margin: 0.5em 0.5em 0.5em 0;
+}
+
+.schemaform-file-upload-review {
+  margin-bottom: 1.5em;
+}
+
+.va-growable-background:focus {
+  outline: none;
+}
+
+.schemaform-save-error {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.schemaform-address-view {
+  white-space: pre-wrap;
+}
+
+.schemaform-array-readonly-header {
+  padding-bottom: 1.5rem;
+}
+
+.schemaform-prefill-message {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
 }

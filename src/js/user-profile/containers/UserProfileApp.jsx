@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
-import AccountManagementSection from '../components/AccountManagementSection';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
@@ -12,15 +11,14 @@ class UserProfileApp extends React.Component {
     let view;
 
     view = (
-      <div className="row">
+      <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Your Vets.gov Account</h1>
+          <h1>Your Account</h1>
           <div>
-            <UserDataSection/>
             <AuthApplicationSection
                 userProfile={this.props.profile}
                 verifyUrl={this.props.verifyUrl}/>
-            <AccountManagementSection/>
+            <UserDataSection/>
           </div>
         </div>
       </div>

@@ -3,23 +3,19 @@ import _ from 'lodash/fp';
 import FileField from '../FileField';
 import { validateFileField } from '../validation';
 
-const defaults = {
-  fileTypes: ['pdf', 'txt', 'jpg', 'jpeg', 'gif'],
-  maxSize: 26214400,
-  endpoint: '/v0/uploads'
-};
-
 export default function fileUiSchema(label, userOptions = {}) {
-  const options = _.assign(defaults, userOptions);
   return {
     'ui:title': label,
     'ui:field': FileField,
-    'ui:options': {
-      endpoint: options.endpoint,
-      fileTypes: options.fileTypes,
-      maxSize: options.maxSize,
-      showFieldLabel: true
-    },
+    'ui:options': _.assign({
+      fileTypes: ['pdf', 'txt', 'jpg', 'jpeg', 'gif'],
+      maxSize: 2097152,
+      endpoint: '/v0/claim_attachments',
+      addAnotherLabel: 'Add Another',
+      showFieldLabel: true,
+      keepInPageOnReview: true,
+      classNames: 'schemaform-file-upload'
+    }, userOptions),
     'ui:errorMessages': {
       required: 'You must upload a file',
       minItems: 'You must upload a file'

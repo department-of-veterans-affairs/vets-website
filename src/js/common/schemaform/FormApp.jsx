@@ -1,10 +1,13 @@
 import React from 'react';
 import Scroll from 'react-scroll';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-
+import { LOAD_STATUSES, PREFILL_STATUSES, setFetchFormStatus } from './save-load-actions';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
 
@@ -13,11 +16,29 @@ const Element = Scroll.Element;
 /*
  * Primary component for a schema generated form app.
  */
-export default class FormApp extends React.Component {
+class FormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    const status = newProps.loadedStatus;
+    if (status === LOAD_STATUSES.success) {
+      newProps.router.push(newProps.returnUrl);
+      // Set loadedStatus in redux to not-attempted to not show the loading page
+      newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
+    } else if (newProps.prefillStatus !== this.props.prefillStatus
+      && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
+      newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
+    } else if (status !== LOAD_STATUSES.notAttempted
+      && status !== LOAD_STATUSES.pending
+      && status !== this.props.loadedStatus
+      && !window.location.pathname.endsWith('/error')
+    ) {
+      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
     }
   }
 
@@ -50,7 +71,10 @@ export default class FormApp extends React.Component {
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
-    if (!isInProgress(trimmedPathname)) {
+
+    if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
+      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+    } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
       content = (
@@ -69,7 +93,12 @@ export default class FormApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           <div className="usa-width-two-thirds medium-8 columns">
-            {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+            {
+              formConfig.title &&
+              // If we're on the introduction page, show the title if we're actually on the loading screen
+              (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
+                <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
+            }
             {content}
           </div>
         </div>
@@ -81,3 +110,17 @@ export default class FormApp extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  loadedStatus: state.form.loadedStatus,
+  prefillStatus: state.form.prefillStatus,
+  returnUrl: state.form.loadedData.metadata.returnUrl,
+});
+
+const mapDispatchToProps = {
+  setFetchFormStatus,
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
+
+export { FormApp };

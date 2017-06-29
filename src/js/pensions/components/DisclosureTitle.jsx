@@ -8,7 +8,7 @@ export default function createDisclosureTitle(path, title) {
     // A little hackish
     if (path === 'spouse') {
       const marriages = formData.marriages || [];
-      fullName = _.get(['marriages', marriages.length - 1, 'spouseFullName'], formData);
+      fullName = _.get(['marriages', marriages.length - 1, 'spouseFullName'], formData) || {};
     } else {
       fullName = _.get(path, formData) || {};
     }

@@ -12,7 +12,11 @@ import {
   setInProgressForm,
   migrateFormData,
   saveInProgressForm,
-  fetchInProgressForm
+  fetchInProgressForm,
+  removeInProgressForm,
+  setPrefillComplete,
+  setFetchFormPending,
+  setStartOver
 } from '../../../src/js/common/schemaform/save-load-actions';
 
 import { logOut } from '../../../src/js/login/actions';
@@ -32,6 +36,7 @@ const teardown = () => {
   global.fetch = oldFetch;
   global.sessionStorage = oldSessionStorage;
 };
+const getState = () => ({ form: { trackingPrefix: 'test' } });
 
 describe('Schemaform save / load actions:', () => {
   describe('setSaveFormStatus', () => {
@@ -103,24 +108,21 @@ describe('Schemaform save / load actions:', () => {
     beforeEach(setup);
     afterEach(teardown);
 
-    it('dispatches a no-auth if the user has no session token', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a no-auth if the user has no session token', () => {
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      thunk(dispatch).then(() => {
+      return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.false;
-        done();
-      }).catch((err) => {
-        done(err);
       });
     });
     it('dispatches a pending', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
 
-      thunk(dispatch).then(() => {
+      thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.true;
         done();
       }).catch((err) => {
@@ -128,24 +130,24 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('calls the api to save the form', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
 
-      thunk(dispatch).then(() => {
-        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
+      thunk(dispatch, getState).then(() => {
+        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/1010ez');
         done();
       }).catch((err) => {
         done(err);
       });
     });
     it('dispatches a success if the form is saved', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true
       }));
 
-      thunk(dispatch).then(() => {
+      thunk(dispatch, getState).then(() => {
         expect(dispatch.secondCall.args[0].status).to.equal(SAVE_STATUSES.success);
         expect(dispatch.secondCall.args[0].type).to.equal(SET_SAVE_FORM_STATUS);
         done();
@@ -154,14 +156,14 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a no-auth if the api returns a 401', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.reset();
       global.fetch.returns(Promise.resolve(new Response(null, {
         status: 401
       })));
 
-      thunk(dispatch).then(() => {
+      thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(logOut())).to.be.true;
         done();
@@ -170,13 +172,13 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a failure on any other failure', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve(new Response(null, {
         status: 404
       })));
 
-      thunk(dispatch).then(() => {
+      thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
         done();
       }).catch((err) => {
@@ -184,11 +186,11 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a failure when a network error occurs', (done) => {
-      const thunk = saveInProgressForm('hca', 0, 'some/path', {});
+      const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
-      thunk(dispatch).then(() => {
+      thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
         done();
       }).catch((err) => {
@@ -200,41 +202,38 @@ describe('Schemaform save / load actions:', () => {
     beforeEach(setup);
     afterEach(teardown);
 
-    it('dispatches a no-auth if the user has no session token', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a no-auth if the user has no session token', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledOnce).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.pending))).to.be.false;
-        done();
       });
     });
-    it('dispatches a pending', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a pending', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         // Only testing for pending status, so failing is the quickest way
         ok: false
       }));
 
-      thunk(dispatch).catch(() => {
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.pending))).to.be.true;
-        done();
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
       });
     });
-    it('attempts to fetch an in-progress form', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('attempts to fetch an in-progress form', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
 
-      thunk(dispatch).catch(() => {
-        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
-        done();
+      thunk(dispatch, getState).then(() => {
+        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/1010ez');
       });
     });
-    it('dispaches a success if the form is loaded', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a success if the form is loaded', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true,
@@ -246,65 +245,65 @@ describe('Schemaform save / load actions:', () => {
         })
       }));
 
-      thunk(dispatch).then(() => {
-        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/hca');
-        done();
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.args[0][0]).to.contain('/v0/in_progress_forms/1010ez');
       });
     });
-    it('dispatches a no-auth if the api returns a 401', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a no-auth if the api returns a 401', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: false,
         status: 401
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledThrice).to.be.true;
+        expect(dispatch.calledWith(logOut())).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
-        done();
       });
     });
-    it('dispatches a not-found if the api returns a 404', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a not-found if the api returns a 404', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: false,
         status: 404
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
-        done();
       });
     });
-    it('dispatches a not-found if the api returns an empty object', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a not-found if the api returns an empty object', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true,
         json: () => ({}) // Return an empty object
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound))).to.be.true;
-        done();
       });
     });
-    it("dispatches an invalid-data if the data returned from the api isn't an object", (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true,
         json: () => ([]) // Return not an object
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
-        done();
       });
     });
-    it("dispatches an invalid-data if the api doesn't return valid json", (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it("dispatches an invalid-data if the api doesn't return valid json", () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true,
@@ -312,34 +311,137 @@ describe('Schemaform save / load actions:', () => {
         json: () => (Promise.reject(new SyntaxError('Error parsing json')))
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData))).to.be.true;
-        done();
       });
     });
-    it('dispatches a failure on api response error', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a failure on api response error', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: false,
         status: 500
       }));
 
-      thunk(dispatch).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
-        done();
       });
     });
-    it('dispatches a failure on network error', (done) => {
-      const thunk = fetchInProgressForm('hca', 0, 'some/path', {});
+    it('dispatches a failure on network error', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
-      thunk(dispatch).then(() => {
-        done(new Error("Should not call the dispatch's .then() on a network failure"));
-      }).catch(() => {
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).to.be.true;
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
-        done();
+      });
+    });
+    describe('prefill', () => {
+      it('dispatches a no-auth if the api returns a 401', () => {
+        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const dispatch = sinon.spy();
+        global.fetch.returns(Promise.resolve({
+          ok: false,
+          status: 401
+        }));
+
+        return thunk(dispatch, getState).then(() => {
+          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to.be.true;
+        });
+      });
+      it('dispatches a success if the api returns a 404', () => {
+        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const dispatch = sinon.spy();
+        global.fetch.returns(Promise.resolve({
+          ok: false,
+          status: 404
+        }));
+
+        return thunk(dispatch, getState).then(() => {
+          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+        });
+      });
+      it('dispatches a success if the api returns an empty object', () => {
+        const thunk = fetchInProgressForm('1010ez', {}, true);
+        const dispatch = sinon.spy();
+        global.fetch.returns(Promise.resolve({
+          ok: true,
+          json: () => ({}) // Return an empty object
+        }));
+
+        return thunk(dispatch, getState).then(() => {
+          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+        });
+      });
+    });
+  });
+  describe('removeInProgressForm', () => {
+    beforeEach(setup);
+    afterEach(teardown);
+    window.dataLayer = [];
+
+    it('dispatches a start over action', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledWith(setStartOver())).to.be.true;
+      });
+    });
+    it('attempts to remove an in-progress form', () => {
+      const thunk = fetchInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+
+      thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain('/v0/in_progress_forms/1010ez');
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+      });
+    });
+    it('removes a form and fetches prefill data', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.reset();
+      global.fetch.onCall(0).returns(Promise.resolve({
+        ok: true
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.lastCall.args[0]).to.be.a.function;
+      });
+    });
+    it('handles remove error and fetches prefill data', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false,
+        status: 400
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.lastCall.args[0]).to.be.a.function;
+      });
+    });
+    it('sets no-auth status if session expires', () => {
+      const thunk = removeInProgressForm('1010ez', {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(Promise.resolve({
+        ok: false,
+        status: 401
+      }));
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(dispatch.calledWith(logOut()));
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)));
+        expect(dispatch.lastCall.args[0]).not.to.be.a.function;
       });
     });
   });

@@ -2,19 +2,25 @@ export const relationshipLabels = {
   spouse: 'Spouse',
   child: 'Child',
   parent: 'Parent',
-  executor: 'Executor/Administrator of Estate',
+  executor: 'Executor/Administrator of estate',
   other: 'Other'
 };
 
 export const locationOfDeathLabels = {
-  vaMedicalCenter: 'VA Medical Center',
-  stateVeteransHome: 'State Veterans Home',
-  nursingHome: 'Nursing Home under VA Contract',
+  vaMedicalCenter: 'VA medical center',
+  stateVeteransHome: 'State Veterans home',
+  nursingHome: 'Nursing home under VA contract',
   other: 'Other'
 };
 
 export const allowanceLabels = {
-  nonService: 'Non-Service-Connected Death',
-  service: 'Service-Connected Death',
-  vaMC: 'VA Medical Center Death'
+  nonService: 'Non-service-connected death',
+  service: 'Service-connected death',
+  vaMC: 'VA medical center death'
+};
+
+export const benefitsLabels = {
+  burialAllowance: 'Burial allowance',
+  plotAllowance: 'Plot allowance',
+  transportation: 'Tranportation'
 };
