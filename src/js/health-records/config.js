@@ -200,5 +200,11 @@ module.exports = {
         },
       ]
     },
+  },
+
+  errorCodes: {
+    accountcreation: [
+      'MHVAC1',
+    ]
   }
 };

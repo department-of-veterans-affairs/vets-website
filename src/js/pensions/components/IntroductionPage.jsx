@@ -34,7 +34,7 @@ class IntroductionPage extends React.Component {
           Complete the form before submitting to apply for pension benefits with the 21-527EZ.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="05/31/2018"/>
+          <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>
       </div>
     );

@@ -35,6 +35,7 @@ class FormSaved extends React.Component {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const { success } = this.props.route.formConfig.savedFormMessages || {};
 
     return (
       <div>
@@ -42,8 +43,7 @@ class FormSaved extends React.Component {
           <div className="usa-alert-body">
             <strong>Your application has been saved!</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
-
-            <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
+            {success}
             If you're on a public computer, please sign out before you leave to ensure your data is secure.
           </div>
         </div>
@@ -67,7 +67,8 @@ FormSaved.propTypes = {
   route: PropTypes.shape({
     pageList: PropTypes.arrayOf(PropTypes.shape({
       path: PropTypes.string
-    }))
+    })),
+    formConfig: PropTypes.object.isRequired
   }),
   lastSavedDate: PropTypes.number.isRequired,
 };

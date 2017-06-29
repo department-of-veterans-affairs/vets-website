@@ -13,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
-      .click('.schemaform-buttons .usa-button-primary');
+      .click('.usa-button-primary');
 
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);

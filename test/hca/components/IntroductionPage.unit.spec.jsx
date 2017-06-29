@@ -14,7 +14,6 @@ defaultProps.fetchInProgressForm = sinon.spy();
 defaultProps.loadInProgressDataIntoForm = sinon.spy();
 defaultProps.updateLogInUrl = sinon.spy();
 
-
 describe('hca <IntroductionPage>', () => {
   it('should render', () => {
     const page = findDOMNode(ReactTestUtils.renderIntoDocument(<IntroductionPage {...defaultProps}/>));
