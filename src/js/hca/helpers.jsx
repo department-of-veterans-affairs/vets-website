@@ -159,3 +159,7 @@ export const disclosureWarning = (
     </div>
   </div>
 );
+
+export const resumeMessage = (
+  <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
+);

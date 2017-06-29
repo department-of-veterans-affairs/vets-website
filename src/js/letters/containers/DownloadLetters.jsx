@@ -20,7 +20,9 @@ class DownloadLetters extends React.Component {
           <AddressSection destination={this.props.destination}/>
         </StepHeader>
         <StepHeader name="Select and Download Letters" current="2" steps="2">
-          <LetterList letters={this.props.letters}/>
+          <LetterList
+              letters={this.props.letters}
+              benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
         <h4>Can't find what you're looking for?</h4>
@@ -52,7 +54,12 @@ function mapStateToProps(state) {
     profile: userState.profile,
     letters: letterState.letters,
     destination: letterState.destination,
-    available: letterState.available
+    lettersAvailable: letterState.lettersAvailable,
+    benefitSummaryOptions: {
+      benefitInfo: letterState.benefitInfo,
+      serviceInfo: letterState.serviceInfo
+    },
+    optionsAvailable: letterState.optionsAvailable
   };
 }
 

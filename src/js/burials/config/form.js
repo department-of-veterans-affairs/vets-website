@@ -18,6 +18,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { validateBurialAndDeathDates } from '../validation';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   relationship,
@@ -68,12 +69,13 @@ const formConfig = {
   transformForSubmit: transform,
   formId: '21P-530',
   version: 0,
-  savedFormErrorMessages: {
+  savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth: 'Please sign in again to resume your application for burial benefits.'
   },
   title: 'Apply for burial benefits',
   subTitle: 'Form 21P-530',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     vaFileNumber,

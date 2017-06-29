@@ -10,16 +10,17 @@ import applicantInformation from '../../common/schemaform/pages/applicantInforma
 import {
   transform,
   employmentDescription,
-  getMarriageTitle,
+  getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
-  directDepositWarning
+  directDepositWarning,
+  isMarried
 } from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
-import MarriageTitle from '../components/MarriageTitle';
+import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
@@ -39,6 +40,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   nationalGuardActivation,
@@ -92,14 +94,9 @@ function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-function isMarried(form) {
-  return form.maritalStatus === 'Married';
-}
-
 function isCurrentMarriage(form, index) {
-  const status = form ? form.maritalStatus : undefined;
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
-  return status === 'Married' && numMarriages - 1 === index;
+  return isMarried(form) && numMarriages - 1 === index;
 }
 
 function isChild(item) {
@@ -156,12 +153,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
   version: 0,
-  savedFormErrorMessages: {
+  savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
     additionalSources: additionalSourcesSchema(fullSchemaPensions),
@@ -472,7 +470,7 @@ const formConfig = {
           path: 'household/marriage-info',
           uiSchema: {
             maritalStatus: {
-              'ui:title': 'Have you ever been married?',
+              'ui:title': 'What’s your marital status?',
               'ui:widget': 'radio'
             },
             marriages: {
@@ -629,11 +627,10 @@ const formConfig = {
               }
             },
             spouseVaFileNumber: {
-              'ui:title': 'What is their File Number?',
+              'ui:title': 'What is their VA file number?',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran'
               },
-              'ui:required': form => form.spouseIsVeteran === true,
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits'
               }
@@ -715,7 +712,7 @@ const formConfig = {
           }
         },
         spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex }) => getMarriageTitle(pagePerItemIndex),
+          title: (form, { pagePerItemIndex }) => getSpouseMarriageTitle(pagePerItemIndex),
           path: 'household/spouse-marriages/:index',
           depends: isMarried,
           showPagePerItem: true,
@@ -723,7 +720,7 @@ const formConfig = {
           uiSchema: {
             spouseMarriages: {
               items: {
-                'ui:title': MarriageTitle,
+                'ui:title': SpouseMarriageTitle,
                 spouseFullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': 'Their spouse’s first name'
@@ -767,6 +764,10 @@ const formConfig = {
                 reasonForSeparation: {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
+                },
+                dateOfSeparation: currentOrPastDateUI('Date marriage ended'),
+                locationOfSeparation: {
+                  'ui:title': 'Place marriage ended',
                 }
               }
             }
@@ -783,7 +784,9 @@ const formConfig = {
                     'dateOfMarriage',
                     'marriageType',
                     'locationOfMarriage',
-                    'reasonForSeparation'
+                    'reasonForSeparation',
+                    'dateOfSeparation',
+                    'locationOfSeparation'
                   ],
                   properties: {
                     dateOfMarriage: marriageProperties.dateOfMarriage,
@@ -791,7 +794,9 @@ const formConfig = {
                     spouseFullName: marriageProperties.spouseFullName,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
-                    reasonForSeparation
+                    reasonForSeparation,
+                    dateOfSeparation: marriageProperties.dateOfSeparation,
+                    locationOfSeparation: marriageProperties.locationOfSeparation
                   }
                 }
               }

@@ -6,6 +6,7 @@ import moment from 'moment';
 import { updateLogInUrl } from '../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
+import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 
 export default class SaveInProgressIntro extends React.Component {
@@ -51,10 +52,20 @@ export default class SaveInProgressIntro extends React.Component {
     const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
+    if (profile.loading) {
+      return (
+        <div>
+          <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>
+          <br/>
+        </div>
+      );
+    }
+
     return (
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
+            messages={this.props.messages}
             startPage={this.props.pageList[1].path}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}
@@ -71,6 +82,7 @@ export default class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
+  messages: PropTypes.object,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,
