@@ -172,6 +172,7 @@ const mapStateToProps = (state) => {
     loading: msgState.loading,
     errors: msgState.errors.errors,
     nav: msgState.folders.ui.nav,
+    recipients: msgState.recipients.data,
   };
 };
 
