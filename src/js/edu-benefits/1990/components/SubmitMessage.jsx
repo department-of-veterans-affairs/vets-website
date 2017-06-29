@@ -69,7 +69,7 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{this.props.address}</address>
+              <address className="schemaform-address-view">{this.props.address}</address>
             </li>
           </ul>
         </div>

@@ -7,7 +7,6 @@ export default {
     'ira',
     'stocks',
     'realProperty',
-    'otherProperty',
     'additionalSources'
   ],
   bank: {
@@ -38,12 +37,6 @@ export default {
     'ui:title': 'Real Property (not your home, vehicle, furniture, or clothing)',
     'ui:options': {
       classNames: 'schemaform-currency-input'
-    }
-  },
-  otherProperty: {
-    'ui:title': 'Other',
-    'ui:options': {
-      classNames: 'schemaform-currency-input',
     }
   },
   additionalSources: additionalSourcesUI

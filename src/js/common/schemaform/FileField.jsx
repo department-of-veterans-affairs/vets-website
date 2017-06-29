@@ -1,61 +1,58 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
-// import Scroll from 'react-scroll';
-import { displayFileSize } from '../../common/utils/helpers';
-import environment from '../../common/helpers/environment';
+import classNames from 'classnames';
+import { focusElement } from '../utils/helpers';
 
 export default class FileField extends React.Component {
-  onAddFile = (e) => {
+  constructor(props) {
+    super(props);
     const files = this.props.formData || [];
-    this.props.onChange(files.concat({
-      uploading: true
-    }));
-    this.uploadFile(e.target.files[0])
-      .then(fileInfo => {
-        const uploadingFiles = this.props.formData;
-        this.props.onChange(_.set(uploadingFiles.length - 1, {
-          errorMessage: null,
-          uploading: false,
-          fileName: fileInfo.fileName,
-          maxSize: fileInfo.maxSize,
-          confirmationNumber: fileInfo.confirmationNumber
-        }, uploadingFiles));
-      })
-      .catch(message => {
-        const uploadingFiles = this.props.formData || [];
-        this.props.onBlur(this.props.idSchema.$id);
-        this.props.onChange(_.set(uploadingFiles.length - 1, {
-          uploading: false,
-          errorMessage: message
-        }, uploadingFiles));
-      });
+    this.state = {
+      editing: files.map(() => false)
+    };
   }
 
-  uploadFile = (file) => {
-    const uiSchema = this.props.uiSchema;
+  componentWillReceiveProps(newProps) {
+    const newFiles = newProps.formData || [];
+    const files = this.props.formData || [];
+    if (newFiles.length !== files.length) {
+      this.setState({
+        editing: newFiles.map(() => false)
+      });
+      focusElement(`#${newProps.idSchema.$id}_add_label`);
+    } else {
+      const editing = this.state.editing.map((isEditing, i) => {
+        if (newFiles[i].uploading !== files[i].uploading) {
+          return false;
+        }
 
-    if (file.size > uiSchema['ui:options'].maxSize) {
-      return Promise.reject('File is too large to be uploaded');
+        return isEditing;
+      });
+      this.setState({ editing });
     }
+  }
 
-    const payload = new FormData();
-    payload.append('upload', file);
-
-    return fetch(`${environment.API_URL}${uiSchema['ui:options'].endpoint}`, {
-      method: 'POST',
-      headers: {
-        'X-Key-Inflection': 'camel'
-      },
-      body: payload
-    }).then(resp => {
-      if (resp.ok) {
-        return resp.json();
+  onAddFile = (event, index = null) => {
+    if (event.target.files && event.target.files.length) {
+      const files = this.props.formData || [];
+      let idx = index;
+      if (idx === null) {
+        idx = files.length === 0 ? 0 : files.length;
       }
+      const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
+      this.props.formContext.uploadFile(event.target.files[0], filePath, this.props.uiSchema['ui:options'])
+        .catch(() => {
+          // rather not use the promise here, but seems better than trying to pass
+          // a blur function
+          this.props.onBlur(this.props.idSchema.$id);
+        });
+    }
+  }
 
-      return Promise.reject(resp.statusText);
-    }, error => {
-      return Promise.reject(error.message);
+  editFile = (index, isEditing = true) => {
+    this.setState({ editing: _.set(index, isEditing, this.state.editing) }, () => {
+      focusElement(`#${this.props.idSchema.$id}_file_${index}`);
     });
   }
 
@@ -73,7 +70,8 @@ export default class FileField extends React.Component {
       errorSchema,
       idSchema,
       formData,
-      schema
+      schema,
+      formContext
     } = this.props;
 
     const uiOptions = uiSchema['ui:options'];
@@ -81,45 +79,78 @@ export default class FileField extends React.Component {
     const maxItems = schema.maxItems || Infinity;
 
     const isUploading = files.some(file => file.uploading);
+    const isEditing = this.state.editing.some(editing => editing);
 
     return (
-      <div>
-        {files.map((file, index) => {
-          const errors = _.get([index, '__errors'], errorSchema) || [];
-          return (
-            <ul key={index} className="schemaform-file-list">
-              {file.uploading && 'Uploading file...'}
-              {file.confirmationNumber &&
-                <li>{file.fileName} ({displayFileSize(file.maxSize)})&nbsp;
-                  <button
-                      onClick={() => this.removeFile(index)}
-                      className="usa-button usa-button-outline schemaform-file-remove-button"
-                      type="button">
-                    Remove
-                  </button>
+      <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
+        {files.length > 0 &&
+          <ul className="schemaform-file-list">
+            {files.map((file, index) => {
+              const errors = _.get([index, '__errors'], errorSchema) || [];
+              const editingOrErrors = this.state.editing[index] || errors.length > 0;
+              const itemClasses = classNames('va-growable-background', {
+                'schemaform-file-item-edit': editingOrErrors
+              });
+
+              return (
+                <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
+                  {file.uploading && 'Uploading file...'}
+                  {file.confirmationCode && <span>{file.name}</span>}
+                  {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
+                  {!file.uploading && !editingOrErrors &&
+                    <div className="schemaform-file-list-buttons">
+                      <button
+                          onClick={() => this.editFile(index)}
+                          className="usa-button usa-button-outline schemaform-file-remove-button"
+                          type="button">
+                        Edit
+                      </button>
+                    </div>
+                  }
+                  {editingOrErrors && <div className="schemaform-file-list-buttons-editing">
+                    <label
+                        role="button"
+                        tabIndex="0"
+                        htmlFor={idSchema.$id}
+                        className="usa-button schemaform-upload-label">
+                      Replace
+                    </label>
+                    <input
+                        type="file"
+                        accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+                        style={{ display: 'none' }}
+                        id={idSchema.$id}
+                        name={idSchema.$id}
+                        onChange={(e) => this.onAddFile(e, index)}/>
+                    {errors.length === 0 &&
+                      <button
+                          onClick={() => this.editFile(index, false)}
+                          className="usa-button usa-button-outline schemaform-file-remove-button"
+                          type="button">
+                        Cancel
+                      </button>
+                    }
+                  </div>}
+                  {editingOrErrors && <a href onClick={(e) => {
+                    e.preventDefault();
+                    this.removeFile(index);
+                  }}>
+                    Delete file
+                  </a>}
                 </li>
-              }
-              {!file.uploading && !!errors.length &&
-                <li>{errors[0]}&nbsp;
-                  <button
-                      onClick={() => this.removeFile(index)}
-                      className="usa-button usa-button-outline schemaform-file-remove-button"
-                      type="button">
-                    Remove
-                  </button>
-                </li>
-              }
-            </ul>
-          );
-        })}
-        {(maxItems === null || files.length < maxItems) && !isUploading &&
+              );
+            })}
+          </ul>
+        }
+        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
           <div>
             <label
                 role="button"
                 tabIndex="0"
+                id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
                 className="usa-button usa-button-outline">
-              Add file
+                {files.length > 0 ? uiOptions.addAnotherLabel : 'Upload'}
             </label>
             <input
                 type="file"
@@ -128,9 +159,8 @@ export default class FileField extends React.Component {
                 id={idSchema.$id}
                 name={idSchema.$id}
                 onChange={this.onAddFile}/>
-            <p><strong>Allowed file types:</strong><br/>{uiOptions.fileTypes.join(', ')}</p>
-            <p><strong>Maximum file size:</strong><br/>{displayFileSize(uiOptions.maxSize)}</p>
-          </div>}
+          </div>
+        }
       </div>
     );
   }
@@ -144,19 +174,7 @@ FileField.propTypes = {
   idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
-  formData: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-  ]),
+  formData: PropTypes.array,
   disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
-  registry: PropTypes.shape({
-    widgets: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ])).isRequired,
-    fields: PropTypes.objectOf(PropTypes.func).isRequired,
-    definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
-  })
+  readonly: PropTypes.bool
 };

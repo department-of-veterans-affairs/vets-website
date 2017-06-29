@@ -26,7 +26,8 @@ const initialState = {
     loading: false,
     terms: {},
   },
-  savedForms: []
+  savedForms: [],
+  prefillsAvailable: []
 };
 
 function profileInformation(state = initialState, action) {

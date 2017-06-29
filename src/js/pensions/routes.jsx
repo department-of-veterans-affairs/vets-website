@@ -5,12 +5,8 @@ import PensionsApp from './PensionsApp.jsx';
 const routes = [
   {
     path: '/',
-    indexRoute: { onEnter: (nextState, replace) => replace('/527EZ') }
-  },
-  {
-    path: '/527EZ',
     component: PensionsApp,
-    indexRoute: { onEnter: (nextState, replace) => replace('/527EZ/introduction') },
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
     childRoutes: createFormRoutes(formConfig)
   }
 ];

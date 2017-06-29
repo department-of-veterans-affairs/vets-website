@@ -36,52 +36,88 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Ready to apply?
 
-#### Applying for a new benefit
-Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
-
-<div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
+<div class="wizard-container">
+  <button class="usa-button-primary va-button-primary wizard-button">Select Correct Form</button>
 
   <p>
-    <div class="form-expanding-group-open expander-content expander-content-closed">
-      <div class="expander-content-inner">
-        <div>Which form do you want to use?</div>
-        <div class="form-radio-buttons">
-          <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-          <label for="form-22-1990">Veterans or Servicemembers applying <strong>for a new benefit</strong> (22-1990)</label>
-          <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
-          <label for="form-22-1990n">Veterans or Servicemembers applying <strong>for a new benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
-          <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
-          <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
-          <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
-          <label for="form-22-5490-1">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
-          <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
-          <label for="form-22-5490-2">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
+    <div class="form-expanding-group-open wizard-content wizard-content-closed">
+      <div class="wizard-content-inner">
+        <div class="wizard-content-question" data-question="create-or-update" data-state="open">
+        <label>Are you applying for a new benefit or updating your current education benefits?</label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="create-or-update" id="new-application" value="new-application" data-next-question="create" data-alternate="existing-application">
+            <label for="new-application">Applying for a new benefit</label>
+            <input type="radio" name="create-or-update" id="existing-application" value="existing-application" data-next-question="update" data-alternate="new-application">
+            <label for="existing-application">Updating my current education benefits</label>
+          </div>
         </div>
-        <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
-      </div>
-    </div>
-  </p>
-</div>
-
-#### Make a change to your current education benefits
-
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995 or Form 22-5495:
-
-<div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Manage Benefits</button>
-
-  <p>
-    <div class="form-expanding-group-open expander-content expander-content-closed">
-      <div class="expander-content-inner">
-        <div>Which form do you want to use?</div>
-        <div class="form-radio-buttons">
-          <input type="radio" name="form-selection" id="form-22-1995" value="1995">
-          <label for="form-22-1995">Veterans, Servicemembers, or dependents applying for a change of place of training <strong>for earned or transferred benefits</strong> (22-1995)</label>
-          <input type="radio" name="form-selection" id="form-22-5495" value="5495">
-          <label for="form-22-5495">Dependents applying for a change of place of training, <strong>who are using DEA or Fry Scholarship</strong> (22-5495)</label>
+        <div class="wizard-content-question" data-question="create" data-alternate="update" data-state="closed">
+        <label>Are you a Veteran or Servicemember claiming a benefit based on your own service?</label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="create" id="is-veteran" value="is-veteran" data-next-question="national-call-to-service" data-alternate="is-not-veteran">
+            <label for="is-veteran">Yes</label>
+            <input type="radio" name="create" id="is-not-veteran" value="is-not-veteran" data-next-question="create-dependent" data-alternate="is-veteran">
+            <label for="is-not-veteran">No</label>
+          </div>
         </div>
-        <a id="manage-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
+        <div class="wizard-content-question" data-question="national-call-to-service" data-alternate="create-dependent" data-state="closed">
+        <label>Are you claiming a <strong>National Call to Service</strong> education benefit?<br />
+              (This is uncommon)
+          </label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="national-call-to-service" id="is-ncts" value="is-ncts" data-selected-form="1990n" data-alternate="is-not-ncts">
+            <label for="is-ncts">Yes</label>
+            <input type="radio" name="national-call-to-service" id="is-not-ncts" value="is-not-ncts" data-selected-form="1990" data-alternate="is-ncts">
+            <label for="is-not-ncts">No</label>
+          </div>
+        </div>
+        <div class="wizard-content-question" data-question="update" data-alternate="create" data-state="closed">
+        <label>Are you receiving education benefits transferred to you by a sponsor Veteran?</label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="update" id="update-non-dependent" value="is-not-dependent" data-selected-form="1995" data-alternate="update-dependent">
+            <label for="is-not-dependent">No, I’m using my own benefit.</label>
+            <input type="radio" name="update" id="update-non-dependent" value="is-not-dependent" data-selected-form="1995" data-alternate="update-dependent">
+            <label for="is-not-dependent">Yes, I’m using a transferred benefit.</label>
+            <input type="radio" name="update" id="update-dependent" value="is-dependent" data-selected-form="5495" data-alternate="update-non-dependent">
+            <label for="is-dependent">No, I am using the Fry Scholarship or DEA (Chapter 35)</label>
+          </div>
+        </div>
+        <div class="wizard-content-question" data-question="create-dependent" data-alternate="national-call-to-service" data-state="closed">
+        <label>Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?</label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="create-dependent" id="create-dependent" value="is-dependent" data-selected-form="5490" data-alternate="create-non-dependent">
+            <label for="create-dependent">Yes</label>
+            <input type="radio" name="create-dependent" id="create-non-dependent" value="is-non-dependent" data-next-question="create-transfer"  data-alternate="create-dependent">
+            <label for="create-non-dependent">No</label>
+          </div>
+        </div>
+        <div class="wizard-content-question" data-question="create-transfer" data-state="closed">
+        <label>Has your sponsor transferred their benefits to you?</label>
+          <div class="form-radio-buttons">
+            <input type="radio" name="create-transfer" id="create-transfer" value="is-transfer" data-selected-form="1990e" data-alternate="create-transfer">
+            <label for="create-transfer">Yes</label>
+            <input type="radio" name="create-transfer" id="create-non-transfer" value="is-non-transfer" data-selected-form="1990e" data-alternate="create-transfer">
+            <label for="create-non-transfer">No</label>
+          </div>
+        </div>
+        <div id="ncts-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
+        <div class="usa-alert-body">
+          <h4 style="padding:0;">Are you sure?</h4>
+          <p style="margin:0;">Are all of the following things true of your service?</p>
+          <ul>
+            <li>Enlisted under the National Call to Service program, <strong>and</strong></li>
+            <li>Entered service between 10/01/03 and 12/31/07, <strong>and</strong></li>
+            <li>Chose education benefits</li>
+          </ul>
+        </div>
+        </div>
+        <div id="transfer-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
+        <div class="usa-alert-body">
+          <h4 style="padding:0;">Your application cannot be approved until your sponsor transfers their benefits.</h4>
+          <p style="margin:0;"><a target="_blank" href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a></p>
+        </div>
+        </div>
+        <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button" data-state="closed">Apply now</a>
       </div>
     </div>
   </p>
@@ -110,30 +146,3 @@ If you need to make a change (for example, you’re moving to a new school), man
 </div>
 
 <div markdown="0"><br></div>
-
-<script type="text/javascript">
-  // I'm open to suggestions on how to not do this here
-
-  function toggleClass(element, className) {
-    element.classList.toggle(className);
-  }
-
-  // Toggle the expandable apply fields
-  const containers = Array.prototype.slice.call(document.querySelectorAll('.expander-container'));
-  containers.forEach(function(container) {
-    var button = container.querySelector('.expander-button');
-    var openButton = container.querySelector('.apply-go-button');
-    var content = container.querySelector('.expander-content');
-    button.addEventListener('click', function () {
-      toggleClass(content, 'expander-content-closed');
-      toggleClass(button, 'va-button-primary');
-    });
-    openButton.addEventListener('click', function () {
-      var selectedForm = content.querySelector('input[name="form-selection"]:checked');
-
-      if (selectedForm) {
-        location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
-      }
-    });
-  })
-</script>

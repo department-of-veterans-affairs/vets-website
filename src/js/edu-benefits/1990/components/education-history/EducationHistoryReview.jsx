@@ -21,7 +21,7 @@ export default class EducationHistoryReview extends React.Component {
             </tr>
             <tr>
               <td>FAA certificates</td>
-              <td className="edu-benefits-pre">{this.props.data.faaFlightCertificatesInformation.value}</td>
+              <td className="schemaform-address-view">{this.props.data.faaFlightCertificatesInformation.value}</td>
             </tr>
           </tbody>
         </table>

@@ -33,7 +33,7 @@ export function uiSchema(
     },
     [`${fileNumberProp}FileNumber`]: {
       'ui:required': (formData) => !!_.get(noSSN, formData),
-      'ui:title': 'File number',
+      'ui:title': 'VA file number',
       'ui:errorMessages': {
         pattern: 'File number must be 8 digits'
       },
