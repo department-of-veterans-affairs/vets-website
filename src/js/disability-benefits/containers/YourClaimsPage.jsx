@@ -41,9 +41,11 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
-    // TODO: bring this back in after error handling is refactored to be non-blocking
+
     this.props.getClaims(this.getFilter(this.props));
-    this.props.getAppeals(this.getFilter(this.props));
+    if (this.props.canAccessAppeals) {
+      this.props.getAppeals(this.getFilter(this.props));
+    }
 
     if (this.props.loading) {
       scrollToTop();
@@ -187,6 +189,7 @@ class YourClaimsPage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claimsRoot = claimsState.claims;
+  const canAccessAppeals = state.user.profile.services.includes('appeals-status');
 
   return {
     claimsAvailable: claimsState.claimSync.available,
@@ -198,7 +201,8 @@ function mapStateToProps(state) {
     sortProperty: claimsRoot.sortProperty,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
-    synced: claimsState.claimSync.synced
+    synced: claimsState.claimSync.synced,
+    canAccessAppeals,
   };
 }
 
