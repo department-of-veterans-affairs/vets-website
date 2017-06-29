@@ -51,14 +51,17 @@ export const letterContent = {
 export function veteranBenefitSummaryOptionText(allOptions, currentOption) {
   const textForAllOptions = {
     awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(allOptions.awardEffectiveDate)}</strong></div>,
-    hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
-    hasServiceConnectedDisabilities: <div>You have one or more service-connected disabilities</div>,
-    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${allOptions.monthlyAwardAmount}</strong></div>,
-    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{allOptions.serviceConnectedPercentage}%</strong></div>,
     hasAdaptedHousing: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
     hasChapter35Eligibility: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
+    hasDeathResultOfDisability: <div></div>,
     hasIndividualUnemployabilityGranted: <div>You <strong>are</strong> being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div>,
-    hasSpecialMonthlyCompensation: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>
+    hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
+    hasServiceConnectedDisabilities: <div>You have one or more service-connected disabilities</div>,
+    hasSpecialMonthlyCompensation: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>,
+    hasSurvivorsIndemnityCompensationAward: <div></div>,
+    hasSurvivorsPensionAward: <div></div>,
+    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${allOptions.monthlyAwardAmount}</strong></div>,
+    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{allOptions.serviceConnectedPercentage}%</strong></div>,
   };
 
   return textForAllOptions[currentOption];
