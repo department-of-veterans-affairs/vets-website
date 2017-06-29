@@ -21,8 +21,8 @@ export function updateProfileField(propertyPath, value) {
 export function profileLoadingFinished() {
   return {
     type: PROFILE_LOADING_FINISHED
-  }
-};
+  };
+}
 
 export function fetchLatestTerms(termsName) {
   return dispatch => {
