@@ -6,7 +6,6 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
-import applicantInformation from '../../common/schemaform/pages/applicantInformation';
 import {
   transform,
   employmentDescription,
@@ -15,7 +14,8 @@ import {
   spouseContribution,
   fileHelp,
   directDepositWarning,
-  isMarried
+  isMarried,
+  applicantDescription
 } from '../helpers';
 import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
@@ -65,6 +65,9 @@ const {
   dayPhone,
   nightPhone,
   mobilePhone,
+  veteranFullName,
+  veteranDateOfBirth,
+  veteranSocialSecurityNumber
 } = fullSchemaPensions.properties;
 
 const {
@@ -177,20 +180,42 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchemaPensions, {
-          fields: [
-            'veteranFullName',
-            'veteranSocialSecurityNumber',
-            'view:noSSN',
-            'vaFileNumber',
-            'veteranDateOfBirth'
-          ],
-          required: [
-            'veteranFullName',
-            'veteranDateOfBirth'
-          ],
-          isVeteran: true
-        }),
+        applicantInformation: {
+          path: 'applicant/information',
+          title: 'Applicant information',
+          uiSchema: {
+            'ui:description': applicantDescription,
+            veteranFullName: fullNameUI,
+            veteranSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.vaFileNumber,
+            }),
+            vaFileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:options': {
+                widgetClassNames: 'usa-input-medium'
+              },
+              'ui:errorMessages': {
+                pattern: 'File number must be 8 digits'
+              }
+            },
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
+            'ui:options': {
+              showPrefillMessage: true
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranFullName', 'veteranDateOfBirth'],
+            properties: {
+              veteranFullName,
+              veteranSocialSecurityNumber,
+              vaFileNumber,
+              veteranDateOfBirth
+            }
+          }
+        }
       }
     },
     militaryHistory: {

@@ -6,6 +6,7 @@ import fullNameUI from '../definitions/fullName';
 
 import { relationshipLabels, genderLabels } from '../../utils/labels';
 import * as personId from '../definitions/personId';
+import ssnUI from '../definitions/ssn';
 
 
 const defaults = (prefix) => {
@@ -40,11 +41,12 @@ export default function applicantInformation(schema, options) {
   const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
   const mergedOptions = _.assign(defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
+  const hasPersonId = fields.includes('view:noSSN');
 
   const possibleProperties = _.assign(schema.properties, {
     'view:noSSN': {
       type: 'boolean'
-    }
+    },
   });
 
   return {
@@ -77,10 +79,20 @@ export default function applicantInformation(schema, options) {
           labels: labels.relationship || relationshipLabels
         }
       },
+      [`${prefix}SocialSecurityNumber`]: ssnUI,
+      vaFileNumber: {
+        'ui:title': 'VA file number',
+        'ui:options': {
+          widgetClassNames: 'usa-input-medium'
+        },
+        'ui:errorMessages': {
+          pattern: 'File number must be 8 digits'
+        }
+      },
       'ui:options': {
         showPrefillMessage: true
       }
-    }, personId.uiSchema(prefix, 'view:noSSN')),
+    }, hasPersonId ? personId.uiSchema(prefix, 'view:noSSN') : undefined),
     schema: {
       type: 'object',
       definitions: _.pick([
