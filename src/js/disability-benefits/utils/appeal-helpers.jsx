@@ -1,8 +1,61 @@
 import React from 'react';
 import moment from 'moment';
 
+export const hearingDescriptions = {
+  video: {
+    title: 'You have asked for a videoconference hearing.',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.</p>
+  },
+  travel_board: { // eslint-disable-line camelcase
+    title: 'You have asked for a travel board hearing. ',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.</p>
+  },
+  central_office: { // eslint-disable-line camelcase
+    title: 'You asked for a Board hearing in Washington, DC',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board's central office hearings take place at 425 Eye Street, Washington, DC, 20001.</p>
+  },
+};
+
 export function appealStatusDescriptions(lastEvent, previousHistory = []) {
+  const eventDateString = moment(lastEvent.date).format('MMM DD, YYYY');
+
   const contentMap = {
+    hearing_held: { // eslint-disable-line camelcase
+      title: 'Your Hearing Was Held',
+      description: <p>Your hearing was held on {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. The transcript of your hearing will be added to your appeal.</p>
+    },
+    hearing_cancelled: { // eslint-disable-line camelcase
+      title: 'Your Hearing Was Canceled',
+      description: <div>
+        <p>Your hearing was scheduled for {eventDateString}.</p>
+        <p>If you canceled your hearing for an important reason, like you, your representative, or a witness are sick, or you're having difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You will get a copy of the decision about rescheduling your hearing the mail.</p>
+        <p>Send letters explaining why you need to reschedule your hearing to:<br/>
+          Director, Office of Management, Planning and Analysis (014)<br/>
+          Board of Veterans' Appeals<br/>
+          P.O. Box 27063<br/>
+          Washington, DC 20038
+        </p>
+      </div>
+    },
+    hearing_no_show: { // eslint-disable-line camelcase
+      title: 'You Missed Your Hearing',
+      description: <div>
+        <p>Your hearing was scheduled for {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. Because you missed the date, your hearing has been canceled. The Judge will make a decision based on the information you have provided.</p>
+        <p>If you missed your hearing for an important reason, like you, your representative, or a witness are sick, or you're having difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You will get a copy of the decision about rescheduling your hearing the mail.</p>
+        <p>Send letters explaining why you need to reschedule your hearing to:<br/>
+          Director, Office of Management, Planning and Analysis (014)<br/>
+          Board of Veterans' Appeals<br/>
+          P.O. Box 27063<br/>
+          Washington, DC 20038
+        </p>
+      </div>
+    },
+    withdrawn: {
+      status: {
+        title: 'You Have Withdrawn Your Appeal',
+        description: <p>Your appeal was withdrawn (canceled) by you or your representative. Your appeal is now closed.</p>
+      }
+    },
     form9: {
       status: {
         title: 'Your Form 9 was received by the Regional Office (RO)',
@@ -17,10 +70,6 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
           </p>
         </div>,
       },
-      nextAction: {
-        title: 'You have asked for a videoconference hearing on your Form 9.',
-        description: 'You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.'
-      }
     },
     ssoc: {
       status: {
@@ -148,6 +197,31 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
           </ul>
         </div>,
       }
+    },
+    activated: {
+      status: {
+        defaultStatus: {
+          title: 'The Board Has Activated Your Appeal',
+          description: <div>
+            <p>Your appeal has been activated by the Board. It is now in line for review by a Veterans Law Judge. An appeal typically reaches its place in line for review 3 to 5 years after the receipt of your Form 9.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+          </div>
+        },
+        bva_remand: { // eslint-disable-line camelcase
+          title: 'The Board Has Activated Your Appeal',
+          description: <div>
+            <p>The Veterans Benefits Administration (VBA) sent the Board the evidence asked for in the remand of your appeal. Your appeal has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+          </div>
+        },
+        cavc_decision: { // eslint-disable-line camelcase
+          title: 'The Board Has Activated Your Appeal from the Court of Appeals for Veterans Claims (CAVC)',
+          description: <div>
+            <p>Your appeal has been returned to the Board from the CAVC. It has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
+            <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You will receive a letter from the Board about how to submit new evidence during this time period.</p>
+          </div>
+        }
+      }
     }
   };
 
@@ -157,20 +231,31 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
   };
 
   const eventContent = contentMap[lastEvent.type];
+  const previousEventType = previousHistory[0] && previousHistory[0].type;
+  let prevType = previousEventType;
 
-  if (lastEvent.type === 'ssoc') {
-    if (previousHistory[0]) {
+  if (!eventContent) {
+    return emptyResponse;
+  }
+
+  switch (lastEvent.type) {
+    case 'ssoc':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'soc';
+
       return {
         ...eventContent,
-        status: eventContent.status[previousHistory[0].type],
+        status: eventContent.status[prevType || 'soc'],
       };
-    }
-    return {
-      ...eventContent,
-      status: eventContent.status.soc,
-    };
+    case 'activated':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'defaultStatus';
+
+      return {
+        ...eventContent,
+        status: eventContent.status[prevType || 'defaultStatus'],
+      };
+    default:
+      break;
   }
 
   return eventContent || emptyResponse;
 }
-
