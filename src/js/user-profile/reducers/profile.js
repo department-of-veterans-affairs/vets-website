@@ -3,6 +3,18 @@ import _ from 'lodash/fp';
 import { UPDATE_PROFILE_FIELD, PROFILE_LOADING_FINISHED } from '../actions';
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
+import {
+  UPDATE_PROFILE_FIELD,
+  PROFILE_LOADING_FINISHED,
+  FETCHING_LATEST_MHV_TERMS,
+  FETCHING_LATEST_MHV_TERMS_SUCCESS,
+  FETCHING_LATEST_MHV_TERMS_FAILURE,
+  ACCEPTING_LATEST_MHV_TERMS,
+  ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
+  ACCEPTING_LATEST_MHV_TERMS_FAILURE,
+ } from '../actions';
+
+
 // TODO(crew): Romove before this goes to production.
 const initialState = {
   userFullName: {
@@ -15,6 +27,10 @@ const initialState = {
   dob: null,
   gender: null,
   accountType: null,
+  terms: {
+    loading: false,
+    terms: {},
+  },
   savedForms: [],
   prefillsAvailable: [],
   loading: true
@@ -30,6 +46,53 @@ function profileInformation(state = initialState, action) {
     }
     case UPDATE_LOGGEDIN_STATUS: {
       return _.set('loading', false, state);
+    case FETCHING_LATEST_MHV_TERMS: {
+      return {
+        ...state,
+        terms: {
+          ...state.terms,
+          content: {},
+          loading: true,
+        }
+      };
+    }
+    case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
+      return {
+        ...state,
+        terms: {
+          ...state.terms,
+          ...action.terms,
+          loading: false,
+        }
+      };
+    }
+    case FETCHING_LATEST_MHV_TERMS_FAILURE: {
+      return {
+        ...state,
+        terms: {
+          loading: false,
+        }
+      };
+    }
+    case ACCEPTING_LATEST_MHV_TERMS: {
+      return state;
+    }
+    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS: {
+      return {
+        ...state,
+        terms: {
+          loading: false,
+        }
+      };
+    }
+    case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
+      return {
+        ...state,
+        terms: {
+          ...state.terms,
+          loading: false,
+        }
+      };
     }
 
     default:

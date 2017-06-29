@@ -127,6 +127,18 @@
   }
 }
 
+.bb-app-error {
+  p {
+    margin: 0;
+    font-size: initial !important;
+  }
+}
+
+.bb-tab-explainer {
+  display: inline-block;
+  margin: 3rem 0;
+}
+
 .custom-date-option {
   &.date-range-error {
     border-left: 3px solid $color-secondary-dark;

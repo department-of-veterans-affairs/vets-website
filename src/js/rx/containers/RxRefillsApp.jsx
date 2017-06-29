@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -40,6 +41,8 @@ function AppContent({ children, isDataAvailable }) {
 
 class RxRefillsApp extends React.Component {
   render() {
+    const breadcrumbs = <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>;
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -47,20 +50,25 @@ class RxRefillsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <AppContent>
-          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-          {this.props.children}
-          <ConfirmRefillModal
-              prescription={this.props.refillModal.prescription}
-              isLoading={this.props.refillModal.loading}
-              isVisible={this.props.refillModal.visible}
-              refillPrescription={this.props.refillPrescription}
-              onCloseModal={this.props.closeRefillModal}/>
-          <GlossaryModal
-              content={this.props.glossaryModal.content}
-              isVisible={this.props.glossaryModal.visible}
-              onCloseModal={this.props.closeGlossaryModal}/>
-        </AppContent>
+        <RequiredTermsAcceptanceView
+            termsName={"mhvac"}
+            cancelPath={"/health-care"}
+            topContent={breadcrumbs}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          <AppContent>
+            {this.props.children}
+            <ConfirmRefillModal
+                prescription={this.props.refillModal.prescription}
+                isLoading={this.props.refillModal.loading}
+                isVisible={this.props.refillModal.visible}
+                refillPrescription={this.props.refillPrescription}
+                onCloseModal={this.props.closeRefillModal}/>
+            <GlossaryModal
+                content={this.props.glossaryModal.content}
+                isVisible={this.props.glossaryModal.visible}
+                onCloseModal={this.props.closeGlossaryModal}/>
+          </AppContent>
+        </RequiredTermsAcceptanceView>
       </RequiredLoginView>
     );
   }

@@ -47,6 +47,7 @@ function reInitWidget() {
       const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}]`);
       closeStateAndCheckChild(otherNextQuestionElement, container);
     }
+
     if ((apply.dataset.state === 'open') && !radio.dataset.selectedForm) {
       closeState(apply);
     }
@@ -56,10 +57,12 @@ function reInitWidget() {
     if ((nctsWarning.dataset.state === 'open') && (radio.id !== 'is-ncts')) {
       closeState(nctsWarning);
     }
+
     if (radio.dataset.selectedForm) {
       if (apply.dataset.state === 'closed') {
         openState(apply);
       }
+
       if ((transferWarning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
         openState(transferWarning);
       }
@@ -79,6 +82,7 @@ function reInitWidget() {
     toggleClass(content, 'wizard-content-closed');
     toggleClass(button, 'va-button-primary');
   });
+
   // Ensure form is reset on page load to prevent unexpected behavior
   resetForm();
 }

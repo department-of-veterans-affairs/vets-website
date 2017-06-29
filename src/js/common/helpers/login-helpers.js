@@ -38,6 +38,7 @@ export function getUserData(dispatch) {
       dispatch(updateProfileField('dob', userData.birth_date));
       dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
       dispatch(updateProfileField('services', json.data.attributes.services));
+      dispatch(updateProfileField('healthTermsCurrent', json.data.attributes.health_terms_current));
       dispatch(updateLoggedInStatus(true));
     } else {
       dispatch(profileLoadingFinished());

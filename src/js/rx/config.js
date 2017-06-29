@@ -40,7 +40,6 @@ module.exports = {
   errorCodes: {
     acceptTerms: [
       'RX135',
-      'VA900',
     ],
     registration: [
       'RX106',
@@ -56,6 +55,10 @@ module.exports = {
       'RX503',
       'RX117',
       'RX99',
+      'VA900',
+    ],
+    accountcreation: [
+      'MHVAC1',
     ],
   },
 

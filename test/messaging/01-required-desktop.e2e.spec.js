@@ -2,12 +2,14 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const MessagingHelpers = require('../e2e/messaging-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
+const AccountCreationHelpers = require('../e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const token = LoginHelpers.getUserToken();
 
     MessagingHelpers.initApplicationSubmitMock(token);
+    AccountCreationHelpers.initMHVTermsMocks(token);
     LoginHelpers.logIn(token, client, '/health-care/messaging', 3);
 
     // Desktop test
