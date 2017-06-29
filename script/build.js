@@ -125,7 +125,7 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('education/gi-bill/post-9-11/status.md');
+  ignoreList.push('education/gi-bill/post-9-11/ch-33-benefit.md');
   ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
@@ -427,7 +427,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
-        { from: '^/education/gi-bill/post-9-11/status(.*)', to: '/education/gi-bill/post-9-11/status/' },
+        { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
         { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
@@ -575,7 +575,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-      ['/education/gi-bill/post-9-11/status',
+      ['/education/gi-bill/post-9-11/ch-33-benefit',
        '/employment/commitments',
        '/employment/employers',
        '/employment/job-seekers/create-resume',
