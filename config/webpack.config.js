@@ -30,6 +30,7 @@ const entryFiles = {
   letters: './src/js/letters/letters-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
+  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   style: './src/sass/style.scss'
 };

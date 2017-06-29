@@ -12,12 +12,12 @@ import { validateBooleanGroup, validateMatch } from '../../common/schemaform/val
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import FullNameField from '../../common/schemaform/FullNameField';
-import * as personId from '../../common/schemaform/definitions/personId';
 import phoneUI from '../../common/schemaform/definitions/phone';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
-import { validateBurialDate } from '../validation';
+import { validateBurialAndDeathDates } from '../validation';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
@@ -44,7 +44,10 @@ const {
   plotAllowance,
   transportation,
   amountIncurred,
-  previousNames
+  previousNames,
+  veteranSocialSecurityNumber,
+  veteranDateOfBirth,
+  placeOfBirth
 } = fullSchemaBurials.properties;
 
 const {
@@ -131,17 +134,31 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Deceased Veteran information',
             veteranFullName: fullNameUI,
-            'view:veteranId': personId.uiSchema(
-              'veteran',
-              'view:veteranId.view:noSSN',
-              'I don’t have the Veteran’s Social Security number'
-            )
+            veteranSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.vaFileNumber,
+            }),
+            vaFileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:errorMessages': {
+                pattern: 'File number must be 8 digits'
+              }
+            },
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
+            placeOfBirth: {
+              'ui:title': 'Place of birth'
+            }
           },
           schema: {
             type: 'object',
+            required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               veteranFullName,
-              'view:veteranId': personId.schema(fullSchemaBurials)
+              veteranSocialSecurityNumber,
+              vaFileNumber,
+              veteranDateOfBirth,
+              placeOfBirth
             }
           }
 
@@ -170,7 +187,7 @@ const formConfig = {
               }
             },
             'ui:validations': [
-              validateBurialDate
+              validateBurialAndDeathDates
             ]
           },
           schema: {

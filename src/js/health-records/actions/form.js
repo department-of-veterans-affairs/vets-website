@@ -1,4 +1,4 @@
-import { apiRequest } from '../utils/helpers';
+import { apiRequest } from '../../common/helpers/api';
 import moment from 'moment';
 
 function getDataClasses(formData) {
@@ -72,7 +72,7 @@ export function submitForm(formData) {
 
     dispatch({ type: 'FORM_SUBMITTING' });
 
-    apiRequest('/v0/health_records',
+    apiRequest('/health_records',
       {
         headers: {
           'Content-Type': 'application/json',

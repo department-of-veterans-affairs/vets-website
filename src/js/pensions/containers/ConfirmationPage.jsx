@@ -32,10 +32,11 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    // const response = this.props.form.submission.response
-    //   ? this.props.form.submission.response.attributes
-    //   : {};
+    const response = this.props.form.submission.response
+      ? this.props.form.submission.response.attributes
+      : {};
     const name = form.data.veteranFullName;
+    const regionalOffice = response.regionalOffice || [];
 
     return (
       <div className="edu-benefits-submit-success">
@@ -54,8 +55,18 @@ class ConfirmationPage extends React.Component {
               <strong>Date received</strong><br/>
               <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
             </li>
+            <li>
+              <strong>Confirmation number</strong><br/>
+              <span>{response.confirmationNumber}</span>
+            </li>
+            <li>
+              <strong>Your claim was sent to</strong><br/>
+              <address className="schemaform-address-view">{regionalOffice.map((line, index) =>
+                <p key={index}>{line}</p>)}</address>
+            </li>
           </ul>
         </div>
+        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready. For telecommunication relay services, dial <a href="tel:711">711</a>.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
