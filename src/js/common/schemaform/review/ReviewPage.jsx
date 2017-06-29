@@ -57,9 +57,9 @@ class ReviewPage extends React.Component {
   }
 
   goBack() {
-    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    const { eligiblePageList } = this.getEligiblePages();
     const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-    this.props.router.push(expandedPageList[pageIndex - 1].path);
+    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
   }
 
   handleSubmit() {

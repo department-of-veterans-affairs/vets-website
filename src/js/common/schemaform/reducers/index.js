@@ -84,7 +84,8 @@ export default function createSchemaFormReducer(formConfig) {
         schema,
         editMode: isArrayPage ? [] : false,
         showPagePerItem: page.showPagePerItem,
-        arrayPath: page.arrayPath
+        arrayPath: page.arrayPath,
+        itemFilter: page.itemFilter
       };
 
       state.data = _.merge(state.data, data);

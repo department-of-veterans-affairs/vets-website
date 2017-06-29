@@ -1,5 +1,5 @@
 ---
-title: Post-9/11 GI Bill Status
+title: Check Benefit
 entryname: post-911-gib-status
 layout: page-react.html
 includeBreadcrumbs: true
