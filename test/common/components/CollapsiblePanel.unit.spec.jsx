@@ -14,7 +14,7 @@ describe('<CollapsiblePanel>', () => {
     expect(tree.subTree('.usa-button-unstyled').text()).to.contain('Test panel');
   });
 
-  it.only('should handle toggling chapter', () => {
+  it('should handle toggling chapter', () => {
     const tree = SkinDeep.shallowRender(
       <CollapsiblePanel
           panelName={'Test panel'}/>
