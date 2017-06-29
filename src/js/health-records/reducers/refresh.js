@@ -7,10 +7,18 @@ const initialState = {
     incomplete: [],
     succeeded: [],
   },
+  loading: false,
+  errors: []
 };
 
 export default function refresh(state = initialState, action) {
   switch (action.type) {
+    case 'INITIAL_LOADING':
+      return { ...state, loading: true };
+    case 'INITIAL_REFRESH_SUCCESS':
+      return { ...state, loading: false };
+    case 'INITIAL_REFRESH_FAILURE':
+      return { ...state, loading: false, errors: action.errors };
     case 'REFRESH_POLL_SUCCESS': {
       // returns group in form {'succeeded': [], 'failed': []}
       const statuses = _.groupBy(action.data, (e) => {
