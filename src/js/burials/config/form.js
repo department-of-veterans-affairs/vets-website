@@ -141,6 +141,9 @@ const formConfig = {
             vaFileNumber: {
               'ui:title': 'VA file number (must have this or a Social Security number)',
               'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:options': {
+                widgetClassNames: 'usa-input-medium'
+              },
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits'
               }

@@ -151,7 +151,7 @@ class ArrayField extends React.Component {
       pageTitle
     } = this.props;
     const fieldName = path[path.length - 1];
-    const title = _.get('ui:title', uiSchema) || pageTitle;
+    const title = _.get('ui:title', uiSchema) || _.get('ui:options.reviewTitle', uiSchema) || pageTitle;
     const arrayPageConfig = {
       uiSchema: uiSchema.items,
       pageKey: fieldName
