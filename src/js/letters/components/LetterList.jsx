@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from './DownloadLetterLink';
-import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import VeteranBenefitSummaryLetter from '../containers/VeteranBenefitSummaryLetter';
 
 import { letterContent } from '../utils/helpers';
 
@@ -15,7 +15,7 @@ class LetterList extends React.Component {
       let content;
 
       if (letter.letterType === 'benefit_summary') {
-        content = (<VeteranBenefitSummaryLetter benefitSummaryOptions={this.props.benefitSummaryOptions}/>);
+        content = (<VeteranBenefitSummaryLetter/>);
       } else {
         content = letterContent[letter.letterType] || '';
       }

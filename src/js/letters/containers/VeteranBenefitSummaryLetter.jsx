@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
 import { veteranBenefitSummaryOptionText } from '../utils/helpers';
+import { updateBenefitSummaryOptionsStatus } from '../actions/letters';
 
 class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -11,13 +12,13 @@ class VeteranBenefitSummaryLetter extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange() {
-    // console.log(domEvent);
-    // this.props.onValueChange(domEvent.target.checked);
+  handleChange(domEvent) {
+    this.props.updateBenefitSummaryOptionsStatus(domEvent.target.id, domEvent.target.checked);
   }
 
   render() {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
+    const optionsToInclude = this.props.optionsToInclude;
     let militaryServiceInfo;
     let vaBenefitInfoRows = [];
 
@@ -36,8 +37,8 @@ class VeteranBenefitSummaryLetter extends React.Component {
             <th scope="row">
               <input
                   autoComplete="false"
-                  checked
-                  id={`option${key}`}
+                  checked={optionsToInclude[key]}
+                  id={key}
                   name={key}
                   type="checkbox"
                   onChange={this.handleChange}/>
@@ -88,8 +89,20 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 }
 
-VeteranBenefitSummaryLetter.propTypes = {
-  benefitSummaryOptions: PropTypes.object
+function mapStateToProps(state) {
+  const letterState = state.letters;
+  return {
+    benefitSummaryOptions: {
+      benefitInfo: letterState.benefitInfo,
+      serviceInfo: letterState.serviceInfo
+    },
+    optionsAvailable: letterState.optionsAvailable,
+    optionsToInclude: letterState.optionsToInclude
+  };
+}
+
+const mapDispatchToProps = {
+  updateBenefitSummaryOptionsStatus
 };
 
-export default VeteranBenefitSummaryLetter;
+export default connect(mapStateToProps, mapDispatchToProps)(VeteranBenefitSummaryLetter);

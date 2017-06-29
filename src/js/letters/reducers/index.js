@@ -6,7 +6,8 @@ const initialState = {
   lettersAvailable: false,
   benefitInfo: {},
   serviceInfo: [],
-  optionsAvailable: false
+  optionsAvailable: false,
+  optionsToInclude: {}
 };
 
 function letters(state = initialState, action) {
@@ -33,6 +34,8 @@ function letters(state = initialState, action) {
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
       return set('optionsAvailable', false, state);
+    case 'UPDATE_BENEFIT_SUMMARY_OPTIONS_STATUS':
+      return set(['optionsToInclude', action.propertyPath], action.value, state);
     default:
       return state;
   }
