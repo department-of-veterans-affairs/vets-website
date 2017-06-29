@@ -1,6 +1,5 @@
 import _ from 'lodash/fp';
 
-import { UPDATE_PROFILE_FIELD, PROFILE_LOADING_FINISHED } from '../actions';
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
 import {
@@ -46,6 +45,7 @@ function profileInformation(state = initialState, action) {
     }
     case UPDATE_LOGGEDIN_STATUS: {
       return _.set('loading', false, state);
+    }
     case FETCHING_LATEST_MHV_TERMS: {
       return {
         ...state,
