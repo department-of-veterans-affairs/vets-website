@@ -426,21 +426,14 @@ const formConfig = {
             claimantEmail: {
               'ui:title': 'Email address'
             },
-            'view:claimantEmailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
             claimantPhone: phoneUI('Phone number')
           },
           schema: {
             type: 'object',
-            required: ['claimantAddress', 'claimantEmail', 'view:claimantEmailConfirmation', 'claimantPhone'],
+            required: ['claimantAddress'],
             properties: {
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
-              'view:claimantEmailConfirmation': claimantEmail,
               claimantPhone
             }
           }
