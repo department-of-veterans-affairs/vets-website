@@ -11,7 +11,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { SAVE_STATUSES, saveInProgressForm } from './save-load-actions';
+import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -48,15 +48,9 @@ class FormPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
-    focusForm();
-  }
-
-  // A successful form save will mean we go from pending to success,
-  // and we need to redirect
-  componentWillReceiveProps(newProps) {
-    if (this.props.form.savedStatus === SAVE_STATUSES.pending && newProps.form.savedStatus === SAVE_STATUSES.success) {
-      this.props.router.push(`${newProps.urlPrefix || ''}form-saved`);
+    if (!saveErrors.has(this.props.form.savedStatus)) {
+      scrollToTop();
+      focusForm();
     }
   }
 
@@ -147,6 +141,7 @@ class FormPage extends React.Component {
             uiSchema={uiSchema}
             pagePerItemIndex={params ? params.index : undefined}
             uploadFile={this.props.uploadFile}
+            prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
@@ -168,6 +163,7 @@ class FormPage extends React.Component {
           {(!form.disableSave && __BUILDTYPE__ !== 'production') && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
+                  trackingPrefix={form.trackingPrefix}
                   saveForm={this.handleSave}
                   savedStatus={form.savedStatus}
                   user={this.props.user}

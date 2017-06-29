@@ -18,3 +18,9 @@ export const allowanceLabels = {
   service: 'Service-connected death',
   vaMC: 'VA medical center death'
 };
+
+export const benefitsLabels = {
+  burialAllowance: 'Burial allowance',
+  plotAllowance: 'Plot allowance',
+  transportation: 'Tranportation'
+};

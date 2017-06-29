@@ -12,6 +12,7 @@ import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import ReadOnlyArrayField from './review/ReadOnlyArrayField';
 import BasicArrayField from './BasicArrayField';
 import TitleField from './TitleField';
 import ReviewObjectField from './review/ObjectField';
@@ -26,7 +27,7 @@ const fields = {
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
-  ArrayField,
+  ArrayField: ReadOnlyArrayField,
   BasicArrayField,
   address: ReviewObjectField,
   StringField
@@ -54,6 +55,8 @@ class SchemaForm extends React.Component {
     } else if (newProps.title !== this.props.title) {
       this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
+      this.setState(this.getEmptyState(newProps));
+    } else if (!!newProps.prefilled !== !!this.state.formContext.prefilled) {
       this.setState(this.getEmptyState(newProps));
     }
   }
@@ -91,7 +94,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow } = props;
+    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow, prefilled } = props;
     return {
       formContext: {
         touched: {},
@@ -103,7 +106,8 @@ class SchemaForm extends React.Component {
         pagePerItemIndex,
         reviewMode,
         hideHeaderRow,
-        uploadFile
+        uploadFile,
+        prefilled
       }
     };
   }

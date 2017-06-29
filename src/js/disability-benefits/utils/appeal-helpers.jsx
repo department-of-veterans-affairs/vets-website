@@ -208,5 +208,5 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       break;
   }
 
-  return contentMap[lastEvent.type] || emptyResponse;
+  return eventContent || emptyResponse;
 }

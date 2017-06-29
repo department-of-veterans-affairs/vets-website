@@ -6,6 +6,7 @@ import fullSchemaPreNeed from './schema.json';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -15,6 +16,7 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
+import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 
 const {
   relationship,
@@ -38,7 +40,10 @@ const {
   currentlyBuried,
   eligibleBuried,
   email,
-  phoneNumber
+  phoneNumber,
+  documents,
+  preparerFullName,
+  preparerPhoneNumber
 } = fullSchemaPreNeed.properties;
 
 const {
@@ -47,7 +52,8 @@ const {
   date,
   dateRange,
   gender,
-  phone
+  phone,
+  files
 } = fullSchemaPreNeed.definitions;
 
 const formConfig = {
@@ -65,7 +71,8 @@ const formConfig = {
     date,
     dateRange,
     gender,
-    phone
+    phone,
+    files
   },
   chapters: {
     veteranInformation: {
@@ -392,6 +399,90 @@ const formConfig = {
                     format: 'email'
                   },
                   phoneNumber
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    supportingDocuments: {
+      title: 'Supporting documents',
+      pages: {
+        supportingDocuments: {
+          title: 'supportingDocuments',
+          path: 'supporting-documents',
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': SupportingDocumentsDescription,
+            documents: fileUploadUI('Select files to upload')
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              documents
+            }
+          }
+        }
+      }
+    },
+    certification: {
+      title: 'Certification',
+      pages: {
+        certification: {
+          title: 'Certification',
+          path: 'certification',
+          uiSchema: {
+            'view:isPreparer': {
+              'ui:title': 'Is someone else filling out this application for you?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  N: 'No',
+                  Y: 'Yes'
+                }
+              }
+            },
+            'view:preparer': {
+              'ui:options': {
+                expandUnder: 'view:isPreparer',
+                expandUnderCondition: 'Y'
+              },
+              preparerFullName: _.merge(fullNameUI, {
+                'ui:title': 'Preparer information',
+                suffix: {
+                  'ui:options': {
+                    hideIf: () => true
+                  }
+                }
+              }),
+              preparerAddress: address.uiSchema('Mailing address'),
+              'view:contactInfo': {
+                'ui:title': 'Contact information',
+                preparerPhoneNumber: phoneUI('Primary telephone number')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:isPreparer'],
+            properties: {
+              'view:isPreparer': {
+                type: 'string',
+                'enum': ['N', 'Y']
+              },
+              'view:preparer': {
+                type: 'object',
+                properties: {
+                  preparerFullName,
+                  preparerAddress: address.schema(fullSchemaPreNeed, true),
+                  'view:contactInfo': {
+                    type: 'object',
+                    required: ['preparerPhoneNumber'],
+                    properties: {
+                      preparerPhoneNumber
+                    }
+                  }
                 }
               }
             }
