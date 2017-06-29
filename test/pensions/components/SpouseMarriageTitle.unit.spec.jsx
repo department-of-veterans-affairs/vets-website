@@ -2,25 +2,25 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import MarriageTitle from '../../../src/js/pensions/components/MarriageTitle';
+import SpouseMarriageTitle from '../../../src/js/pensions/components/SpouseMarriageTitle';
 
-describe('Pensions MarriageTitle', () => {
+describe('Pensions SpouseMarriageTitle', () => {
   it('should render first marriage title', () => {
     const tree = SkinDeep.shallowRender(
-      <MarriageTitle
+      <SpouseMarriageTitle
           id="id"
           formContext={{ pagePerItemIndex: 0 }}/>
     );
 
-    expect(tree.text()).to.contain('First marriage');
+    expect(tree.text()).to.contain('Spouse’s first marriage');
   });
   it('should render marriage title with number value', () => {
     const tree = SkinDeep.shallowRender(
-      <MarriageTitle
+      <SpouseMarriageTitle
           id="id"
           formContext={{ pagePerItemIndex: 10 }}/>
     );
 
-    expect(tree.text()).to.contain('Marriage 11');
+    expect(tree.text()).to.contain('Spouse marriage 11');
   });
 });

@@ -5,7 +5,10 @@ import lettersReducer from '../../../src/js/letters/reducers';
 const initialState = {
   letters: [],
   destination: {},
-  available: false
+  lettersAvailable: false,
+  benefitInfo: {},
+  serviceInfo: [],
+  optionsAvailable: false
 };
 
 describe('letters reducer', () => {
@@ -16,7 +19,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.available).to.be.false;
+    expect(state.lettersAvailable).to.be.false;
   });
 
   it('should handle a successful request for letters', () => {
@@ -31,10 +34,6 @@ describe('letters reducer', () => {
                 {
                   letterType: 'commissary',
                   name: 'Commissary Letter'
-                },
-                {
-                  letterType: 'proof_of_service',
-                  name: 'Proof of Service Letter'
                 }
               ]
             }
@@ -42,14 +41,7 @@ describe('letters reducer', () => {
           meta: {
             address: {
               addressLine1: '2476 MAIN STREET',
-              addressLine2: 'STE # 12',
-              addressLine3: 'West',
-              city: 'RESTON',
-              country: 'US',
-              foreignCode: '865',
-              fullName: 'MARK WEBB',
-              state: 'VA',
-              zipCode: '12345'
+              fullName: 'MARK WEBB'
             }
           }
         }
@@ -58,6 +50,47 @@ describe('letters reducer', () => {
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
     expect(state.destination.addressLine1).to.eql('2476 MAIN STREET');
-    expect(state.available).to.be.true;
+    expect(state.lettersAvailable).to.be.true;
+  });
+
+  it('should handle failure to fetch benefit summary options', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE' }
+    );
+
+    expect(state.benefitInfo).to.be.empty;
+    expect(state.serviceInfo).to.be.empty;
+    expect(state.optionsAvailable).to.be.false;
+  });
+
+  it('should handle a successful request for letters', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS',
+        data: {
+          data: {
+            attributes: {
+              benefitInformation: {
+                awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
+                hasChapter35Eligibility: true
+              },
+              militaryService: [
+                {
+                  branch: 'ARMY',
+                  characterOfService: 'HONORABLE',
+                  enteredDate: '1965-01-01T05:00:00.000+00:00',
+                  releasedDate: '1972-10-01T04:00:00.000+00:00'
+                }
+              ]
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.benefitInfo.hasChapter35Eligibility).to.be.true;
+    expect(state.serviceInfo[0].branch).to.equal('ARMY');
   });
 });

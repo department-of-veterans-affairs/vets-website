@@ -14,7 +14,9 @@ describe('Schemaform <FormSaved>', () => {
         {
           path: 'testing'
         }
-      ]
+      ],
+      formConfig: {
+      }
     };
     const user = {
       profile: {
