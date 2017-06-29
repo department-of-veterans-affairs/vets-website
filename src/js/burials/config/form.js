@@ -7,7 +7,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileHelp, expensesWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
-import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
+import { validateBooleanGroup } from '../../common/schemaform/validation';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -141,6 +141,9 @@ const formConfig = {
             vaFileNumber: {
               'ui:title': 'VA file number (must have this or a Social Security number)',
               'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:options': {
+                widgetClassNames: 'usa-input-medium'
+              },
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits'
               }
@@ -419,28 +422,18 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
-            'ui:validations': [
-              validateMatch('claimantEmail', 'view:claimantEmailConfirmation')
-            ],
             claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
               'ui:title': 'Email address'
-            },
-            'view:claimantEmailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:options': {
-                hideOnReview: true
-              }
             },
             claimantPhone: phoneUI('Phone number')
           },
           schema: {
             type: 'object',
-            required: ['claimantAddress', 'claimantEmail', 'view:claimantEmailConfirmation', 'claimantPhone'],
+            required: ['claimantAddress'],
             properties: {
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
-              'view:claimantEmailConfirmation': claimantEmail,
               claimantPhone
             }
           }

@@ -1,7 +1,5 @@
 import _ from 'lodash/fp';
 
-import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
-
 import {
   UPDATE_PROFILE_FIELD,
   PROFILE_LOADING_FINISHED,
@@ -12,7 +10,7 @@ import {
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
  } from '../actions';
-
+import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
@@ -94,7 +92,6 @@ function profileInformation(state = initialState, action) {
         }
       };
     }
-
     default:
       return state;
   }
