@@ -57,7 +57,7 @@ describe('Burials validation', () => {
 
       expect(errors.deathDate.addError.called).to.be.false;
     });
-    it('should not allow death date after birth date', () => {
+    it('should not allow birth date after death date', () => {
       const errors = {
         deathDate: {
           addError: sinon.spy()
