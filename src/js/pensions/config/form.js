@@ -154,7 +154,12 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
+  formId: '21P-527EZ',
+  version: 0,
+  savedFormErrorMessages: {
+    notFound: 'Please start over to apply for pension benefits.',
+    noAuth: 'Please sign in again to resume your application for pension benefits.'
+  },
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
   defaultDefinitions: {

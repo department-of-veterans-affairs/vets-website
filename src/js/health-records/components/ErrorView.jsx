@@ -17,30 +17,7 @@ class ErrorView extends React.Component {
     let content;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.acceptTerms))) {
-      title = 'Accept terms and conditions';
-      detail = (
-        <p>
-          To refill prescriptions, you need to accept the MyHealtheVet terms and conditions first. If you want to use Secure Messaging, please accept the Secure Messaging terms and conditions too. <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">Review terms and conditions</a>
-        </p>
-      );
-    } else if (some(errors, errorCodeIncludes(errorCodes.registration))) {
-      alert = true;
-      title = "We're not able to locate your records";
-      detail = (
-        <p>
-          Please call support at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>
-        </p>
-      );
-    } else if (some(errors, errorCodeIncludes(errorCodes.prescriptions))) {
-      alert = true;
-      title = "We couldn't retrieve your prescriptions";
-      detail = (
-        <p>
-          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
-        </p>
-      );
-    } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
       alert = true;
       title = "We couldn't access your health tools";
       detail = (
@@ -70,7 +47,7 @@ class ErrorView extends React.Component {
     }
 
     return (
-      <div className="rx-app-error rx-tab-explainer">
+      <div className="bb-app-error bb-tab-explainer">
         {content}
       </div>
     );
@@ -79,9 +56,6 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.acceptTerms,
-      errorCodes.registration,
-      errorCodes.prescriptions,
       errorCodes.accountcreation,
     );
 
