@@ -55,7 +55,7 @@ class DownloadLetterLink extends React.Component {
     window.dataLayer.push({
       event: 'letter-download',
       'letter-type': this.props.letterType
-    })
+    });
     apiRequest(
       requestUrl,
       { method: 'POST' },
