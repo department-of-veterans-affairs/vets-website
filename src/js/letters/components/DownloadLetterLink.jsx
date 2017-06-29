@@ -52,6 +52,10 @@ class DownloadLetterLink extends React.Component {
   downloadLetter() {
     const requestUrl = `/v0/letters/${this.props.letterType}`;
     const downloadWindow = window.open();
+    window.dataLayer.push({
+      event: 'letter-download',
+      'letter-type': this.props.letterType
+    })
     apiRequest(
       requestUrl,
       { method: 'POST' },
