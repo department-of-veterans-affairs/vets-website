@@ -119,4 +119,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
+  setUserToken
 };

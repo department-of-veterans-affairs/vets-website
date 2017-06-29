@@ -27,6 +27,7 @@
     "test:unit:rx": "BABEL_ENV=test mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
+    "test:unit:db": "BABEL_ENV=test mocha --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:watch": "BABEL_ENV=test mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch",
     "watch:static": "npm run watch -- --entry no-react"
@@ -192,6 +193,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#60b1b1ee5ed03361bf809c24f069bbde979fabf7"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#de9bef075350509c9bde1d9296c1a91d2355fd26"
   }
 }

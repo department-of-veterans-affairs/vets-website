@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
         </p>
         <SaveInProgressIntro
             pageList={this.props.route.pageList}
+            messages={this.props.route.formConfig.savedFormMessages}
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}>
           Complete the form before submitting to apply for health care with the 10-10EZ.

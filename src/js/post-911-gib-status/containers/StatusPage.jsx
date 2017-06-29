@@ -19,7 +19,7 @@ class StatusPage extends React.Component {
 
     return (
       <div>
-        <FormTitle title="Post-9/11 GI Bill Enrollment Information"/>
+        <FormTitle title="Post-9/11 GI Bill Entitlement Information"/>
         <div className="va-introtext">
           <p>
             View your Post-9/11 GI Bill enrollment information below. This is the same information

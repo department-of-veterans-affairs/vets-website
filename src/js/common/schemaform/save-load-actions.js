@@ -15,8 +15,11 @@ export const SAVE_STATUSES = Object.freeze({
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
+  clientFailure: 'clientFailure',
   success: 'success'
 });
+
+export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
 
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -190,7 +193,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           });
         }
       } else {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
         Raven.captureException(resOrError);
         Raven.captureMessage('vets_sip_error_save');
         window.dataLayer.push({
