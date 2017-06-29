@@ -204,7 +204,8 @@ const formConfig = {
             previousNames: {
               'ui:options': {
                 expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField
+                viewField: FullNameField,
+                reviewTitle: 'Previous names'
               },
               items: fullNameUI
             },
@@ -362,7 +363,8 @@ const formConfig = {
               'ui:title': 'What Disabilities prevent you from working?',
               'ui:order': ['name', 'disabilityStartDate'],
               'ui:options': {
-                viewField: DisabilityField
+                viewField: DisabilityField,
+                reviewTitle: 'Disability history'
               },
               items: {
                 name: {
@@ -371,7 +373,6 @@ const formConfig = {
                 disabilityStartDate: dateUI('Date disability began')
               }
             },
-            // TODO: update schema with this field if stakeholders approve
             hasVisitedVAMC: {
               'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
@@ -815,7 +816,7 @@ const formConfig = {
             dependents: {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
-                viewField: DependentField,
+                viewField: DependentField
               },
               items: {
                 dependentRelationship: {
@@ -866,7 +867,7 @@ const formConfig = {
         },
         childrenInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item => `${item.fullName.first} ${item.fullName.last} information`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} information`,
           showPagePerItem: true,
           arrayPath: 'dependents',
           itemFilter: (item) => isChild(item),
@@ -942,7 +943,7 @@ const formConfig = {
         },
         childrenAddress: {
           path: 'household/dependents/children/address/:index',
-          title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
           showPagePerItem: true,
           arrayPath: 'dependents',
           itemFilter: (item) => isChild(item),
@@ -1136,8 +1137,7 @@ const formConfig = {
         spouseOtherExpenses: {
           path: 'financial-disclosure/other-expenses/spouse',
           depends: isMarried,
-          title: createSpouseLabelSelector(spouseName =>
-            `${spouseName.first} ${spouseName.last} expenses`),
+          title: 'Spouse other expenses',
           schema: {
             type: 'object',
             properties: {
@@ -1151,7 +1151,7 @@ const formConfig = {
         },
         dependentsNetWorth: {
           path: 'financial-disclosure/net-worth/dependents/:index',
-          title: item => `${item.fullName.first} ${item.fullName.last} net worth`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} net worth`,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -1180,7 +1180,7 @@ const formConfig = {
         },
         dependentsMonthlyIncome: {
           path: 'financial-disclosure/monthly-income/dependents/:index',
-          title: item => `${item.fullName.first} ${item.fullName.last} monthly income`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} monthly income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
           initialData: {
@@ -1211,7 +1211,7 @@ const formConfig = {
         },
         dependentsExpectedIncome: {
           path: 'financial-disclosure/expected-income/dependents/:index',
-          title: item => `${item.fullName.first} ${item.fullName.last} expected income`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} expected income`,
           showPagePerItem: true,
           arrayPath: 'dependents',
           initialData: {
@@ -1244,7 +1244,7 @@ const formConfig = {
           path: 'financial-disclosure/other-expenses/dependents/:index',
           showPagePerItem: true,
           arrayPath: 'dependents',
-          title: item => `${item.fullName.first} ${item.fullName.last} expenses`,
+          title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} expenses`,
           schema: {
             type: 'object',
             properties: {

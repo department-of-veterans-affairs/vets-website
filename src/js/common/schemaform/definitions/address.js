@@ -25,7 +25,7 @@ function isMilitaryCity(city = '') {
   return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
 }
 
-const requiredFields = ['street', 'city', 'country', 'postalCode'];
+const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',
