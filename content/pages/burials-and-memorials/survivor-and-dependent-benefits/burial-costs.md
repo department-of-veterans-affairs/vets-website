@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Handling Burial Costs (Allowances)
-display_title: Handling Burial Costs
+title: Burial Allowance Application Process 
+display_title: Burial Allowance Application Process 
 ---
 
 <div class="va-introtext">
@@ -44,9 +44,10 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 ### What documents and information do I need to apply?
 
-- A copy of the Veteran’s military discharge papers (DD214 or other separation documents)
-- A copy of the Veteran’s death certificate
-- Copies of any receipts you have incurred for transportation costs 
+You'll need a copy of: 
+- The Veteran’s military discharge papers (DD214 or other separation documents)
+- The Veteran’s death certificate
+- Any receipt you have for costs for transporting the Veteran's remains to its final resting place
 
 </div>
 
@@ -60,7 +61,9 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 ##### By mail
 
-Apply by mail using VA Form 21P-530 (Application for Burial Benefits). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf) and mail the application form and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
+Apply by mail using VA Form 21P-530 (Application for Burial Benefits). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+
+Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
 If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
 
