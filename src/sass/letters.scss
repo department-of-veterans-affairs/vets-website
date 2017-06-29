@@ -3,30 +3,43 @@
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
 
-h5 {
-  padding-top: 1.5em;
-}
+.letters {
+  h5 {
+    padding-top: 1.5em;
+  }
 
-.form-process-total {
-  padding-left: 4px;
-}
+  .form-process-total {
+    padding-left: 4px;
+  }
 
-.feature {
-    min-height: 0;
-    margin-top: 1em;
+  .feature {
+      min-height: 0;
+      margin-top: 1em;
 
-  &.help-desk {
-    margin-top: 2em;
+    &.help-desk {
+      margin-top: 2em;
+    }
+  }
+
+  .step-content {
+    margin-left: 2em;
+  }
+
+  .accordion-header > button {
+    min-height: 6rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  input[type="checkbox"] {
+    margin: auto;
+    opacity: inherit;
+    position: inherit;
+    width: 50%;
+  }
+
+  th[scope="row"] {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
-
-.step-content {
-  margin-left: 2em;
-}
-
-.form-review-panel .accordion-header > button {
-  min-height: 6rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-

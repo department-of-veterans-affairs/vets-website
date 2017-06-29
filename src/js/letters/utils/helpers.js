@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
-
+import React from 'react';
 import merge from 'lodash/fp/merge';
 
 import environment from '../../common/helpers/environment';
+import { formatDateShort } from '../../post-911-gib-status/utils/helpers';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
@@ -46,3 +47,19 @@ export const letterContent = {
   benefit_summary: 'This letter shows what benefits you\'re receiving from the VA, military service, and disability status. Below, you can choose if you want military service and disability status to be included.',
   benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
+
+export function veteranBenefitSummaryOptionText(allOptions, currentOption) {
+  const textForAllOptions = {
+    awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(allOptions.awardEffectiveDate)}</strong></div>,
+    hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
+    hasServiceConnectedDisabilities: <div>You have one or more service-connected disabilities</div>,
+    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${allOptions.monthlyAwardAmount}</strong></div>,
+    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{allOptions.serviceConnectedPercentage}%</strong></div>,
+    hasAdaptedHousing: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
+    hasChapter35Eligibility: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
+    hasIndividualUnemployabilityGranted: <div>You <strong>are</strong> being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div>,
+    hasSpecialMonthlyCompensation: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>
+  };
+
+  return textForAllOptions[currentOption];
+}

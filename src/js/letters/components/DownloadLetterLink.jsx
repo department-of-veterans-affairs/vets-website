@@ -79,7 +79,6 @@ class DownloadLetterLink extends React.Component {
     if (!ie10) {
       downloadWindow = window.open();
     }
-
     // TODO: in addition to the new blank browser window, this tries to
     // pop up a duplicate window which may or may not be suppressed
     // by the user's browser content settings.
