@@ -25,7 +25,6 @@ import {
   resumeMessage
 } from '../helpers';
 
-import IntroductionPage from '../components/IntroductionPage';
 import SIPIntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
@@ -119,8 +118,6 @@ const formConfig = {
   trackingPrefix: 'hca-',
   formId: '1010ez',
   version: 0,
-  // Disable save in progress for production
-  disableSave: __BUILDTYPE__ === 'production',
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.',
@@ -128,8 +125,7 @@ const formConfig = {
     startOver: 'This will remove anything you have put into the Health Care Application.'
   },
   transformForSubmit: transform,
-  // Use the old intro page for production, but SiP for dev and staging
-  introduction: __BUILDTYPE__ === 'production' ? IntroductionPage : SIPIntroductionPage,
+  introduction: SIPIntroductionPage,
   confirmation: ConfirmationPage,
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
