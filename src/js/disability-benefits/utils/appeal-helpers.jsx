@@ -3,6 +3,12 @@ import moment from 'moment';
 
 export function appealStatusDescriptions(lastEvent, previousHistory = []) {
   const contentMap = {
+    withdrawn: {
+      status: {
+        title: 'You Have Withdrawn Your Appeal',
+        description: <p>'Your appeal was withdrawn (canceled) by you or your representative. Your appeal is now closed.'</p>
+      }
+    },
     form9: {
       status: {
         title: 'Your Form 9 was received by the Regional Office (RO)',
