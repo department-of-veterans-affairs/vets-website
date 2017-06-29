@@ -21,7 +21,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/education/gi-bill/post-9-11/status'
+  basename: '/education/gi-bill/post-9-11/ch-33-benefit'
 });
 
 function init() {
