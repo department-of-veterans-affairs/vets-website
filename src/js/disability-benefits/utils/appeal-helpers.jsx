@@ -1,12 +1,27 @@
 import React from 'react';
 import moment from 'moment';
 
+export const hearingDescriptions = {
+  video: {
+    title: 'You have asked for a videoconference hearing.',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.</p>
+  },
+  travel_board: { // eslint-disable-line camelcase
+    title: 'You have asked for a travel board hearing. ',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.</p>
+  },
+  central_office: { // eslint-disable-line camelcase
+    title: 'You asked for a Board hearing in Washington, DC',
+    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board's central office hearings take place at 425 Eye Street, Washington, DC, 20001.</p>
+  },
+};
+
 export function appealStatusDescriptions(lastEvent, previousHistory = []) {
   const contentMap = {
     withdrawn: {
       status: {
         title: 'You Have Withdrawn Your Appeal',
-        description: <p>'Your appeal was withdrawn (canceled) by you or your representative. Your appeal is now closed.'</p>
+        description: <p>Your appeal was withdrawn (canceled) by you or your representative. Your appeal is now closed.</p>
       }
     },
     form9: {
@@ -23,10 +38,6 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
           </p>
         </div>,
       },
-      nextAction: {
-        title: 'You have asked for a videoconference hearing on your Form 9.',
-        description: 'You will get a letter in the mail at least 30 days before your hearing is scheduled letting you know the date, time, and location of the hearing.'
-      }
     },
     ssoc: {
       status: {

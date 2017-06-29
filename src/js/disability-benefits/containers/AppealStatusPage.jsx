@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import { getAppeals } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
-import { appealStatusDescriptions } from '../utils/appeal-helpers.jsx';
+import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers.jsx';
 
 class AppealStatusPage extends React.Component {
   componentDidMount() {
@@ -28,6 +28,29 @@ class AppealStatusPage extends React.Component {
         <div className={className}>
           <h5>{nextAction.title}</h5>
           {nextAction.description}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  renderHearingInfo() {
+    const { appeal } = this.props;
+
+    const activeHearings = _.filter(appeal.attributes.hearings, (h) => {
+      return moment().isBefore(h.date);
+    });
+
+    const upcomingHearing = _.orderBy(activeHearings, [e => moment(e.date).unix()], ['asc'])[0];
+
+    if (upcomingHearing) {
+      const hearingContent = hearingDescriptions[upcomingHearing.type];
+
+      return (
+        <div className="next-action hearing">
+          <h5>{hearingContent.title}</h5>
+          {hearingContent.description}
         </div>
       );
     }
@@ -87,6 +110,11 @@ class AppealStatusPage extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div className="row">
+              <div className="next-action-container">
+                {this.renderHearingInfo()}
+              </div>
+            </div>
             <div className="row">
               <div className="next-action-container">
                 {this.renderStatusNextAction(lastEvent, previousHistory)}
