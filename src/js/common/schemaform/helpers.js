@@ -87,6 +87,7 @@ export function createRoutes(formConfig) {
       {
         path: 'introduction',
         component: formConfig.introduction,
+        formConfig,
         pageList
       }
     ].concat(routes);

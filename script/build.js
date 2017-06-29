@@ -310,6 +310,41 @@ smith.use(collections({
       name: 'Health Care'
     }
   },
+  healthCareCoverage: {
+    pattern: 'health-care/about-va-health-care/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'VA Health Care Coverage'
+    }
+  },
+  healthCareCoverageVision: {
+    pattern: 'health-care/about-va-health-care/vision-care/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vision Care'
+    }
+  },
+  healthCareConditions: {
+    pattern: 'health-care/health-conditions/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Health Needs and Conditions'
+    }
+  },
+  healthCareMentalHealth: {
+    pattern: 'health-care/health-conditions/mental-health/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Mental Health'
+    }
+  },
+  healthCareServiceRelated: {
+    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Conditions Related to Service Era'
+    }
+  },
   housing: {
     pattern: 'housing-assistance/*.md',
     sortBy: 'order',

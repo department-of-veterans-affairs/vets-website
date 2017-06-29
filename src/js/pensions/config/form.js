@@ -39,6 +39,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
   nationalGuardActivation,
@@ -162,6 +163,7 @@ const formConfig = {
   },
   title: 'Apply for pension',
   subTitle: 'Form 21-527EZ',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
     additionalSources: additionalSourcesSchema(fullSchemaPensions),
