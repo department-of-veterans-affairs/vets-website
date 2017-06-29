@@ -43,7 +43,6 @@ export class Compose extends React.Component {
       });
       return;
     }
-
     this.props.resetMessage();
   }
 
