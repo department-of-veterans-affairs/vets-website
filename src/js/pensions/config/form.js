@@ -157,7 +157,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
   version: 0,
-  savedFormErrorMessages: {
+  savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
