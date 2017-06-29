@@ -33,7 +33,7 @@ export function fetchFolders() {
   return dispatch => {
     dispatch({ type: LOADING_FOLDERS });
 
-    apiRequest(
+    return apiRequest(
       url,
       null,
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),

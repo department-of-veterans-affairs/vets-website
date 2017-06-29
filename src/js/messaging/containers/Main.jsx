@@ -13,7 +13,7 @@ import {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  fetchFolders,
+  initializeResources,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
@@ -40,8 +40,8 @@ export class Main extends React.Component {
   }
 
   loadApp() {
-    const { folders } = this.props;
-    if (!folders || !folders.length) { this.props.fetchFolders(); }
+    const { folders, recipients } = this.props;
+    if (!folders || !folders.length || !recipients) { this.props.initializeResources(); }
   }
 
   handleFolderChange() {
@@ -67,11 +67,11 @@ export class Main extends React.Component {
   render() {
     const loading = this.props.loading;
 
-    if (loading.folders) {
+    if (loading.folders || loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
-    if (!this.props.folders || !this.props.folders.length) {
+    if (!this.props.folders || !this.props.folders.length || !this.props.recipients) {
       return (
         <ErrorView errors={this.props.errors}>
           <p>
@@ -181,7 +181,7 @@ const mapDispatchToProps = {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  fetchFolders,
+  initializeResources,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
