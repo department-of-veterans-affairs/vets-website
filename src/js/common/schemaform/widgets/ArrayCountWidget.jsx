@@ -31,7 +31,12 @@ export default class ArrayCountWidget extends React.Component {
   }
 
   updateArrayLength = (event) => {
-    const count = event.target.value;
+    let count = event.target.value;
+    // You can lock up the browser by setting too high of a number here
+    // and 29 appears to be the record, so this seems safe
+    if (count > 29) {
+      count = 29;
+    }
     this.setState({ value: count }, () => {
       this.props.onChange(getValue(count, this.props.value));
     });

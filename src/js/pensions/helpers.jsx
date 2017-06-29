@@ -14,6 +14,10 @@ export function transform(formConfig, form) {
 
 export const employmentDescription = <p className="pension-employment-desc">Please tell us about all of your employment, including self-employment, <strong>from one year before you became disabled</strong> to the present.</p>;
 
+export function isMarried(form = {}) {
+  return ['Married', 'Separated'].includes(form.maritalStatus);
+}
+
 const numberToWords = {
   0: 'First',
   1: 'Second',
@@ -33,8 +37,14 @@ export function getMarriageTitle(index) {
   return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
 }
 
+export function getSpouseMarriageTitle(index) {
+  const desc = numberToWords[index];
+
+  return desc ? `Spouse’s ${desc.toLowerCase()} marriage` : `Spouse marriage ${index + 1}`;
+}
+
 export function getMarriageTitleWithCurrent(form, index) {
-  if (form.maritalStatus === 'Married' && (form.marriages.length - 1) === index) {
+  if (isMarried(form) && (form.marriages.length - 1) === index) {
     return 'Current marriage';
   }
 
