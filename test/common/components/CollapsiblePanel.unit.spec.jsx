@@ -14,20 +14,20 @@ describe('<CollapsiblePanel>', () => {
     expect(tree.subTree('.usa-button-unstyled').text()).to.contain('Test panel');
   });
 
-  it('should handle toggling chapter', () => {
+  it.only('should handle toggling chapter', () => {
     const tree = SkinDeep.shallowRender(
       <CollapsiblePanel
           panelName={'Test panel'}/>
     );
 
-    expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
+    expect(tree.everySubTree('.usa-accordion-content')).to.be.empty;
 
     tree.getMountedInstance().toggleChapter();
 
-    expect(tree.everySubTree('.form-review-panel-page')).not.to.be.empty;
+    expect(tree.everySubTree('.usa-accordion-content')).not.to.be.empty;
 
     tree.getMountedInstance().toggleChapter();
 
-    expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
+    expect(tree.everySubTree('.usa-accordion-content')).to.be.empty;
   });
 });

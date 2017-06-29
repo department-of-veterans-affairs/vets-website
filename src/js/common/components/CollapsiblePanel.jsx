@@ -40,9 +40,7 @@ export default class CollapsiblePanel extends React.Component {
     if (this.state.open) {
       pageContent = (
         <div className="usa-accordion-content">
-          <div>
-            {this.props.children}
-          </div>
+          {this.props.children}
         </div>
       );
     }
