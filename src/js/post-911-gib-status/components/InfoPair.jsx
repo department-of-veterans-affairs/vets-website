@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 class InfoPair extends React.Component {
   render() {
     const { spacingClass } = this.props;

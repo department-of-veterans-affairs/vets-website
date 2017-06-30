@@ -22,7 +22,7 @@ class MegaMenu {
     const menus = Array.from(this.menu.querySelectorAll('.vetnav-level1'));
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
     const backs = Array.from(this.menu.querySelectorAll('.vetnav-back'));
-   
+
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
     });
@@ -37,7 +37,7 @@ class MegaMenu {
 
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
-  
+
     window.addEventListener('resize', this.resetMenu);
 
   }
@@ -82,13 +82,13 @@ class MegaMenu {
 
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
-      
+
     } else {
       this.closeAll();
       this.openMenu(event);
-      
+
       /*
-      Open the first sub-menu and expand first trigger 
+      Open the first sub-menu and expand first trigger
       when the breakpoint > 768
       */
       if(this.isWideScreen() && whichMenu.querySelector('.vetnav-panel--submenu')){
@@ -117,11 +117,11 @@ class MegaMenu {
     showCurrent.removeAttribute('hidden');
     event.target.setAttribute('aria-expanded', true);
   }
-  
+
   resetMenu() {
     if(this.isWideScreen()) {
       this.closeAll();
-      this.showMenu();      
+      this.showMenu();
     } else {
       this.hideMenu();
     }

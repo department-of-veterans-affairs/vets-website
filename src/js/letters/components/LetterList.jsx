@@ -3,21 +3,26 @@ import PropTypes from 'prop-types';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from './DownloadLetterLink';
+import VeteranBenefitSummaryLetter from '../containers/VeteranBenefitSummaryLetter';
 
 import { letterContent } from '../utils/helpers';
 
 class LetterList extends React.Component {
   render() {
     const letterItems = (this.props.letters || []).map((letter, index) => {
-      // TODO: if letter.letterType === 'benefit_summary', render the bsl
-      // custom component and pass in this.props.benefitSummaryOptions
-      let content = letterContent[letter.letterType] || '';
+      let content;
+
+      if (letter.letterType === 'benefit_summary') {
+        content = (<VeteranBenefitSummaryLetter/>);
+      } else {
+        content = letterContent[letter.letterType] || '';
+      }
 
       return (
         <CollapsiblePanel
             panelName={letter.name}
             key={`collapsiblePanel-${index}`}>
-          <p>{content}</p>
+          <div>{content}</div>
           <DownloadLetterLink
               letterType={letter.letterType}
               letterName={letter.name}

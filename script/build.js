@@ -111,17 +111,8 @@ smith.destination(`../build/${options.buildtype}`);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
 
-// TODO(awong): Verify that memorial-benefits should still be in the source tree.
-//    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-
-// To use:
-// const ignore = require('metalsmith-ignore');
-// const ignoreList = [];
-// if (options.buildtype === 'production') {
-//   ignoreList.push('track-claims/*');
-// }
-// smith.use(ignore(ignoreList));
-
+// To block an app from production add the following to the below list:
+//  ignoreList.push('<path-to-content-file>');
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
@@ -167,6 +158,20 @@ smith.use(collections({
     sortBy: 'title',
     metadata: {
       name: 'Survivor and Dependent Benefits'
+    }
+  },
+  disabilityBeta: {
+    pattern: 'disability-benefits-beta/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Disability Benefits'
+    }
+  },
+  disabilityBetaClaimsAppeal: {
+    pattern: 'disability-benefits-beta/claims-appeal/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Appeals'
     }
   },
   disability: {

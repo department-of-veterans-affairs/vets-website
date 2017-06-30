@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import UserInfoSection from '../components/UserInfoSection';
 import InfoPair from '../components/InfoPair';
 
-import { formatDateShort, formatDateLong } from '../utils/helpers';
+import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
 
 class PrintPage extends React.Component {
   render() {
