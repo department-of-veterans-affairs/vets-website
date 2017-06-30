@@ -597,6 +597,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
        '/health-care/apply/application',
+       '/disability-benefits-beta/',
        '/letters'].join('|'))
   }));
 }
