@@ -3,7 +3,9 @@ import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import ClaimPage from './containers/ClaimPage.jsx';
-import StatusPage from './containers/StatusPage.jsx';
+import ClaimStatusPage from './containers/ClaimStatusPage.jsx';
+import AppealStatusPage from './containers/AppealStatusPage.jsx';
+import AppealLearnMorePage from './components/AppealLearnMorePage.jsx';
 import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
@@ -26,12 +28,20 @@ const routes = [
       key="/your-claims/closed"
       path="/your-claims/closed"/>,
   <Route
+      component={AppealStatusPage}
+      key="/appeals/:id/status"
+      path="/appeals/:id/status"/>,
+  <Route
+      component={AppealLearnMorePage}
+      key="/appeals/learn-more"
+      path="/appeals/learn-more"/>,
+  <Route
       component={ClaimPage}
       key="/your-claims/:id"
       path="/your-claims/:id">
     <IndexRedirect to="status"/>
     <Route
-        component={StatusPage}
+        component={ClaimStatusPage}
         path="status"/>,
     <Route
         component={FilesPage}

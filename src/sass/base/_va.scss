@@ -1435,3 +1435,39 @@ p.info-message {
   padding-left: 0;
   list-style: none;
 }
+
+.vertical-list-group {
+  list-style-type: none;
+}
+
+.vertical-list-group .list-group-item{
+  border: none;
+  border-left: 3px solid $color-gray-light;
+  box-sizing: border-box;
+  border-radius: 0;
+  padding-left: 20px;
+  padding-right: 0px;
+  padding-bottom: 20px;
+  padding-top: 0px;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.vertical-list-group .list-group-item:last-child{
+  border-left: 3px solid transparent;
+  padding-bottom: 0;
+}
+.vertical-list-group .list-group-item::before {
+  border-radius: 50%;
+  background-color: $color-gray-dark;
+  content: "";
+  display: inline-block;
+  float: left;
+  height: 15px;
+  line-height: 15px;
+  margin-left: -29px;
+  text-align: center;
+  width: 15px;
+}

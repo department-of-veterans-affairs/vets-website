@@ -34,6 +34,7 @@ export default class AppointmentInfo extends Component {
     }
 
     const healthAccessAttrs = facility.attributes.access.health;
+
     if (!this.anyWaitTimes(healthAccessAttrs, 'new') && !this.anyWaitTimes(healthAccessAttrs, 'established')) {
       return null;
     }

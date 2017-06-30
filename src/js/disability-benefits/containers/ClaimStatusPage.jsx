@@ -10,7 +10,7 @@ import { itemsNeedingAttentionFromVet, getClaimType, getCompletedDate } from '..
 
 import { clearNotification } from '../actions';
 
-class StatusPage extends React.Component {
+class ClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
 
@@ -100,6 +100,6 @@ const mapDispatchToProps = {
   clearNotification
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimStatusPage);
 
-export { StatusPage };
+export { ClaimStatusPage };

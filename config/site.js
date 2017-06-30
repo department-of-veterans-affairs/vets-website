@@ -55,6 +55,10 @@ module.exports = {
     javascripts_dir: 'assets/js'
   },
   collections: {
+    'disability-benefits-beta': {
+      output: true,
+      permalink: '/:collection/:path/index.html'
+    },
     'disability-benefits': {
       output: true,
       permalink: '/:collection/:path/index.html'
