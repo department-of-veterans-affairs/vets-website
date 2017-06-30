@@ -340,7 +340,7 @@ export function validateFileField(errors, fileList) {
 export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
   const { atLeastOne = 'Please choose at least one option' } = errorMessages;
   const group = userGroup || {};
-  if (!Object.keys(group).filter(item => !!group[item]).length) {
+  if (!Object.keys(group).filter(item => group[item] === true).length) {
     errors.addError(atLeastOne);
   }
 }

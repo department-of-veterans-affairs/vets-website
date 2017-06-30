@@ -5,7 +5,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, expensesWarning, transform } from '../helpers';
+import { fileHelp, transportationWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 
@@ -38,7 +38,6 @@ const {
   burialAllowanceRequested,
   burialCost,
   previouslyReceivedAllowance,
-  incurredExpenses,
   benefitsUnclaimedRemains,
   burialAllowance,
   plotAllowance,
@@ -259,7 +258,7 @@ const formConfig = {
           path: 'benefits/selection',
           uiSchema: {
             'view:claimedBenefits': {
-              'ui:title': 'What benefits are you claiming?',
+              'ui:title': 'What expenses did you incur for the Veteran’s burial?',
               burialAllowance: {
                 'ui:title': 'Burial allowance'
               },
@@ -267,10 +266,18 @@ const formConfig = {
                 'ui:title': 'Plot or interment allowance'
               },
               transportation: {
-                'ui:title': 'Transportation reimbursement'
+                'ui:title': 'Transportation reimbursement (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)'
               },
               amountIncurred: {
                 'ui:title': 'Amount incurred',
+                'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
+                'ui:options': {
+                  expandUnder: 'transportation',
+                  classNames: 'schemaform-currency-input'
+                }
+              },
+              'view:transportationWarning': {
+                'ui:description': transportationWarning,
                 'ui:options': {
                   expandUnder: 'transportation',
                   classNames: 'schemaform-currency-input'
@@ -280,7 +287,7 @@ const formConfig = {
                 validateBooleanGroup
               ],
               'ui:errorMessages': {
-                atLeastOne: 'Please choose at least one benefit'
+                atLeastOne: 'You must have expenses for at least one benefit.'
               },
               'ui:options': {
                 showFieldLabel: true
@@ -297,7 +304,11 @@ const formConfig = {
                   burialAllowance,
                   plotAllowance,
                   transportation,
-                  amountIncurred
+                  amountIncurred,
+                  'view:transportationWarning': {
+                    type: 'object',
+                    properties: {}
+                  }
                 }
               }
             }
@@ -331,16 +342,6 @@ const formConfig = {
                 hideIf: form => _.get('relationship.type', form) !== 'spouse'
               }
             },
-            incurredExpenses: {
-              'ui:title': 'Did you incur expenses for the Veteran’s burial?',
-              'ui:widget': 'yesNo'
-            },
-            'view:expensesWarning': {
-              'ui:description': expensesWarning,
-              'ui:options': {
-                hideIf: form => form.incurredExpenses !== false
-              }
-            },
             benefitsUnclaimedRemains: {
               'ui:title': 'Are you seeking burial benefits for the unclaimed remains of a Veteran?',
               'ui:widget': 'yesNo',
@@ -357,11 +358,6 @@ const formConfig = {
               burialAllowanceRequested,
               burialCost,
               previouslyReceivedAllowance,
-              incurredExpenses,
-              'view:expensesWarning': {
-                type: 'object',
-                properties: {}
-              },
               benefitsUnclaimedRemains,
             }
           }
