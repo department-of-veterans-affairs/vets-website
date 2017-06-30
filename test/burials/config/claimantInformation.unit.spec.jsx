@@ -52,7 +52,7 @@ describe('Burials claimant information', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(11);
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
   });

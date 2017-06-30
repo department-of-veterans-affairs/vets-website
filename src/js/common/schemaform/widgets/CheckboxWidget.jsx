@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 
 export default function CheckboxWidget({
   id,
@@ -12,8 +13,9 @@ export default function CheckboxWidget({
   options
 }) {
   const requiredSpan = required ? <span className="form-required-span">*</span> : null;
+  const widgetClasses = classNames('form-checkbox', options.widgetClassNames);
   return (
-    <div className="form-checkbox">
+    <div className={widgetClasses}>
       <input type="checkbox"
           id={id}
           name={id}

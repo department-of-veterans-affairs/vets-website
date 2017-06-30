@@ -334,3 +334,8 @@ label {
   min-height: auto;
 }
 
+.schemaform-label-no-top-margin {
+  > .schemaform-label {
+    margin-top: 1rem;
+  }
+}
