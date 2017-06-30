@@ -37,6 +37,11 @@ export function apiRequest(url, optionalSettings = {}, success, error) {
     .then(success, error);
 }
 
+export const characterOfServiceContent = {
+  honorable: 'Honorable',
+  uncharacterized_entry_level: 'Uncharacterized',
+};
+
 export const letterContent = {
   commissary: 'If you\'re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
   proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
