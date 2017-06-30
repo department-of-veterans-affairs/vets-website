@@ -85,6 +85,8 @@ The funeral director you've chosen can help you with these steps too:
 
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
+<br>
+
 ### Can I get help paying for burial costs?
 
 If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
