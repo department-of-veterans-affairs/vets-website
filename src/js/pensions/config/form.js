@@ -17,7 +17,6 @@ import {
   isMarried,
   applicantDescription
 } from '../helpers';
-import { relationshipLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
@@ -100,10 +99,6 @@ function isBetween18And23(childDOB) {
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
-}
-
-function isChild(item) {
-  return item.dependentRelationship === 'child';
 }
 
 function setupDirectDeposit(form) {
@@ -830,12 +825,12 @@ const formConfig = {
           }
         },
         dependents: {
-          title: 'Dependents',
+          title: 'Dependent children',
           path: 'household/dependents',
           uiSchema: {
-            'ui:title': 'Dependents',
+            'ui:title': 'Dependent children',
             'view:hasDependents': {
-              'ui:title': 'Do you have any child or parent dependents?',
+              'ui:title': 'Do you have any dependent children?',
               'ui:widget': 'yesNo'
             },
             dependents: {
@@ -844,26 +839,8 @@ const formConfig = {
                 viewField: DependentField
               },
               items: {
-                dependentRelationship: {
-                  'ui:title': 'Relationship to Veteran',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: relationshipLabels
-                  }
-                },
-                fullName: _.merge(fullNameUI, {
-                  'ui:options': {
-                    expandUnder: 'dependentRelationship',
-                    expandUnderCondition: () => true
-                  }
-                }),
-                childDateOfBirth: _.assign(currentOrPastDateUI('Date of birth'), {
-                  'ui:required': (form, index) => form.dependents[index].dependentRelationship === 'child',
-                  'ui:options': {
-                    expandUnder: 'dependentRelationship',
-                    expandUnderCondition: 'child'
-                  }
-                }),
+                fullName: fullNameUI,
+                childDateOfBirth: currentOrPastDateUI('Date of birth')
               }
             }
           },
@@ -879,9 +856,8 @@ const formConfig = {
                 minItems: 1,
                 items: {
                   type: 'object',
-                  required: ['dependentRelationship', 'fullName'],
+                  required: ['fullName', 'childDateOfBirth'],
                   properties: {
-                    dependentRelationship: dependents.items.properties.dependentRelationship,
                     fullName: dependents.items.properties.fullName,
                     childDateOfBirth: dependents.items.properties.childDateOfBirth,
                   }
@@ -895,7 +871,6 @@ const formConfig = {
           title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} information`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => isChild(item),
           schema: {
             type: 'object',
             properties: {
@@ -971,7 +946,6 @@ const formConfig = {
           title: item => `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          itemFilter: (item) => isChild(item),
           schema: {
             type: 'object',
             properties: {
