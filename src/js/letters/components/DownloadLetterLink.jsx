@@ -50,6 +50,10 @@ class DownloadLetterLink extends React.Component {
   // by the popup blocker, or if not blocked will pop up an extra window
   // for no apparent reason).
   downloadLetter() {
+    window.dataLayer.push({
+      event: 'letter-download',
+      'letter-type': this.props.letterType
+    });
     const requestUrl = `/v0/letters/${this.props.letterType}`;
     const downloadWindow = window.open();
     apiRequest(

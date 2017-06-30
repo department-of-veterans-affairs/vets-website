@@ -39,6 +39,7 @@ const setup = () => {
   global.window = {
     navigator: {},
     open: sinon.spy(),
+    dataLayer: []
   };
   global.sessionStorage = {
     userToken: 'abc'
