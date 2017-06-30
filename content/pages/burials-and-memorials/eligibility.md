@@ -42,8 +42,6 @@ After your death, the person arranging your burial can also request additional h
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <div markdown="0"><br></div>
 
-<br>
-
 ### What other benefits can survivors and dependents get?
 
 We give the survivors, children, and parents of deceased Veterans and Servicemembers a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
