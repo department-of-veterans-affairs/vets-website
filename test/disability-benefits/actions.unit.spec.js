@@ -2,41 +2,46 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  SET_NOTIFICATION,
-  setNotification,
-  changePage,
-  CHANGE_CLAIMS_PAGE,
-  setUnavailable,
-  SET_UNAVAILABLE,
-  resetUploads,
-  RESET_UPLOADS,
-  addFile,
   ADD_FILE,
-  removeFile,
-  REMOVE_FILE,
-  clearNotification,
-  CLEAR_NOTIFICATION,
-  updateField,
-  UPDATE_FIELD,
-  showMailOrFaxModal,
-  SHOW_MAIL_OR_FAX,
-  setFieldsDirty,
-  SET_FIELDS_DIRTY,
-  showConsolidatedMessage,
-  SHOW_CONSOLIDATED_MODAL,
-  setLastPage,
-  SET_LAST_PAGE,
-  cancelUpload,
+  addFile,
   CANCEL_UPLOAD,
-  getClaims,
-  SET_CLAIMS,
-  getClaimDetail,
-  SET_CLAIM_DETAIL,
+  cancelUpload,
+  CHANGE_CLAIMS_PAGE,
+  changePage,
+  CLEAR_NOTIFICATION,
+  clearNotification,
+  FETCH_APPEALS,
+  FETCH_CLAIMS,
   GET_CLAIM_DETAIL,
-  submitRequest,
-  SUBMIT_DECISION_REQUEST,
+  getAppeals,
+  getClaimDetail,
+  getClaims,
+  REMOVE_FILE,
+  removeFile,
+  RESET_UPLOADS,
+  resetUploads,
+  SET_APPEALS_UNAVAILABLE,
+  SET_APPEALS,
+  SET_CLAIM_DETAIL,
+  SET_CLAIMS_UNAVAILABLE,
+  SET_CLAIMS,
+  SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
-  SET_DECISION_REQUEST_ERROR
+  SET_FIELDS_DIRTY,
+  SET_LAST_PAGE,
+  SET_NOTIFICATION,
+  setFieldsDirty,
+  setLastPage,
+  setNotification,
+  setUnavailable,
+  SHOW_CONSOLIDATED_MODAL,
+  SHOW_MAIL_OR_FAX,
+  showConsolidatedMessage,
+  showMailOrFaxModal,
+  SUBMIT_DECISION_REQUEST,
+  submitRequest,
+  UPDATE_FIELD,
+  updateField,
 } from '../../src/js/disability-benefits/actions';
 
 let fetchMock;
@@ -79,7 +84,7 @@ describe('Actions', () => {
       const action = setUnavailable();
 
       expect(action).to.eql({
-        type: SET_UNAVAILABLE,
+        type: SET_CLAIMS_UNAVAILABLE,
       });
     });
   });
@@ -173,6 +178,7 @@ describe('Actions', () => {
   });
   describe('cancelUpload', () => {
     it('should call cancel on uploader', () => {
+      global.window = { dataLayer: [] };
       const thunk = cancelUpload();
       const uploaderSpy = sinon.spy();
       const dispatchSpy = sinon.spy();
@@ -192,6 +198,46 @@ describe('Actions', () => {
       expect(dispatchSpy.firstCall.args[0].type).to.equal(CANCEL_UPLOAD);
     });
   });
+  describe('getAppeals', () => {
+    beforeEach(mockFetch);
+    it('should fetch claims', (done) => {
+      const appeals = [];
+      fetchMock.returns({
+        then: (fn) => fn({ ok: true, json: () => Promise.resolve(appeals) })
+      });
+      const thunk = getAppeals();
+      const dispatchSpy = sinon.spy();
+      const dispatch = (action) => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    it('should fail on error', (done) => {
+      const appeals = [];
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(appeals) })
+      });
+      const thunk = getAppeals();
+      const dispatchSpy = sinon.spy();
+      const dispatch = (action) => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS_UNAVAILABLE);
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    afterEach(unMockFetch);
+  });
   describe('getClaims', () => {
     beforeEach(mockFetch);
     it('should fetch claims', (done) => {
@@ -200,9 +246,14 @@ describe('Actions', () => {
         then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) })
       });
       const thunk = getClaims();
+      const dispatchSpy = sinon.spy();
       const dispatch = (action) => {
-        expect(action.type).to.equal(SET_CLAIMS);
-        done();
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS);
+          done();
+        }
       };
 
       thunk(dispatch);
@@ -213,9 +264,14 @@ describe('Actions', () => {
         then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) })
       });
       const thunk = getClaims();
+      const dispatchSpy = sinon.spy();
       const dispatch = (action) => {
-        expect(action.type).to.equal(SET_UNAVAILABLE);
-        done();
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS_UNAVAILABLE);
+          done();
+        }
       };
 
       thunk(dispatch);
@@ -262,7 +318,7 @@ describe('Actions', () => {
             type: GET_CLAIM_DETAIL
           });
           expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_UNAVAILABLE,
+            type: SET_CLAIMS_UNAVAILABLE,
           });
           done();
         }

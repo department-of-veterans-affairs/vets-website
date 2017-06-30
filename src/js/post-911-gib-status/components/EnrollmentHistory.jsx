@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import EnrollmentPeriod from './EnrollmentPeriod';
 
-import { formatDateShort } from '../utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
 
 class EnrollmentHistory extends React.Component {
   render() {

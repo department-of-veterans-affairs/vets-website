@@ -423,7 +423,7 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             'view:workedBeforeDisabled': {
-              'ui:title': 'Have you worked between now and one year before you became to disabled to continue?',
+              'ui:title': 'Have you been employed, including self employed, from one year before you became disabled to the present?',
               'ui:widget': 'yesNo'
             },
             'view:history': {
