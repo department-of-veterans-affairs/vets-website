@@ -17,16 +17,45 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply online for burial benefits"/>
-        <p>
-          Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
-        </p>
-        <p>
-          VA uses the information you submit to determine your eligibility and to provide you with the best service.
-        </p>
-        <p>
-          Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
-        </p>
+        <FormTitle title="Apply for burial benefits"/>
+        <p>This application is equivalent to Form 21P-530 (Application for Burial Benefits).</p>
+        <SaveInProgressIntro
+            pageList={this.props.route.pageList}
+            resumeOnly
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}/>
+        <div className="process schemaform-process schemaform-process-sip">
+          <ol>
+            <li className="process-step list-one">
+              <div><h5>Prepare</h5></div>
+              <div><h6>What you need to fill out this application</h6></div>
+              <ul>
+                <li>Veteran’s Social Security number or VA file number (required)</li>
+                <li>Veteran’s military discharge papers (DD214 or other separation documents)</li>
+                <li>Veteran’s death certificate</li>
+                <li>Receipts for transportation costs</li>
+              </ul>
+              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
+              <h6>Learn about other survivor and dependent benefits</h6>
+              <ul>
+                <li>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called Dependency and Indemnity Compensation. <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">See if you can get compensation</a>.</li>
+              </ul>
+            </li>
+            <li className="process-step list-two">
+              <div><h5>Apply for Benefits</h5></div>
+              <p>Complete this form.</p>
+            </li>
+            <li className="process-step list-three">
+              <div><h5>VA Review</h5></div>
+              <div><h6>What if VA needs more information?</h6></div>
+              <ul><li>We will contact you if we need more information.</li></ul>
+            </li>
+            <li className="process-step list-four">
+              <div><h5>Decision</h5></div>
+              <ul><li>You’ll get a notice in the mail if your claim was approved.</li></ul>
+            </li>
+          </ol>
+        </div>
         <SaveInProgressIntro
             pageList={this.props.route.pageList}
             {...this.props.saveInProgressActions}

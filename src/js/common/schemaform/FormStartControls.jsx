@@ -55,11 +55,11 @@ class FormStartControls extends React.Component {
               onButtonClick={this.handleLoadForm}
               buttonText="Resume previous application"
               buttonClass="usa-button-primary"/>
-          <ProgressButton
+          {!this.props.resumeOnly && <ProgressButton
               onButtonClick={this.toggleModal}
               buttonText="Start over"
               buttonClass="usa-button-outline"
-              afterText="»"/>
+              afterText="»"/>}
           <Modal
               cssClass="va-modal-large"
               id="start-over-modal"
@@ -84,7 +84,7 @@ class FormStartControls extends React.Component {
       <div>
         <ProgressButton
             onButtonClick={this.handleLoadPrefill}
-            buttonText="Continue"
+            buttonText="Get Started"
             buttonClass="usa-button-primary"
             afterText="»"/>
       </div>
@@ -101,7 +101,8 @@ FormStartControls.propTypes = {
   router: PropTypes.object.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
-  startPage: PropTypes.string.isRequired
+  startPage: PropTypes.string.isRequired,
+  resumeOnly: PropTypes.bool
 };
 
 export default withRouter(FormStartControls);

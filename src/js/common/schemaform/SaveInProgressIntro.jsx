@@ -21,7 +21,7 @@ export default class SaveInProgressIntro extends React.Component {
 
         alert = (
           <div>
-            <div className="usa-alert usa-alert-info no-background-image">
+            <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
               <br/>
               <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}</div>
@@ -34,7 +34,7 @@ export default class SaveInProgressIntro extends React.Component {
     } else {
       alert = (
         <div>
-          <div className="usa-alert usa-alert-info">
+          <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
               <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
             </div>
@@ -61,10 +61,15 @@ export default class SaveInProgressIntro extends React.Component {
       );
     }
 
+    if (this.props.resumeOnly && !savedForm) {
+      return null;
+    }
+
     return (
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
+            resumeOnly={this.props.resumeOnly}
             messages={this.props.messages}
             startPage={this.props.pageList[1].path}
             formId={this.props.formId}
