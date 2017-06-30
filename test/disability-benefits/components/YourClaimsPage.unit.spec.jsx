@@ -116,6 +116,8 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          unfilteredClaims={claims}
+          unfilteredAppeals={claims}
           list={claims}
           page={page}
           pages={pages}
