@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import { updateBenefitSummaryOption } from '../actions/letters';
 import {
   characterOfServiceContent,
   veteranBenefitSummaryOptionText
 } from '../utils/helpers';
-import { formatDateShort } from '../../post-911-gib-status/utils/helpers'; // copy this helper to a shared location?
+import { formatDateShort } from '../../common/utils/helpers';
 
 class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -38,7 +38,6 @@ class VeteranBenefitSummaryLetter extends React.Component {
 
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const optionsToInclude = this.props.optionsToInclude;
-    let militaryServiceInfo;
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
