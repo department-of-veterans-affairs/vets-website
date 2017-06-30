@@ -53,7 +53,7 @@ You’ll receive a VA Burial and Memorial Benefits folder from us in the mail. T
 
 Keep your VA Burial and Memorial Benefits folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after your death.
 
-We also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements at your time of need. When a burial is requested, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
+We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements at your time of need. When a burial is requested, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
 <br>
 
@@ -63,10 +63,12 @@ When you die, the person arranging your burial will need to call the National Ce
 
 <br>
 
-### If my pre-need application was denied, can my family member, next of kin or personal representative apply for my burial in a VA national cemetery anyway?
+#### If my pre-need application was denied, can my family member, next of kin or personal representative apply for my burial in a VA national cemetery anyway?
 
 Yes. Anyone can apply for your burial in a VA national cemetery even if we've already denied your pre-need burial eligibility. Laws and personal circumstances may change eligibility determinations made at an earlier time. We'll make the final determination of whether you qualify for burial at the time of need.
 
-### What if I have other questions?
+<br>
+
+#### What if I have other questions?
 
 [Get answers to more frequently asked questions about pre-need eligibility determination](https://www.cem.va.gov/CEM/pre-need/FAQ/).
