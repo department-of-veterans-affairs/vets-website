@@ -111,13 +111,8 @@ smith.destination(`../build/${options.buildtype}`);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
 
-// To use:
-// const ignore = require('metalsmith-ignore');
-// const ignoreList = [];
-// if (options.buildtype === 'production') {
-//   ignoreList.push('track-claims/*');
-// }
-// smith.use(ignore(ignoreList));
+// To block an app from production add the following to the below list:
+//  ignoreList.push('<path-to-content-file>');
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
