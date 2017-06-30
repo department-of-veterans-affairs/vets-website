@@ -130,6 +130,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
   ignoreList.push('letters/index.md');
+  ignoreList.push('disability-benefits-beta/index.md');
 }
 smith.use(ignore(ignoreList));
 
