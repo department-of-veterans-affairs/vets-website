@@ -89,9 +89,12 @@ node('vets-website-linting') {
     def buildList = ['production']
 
     if (env.BRANCH_NAME == 'master') {
-      buildList << 'development'
       buildList << 'staging'
     }
+
+    if (env.BRANCH_NAME == 'kudos-launch') {
+      buildList << 'development'
+    } 
 
     def builds = [:]
 

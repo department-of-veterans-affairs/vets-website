@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intersection } from 'lodash';
 
 import SystemDownView from './SystemDownView';
 import LoginPrompt from './authentication/LoginPrompt';
@@ -28,8 +29,15 @@ class RequiredLoginView extends React.Component {
     // 2) the application being loaded (requiredApp) is in the list of
     //    applications/services the user is authorized to use (userServices)
     // TODO: replace indexOf() once NodeJS versions in all environments support includes()
-    return sessionStorage.userToken && userServices &&
-           userServices.indexOf(requiredApp) !== -1;
+
+    if (sessionStorage.userToken && userServices) {
+      if (Array.isArray(requiredApp)) {
+        return intersection(userServices, requiredApp).length > 0;
+      }
+      return userServices.indexOf(requiredApp) !== -1;
+    }
+
+    return false;
   }
 
   render() {
@@ -98,7 +106,10 @@ class RequiredLoginView extends React.Component {
 
 RequiredLoginView.propTypes = {
   authRequired: PropTypes.number.isRequired,
-  serviceRequired: PropTypes.string.isRequired,
+  serviceRequired: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
   userProfile: PropTypes.object.isRequired,
   loginUrl: PropTypes.string,
   verifyUrl: PropTypes.string
