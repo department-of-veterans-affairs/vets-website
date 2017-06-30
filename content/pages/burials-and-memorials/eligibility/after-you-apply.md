@@ -23,11 +23,13 @@ Find out what happens after you apply for a Pre-Need Eligibility Determination f
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">The amount of time it takes to review your application depends on:
-- The number of applications we're reviewing, **and**
-- How much information you've provided <br />
-If more than 90 days has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than 90 days has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
 </div>
+
+The amount of time it takes to review your application depends on:
+- The number of applications we're reviewing, **and**
+- How much information you've provided in your application, **and**
+- Whether you provided your (or your sponsor's) DD214 or other separation documents along with your application
 
 <br>
 
@@ -49,7 +51,7 @@ You’ll receive a VA Burial and Memorial Benefits folder from us in the mail. T
 
 #### What should I do after I receive my pre-need letter and folder?
 
-Keep your VA Burial and Memorial Benefits folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after you’ve died. 
+Keep your VA Burial and Memorial Benefits folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after your death.
 
 We also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements at your time of need. When a burial is requested, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
