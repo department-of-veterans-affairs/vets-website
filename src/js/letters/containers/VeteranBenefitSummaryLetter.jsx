@@ -24,7 +24,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
     let vaBenefitInfoRows = [];
 
     _.forIn(benefitInfo, (value, key) => {
-      const optionText = veteranBenefitSummaryOptionText(benefitInfo, key);
+      const optionText = veteranBenefitSummaryOptionText(key, value);
 
       // There are 2 conditions this is checking for
       // 1. If the current benefit is not in the option text list from helpers,
@@ -46,7 +46,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
                   type="checkbox"
                   onChange={this.handleChange}/>
             </th>
-            <td><label id={`${key}Label`}>{veteranBenefitSummaryOptionText(benefitInfo, key)}</label></td>
+            <td><label id={`${key}Label`}>{veteranBenefitSummaryOptionText(key, value)}</label></td>
           </tr>
         );
       }
@@ -69,10 +69,8 @@ class VeteranBenefitSummaryLetter extends React.Component {
     } else {
       vaBenefitInformation = (
         <div className="feature">
-          <h4>VA Benefit Information is currently unavailable</h4>
-          <div>Please try again later. You can call the Vets.gov Help Desk for additional assistance.</div>
-          <div>1-855-574-7286</div>
-          <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
+          <h4>Your VA Benefit Summary letter is currently unavailable</h4>
+          <div>We weren't able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
         </div>
       );
     }

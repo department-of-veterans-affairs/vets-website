@@ -48,9 +48,9 @@ export const letterContent = {
   benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
 
-export function veteranBenefitSummaryOptionText(allOptions, currentOption) {
+export function veteranBenefitSummaryOptionText(currentOption, currentValue) {
   const textForAllOptions = {
-    awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(allOptions.awardEffectiveDate)}</strong></div>,
+    awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(currentValue)}</strong></div>,
     hasAdaptedHousing: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
     hasChapter35Eligibility: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
     hasDeathResultOfDisability: <div></div>,
@@ -60,8 +60,8 @@ export function veteranBenefitSummaryOptionText(allOptions, currentOption) {
     hasSpecialMonthlyCompensation: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>,
     hasSurvivorsIndemnityCompensationAward: <div></div>,
     hasSurvivorsPensionAward: <div></div>,
-    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${allOptions.monthlyAwardAmount}</strong></div>,
-    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{allOptions.serviceConnectedPercentage}%</strong></div>,
+    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${currentValue}</strong></div>,
+    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{currentValue}%</strong></div>,
   };
 
   return textForAllOptions[currentOption];

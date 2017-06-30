@@ -10,8 +10,6 @@ import { letterContent } from '../utils/helpers';
 class LetterList extends React.Component {
   render() {
     const letterItems = (this.props.letters || []).map((letter, index) => {
-      // TODO: if letter.letterType === 'benefit_summary', render the bsl
-      // custom component and pass in this.props.benefitSummaryOptions
       let content;
 
       if (letter.letterType === 'benefit_summary') {

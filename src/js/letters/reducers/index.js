@@ -30,16 +30,11 @@ function letters(state = initialState, action) {
       // Create object for which options to include in post for summary letter
       // Default all options to true so they appear checked in the UI
       options = mapValues(action.data.data.attributes.benefitInformation, (value) => {
-        let isSelected = false;
         // If the value of the benefit option is not false, it means the user
         // is eligible for that value. Default benefit options they are eligible for
         // to true. Keep benefit options that have a value of false as false, so
         // they are sent as false in the request for the pdf.
-        if (value !== false) {
-          isSelected = true;
-        }
-
-        return isSelected;
+        return value !== false;
       });
 
       return {
