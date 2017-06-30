@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { veteranBenefitSummaryOptionText } from '../utils/helpers';
-import { updateBenefitSummaryOptionsStatus } from '../actions/letters';
+import { updateBenefitSummaryOption } from '../actions/letters';
 
 class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -13,13 +13,14 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.updateBenefitSummaryOptionsStatus(domEvent.target.id, domEvent.target.checked);
+    this.props.updateBenefitSummaryOption(domEvent.target.id, domEvent.target.checked);
   }
 
   render() {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const optionsToInclude = this.props.optionsToInclude;
     let militaryServiceInfo;
+    let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
     _.forIn(benefitInfo, (value, key) => {
@@ -30,12 +31,14 @@ class VeteranBenefitSummaryLetter extends React.Component {
       // it means this benefit is not for veterans, and therefore it shouldn't
       // be displayed.
       // 2. If the value of the current benefit is false, we don't want to
-      // display it.
+      // display it. Values can be either true, false, or some other value,
+      // which is why we're checking that it's not false.
       if (optionText && value !== false) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
             <th scope="row">
               <input
+                  aria-labelledby={`${key}Label`}
                   autoComplete="false"
                   checked={optionsToInclude[key]}
                   id={key}
@@ -43,11 +46,36 @@ class VeteranBenefitSummaryLetter extends React.Component {
                   type="checkbox"
                   onChange={this.handleChange}/>
             </th>
-            <td>{veteranBenefitSummaryOptionText(benefitInfo, key)}</td>
+            <td><label id={`${key}Label`}>{veteranBenefitSummaryOptionText(benefitInfo, key)}</label></td>
           </tr>
         );
       }
     });
+
+    if (this.props.optionsAvailable) {
+      vaBenefitInformation = (
+        <table className="usa-table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Include</th>
+              <th scope="col">Something</th>
+            </tr>
+          </thead>
+          <tbody>
+            {vaBenefitInfoRows}
+          </tbody>
+        </table>
+      );
+    } else {
+      vaBenefitInformation = (
+        <div className="feature">
+          <h4>VA Benefit Information is currently unavailable</h4>
+          <div>Please try again later. You can call the Vets.gov Help Desk for additional assistance.</div>
+          <div>1-855-574-7286</div>
+          <div>Monday - Friday, 8:00am - 8:00pm (ET)</div>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -68,17 +96,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
         <h2>Military Service Information</h2>
         {militaryServiceInfo}
         <h2>VA Benefit Information</h2>
-        <table className="usa-table-borderless">
-          <thead>
-            <tr>
-              <th scope="col">Include</th>
-              <th scope="col">Something</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vaBenefitInfoRows}
-          </tbody>
-        </table>
+        {vaBenefitInformation}
         <p>
           If you see incorrect information for service periods or disability status,
           please send a question using VA's <a href="/">Inquiry Routing & Information
@@ -102,7 +120,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  updateBenefitSummaryOptionsStatus
+  updateBenefitSummaryOption
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VeteranBenefitSummaryLetter);

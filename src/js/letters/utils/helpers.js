@@ -3,7 +3,7 @@ import React from 'react';
 import merge from 'lodash/fp/merge';
 
 import environment from '../../common/helpers/environment';
-import { formatDateShort } from '../../post-911-gib-status/utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');

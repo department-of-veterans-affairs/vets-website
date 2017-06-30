@@ -31,12 +31,19 @@
     padding-bottom: 1.5rem;
   }
 
-  input[type="checkbox"] {
-    margin: auto;
-    opacity: inherit;
-    position: inherit;
-    width: 50%;
+  table {
+    input[type="checkbox"] {
+      margin: auto;
+      opacity: inherit;
+      position: inherit;
+      width: 50%;
+    }
+
+    label {
+      margin: 0;
+    }
   }
+
 
   th[scope="row"] {
     padding-top: 0;

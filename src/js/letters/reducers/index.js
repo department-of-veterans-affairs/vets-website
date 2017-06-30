@@ -53,7 +53,7 @@ function letters(state = initialState, action) {
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
       return set('optionsAvailable', false, state);
-    case 'UPDATE_BENEFIT_SUMMARY_OPTIONS_STATUS':
+    case 'UPDATE_BENEFIT_SUMMARY_OPTION':
       return set(['optionsToInclude', action.propertyPath], action.value, state);
     default:
       return state;

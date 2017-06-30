@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatPercent } from '../utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
+import { formatPercent } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
