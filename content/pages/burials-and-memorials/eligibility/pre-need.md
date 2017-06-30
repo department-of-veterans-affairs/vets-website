@@ -58,6 +58,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 **Be ready to fill out an application for each person requesting a pre-need eligibility determination**. If both you and your spouse are applying, you’ll each need to fill out your own application.
 
 </li>
+</ol>
 
 <div class="feature" markdown=“1”>
 
@@ -72,11 +73,11 @@ To apply, you’ll need the Servicemember's or Veteran's:
 - Military status and service history
 - Discharge papers (DD214 or other separation documents)
 
-**If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your information, including your Social Security number.
+#### More information needed for certain applicants
 
-**If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
-
-**If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
+- **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your information, including your Social Security number.
+- **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
+- **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
 
 </div>
 
@@ -86,7 +87,7 @@ To apply, you’ll need the Servicemember's or Veteran's:
 
 You can start your application right now.
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for pre-need determination of eligibility</a>
+<a class="usa-button-primary va-button-primary" href="TBD">Apply for pre-need eligibility determination</a>
 
 <div markdown="0"><br></div>
 
@@ -104,6 +105,8 @@ Print the form, fill it out, and send it along with a copy of your supporting do
 <dd>St. Louis, MO 63151</dd>
 </dl>
 
+<br>
+
 **Please note:** Don't send us the originals of your DD214 or other supporting documents. Please send copies only.
 
 <br>
@@ -118,7 +121,7 @@ Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-82
 
 ### What happens after I apply?
 
-[Find out what happens after you apply for a Pre-Need Eligibility Determination](/burials-and-memorials/eligibility/after-you-apply).
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/eligibility/after-you-apply).
 
 <br>
 
