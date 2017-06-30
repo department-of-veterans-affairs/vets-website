@@ -106,7 +106,10 @@ class RequiredLoginView extends React.Component {
 
 RequiredLoginView.propTypes = {
   authRequired: PropTypes.number.isRequired,
-  serviceRequired: PropTypes.string.isRequired,
+  serviceRequired: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
   userProfile: PropTypes.object.isRequired,
   loginUrl: PropTypes.string,
   verifyUrl: PropTypes.string

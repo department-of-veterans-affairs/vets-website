@@ -230,5 +230,8 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return claim.attributes.claimType || 'Disability Compensation';
+  if (claim.type === 'appeals_status_models_appeals') {
+    return 'Compensation Appeal';
+  }
+  return claim.attributes.claimType || 'Disability Compensation Claim';
 }
