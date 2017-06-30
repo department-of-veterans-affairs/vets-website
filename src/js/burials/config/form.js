@@ -263,10 +263,10 @@ const formConfig = {
                 'ui:title': 'Burial allowance'
               },
               plotAllowance: {
-                'ui:title': 'Plot or interment allowance'
+                'ui:title': 'Plot or interment allowance (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)'
               },
               transportation: {
-                'ui:title': 'Transportation reimbursement (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)'
+                'ui:title': 'Transportation reimbursement'
               },
               amountIncurred: {
                 'ui:title': 'Amount incurred',
