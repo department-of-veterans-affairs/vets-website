@@ -239,7 +239,7 @@ const formConfig = {
               'Date entered service must be before date left service'
             ),
             placeOfSeparation: {
-              'ui:title': 'Place of last or anticipated separation'
+              'ui:title': 'Place of last or anticipated separation (city and state or foreign country)'
             },
             combatSince911: (() => {
               const rangeExcludes911 = createSelector(
@@ -552,7 +552,7 @@ const formConfig = {
                 }),
                 dateOfMarriage: currentOrPastDateUI('Date of marriage'),
                 locationOfMarriage: {
-                  'ui:title': 'Place of marriage'
+                  'ui:title': 'Place of marriage (city and state or foreign country)'
                 },
                 marriageType: {
                   'ui:title': 'Type of marriage',
@@ -765,7 +765,7 @@ const formConfig = {
                 locationOfMarriage: {
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(spouseName =>
-                      `Place of ${spouseName.first} ${spouseName.last}’s marriage`)
+                      `Place of ${spouseName.first} ${spouseName.last}’s marriage (city and state or foreign country)`)
                   }
                 },
                 marriageType: {
@@ -897,7 +897,7 @@ const formConfig = {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
                 childPlaceOfBirth: {
-                  'ui:title': 'Place of Birth'
+                  'ui:title': 'Place of birth (city and state or foreign country)'
                 },
                 childSocialSecurityNumber: _.merge(ssnUI, {
                   'ui:title': 'Social Security number'
