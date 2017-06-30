@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 const definitions = formConfig.defaultDefinitions;
@@ -20,45 +19,28 @@ describe('Pensions applicantInformation', () => {
           uiSchema={uiSchema}/>
     );
 
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-    expect(inputs.length).to.equal(6);
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
   });
-  it('should conditionally require SSN or file number', () => {
+  it('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
+          definitions={formConfig.defaultDefinitions}
           schema={schema}
-          definitions={definitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
-    submitForm(form);
+    const formDOM = getFormDOM(form);
 
-    // Use Array find() for nodes with 'view:' in the id, and check for ok (truthiness) instead of null since
-    // not found nodes will return undefined instead of null
+    formDOM.submitForm();
 
-    // VA file number input is not visible; error is shown for empty SSN input
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-    expect(inputs.find(input => input.id === 'root_veteranSocialSecurityNumber')).to.be.ok;
-    expect(inputs.find(input => input.id === 'root_vaFileNumber')).not.to.be.ok;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    formDOM.fillData('#root_veteranSocialSecurityNumber', '134445555');
 
-    const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(form, 'usa-input-error-message');
-    expect(errors.find(input => input.id.includes('root_veteranSocialSecurityNumber'))).to.be.ok;
+    formDOM.submitForm();
 
-    // Check no-SSN box
-    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                                   .find(input => input.id === 'root_view:noSSN');
-    ReactTestUtils.Simulate.change(noSSNBox,
-      {
-        target: {
-          checked: true
-        }
-      });
-
-    // No error is shown for empty SSN input; error is shown for empty file number input
-    const newErrors = ReactTestUtils.scryRenderedDOMComponentsWithClass(form, 'usa-input-error-message');
-    expect(newErrors.find(input => input.id.includes('root_veteranSocialSecurityNumber'))).not.to.be.ok;
-    expect(newErrors.find(input => input.id.includes('root_vaFileNumber'))).to.be.ok;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
   it('should submit with no errors with all required fields filled in', () => {
     const onSubmit = sinon.spy();
@@ -70,7 +52,7 @@ describe('Pensions applicantInformation', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
     submitForm(form);
     const find = formDOM.querySelector.bind(formDOM);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
