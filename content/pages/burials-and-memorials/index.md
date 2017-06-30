@@ -6,7 +6,7 @@ template: level2-index
 showactionbar: false
 extraspace: true
 majorlinks:
-  - heading: Who Can Get Burials & Memorials Benefits
+  - heading: Who Can Get Benefits
     links:
     - url: /burials-and-memorials/eligibility/
       title: Eligibility
@@ -14,7 +14,7 @@ majorlinks:
     - url: /burials-and-memorials/eligibility/pre-need/
       title: Apply in Advance for a Pre-Need Eligibility Determination
       description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members when you die. 
-  - heading: When a Family Member Dies
+  - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
       title: Planning a Burial
@@ -22,7 +22,7 @@ majorlinks:
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Survivor and Dependent Benefits
       description: Find out if you can get help paying for funeral costs and if you qualify for tax-free monetary benefits.
-  - heading: Other Information About Burials & Memorials  
+  - heading: More Helpful Information
     links:
     - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates/
       title: Burial Flags and Presidential Memorial Certificates
