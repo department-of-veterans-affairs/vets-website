@@ -128,7 +128,6 @@ if (options.buildtype === 'production') {
   ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('disability-benefits-beta/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -597,7 +596,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
        '/health-care/apply/application',
-       '/disability-benefits-beta/',
        '/letters'].join('|'))
   }));
 }
