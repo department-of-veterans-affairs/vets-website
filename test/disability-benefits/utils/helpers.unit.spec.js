@@ -386,7 +386,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: undefined
         }
       };
-      expect(getClaimType(claim)).to.equal('Disability Compensation Claim');
+      expect(getClaimType(claim)).to.equal('Disability Compensation');
     });
   });
 
