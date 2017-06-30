@@ -581,7 +581,7 @@ const formConfig = {
                     'ui:required': (...args) => !isCurrentMarriage(...args)
                   }),
                   locationOfSeparation: {
-                    'ui:title': 'Place marriage ended',
+                    'ui:title': 'Place marriage ended (city and state or foreign country)',
                     'ui:required': (...args) => !isCurrentMarriage(...args)
                   }
                 }
@@ -788,7 +788,7 @@ const formConfig = {
                 },
                 dateOfSeparation: currentOrPastDateUI('Date marriage ended'),
                 locationOfSeparation: {
-                  'ui:title': 'Place marriage ended',
+                  'ui:title': 'Place marriage ended (city and state or foreign country)',
                 }
               }
             }
