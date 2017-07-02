@@ -2,38 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { registerBeta } from '../actions';
 
 class AppealsBetaEnrollment extends React.Component {
 
-  componentDidMount() {
-    this.props.registerBeta();
-  }
-
   render() {
-    let message;
-
-    if (this.props.loading === true) {
-      message = 'Activating beta features...';
-    }
-    if (this.props.stats === 'failed') {
-      message = 'Activation failed, please contact beta product manager.';
-    } else {
-      message = 'Beta features activated for user '.concat(this.props.username).concat('. Thank you.');
-    }
-    let view;
-
-    view = (
-      <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Appeals Beta Registration</h1>
-          <div>
-            <p>{message}</p>
-          </div>
-        </div>
-      </div>
-    );
-
     return (
       <div>
         <RequiredLoginView
@@ -42,7 +14,7 @@ class AppealsBetaEnrollment extends React.Component {
             userProfile={this.props.profile}
             loginUrl={this.props.loginUrl}
             verifyUrl={this.props.verifyUrl}>
-          {view}
+          {this.props.children}
         </RequiredLoginView>
       </div>
       );
@@ -62,9 +34,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  registerBeta,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppealsBetaEnrollment);
+export default connect(mapStateToProps)(AppealsBetaEnrollment);
 export { AppealsBetaEnrollment };
