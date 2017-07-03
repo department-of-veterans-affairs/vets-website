@@ -32,7 +32,7 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+You'll need to apply. [Apply for benefits](/education/apply/). 
 
 You can use VEAP benefits for these programs:
 

@@ -38,7 +38,7 @@ You can get education benefits through the GI Bill if:
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). 
+You'll need to apply for benefits. [Apply for education benefits](/education/apply/). 
 
 ### How much money will I get? 
 

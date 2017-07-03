@@ -35,7 +35,7 @@ We'll pay you back for the cost of your correspondence training classes if you'r
 
 ### How do I get these benefits? 
 
-- You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). 
+- You'll need to apply for benefits. [Apply for education benefits](/education/apply/). 
 
 - We base payment amounts on the specific GI Bill program you're using. If you're enrolled in correspondence training, we decide your payment amount and then pay it quarterly after your school lets us know that you've finished your course of study. 
 

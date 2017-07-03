@@ -67,7 +67,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+You'll need to apply. [Apply for benefits](/education/apply/). 
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
