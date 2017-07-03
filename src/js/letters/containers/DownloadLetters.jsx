@@ -36,7 +36,7 @@ class DownloadLetters extends React.Component {
         <div className="feature help-desk">
           <h2>Get Adobe Reader</h2>
           <div>To download and view your letters, please make sure you have the latest free version of Adobe Reader.</div>
-          <a href="/" target="_blank">Get Adobe Reader</a>
+          <a href="https://get.adobe.com/reader/" target="_blank">Get Adobe Reader</a>
         </div>
         <div className="feature help-desk">
           <h2>Need help?</h2>
