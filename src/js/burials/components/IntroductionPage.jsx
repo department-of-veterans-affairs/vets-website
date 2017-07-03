@@ -35,7 +35,7 @@ class IntroductionPage extends React.Component {
                 <li>Veteran’s death certificate</li>
                 <li>Receipts for transportation costs</li>
               </ul>
-              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
+              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
               <ul>
                 <li>If you're the surviving spouse or child of a deceased Veteran, you may be able to get a Survivors Pension. <a href="/pension/survivors-pension/">Learn more about a Survivors Pension benefit</a>.</li>
