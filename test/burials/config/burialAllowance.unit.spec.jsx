@@ -18,7 +18,7 @@ describe('Burials burial allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(5);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(3);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -49,7 +49,7 @@ describe('Burials burial allowance', () => {
 
     formDOM.fillData('#root_burialAllowanceRequested_2', 'vaMC');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(4);
   });
 
   it('should show previously received question', () => {
@@ -66,7 +66,7 @@ describe('Burials burial allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(5);
     expect(formDOM.querySelector('#root_previouslyReceivedAllowanceYes')).is.not.null;
   });
 
@@ -84,7 +84,7 @@ describe('Burials burial allowance', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(5);
     expect(formDOM.querySelector('#root_benefitsUnclaimedRemainsYes')).is.not.null;
   });
 
