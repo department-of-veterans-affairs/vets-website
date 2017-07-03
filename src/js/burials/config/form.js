@@ -46,7 +46,8 @@ const {
   previousNames,
   veteranSocialSecurityNumber,
   veteranDateOfBirth,
-  placeOfBirth
+  placeOfBirth,
+  officialPosition
 } = fullSchemaBurials.properties;
 
 const {
@@ -107,6 +108,14 @@ const formConfig = {
                   expandUnder: 'type',
                   expandUnderCondition: 'other'
                 }
+              },
+              'view:isEntity': {
+                'ui:title': 'Claiming as a firm, corporation or state agency',
+                'ui:options': {
+                  expandUnder: 'type',
+                  expandUnderCondition: 'other',
+                  widgetClassNames: 'schemaform-label-no-top-margin'
+                }
               }
             },
             'ui:options': {
@@ -118,7 +127,13 @@ const formConfig = {
             required: ['claimantFullName', 'relationship'],
             properties: {
               claimantFullName,
-              relationship
+              relationship: _.merge(relationship, {
+                properties: {
+                  'view:isEntity': {
+                    type: 'boolean'
+                  }
+                }
+              })
             }
           }
         }
@@ -418,6 +433,12 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
+            officialPosition: {
+              'ui:title': 'Position of person signing on behalf of firm, corporation or state agency',
+              'ui:options': {
+                hideIf: form => _.get('relationship.view:isEntity', form) !== true
+              }
+            },
             claimantAddress: address.uiSchema('Address'),
             claimantEmail: {
               'ui:title': 'Email address'
@@ -428,6 +449,7 @@ const formConfig = {
             type: 'object',
             required: ['claimantAddress'],
             properties: {
+              officialPosition,
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
               claimantPhone

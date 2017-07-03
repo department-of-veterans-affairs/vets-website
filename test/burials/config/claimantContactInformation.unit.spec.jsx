@@ -21,6 +21,22 @@ describe('Burials claimant information', () => {
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
   });
+  it('should render official position', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            relationship: {
+              'view:isEntity': true
+            }
+          }}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(9);
+  });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
