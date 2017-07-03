@@ -41,7 +41,7 @@ This office serves:
 <li>Vermont</li>
 <li>Virginia</li>
 <li>West Virginia</li>
-<li>All other foreign countries *not* included under the VA St. Paul Pension Management Center below
+<li>All other foreign countries not included under the VA St. Paul Pension Management Center below
 </ul>
 </div>
 
@@ -51,7 +51,7 @@ To submit a pension application to this office, mail it to:
 <dd>Department of Veterans Affairs</dd>
 <dd>Claims Intake Center</dd>
 <dd>Attention:  Philadelphia Pension Center</dd>
-<dd>P. O. Box 5206</dd>
+<dd>PO Box 5206</dd>
 <dd>Janesville, WI  53547-5206</dd>
 
 </dl>
@@ -59,6 +59,8 @@ To submit a pension application to this office, mail it to:
 Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
 
 [Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
+
+<br>
 
 ### VA Milwaukee Pension Management Center
 
@@ -92,7 +94,7 @@ To submit a pension application to this office, mail it to:
 <dd>Department of Veterans Affairs</dd>
 <dd>Claims Intake Center</dd>
 <dd>Attention:  Milwaukee Pension Center</dd>
-<dd>P.O. Box 5192</dd>
+<dd>PO Box 5192</dd>
 <dd>Janesville, WI 53547-5192</dd>
 
 </dl>
@@ -100,6 +102,8 @@ To submit a pension application to this office, mail it to:
 Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
 
 [Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
+
+<br>
 
 ### VA St. Paul Pension Management Center
 
@@ -136,7 +140,8 @@ This office serves:
 <li>Washington</li>
 <li>Wyoming</li>
 <li>Mexico</li>
-<li>Central and South America</li>
+<li>Central America</li>
+<li>South America</li>
 <li>The Caribbean</li>
 </ul>
 </div>
@@ -149,7 +154,7 @@ To submit a pension application to this office, mail it to:
 <dd>Department of Veterans Affairs</dd>
 <dd>Claims Intake Center</dd>
 <dd>Attention:  St. Paul Pension Center</dd>
-<dd>P. O. BOX 5365</dd>
+<dd>PO BOX 5365</dd>
 <dd>Janesville, WI 53547-5365</dd>
 
 </dl>
