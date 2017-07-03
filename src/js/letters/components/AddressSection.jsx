@@ -15,7 +15,7 @@ class AddressSection extends React.Component {
         <div>{addressLines.join('')}</div>
         <div>{destination.city}, {destination.state} {destination.zipCode}</div>
         <h5>Why is this address important?</h5>
-        <div>The letters you download include this address. The letter is valid even if the address is wrong. To change the address on your letter, please call the Vets.gov Help Desk or visit <a href="">this link.</a></div>
+        <div>The letters you download include this address. The letter is valid even if the address is wrong. To change the address on your letter, please call the Vets.gov Help Desk or visit <a href="https://eauth.va.gov/wssweb/wss-common-webparts/mvc/getPCIUUpdateForm" target="_blank">this link.</a></div>
       </div>
     );
   }
