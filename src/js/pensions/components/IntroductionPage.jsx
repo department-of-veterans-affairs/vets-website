@@ -30,14 +30,14 @@ class IntroductionPage extends React.Component {
               <div><h5>Prepare</h5></div>
               <div><h6>What you need to fill out this application</h6></div>
               <ul>
-                <li>Social Security number (required)</li>
+                <li>Social Security number or VA file number (required)</li>
                 <li>Military history (required)</li>
                 <li>Your financial information and the financial information of your dependents (required)</li>
                 <li>Work history</li>
                 <li>Bank account direct deposit information</li>
                 <li>Medical information</li>
               </ul>
-              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
+              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about Veterans Pension rates</h6>
               <ul>
                 <li>Find out more about how <a href="/pension/rates">pension rates</a> are decided.</li>
