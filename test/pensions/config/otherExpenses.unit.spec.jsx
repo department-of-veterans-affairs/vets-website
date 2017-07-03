@@ -38,8 +38,24 @@ describe('Pensions', () => {
       );
       const formDOM = getFormDOM(form);
 
-      expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
+      expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
+
       expect(formDOM.querySelector('.pensions-disclosure-name').textContent).to.contain('Jane Doe');
+    });
+
+    it('should reveal expenses fields', () => {
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            data={nameData}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}/>
+      );
+      const formDOM = getFormDOM(form);
+
+      formDOM.fillData('#root_view\\:hasOtherExpensesYes', 'Y');
+
+      expect(formDOM.querySelectorAll('input,select').length).to.equal(8);
     });
 
     if (!namePath.startsWith('spouse')) {
@@ -90,6 +106,8 @@ describe('Pensions', () => {
       );
 
       const formDOM = getFormDOM(form);
+
+      formDOM.fillData('#root_view\\:hasOtherExpensesYes', 'Y');
 
       formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, 12);
 

@@ -1071,12 +1071,23 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:hasOtherExpenses': {
+                type: 'boolean'
+              },
               otherExpenses
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
-            otherExpenses: otherExpensesUI
+            'view:hasOtherExpenses': {
+              'ui:title': 'Do you have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+              'ui:widget': 'yesNo'
+            },
+            otherExpenses: _.merge(otherExpensesUI, {
+              'ui:options': {
+                expandUnder: 'view:hasOtherExpenses'
+              }
+            })
           }
         },
         spouseNetWorth: {
@@ -1140,12 +1151,23 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:hasOtherExpenses': {
+                type: 'boolean'
+              },
               spouseOtherExpenses: otherExpenses
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
-            spouseOtherExpenses: otherExpensesUI
+            'view:hasOtherExpenses': {
+              'ui:title': 'Does your spouse have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+              'ui:widget': 'yesNo'
+            },
+            spouseOtherExpenses: _.merge(otherExpensesUI, {
+              'ui:options': {
+                expandUnder: 'view:hasOtherExpenses'
+              }
+            })
           }
         },
         dependentsNetWorth: {
@@ -1252,6 +1274,9 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    'view:hasOtherExpenses': {
+                      type: 'boolean'
+                    },
                     otherExpenses
                   }
                 }
@@ -1262,7 +1287,15 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
-                otherExpenses: otherExpensesUI
+                'view:hasOtherExpenses': {
+                  'ui:title': 'Does your child have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+                  'ui:widget': 'yesNo'
+                },
+                otherExpenses: _.merge(otherExpensesUI, {
+                  'ui:options': {
+                    expandUnder: 'view:hasOtherExpenses'
+                  }
+                })
               }
             }
           }
