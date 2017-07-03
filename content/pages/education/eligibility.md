@@ -75,7 +75,7 @@ Also, if you haven't used all of your Post-9/11 GI Bill benefits, you may be abl
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/">Apply for Benefits</a>
 
 [Learn about the application process](/education/apply). 
 
