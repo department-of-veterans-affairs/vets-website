@@ -75,7 +75,7 @@ describe('Pensions', () => {
       });
     }
 
-    it('should submit empty form', () => {
+    it('should not submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -90,8 +90,8 @@ describe('Pensions', () => {
 
       formDOM.submitForm(form);
 
-      expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
-      expect(onSubmit.called).to.be.true;
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
     });
 
     it('should add another expense', () => {
@@ -115,6 +115,28 @@ describe('Pensions', () => {
 
       expect(formDOM.querySelector('.va-growable-background').textContent)
         .to.contain('$12');
+    });
+
+    it('should submit with valid data', () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            definitions={formConfig.defaultDefinitions}
+            data={nameData}
+            onSubmit={onSubmit}
+            uiSchema={uiSchema}/>
+      );
+
+      const formDOM = getFormDOM(form);
+
+      formDOM.fillData('#root_view\\:hasOtherExpensesNo', 'N');
+
+      formDOM.submitForm(form);
+
+      expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
+
+      expect(onSubmit.called).to.be.true;
     });
   }
   describe('Other expenses', () => {

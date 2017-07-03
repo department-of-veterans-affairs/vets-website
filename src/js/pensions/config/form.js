@@ -1070,6 +1070,7 @@ const formConfig = {
           title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
           schema: {
             type: 'object',
+            required: ['view:hasOtherExpenses'],
             properties: {
               'view:hasOtherExpenses': {
                 type: 'boolean'
@@ -1150,6 +1151,7 @@ const formConfig = {
           title: 'Spouse other expenses',
           schema: {
             type: 'object',
+            required: ['view:hasOtherExpenses'],
             properties: {
               'view:hasOtherExpenses': {
                 type: 'boolean'
@@ -1273,6 +1275,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:hasOtherExpenses'],
                   properties: {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
