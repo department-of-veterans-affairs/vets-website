@@ -58,7 +58,7 @@ export function schema(currentSchema, isRequired = false) {
  * @param {function} isRequired - A function for conditionally setting if an address is required.
  *   Receives formData and an index (if in an array item)
  */
-export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null) {
+export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null, ignoreRequired = false) {
   let fieldOrder = ['country', 'street', 'street2', 'street3', 'city', 'state', 'postalCode'];
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
@@ -75,6 +75,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
       };
       const country = currentCountry || addressSchema.properties.country.default;
       const required = addressSchema.required.length > 0;
+      // if we pass in an array for isRequired, don't ever change it
 
       let stateList;
       let labelList;
@@ -96,7 +97,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
           schemaUpdate.properties = _.set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
-          if (required && !addressSchema.required.some(field => field === 'state')) {
+          if (!ignoreRequired && required && !addressSchema.required.some(field => field === 'state')) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
         }
@@ -105,7 +106,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
         schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
-        if (required) {
+        if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
         }
       }
@@ -135,7 +136,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
-        if (isRequired) {
+        if (isRequired && typeof isRequired === 'function') {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {
             currentSchema = _.set('required', requiredFields, currentSchema);

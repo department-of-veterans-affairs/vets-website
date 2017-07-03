@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions general military history', () => {
@@ -16,9 +15,9 @@ describe('Pensions general military history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
   });
 
   it('should not submit empty form', () => {
@@ -31,11 +30,11 @@ describe('Pensions general military history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    submitForm(form);
+    formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -49,9 +48,9 @@ describe('Pensions general military history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
       target: {
@@ -59,11 +58,11 @@ describe('Pensions general military history', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(14);
 
-    submitForm(form);
+    formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -77,9 +76,9 @@ describe('Pensions general military history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
       target: {
@@ -107,7 +106,7 @@ describe('Pensions general military history', () => {
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Jane Doe, Jr.');
   });
-  it('should required combat after 9/11 question', () => {
+  it('should require combat after 9/11 question', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -117,50 +116,78 @@ describe('Pensions general military history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toMonth'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toMonth'), {
       target: {
         value: '9'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toDay'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toDay'), {
       target: {
         value: '11'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toYear'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toYear'), {
       target: {
         value: '2001'
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toMonth'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toMonth'), {
       target: {
         value: '9'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toDay'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toDay'), {
       target: {
         value: '12'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toYear'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toYear'), {
       target: {
         value: '2001'
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
 
-    submitForm(form);
+    formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should add another service period', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
+
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+
+    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+
+    expect(formDOM.querySelector('.va-growable-background').textContent)
+      .to.contain('Army');
   });
 
   it('should submit with valid data', () => {
@@ -173,52 +200,20 @@ describe('Pensions general military history', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(Array.from(formDOM.querySelectorAll('input[type="radio"]'))[1], {
-      target: {
-        value: 'N'
-      }
-    });
+    formDOM.fillData('#root_view\\:serveUnderOtherNamesNo', 'N');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toMonth'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toDay'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_toYear'), {
-      target: {
-        value: '2003'
-      }
-    });
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+    formDOM.fillData('#root_combatSince911Yes', 'Y');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_fromMonth'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_fromDay'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_activeServiceDateRange_fromYear'), {
-      target: {
-        value: '2002'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_combatSince911Yes'), {
-      target: {
-        value: 'Y'
-      }
-    });
-
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
