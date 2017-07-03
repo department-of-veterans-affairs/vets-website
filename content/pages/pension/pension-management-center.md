@@ -139,8 +139,8 @@ This office serves:
 <li>Utah</li>
 <li>Washington</li>
 <li>Wyoming</li>
-<li>Mexico</li>
 <li>Central America</li>
+<li>Mexico</li>
 <li>South America</li>
 <li>The Caribbean</li>
 </ul>
