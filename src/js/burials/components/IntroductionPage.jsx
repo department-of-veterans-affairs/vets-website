@@ -38,6 +38,7 @@ class IntroductionPage extends React.Component {
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
               <ul>
+                <li>If you're the surviving spouse or child of a deceased Veteran, you may be able to get a Survivors Pension. <a href="/pension/survivors-pension/">Learn more about a Survivors Pension benefit</a>.</li>
                 <li>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called Dependency and Indemnity Compensation. <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">See if you can get compensation</a>.</li>
               </ul>
             </li>
