@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -10,6 +11,7 @@ function AppContent({ children, isDataAvailable }) {
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
+      {!canUseApp && <ClaimsUnavailable/>}
       {canUseApp &&
         <div>
           {children}

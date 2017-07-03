@@ -2,11 +2,9 @@ import React from 'react';
 
 import { transformForSubmit } from '../common/schemaform/helpers';
 
-export const expensesWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <span>Note: if you did not incur any expenses, your claim may be denied</span>
-    </div>
+export const transportationWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span><strong>Note:</strong> At the end of the application, you will be asked to upload all receipts for the expenses you incurred for transporting the Veteran’s remains.</span>
   </div>
 );
 
