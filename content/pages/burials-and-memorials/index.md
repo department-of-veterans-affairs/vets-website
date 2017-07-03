@@ -6,22 +6,23 @@ template: level2-index
 showactionbar: false
 extraspace: true
 majorlinks:
-  - heading: Who Can Get Benefits
+  - heading: 
     links:
     - url: /burials-and-memorials/eligibility/
       title: Eligibility
       description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
+  - heading: How to Plan in Advance
     - url: /burials-and-memorials/eligibility/pre-need/
-      title: Apply in Advance for a Pre-Need Eligibility Determination
+      title: Apply for a Pre-Need Eligibility Determination
       description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members when you die. 
   - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
-      title: Planning a Burial
+      title: Plan a Burial
       description: Find out what to do if your family member has just died.  
     - url: /burials-and-memorials/survivor-and-dependent-benefits
-      title: Survivor and Dependent Benefits
-      description: Find out if you can get help paying for funeral costs and if you qualify for tax-free monetary benefits.
+      title: Apply for a Burial Allowance
+      description: Find out if you can get help paying for funeral costs.
   - heading: More Helpful Information
     links:
     - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates/
