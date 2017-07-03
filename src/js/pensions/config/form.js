@@ -96,8 +96,8 @@ function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-// Actually checks if they're under 17.75, but that doesn't make for a good function name
-function isUnder18(childDOB) {
+// Checks to see if they're under 17.75 years old
+function isEligibleForDisabilitySupport(childDOB) {
   return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
 }
 
@@ -928,9 +928,9 @@ const formConfig = {
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
-                  'ui:required': (formData, index) => !isUnder18(_.get(['dependents', index, 'childDateOfBirth'], formData)),
+                  'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   'ui:options': {
-                    hideIf: (formData, index) => isUnder18(_.get(['dependents', index, 'childDateOfBirth'], formData))
+                    hideIf: (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
                   },
                   'ui:widget': 'yesNo',
                 },
