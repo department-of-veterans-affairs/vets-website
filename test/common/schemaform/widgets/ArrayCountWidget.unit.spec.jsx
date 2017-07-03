@@ -21,6 +21,23 @@ describe('Schemaform <ArrayCountWidget>', () => {
     );
     expect(tree.subTree('input').props.value).to.equal(2);
   });
+  it('should render with the right count with offset', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayCountWidget
+          id="1"
+          value={[{}, {}]}
+          schema={{ type: 'array' }}
+          required
+          disabled={false}
+          formContext={{}}
+          onChange={onChange}
+          options={{
+            countOffset: -1
+          }}/>
+    );
+    expect(tree.subTree('input').props.value).to.equal(3);
+  });
   it('should render 0 if array is empty', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -54,6 +71,27 @@ describe('Schemaform <ArrayCountWidget>', () => {
       }
     });
     expect(onChange.firstCall.args[0]).to.eql([{}, {}, {}]);
+  });
+  it('should handle change that adds items with offset', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayCountWidget
+          id="1"
+          schema={{ type: 'string' }}
+          required
+          disabled={false}
+          formContext={{}}
+          onChange={onChange}
+          options={{
+            countOffset: -1
+          }}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '3'
+      }
+    });
+    expect(onChange.firstCall.args[0]).to.eql([{}, {}]);
   });
   it('should handle change that removes items', () => {
     const onChange = sinon.spy();

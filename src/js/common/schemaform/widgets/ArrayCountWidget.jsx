@@ -1,45 +1,45 @@
 import React from 'react';
 
-// We're expanding or contracting the array based on the count
-// and returning undefined if the array should be empty
-function getValue(count, value = []) {
-  if (!count || parseInt(count, 10) < 1) {
-    return undefined;
-  }
-
-  const intCount = parseInt(count, 10);
-  if (intCount < value.length) {
-    return value.slice(0, intCount);
-  }
-
-  return value.concat(Array(intCount - value.length).fill({}));
-}
-
-export default class ArrayCountWidget extends React.Component {
+export default class SpouseMarriageWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: !!props.value ? props.value.length : undefined };
+    this.state = { value: !!props.value
+      ? props.value.length - (this.props.options.countOffset || 0)
+      : undefined };
   }
 
-  // Need to keep the count state in sync, but don't want to overwrite if the
-  // user has chosen '' or 0
-  componentWillReceiveProps(props) {
-    const arrayData = props.value || [];
-    if (!!arrayData.length && (!this.state.value || this.state.value !== arrayData.length)) {
-      this.setState({ value: arrayData.length });
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.value !== this.state.value) {
+      let count = parseInt(this.state.value, 10);
+      if (isNaN(count)) {
+        count = 0;
+      }
+
+      if (count > 29) {
+        count = 29;
+      }
+
+      this.props.onChange(this.getValue(count, this.props.value));
     }
+  }
+  // We're expanding or contracting the array based on the count
+  // and returning undefined if the array should be empty
+  getValue = (count, value = []) => {
+    if (count === 0) {
+      return undefined;
+    }
+
+    const intCount = count + (this.props.options.countOffset || 0);
+
+    if (intCount < value.length) {
+      return value.slice(0, intCount);
+    }
+
+    return Array(intCount - value.length).fill({}).concat(value);
   }
 
   updateArrayLength = (event) => {
-    let count = event.target.value;
-    // You can lock up the browser by setting too high of a number here
-    // and 29 appears to be the record, so this seems safe
-    if (count > 29) {
-      count = 29;
-    }
-    this.setState({ value: count }, () => {
-      this.props.onChange(getValue(count, this.props.value));
-    });
+    this.setState({ value: event.target.value });
   }
 
   render() {
