@@ -217,25 +217,12 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        general: {
+        servicePeriods: {
           path: 'military/history',
-          title: 'General history',
+          title: 'Service Periods',
           uiSchema: {
-            'ui:title': 'General history',
-            previousNames: {
-              'ui:options': {
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField,
-                reviewTitle: 'Previous names'
-              },
-              items: fullNameUI
-            },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo'
-            },
+            'ui:title': 'Service periods',
             servicePeriods: {
-              'ui:title': 'Service periods',
               'ui:options': {
                 viewField: ServicePeriodView,
                 reviewTitle: 'Service periods'
@@ -250,6 +237,45 @@ const formConfig = {
                   'Date entered service must be before date left service'
                 )
               }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['serviceBranch', 'activeServiceDateRange'],
+                  properties: {
+                    serviceBranch: {
+                      type: 'string'
+                    },
+                    activeServiceDateRange: _.assign(dateRange, {
+                      required: ['from', 'to']
+                    })
+                  }
+                }
+              }
+            }
+          }
+        },
+        general: {
+          path: 'military/general',
+          title: 'General History',
+          uiSchema: {
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
+            previousNames: {
+              'ui:options': {
+                expandUnder: 'view:serveUnderOtherNames',
+                viewField: FullNameField,
+                reviewTitle: 'Previous names'
+              },
+              items: fullNameUI
             },
             placeOfSeparation: {
               'ui:title': 'Place of last or anticipated separation (city and state or foreign country)'
@@ -288,22 +314,6 @@ const formConfig = {
               previousNames: _.assign(previousNames, {
                 minItems: 1
               }),
-              servicePeriods: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['serviceBranch', 'activeServiceDateRange'],
-                  properties: {
-                    serviceBranch: {
-                      type: 'string'
-                    },
-                    activeServiceDateRange: _.assign(dateRange, {
-                      required: ['from', 'to']
-                    })
-                  }
-                }
-              },
               placeOfSeparation,
               combatSince911
             }

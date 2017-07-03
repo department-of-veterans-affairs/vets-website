@@ -17,7 +17,7 @@ describe('Pensions general military history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
@@ -34,7 +34,7 @@ describe('Pensions general military history', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -50,7 +50,7 @@ describe('Pensions general military history', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
       target: {
@@ -58,11 +58,11 @@ describe('Pensions general military history', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(14);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -78,7 +78,7 @@ describe('Pensions general military history', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
       target: {
@@ -111,6 +111,14 @@ describe('Pensions general military history', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          data={{
+            servicePeriods: [{
+              activeServiceDateRange: {
+                to: '2006-05-06',
+                from: '2007-03-04'
+              }
+            }]
+          }}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}/>
@@ -118,77 +126,14 @@ describe('Pensions general military history', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
-
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toMonth'), {
-      target: {
-        value: '9'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toDay'), {
-      target: {
-        value: '11'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toYear'), {
-      target: {
-        value: '2001'
-      }
-    });
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
-
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toMonth'), {
-      target: {
-        value: '9'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toDay'), {
-      target: {
-        value: '12'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_servicePeriods_0_activeServiceDateRange_toYear'), {
-      target: {
-        value: '2001'
-      }
-    });
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another service period', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
-    );
-
-    const formDOM = getFormDOM(form);
-
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
-
-    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
-
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
-
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Army');
-  });
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
@@ -203,15 +148,6 @@ describe('Pensions general military history', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_view\\:serveUnderOtherNamesNo', 'N');
-
-    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
-    formDOM.fillData('#root_combatSince911Yes', 'Y');
 
     formDOM.submitForm();
 
