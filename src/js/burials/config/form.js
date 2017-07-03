@@ -248,7 +248,7 @@ const formConfig = {
               items: fullNameUI
             },
             'view:serveUnderOtherNames': {
-              'ui:title': 'Did the veteran serve under another name?',
+              'ui:title': 'Did the Veteran serve under another name?',
               'ui:widget': 'yesNo'
             }
           },
