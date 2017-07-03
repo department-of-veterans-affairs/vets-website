@@ -16,7 +16,7 @@ export function fileHelp({ formContext }) {
   return (
     <p>
       Files we accept: pdf, jpg, png<br/>
-      Maximum file size: 2MB
+      Maximum file size: 20MB
     </p>
   );
 }

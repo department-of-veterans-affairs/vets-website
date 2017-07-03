@@ -8,8 +8,9 @@ export default function fileUiSchema(label, userOptions = {}) {
     'ui:title': label,
     'ui:field': FileField,
     'ui:options': _.assign({
-      fileTypes: ['pdf', 'txt', 'jpg', 'jpeg', 'gif'],
-      maxSize: 2097152,
+      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+      maxSize: 20971520,
+      minSize: 1024,
       endpoint: '/v0/claim_attachments',
       addAnotherLabel: 'Add Another',
       showFieldLabel: true,

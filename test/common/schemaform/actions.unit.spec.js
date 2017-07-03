@@ -280,6 +280,41 @@ describe('Schemaform actions:', () => {
       });
     });
 
+    it('should reject if file is too small', (done) => {
+      const thunk = uploadFile(
+        {
+          size: 1
+        },
+        ['fileField', 0],
+        {
+          minSize: 5,
+          maxSize: 8
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      thunk(dispatch, getState).then(() => {
+        done('Should have failed on a file that is too small');
+      }).catch(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'File is too small to be uploaded'
+              }
+            ]
+          }
+        });
+        done();
+      });
+    });
+
     it('should call set data on success', () => {
       const thunk = uploadFile(
         {
