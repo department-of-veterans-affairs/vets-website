@@ -184,7 +184,7 @@ const formConfig = {
           title: 'Burial information',
           path: 'veteran-information/burial',
           uiSchema: {
-            burialDate: currentOrPastDateUI('Date of burial'),
+            burialDate: currentOrPastDateUI('Date of burial (includes cremation or interment)'),
             deathDate: currentOrPastDateUI('Date of death'),
             locationOfDeath: {
               location: {
@@ -281,7 +281,7 @@ const formConfig = {
                 'ui:title': 'Plot or interment allowance (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)'
               },
               transportation: {
-                'ui:title': 'Transportation reimbursement'
+                'ui:title': 'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)'
               },
               amountIncurred: {
                 'ui:title': 'Amount incurred',
@@ -466,13 +466,11 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
-              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               hideIf: form => form.burialAllowanceRequested !== 'service'
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
-              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
               addAnotherLabel: 'Add Another Receipt',
               hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
             }), {

@@ -1379,9 +1379,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim', {
-              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-            })
+            files: fileUploadUI('Please upload any documentation that you need to support your claim')
           },
           schema: {
             type: 'object',
