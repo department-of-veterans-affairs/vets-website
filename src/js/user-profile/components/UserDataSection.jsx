@@ -19,7 +19,7 @@ class UserDataSection extends React.Component {
   }
 
   openModal = () => {
-    window.dataLayer.push({event: 'terms-shown-profile'});
+    window.dataLayer.push({ event: 'terms-shown-profile' });
     this.setState({ modalOpen: true });
   }
 
