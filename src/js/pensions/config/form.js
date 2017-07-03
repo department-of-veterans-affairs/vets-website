@@ -29,7 +29,6 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import dateUI from '../../common/schemaform/definitions/date';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -297,7 +296,7 @@ const formConfig = {
               },
               address: address.uiSchema('Unit address'),
               phone: phoneUI('Unit phone number'),
-              date: dateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service Activation Date')
             }
           },
           schema: {
@@ -390,7 +389,7 @@ const formConfig = {
                 name: {
                   'ui:title': 'Disability'
                 },
-                disabilityStartDate: dateUI('Date disability began')
+                disabilityStartDate: currentOrPastDateUI('Date disability began')
               }
             },
             hasVisitedVAMC: {
