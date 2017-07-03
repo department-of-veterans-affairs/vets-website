@@ -8,11 +8,11 @@ order: 6
 
 <div class="va-introtext">
 
-We have 3 Regional Pension Management Centers. Look at the lists below to find the center that serves your state or territory. Then, mail your pension application to the address for that center.
+We have 3 regional pension management centers. Look at the lists below to find the center that serves your state, territory, or foreign country. Then, mail or fax your pension application to the address for that center.
 
 </div>
 
-### Philadelphia VA Pension Management Center
+### VA Philadelphia Pension Management Center
 
 This office serves:
 
@@ -27,12 +27,12 @@ This office serves:
 <li>Massachusetts</li>
 <li>New Hampshire</li>
 <li>New Jersey</li>
+<li>New York</li>
 </ul>
 </div>
 
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
-<li>New York</li>
 <li>North Carolina</li>
 <li>Pennsylvania</li>
 <li>Puerto Rico</li>
@@ -41,6 +41,7 @@ This office serves:
 <li>Vermont</li>
 <li>Virginia</li>
 <li>West Virginia</li>
+<li>All other foreign countries *not* included under the VA St. Paul Pension Management Center below
 </ul>
 </div>
 
@@ -55,9 +56,11 @@ To submit a pension application to this office, mail it to:
 
 </dl>
 
-[Get more information about the Philadelphia VA Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
+Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
 
-### Milwaukee VA Pension Management Center
+[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
+
+### VA Milwaukee Pension Management Center
 
 This office serves:
 
@@ -94,9 +97,11 @@ To submit a pension application to this office, mail it to:
 
 </dl>
 
-[Get more information about the Milwaukee VA Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
+Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
 
-### St. Paul VA Pension Management Center
+[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
+
+### VA St. Paul Pension Management Center
 
 This office serves:
 
@@ -115,13 +120,13 @@ This office serves:
 <li>Minnesota</li>
 <li>Montana</li>
 <li>Nebraska</li>
+<li>Nevada</li>
+<li>New Mexico</li>
 </ul>
 </div>
 
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
-<li>Nevada</li>
-<li>New Mexico</li>
 <li>North Dakota</li>
 <li>Oklahoma</li>
 <li>Oregon</li>
@@ -130,6 +135,9 @@ This office serves:
 <li>Utah</li>
 <li>Washington</li>
 <li>Wyoming</li>
+<li>Mexico</li>
+<li>Central and South America</li>
+<li>The Caribbean</li>
 </ul>
 </div>
 
@@ -146,4 +154,6 @@ To submit a pension application to this office, mail it to:
 
 </dl>
 
-[Get more information about the St. Paul VA Regional Benefit Office](http://www.benefits.va.gov/stpaul/). 
+Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
+
+[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/). 
