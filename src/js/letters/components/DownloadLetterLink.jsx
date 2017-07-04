@@ -12,9 +12,9 @@ export class DownloadLetterLink extends React.Component {
     this.downloadLetter = this.downloadLetter.bind(this);
   }
 
-  // Either download the pdf or open it in a new window, depending on the browser.
-  // Needs to bbe manually tested on a variety of vets.gov-supported
-  // platforms, particularly iOS/Safari
+  // Either download the pdf or open it in a new window, depending on the
+  // browser. Needs to be manually tested on a variety of
+  // vets.gov-supported platforms, particularly iOS/Safari
   downloadLetter(e) {
     e.preventDefault();
     window.dataLayer.push({
@@ -37,8 +37,9 @@ export class DownloadLetterLink extends React.Component {
     }
 
     // We handle IE10 separately but assume all other vets.gov-supported
-    // browsers have blob URL support. We may want to explicitly check
-    // for that with something like
+    // browsers have blob URL support.
+    // TODO: possibly want to explicitly
+    // check for blob URL support with something like
     // const blobSupported = !!(/^blob:/.exec(downloadUrl));
     const ie10 = !!window.navigator.msSaveOrOpenBlob;
     const save = document.createElement('a');
@@ -62,7 +63,8 @@ export class DownloadLetterLink extends React.Component {
             window.URL = window.URL || window.webkitURL;
             downloadUrl = window.URL.createObjectURL(blob);
             if (downloadSupported) {
-              // Give the file a readable name if the download attribute is supported
+              // Give the file a readable name if the download attribute
+              // is supported.
               save.download = this.props.letterName;
               save.href = downloadUrl;
               save.target = '_blank';

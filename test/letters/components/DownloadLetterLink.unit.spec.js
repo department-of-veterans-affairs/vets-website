@@ -3,43 +3,33 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import DownloadLetterLink from '../../../src/js/letters/components/DownloadLetterLink.jsx';
+import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 
 const defaultProps = {
   letterName: 'Commissary Letter',
   letterType: 'commissary'
 };
 
-
 let oldWindow;
 let oldFetch;
+
+// TODO: fix this warning and improve test coverage for various scenarios:
+//   UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1):
+//   TypeError: Cannot read property 'ok' of undefined"
 
 const setup = () => {
   oldFetch = global.fetch;
   oldWindow = global.window;
-
-  // This needs work:
-  //   UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1):
-  //   TypeError: Cannot read property 'ok' of undefined"
-  // Figure out how to avoid defining all keys of the returned Promise chain
   global.fetch = sinon.spy(() => {
     return Promise.resolve();
   });
-
-  /*
-  global.fetch = sinon.stub();
-  global.fetch.returns({
-    then: (fn) => fn({
-      ok: true,
-      blob: () => {return Promise.resolve(); }
-    })
-  });
-  */
-
   global.window = {
     navigator: {},
     open: sinon.spy(),
-    dataLayer: []
+    dataLayer: [],
+    URL: {
+      revokeObjectURL: () => {}
+    }
   };
   global.sessionStorage = {
     userToken: 'abc'
