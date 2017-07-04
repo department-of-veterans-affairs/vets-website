@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
 import { apiRequest } from '../utils/helpers';
 
-class DownloadLetterLink extends React.Component {
+export class DownloadLetterLink extends React.Component {
   constructor(props) {
     super(props);
     this.downloadLetter = this.downloadLetter.bind(this);
@@ -56,9 +57,23 @@ class DownloadLetterLink extends React.Component {
     });
     const requestUrl = `/v0/letters/${this.props.letterType}`;
     const downloadWindow = window.open();
+
+    let settings;
+    if (this.props.letterType === 'benefit_summary') {
+      settings = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.props.letterOptions)
+      };
+    } else {
+      settings = {
+        method: 'POST'
+      };
+    }
+
     apiRequest(
       requestUrl,
-      { method: 'POST' },
+      settings,
       response => {
         response.blob().then(blob => {
           const URLobj = window.URL || window.webkitURL;
@@ -140,9 +155,18 @@ class DownloadLetterLink extends React.Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    letterType: ownProps.letterType,
+    letterName: ownProps.letterName,
+    letterOptions: state.letters.optionsToInclude
+  };
+}
+
 DownloadLetterLink.PropTypes = {
   letterType: PropTypes.string.required,
   letterName: PropTypes.string.required
 };
 
-export default DownloadLetterLink;
+export default connect(mapStateToProps)(DownloadLetterLink);
+
