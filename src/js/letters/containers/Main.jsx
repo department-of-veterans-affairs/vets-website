@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
 
 class Main extends React.Component {
@@ -10,9 +12,17 @@ class Main extends React.Component {
   }
 
   render() {
+    let appContent;
+
+    if (this.props.destination) {
+      appContent = this.props.children;
+    } else {
+      appContent = <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
       <div className="letters">
-        {this.props.children}
+        {appContent}
       </div>
     );
   }

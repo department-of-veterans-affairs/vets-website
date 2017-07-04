@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 
 class Main extends React.Component {
@@ -9,9 +11,17 @@ class Main extends React.Component {
   }
 
   render() {
+    let appContent;
+
+    if (this.props.enrollmentData) {
+      appContent = this.props.children;
+    } else {
+      appContent = <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
       <div className="gib-info">
-        {this.props.children}
+        {appContent}
       </div>
     );
   }
