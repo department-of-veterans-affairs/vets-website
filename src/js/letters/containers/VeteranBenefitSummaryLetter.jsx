@@ -10,7 +10,7 @@ import {
 } from '../utils/helpers';
 import { formatDateShort } from '../../common/utils/helpers';
 
-class VeteranBenefitSummaryLetter extends React.Component {
+export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
