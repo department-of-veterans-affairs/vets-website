@@ -333,7 +333,7 @@ export function validateFileField(errors, fileList) {
   });
 
   if (hasError) {
-    errors.addError('Please addresses the errors listed below');
+    errors.addError('Please address the errors listed below');
   }
 }
 

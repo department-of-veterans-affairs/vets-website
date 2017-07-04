@@ -29,7 +29,6 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import dateUI from '../../common/schemaform/definitions/date';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -94,6 +93,11 @@ function isUnder65(formData) {
 
 function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
+}
+
+// Checks to see if they're under 17.75 years old
+function isEligibleForDisabilitySupport(childDOB) {
+  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
 }
 
 function isCurrentMarriage(form, index) {
@@ -297,7 +301,7 @@ const formConfig = {
               },
               address: address.uiSchema('Unit address'),
               phone: phoneUI('Unit phone number'),
-              date: dateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service Activation Date')
             }
           },
           schema: {
@@ -390,7 +394,7 @@ const formConfig = {
                 name: {
                   'ui:title': 'Disability'
                 },
-                disabilityStartDate: dateUI('Date disability began')
+                disabilityStartDate: currentOrPastDateUI('Date disability began')
               }
             },
             hasVisitedVAMC: {
@@ -878,7 +882,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'disabled', 'previouslyMarried'],
+                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'previouslyMarried'],
                   properties: {
                     childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
                     childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
@@ -916,13 +920,17 @@ const formConfig = {
                 attendingCollege: {
                   'ui:title': 'Is your child in school?',
                   'ui:widget': 'yesNo',
-                  'ui:required': (form, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                  'ui:required': (formData, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   'ui:options': {
-                    hideIf: (form, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                    hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   }
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
+                  'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
+                  'ui:options': {
+                    hideIf: (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
+                  },
                   'ui:widget': 'yesNo',
                 },
                 previouslyMarried: {
@@ -932,7 +940,7 @@ const formConfig = {
                 married: {
                   'ui:title': 'Are they currently married?',
                   'ui:widget': 'yesNo',
-                  'ui:required': (form, index) => !!_.get(['dependents', index, 'previouslyMarried'], form),
+                  'ui:required': (formData, index) => !!_.get(['dependents', index, 'previouslyMarried'], formData),
                   'ui:options': {
                     expandUnder: 'previouslyMarried'
                   }
@@ -1379,9 +1387,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim', {
-              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-            })
+            files: fileUploadUI('Please upload any documentation that you need to support your claim')
           },
           schema: {
             type: 'object',

@@ -114,6 +114,16 @@ export function uploadFile(file, filePath, uiOptions = {}) {
       return Promise.reject();
     }
 
+    if (file.size < uiOptions.minSize) {
+      dispatch(
+        setData(_.set(filePath, {
+          errorMessage: 'File is too small to be uploaded'
+        }, getState().form.data))
+      );
+
+      return Promise.reject();
+    }
+
     dispatch(
       setData(_.set(filePath, { uploading: true }, getState().form.data))
     );

@@ -49,7 +49,7 @@ describe('<EnrollmentHistory>', () => {
   it('should show history may be incorrect warning', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('Does your history look incorrect?');
+    expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
   it('should show history may be incorrect warning if benefit pending', () => {
@@ -63,7 +63,7 @@ describe('<EnrollmentHistory>', () => {
     };
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('Does your history look incorrect?');
+    expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
   it('should show no enrollment history warning', () => {
@@ -75,6 +75,6 @@ describe('<EnrollmentHistory>', () => {
     };
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('You have no enrollment history.');
+    expect(featureBoxes[0].text()).to.equal('You don\'t have any enrollment history');
   });
 });
