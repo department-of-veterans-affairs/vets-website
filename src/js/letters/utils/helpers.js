@@ -39,7 +39,12 @@ export function apiRequest(url, optionalSettings = {}, success, error) {
 
 export const characterOfServiceContent = {
   honorable: 'Honorable',
-  uncharacterized_entry_level: 'Uncharacterized',
+  other_than_honorable: 'Other than honorable',
+  under_honorable_conditions: 'Under honorable conditions',
+  general: 'General',
+  uncharacterized: 'Uncharacterized',
+  uncharacterized_entry_level: 'Uncharacterized entry level',
+  dishonorable: 'Dishonorable'
 };
 
 export const letterContent = {

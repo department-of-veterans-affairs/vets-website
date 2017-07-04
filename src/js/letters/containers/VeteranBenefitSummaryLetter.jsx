@@ -28,7 +28,6 @@ class VeteranBenefitSummaryLetter extends React.Component {
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
             {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
-            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>
