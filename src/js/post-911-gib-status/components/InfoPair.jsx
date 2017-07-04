@@ -21,12 +21,10 @@ class InfoPair extends React.Component {
     );
 
     let rowToDisplay;
-    // Some rows should display the value even if the value is 0,
-    // while other rows shouldn't display anything if the value is 0.
-    // If this prop is passed, the value should be displayed regardless
-    // of if it is 0 or not.
-    // If the prop is not passed, check first if the value exists before
-    // determining whether or not to display it.
+    // The displayIfZero prop may be passed in because some rows should
+    // display 0 values, while other rows should not display any 0 values.
+    // If displayIfZero is false or is not passed in, only display the
+    // row if the value is defined and nonzero.
     if (this.props.displayIfZero) {
       rowToDisplay = row;
     } else {
