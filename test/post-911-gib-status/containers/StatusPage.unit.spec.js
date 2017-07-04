@@ -36,9 +36,9 @@ describe('<StatusPage>', () => {
   it('should show title and print button', () => {
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store}/>));
     expect(node.querySelector('.schemaform-title').textContent)
-      .to.contain('Post-9/11 GI Bill Entitlement Information');
+      .to.contain('Post-9/11 GI Bill Benefit Information');
     expect(node.querySelector('.usa-button-primary').textContent)
-      .to.contain('Print This Page as COE');
+      .to.contain('Print Benefit Information');
   });
   afterEach(teardown);
 });

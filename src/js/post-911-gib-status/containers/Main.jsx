@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="gib-info">
         {this.props.children}
       </div>
     );
