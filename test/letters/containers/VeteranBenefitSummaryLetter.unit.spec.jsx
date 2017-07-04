@@ -1,7 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { VeteranBenefitSummaryLetter } from '../../../src/js/letters/containers/VeteranBenefitSummaryLetter';
 
