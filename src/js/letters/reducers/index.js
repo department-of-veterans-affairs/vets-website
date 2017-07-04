@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 const initialState = {
   letters: [],
   destination: {},
-  lettersAvailable: false,
+  lettersAvailable: undefined,
   benefitInfo: {},
   serviceInfo: [],
   optionsAvailable: false,

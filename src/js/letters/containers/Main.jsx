@@ -14,10 +14,12 @@ class Main extends React.Component {
   render() {
     let appContent;
 
-    if (this.props.destination) {
+    if (this.props.lettersAvailable) {
       appContent = this.props.children;
-    } else {
+    } else if (this.props.lettersAvailable === undefined) {
       appContent = <LoadingIndicator message="Loading your application..."/>;
+    } else {
+      appContent = <div>Warning message: need content for when fetch of data from vets-api fails</div>;
     }
 
     return (

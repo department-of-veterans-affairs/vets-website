@@ -2,7 +2,7 @@ import set from 'lodash/fp/set';
 
 const initialState = {
   enrollmentData: null,
-  available: false
+  available: undefined
 };
 
 function post911GIBStatus(state = initialState, action) {

@@ -13,10 +13,12 @@ class Main extends React.Component {
   render() {
     let appContent;
 
-    if (this.props.enrollmentData) {
+    if (this.props.available) {
       appContent = this.props.children;
-    } else {
+    } else if (this.props.available === undefined) {
       appContent = <LoadingIndicator message="Loading your application..."/>;
+    } else {
+      appContent = <div>Warning message: need content for when fetch of data from vets-api fails</div>;
     }
 
     return (
@@ -29,7 +31,8 @@ class Main extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    enrollmentData: state.post911GIBStatus.enrollmentData
+    enrollmentData: state.post911GIBStatus.enrollmentData,
+    available: state.post911GIBStatus.available
   };
 }
 
