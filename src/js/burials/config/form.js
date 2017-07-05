@@ -346,7 +346,8 @@ const formConfig = {
               'ui:title': 'Actual burial cost',
               'ui:options': {
                 expandUnder: 'burialAllowanceRequested',
-                expandUnderCondition: 'vaMC'
+                expandUnderCondition: 'vaMC',
+                classNames: 'schemaform-currency-input'
               }
             },
             previouslyReceivedAllowance: {
