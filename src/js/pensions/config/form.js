@@ -508,6 +508,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['view:workedBeforeDisabled'],
             properties: {
               'view:workedBeforeDisabled': { type: 'boolean' },
               'view:history': {
@@ -737,19 +738,14 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            'view:spousePreviousMarried': {
-              'ui:title': 'Has your spouse been married before?',
-              'ui:widget': 'yesNo'
-            },
             spouseMarriages: {
-              'ui:title': 'How many times has your spouse been married before? (Not including current marriage)',
+              'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form => !!form['view:spousePreviousMarried'],
               'ui:options': {
                 showFieldLabel: true,
                 keepInPageOnReview: true,
-                expandUnder: 'view:spousePreviousMarried',
+                countOffset: -1
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage'
@@ -761,9 +757,9 @@ const formConfig = {
             required: [
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
-              'view:spousePreviousMarried',
               'spouseIsVeteran',
-              'liveWithSpouse'
+              'liveWithSpouse',
+              'spouseMarriages'
             ],
             properties: {
               spouseDateOfBirth,
@@ -774,9 +770,6 @@ const formConfig = {
               spouseAddress: address.schema(fullSchemaPensions),
               reasonForNotLivingWithSpouse,
               monthlySpousePayment,
-              'view:spousePreviousMarried': {
-                type: 'boolean'
-              },
               spouseMarriages: marriages
             }
           }

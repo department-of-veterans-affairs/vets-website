@@ -26,7 +26,7 @@ describe('Pensions spouse info', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
     expect(formDOM.querySelector('label[for="root_spouseDateOfBirth"]').textContent).to.contain('Jane Doe');
     expect(formDOM.querySelector('label[for="root_spouseSocialSecurityNumber"]').textContent).to.contain('Jane Doe');
   });
@@ -48,11 +48,11 @@ describe('Pensions spouse info', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
 
     formDOM.fillData('#root_liveWithSpouseNo', 'N');
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(17);
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(10);
@@ -75,40 +75,11 @@ describe('Pensions spouse info', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
 
     formDOM.fillData('#root_spouseIsVeteranYes', 'Y');
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
-  });
-
-  it('should render marriage count', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{
-            marriages: [{
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}
-          onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = getFormDOM(form);
-
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
-
-    formDOM.fillData('#root_view\\:spousePreviousMarriedYes', 'Y');
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
-
-    submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
   });
 
   it('should not submit empty form', () => {
@@ -147,7 +118,7 @@ describe('Pensions spouse info', () => {
     formDOM.fillData('#root_spouseSocialSecurityNumber', '234432444');
     formDOM.fillData('#root_spouseIsVeteranNo', 'N');
     formDOM.fillData('#root_liveWithSpouseYes', 'Y');
-    formDOM.fillData('#root_view\\:spousePreviousMarriedNo', 'N');
+    formDOM.fillData('#root_spouseMarriages', '1');
 
     submitForm(form);
 

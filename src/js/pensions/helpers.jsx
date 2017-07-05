@@ -4,7 +4,7 @@ import { transformForSubmit } from '../common/schemaform/helpers';
 function replacer(key, value) {
   // if the containing object has a name, we're in the national guard object
   // and we want to keep addresses no matter what
-  if (!this.name && typeof value.country !== 'undefined' &&
+  if (!this.name && typeof value !== 'undefined' && typeof value.country !== 'undefined' &&
     (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
     return undefined;
   }
