@@ -27,7 +27,7 @@ If you disagree with all or part of a VBA benefits decision, you can:
 You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim.
 
 #### How do I file an appeal?
-[Fill out and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
+[Fill out and turn in VA Form 21-0958](https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
 #### What happens after I file my appeal?
 VBA will send you a written notice (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
@@ -48,7 +48,7 @@ You'll need to file a Substantive Appeal within 60 days from the date on the let
 Check the status of your appeal by calling <a href="tel:+18008271000">800-827-1000</a> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
 
 #### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
-Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show you should qualify for disability benefits. 
+Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show you should qualify for disability benefits.
 
 Each time you present new arguments and add or find new evidence, VBA must issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
 
@@ -70,7 +70,7 @@ If you still disagree, you can:
   - File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). [Learn more about CAVC](/disability-benefits/claims-appeal/court-appeals-veterans-claims/).
 
 #### How do I file a Notice of Appeal with the CAVC?
-[Fill out and file a Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). 
+[Fill out and file a Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php).
 
 Send your Notice of Appeal to the clerk of CAVC. [Follow these detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
