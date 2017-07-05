@@ -40,8 +40,7 @@ After your death, the person arranging your burial can also request additional h
 - Presidential Memorial Certificate signed by the current President of the United States
 - Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery 
 
-[Learn about the burial planning process](/burials-and-memorials/burial-planning/). <div markdown="0"><br></div>
-
+[Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
 [Learn about memorials and burial honors](TBD - page to be added).
 
 ### What other benefits can survivors and dependents get?
