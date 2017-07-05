@@ -23,6 +23,10 @@ export class DownloadLetterLink extends React.Component {
     });
 
     const requestUrl = `/v0/letters/${this.props.letterType}`;
+
+    // Temporarily suppress sending request body for usability testing purposes.
+    const settings = { method: 'POST' };
+    /*
     let settings;
     if (this.props.letterType === 'benefit_summary') {
       settings = {
@@ -35,6 +39,7 @@ export class DownloadLetterLink extends React.Component {
         method: 'POST'
       };
     }
+    */
 
     // We handle IE10 separately but assume all other vets.gov-supported
     // browsers have blob URL support.
