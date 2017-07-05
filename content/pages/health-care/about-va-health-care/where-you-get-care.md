@@ -85,10 +85,10 @@ You may be able to get care:
   - [Remotely through telehealth](https://www.telehealth.va.gov/)
 
 You may also qualify to receive local community care through the Veterans Choice Program if you:
-- Live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
-- Can’t get an appointment from the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
-- Have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
-- Face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
+- Live more than **40 miles** (driving distance) from the nearest VA medical facility, **or**
+- Can’t get an appointment from the nearest VA medical facility within **30 days** of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
+- Have to travel by **air, boat, or ferry** to get to the nearest VA medical facility, **or**
+- Face an **excessive burden** in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
 [Learn more about the Choice program](https://www.va.gov/opa/choiceact/). 
 
