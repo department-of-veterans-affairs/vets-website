@@ -26,6 +26,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 **Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who's died](/burials-and-memorials/burial-planning/).
 
+<br>
 
 ### Prepare
 
