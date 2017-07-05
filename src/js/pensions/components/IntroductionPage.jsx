@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>We will notify you by mail if we need more information from you about your claim.</li></ul>
+              <ul><li>We'll notify you by mail if we need more information from you about your claim.</li></ul>
               <ul><li>After we process your claim, you’ll get a notice in the mail about the decision.</li></ul>
             </li>
           </ol>
