@@ -10,7 +10,7 @@ import {
 } from '../utils/helpers';
 import { formatDateShort } from '../../common/utils/helpers';
 
-export class VeteranBenefitSummaryLetter extends React.Component {
+class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -28,6 +28,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
             {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
+            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>
@@ -100,7 +101,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           what information you want to include in your letter.
         </p>
         <h2>Choose the information you want to include.</h2>
-        <h2>Military Service Information</h2>
         <p>
           The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
         </p>
