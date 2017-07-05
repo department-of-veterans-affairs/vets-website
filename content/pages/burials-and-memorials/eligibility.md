@@ -10,20 +10,20 @@ order: 1
 
 <div class="va-introtext">
 
-Servicemembers, Veterans, and family members may be eligible for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out who can get these benefits. 
+Servicemembers, Veterans, and family members may qualify for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out if you can get these benefits. 
 
 </div>
 
 <div class="feature" markdown="0">
 
-### Who can get VA burial and memorial benefits? 
+### Can I get VA burial and memorial benefits? 
 
-Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they're:
+You may qualify for burial and memorial benefits if you're:
 
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
-- In some cases, the adult dependent child of a Veteran (if they aren't married)
+- In some cases, the adult dependent child of a Veteran (if you aren't married)
 
 </div>
 
