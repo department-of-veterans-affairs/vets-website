@@ -19,7 +19,7 @@ majorlinks:
   - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
-      title: Planning a Burial for a Family Member Who's Just Died
+      title: Planning a Burial for a Family Member
       description: Find out the steps you'll need to take to arrange for a family member's burial.
     - url: TBD
       title: Honoring a Deceased Veteran
