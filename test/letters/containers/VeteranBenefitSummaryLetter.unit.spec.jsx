@@ -2,7 +2,12 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { VeteranBenefitSummaryLetter } from '../../../src/js/letters/containers/VeteranBenefitSummaryLetter';
+import VeteranBenefitSummaryLetter from '../../../src/js/letters/containers/VeteranBenefitSummaryLetter';
+
+import reducer from '../../../src/js/letters/reducers/index.js';
+import createCommonStore from '../../../src/js/common/store';
+
+const store = createCommonStore(reducer);
 
 const defaultProps = {
   benefitSummaryOptions: {
@@ -27,18 +32,18 @@ const defaultProps = {
 
 describe('<VeteranBenefitSummaryLetter>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show benefit info options', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
     expect(tree.subTree('hasAdaptedHousing')).to.exist;
   });
 
   it('should show service info options', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
     expect(tree.subTree('serviceInfoCheckboxId')).to.exist;
   });
 });
