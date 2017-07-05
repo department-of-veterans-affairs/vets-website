@@ -24,12 +24,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
+import ServicePeriodView from '../components/ServicePeriodView';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import dateUI from '../../common/schemaform/definitions/date';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -94,6 +94,11 @@ function isUnder65(formData) {
 
 function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
+}
+
+// Checks to see if they're under 17.75 years old
+function isEligibleForDisabilitySupport(childDOB) {
+  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
 }
 
 function isCurrentMarriage(form, index) {
@@ -216,11 +221,58 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        general: {
+        servicePeriods: {
           path: 'military/history',
-          title: 'General history',
+          title: 'Service Periods',
           uiSchema: {
-            'ui:title': 'General history',
+            'ui:title': 'Service periods',
+            servicePeriods: {
+              'ui:options': {
+                viewField: ServicePeriodView,
+                reviewTitle: 'Service periods'
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                activeServiceDateRange: dateRangeUI(
+                  'Date entered active service',
+                  'Date left active service',
+                  'Date entered service must be before date left service'
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['serviceBranch', 'activeServiceDateRange'],
+                  properties: {
+                    serviceBranch: {
+                      type: 'string'
+                    },
+                    activeServiceDateRange: _.assign(dateRange, {
+                      required: ['from', 'to']
+                    })
+                  }
+                }
+              }
+            }
+          }
+        },
+        general: {
+          path: 'military/general',
+          title: 'General History',
+          uiSchema: {
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
             previousNames: {
               'ui:options': {
                 expandUnder: 'view:serveUnderOtherNames',
@@ -229,25 +281,20 @@ const formConfig = {
               },
               items: fullNameUI
             },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo'
-            },
-            activeServiceDateRange: dateRangeUI(
-              'Date entered active service',
-              'Date left active service',
-              'Date entered service must be before date left service'
-            ),
             placeOfSeparation: {
               'ui:title': 'Place of last or anticipated separation (city and state or foreign country)'
             },
             combatSince911: (() => {
               const rangeExcludes911 = createSelector(
-                _.get('activeServiceDateRange.to'),
-                (to) => {
-                  const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
+                form => form.servicePeriods,
+                (periods) => {
+                  return (periods || []).every(period => {
+                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
 
-                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
+                    return !period.activeServiceDateRange ||
+                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
+                  });
                 }
               );
 
@@ -263,16 +310,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['activeServiceDateRange', 'view:serveUnderOtherNames'],
+            required: ['view:serveUnderOtherNames'],
             properties: {
               'view:serveUnderOtherNames': {
                 type: 'boolean'
               },
               previousNames: _.assign(previousNames, {
                 minItems: 1
-              }),
-              activeServiceDateRange: _.assign(dateRange, {
-                required: ['from', 'to']
               }),
               placeOfSeparation,
               combatSince911
@@ -294,10 +338,15 @@ const formConfig = {
               },
               name: {
                 'ui:title': 'Name of Reserve/National Guard unit',
+                'ui:required': form => form.nationalGuardActivation === true
               },
-              address: address.uiSchema('Unit address'),
+              address: _.merge(address.uiSchema('Unit address', false, false, true), {
+                state: {
+                  'ui:required': form => form.nationalGuardActivation === true
+                }
+              }),
               phone: phoneUI('Unit phone number'),
-              date: dateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service Activation Date')
             }
           },
           schema: {
@@ -390,7 +439,7 @@ const formConfig = {
                 name: {
                   'ui:title': 'Disability'
                 },
-                disabilityStartDate: dateUI('Date disability began')
+                disabilityStartDate: currentOrPastDateUI('Date disability began')
               }
             },
             hasVisitedVAMC: {
@@ -871,7 +920,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'disabled', 'previouslyMarried'],
+                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'previouslyMarried'],
                   properties: {
                     childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
                     childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
@@ -909,13 +958,17 @@ const formConfig = {
                 attendingCollege: {
                   'ui:title': 'Is your child in school?',
                   'ui:widget': 'yesNo',
-                  'ui:required': (form, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                  'ui:required': (formData, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   'ui:options': {
-                    hideIf: (form, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], form)),
+                    hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   }
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
+                  'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
+                  'ui:options': {
+                    hideIf: (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
+                  },
                   'ui:widget': 'yesNo',
                 },
                 previouslyMarried: {
@@ -925,7 +978,7 @@ const formConfig = {
                 married: {
                   'ui:title': 'Are they currently married?',
                   'ui:widget': 'yesNo',
-                  'ui:required': (form, index) => !!_.get(['dependents', index, 'previouslyMarried'], form),
+                  'ui:required': (formData, index) => !!_.get(['dependents', index, 'previouslyMarried'], formData),
                   'ui:options': {
                     expandUnder: 'previouslyMarried'
                   }
@@ -1372,9 +1425,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim', {
-              fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-            })
+            files: fileUploadUI('Please upload any documentation that you need to support your claim')
           },
           schema: {
             type: 'object',

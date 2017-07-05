@@ -2,16 +2,14 @@ def envNames = ['development', 'staging', 'production']
 
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
-    env.BRANCH_NAME != 'master' &&
-    env.BRANCH_NAME != 'kudos-launch'
+    env.BRANCH_NAME != 'master'
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production' ||
-    env.BRANCH_NAME == 'kudos-launch') &&
+    env.BRANCH_NAME == 'production') &&
     !env.CHANGE_TARGET
 }
 
@@ -90,11 +88,8 @@ node('vets-website-linting') {
 
     if (env.BRANCH_NAME == 'master') {
       buildList << 'staging'
-    }
-
-    if (env.BRANCH_NAME == 'kudos-launch') {
       buildList << 'development'
-    } 
+    }
 
     def builds = [:]
 
@@ -148,11 +143,8 @@ node('vets-website-linting') {
     }
 
     def targets = [
-      'kudos-launch': [
-        [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-      ],
-
       'master': [
+        [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
         [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
       ],
 
