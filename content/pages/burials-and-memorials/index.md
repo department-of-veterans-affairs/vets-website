@@ -22,10 +22,10 @@ majorlinks:
       title: Planning a Burial for a Family Member
       description: Find out what to do if your family member has just died.  
     - url: TBD
-      title: Memorials and Burial Honors
+      title: Honoring a Deceased Veteran
       description: Find out how to honor the military service of a deceased Veteran.
-   - url: /burials-and-memorials/survivor-and-dependent-benefits
-      title: Survivor and Dependent Benefits
+    - url: /burials-and-memorials/survivor-and-dependent-benefits
+      title: Applying for Survivor and Dependent Benefits
       description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
   - heading: More Helpful Information
     links:
