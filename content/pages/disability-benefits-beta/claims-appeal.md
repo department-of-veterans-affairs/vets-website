@@ -29,7 +29,7 @@ The process has many steps that can repeat themselves
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. To file an NOD, fill out and turn in <a href=" https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">VA Form 21-0958</a>.
+        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. To file an NOD, fill out and turn in <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">VA Form 21-0958</a>.
       </p>
     </div>
   </li>
