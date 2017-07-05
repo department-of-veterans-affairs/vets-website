@@ -58,7 +58,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
           <thead>
             <tr>
               <th scope="col">Include</th>
-              <th scope="col">Something</th>
+              <th scope="col">Statement</th>
             </tr>
           </thead>
           <tbody>
