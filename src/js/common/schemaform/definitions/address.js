@@ -57,6 +57,8 @@ export function schema(currentSchema, isRequired = false) {
  * @param {boolean} useStreet3 - Show a third line in the address
  * @param {function} isRequired - A function for conditionally setting if an address is required.
  *   Receives formData and an index (if in an array item)
+ * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
+ *   customizations
  */
 export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null, ignoreRequired = false) {
   let fieldOrder = ['country', 'street', 'street2', 'street3', 'city', 'state', 'postalCode'];
