@@ -97,10 +97,10 @@ Your health care team will have a plan in place if your primary care provider is
 
 It depends. We may pay for you to receive care through the VA community care network if: 
 - We can’t provide the services you need, **or**
-- We can’t make an appointment for you at the nearest VA medical facility within **30 days** of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
-- You live more than **40 miles** (driving distance) from the nearest VA medical facility, **or**
-- You have to travel by **air, boat, or ferry** to get to the nearest VA medical facility, **or**
-- You face an **excessive burden** in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
+- We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
+- You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
+- You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
+- You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
 VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you. 
 
