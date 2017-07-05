@@ -1,10 +1,27 @@
 import React from 'react';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
+function replacer(key, value) {
+  // if the containing object has a name, we're in the national guard object
+  // and we want to keep addresses no matter what
+  if (!this.name && typeof value !== 'undefined' && typeof value.country !== 'undefined' &&
+    (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
+    return undefined;
+  }
+
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+      return undefined;
+    }
+  }
+
+  return value;
+}
+
 export function transform(formConfig, form) {
-  // delete form.data.privacyAgreementAccepted;
-  // delete form.data.hasVisitedVAMC;
-  const formData = transformForSubmit(formConfig, form);
+  const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
       form: formData

@@ -6,8 +6,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
-describe('Pensions Reserve and National Guard', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.reserveAndNationalGuard;
+describe('Pensions service periods', () => {
+  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -17,7 +17,7 @@ describe('Pensions Reserve and National Guard', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(7);
   });
 
   it('should not submit empty form', () => {
@@ -34,11 +34,11 @@ describe('Pensions Reserve and National Guard', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal unit fields', () => {
+  it('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -50,9 +50,20 @@ describe('Pensions Reserve and National Guard', () => {
 
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_nationalGuardActivationYes', 'Y');
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+
+    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+
+    expect(formDOM.querySelector('.va-growable-background').textContent)
+      .to.contain('Army');
   });
 
   it('should submit with valid data', () => {
@@ -67,7 +78,13 @@ describe('Pensions Reserve and National Guard', () => {
 
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_nationalGuardActivationNo', 'N');
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
 
     formDOM.submitForm();
 

@@ -24,6 +24,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
+import ServicePeriodView from '../components/ServicePeriodView';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -220,11 +221,58 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        general: {
+        servicePeriods: {
           path: 'military/history',
-          title: 'General history',
+          title: 'Service Periods',
           uiSchema: {
-            'ui:title': 'General history',
+            'ui:title': 'Service periods',
+            servicePeriods: {
+              'ui:options': {
+                viewField: ServicePeriodView,
+                reviewTitle: 'Service periods'
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                activeServiceDateRange: dateRangeUI(
+                  'Date entered active service',
+                  'Date left active service',
+                  'Date entered service must be before date left service'
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['serviceBranch', 'activeServiceDateRange'],
+                  properties: {
+                    serviceBranch: {
+                      type: 'string'
+                    },
+                    activeServiceDateRange: _.assign(dateRange, {
+                      required: ['from', 'to']
+                    })
+                  }
+                }
+              }
+            }
+          }
+        },
+        general: {
+          path: 'military/general',
+          title: 'General History',
+          uiSchema: {
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
             previousNames: {
               'ui:options': {
                 expandUnder: 'view:serveUnderOtherNames',
@@ -233,25 +281,20 @@ const formConfig = {
               },
               items: fullNameUI
             },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo'
-            },
-            activeServiceDateRange: dateRangeUI(
-              'Date entered active service',
-              'Date left active service',
-              'Date entered service must be before date left service'
-            ),
             placeOfSeparation: {
               'ui:title': 'Place of last or anticipated separation (city and state or foreign country)'
             },
             combatSince911: (() => {
               const rangeExcludes911 = createSelector(
-                _.get('activeServiceDateRange.to'),
-                (to) => {
-                  const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
+                form => form.servicePeriods,
+                (periods) => {
+                  return (periods || []).every(period => {
+                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
 
-                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
+                    return !period.activeServiceDateRange ||
+                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
+                  });
                 }
               );
 
@@ -267,16 +310,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['activeServiceDateRange', 'view:serveUnderOtherNames'],
+            required: ['view:serveUnderOtherNames'],
             properties: {
               'view:serveUnderOtherNames': {
                 type: 'boolean'
               },
               previousNames: _.assign(previousNames, {
                 minItems: 1
-              }),
-              activeServiceDateRange: _.assign(dateRange, {
-                required: ['from', 'to']
               }),
               placeOfSeparation,
               combatSince911
@@ -298,8 +338,13 @@ const formConfig = {
               },
               name: {
                 'ui:title': 'Name of Reserve/National Guard unit',
+                'ui:required': form => form.nationalGuardActivation === true
               },
-              address: address.uiSchema('Unit address'),
+              address: _.merge(address.uiSchema('Unit address', false, false, true), {
+                state: {
+                  'ui:required': form => form.nationalGuardActivation === true
+                }
+              }),
               phone: phoneUI('Unit phone number'),
               date: currentOrPastDateUI('Service Activation Date')
             }
@@ -463,6 +508,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['view:workedBeforeDisabled'],
             properties: {
               'view:workedBeforeDisabled': { type: 'boolean' },
               'view:history': {
@@ -692,19 +738,14 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            'view:spousePreviousMarried': {
-              'ui:title': 'Has your spouse been married before?',
-              'ui:widget': 'yesNo'
-            },
             spouseMarriages: {
-              'ui:title': 'How many times has your spouse been married before? (Not including current marriage)',
+              'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form => !!form['view:spousePreviousMarried'],
               'ui:options': {
                 showFieldLabel: true,
                 keepInPageOnReview: true,
-                expandUnder: 'view:spousePreviousMarried',
+                countOffset: -1
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage'
@@ -716,9 +757,9 @@ const formConfig = {
             required: [
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
-              'view:spousePreviousMarried',
               'spouseIsVeteran',
-              'liveWithSpouse'
+              'liveWithSpouse',
+              'spouseMarriages'
             ],
             properties: {
               spouseDateOfBirth,
@@ -729,9 +770,6 @@ const formConfig = {
               spouseAddress: address.schema(fullSchemaPensions),
               reasonForNotLivingWithSpouse,
               monthlySpousePayment,
-              'view:spousePreviousMarried': {
-                type: 'boolean'
-              },
               spouseMarriages: marriages
             }
           }
