@@ -134,10 +134,6 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         title: 'Your NOD has been received by the Veterans Benefits Administration (VBA) RO.',
         description: <p>Your NOD has been received by the RO. The RO will make a decision or develop the Statement of the Case (SOC) for your appeal. This means they review all of the evidence related to your appeal, including any new evidence you submit. When the SOC is prepared, you will receive a copy of it in the mail.</p>,
       },
-      nextAction: {
-        title: 'NOD next action title.',
-        description: 'NOD next action description.'
-      }
     },
     bva_final_decision: { // eslint-disable-line camelcase
       status: {
@@ -182,7 +178,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
     field_grant: { // eslint-disable-line camelcase
       status: {
         title: 'Your Appeal Has Been Granted by the Regional Office (RO)',
-        description: 'This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.',
+        description: <p>This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.</p>,
       }
     },
     cavc_decision: { // eslint-disable-line camelcase
