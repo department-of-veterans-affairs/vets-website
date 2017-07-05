@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import { veteranBenefitSummaryOptionText } from '../utils/helpers';
 import { updateBenefitSummaryOption } from '../actions/letters';
+import {
+  characterOfServiceContent,
+  veteranBenefitSummaryOptionText
+} from '../utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
 
 class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -17,9 +21,23 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   render() {
+    const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
+    const militaryServiceRows = serviceInfo.map((service, index) => {
+      return (
+        <tr key={`service${index}`}>
+          <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
+          <td className="service-info">
+            {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
+            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
+          </td>
+          <td>{formatDateShort(service.enteredDate)}</td>
+          <td>{formatDateShort(service.releasedDate)}</td>
+        </tr>
+      );
+    });
+
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const optionsToInclude = this.props.optionsToInclude;
-    let militaryServiceInfo;
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
@@ -83,12 +101,37 @@ class VeteranBenefitSummaryLetter extends React.Component {
           what information you want to include in your letter.
         </p>
         <h2>Choose the information you want to include.</h2>
-        <h2>Military Service Information</h2>
         <p>
           The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
         </p>
-
-        {militaryServiceInfo}
+        <h2>Military Service Information</h2>
+        <div className="form-checkbox">
+          <input
+              autoComplete="false"
+              id="serviceInfoCheckboxId"
+              name="serviceInfoCheckbox"
+              type="checkbox"
+              onChange={this.handleChange}/>
+          <label
+              className="schemaform-label"
+              name="serviceInfoCheckbox-label"
+              htmlFor="serviceInfoCheckboxId">
+            Include all periods of service
+          </label>
+        </div>
+        <table className="usa-table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Branch of Service</th>
+              <th scope="col">Discharge Type</th>
+              <th scope="col">Began Active Duty</th>
+              <th scope="col">Separated</th>
+            </tr>
+          </thead>
+          <tbody>
+            {militaryServiceRows}
+          </tbody>
+        </table>
         <h2>VA Benefit Information</h2>
         <p>
           Select which statements you want to include in your letter.
