@@ -21,7 +21,28 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   render() {
-    const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
+    // Hard-coding this for now for the purposes of user testing, revert after user testing
+    // const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
+    const serviceInfo = [
+      {
+        branch: 'AIR FORCE',
+        characterOfService: 'HONORABLE',
+        enteredDate: '2001-01-01T05:00:00.000+00:00',
+        releasedDate: '2001-12-01T04:00:00.000+00:00'
+      },
+      {
+        branch: 'AIR FORCE RESERVE',
+        characterOfService: 'OTHER_THAN_HONORABLE',
+        enteredDate: '1990-01-01T05:00:00.000+00:00',
+        releasedDate: '1990-12-01T04:00:00.000+00:00'
+      },
+      {
+        branch: 'AIR FORCE',
+        characterOfService: 'HONORABLE',
+        enteredDate: '1980-01-01T05:00:00.000+00:00',
+        releasedDate: '1980-12-01T04:00:00.000+00:00'
+      }
+    ];
     const militaryServiceRows = serviceInfo.map((service, index) => {
       return (
         <tr key={`service${index}`}>
