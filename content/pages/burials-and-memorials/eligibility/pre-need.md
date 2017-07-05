@@ -3,9 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Apply in Advance for a Pre-Need Eligibility Determination for Burial in a VA National Cemetery
 display_title: Pre-Need Eligibility Determination
-collection: burials
-children: preneedapply
-order: 2
+order: 1
 majorlinks: 
   - heading: 
     links: 
@@ -24,9 +22,10 @@ relatedlinks:
 
 You can apply online to find out in advance if you can be buried in a VA national cemetery when you die. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members after your death. Follow the steps below to apply. 
 
+</div>
+
 **Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who's died](/burials-and-memorials/burial-planning/).
 
-</div>
 
 ### Prepare
 
