@@ -78,26 +78,25 @@ class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows what benefits you're receiving from the VA,
-          military service and disability status. Below, you can choose
-          if you want military service and disability stauts to be included.
+          This letter shows the benefits you're receiving from VA,
+          your military service history, and statements regarding your disability status. You can choose
+          what information you want to include in your letter.
         </p>
         <h2>Choose the information you want to include.</h2>
-        <p>
-          Our system shows the most recent periods of service. There may be later
-          periods of service that aren't displayed here.
-        </p>
-        <p>
-          <strong>Please note:</strong>This letter can only show up to the 3 most
-          recent periods of service.
-        </p>
         <h2>Military Service Information</h2>
+        <p>
+          The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
+        </p>
+
         {militaryServiceInfo}
         <h2>VA Benefit Information</h2>
+        <p>
+          Select which statements you want to include in your letter.
+        </p>
         {vaBenefitInformation}
         <p>
           If you see incorrect information for service periods or disability status,
-          please send a question using VA's <a href="/">Inquiry Routing & Information
+          please send a question using VA's <a href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
           System (IRIS)</a>. You should expect a response from VA in 5 business days.
         </p>
       </div>
