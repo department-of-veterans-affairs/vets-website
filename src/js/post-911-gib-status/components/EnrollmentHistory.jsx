@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 
 import EnrollmentPeriod from './EnrollmentPeriod';
 
-import { formatDateShort } from '../../common/utils/helpers';
-
 class EnrollmentHistory extends React.Component {
   render() {
     const enrollmentData = this.props.enrollmentData || {};
     const enrollments = enrollmentData.enrollments || [];
-    const todayFormatted = formatDateShort(new Date());
     const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     // TODO: find out when this warning should be shown.
@@ -31,19 +28,19 @@ class EnrollmentHistory extends React.Component {
     const historyMayLookIncorrect = enrollments.length > 0 || benefitMaybePending;
     const noEnrollmentHistory = enrollments.length === 0 && enrollmentData.usedEntitlement > 0;
     const historyHeading = noEnrollmentHistory ?
-                           (<h4>You have no enrollment history.</h4>) :
-                           (<h4>Does your history look incorrect?</h4>);
+                           (<h4>You don't have any enrollment history</h4>) :
+                           (<h4>Does something look wrong in your enrollment history?</h4>);
     const historyExplanation = noEnrollmentHistory ?
-      (<span>There are various reasons why your enrollment history here is empty, or does not match your other records.</span>) :
-      (<span>There are various reasons why your enrollment history here may not match your other records.</span>);
+                               (<span>Your enrollment history may not be available if:</span>) :
+                               (<span>Certain enrollments may not be displayed in this history if:</span>);
     const historyExplanationBox = (historyMayLookIncorrect || noEnrollmentHistory) && (
       <div className="feature">
         {historyHeading}
         {historyExplanation}
         <ul>
-          <li>Your school may have made a request to VA which is pending.</li>
-          <li>You may have made a request to VA which is pending.</li>
-          <li>You may have used or are currently using your benefit for a non-tracked training type, including flight training, on-the-job-training, apprenticeship training, or correspondence training.</li>
+          <li>Your school made a request to us that's still in process, or</li>
+          <li>You made a request to us that's still in process, or</li>
+          <li>You used or are using your benefit for flight, on-the-job, apprenticeship, or correspondence training</li>
         </ul>
       </div>
     );
@@ -64,7 +61,6 @@ class EnrollmentHistory extends React.Component {
       sectionContent = (
         <div>
           <h3 className="section-header">Enrollment History</h3>
-          This information is current as of {todayFormatted}
           {historyExplanationBox}
           {enrollmentHistory}
         </div>

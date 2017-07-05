@@ -1,5 +1,6 @@
 import set from 'lodash/fp/set';
 import mapValues from 'lodash/mapValues';
+import _ from 'lodash/fp';
 
 const initialState = {
   letters: [],
@@ -14,11 +15,28 @@ const initialState = {
 function letters(state = initialState, action) {
   let options = {};
 
+  let letterList;
   switch (action.type) {
     case 'GET_LETTERS_SUCCESS':
+      // Hard-code a few extra letters for usability testing purposes. Revert after testing.
+      letterList = action.data.data.attributes.letters;
+      if (_.findIndex({ letterType: 'medicare_partd' }, letterList) < 0) {
+        letterList = _.concat(letterList, [{
+          name: 'Proof of Creditable Prescription Drug Coverage Letter',
+          letterType: 'medicare_partd'
+        }]
+        );
+      }
+      if (_.findIndex({ letterType: 'minimum_essential_coverage' }, letterList) < 0) {
+        letterList = _.concat(letterList, [{
+          name: 'Proof of Minimum Essential Coverage Letter',
+          letterType: 'minimum_essential_coverage'
+        }]
+        );
+      }
       return {
         ...state,
-        letters: action.data.data.attributes.letters,
+        letters: letterList,
         destination: action.data.meta.address,
         lettersAvailable: true
       };

@@ -248,12 +248,12 @@ export function stringifyFormReplacer(key, value) {
 /*
  * Normal transform for schemaform data
  */
-export function transformForSubmit(formConfig, form) {
+export function transformForSubmit(formConfig, form, replacer = stringifyFormReplacer) {
   const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
   const withoutInactivePages = filterInactivePages(inactivePages, form);
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, stringifyFormReplacer) || '{}';
+  return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
 
 function isHiddenField(schema) {

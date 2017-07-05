@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import { veteranBenefitSummaryOptionText } from '../utils/helpers';
 import { updateBenefitSummaryOption } from '../actions/letters';
+import {
+  characterOfServiceContent,
+  veteranBenefitSummaryOptionText
+} from '../utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
 
 class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -17,9 +21,44 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   render() {
+    // Hard-coding this for now for the purposes of user testing, revert after user testing
+    // const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
+    const serviceInfo = [
+      {
+        branch: 'AIR FORCE',
+        characterOfService: 'HONORABLE',
+        enteredDate: '2001-01-01T05:00:00.000+00:00',
+        releasedDate: '2001-12-01T04:00:00.000+00:00'
+      },
+      {
+        branch: 'AIR FORCE RESERVE',
+        characterOfService: 'OTHER_THAN_HONORABLE',
+        enteredDate: '1990-01-01T05:00:00.000+00:00',
+        releasedDate: '1990-12-01T04:00:00.000+00:00'
+      },
+      {
+        branch: 'AIR FORCE',
+        characterOfService: 'HONORABLE',
+        enteredDate: '1980-01-01T05:00:00.000+00:00',
+        releasedDate: '1980-12-01T04:00:00.000+00:00'
+      }
+    ];
+    const militaryServiceRows = serviceInfo.map((service, index) => {
+      return (
+        <tr key={`service${index}`}>
+          <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
+          <td className="service-info">
+            {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
+            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
+          </td>
+          <td>{formatDateShort(service.enteredDate)}</td>
+          <td>{formatDateShort(service.releasedDate)}</td>
+        </tr>
+      );
+    });
+
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const optionsToInclude = this.props.optionsToInclude;
-    let militaryServiceInfo;
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
@@ -58,7 +97,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
           <thead>
             <tr>
               <th scope="col">Include</th>
-              <th scope="col">Something</th>
+              <th scope="col">Statement</th>
             </tr>
           </thead>
           <tbody>
@@ -78,26 +117,50 @@ class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows what benefits you're receiving from the VA,
-          military service and disability status. Below, you can choose
-          if you want military service and disability stauts to be included.
+          This letter shows the benefits you're receiving from VA,
+          your military service history, and statements regarding your disability status. You can choose
+          what information you want to include in your letter.
         </p>
         <h2>Choose the information you want to include.</h2>
         <p>
-          Our system shows the most recent periods of service. There may be later
-          periods of service that aren't displayed here.
-        </p>
-        <p>
-          <strong>Please note:</strong>This letter can only show up to the 3 most
-          recent periods of service.
+          The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
         </p>
         <h2>Military Service Information</h2>
-        {militaryServiceInfo}
+        <div className="form-checkbox">
+          <input
+              autoComplete="false"
+              id="serviceInfoCheckboxId"
+              name="serviceInfoCheckbox"
+              type="checkbox"
+              onChange={this.handleChange}/>
+          <label
+              className="schemaform-label"
+              name="serviceInfoCheckbox-label"
+              htmlFor="serviceInfoCheckboxId">
+            Include all periods of service
+          </label>
+        </div>
+        <table className="usa-table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Branch of Service</th>
+              <th scope="col">Discharge Type</th>
+              <th scope="col">Began Active Duty</th>
+              <th scope="col">Separated</th>
+            </tr>
+          </thead>
+          <tbody>
+            {militaryServiceRows}
+          </tbody>
+        </table>
         <h2>VA Benefit Information</h2>
+        <p>
+          Select which statements you want to include in your letter.
+        </p>
         {vaBenefitInformation}
         <p>
           If you see incorrect information for service periods or disability status,
-          please send a question using VA's <a href="/">Inquiry Routing & Information
+          please send a question using VA's <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
           System (IRIS)</a>. You should expect a response from VA in 5 business days.
         </p>
       </div>

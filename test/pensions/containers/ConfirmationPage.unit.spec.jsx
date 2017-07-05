@@ -10,7 +10,7 @@ const form = {
       attributes: {
         confirmationNumber: 'V-PEN-177',
         regionalOffice: [
-          'Western Region',
+          'Attention: Western Region',
           'VA Regional Office',
           'P.O. Box 8888',
           'Muskogee, OK 74402-8888'
@@ -34,6 +34,7 @@ describe('<ConfirmationPage>', () => {
 
     expect(tree.subTree('.pensions-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
-    expect(tree.everySubTree('p')[2].text()).to.contain('Western Region');
+    expect(tree.everySubTree('li')[2].text()).to.contain('Western Region');
+    expect(tree.everySubTree('p')[2].text()).to.contain('VA Regional Office');
   });
 });

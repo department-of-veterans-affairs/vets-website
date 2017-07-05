@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import UserInfoSection from '../components/UserInfoSection';
-import InfoPair from '../components/InfoPair';
 
-import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import { formatDateShort } from '../../common/utils/helpers';
 
 class PrintPage extends React.Component {
   render() {
@@ -16,10 +15,9 @@ class PrintPage extends React.Component {
       <div className="print-status">
         <div className="print-screen">
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
-          <h1 className="section-header">Post-9/11 GI Bill Certificate of Eligibility</h1>
+          <h1 className="section-header">Post-9/11 GI Bill Benefit Information</h1>
+          <p>Date generated: {todayFormatted}</p>
           <UserInfoSection enrollmentData={enrollmentData}/>
-          <InfoPair label="Benefits expire on" value={formatDateLong(enrollmentData.delimitingDate)}/>
-          <p>This information is current as of {todayFormatted}.</p>
         </div>
       </div>
     );

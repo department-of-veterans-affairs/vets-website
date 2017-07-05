@@ -9,24 +9,39 @@ class InfoPair extends React.Component {
         `usa-grid-full ${this.props.spacingClass}`
         : 'usa-grid-full';
 
-    return (
-      this.props.value &&
-        <div className={gridRowClasses}>
-          <div className="usa-width-one-third">
-            <span><strong>{this.props.label}: </strong></span>
-          </div>
-          <div className="usa-width-one-third">
-            {this.props.value}
-          </div>
+    const row = (
+      <div className={gridRowClasses}>
+        <div className="usa-width-one-third">
+          <span><strong>{this.props.label}: </strong></span>
         </div>
-    || null);
+        <div className="usa-width-two-thirds">
+          {this.props.value}
+        </div>
+      </div>
+    );
+
+    let rowToDisplay;
+    // The displayIfZero prop may be passed in because some rows should
+    // display 0 values, while other rows should not display any 0 values.
+    // If displayIfZero is false or is not passed in, only display the
+    // row if the value is defined and nonzero.
+    if (this.props.displayIfZero) {
+      rowToDisplay = row;
+    } else {
+      rowToDisplay = this.props.value && row;
+    }
+
+    return (
+      rowToDisplay || null
+    );
   }
 }
 
 InfoPair.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.any,
-  spacingClass: PropTypes.string
+  spacingClass: PropTypes.string,
+  displayIfZero: PropTypes.bool
 };
 
 export default InfoPair;

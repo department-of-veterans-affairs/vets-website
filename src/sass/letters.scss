@@ -31,6 +31,10 @@
     padding-bottom: 1.5rem;
   }
 
+  .service-info {
+      text-transform: capitalize;
+  }
+
   table {
     input[type="checkbox"] {
       margin: auto;
@@ -43,7 +47,6 @@
       margin: 0;
     }
   }
-
 
   th[scope="row"] {
     padding-top: 0;

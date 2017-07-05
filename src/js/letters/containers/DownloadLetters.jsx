@@ -28,13 +28,15 @@ class DownloadLetters extends React.Component {
         <h4>Can't find what you're looking for?</h4>
         <p>This system doesn't include everything VA could send you. Here are some other documents you might be looking for.</p>
         <ul>
-          <li><a href="/"><strong>Post 9/11 GI Bill Enrollment</strong></a></li>
-          <li><a href="/"><strong>DD 214</strong></a></li>
+          <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefit details to verify eligibility</strong></a></li>
+          <li><a href="https://gibill.custhelp.com/app/ask" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your Post-9/11 GI Bill benefits</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your Home Loan benefits</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>View and print your DD 214</strong></a></li>
         </ul>
         <div className="feature help-desk">
           <h2>Get Adobe Reader</h2>
           <div>To download and view your letters, please make sure you have the latest free version of Adobe Reader.</div>
-          <a href="/">Get Adobe Reader</a>
+          <a href="https://get.adobe.com/reader/" target="_blank">Get Adobe Reader</a>
         </div>
         <div className="feature help-desk">
           <h2>Need help?</h2>

@@ -50,6 +50,7 @@ describe('Burials benefits selection', () => {
     formDOM.setCheckbox('#root_view\\:claimedBenefits_transportation', true);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-alert-warning').length).to.equal(1);
   });
 
   it('should submit when all required fields are filled in', () => {
@@ -65,6 +66,7 @@ describe('Burials benefits selection', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.setCheckbox('#root_view\\:claimedBenefits_transportation', true);
+    formDOM.fillData('#root_view\\:claimedBenefits_amountIncurred', '23');
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
