@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from './DownloadLetterLink';
@@ -10,24 +9,7 @@ import { letterContent } from '../utils/helpers';
 
 class LetterList extends React.Component {
   render() {
-    // Hard-coding a few extra letters for usability testing purposes. Revert after testing.
-    // const letterItems = (this.props.letters || []).map((letter, index) => {
-    let letters = this.props.letters;
-    if (_.findIndex({ letterType: 'medicare_partd' }, letters) < 0) {
-      letters = _.concat(letters, [{
-        name: 'Proof of Creditable Prescription Drug Coverage Letter',
-        letterType: 'medicare_partd'
-      }]
-      );
-    }
-    if (_.findIndex({ letterType: 'minimum_essential_coverage' }, letters) < 0) {
-      letters = _.concat(letters, [{
-        name: 'Proof of Minimum Essential Coverage Letter',
-        letterType: 'minimum_essential_coverage'
-      }]
-      );
-    }
-    const letterItems = (letters).map((letter, index) => {
+    const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
 
       if (letter.letterType === 'benefit_summary') {
