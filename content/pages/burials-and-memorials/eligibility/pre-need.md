@@ -3,7 +3,9 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Apply in Advance for a Pre-Need Eligibility Determination for Burial in a VA National Cemetery
 display_title: Pre-Need Eligibility Determination
-order: 1
+collection: burials
+children:pre-needapply
+order: 3
 majorlinks: 
   - heading: 
     links: 
