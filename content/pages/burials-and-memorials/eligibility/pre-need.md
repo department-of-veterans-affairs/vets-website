@@ -67,9 +67,9 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 ### What documents and information do I need to apply?
 
-We base our decision, in part, on the service history of the Servicemember or Veteran who’s applying for burial for themselves—or who’s sponsoring the application for their spouse, surviving spouse, or unmarried adult child. 
+Whether or not you qualify for burial in a VA national cemetery is based on your service history—or the service history of the Servicemember or Veteran who's sponsoring your application for burial as a spouse, surviving spouse, or unmarried adult child. 
 
-To apply, you’ll need the Servicemember's or Veteran's:
+To apply, you’ll need your (or your sponsor's):
 
 - Social Security number
 - Date and place of birth
