@@ -11,7 +11,7 @@ majorlinks:
     - url: /burials-and-memorials/eligibility/
       title: Eligibility
       description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
-  - heading: How to Plan in Advance For Your Burial
+  - heading: How to Plan in Advance for Your Burial
     links:
     - url: /burials-and-memorials/eligibility/pre-need/
       title: Pre-Need Eligibility Determination Application Process
@@ -19,8 +19,8 @@ majorlinks:
   - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
-      title: Planning a Burial for a Family Member
-      description: Find out what to do if your family member has just died.  
+      title: Planning a Burial for a Family Member Who's Just Died
+      description: Find out the steps you'll need to take to arrange for a family member's burial.
     - url: TBD
       title: Honoring a Deceased Veteran
       description: Find out how to honor the military service of a deceased Veteran.
