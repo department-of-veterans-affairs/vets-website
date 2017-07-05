@@ -4,8 +4,8 @@ template: detail-page
 title: Apply in Advance for a Pre-Need Eligibility Determination for Burial in a VA National Cemetery
 display_title: Pre-Need Eligibility Determination
 collection: burials
-children:pre-needapply
-order: 3
+children: preneedapply
+order: 2
 majorlinks: 
   - heading: 
     links: 
@@ -24,6 +24,8 @@ relatedlinks:
 
 You can apply online to find out in advance if you can be buried in a VA national cemetery when you die. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members after your death. Follow the steps below to apply. 
 
+**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who's died](/burials-and-memorials/burial-planning/).
+
 </div>
 
 ### Prepare
@@ -37,11 +39,11 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 <li class="process-step list-two">
   
-**Choose the VA national cemetery where you’d prefer to be buried.** [Find a VA national cemetery](https://www.vets.gov/facilities/). 
+**Choose the VA national cemetery where you’d prefer to be buried.** [Find a VA national cemetery](/facilities/). 
   
 **Please note:**
 
-- **This application is only for national cemeteries.** If you'd like to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
+- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
 
@@ -51,7 +53,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 <li class="process-step list-three">
 
-**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have everything on the list, you can still apply and we'll help to find the supporting documents we need. But the more information you can give us when you apply, the faster we can review your application and give you a decision.
+**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have everything on the list, you can still apply and we'll help find the supporting documents we need. But the more information you can give us when you apply, the faster we can review your application and give you a decision.
 
 </li>
 
@@ -67,8 +69,6 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 ### What documents and information do I need to apply?
 
 We base our decision, in part, on the service history of the Servicemember or Veteran who’s applying for burial for themselves—or who’s sponsoring the application for their spouse, surviving spouse, or unmarried adult child. 
-
-<br>
 
 To apply, you’ll need the Servicemember's or Veteran's:
 
@@ -111,8 +111,6 @@ Print the form, fill it out, and send it along with a copy of your supporting do
 <dd>St. Louis, MO 63151</dd>
 </dl>
 
-<br>
-
 **Please note:** Don't send us the originals of your DD214 or other supporting documents. Please send copies only.
 
 <br>
@@ -135,7 +133,7 @@ Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-82
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">If more than 90 days has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than 90 days has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
 </div>
 
 <div markdown="0"><br></div>
