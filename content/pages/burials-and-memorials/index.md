@@ -19,7 +19,7 @@ majorlinks:
   - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
-      title: Planning a Burial for Someone Who's Just Died
+      title: Planning a Burial for a Family Member Who's Just Died
       description: Find out what to do if your family member has just died.  
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Survivor and Dependent Benefits
