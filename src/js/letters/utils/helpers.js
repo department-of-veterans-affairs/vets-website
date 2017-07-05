@@ -76,3 +76,25 @@ export function veteranBenefitSummaryOptionText(currentOption, currentValue) {
 
   return textForAllOptions[currentOption];
 }
+
+// Lookup table to convert the benefit and military service options returned by the benefit summary letter
+// response to the expected request body options for customizing the benefit summary letter.
+// TODO: point to API docs once they're ready.
+export const benefitOptionsMap = {
+  awardEffectiveDate: 'awardEffectiveDate', // guessing
+  hasAdaptedHousing: 'adaptedHousing',
+  hasChapter35Eligibility: 'chapter35Eligibility',
+  hasNonServiceConnectedPension: 'nonServiceConnectedPension',
+  hasServiceConnectedDisabilities: 'serviceConnectedDisabilities',
+  // There is an expected 'survivorsAward' option, but it's not clear whether
+  // it corresponds to the idemnity compensation or the pension award or neither.
+  hasSurvivorsIndemnityCompensationAward: 'survivorsAward', // fix
+  hasSurvivorsPensionAward: 'survivorsAward', // fix
+  monthlyAwardAmount: 'monthlyAward',
+  serviceConnectedPercentage: 'serviceConnectedEvaluation', // guessing
+  hasIndividualUnemployabilityGranted: 'individualUnemployabilityGranted', // guessing
+  hasSpecialMonthlyCompensation: 'specialMonthlyCompensation', // guessing
+  militaryService: 'militaryService',
+  hasUnemployable: 'unemployable', // guessing, look at EVSS swagger
+  hasDeathResultOfDisability: 'deathResultOfDisability' // guessing, look at EVSS swagger
+};

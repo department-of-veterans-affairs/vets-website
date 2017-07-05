@@ -1,6 +1,5 @@
-import set from 'lodash/fp/set';
-import mapValues from 'lodash/mapValues';
 import _ from 'lodash/fp';
+// import { benefitOptionsMap } from '../utils/helpers';
 
 const initialState = {
   letters: [],
@@ -45,15 +44,19 @@ function letters(state = initialState, action) {
       // the various error scenarios
       return set('lettersAvailability', 'unavailable', state);
     case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS':
-      // Create object for which options to include in post for summary letter
-      // Default all options to true so they appear checked in the UI
-      options = mapValues(action.data.data.attributes.benefitInformation, (value) => {
-        // If the value of the benefit option is not false, it means the user
-        // is eligible for that value. Default benefit options they are eligible for
-        // to true. Keep benefit options that have a value of false as false, so
-        // they are sent as false in the request for the pdf.
+      // Create object for which options to include in the benefit summary letter POST
+      // request body, and initialize all options to true so they appear checked in the UI.
+      // If the value of the benefit option is anything but false, the user is
+      // eligible for that value, so so the request body option is set to true.
+      // Otherwise, the request body option is set to false.
+
+
+      // plus 'militaryService'
+      options = _.mapValues((value) => {
         return value !== false;
-      });
+      }, action.data.data.attributes.benefitInformation);
+      // WIP: not quite a zip
+      // options = _.zipObject(_.values(benefitOptionsMap),
 
       return {
         ...state,
@@ -65,9 +68,9 @@ function letters(state = initialState, action) {
     case 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE':
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
-      return set('optionsAvailable', false, state);
+      return _.set('optionsAvailable', false, state);
     case 'UPDATE_BENEFIT_SUMMARY_OPTION':
-      return set(['optionsToInclude', action.propertyPath], action.value, state);
+      return _.set(['optionsToInclude', action.propertyPath], action.value, state);
     default:
       return state;
   }

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import _ from 'lodash/fp';
 
 import { updateBenefitSummaryOption } from '../actions/letters';
 import {
+  benefitOptionsMap,
   characterOfServiceContent,
   veteranBenefitSummaryOptionText
 } from '../utils/helpers';
@@ -17,7 +17,8 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.updateBenefitSummaryOption(domEvent.target.id, domEvent.target.checked);
+    this.props.updateBenefitSummaryOption(benefitOptionsMap[domEvent.target.id],
+                                          domEvent.target.checked);
   }
 
   render() {
@@ -62,7 +63,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
-    _.forIn(benefitInfo, (value, key) => {
+    _.forIn((value, key) => {
       const optionText = veteranBenefitSummaryOptionText(key, value);
 
       // There are 2 conditions this is checking for
@@ -89,7 +90,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
           </tr>
         );
       }
-    });
+    }, benefitInfo);
 
     if (this.props.optionsAvailable) {
       vaBenefitInformation = (
@@ -129,14 +130,15 @@ class VeteranBenefitSummaryLetter extends React.Component {
         <div className="form-checkbox">
           <input
               autoComplete="false"
-              id="serviceInfoCheckboxId"
-              name="serviceInfoCheckbox"
+              checked={optionsToInclude.militarySevice}
+              id="militaryService"
+              name="militaryService"
               type="checkbox"
               onChange={this.handleChange}/>
           <label
               className="schemaform-label"
-              name="serviceInfoCheckbox-label"
-              htmlFor="serviceInfoCheckboxId">
+              name="militaryService-label"
+              htmlFor="militaryService">
             Include all periods of service
           </label>
         </div>
