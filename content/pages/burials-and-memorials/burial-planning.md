@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Planning a Burial
-displaytitle: Planning a Burial For a Family Member Who's Just Died
+title: Planning a Burial for a Family Member Who's Just Died
+displaytitle: Planning a Burial 
 collection: burials
 children: burialsPlanning
 order: 2
