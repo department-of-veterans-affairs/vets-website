@@ -15,7 +15,8 @@ import {
   fileHelp,
   directDepositWarning,
   isMarried,
-  applicantDescription
+  applicantDescription,
+  otherExpensesWarning
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -1075,20 +1076,30 @@ const formConfig = {
               'view:hasOtherExpenses': {
                 type: 'boolean'
               },
-              otherExpenses
+              otherExpenses,
+              'view:otherExpensesWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
             'view:hasOtherExpenses': {
-              'ui:title': 'Do you have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+              'ui:title': 'Do you have any medical, legal or other unreimbursed expenses?',
               'ui:widget': 'yesNo'
             },
             otherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses'
               }
-            })
+            }),
+            'view:otherExpensesWarning': {
+              'ui:description': otherExpensesWarning,
+              'ui:options': {
+                expandUnder: 'view:hasOtherExpenses'
+              }
+            }
           }
         },
         spouseNetWorth: {
@@ -1153,23 +1164,33 @@ const formConfig = {
             type: 'object',
             required: ['view:hasOtherExpenses'],
             properties: {
-              'view:hasOtherExpenses': {
+              'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses
+              spouseOtherExpenses: otherExpenses,
+              'view:spouseOtherExpensesWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
-            'view:hasOtherExpenses': {
-              'ui:title': 'Does your spouse have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+            'view:spouseHasOtherExpenses': {
+              'ui:title': 'Does your spouse have any medical, legal or other unreimbursed expenses?',
               'ui:widget': 'yesNo'
             },
             spouseOtherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
-                expandUnder: 'view:hasOtherExpenses'
+                expandUnder: 'view:spouseHasOtherExpenses'
               }
-            })
+            }),
+            'view:spouseOtherExpensesWarning': {
+              'ui:description': otherExpensesWarning,
+              'ui:options': {
+                expandUnder: 'view:spouseHasOtherExpenses'
+              }
+            }
           }
         },
         dependentsNetWorth: {
@@ -1280,7 +1301,11 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses
+                    otherExpenses,
+                    'view:otherExpensesWarning': {
+                      type: 'object',
+                      properties: {}
+                    }
                   }
                 }
               }
@@ -1291,14 +1316,20 @@ const formConfig = {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
                 'view:hasOtherExpenses': {
-                  'ui:title': 'Does your child have any medical, legal or other unreimbursed expenses? (You will need to supply receipts)',
+                  'ui:title': 'Does your child have any medical, legal or other unreimbursed expenses?',
                   'ui:widget': 'yesNo'
                 },
                 otherExpenses: _.merge(otherExpensesUI, {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
                   }
-                })
+                }),
+                'view:otherExpensesWarning': {
+                  'ui:description': otherExpensesWarning,
+                  'ui:options': {
+                    expandUnder: 'view:hasOtherExpenses'
+                  }
+                }
               }
             }
           }
