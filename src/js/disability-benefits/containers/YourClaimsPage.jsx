@@ -160,7 +160,7 @@ class YourClaimsPage extends React.Component {
         </div>
         <div className="row">
           <div>
-            <h1>Your Claims</h1>
+            <h1>Your Claims and Appeals</h1>
           </div>
           {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
         </div>
