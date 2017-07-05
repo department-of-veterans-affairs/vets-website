@@ -74,11 +74,11 @@ Your VA provider will work with you to make sure you get the care you need. You 
 
 <span id="care-rural-area">
 
-Where do I get care if I live in a rural area, far from a VA medical center?
+#### Where do I get care if I live in a rural area, far from a VA medical center?
 
 You may be able to get care:
 - [At a VA outpatient clinic](/facilities/)
-- [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
+- [At a mobile Vet Center](https://www.vetcenter.va.gov/)
 - [Through a VA community care provider](https://www.va.gov/communitycare/)
 - In your own home either:
   - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
