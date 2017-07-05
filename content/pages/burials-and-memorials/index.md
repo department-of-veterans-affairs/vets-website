@@ -23,10 +23,10 @@ majorlinks:
       description: Find out the steps you'll need to take to arrange for a family member's burial.
     - url: TBD
       title: Honoring a Deceased Veteran
-      description: Find out how to honor the military service of a deceased Veteran.
+      description: Find out how to honor the military service of a deceased Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate.
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Applying for Survivor and Dependent Benefits
-      description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
+      description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
   - heading: More Helpful Information
     links:
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/
