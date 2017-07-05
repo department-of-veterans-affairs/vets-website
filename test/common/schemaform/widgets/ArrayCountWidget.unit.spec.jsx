@@ -133,6 +133,50 @@ describe('Schemaform <ArrayCountWidget>', () => {
     });
     expect(onChange.firstCall.args[0]).to.equal(undefined);
   });
+  it('should handle change that removes with offset', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayCountWidget
+          id="1"
+          value={[{}, {}]}
+          schema={{ type: 'string' }}
+          required
+          disabled={false}
+          formContext={{}}
+          onChange={onChange}
+          options={{
+            countOffset: -2
+          }}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '1'
+      }
+    });
+    expect(onChange.firstCall.args[0]).to.equal(undefined);
+  });
+  it('should handle change that removes all offset', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayCountWidget
+          id="1"
+          value={[{}, {}]}
+          schema={{ type: 'string' }}
+          required
+          disabled={false}
+          formContext={{}}
+          onChange={onChange}
+          options={{
+            countOffset: -1
+          }}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '1'
+      }
+    });
+    expect(onChange.firstCall.args[0]).to.eql([]);
+  });
   it('should handle blur', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

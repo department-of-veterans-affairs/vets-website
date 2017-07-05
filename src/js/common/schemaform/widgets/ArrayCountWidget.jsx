@@ -1,20 +1,24 @@
 import React from 'react';
 
-export default class SpouseMarriageWidget extends React.Component {
+export default class ArrayCountWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: !!props.value
+    this.state = { userCount: !!props.value
       ? props.value.length - (this.props.options.countOffset || 0)
       : undefined };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.value !== this.state.value) {
-      let count = parseInt(this.state.value, 10);
+    if (prevState.userCount !== this.state.userCount) {
+      let count = parseInt(this.state.userCount, 10);
       if (isNaN(count)) {
         count = 0;
       }
 
+      // Too high of a count can crash the browser. We've been using
+      // this for marriage counts and 29 is the record, so 29 seems like
+      // a good upper limit. Filling out more than 29 pages is probably
+      // not reasonable in a form anyway
       if (count > 29) {
         count = 29;
       }
@@ -31,6 +35,10 @@ export default class SpouseMarriageWidget extends React.Component {
 
     const intCount = count + (this.props.options.countOffset || 0);
 
+    if (intCount < 0) {
+      return undefined;
+    }
+
     if (intCount < value.length) {
       return value.slice(0, intCount);
     }
@@ -39,7 +47,7 @@ export default class SpouseMarriageWidget extends React.Component {
   }
 
   updateArrayLength = (event) => {
-    this.setState({ value: event.target.value });
+    this.setState({ userCount: event.target.value });
   }
 
   render() {
@@ -48,7 +56,7 @@ export default class SpouseMarriageWidget extends React.Component {
     if (props.formContext.reviewMode) {
       return (
         <div className="review-row">
-          <dt>{props.uiSchema['ui:title']}</dt><dd>{this.state.value}</dd>
+          <dt>{props.uiSchema['ui:title']}</dt><dd>{this.state.userCount}</dd>
         </div>
       );
     }
@@ -62,7 +70,7 @@ export default class SpouseMarriageWidget extends React.Component {
           disabled={props.disabled}
           autoComplete={props.options.autocomplete || false}
           className={props.options.widgetClassNames}
-          value={typeof this.state.value === 'undefined' ? '' : this.state.value}
+          value={typeof this.state.userCount === 'undefined' ? '' : this.state.userCount}
           onBlur={() => props.onBlur(props.id)}
           onChange={this.updateArrayLength}/>
     );
