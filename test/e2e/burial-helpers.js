@@ -4,7 +4,6 @@ const LoginHelpers = require('./login-helpers.js');
 
 function completeClaimantInformation(client, data) {
   client
-    .waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal)
     .fillName('root_claimantFullName', data.claimantFullName)
     .selectRadio('root_relationship_type', data.relationship.type);
 
@@ -14,6 +13,15 @@ function completeClaimantInformation(client, data) {
       // Not sure what to do with this, exactly, but I'll make it an option.
       .clickIf('#root_relationship_view:isEntity', data.relationship.isEntity);
   }
+}
+
+function completeVeteranInformation(client, data) {
+  client
+    .fillName('root_veteranFullName', data.veteranFullName)
+    .fill('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber)
+    .fill('input[name="root_vaFileNumber"]', data.vaFileNumber)
+    .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth)
+    .fill('input[name="root_placeOfBirth"]', data.placeOfBirth);
 }
 
 
@@ -145,6 +153,7 @@ function initSaveInProgressMock(url, client) {
 
 module.exports = {
   completeClaimantInformation,
+  completeVeteranInformation,
   initApplicationSubmitMock,
   initSaveInProgressMock
 };
