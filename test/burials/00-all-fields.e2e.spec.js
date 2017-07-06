@@ -21,19 +21,18 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Claimant Information page
     client.waitForElementVisible('input[name="root_claimantFullName_first"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeClaimantInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
 
-
-    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-
     // Veteran Information page
     client.waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(2)', 'progress-segment-complete');
     PageHelpers.completeVeteranInformation(client, testData.data);
     client.axeCheck('.main')
-    .click('.form-panel .usa-button-primary');
+      .click('.form-panel .usa-button-primary');
     // This expects the url to not contain 'veteran-information', but when we
     //  navigate away properly, the new url is 'veteran-information/burial', so
     //  it fails when it shouldn't.
@@ -43,9 +42,16 @@ module.exports = E2eHelpers.createE2eTest(
     client.waitForElementVisible('input[name="root_deathDateYear"]', Timeouts.normal);
     PageHelpers.completeBurialInformation(client, testData.data);
     client.axeCheck('.main')
-    .click('.form-panel .usa-button-primary');
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/burial');
 
+    // Service Periods page
+    client.waitForElementVisible('input[name="root_toursOfDuty_0_dateRange_fromYear"]', Timeouts.normal);
+    PageHelpers.completeServicePeriods(client, testData.data);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+    client.axeCheck('.main')
+    .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
 
     // // Review and Submit Page.
     // client

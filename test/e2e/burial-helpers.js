@@ -30,11 +30,28 @@ function completeBurialInformation(client, data) {
     .fillDate('root_burialDate', data.burialDate)
     .selectRadio('root_locationOfDeath_location', data.locationOfDeath.location);
 
-  if (data.locationOfDeath === 'other') {
-    client
-      .waitForElementVisible('input[name="root_locationOfDeath_other"]', Timeouts.normal)
-      .fill('input[name="root_locationOfDeath_other"]', data.locationOfDeath.other);
+  if (data.locationOfDeath.location === 'other') {
+    client.fill('input[name="root_locationOfDeath_other"]', data.locationOfDeath.other);
   }
+}
+
+function completeServicePeriods(client, data) {
+  data.toursOfDuty.forEach((tour, index) => {
+    client
+      .waitForElementVisible(`input[name="root_toursOfDuty_${index}_dateRange_fromYear"]`, Timeouts.normal)
+      .fillDate(`root_toursOfDuty_${index}_dateRange_from`, tour.dateRange.from)
+      .fillDate(`root_toursOfDuty_${index}_dateRange_to`, tour.dateRange.to)
+      .fill(`input[name="root_toursOfDuty_${index}_serviceBranch"]`, tour.serviceBranch)
+      .fill(`input[name="root_toursOfDuty_${index}_rank"]`, tour.rank)
+      .fill(`input[name="root_toursOfDuty_${index}_serviceNumber"]`, tour.serviceNumber)
+      .fill(`input[name="root_toursOfDuty_${index}_placeOfEntry"]`, tour.placeOfEntry)
+      .fill(`input[name="root_toursOfDuty_${index}_placeOfSeparation"]`, tour.placeOfEntry);
+
+    // Keep adding them until we're finished.
+    if (index < data.toursOfDuty.length - 1) {
+      client.click('.usa-button-outline.va-growable-add-btn');
+    }
+  });
 }
 
 
@@ -168,6 +185,7 @@ module.exports = {
   completeClaimantInformation,
   completeVeteranInformation,
   completeBurialInformation,
+  completeServicePeriods,
   initApplicationSubmitMock,
   initSaveInProgressMock
 };
