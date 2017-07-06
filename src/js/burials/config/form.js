@@ -47,7 +47,8 @@ const {
   veteranSocialSecurityNumber,
   veteranDateOfBirth,
   placeOfBirth,
-  officialPosition
+  officialPosition,
+  firmName
 } = fullSchemaBurials.properties;
 
 const {
@@ -109,7 +110,7 @@ const formConfig = {
                   expandUnderCondition: 'other'
                 }
               },
-              'view:isEntity': {
+              isEntity: {
                 'ui:title': 'Claiming as a firm, corporation or state agency',
                 'ui:options': {
                   expandUnder: 'type',
@@ -127,13 +128,7 @@ const formConfig = {
             required: ['claimantFullName', 'relationship'],
             properties: {
               claimantFullName,
-              relationship: _.merge(relationship, {
-                properties: {
-                  'view:isEntity': {
-                    type: 'boolean'
-                  }
-                }
-              })
+              relationship
             }
           }
         }
@@ -433,10 +428,16 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
+            firmName: {
+              'ui:title': 'Full name of firm, corporation or state agency',
+              'ui:options': {
+                hideIf: form => _.get('relationship.isEntity', form) !== true
+              }
+            },
             officialPosition: {
               'ui:title': 'Position of person signing on behalf of firm, corporation or state agency',
               'ui:options': {
-                hideIf: form => _.get('relationship.view:isEntity', form) !== true
+                hideIf: form => _.get('relationship.isEntity', form) !== true
               }
             },
             claimantAddress: address.uiSchema('Address'),
@@ -449,6 +450,7 @@ const formConfig = {
             type: 'object',
             required: ['claimantAddress'],
             properties: {
+              firmName,
               officialPosition,
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,
