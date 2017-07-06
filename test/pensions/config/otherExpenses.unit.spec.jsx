@@ -53,7 +53,7 @@ describe('Pensions', () => {
       );
       const formDOM = getFormDOM(form);
 
-      formDOM.fillData('#root_view\\:hasOtherExpensesYes', 'Y');
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
 
       expect(formDOM.querySelectorAll('input,select').length).to.equal(8);
     });
@@ -107,7 +107,7 @@ describe('Pensions', () => {
 
       const formDOM = getFormDOM(form);
 
-      formDOM.fillData('#root_view\\:hasOtherExpensesYes', 'Y');
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
 
       formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, 12);
 
@@ -130,7 +130,7 @@ describe('Pensions', () => {
 
       const formDOM = getFormDOM(form);
 
-      formDOM.fillData('#root_view\\:hasOtherExpensesNo', 'N');
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesNo`, 'N');
 
       formDOM.submitForm(form);
 
