@@ -15,6 +15,13 @@ majorlinks:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs
       title: Burial Allowance Application Process
       description: Apply to get paid back for funeral and other burial costs.
+relatedlinks:
+  - heading: Other benefits you may be interested in
+    links:
+    - url: /pension/survivors-pension/
+      title: Survivors Pension
+      description: If you're an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, find out if you can get monthly payments.
+
 ---
 
 <div class="va-introtext">
