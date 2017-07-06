@@ -86,33 +86,34 @@ module.exports = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
     }
 
-    // TODO: Test file upload if (testData.data['view:claimedBenefits'].transportation)
 
     // Additional Information page
-    // client.waitForElementVisible('select[name="root_claimantAddress_country"]', Timeouts.normal);
-    // PageHelpers.completePlotAllowance(client, testData.data);
-    // client.axeCheck('.main')
-    //   .click('.form-panel .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
+    client.waitForElementVisible('select[name="root_claimantAddress_country"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
+    PageHelpers.completeClaimantContactInformation(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
 
-    // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
-    // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
+    // TODO: Test file upload
 
-    // // Review and Submit Page.
-    // client
-    //   .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
-    //   .pause(1000)
-    //   .click('input[type="checkbox"]')
-    //   .axeCheck('.main')
-    //   .click('.form-progress-buttons .usa-button-primary');
-    // // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-    // client.expect.element('.js-test-location').attribute('data-location')
-    //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
-    //
-    // // Submit message
-    // client.expect.element('.success-alert-box').to.be.visible;
-    //
-    // client.axeCheck('.main');
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
+
+    // Review and Submit Page.
+    client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
+      .click('input[type="checkbox"]')
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+    client.expect.element('.js-test-location').attribute('data-location')
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
+
+    // Submit message
+    client.expect.element('.success-alert-box').to.be.visible;
+
+    client.axeCheck('.main');
 
     client.end();
   });

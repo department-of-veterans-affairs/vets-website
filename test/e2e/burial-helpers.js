@@ -111,6 +111,16 @@ function completePlotAllowance(client, data) {
   }
 }
 
+function completeClaimantContactInformation(client, data) {
+  if (!data.relationship['view:isEntity']) {
+    client.fill('input[name="root_officialPosition"]', data.officialPosition);
+  }
+  client
+    .fillAddress('root_claimantAddress', data.claimantAddress)
+    .fill('input[name="root_claimantEmail"]', data.claimantEmail)
+    .fill('input[name="root_claimantPhone"]', data.claimantPhone);
+}
+
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -247,6 +257,7 @@ module.exports = {
   completeBenefitSelection,
   completeBurialAllowance,
   completePlotAllowance,
+  completeClaimantContactInformation,
 
   initApplicationSubmitMock,
   initSaveInProgressMock
