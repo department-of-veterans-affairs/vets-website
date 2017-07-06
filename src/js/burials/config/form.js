@@ -294,8 +294,7 @@ const formConfig = {
               'view:transportationWarning': {
                 'ui:description': transportationWarning,
                 'ui:options': {
-                  expandUnder: 'transportation',
-                  classNames: 'schemaform-currency-input'
+                  expandUnder: 'transportation'
                 }
               },
               'ui:validations': [
