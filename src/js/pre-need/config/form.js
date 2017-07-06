@@ -15,36 +15,13 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ClaimantView from '../components/ClaimantView';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 
 const {
-  relationship,
-  veteranFullName,
-  veteranMaidenName,
-  veteranSocialSecurityNumber,
-  veteranDateOfBirth,
-  sponsorFullName,
-  sponsorSocialSecurityNumber,
-  sponsorMilitaryServiceNumber,
-  sponsorVAClaimNumber,
-  sponsorDateOfBirth,
-  sponsorPlaceOfBirth,
-  sponsorDeceased,
-  sponsorDateOfDeath,
-  sponsorGender,
-  sponsorMaritalStatus,
-  sponsorMilitaryStatus,
-  toursOfDuty,
-  desiredCemetery,
-  currentlyBuried,
-  eligibleBuried,
-  email,
-  phoneNumber,
-  documents,
-  preparerFullName,
-  preparerPhoneNumber
-} = fullSchemaPreNeed.properties;
+  claimant
+} = fullSchemaPreNeed.properties.applications.items.properties;
 
 const {
   fullName,
@@ -75,42 +52,74 @@ const formConfig = {
     files
   },
   chapters: {
-    veteranInformation: {
+    applicantInformation: {
       title: 'Applicant Information',
       pages: {
         applicantInformation1: {
           title: 'Applicant information',
           path: 'applicant-information-1',
           uiSchema: {
-            relationship: {
-              type: {
-                'ui:title': 'What\'s your relationship to the Servicemember whose benefit you are claiming?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    servicemember: 'I am the Servicemember',
-                    spouseOrChild: 'Spouse, surviving spouse, or unmarried adult child',
-                    other: 'Other'
-                  }
-                }
+            applications: {
+              'ui:options': {
+                viewField: ClaimantView,
               },
-              other: {
-                'ui:title': 'Please specify your relationship',
-                // 'ui:required': (form) => _.get('relationship.type', form) === 'other',
-                'ui:options': {
-                  hideIf: (form) => _.get('relationship.type', form) !== 'other'
+              items: {
+                claimant: {
+                  name: fullNameUI,
+                  maidenName: {
+                    'ui:title': 'Maiden name'
+                  },
+                  ssn: ssnUI,
+                  dateOfBirth: currentOrPastDateUI('Date of birth'),
+                  relationshipToVet: {
+                    type: {
+                      'ui:title': 'Relationship to Servicemember',
+                      'ui:widget': 'radio',
+                      'ui:options': {
+                        labels: {
+                          1: 'I am the Servicemember',
+                          2: 'Spouse or surviving spouse',
+                          3: 'Unmarried adult child',
+                        }
+                      }
+                    },
+                    other: {
+                      'ui:title': 'Please specify your relationship',
+                      // 'ui:required': (form) => _.get('relationship.type', form) === 'other',
+                      'ui:options': {
+                        hideIf: (form) => _.get('relationship.type', form) !== 'other'
+                      }
+                    }
+                  },
                 }
               }
-            },
+            }
           },
           schema: {
             type: 'object',
-            required: ['relationship'],
             properties: {
-              relationship
+              applications: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    claimant: {
+                      type: 'object',
+                      properties: _.pick([
+                        'name',
+                        'maidenName',
+                        'ssn',
+                        'dateOfBirth',
+                        'relationshipToVet'
+                      ], claimant)
+                    }
+                  }
+                }
+              }
             }
           }
         },
+        /*
         applicantInformation2: {
           title: 'Applicant information',
           path: 'applicant-information-2',
@@ -258,8 +267,10 @@ const formConfig = {
             }
           }
         }
+        */
       }
     },
+    /*
     militaryHistory: {
       title: 'Military History',
       pages: {
@@ -490,6 +501,7 @@ const formConfig = {
         }
       }
     }
+    */
   }
 };
 
