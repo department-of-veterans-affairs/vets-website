@@ -12,8 +12,10 @@ export function formatPercent(percent) {
   return validPercent;
 }
 
-export function formatVAFilNumber(number) {
-  const lengthOfXString = number.length - 4;
+export function formatVAFileNumber(n) {
+  const number = n || '';
+  const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
+
   return number.replace(number.substring(0, lengthOfXString), `${'x'.repeat(lengthOfXString)}-`);
 }
 

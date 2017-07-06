@@ -7,6 +7,7 @@ import UserInfoSection from '../../../src/js/post-911-gib-status/components/User
 
 const props = {
   enrollmentData: {
+    vaFileNumber: '12345678'
   }
 };
 const currentHeadingSelector = '#current-as-of';
