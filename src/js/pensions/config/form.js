@@ -1162,7 +1162,7 @@ const formConfig = {
           title: 'Spouse other expenses',
           schema: {
             type: 'object',
-            required: ['view:hasOtherExpenses'],
+            required: ['view:spouseHasOtherExpenses'],
             properties: {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
