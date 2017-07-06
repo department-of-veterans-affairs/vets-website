@@ -34,7 +34,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Your Benefits</h4>
             <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-            <InfoPair label="Mpnths you've used" value={enrollmentData.usedEntitlement}/>
+            <InfoPair label="Months you've used" value={enrollmentData.usedEntitlement}/>
             <InfoPair label="Months you have left to use" value={enrollmentData.remainingEntitlement} displayIfZero/>
             <p id="benefit-level">
               Your eligibility rate for payments and maximum amounts is <strong>{percentageBenefit}</strong>.
