@@ -50,8 +50,24 @@ module.exports = E2eHelpers.createE2eTest(
     PageHelpers.completeServicePeriods(client, testData.data);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
     client.axeCheck('.main')
-    .click('.form-panel .usa-button-primary');
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
+
+    // Previous Names page
+    client.waitForElementVisible('label[for$="serveUnderOtherNamesYes"]', Timeouts.normal);
+    PageHelpers.completePreviousNames(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
+
+    client.waitForElementVisible('label[for$="claimedBenefits"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
+    PageHelpers.completePreviousNames(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
+    // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
+    // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
 
     // // Review and Submit Page.
     // client

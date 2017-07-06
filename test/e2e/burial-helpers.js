@@ -54,6 +54,21 @@ function completeServicePeriods(client, data) {
   });
 }
 
+function completePreviousNames(client, data) {
+  if (data.previousNames.length) {
+    client.selectYesNo('root_view:serveUnderOtherNames', true);
+    data.previousNames.forEach((name, index) => {
+      client.fillName(`root_previousNames_${index}`, name);
+
+      if (index < data.previousNames.length - 1) {
+        client.click('.usa-button-outline.va-growable-add-btn');
+      }
+    });
+  } else {
+    client.selectYesNo('root_view:serveUnderOtherNames', false);
+  }
+}
+
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -186,6 +201,7 @@ module.exports = {
   completeVeteranInformation,
   completeBurialInformation,
   completeServicePeriods,
+  completePreviousNames,
   initApplicationSubmitMock,
   initSaveInProgressMock
 };
