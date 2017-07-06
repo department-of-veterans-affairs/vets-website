@@ -64,12 +64,14 @@ class IntroductionPage extends React.Component {
             {...this.props.saveInProgress}>
           Complete the form before submitting to apply for burial benefits with the 21P-530.
         </SaveInProgressIntro>}
-        {__BUILDTYPE__ === 'production' && <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-          <ProgressButton
-              onButtonClick={this.goForward}
-              buttonText="Get Started"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
+        {__BUILDTYPE__ === 'production' && <div className="row form-progress-buttons schemaform-buttons">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+            <ProgressButton
+                onButtonClick={this.goForward}
+                buttonText="Get Started"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
+          </div>
         </div>}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020"/>
