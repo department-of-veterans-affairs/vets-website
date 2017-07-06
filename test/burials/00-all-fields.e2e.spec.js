@@ -70,11 +70,11 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Burial Allowance page -- conditional
     if (testData.data['view:claimedBenefits'].burialAllowance) {
-      client.waitForElementVisible('input[name="root_placeOfRemains"]', Timeouts.normal);
+      client.waitForElementVisible('label[for="root_burialAllowanceRequested"]', Timeouts.normal);
       PageHelpers.completeBurialAllowance(client, testData.data);
       client.axeCheck('.main')
         .click('.form-panel .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits/burial-allowance');
     }
 
     // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
