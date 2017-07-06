@@ -376,6 +376,10 @@ h6 {
   }
 }
 
+h3.no-margin {
+  margin: 0 0 0 0;
+}
+
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {
@@ -1440,7 +1444,11 @@ p.info-message {
   list-style-type: none;
 }
 
-.vertical-list-group .list-group-item{
+.vertical-list-group.more-bottom-cushion {
+  margin-bottom: 2em;
+}
+
+.vertical-list-group .list-group-item {
   border: none;
   border-left: 3px solid $color-gray-light;
   box-sizing: border-box;
@@ -1452,6 +1460,11 @@ p.info-message {
 
   &:last-child {
     border: none;
+  }
+
+  h4 {
+    line-height: 0.7;
+    margin-bottom: 5px;
   }
 }
 

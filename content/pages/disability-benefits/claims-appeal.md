@@ -21,7 +21,7 @@ When the Regional Office (RO) receives your Notice of Disagreement (NOD), you'll
 <a class="usa-button-primary" href="/track-claims">Track your appeal</a>
 </div>
 
-### Appeals Process Overview
+<h3 class="no-margin">Appeals Process Overview</h3>
 The process has many steps that can repeat themselves
 
 <ul class="vertical-list-group">

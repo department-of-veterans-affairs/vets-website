@@ -23,11 +23,11 @@ import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 const sortOptions = [
   {
-    label: 'A-Z by claim type',
+    label: 'A-Z by type',
     value: 'claimType'
   },
   {
-    label: 'Last updated',
+    label: 'Last changed',
     value: 'phaseChangeDate'
   },
   {
@@ -121,7 +121,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator message="Loading claims list" setFocus/>;
+      content = <LoadingIndicator message="Loading claims and appeals list" setFocus/>;
     } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
