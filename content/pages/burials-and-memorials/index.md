@@ -6,7 +6,7 @@ template: level2-index
 showactionbar: false
 extraspace: true
 majorlinks:
-  - heading: 
+  - heading: Who Can Get Benefits
     links:
     - url: /burials-and-memorials/eligibility/
       title: Eligibility
