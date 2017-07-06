@@ -5,7 +5,7 @@ import lettersReducer from '../../../src/js/letters/reducers';
 const initialState = {
   letters: [],
   destination: {},
-  lettersAvailable: false,
+  lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
   serviceInfo: [],
   optionsAvailable: false
@@ -19,7 +19,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.lettersAvailable).to.be.false;
+    expect(state.lettersAvailability).to.equal('unavailable');
   });
 
   it('should handle a successful request for letters', () => {
@@ -50,7 +50,7 @@ describe('letters reducer', () => {
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
     expect(state.destination.addressLine1).to.eql('2476 MAIN STREET');
-    expect(state.lettersAvailable).to.be.true;
+    expect(state.lettersAvailability).to.equal('available');
   });
 
   it('should handle failure to fetch benefit summary options', () => {
