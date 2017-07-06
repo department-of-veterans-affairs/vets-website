@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
@@ -19,11 +20,11 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits"/>
         <p>This application is equivalent to Form 21P-530 (Application for Burial Benefits).</p>
-        <SaveInProgressIntro
+        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}
             resumeOnly
             {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+            {...this.props.saveInProgress}/>}
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -32,8 +33,8 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Veteran’s Social Security number or VA file number (required)</li>
                 <li>Veteran’s military discharge papers (DD214 or other separation documents)</li>
-                <li>Veteran’s death certificate</li>
-                <li>Receipts for transportation costs</li>
+                <li>Veteran’s death certificate (if claiming service connected death)</li>
+                <li>Receipts for transportation costs (if claiming transportation costs of the Veteran’s remains)</li>
               </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
@@ -57,12 +58,19 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
+        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}>
           Complete the form before submitting to apply for burial benefits with the 21P-530.
-        </SaveInProgressIntro>
+        </SaveInProgressIntro>}
+        {__BUILDTYPE__ === 'production' && <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+          <ProgressButton
+              onButtonClick={this.goForward}
+              buttonText="Get Started"
+              buttonClass="usa-button-primary"
+              afterText="»"/>
+        </div>}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020"/>
         </div>
