@@ -76,7 +76,7 @@ function sortList(list, sortProperty) {
           break;
       }
     }
-    return sortPropertyFn[sortProperty](el);
+    return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
   };
 
   return _.orderBy([sortFunc, 'id'], sortOrder, list);
