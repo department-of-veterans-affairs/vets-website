@@ -69,6 +69,19 @@ function completePreviousNames(client, data) {
   }
 }
 
+function completeBenefitSelection(client, data) {
+  client
+    .clickIf('input[name="root_view:claimedBenefits_burialAllowance"]', data['view:claimedBenefits'].burialAllowance)
+    .clickIf('input[name="root_view:claimedBenefits_plotAllowance"]', data['view:claimedBenefits'].plotAllowance);
+
+  // TODO: Uncomment this when we get file upload working and testable
+  // if (data['view:claimedBenefits'].transportation) {
+  //   client
+  //     .click('input[name="root_view:claimedBenefits_transportation"]')
+  //     .fill('input[name="root_view:claimedBenefits_amountIncurred"]', data['view:claimedBenefits'].amountIncurred);
+  // }
+}
+
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -202,6 +215,8 @@ module.exports = {
   completeBurialInformation,
   completeServicePeriods,
   completePreviousNames,
+  completeBenefitSelection,
+
   initApplicationSubmitMock,
   initSaveInProgressMock
 };

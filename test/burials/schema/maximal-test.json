@@ -23,8 +23,7 @@
       "burialAllowance": true,
       "plotAllowance": true,
       "transportation": true,
-      "amountIncurred": 7,
-      "view:transportationWarning": {}
+      "amountIncurred": 7
     },
     "view:serveUnderOtherNames": true,
     "previousNames": [
