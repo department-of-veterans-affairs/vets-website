@@ -58,43 +58,75 @@ export const letterContent = {
   benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
 
-export function veteranBenefitSummaryOptionText(currentOption, currentValue) {
-  const textForAllOptions = {
+export const optionsToAlwaysDisplay = [
+  'hasChapter35Eligibility',
+  'hasDeathResultOfDisability',
+  'hasServiceConnectedDisabilities',
+  'hasSurvivorsIndemnityCompensationAward',
+  'hasSurvivorsPensionAward',
+  'serviceConnectedPercentage'
+];
+
+export function getBenefitOptionText(currentOption, currentValue, isVeteran) {
+  const optionText = {
     awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(currentValue)}</strong></div>,
-    hasAdaptedHousing: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
-    hasChapter35Eligibility: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
-    hasDeathResultOfDisability: <div></div>,
-    hasIndividualUnemployabilityGranted: <div>You <strong>are</strong> being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div>,
-    hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
-    hasServiceConnectedDisabilities: <div>You have one or more service-connected disabilities</div>,
-    hasSpecialMonthlyCompensation: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>,
-    hasSurvivorsIndemnityCompensationAward: <div></div>,
-    hasSurvivorsPensionAward: <div></div>,
-    monthlyAwardAmount: <div>Your current monthly award amount is <strong>${currentValue}</strong></div>,
-    serviceConnectedPercentage: <div>Your combined service-connected evaluation is <strong>{currentValue}%</strong></div>,
+    hasChapter35Eligibility: currentValue ?
+      <div>You are considered to be totally and permanently disabled solely due to your service-connected disabilities</div> :
+      <div>Information on your totally and permanently disabled status which resulted from service-connected disabilities</div>, // This doeson't look right; clarify in https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3685
+    monthlyAwardAmount: (currentValue && currentValue !== 'unavailable') ?
+      <div>Your current monthly award amount is <strong>${currentValue}</strong></div> : undefined
   };
 
-  return textForAllOptions[currentOption];
+  if (isVeteran) {
+    merge({
+      hasAdaptedHousing: currentValue ?
+        <div>You have been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div> : undefined,
+      hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
+      hasServiceConnectedDisabilities: currentValue ?
+        <div>You have one or more service-connected disabilities</div> :
+        <div>You do not have one or more service-connected disabilities</div>,
+      serviceConnectedPercentage: (currentValue && currentValue !== 'unavailable') ?
+        <div>Your combined service-connected evaluation is <strong>{currentValue}%</strong></div> : undefined,
+      hasSpecialMonthlyCompensation: currentValue ?
+        <div>You are service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div> : undefined,
+      hasIndividualUnemployabilityGranted: currentValue ?
+        <div>You are being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div> : undefined
+    }, {}, optionText);
+  } else {
+    merge({
+      hasSurvivorsIndemnityCompensationAward: currentValue ?
+        <div>You are receiving Dependency and Indemnity Compensation</div> :
+        <div>You are not receiving Dependency and Indemnity Compensation</div>,
+      hasSurvivorsPensionAward: currentValue ?
+        <div>You are receiving Survivors Pension></div> :
+        <div>You are not receiving Survivors Pension></div>,
+      serviceConnectedPercentage: (currentValue && currentValue !== 'unavailable') ?
+        <div>The Veteran's combined service-connected evaluation is <strong>{currentValue}%</strong></div> : undefined,
+      hasDeathResultOfDisability: currentValue ?
+        <div>The Veteran died as a result of a service-connected disability</div> :
+        <div>The Veteran did not die as a result of a service-connected disability</div>
+    }, {}, optionText);
+  }
+
+  return optionText[currentOption];
 }
 
 // Lookup table to convert the benefit and military service options returned by the benefit summary letter
 // response to the expected request body options for customizing the benefit summary letter.
-// TODO: point to API docs once they're ready.
 export const benefitOptionsMap = {
-  awardEffectiveDate: 'awardEffectiveDate', // guessing
   hasAdaptedHousing: 'adaptedHousing',
   hasChapter35Eligibility: 'chapter35Eligibility',
+  hasDeathResultOfDisability: 'deathResultOfDisability',
+  hasIndividualUnemployabilityGranted: 'unemployable',
   hasNonServiceConnectedPension: 'nonServiceConnectedPension',
   hasServiceConnectedDisabilities: 'serviceConnectedDisabilities',
-  // There is an expected 'survivorsAward' option, but it's not clear whether
-  // it corresponds to the idemnity compensation or the pension award or neither.
-  hasSurvivorsIndemnityCompensationAward: 'survivorsAward', // fix
-  hasSurvivorsPensionAward: 'survivorsAward', // fix
+  hasSpecialMonthlyCompensation: 'specialMonthlyCompensation',
+  // User should only see one of these survivor award options; both
+  // map to the same request body option
+  hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
+  hasSurvivorsPensionAward: 'survivorsAward',
+  awardEffectiveDate: 'monthlyAward',
   monthlyAwardAmount: 'monthlyAward',
-  serviceConnectedPercentage: 'serviceConnectedEvaluation', // guessing
-  hasIndividualUnemployabilityGranted: 'individualUnemployabilityGranted', // guessing
-  hasSpecialMonthlyCompensation: 'specialMonthlyCompensation', // guessing
-  militaryService: 'militaryService',
-  hasUnemployable: 'unemployable', // guessing, look at EVSS swagger
-  hasDeathResultOfDisability: 'deathResultOfDisability' // guessing, look at EVSS swagger
+  serviceConnectedPercentage: 'serviceConnectedEvaluation',
+  militaryService: 'militaryService'
 };

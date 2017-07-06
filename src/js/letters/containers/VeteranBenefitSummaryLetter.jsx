@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash/fp';
 
 import { updateBenefitSummaryOption } from '../actions/letters';
 import {
   benefitOptionsMap,
   characterOfServiceContent,
-  veteranBenefitSummaryOptionText
+  optionsToAlwaysDisplay,
+  getBenefitOptionText
 } from '../utils/helpers';
 import { formatDateShort } from '../../common/utils/helpers';
 
@@ -50,7 +50,6 @@ class VeteranBenefitSummaryLetter extends React.Component {
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
             {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
-            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>
@@ -59,38 +58,39 @@ class VeteranBenefitSummaryLetter extends React.Component {
     });
 
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
-    const optionsToInclude = this.props.optionsToInclude;
+    const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
-    _.forIn((value, key) => {
-      const optionText = veteranBenefitSummaryOptionText(key, value);
+    Object.keys(benefitInfo).forEach(key => {
+      // For some options, the customization checkbox is only displayed
+      // if the benefit information value is not false. For others, the
+      // customization checkbox is always displayed.
+      const value = benefitInfo[key];
+      const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
+      const optionText = getBenefitOptionText(key, value, true);  // for now, assume user is a veteran
 
-      // There are 2 conditions this is checking for
-      // 1. If the current benefit is not in the option text list from helpers,
-      // it means this benefit is not for veterans, and therefore it shouldn't
-      // be displayed.
-      // 2. If the value of the current benefit is false, we don't want to
-      // display it. Values can be either true, false, or some other value,
-      // which is why we're checking that it's not false.
-      if (optionText && value !== false) {
+      // Currently, if the benefit key is not in bnefitOptionText
+      // the benefit is not for veterans and should not be displayed. This
+      // will change once we support both dependent and veteran useres.
+      if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
             <th scope="row">
               <input
                   aria-labelledby={`${key}Label`}
                   autoComplete="false"
-                  checked={optionsToInclude[key]}
+                  checked={requestOptions[benefitOptionsMap[key]]}
                   id={key}
                   name={key}
                   type="checkbox"
                   onChange={this.handleChange}/>
             </th>
-            <td><label id={`${key}Label`}>{veteranBenefitSummaryOptionText(key, value)}</label></td>
+            <td><label id={`${key}Label`}>{getBenefitOptionText(key, value)}</label></td>
           </tr>
         );
       }
-    }, benefitInfo);
+    });
 
     if (this.props.optionsAvailable) {
       vaBenefitInformation = (
@@ -130,7 +130,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
         <div className="form-checkbox">
           <input
               autoComplete="false"
-              checked={optionsToInclude.militarySevice}
+              checked={requestOptions.militaryService}
               id="militaryService"
               name="militaryService"
               type="checkbox"
@@ -178,7 +178,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo
     },
     optionsAvailable: letterState.optionsAvailable,
-    optionsToInclude: letterState.optionsToInclude
+    requestOptions: letterState.requestOptions
   };
 }
 

@@ -1,5 +1,8 @@
 import _ from 'lodash/fp';
-// import { benefitOptionsMap } from '../utils/helpers';
+import {
+  benefitOptionsMap,
+  optionsToAlwaysDisplay
+} from '../utils/helpers';
 
 const initialState = {
   letters: [],
@@ -8,17 +11,14 @@ const initialState = {
   benefitInfo: {},
   serviceInfo: [],
   optionsAvailable: false,
-  optionsToInclude: {}
+  requestOptions: {}
 };
 
 function letters(state = initialState, action) {
-  let options = {};
-
-  let letterList;
   switch (action.type) {
-    case 'GET_LETTERS_SUCCESS':
+    case 'GET_LETTERS_SUCCESS': {
       // Hard-code a few extra letters for usability testing purposes. Revert after testing.
-      letterList = action.data.data.attributes.letters;
+      let letterList = action.data.data.attributes.letters;
       if (_.findIndex({ letterType: 'medicare_partd' }, letterList) < 0) {
         letterList = _.concat(letterList, [{
           name: 'Proof of Creditable Prescription Drug Coverage Letter',
@@ -39,38 +39,45 @@ function letters(state = initialState, action) {
         destination: action.data.meta.address,
         lettersAvailability: 'available'
       };
+    }
     case 'GET_LETTERS_FAILURE':
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
       return set('lettersAvailability', 'unavailable', state);
-    case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS':
-      // Create object for which options to include in the benefit summary letter POST
-      // request body, and initialize all options to true so they appear checked in the UI.
-      // If the value of the benefit option is anything but false, the user is
-      // eligible for that value, so so the request body option is set to true.
-      // Otherwise, the request body option is set to false.
+    case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS': {
+      // Gather all possible displayed options that the user may have toggled on/off.
+      const benefitInfo = action.data.data.attributes.benefitInformation;
+      const possibleOptions = [];
+      Object.keys(benefitInfo).forEach(key => {
+        if (optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false) &&
+            !possibleOptions.includes[key]) {
+          possibleOptions.push(key);
+        }
+      });
 
-
-      // plus 'militaryService'
-      options = _.mapValues((value) => {
-        return value !== false;
-      }, action.data.data.attributes.benefitInformation);
-      // WIP: not quite a zip
-      // options = _.zipObject(_.values(benefitOptionsMap),
+      // Initialize the benefit summary letter POST request body by setting mapping
+      // each option in possibleOptions to its corresponding request option key.
+      // Set all request body options to true so that on page load, all options
+      // are checked.
+      const requestOptions = { militaryService: true };
+      _.forEach((option) => {
+        requestOptions[benefitOptionsMap[option]] = true;
+      }, possibleOptions);
 
       return {
         ...state,
         benefitInfo: action.data.data.attributes.benefitInformation,
         serviceInfo: action.data.data.attributes.militaryService,
         optionsAvailable: true,
-        optionsToInclude: options
+        requestOptions
       };
+    }
     case 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE':
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
       return _.set('optionsAvailable', false, state);
     case 'UPDATE_BENEFIT_SUMMARY_OPTION':
-      return _.set(['optionsToInclude', action.propertyPath], action.value, state);
+      return _.set(['requestOptions', action.propertyPath], action.value, state);
     default:
       return state;
   }

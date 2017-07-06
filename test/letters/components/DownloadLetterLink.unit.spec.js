@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
+// import sinon from 'sinon';
 
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 
@@ -10,13 +10,13 @@ const defaultProps = {
   letterType: 'commissary'
 };
 
+/*
 let oldWindow;
 let oldFetch;
 
 // TODO: fix this warning and improve test coverage for various scenarios:
 //   UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1):
 //   TypeError: Cannot read property 'ok' of undefined"
-
 const setup = () => {
   oldFetch = global.fetch;
   oldWindow = global.window;
@@ -40,6 +40,7 @@ const teardown = () => {
   global.window = oldWindow;
   global.fetch = oldFetch;
 };
+*/
 
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
