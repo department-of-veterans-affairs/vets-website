@@ -4,7 +4,7 @@ template: detail-page
 title: Find a Cemetery or Gravesite
 display_title: Find a Cemetery
 collection: burials
-order: 5
+order: 7
 ---
 
 <div class="va-introtext">

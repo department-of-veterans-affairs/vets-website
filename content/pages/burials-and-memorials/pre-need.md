@@ -3,7 +3,9 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery Application Process
 display_title: Pre-Need Eligibility Determination Application Process
-order: 1
+collection: burials
+children: burialsPreNeed
+order: 2
 majorlinks: 
   - heading: 
     links: 

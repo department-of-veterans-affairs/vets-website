@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Handling Burial Costs (Allowances)
 display_title: Handling Burial Costs
+order: 1
 ---
 
 <div class="va-introtext">

@@ -157,11 +157,18 @@ smith.use(collections({
       name: 'Burials and Memorials'
     }
   },
-  burialsEligibility: {
-    pattern: 'burials-and-memorials/eligibility/*.md',
+  burialsHonor: {
+    pattern: 'burials-and-memorials/honor/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Honor a Deceased Veteran'
+    }
+  },
+  burialsPreNeed: {
+    pattern: 'burials-and-memorials/pre-need/*.md',
     sortBy: 'title',
     metadata: {
-      name: 'Eligibility'
+      name: 'Pre-Need Determination'
     }
   },
   burialsPlanning: {
@@ -172,7 +179,7 @@ smith.use(collections({
   },
   burialsSurvivors: {
     pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
-    sortBy: 'title',
+    sortBy: 'order',
     metadata: {
       name: 'Survivor and Dependent Benefits'
     }

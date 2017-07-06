@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Compensation for Survivors and Dependents
 display_title: Compensation
+order: 2
 ---
 
 <div class="va-introtext">

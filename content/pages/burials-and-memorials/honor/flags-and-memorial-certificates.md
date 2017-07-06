@@ -4,6 +4,7 @@ template: detail-page
 title: Burial Flags and Presidential Memorial Certificates
 display_title: Flags and Memorial Certificates
 collection: burialsPlanning
+order: 2
 concurrence: incomplete
 ---
 

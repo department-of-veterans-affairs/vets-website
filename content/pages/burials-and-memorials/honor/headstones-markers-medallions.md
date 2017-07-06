@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Headstones, Markers, Niche Covers, and Medallions
 collection: burialsPlanning
+order: 1
 concurrence: incomplete
 ---
 
