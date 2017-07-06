@@ -14,7 +14,7 @@ You have the right to appeal any disability benefits decision made by the Vetera
 
 <div class="feature" markdown="0">
 
-### Have you already filed an appeal?
+#### Have you already filed an appeal?
 
 When the Regional Office (RO) receives your Notice of Disagreement (NOD), you'll be able to check the status of your appeal on Vets.gov.
 
@@ -29,7 +29,7 @@ The process has many steps that can repeat themselves
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. To file an NOD, fill out and turn in VA Form 21-0958.
+        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. To file an NOD, fill out and turn in <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">VA Form 21-0958</a>.
       </p>
     </div>
   </li>
@@ -66,7 +66,7 @@ The process has many steps that can repeat themselves
   <li class="list-group-item">
     <h4>(Optional) Hearing</h4>
     <p>
-      If you request a Board hearing, you will get a letter at least 30 days before your hearing is scheduled. Learn more about hearings.
+      If you request a Board hearing, you will get a letter at least 30 days before your hearing is scheduled. <a href="#">Learn more about hearings.</a>
     </p>
   </li>
   <li class="list-group-item">

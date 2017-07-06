@@ -91,3 +91,9 @@ export const directDepositWarning = (
 
 export const applicantDescription = <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>;
 
+export const otherExpensesWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span><strong>Note:</strong> At the end of the application, you will be asked to upload all receipts for any medical, legal, or other unreimbursed expenses you incurred.</span>
+  </div>
+);
+
