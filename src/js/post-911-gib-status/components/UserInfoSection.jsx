@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InfoPair from './InfoPair';
 
 import { formatDateShort } from '../../common/utils/helpers';
-import { formatPercent } from '../utils/helpers';
+import { formatPercent, formatVAFilNumber } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -78,7 +78,7 @@ class UserInfoSection extends React.Component {
           {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
           <InfoPair
               label="VA file number"
-              value={enrollmentData.vaFileNumber}
+              value={formatVAFilNumber(enrollmentData.vaFileNumber)}
               spacingClass="section-line"/>
           <InfoPair
               label="Regional processing office"
