@@ -26,6 +26,6 @@ relatedlinks:
 
 <div class="va-introtext">
 
-We give the survivors, children, and parents of deceased Veterans and Servicemembers a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service.
+We give the surviving spouses, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the deceased's funeral service.
 
 </div>
