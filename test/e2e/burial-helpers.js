@@ -24,6 +24,19 @@ function completeVeteranInformation(client, data) {
     .fill('input[name="root_placeOfBirth"]', data.placeOfBirth);
 }
 
+function completeBurialInformation(client, data) {
+  client
+    .fillDate('root_deathDate', data.deathDate)
+    .fillDate('root_burialDate', data.burialDate)
+    .selectRadio('root_locationOfDeath_location', data.locationOfDeath.location);
+
+  if (data.locationOfDeath === 'other') {
+    client
+      .waitForElementVisible('input[name="root_locationOfDeath_other"]', Timeouts.normal)
+      .fill('input[name="root_locationOfDeath_other"]', data.locationOfDeath.other);
+  }
+}
+
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -154,6 +167,7 @@ function initSaveInProgressMock(url, client) {
 module.exports = {
   completeClaimantInformation,
   completeVeteranInformation,
+  completeBurialInformation,
   initApplicationSubmitMock,
   initSaveInProgressMock
 };

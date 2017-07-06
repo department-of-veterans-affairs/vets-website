@@ -34,7 +34,18 @@ module.exports = E2eHelpers.createE2eTest(
     PageHelpers.completeVeteranInformation(client, testData.data);
     client.axeCheck('.main')
     .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
+    // This expects the url to not contain 'veteran-information', but when we
+    //  navigate away properly, the new url is 'veteran-information/burial', so
+    //  it fails when it shouldn't.
+    // E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
+
+    // Burial Information page
+    client.waitForElementVisible('input[name="root_deathDateYear"]', Timeouts.normal);
+    PageHelpers.completeBurialInformation(client, testData.data);
+    client.axeCheck('.main')
+    .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/burial');
+
 
     // // Review and Submit Page.
     // client

@@ -184,8 +184,8 @@ const formConfig = {
           title: 'Burial information',
           path: 'veteran-information/burial',
           uiSchema: {
-            burialDate: currentOrPastDateUI('Date of burial (includes cremation or interment)'),
             deathDate: currentOrPastDateUI('Date of death'),
+            burialDate: currentOrPastDateUI('Date of burial (includes cremation or interment)'),
             locationOfDeath: {
               location: {
                 'ui:title': 'Where did the Veteran’s death occur?',
