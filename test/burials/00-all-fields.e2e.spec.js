@@ -77,6 +77,24 @@ module.exports = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits/burial-allowance');
     }
 
+    // Plot Allowance page -- conditional
+    if (testData.data['view:claimedBenefits'].plotAllowance) {
+      client.waitForElementVisible('input[name="root_placeOfRemains"]', Timeouts.normal);
+      PageHelpers.completePlotAllowance(client, testData.data);
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
+    }
+
+    // TODO: Test file upload if (testData.data['view:claimedBenefits'].transportation)
+
+    // Additional Information page
+    // client.waitForElementVisible('select[name="root_claimantAddress_country"]', Timeouts.normal);
+    // PageHelpers.completePlotAllowance(client, testData.data);
+    // client.axeCheck('.main')
+    //   .click('.form-panel .usa-button-primary');
+    // E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
+
     // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
     // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
 

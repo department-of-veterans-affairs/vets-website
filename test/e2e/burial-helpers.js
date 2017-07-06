@@ -96,11 +96,20 @@ function completeBurialAllowance(client, data) {
   }
 }
 
-// function completePlotAllowance(client, data) {
-//   client
-//     .fill('input[name="root_placeOfRemains"]', data.placeOfRemains)
-//     .selectYesNo('root_federalCemetery', data.)
-// }
+function completePlotAllowance(client, data) {
+  client
+    .fill('input[name="root_placeOfRemains"]', data.placeOfRemains)
+    .selectYesNo('root_federalCemetery', data.federalCemetery);
+
+  if (!data.federalCemetery) {
+    client.selectYesNo('root_stateCemetery', data.stateCemetery);
+  }
+
+  client.selectYesNo('root_govtContributions', data.govtContributions);
+  if (data.govtContributions) {
+    client.fill('input[name="root_amountGovtContribution"]', data.amountGovtContribution);
+  }
+}
 
 
 function initApplicationSubmitMock() {
@@ -237,7 +246,7 @@ module.exports = {
   completePreviousNames,
   completeBenefitSelection,
   completeBurialAllowance,
-  // completePlotAllowance,
+  completePlotAllowance,
 
   initApplicationSubmitMock,
   initSaveInProgressMock
