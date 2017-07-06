@@ -79,11 +79,7 @@ function sortList(list, sortProperty) {
     return sortPropertyFn[sortProperty](el);
   };
 
-  return _.orderBy(
-    [
-      sortFunc,
-      'id'
-    ], sortOrder, list);
+  return _.orderBy([sortFunc, 'id'], sortOrder, list);
 }
 
 function getVisibleRows(list, currentPage) {
