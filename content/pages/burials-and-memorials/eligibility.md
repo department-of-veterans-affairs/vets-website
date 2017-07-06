@@ -47,7 +47,7 @@ After your death, the person arranging your burial can also request additional h
 
 ### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
 
-We give the surviving spouses, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 -------
 
