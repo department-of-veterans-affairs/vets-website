@@ -5224,12 +5224,13 @@ metalsmith-better-excerpts@^0.1.7:
     lodash "^3.10.1"
     underscore.string "^3.1.1"
 
-metalsmith-broken-link-checker@^0.1.10:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/metalsmith-broken-link-checker/-/metalsmith-broken-link-checker-0.1.11.tgz#fd09cf9f60dd22ce2ecb244abf0c9bb6cb43ff46"
+metalsmith-broken-link-checker@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/metalsmith-broken-link-checker/-/metalsmith-broken-link-checker-1.0.1.tgz#f12b88d606027f0a390a73441d8066a048096569"
   dependencies:
     cheerio "^0.22.0"
-    urijs "^1.17.0"
+    ramda "^0.23.0"
+    urijs "^1.18.10"
 
 metalsmith-collections@^0.7.0:
   version "0.7.0"
@@ -6586,6 +6587,10 @@ quick_check@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/quick_check/-/quick_check-0.7.0.tgz#72fde559ccff4ad90292c96183e9e4b8bae6d014"
 
+ramda@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
+
 randomatic@^1.1.3:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.6.tgz#110dcabff397e9dcff7c0789ccc0a49adf1ec5bb"
@@ -7787,7 +7792,7 @@ supports-color@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-1.2.0.tgz#ff1ed1e61169d06b3cf2d588e188b18d8847e17e"
 
-supports-color@3.1.2, supports-color@^3.1.0:
+supports-color@3.1.2, supports-color@^3.1.0, supports-color@^3.1.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -7801,7 +7806,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.1, supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
@@ -8183,7 +8188,7 @@ unzip-response@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-1.0.2.tgz#b984f0877fc0a89c2c773cc1ef7b5b232b5b06fe"
 
-urijs@^1.17.0:
+urijs@^1.18.10:
   version "1.18.10"
   resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.18.10.tgz#b94463eaba59a1a796036a467bb633c667f221ab"
 

@@ -18,6 +18,12 @@ export class RequiredTermsAcceptanceView extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.termsNeeded !== this.props.termsNeeded) {
+      window.scrollTo(0, 0);
+    }
+  }
+
   render() {
     const { terms, topContent } = this.props;
     const enabled = this.props.isDataAvailable === true || typeof this.props.isDataAvailable === 'undefined';

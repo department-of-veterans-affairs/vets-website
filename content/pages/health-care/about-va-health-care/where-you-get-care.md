@@ -4,7 +4,7 @@ template: detail-page
 title: Where You’ll Get Care
 display_title: 
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2017-07-06
 order: 2
 relatedlinks:
   - heading: More information about your benefits
@@ -40,20 +40,20 @@ Care settings may include:
 - **VA medical centers.** These centers offer a range of services:
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
-  - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br />
+  - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br>
 [Find a medical center near you](/facilities/).
 - **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](/facilities/).
-- **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br />
-[Learn more about Vet Centers](http://www.vetcenter.va.gov). <br />
+- **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br>
+[Learn more about Vet Centers](http://www.vetcenter.va.gov). <br>
 [Find a Vet Center near you](/facilities/).
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). [Learn more about assisted living and residential care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. [Learn more about home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
 <br>
 
-#### What if no VA location near me provides the services I need?
+#### What if the nearest VA location can’t provide the services I need?
 
-Your provider will work with you to find the best place to get the care you need. This may mean you’ll need to travel to another VA location. Or, we may give you permission to receive the service in a non-VA community care setting. [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).
+Your VA provider will work with you to make sure you get the care you need. You may need to go to another VA location or to a local VA community care provider. VA community care providers have contracts with us to provide care to Veterans. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
 
@@ -63,7 +63,7 @@ Your provider will work with you to find the best place to get the care you need
 
 **Jump to a section:**
 
-- [Where can I go for care if I live in a rural area far from a VA medical center?](#care-rural-area)
+- [Where do I get care if I live in a rural area, far from a VA medical center?](#care-rural-area)
 - [Where should I go for care in an emergency?](#care-emergency)
 - [What should I do if I move?](#care-if-moving)
 - [What if I need care while traveling? ](#care-while-traveling)
@@ -74,13 +74,23 @@ Your provider will work with you to find the best place to get the care you need
 
 <span id="care-rural-area">
 
-#### Where can I go for care if I live in a rural area far from a VA medical center?
+#### Where do I get care if I live in a rural area, far from a VA medical center?
 
-You may be able to get care at a VA community outpatient clinic or a Mobile Vet Center. [Learn more about Vet Centers](http://www.vetcenter.va.gov).
+You may be able to get care:
+- [At a VA outpatient clinic](/facilities/)
+- [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
+- [Through a VA community care provider](https://www.va.gov/communitycare/)
+- In your own home either:
+  - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
+  - [Remotely through telehealth](https://www.telehealth.va.gov/)
 
-You may also be able to get care from skilled health care workers who’ll come to your home or through telehealth (care provided remotely using special health monitoring equipment and telephone communication). [Learn more about home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
+You may also qualify to receive local community care through the Veterans Choice Program if you:
+- Live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
+- Can’t get an appointment from the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date, the date you’d prefer to be seen next, **or**
+- Have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
+- Face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-If you live more than 40 miles from a VA health care location—or have other travel or location-related barriers to getting care—you may qualify for our Veterans Choice Program. Through this program, you can get care in your community. [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/index.asp).
+[Learn more about the Choice program](https://www.va.gov/opa/choiceact/). 
 
 <br>
 

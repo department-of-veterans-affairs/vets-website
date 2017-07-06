@@ -390,13 +390,14 @@ h6 {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
-  margin: 0 0 1.5em 0;
+  margin: 1.5em 0 1.5em 0;
   min-height: 11em;
 
   p {
     color: inherit !important;
     font: inherit !important;
     margin-bottom: 0;
+    margin-top: 0;
     padding-bottom: .5em;
   }
 
@@ -1461,13 +1462,13 @@ p.info-message {
 }
 .vertical-list-group .list-group-item::before {
   border-radius: 50%;
-  background-color: $color-gray-dark;
+  background-color: #757575;
   content: "";
   display: inline-block;
   float: left;
-  height: 15px;
-  line-height: 15px;
-  margin-left: -29px;
+  height: 12px;
+  line-height: 12px;
+  margin-left: -28px;
   text-align: center;
-  width: 15px;
+  width: 12px;
 }
