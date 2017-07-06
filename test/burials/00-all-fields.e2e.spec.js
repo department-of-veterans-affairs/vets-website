@@ -60,12 +60,22 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
 
+    // Benefit Selection page
     client.waitForElementVisible('label[for$="claimedBenefits"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
     PageHelpers.completeBenefitSelection(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/selection');
+
+    // Burial Allowance page -- conditional
+    if (testData.data['view:claimedBenefits'].burialAllowance) {
+      client.waitForElementVisible('input[name="root_placeOfRemains"]', Timeouts.normal);
+      PageHelpers.completeBurialAllowance(client, testData.data);
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
+    }
 
     // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
     // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');

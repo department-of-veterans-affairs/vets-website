@@ -82,6 +82,26 @@ function completeBenefitSelection(client, data) {
   // }
 }
 
+function completeBurialAllowance(client, data) {
+  client.selectRadio('root_burialAllowanceRequested', data.burialAllowanceRequested);
+
+  if (data.burialAllowanceRequested === 'vaMC') {
+    client.fill('input[name="root_burialCost"]', data.burialCost);
+  }
+
+  if (data.relationship.type === 'spouse') {
+    client.selectYesNo('root_previouslyReceivedAllowance', data.previouslyReceivedAllowance);
+  } else if (data.relationship.type === 'other') {
+    client.selectYesNo('root_benefitsUnclaimedRemains', data.benefitsUnclaimedRemains);
+  }
+}
+
+// function completePlotAllowance(client, data) {
+//   client
+//     .fill('input[name="root_placeOfRemains"]', data.placeOfRemains)
+//     .selectYesNo('root_federalCemetery', data.)
+// }
+
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -216,6 +236,8 @@ module.exports = {
   completeServicePeriods,
   completePreviousNames,
   completeBenefitSelection,
+  completeBurialAllowance,
+  // completePlotAllowance,
 
   initApplicationSubmitMock,
   initSaveInProgressMock
