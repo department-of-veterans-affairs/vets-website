@@ -14,12 +14,25 @@ class Main extends React.Component {
   render() {
     let appContent;
 
-    if (this.props.lettersAvailable) {
+    if (this.props.lettersAvailability === 'available') {
       appContent = this.props.children;
-    } else if (this.props.lettersAvailable === undefined) {
-      appContent = <LoadingIndicator message="Loading your application..."/>;
-    } else {
-      appContent = <div>Warning message: need content for when fetch of data from vets-api fails</div>;
+    } else if (this.props.lettersAvailability === 'awaitingResponse') {
+      appContent = <LoadingIndicator message="Loading your letters..."/>;
+    } else if (this.props.lettersAvailability === 'unavailable') {
+      appContent = (
+        <div>
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <h4 className="usa-alert-heading">Letters Unavailable</h4>
+              <p className="usa-alert-text">
+                We weren't able to retrieve your VA letters. Please call
+                1-855-574-7286 between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+              </p>
+            </div>
+          </div>
+          <br/>
+        </div>
+      );
     }
 
     return (
@@ -35,7 +48,7 @@ function mapStateToProps(state) {
   return {
     letters: letterState.letters,
     destination: letterState.destination,
-    lettersAvailable: letterState.lettersAvailable,
+    lettersAvailability: letterState.lettersAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
