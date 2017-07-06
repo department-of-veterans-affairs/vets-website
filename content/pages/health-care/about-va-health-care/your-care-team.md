@@ -4,7 +4,7 @@ template: detail-page
 title: Your Care Team
 display_title: 
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2017-07-06
 order: 1
 relatedlinks:
   - heading: More information about your benefits
@@ -53,7 +53,7 @@ When you need other services to meet your goals and needs, your team may call ot
 - [How will my health care team work with me](#health-care-team)?
 - [Do I get to choose my primary care provider](#choose-primary-care-provider)?
 - [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
-- [Can I see a non-VA provider for care](#non-va-provider)?
+- [Can I see a local community care provider, paid for by VA?](#non-va-provider)?
 
 <br>
 
@@ -93,18 +93,19 @@ Your health care team will have a plan in place if your primary care provider is
 
 <span id="non-va-provider">
 
-#### Can I see a non-VA provider for care?
+#### Can I see a local community care provider, paid for by VA?
 
-It depends. We may pay for you to receive care from a non-VA provider in some cases, such as when we conclude that:
-
+It depends. We may pay for you to receive care through the VA community care network if: 
 - We can’t provide the services you need, **or**
-- You live too far from a VA center that provides the services, **or**
-- You face certain excessive travel burdens in getting to a VA center that provides the services, **or**
-- You’ve been (or will be) waiting a long time for VA medical care
+- We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
+- You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
+- You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
+- You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-Any non-VA provider and their services must meet our quality standards and be approved by us before they can provide care for you. <br />
-[Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).<br />
-[Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).
+VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you. 
+
+[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp). <br />
+[Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/). 
 
 <br>
 
