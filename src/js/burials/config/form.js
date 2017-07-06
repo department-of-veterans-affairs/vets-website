@@ -430,7 +430,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Claimant contact information',
             firmName: {
-              'ui:title': 'Full name of firm, corporation, or state agency',
+              'ui:title': 'Full name of firm, corporation or state agency',
               'ui:options': {
                 hideIf: form => _.get('relationship.isEntity', form) !== true
               }
