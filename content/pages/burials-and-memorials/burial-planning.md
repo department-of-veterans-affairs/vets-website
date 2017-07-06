@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Planning a Burial for a Family Member
-displaytitle: Planning a Burial for a Family Member 
+title: Plan a Burial for a Family Member
+displaytitle: Plan a Burial for a Family Member 
 collection: burials
 children: burialsPlanning
 order: 2
@@ -13,7 +13,7 @@ relatedlinks:
       title: What to Expect at a Funeral
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
-      title: Survivor and Dependent Benefits
+      title: Survivor Benefits
       description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.  
 ---
 
@@ -40,34 +40,50 @@ To start, you may want to choose a funeral director to help you plan the burial.
 <ol class="process">
 <li class="process-step list-one">
 
-##### Gather these documents and other information you'll need to identify the deceased:
+##### Gather the information and documents you'll need to identify the deceased
 
- - DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
- - Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
- - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
+You'll need:
+
+ - The DD214 or other discharge papers of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
+ 
+You'll also need the deceased's:
+
+ - Full name
+ - Gender
+ - Social Security number or Military Service number (Veteran ID)
+ - Date of birth
+ - Relationship to the Servicemember or Veteran whose military service will be used to decide eligibility
  - Marital status
- - The Veteran’s zip code and county at the time of death
-
+ - Date of death and zip code and county at the time of death
+ - Next-of-kin information, including:
+  - Name
+  - Relationship to the deceased
+  - Social Security number
+  - Phone number
+  - Address
+ 
 You may also need more information in certain cases:
 
-- **If the deceased was married**, you'll also need the surviving spouse’s status as Veteran or family member
+- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember/Veteran or family member
 - **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery
-- **If the deceased is a spouse or a Veteran whose spouse has already died**, you'll need the full name of the family member, cemetery section, and site number
+- **If the deceased is a spouse of a Servicemember or Veteran whose spouse has already died**, you'll need the full name of the spouse who died in the past as well as the cemetery section and site number where they're buried
  
  </li>
  
  <li class="process-step list-two">
 
-##### Decide on the burial details and gather all related information, including:
+##### Decide on the burial details and gather all related information
 
- - Your cemetery of choice <br />
+You'll need to tell us:
+
+ - The cemetery where you'd prefer the deceased to be buried <br />
  [Find A VA national cemetery](/facilities/).<br />
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).   
- - Type of burial: casket or cremation and size of the casket or cremation urn
- - Type of gravesite memorial (such as a headstone or marker)
- - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
+ - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
+ - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/burial-planning/headstones-markers-medallions)
+ - [Whether you'd like military honors, a burial flag, or a Presidential Memorial Certificate for the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates)
  
- [Request gravesite memorials and burial honors](TBD new page)<br/>
+ [Request gravesite memorials and burial honors](TBD new page).<br/>
  [Learn more about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
  
 </li>
@@ -78,7 +94,7 @@ You may also need more information in certain cases:
 
 The funeral director you've chosen can help you with these steps too:
 
- - For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+ - For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line. 
 
  - Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
