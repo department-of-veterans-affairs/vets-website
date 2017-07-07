@@ -171,7 +171,6 @@ s
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} build failed in integration stage", 'danger')
       throw error
-    }
     } finally {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
