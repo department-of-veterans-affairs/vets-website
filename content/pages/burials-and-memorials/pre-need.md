@@ -105,7 +105,7 @@ Get help from an accredited representative (a trained professional trusted to he
 
 You can start your application right now.
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for pre-need eligibility determination</a>
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/">Apply for pre-need eligibility determination</a>
 
 <div markdown="0"><br></div>
 
