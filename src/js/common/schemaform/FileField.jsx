@@ -11,7 +11,6 @@ export default class FileField extends React.Component {
     const files = this.props.formData || [];
     this.state = {
       editing: files.map(() => false),
-      isUploading: false,
       progress: 0
     };
   }
@@ -36,8 +35,9 @@ export default class FileField extends React.Component {
     }
 
     const isUploading = newFiles.some(file => file.uploading);
-    if (isUploading !== this.state.isUploading) {
-      this.setState({ isUploading });
+    const wasUploading = files.some(file => file.uploading);
+    if (isUploading && !wasUploading) {
+      this.setState({ progress: 0 });
     }
   }
 
@@ -55,7 +55,7 @@ export default class FileField extends React.Component {
         this.props.uiSchema['ui:options'],
         this.updateProgress
       )
-        .catch(() => {
+        .then(() => {
           // rather not use the promise here, but seems better than trying to pass
           // a blur function
           this.props.onBlur(this.props.idSchema.$id);
