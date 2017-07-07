@@ -10,7 +10,7 @@ majorlinks:
     links:
     - url: /burials-and-memorials/eligibility/
       title: Eligibility
-      description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
+      description: Find out if you—or a family member—can be buried in a VA national cemetery or get other burial honors.
   - heading: How to Plan in Advance for Your Burial
     links:
     - url: /burials-and-memorials/pre-need/
@@ -22,7 +22,7 @@ majorlinks:
       title: Plan a Burial for a Family Member
       description: Find out the steps you'll need to take to arrange for a family member's burial.
     - url: /burials-and-memorials/honor/
-      title: Honor the Deceased With Memorial Items
+      title: Honor the Deceased with Memorial Items
       description: Find out how to honor the military service of a deceased Servicemember or Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain memorial items as well.
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Learn about Survivor Benefits
