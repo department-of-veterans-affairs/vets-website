@@ -19,6 +19,8 @@ relatedlinks:
 ---
 Find out what happens after you apply for a pre-need eligibility determination for burial in a VA national cemetery.
 
+<br>
+
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
