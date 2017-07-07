@@ -21,10 +21,10 @@ When the Regional Office (RO) receives your Notice of Disagreement (NOD), you'll
 <a class="usa-button-primary" href="/track-claims">Track your appeal</a>
 </div>
 
-<h3 class="no-margin">Appeals Process Overview</h3>
+<h3>Appeals Process Overview</h3>
 The process has many steps that can repeat themselves
 
-<ul class="vertical-list-group">
+<ul class="vertical-list-group more-bottom-cushion">
   <li class="list-group-item">
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>

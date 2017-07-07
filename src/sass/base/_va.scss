@@ -376,10 +376,6 @@ h6 {
   }
 }
 
-h3.no-margin {
-  margin: 0;
-}
-
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {
@@ -1445,7 +1441,7 @@ p.info-message {
 }
 
 .vertical-list-group.more-bottom-cushion {
-  margin-bottom: 2em;
+  margin-bottom: 2.5em;
 }
 
 .vertical-list-group .list-group-item {
@@ -1460,11 +1456,6 @@ p.info-message {
 
   &:last-child {
     border: none;
-  }
-
-  h4 {
-    line-height: 0.7;
-    margin-bottom: 5px;
   }
 }
 
