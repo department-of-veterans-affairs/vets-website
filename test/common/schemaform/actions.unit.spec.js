@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import environment from '../../../src/js/common/helpers/environment.js';
 
 import {
   setData,
@@ -17,7 +16,7 @@ import {
   uploadFile
 } from '../../../src/js/common/schemaform/actions';
 
-describe.only('Schemaform actions:', () => {
+describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
       const data = {};
@@ -195,55 +194,25 @@ describe.only('Schemaform actions:', () => {
       });
     });
   });
-  describe.only('uploadFile', () => {
+  describe('uploadFile', () => {
     let xhr;
+    let requests = [];
+
     beforeEach(() => {
       global.FormData = sinon.stub().returns({
         append: sinon.spy()
       });
-      xhr = sinon.useFakeXMLHttpRequest;
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = (req) => {
+        requests.push(req);
+      };
     });
 
     afterEach(() => {
       delete global.FormData;
       global.XMLHttpRequest = window.XMLHttpRequest;
       xhr.restore();
-    });
-
-    it('should set uploading', (done) => {
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 0
-        },
-        ['fileField', 0],
-        {
-          fileTypes: ['jpg'],
-          maxSize: 5
-        }
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {}
-        }
-      });
-
-      thunk(dispatch, getState).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                uploading: true
-              }
-            ]
-          }
-        });
-        done();
-      }).catch(err => {
-        done(err);
-      });
+      requests = [];
     });
 
     it('should reject if file is too big', (done) => {
@@ -319,7 +288,7 @@ describe.only('Schemaform actions:', () => {
       });
     });
 
-    it.only('should call set data on success', () => {
+    it('should call set data on success', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
@@ -339,24 +308,13 @@ describe.only('Schemaform actions:', () => {
         }
       });
 
-      mock.post(`${environment.API_URL}/v0/endpoint`, (req, res) => {
-        return res.status(200).body(JSON.stringify({
-          data: {
-            attributes: {
-              name: 'Test name',
-              size: 1234,
-              confirmationCode: 'Test code'
-            }
-          }
-        }));
-      });
-
-      return thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
             fileField: [
               {
+                name: 'jpg',
                 uploading: true
               }
             ]
@@ -375,7 +333,20 @@ describe.only('Schemaform actions:', () => {
           }
         });
       });
+
+      requests[0].respond(200, null, JSON.stringify({
+        data: {
+          attributes: {
+            name: 'Test name',
+            size: 1234,
+            confirmationCode: 'Test code'
+          }
+        }
+      }));
+
+      return promise;
     });
+
     it('should set error on failure', () => {
       const thunk = uploadFile(
         {
@@ -394,22 +365,14 @@ describe.only('Schemaform actions:', () => {
           data: {}
         }
       });
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: false,
-            status: 400,
-            statusText: 'bad request'
-          }
-        )
-      });
 
-      return thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
             fileField: [
               {
+                name: 'jpg',
                 uploading: true
               }
             ]
@@ -420,12 +383,63 @@ describe.only('Schemaform actions:', () => {
           data: {
             fileField: [
               {
-                errorMessage: 'bad request'
+                errorMessage: 'Bad Request'
               }
             ]
           }
         });
       });
+
+      requests[0].respond(400);
+
+      return promise;
+    });
+    it('should set error on network issue', () => {
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          fileTypes: ['jpg'],
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      const promise = thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                name: 'jpg',
+                uploading: true
+              }
+            ]
+          }
+        });
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'Network request failed'
+              }
+            ]
+          }
+        });
+      });
+
+      requests[0].error();
+
+      return promise;
     });
   });
 });

@@ -144,7 +144,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
     payload.append('file', file);
     payload.append('form_id', getState().form.formId);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const req = new XMLHttpRequest();
 
       req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
@@ -167,7 +167,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
             }, getState().form.data))
           );
           Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
-          reject(req.statusText);
+          resolve();
         }
       });
 
@@ -183,7 +183,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
             statusText: req.statusText
           }
         });
-        reject(errorMessage);
+        resolve();
       });
 
       req.addEventListener('abort', () => {
@@ -193,7 +193,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
           }, getState().form.data))
         );
         Raven.captureMessage('vets_upload_error: Upload aborted');
-        reject();
+        resolve();
       });
 
       req.upload.addEventListener('progress', (evt) => {
