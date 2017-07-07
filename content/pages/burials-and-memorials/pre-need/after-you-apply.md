@@ -63,6 +63,25 @@ We'll also keep a copy of your letter and supporting documents in our system to 
 
 <br>
 
+#### Will my family have to pay for my burial?
+
+No. If you qualify for burial in a VA national cemetery, you’ll receive burial benefits at no cost to your family. These include:
+
+- Opening and closing of the grave
+- A government-furnished burial liner
+- A government-furnished headstone or marker
+- Perpetual (ongoing) care of the gravesite
+
+After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-and-memorials/honor/).
+
+If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help with paying for funeral costs. [Learn more about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+
+<br>
+
+#### What if I need to update my information in the future?
+
+Call our toll-free hotline at 877-222-VETS (<a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+
 ### What happens if VA decides I don't qualify for burial in a VA national cemetery?
 
 We'll send you a denial decision letter explaining the reasons or basis of our denial.
