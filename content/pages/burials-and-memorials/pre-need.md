@@ -70,7 +70,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 ### What documents and information do I need to apply?
 
-Whether or not you qualify for burial in a VA national cemetery is based on your service history—or the service history of the Servicemember or Veteran who's sponsoring your application for burial as a spouse, surviving spouse, or unmarried adult child. 
+We base our decision of whether or not you qualify for burial in a VA national cemetery on your service history—or the service history of the Servicemember or Veteran who's sponsoring your application for burial as a spouse, surviving spouse, or unmarried adult child. 
 
 To apply, you’ll need your (or your sponsor's):
 
@@ -86,6 +86,16 @@ To apply, you’ll need your (or your sponsor's):
 - **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your information, including your Social Security number.
 - **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
 - **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
+
+<br>
+
+### What if I need help filling out my application forms?
+
+Call our toll-free hotline at 877-222-VETS ( <a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+
+[Or, find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 
@@ -139,4 +149,3 @@ Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-82
 </div>
 
 <div markdown="0"><br></div>
-
