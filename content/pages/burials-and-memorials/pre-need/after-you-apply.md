@@ -31,6 +31,8 @@ The amount of time it takes to review your application depends on:
 - How much information you've provided in your application, **and**
 - Whether you provided your (or your sponsor's) DD214 or other separation documents along with your application
 
+<br>
+
 #### What should I do while I wait?
 
 You don't need to do anything while you wait. We'll contact you if we need more information to make a decision. 
@@ -81,6 +83,8 @@ If you're a Veteran, your surviving spouse or other family members may also qual
 #### What if I need to update my information in the future?
 
 Call our toll-free hotline at 877-222-VETS (<a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+
+<br>
 
 ### What happens if VA decides I don't qualify for burial in a VA national cemetery?
 
