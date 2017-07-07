@@ -34,7 +34,7 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 - A government-furnished headstone or marker
 - Perpetual (ongoing) care of the gravesite
 
-After your death, the person arranging your burial can also request additional honors and memorials. These may include a:
+After your death, the person planning your burial can also request other honors and memorials. These may include a:
 - [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/honor/flags-and-memorial-certificates/)
 - [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/honor/flags-and-memorial-certificates/)
 - [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/) 
