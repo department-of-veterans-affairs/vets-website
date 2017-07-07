@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import environment from '../../../src/js/common/helpers/environment.js';
 
 import {
   setData,
@@ -16,7 +17,7 @@ import {
   uploadFile
 } from '../../../src/js/common/schemaform/actions';
 
-describe('Schemaform actions:', () => {
+describe.only('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
       const data = {};
@@ -194,31 +195,30 @@ describe('Schemaform actions:', () => {
       });
     });
   });
-  describe('uploadFile', () => {
-    let fetchMock;
-    let oldFetch;
-
+  describe.only('uploadFile', () => {
+    let xhr;
     beforeEach(() => {
       global.FormData = sinon.stub().returns({
         append: sinon.spy()
       });
-      oldFetch = global.fetch;
-      fetchMock = sinon.stub().returns(Promise.resolve());
-      global.fetch = fetchMock;
+      xhr = sinon.useFakeXMLHttpRequest;
     });
 
     afterEach(() => {
       delete global.FormData;
-      global.fetch = oldFetch;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
     });
 
     it('should set uploading', (done) => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 0
         },
         ['fileField', 0],
         {
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
@@ -249,10 +249,12 @@ describe('Schemaform actions:', () => {
     it('should reject if file is too big', (done) => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 10
         },
         ['fileField', 0],
         {
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
@@ -283,11 +285,13 @@ describe('Schemaform actions:', () => {
     it('should reject if file is too small', (done) => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 1
         },
         ['fileField', 0],
         {
           minSize: 5,
+          fileTypes: ['jpg'],
           maxSize: 8
         }
       );
@@ -315,13 +319,16 @@ describe('Schemaform actions:', () => {
       });
     });
 
-    it('should call set data on success', () => {
+    it.only('should call set data on success', () => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 0
         },
         ['fileField', 0],
         {
+          endpoint: '/v0/endpoint',
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
@@ -331,22 +338,17 @@ describe('Schemaform actions:', () => {
           data: {}
         }
       });
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve({
-              data: {
-                attributes: {
-                  name: 'Test name',
-                  size: 1234,
-                  confirmationCode: 'Test code'
-                }
-              }
-            })
+
+      mock.post(`${environment.API_URL}/v0/endpoint`, (req, res) => {
+        return res.status(200).body(JSON.stringify({
+          data: {
+            attributes: {
+              name: 'Test name',
+              size: 1234,
+              confirmationCode: 'Test code'
+            }
           }
-        )
+        }));
       });
 
       return thunk(dispatch, getState).then(() => {
@@ -377,10 +379,12 @@ describe('Schemaform actions:', () => {
     it('should set error on failure', () => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 0
         },
         ['fileField', 0],
         {
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
