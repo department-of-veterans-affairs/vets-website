@@ -52,7 +52,7 @@ node('vets-website-linting') {
       dockerImage = docker.build("vets-website:${imageTag}")
       args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in setup stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
       throw error
     }
   }
@@ -65,7 +65,7 @@ node('vets-website-linting') {
         sh "cd /application && nsp check"
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in security stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in security stage!", 'danger')
       throw error
     }
   }
@@ -78,7 +78,7 @@ node('vets-website-linting') {
         sh "cd /application && npm --no-color run lint"
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in lint stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint stage!", 'danger')
       throw error
     }
   }
@@ -90,7 +90,7 @@ node('vets-website-linting') {
         sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in unit stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in unit stage!", 'danger')
       throw error
     }
   }
@@ -107,7 +107,7 @@ node('vets-website-linting') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in review stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
       throw error
     }
   }
@@ -144,7 +144,7 @@ node('vets-website-linting') {
   
       parallel build
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in build stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
       throw error
     }
 s
@@ -169,7 +169,7 @@ s
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in integration stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
       throw error
     } finally {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
@@ -210,7 +210,7 @@ s
   
       parallel builds
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} build failed in deploy stage", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
       throw error
     }
   }
