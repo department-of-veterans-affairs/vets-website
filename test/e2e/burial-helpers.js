@@ -127,8 +127,13 @@ function initApplicationSubmitMock() {
     path: '/v0/burial_claims',
     verb: 'post',
     value: {
-      formSubmissionId: '123fake-submission-id-567',
-      timestamp: '2016-05-16'
+      data: {
+        attributes: {
+          regionalOffice: [],
+          confirmationNumber: '123fake-submission-id-567',
+          submittedAt: '2016-05-16'
+        }
+      }
     }
   });
 }
@@ -136,14 +141,7 @@ function initApplicationSubmitMock() {
 function initSaveInProgressMock(url, client) {
   const token = LoginHelpers.getUserToken();
 
-  mock(null, {
-    path: '/v0/burial_claims',
-    verb: 'post',
-    value: {
-      formSubmissionId: '123fake-submission-id-567',
-      timestamp: '2016-05-16'
-    }
-  });
+  initApplicationSubmitMock();
 
   /* eslint-disable camelcase */
   mock(token, {
