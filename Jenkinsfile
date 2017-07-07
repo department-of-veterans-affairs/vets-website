@@ -27,7 +27,7 @@ def buildDetails = { vars ->
 def notify = { message, color='good' -> 
     if (env.BRANCH_NAME == 'master' || 
         env.BRANCH_NAME == 'production' || 
-        env.BRANCH_NAME == 'pv-jenkins-notify-error) {
+        env.BRANCH_NAME == 'pv-jenkins-notify-error') {
         slackSend message: message,
                   color: color,
                   failOnError: true
