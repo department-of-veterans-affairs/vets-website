@@ -35,23 +35,23 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 - Perpetual (ongoing) care of the gravesite
 
 After your death, the person arranging your burial can also request additional honors and memorials. These may include a:
-- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/burial-planning/flags-and-memorial-certificates)
-- [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/burial-planning/flags-and-memorial-certificates)
-- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/burial-planning/headstones-markers-medallions) 
+- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/honor/flags-and-memorial-certificates/)
+- [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/honor/flags-and-memorial-certificates/)
+- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/) 
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
-[Learn about memorials and burial honors](TBD - page to be added).
+[Learn about memorials and burial honors](/burials-and-memorials/honor/).
 
 <br>
 
 ### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
 
-We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 -------
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/eligibility/pre-need/).
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/pre-need/).
 
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](http://www.cem.va.gov/cem/cems/listcem.asp).
