@@ -22,7 +22,11 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 </div>
 
+<br>
+
 ### How do I plan a burial for a family member who's just died?
+
+<br>
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
 
@@ -43,11 +47,11 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You'll need:
 
- - The DD214 or other discharge papers of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  
 You'll need the deceased's:
 
- - Full name
+ - Name
  - Gender
  - Social Security number or Military Service number (Veteran ID)
  - Date of birth
@@ -81,10 +85,10 @@ You'll need to tell us:
  [Find A VA national cemetery](/facilities/).<br />
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).   
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
- - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/burial-planning/headstones-markers-medallions)
- - [Whether you'd like military honors, a burial flag, or a Presidential Memorial Certificate for the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates)
+ - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
+ - [Whether you'd like military honors, a burial flag, or a Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
  
- [Request gravesite memorials and burial honors](TBD new page).<br/>
+ [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
  [Learn more about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
  
 </li>
@@ -98,6 +102,8 @@ The funeral director you've chosen can help you with these steps too:
 - For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line. 
 
 - Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
+
+<br>
 
 ### Can I get information about the Burial at Sea program?
 
