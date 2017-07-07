@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
 FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
@@ -60,7 +61,25 @@ function filterList(list, filter) {
 
 function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
-  return _.orderBy([sortPropertyFn[sortProperty], 'id'], sortOrder, list);
+  const sortFunc = (el) => {
+    if (el.type === 'appeals_status_models_appeals') {
+      const events = _.orderBy([e => moment(e.date).unix()], 'desc', el.attributes.events);
+      const lastEvent = events[0];
+      const firstEvent = events[events.length - 1];
+
+      switch (sortProperty) {
+        case 'phaseChangeDate':
+          return moment(lastEvent.date).unix();
+        case 'dateFiled':
+          return moment(firstEvent.date).unix();
+        default:
+          break;
+      }
+    }
+    return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
+  };
+
+  return _.orderBy([sortFunc, 'id'], sortOrder, list);
 }
 
 function getVisibleRows(list, currentPage) {

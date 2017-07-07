@@ -165,7 +165,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         description: <div>
           <p>The Board has made a decision on each issue within your appeal and all or some of the issues have been remanded. This means the Veterans Law Judge who reviewed your appeal needs more information before making a decision on all or some of the issues.</p>
           <p>On average, about 54% of issues in appeals get remanded. The Board has sent your appeal to the Veterans Benefits Administration (VBA) to add any relevant information to your case. If a physical exam was requested, VBA will reach out to you. If your appeal is not granted during the VBA review, a Supplemental Statement of the Case (SSOC) will be developed and sent to the Board.</p>
-          <p>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</p>
+          <p><strong>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</strong></p>
         </div>
       }
     },

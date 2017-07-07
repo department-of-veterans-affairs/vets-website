@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 const initialState = {
   letters: [],
   destination: {},
-  lettersAvailable: false,
+  lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
   serviceInfo: [],
   optionsAvailable: false,
@@ -38,12 +38,12 @@ function letters(state = initialState, action) {
         ...state,
         letters: letterList,
         destination: action.data.meta.address,
-        lettersAvailable: true
+        lettersAvailability: 'available'
       };
     case 'GET_LETTERS_FAILURE':
       // We are currently ignoring this; consider removing once we're sure we've handled
       // the various error scenarios
-      return set('lettersAvailable', false, state);
+      return set('lettersAvailability', 'unavailable', state);
     case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS':
       // Create object for which options to include in post for summary letter
       // Default all options to true so they appear checked in the UI

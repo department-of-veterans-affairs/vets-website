@@ -49,7 +49,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         <h5 className="usa-alert-heading">Recently closed:</h5>
         {closedClaims.map(claim => (
           <p className="usa-alert-text claims-closed-text" key={claim.id}>
-            <Link to={`your-claims/${claim.id}/status`}>Your {claim.type === 'appeals_status_models_appeals' ? 'Compensation Appeal' : getClaimType(claim)} – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</Link> has been closed as of {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
+            <Link to={claim.type === 'appeals_status_models_appeals' ? `appeals/${claim.id}/status` : `your-claims/${claim.id}/status`}>Your {claim.type === 'appeals_status_models_appeals' ? 'Compensation Appeal' : getClaimType(claim)} – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</Link> has been closed as of {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
           </p>
         ))}
       </div>

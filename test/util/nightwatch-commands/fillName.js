@@ -1,12 +1,12 @@
 /**
  * Fills the name form elements.
  */
-exports.command = function fillName(schemaformBaseName, name) {
+exports.command = function fillName(baseName, name) {
   this
-    .fill(`input[name="${schemaformBaseName}_first"]`, name.first)
-    .fill(`input[name="${schemaformBaseName}_middle"]`, name.middle)
-    .fill(`input[name="${schemaformBaseName}_last"]`, name.last)
-    .selectDropdown(`${schemaformBaseName}_suffix`, name.suffix);
+    .fill(`input[name="${baseName}_first"]`, name.first)
+    .fill(`input[name="${baseName}_middle"]`, name.middle)
+    .fill(`input[name="${baseName}_last"]`, name.last)
+    .selectDropdown(`${baseName}_suffix`, name.suffix);
 
   return this;
 };

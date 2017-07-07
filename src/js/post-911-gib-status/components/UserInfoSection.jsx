@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InfoPair from './InfoPair';
 
 import { formatDateShort } from '../../common/utils/helpers';
-import { formatPercent } from '../utils/helpers';
+import { formatPercent, formatVAFileNumber } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -34,7 +34,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Your Benefits</h4>
             <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-            <InfoPair label="Mpnths you've used" value={enrollmentData.usedEntitlement}/>
+            <InfoPair label="Months you've used" value={enrollmentData.usedEntitlement}/>
             <InfoPair label="Months you have left to use" value={enrollmentData.remainingEntitlement} displayIfZero/>
             <p id="benefit-level">
               Your eligibility rate for payments and maximum amounts is <strong>{percentageBenefit}</strong>.
@@ -78,7 +78,7 @@ class UserInfoSection extends React.Component {
           {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
           <InfoPair
               label="VA file number"
-              value={enrollmentData.vaFileNumber}
+              value={formatVAFileNumber(enrollmentData.vaFileNumber)}
               spacingClass="section-line"/>
           <InfoPair
               label="Regional processing office"
