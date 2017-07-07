@@ -3,7 +3,7 @@ const Timeouts = require('../e2e/timeouts');
 const PageHelpers = require('../e2e/burial-helpers');
 const testData = require('./schema/maximal-test.json');
 
-module.exports = E2eHelpers.createE2eTest(
+const runTest = E2eHelpers.createE2eTest(
   (client) => {
     PageHelpers.initApplicationSubmitMock();
 
@@ -116,4 +116,9 @@ module.exports = E2eHelpers.createE2eTest(
     client.axeCheck('.main');
 
     client.end();
-  });
+  }
+);
+
+if (__BUILDTYPE__ !== 'production') {
+  module.exports = runTest;
+}
