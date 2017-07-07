@@ -30,8 +30,8 @@ You may qualify for burial and memorial benefits if you're:
 
 If you qualify for burial in a VA national cemetery, you'll receive burial benefits at no cost to your family. These include:
 - Opening and closing of the grave
-- A government-furnished burial liner
-- A government-furnished headstone or marker
+- A burial liner provided by the government
+- A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
 After your death, the person planning your burial can also request other honors and memorials. These may include a:
@@ -54,4 +54,4 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/pre-need/).
 
-**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](http://www.cem.va.gov/cem/cems/listcem.asp).
+**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](http://www.cem.va.gov/cem/cems/listcem.asp).
