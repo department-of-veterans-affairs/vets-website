@@ -38,8 +38,24 @@ describe('Pensions', () => {
       );
       const formDOM = getFormDOM(form);
 
-      expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
+      expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
+
       expect(formDOM.querySelector('.pensions-disclosure-name').textContent).to.contain('Jane Doe');
+    });
+
+    it('should reveal expenses fields', () => {
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            data={nameData}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}/>
+      );
+      const formDOM = getFormDOM(form);
+
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
+
+      expect(formDOM.querySelectorAll('input,select').length).to.equal(8);
     });
 
     if (!namePath.startsWith('spouse')) {
@@ -59,7 +75,7 @@ describe('Pensions', () => {
       });
     }
 
-    it('should submit empty form', () => {
+    it('should not submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -74,8 +90,8 @@ describe('Pensions', () => {
 
       formDOM.submitForm(form);
 
-      expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
-      expect(onSubmit.called).to.be.true;
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
     });
 
     it('should add another expense', () => {
@@ -91,12 +107,36 @@ describe('Pensions', () => {
 
       const formDOM = getFormDOM(form);
 
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
+
       formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, 12);
 
       formDOM.click('.va-growable-add-btn');
 
       expect(formDOM.querySelector('.va-growable-background').textContent)
         .to.contain('$12');
+    });
+
+    it('should submit with valid data', () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            definitions={formConfig.defaultDefinitions}
+            data={nameData}
+            onSubmit={onSubmit}
+            uiSchema={uiSchema}/>
+      );
+
+      const formDOM = getFormDOM(form);
+
+      formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesNo`, 'N');
+
+      formDOM.submitForm(form);
+
+      expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
+
+      expect(onSubmit.called).to.be.true;
     });
   }
   describe('Other expenses', () => {

@@ -31,3 +31,11 @@ export function getBenefitSummaryOptions() {
     );
   };
 }
+
+export function updateBenefitSummaryOption(propertyPath, value) {
+  return {
+    type: 'UPDATE_BENEFIT_SUMMARY_OPTION',
+    propertyPath,
+    value
+  };
+}

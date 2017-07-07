@@ -15,6 +15,7 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
+  'appeals-beta': './src/js/appeals-beta/appeals-beta-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
@@ -30,6 +31,7 @@ const entryFiles = {
   letters: './src/js/letters/letters-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
+  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   style: './src/sass/style.scss'
 };

@@ -23,7 +23,7 @@ describe('Claims list reducer', () => {
       type: SET_CLAIMS,
       claims
     });
-    expect(state.list).to.deep.equal(claims);
+    expect(state.claims).to.deep.equal(claims);
   });
   it('should set the sort property', () => {
     const previousState = {
@@ -163,7 +163,8 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      list: claims
+      claims,
+      appeals: [],
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
@@ -189,7 +190,8 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      list: claims
+      claims,
+      appeals: [],
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
@@ -231,7 +233,8 @@ describe('Claims list reducer', () => {
       },
     ];
     const previousState = {
-      list: claims,
+      appeals: [],
+      claims,
       sortProperty: 'claimType'
     };
     const state = claimsList(previousState, {

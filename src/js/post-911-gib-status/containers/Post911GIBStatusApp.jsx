@@ -12,7 +12,7 @@ function AppContent({ children, isDataAvailable }) {
   if (unregistered) {
     view = (
       <h4>
-        To view your Post-9/11 GI Bill status, you need to verify your identity (or whatever).
+        To view your Post-9/11 GI Bill benefit information, you need to verify your identity.
       </h4>
     );
   } else {

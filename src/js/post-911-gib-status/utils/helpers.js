@@ -1,15 +1,6 @@
-import moment from 'moment';
 import merge from 'lodash/fp/merge';
 
 import environment from '../../common/helpers/environment';
-
-export function formatDateLong(date) {
-  return moment(date).format('MMMM DD, YYYY');
-}
-
-export function formatDateShort(date) {
-  return moment(date).format('MM/DD/YYYY');
-}
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -19,6 +10,13 @@ export function formatPercent(percent) {
   }
 
   return validPercent;
+}
+
+export function formatVAFileNumber(n) {
+  const number = n || '';
+  const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
+
+  return number.replace(number.substring(0, lengthOfXString), `${'x'.repeat(lengthOfXString)}-`);
 }
 
 function isJson(response) {

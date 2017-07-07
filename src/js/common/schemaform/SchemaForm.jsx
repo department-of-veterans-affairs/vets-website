@@ -71,6 +71,7 @@ class SchemaForm extends React.Component {
       && nextProps.reviewMode === this.props.reviewMode
       && deepEquals(this.state, nextState)
       && nextProps.schema === this.props.schema
+      && typeof nextProps.title !== 'function'
       && nextProps.uiSchema === this.props.uiSchema) {
       return !Object.keys(nextProps.schema.properties).every(objProp => {
         return this.props.data[objProp] === nextProps.data[objProp];

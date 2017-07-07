@@ -7,7 +7,7 @@ function GetFormHelp() {
       <p className="phone-number">
         <a href="tel:+1-800-827-1000">800-827-1000</a><br/>
         Monday - Friday, 8:00 a.m. - 9:00 p.m. ET<br/>
-        <p className="talk">For Telecommunications Relay Service (TRS): dial <a href="tel:711">711</a></p>
+        For Telecommunications Relay Service (TRS): dial <a href="tel:711">711</a>
       </p>
     </div>
   );

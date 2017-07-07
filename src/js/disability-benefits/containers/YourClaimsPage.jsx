@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import MainTabNav from '../components/MainTabNav';
 import ClaimsListItem from '../components/ClaimsListItem';
+import AppealListItem from '../components/AppealListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -39,7 +42,15 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
-    this.props.getClaims(this.getFilter(this.props));
+
+    if (this.props.canAccessClaims) {
+      this.props.getClaims(this.getFilter(this.props));
+    }
+
+    if (this.props.canAccessAppeals) {
+      this.props.getAppeals(this.getFilter(this.props));
+    }
+
     if (this.props.loading) {
       scrollToTop();
     } else {
@@ -67,8 +78,29 @@ class YourClaimsPage extends React.Component {
     scrollToTop();
   }
 
+  renderListItem(claim) {
+    if (claim.type === 'appeals_status_models_appeals') {
+      return <AppealListItem key={claim.id} appeal={claim}/>;
+    }
+    return <ClaimsListItem claim={claim} key={claim.id}/>;
+  }
+
+  renderErrorMessages() {
+    const { canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+
+    if (canAccessClaims) {
+      if (!claimsAvailable) {
+        return <ClaimsUnavailable/>;
+      } else if (!claimsAuthorized) {
+        return <ClaimsUnauthorized/>;
+      }
+    }
+
+    return null;
+  }
+
   render() {
-    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
+    const { unfilteredAppeals, unfilteredClaims, list, pages, page, loading, show30DayNotice, route, synced } = this.props;
     const tabs = [
       'OpenClaims',
       'ClosedClaims'
@@ -78,11 +110,11 @@ class YourClaimsPage extends React.Component {
 
     if (loading) {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
-    } else if (claims.length > 0) {
+    } else if (list.length > 0) {
       content = (<div>
-        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
+        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
-          {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
+          {list.map(claim => this.renderListItem(claim))}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
         </div>
       </div>);
@@ -124,10 +156,13 @@ class YourClaimsPage extends React.Component {
     return (
       <div className="your-claims">
         <div className="row">
+          {this.renderErrorMessages()}
+        </div>
+        <div className="row">
           <div>
             <h1>Your Claims</h1>
           </div>
-          {!loading && !synced && <ClaimSyncWarning olderVersion={claims.length}/>}
+          {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
@@ -161,20 +196,31 @@ class YourClaimsPage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const claimsRoot = claimsState.claims;
+  const profileState = state.user.profile;
+  const canAccessAppeals = profileState.services.includes('appeals-status');
+  const canAccessClaims = profileState.services.includes('evss-claims');
+
   return {
-    loading: claimsState.claims.list === null,
-    claims: claimsState.claims.visibleRows,
-    unfilteredClaims: claimsState.claims.list,
-    page: claimsState.claims.page,
-    pages: claimsState.claims.pages,
-    sortProperty: claimsState.claims.sortProperty,
-    consolidatedModal: claimsState.claims.consolidatedModal,
-    show30DayNotice: claimsState.claims.show30DayNotice,
-    synced: claimsState.claimSync.synced
+    claimsAuthorized: claimsState.claimSync.authorized,
+    claimsAvailable: claimsState.claimSync.available,
+    loading: claimsRoot.loading,
+    list: claimsRoot.visibleRows,
+    unfilteredClaims: claimsRoot.claims,
+    unfilteredAppeals: claimsRoot.appeals,
+    page: claimsRoot.page,
+    pages: claimsRoot.pages,
+    sortProperty: claimsRoot.sortProperty,
+    consolidatedModal: claimsRoot.consolidatedModal,
+    show30DayNotice: claimsRoot.show30DayNotice,
+    synced: claimsState.claimSync.synced,
+    canAccessAppeals,
+    canAccessClaims,
   };
 }
 
 const mapDispatchToProps = {
+  getAppeals,
   getClaims,
   filterClaims,
   changePage,

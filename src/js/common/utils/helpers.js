@@ -101,6 +101,14 @@ export function dateToMoment(dateField) {
   });
 }
 
+export function formatDateLong(date) {
+  return moment(date).format('MMMM DD, YYYY');
+}
+
+export function formatDateShort(date) {
+  return moment(date).format('MM/DD/YYYY');
+}
+
 export function focusElement(selectorOrElement) {
   const el = typeof selectorOrElement === 'string'
     ? document.querySelector(selectorOrElement)
