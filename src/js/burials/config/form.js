@@ -47,7 +47,8 @@ const {
   veteranSocialSecurityNumber,
   veteranDateOfBirth,
   placeOfBirth,
-  officialPosition
+  officialPosition,
+  firmName
 } = fullSchemaBurials.properties;
 
 const {
@@ -67,6 +68,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
+  disableSave: __BUILDTYPE__ === 'production',
   formId: '21P-530',
   version: 0,
   savedFormMessages: {
@@ -109,7 +111,7 @@ const formConfig = {
                   expandUnderCondition: 'other'
                 }
               },
-              'view:isEntity': {
+              isEntity: {
                 'ui:title': 'Claiming as a firm, corporation or state agency',
                 'ui:options': {
                   expandUnder: 'type',
@@ -127,13 +129,7 @@ const formConfig = {
             required: ['claimantFullName', 'relationship'],
             properties: {
               claimantFullName,
-              relationship: _.merge(relationship, {
-                properties: {
-                  'view:isEntity': {
-                    type: 'boolean'
-                  }
-                }
-              })
+              relationship
             }
           }
         }
@@ -247,7 +243,7 @@ const formConfig = {
               items: fullNameUI
             },
             'view:serveUnderOtherNames': {
-              'ui:title': 'Did the veteran serve under another name?',
+              'ui:title': 'Did the Veteran serve under another name?',
               'ui:widget': 'yesNo'
             }
           },
@@ -294,8 +290,7 @@ const formConfig = {
               'view:transportationWarning': {
                 'ui:description': transportationWarning,
                 'ui:options': {
-                  expandUnder: 'transportation',
-                  classNames: 'schemaform-currency-input'
+                  expandUnder: 'transportation'
                 }
               },
               'ui:validations': [
@@ -346,7 +341,8 @@ const formConfig = {
               'ui:title': 'Actual burial cost',
               'ui:options': {
                 expandUnder: 'burialAllowanceRequested',
-                expandUnderCondition: 'vaMC'
+                expandUnderCondition: 'vaMC',
+                classNames: 'schemaform-currency-input'
               }
             },
             previouslyReceivedAllowance: {
@@ -433,10 +429,16 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
+            firmName: {
+              'ui:title': 'Full name of firm, corporation or state agency',
+              'ui:options': {
+                hideIf: form => _.get('relationship.isEntity', form) !== true
+              }
+            },
             officialPosition: {
               'ui:title': 'Position of person signing on behalf of firm, corporation or state agency',
               'ui:options': {
-                hideIf: form => _.get('relationship.view:isEntity', form) !== true
+                hideIf: form => _.get('relationship.isEntity', form) !== true
               }
             },
             claimantAddress: address.uiSchema('Address'),
@@ -449,6 +451,7 @@ const formConfig = {
             type: 'object',
             required: ['claimantAddress'],
             properties: {
+              firmName,
               officialPosition,
               claimantAddress: address.schema(fullSchemaBurials, true),
               claimantEmail,

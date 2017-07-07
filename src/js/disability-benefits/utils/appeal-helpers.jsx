@@ -134,10 +134,6 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         title: 'Your NOD has been received by the Veterans Benefits Administration (VBA) RO.',
         description: <p>Your NOD has been received by the RO. The RO will make a decision or develop the Statement of the Case (SOC) for your appeal. This means they review all of the evidence related to your appeal, including any new evidence you submit. When the SOC is prepared, you will receive a copy of it in the mail.</p>,
       },
-      nextAction: {
-        title: 'NOD next action title.',
-        description: 'NOD next action description.'
-      }
     },
     bva_final_decision: { // eslint-disable-line camelcase
       status: {
@@ -169,7 +165,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         description: <div>
           <p>The Board has made a decision on each issue within your appeal and all or some of the issues have been remanded. This means the Veterans Law Judge who reviewed your appeal needs more information before making a decision on all or some of the issues.</p>
           <p>On average, about 54% of issues in appeals get remanded. The Board has sent your appeal to the Veterans Benefits Administration (VBA) to add any relevant information to your case. If a physical exam was requested, VBA will reach out to you. If your appeal is not granted during the VBA review, a Supplemental Statement of the Case (SSOC) will be developed and sent to the Board.</p>
-          <p>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</p>
+          <p><strong>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</strong></p>
         </div>
       }
     },
@@ -182,7 +178,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
     field_grant: { // eslint-disable-line camelcase
       status: {
         title: 'Your Appeal Has Been Granted by the Regional Office (RO)',
-        description: 'This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.',
+        description: <p>This means the Veterans Benefits Administration (VBA) RO has granted the claim you filed an appeal for. Your appeal is now closed.</p>,
       }
     },
     cavc_decision: { // eslint-disable-line camelcase

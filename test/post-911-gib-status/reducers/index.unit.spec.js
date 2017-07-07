@@ -4,7 +4,7 @@ import post911GIBStatus from '../../../src/js/post-911-gib-status/reducers';
 
 const initialState = {
   enrollmentData: null,
-  available: false
+  availability: 'awaitingResponse'
 };
 
 describe('post911GIBStatus reducer', () => {
@@ -15,7 +15,7 @@ describe('post911GIBStatus reducer', () => {
     );
 
     expect(state.enrollmentData).to.be.null;
-    expect(state.available).to.be.false;
+    expect(state.availability).to.equal('unavailable');
   });
 
   it('should handle a successful request for enrollment information', () => {
@@ -33,6 +33,6 @@ describe('post911GIBStatus reducer', () => {
     );
 
     expect(state.enrollmentData.firstName).to.equal('Jane');
-    expect(state.available).to.be.true;
+    expect(state.availability).to.equal('available');
   });
 });

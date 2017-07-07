@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
-describe('Burials claimant information', () => {
+describe('Burials claimant contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.claimantContactInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -28,14 +28,14 @@ describe('Burials claimant information', () => {
           schema={schema}
           data={{
             relationship: {
-              'view:isEntity': true
+              isEntity: true
             }
           }}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();

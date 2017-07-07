@@ -112,7 +112,7 @@
     "metalsmith-archive": "^0.1.1",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-better-excerpts": "^0.1.7",
-    "metalsmith-broken-link-checker": "^0.1.10",
+    "metalsmith-broken-link-checker": "^1.0.1",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-define": "^2.0.1",
@@ -193,6 +193,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8fbfee24b1126e6d8a2cb07c4d37ec9f21a1fdb4"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e4adb98c18972a35eee0922201f026bbc05c64fd"
   }
 }

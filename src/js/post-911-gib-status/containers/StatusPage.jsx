@@ -10,10 +10,6 @@ import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  componentDidMount() {
-    this.props.getEnrollmentData();
-  }
-
   render() {
     const { enrollmentData } = this.props;
 
