@@ -23,7 +23,7 @@ majorlinks:
       description: Find out the steps you'll need to take to arrange for a family member's burial.
     - url: /burials-and-memorials/honor/
       title: Honor the Deceased With Memorial Items
-      description: Find out how to honor the military service of a deceased Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain items as well.
+      description: Find out how to honor the military service of a deceased Servicemember or Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain memorial items as well.
     - url: /burials-and-memorials/survivor-and-dependent-benefits
       title: Learn about Survivor Benefits
       description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
