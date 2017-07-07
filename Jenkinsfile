@@ -24,10 +24,9 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
-def notify = { message, color='good' -> 
-    if (env.BRANCH_NAME == 'master' || 
-        env.BRANCH_NAME == 'production' || 
-        env.BRANCH_NAME == 'pv-jenkins-notify-error') {
+def notify = { message, color='good' ->
+    if (env.BRANCH_NAME == 'master' ||
+        env.BRANCH_NAME == 'production') {
         slackSend message: message,
                   color: color,
                   failOnError: true
@@ -207,7 +206,7 @@ s
           }
         }
       }
-  
+
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')

@@ -21,7 +21,7 @@ describe('autocomplete reducer', () => {
     );
 
     expect(state.facilityCode).to.eql(null);
-    expect(state.searchTerm).to.eql('bogus');
+    expect(state.searchTerm).to.eql('newSearchTerm');
   });
 
   it('should start autocomplete correctly', () => {
