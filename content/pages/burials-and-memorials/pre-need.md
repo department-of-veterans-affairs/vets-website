@@ -76,7 +76,7 @@ To apply, you’ll need your (or your sponsor's):
 
 - Social Security number
 - Date and place of birth
-- Military status and service history
+- Military status and service history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)
 - Discharge papers (DD214 or other separation documents)
 
 <br>
