@@ -37,8 +37,9 @@ export const letterContent = {
   benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
 
-// Options returned by the benefit summary letter request that should be offered in the checkbox
-// list regardless of the value (e.g., true, false, 'unavailable', or other)
+// Options returned by the benefit summary letter request that should be offered in
+// the checkbox list regardless of their values (e.g., true, false, 'unavailable', or other)
+// All other options are conditionall displayed, depending on the value
 export const optionsToAlwaysDisplay = [
   'hasChapter35Eligibility',
   'hasDeathResultOfDisability',
@@ -189,8 +190,8 @@ export const benefitOptionsMap = {
   hasNonServiceConnectedPension: 'nonServiceConnectedPension',
   hasServiceConnectedDisabilities: 'serviceConnectedDisabilities',
   hasSpecialMonthlyCompensation: 'specialMonthlyCompensation',
-  // User should only see one of these survivor award options; both
-  // map to the same request body option
+  // A given user should only see one of these survivor award options and never both,
+  // so both map to the same request body option
   hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
   hasSurvivorsPensionAward: 'survivorsAward',
   awardEffectiveDate: 'monthlyAward',

@@ -43,7 +43,7 @@ function letters(state = initialState, action) {
     case 'GET_LETTERS_FAILURE':
       return set('lettersAvailability', 'unavailable', state);
     case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS': {
-      // Gather all possible displayed options that the user may have toggled on/off.
+      // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
@@ -53,8 +53,8 @@ function letters(state = initialState, action) {
         }
       });
 
-      // Initialize the benefit summary letter POST request body by setting mapping
-      // each option in possibleOptions to its corresponding request option key.
+      // Initialize the benefit summary letter request body by mapping each
+      // option in possibleOptions to its corresponding request option key.
       // Set all request body options to true so that on page load, all options
       // are checked.
       const requestOptions = { militaryService: true };

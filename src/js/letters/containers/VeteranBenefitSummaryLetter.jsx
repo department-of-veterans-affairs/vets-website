@@ -47,11 +47,10 @@ class VeteranBenefitSummaryLetter extends React.Component {
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
       const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
-      const optionText = getBenefitOptionText(key, value, true);  // for now, assume user is a veteran
-
-      // Currently, if the benefit key is not in bnefitOptionText
-      // the benefit is not for veterans and should not be displayed. This
-      // will change once we support both dependent and veteran useres.
+      // TODO: find out if there is anything in the profile or from EVSS that can tell
+      // us whether the user is a veteran or a user. For now we just pass in
+      // true for the isVeteran parameter
+      const optionText = getBenefitOptionText(key, value, true);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
