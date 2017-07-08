@@ -160,14 +160,18 @@ export function getBenefitOptionText(option, value, isVeteran) {
   }
   switch (option) {
     case 'awardEffectiveDate':
-      return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
+      // TODO: verify that this value must be defined to show this option
+      if (value) {
+        return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
+      }
+      return undefined;
     case 'monthlyAwardAmount':
-      if (value && value !== 'unavaliable') {
+      if (value && value !== 'unavailable') {
         return (<div>Your current monthly award amount is <strong>${value}</strong></div>);
       }
       return undefined;
     case 'serviceConnectedPercentage':
-      if (value && value !== 'unavaliable') {
+      if (value && value !== 'unavailable') {
         if (isVeteran) {
           return (<div>Your combined service-connected evaluation is <strong>{value}%</strong></div>);
         }

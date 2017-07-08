@@ -89,9 +89,9 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
 }
 
 
-export function updateBenefitSummaryOption(propertyPath, value) {
+export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
-    type: 'UPDATE_BENEFIT_SUMMARY_OPTION',
+    type: 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION',
     propertyPath,
     value
   };
