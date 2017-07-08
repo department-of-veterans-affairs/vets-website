@@ -1,7 +1,9 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+// import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 // import sinon from 'sinon';
+import SkinDeep from 'skin-deep';
+// import ReactTestUtils from 'react-dom/test-utils';
 
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 
@@ -9,38 +11,6 @@ const defaultProps = {
   letterName: 'Commissary Letter',
   letterType: 'commissary'
 };
-
-/*
-let oldWindow;
-let oldFetch;
-
-// TODO: fix this warning and improve test coverage for various scenarios:
-//   UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1):
-//   TypeError: Cannot read property 'ok' of undefined"
-const setup = () => {
-  oldFetch = global.fetch;
-  oldWindow = global.window;
-  global.fetch = sinon.spy(() => {
-    return Promise.resolve();
-  });
-  global.window = {
-    navigator: {},
-    open: sinon.spy(),
-    dataLayer: [],
-    URL: {
-      revokeObjectURL: () => {}
-    }
-  };
-  global.sessionStorage = {
-    userToken: 'abc'
-  };
-};
-
-const teardown = () => {
-  global.window = oldWindow;
-  global.fetch = oldFetch;
-};
-*/
 
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
@@ -58,4 +28,23 @@ describe('<DownloadLetterLink>', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
     expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
   });
+  /*
+  it('should call getLetterPdf when clicked', () => {
+    const oldWindow = global.window;
+    global.window = {
+      dataLayer: [],
+    };
+    const getLetterPdf = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <DownloadLetterLink {...defaultProps}/>);
+    const findDOM = findDOMNode(tree);
+
+    const link = findDOM.querySelector('a');
+    expect(link).to.exist;
+    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
+    expect(getLetterPdf.calledOnce).to.be.true;
+
+    global.window = oldWindow;
+  });
+  */
 });

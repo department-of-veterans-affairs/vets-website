@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { updateBenefitSummaryOption } from '../actions/letters';
+import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
   benefitOptionsMap,
   characterOfServiceContent,
@@ -17,8 +17,9 @@ class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.updateBenefitSummaryOption(benefitOptionsMap[domEvent.target.id],
-                                          domEvent.target.checked);
+    this.props.updateBenefitSummaryRequestOption(
+      benefitOptionsMap[domEvent.target.id],
+      domEvent.target.checked);
   }
 
   render() {
@@ -161,7 +162,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  updateBenefitSummaryOption
+  updateBenefitSummaryRequestOption
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VeteranBenefitSummaryLetter);
