@@ -141,12 +141,11 @@ node('vets-website-linting') {
         }
       }
   
-      parallel build
+      parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
       throw error
     }
-s
   }
 
   // Run E2E and accessibility tests
