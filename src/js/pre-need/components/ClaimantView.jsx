@@ -6,6 +6,8 @@ export default function ClaimantView({ formData }) {
     relationshipToVet
   } = formData.claimant;
 
+  let relationship;
+
   switch (relationshipToVet.type) {
     case 1:
       relationship = 'Servicemember';
