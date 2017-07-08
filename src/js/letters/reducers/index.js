@@ -41,8 +41,6 @@ function letters(state = initialState, action) {
       };
     }
     case 'GET_LETTERS_FAILURE':
-      // We are currently ignoring this; consider removing once we're sure we've handled
-      // the various error scenarios
       return set('lettersAvailability', 'unavailable', state);
     case 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS': {
       // Gather all possible displayed options that the user may have toggled on/off.
@@ -73,8 +71,6 @@ function letters(state = initialState, action) {
       };
     }
     case 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE':
-      // We are currently ignoring this; consider removing once we're sure we've handled
-      // the various error scenarios
       return _.set('optionsAvailable', false, state);
     case 'UPDATE_BENEFIT_SUMMARY_OPTION':
       return _.set(['requestOptions', action.propertyPath], action.value, state);

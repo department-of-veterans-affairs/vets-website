@@ -1,42 +1,20 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import merge from 'lodash/fp/merge';
 
+import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
 
-function isJson(response) {
-  const contentType = response.headers.get('content-type');
-  return contentType && contentType.indexOf('application/json') !== -1;
+export function apiRequest(resource, optionalSettings = {}, success, error) {
+  const baseUrl = `${environment.API_URL}`;
+  const requestUrl = resource[0] === '/'
+            ? [baseUrl, resource].join('')
+            : resource;
+
+  return commonApiClient(requestUrl, optionalSettings, success, error);
 }
 
-export function apiRequest(url, optionalSettings = {}, success, error) {
-  const requestUrl = `${environment.API_URL}${url}`;
-
-  const defaultSettings = {
-    method: 'GET',
-    headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
-      'X-Key-Inflection': 'camel',
-    }
-  };
-
-  const settings = merge(defaultSettings, optionalSettings);
-
-  return fetch(requestUrl, settings)
-    .then((response) => {
-      if (!response.ok) {
-        // Refresh to show login view when requests are unauthorized.
-        if (response.status === 401) { return window.location.reload(); }
-        return Promise.reject(response);
-      } else if (isJson(response)) {
-        return response.json();
-      }
-      return Promise.resolve(response);
-    })
-    .then(success, error);
-}
-
+// Map values returned by vets-api to display text.
 export const characterOfServiceContent = {
   honorable: 'Honorable',
   other_than_honorable: 'Other than honorable',
@@ -47,6 +25,7 @@ export const characterOfServiceContent = {
   dishonorable: 'Dishonorable'
 };
 
+// Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: 'If you\'re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
   proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
@@ -58,6 +37,8 @@ export const letterContent = {
   benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
 
+// Options returned by the benefit summary letter request that should be offered in the checkbox
+// list regardless of the value (e.g., true, false, 'unavailable', or other)
 export const optionsToAlwaysDisplay = [
   'hasChapter35Eligibility',
   'hasDeathResultOfDisability',
@@ -67,48 +48,135 @@ export const optionsToAlwaysDisplay = [
   'serviceConnectedPercentage'
 ];
 
-export function getBenefitOptionText(currentOption, currentValue, isVeteran) {
-  const optionText = {
-    awardEffectiveDate: <div>The effective date of the last change to your current award was <strong>{formatDateShort(currentValue)}</strong></div>,
-    hasChapter35Eligibility: currentValue ?
-      <div>You are considered to be totally and permanently disabled solely due to your service-connected disabilities</div> :
-      <div>Information on your totally and permanently disabled status which resulted from service-connected disabilities</div>, // This doeson't look right; clarify in https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3685
-    monthlyAwardAmount: (currentValue && currentValue !== 'unavailable') ?
-      <div>Your current monthly award amount is <strong>${currentValue}</strong></div> : undefined
-  };
+const benefitOptionText = {
+  hasNonServiceConnectedPension: {
+    'true': {
+      veteran: <div>Your non-service connected pension information</div>,
+      dependent: undefined
+    },
+    'false': {
+      veteran: undefined,
+      dependent: undefined
+    }
+  },
+  hasServiceConnectedDisabilities: {
+    'true': {
+      veteran: <div>You have one or more service-connected disabilities</div>,
+      dependent: undefined
+    },
+    'false': {
+      veteran: <div>You <strong>do not</strong> have one or more service-connected disabilities</div>,
+      dependent: undefined
+    }
+  },
+  hasSurvivorsIndemnityCompensationAward: {
+    'true': {
+      veteran: undefined,
+      dependent: <div>You <strong>are</strong> receiving Dependency and Indemnity Compensation</div>
+    },
+    'false': {
+      veteran: undefined,
+      dependent: <div>You <strong>are not</strong> receiving Dependency and Indemnity Compensation</div>
+    }
+  },
+  hasSurvivorsPensionAward: {
+    'true': {
+      veteran: undefined,
+      dependent: <div>You <strong>are</strong> receiving Survivors Pension></div>
+    },
+    'false': {
+      veteran: undefined,
+      dependent: <div>You <strong>are not</strong> receiving Survivors Pension></div>
+    }
+  },
+  hasAdaptedHousing: {
+    'true': {
+      veteran: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
+      dependent: undefined
+    },
+    'false': {
+      veteran: undefined,
+      dependent: undefined
+    }
+  },
+  hasChapter35Eligibility: {
+    'true': {
+      veteran: <div>You are considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
+      dependent: <div>You <strong>are</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
+    },
+    'false': {
+      // This doesn't look right: getting clarification in
+      // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3685
+      veteran: <div>Information on your totally and permanently disabled status which resulted from service-connected disabilities</div>,
+      dependent: <div>You <strong>are not</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
+    }
+  },
+  hasDeathResultOfDisability: {
+    'true': {
+      veteran: undefined,
+      dependent: <div>The Veteran died as a result of a service-connected disability</div>
+    },
+    'false': {
+      veteran: undefined,
+      dependent: <div>The Veteran did not die as a result of a service-connected disability</div>
+    }
+  },
+  hasIndividualUnemployabilityGranted: {
+    'true': {
+      veteran: <div>You are being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div>,
+      dependent: undefined
+    },
+    'false': {
+      veteran: undefined,
+      dependent: undefined
+    }
+  },
+  hasSpecialMonthlyCompensation: {
+    'true': {
+      veteran: <div>You are service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>,
+      dependent: undefined
+    },
+    'false': {
+      veteran: undefined,
+      dependent: undefined
+    }
+  }
+};
 
-  if (isVeteran) {
-    merge({
-      hasAdaptedHousing: currentValue ?
-        <div>You have been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div> : undefined,
-      hasNonServiceConnectedPension: <div>Your non-service connected pension information</div>,
-      hasServiceConnectedDisabilities: currentValue ?
-        <div>You have one or more service-connected disabilities</div> :
-        <div>You do not have one or more service-connected disabilities</div>,
-      serviceConnectedPercentage: (currentValue && currentValue !== 'unavailable') ?
-        <div>Your combined service-connected evaluation is <strong>{currentValue}%</strong></div> : undefined,
-      hasSpecialMonthlyCompensation: currentValue ?
-        <div>You are service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div> : undefined,
-      hasIndividualUnemployabilityGranted: currentValue ?
-        <div>You are being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div> : undefined
-    }, {}, optionText);
+export function getBenefitOptionText(option, value, isVeteran) {
+  const personType = isVeteran ? 'veteran' : 'dependent';
+  let valueString;
+  if (value === false) {
+    valueString = 'false';
+  } else if (value === true) {
+    valueString = 'true';
   } else {
-    merge({
-      hasSurvivorsIndemnityCompensationAward: currentValue ?
-        <div>You are receiving Dependency and Indemnity Compensation</div> :
-        <div>You are not receiving Dependency and Indemnity Compensation</div>,
-      hasSurvivorsPensionAward: currentValue ?
-        <div>You are receiving Survivors Pension></div> :
-        <div>You are not receiving Survivors Pension></div>,
-      serviceConnectedPercentage: (currentValue && currentValue !== 'unavailable') ?
-        <div>The Veteran's combined service-connected evaluation is <strong>{currentValue}%</strong></div> : undefined,
-      hasDeathResultOfDisability: currentValue ?
-        <div>The Veteran died as a result of a service-connected disability</div> :
-        <div>The Veteran did not die as a result of a service-connected disability</div>
-    }, {}, optionText);
+    valueString = value;
   }
 
-  return optionText[currentOption];
+  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+    return benefitOptionText[option][valueString][personType];
+  }
+  switch (option) {
+    case 'awardEffectiveDate':
+      return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
+    case 'monthlyAwardAmount':
+      if (value && value !== 'unavaliable') {
+        return (<div>Your current monthly award amount is <strong>${value}</strong></div>);
+      }
+      return undefined;
+    case 'serviceConnectedPercentage':
+      if (value && value !== 'unavaliable') {
+        if (isVeteran) {
+          return (<div>Your combined service-connected evaluation is <strong>{value}%</strong></div>);
+        }
+        return (<div>The Veteran's combined service-connected evaluation is <strong>{value}%</strong></div>);
+      }
+      break;
+    default:
+      return undefined;
+  }
+  return undefined;
 }
 
 // Lookup table to convert the benefit and military service options returned by the benefit summary letter
