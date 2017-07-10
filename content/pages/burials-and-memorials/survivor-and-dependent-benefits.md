@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Survivor Benefits
-display_title: Survivor Benefits
+title: Burial Allowances & Survivor Compensation
+display_title: Burial Allowances & Survivor Compensation
 collection: burials
 children: burialsSurvivors
 order: 5
@@ -10,7 +10,7 @@ majorlinks:
   - heading:
     links:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs
-      title: Handling Burial Costs (Allowances)
+      title: Burial Allowance Application Process
       description: Find out if you can get paid back for funeral and other burial costs.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation
       title: Compensation for Survivors and Dependents 
