@@ -91,6 +91,6 @@
       "other": "Uncle",
       "view:isEntity": true
     },
-    "privacyAgreementAccepted": false
+    "privacyAgreementAccepted": true
   }
 }
