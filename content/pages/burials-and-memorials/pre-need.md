@@ -35,7 +35,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 <ol class="process">
 <li class="process-step list-one">
   
-**Make sure you fit into one of these categories:**
+**Make sure one of these describes you:**
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
