@@ -922,10 +922,11 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['childPlaceOfBirth', 'childSocialSecurityNumber', 'childRelationship', 'previouslyMarried'],
+                  required: ['childPlaceOfBirth', 'childRelationship', 'previouslyMarried'],
                   properties: {
                     childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
                     childSocialSecurityNumber: dependents.items.properties.childSocialSecurityNumber,
+                    'view:noSSN': { type: 'boolean' },
                     childRelationship: dependents.items.properties.childRelationship,
                     attendingCollege: dependents.items.properties.attendingCollege,
                     disabled: dependents.items.properties.disabled,
@@ -944,8 +945,12 @@ const formConfig = {
                   'ui:title': 'Place of birth (city and state or foreign country)'
                 },
                 childSocialSecurityNumber: _.merge(ssnUI, {
-                  'ui:title': 'Social Security number'
+                  'ui:title': 'Social Security number',
+                  'ui:required': (formData, index) => !_.get(`dependents.${index}.view:noSSN`, formData)
                 }),
+                'view:noSSN': {
+                  'ui:title': 'Does not have a Social Security number (foreign national, etc.)'
+                },
                 childRelationship: {
                   'ui:title': 'Relationship',
                   'ui:widget': 'radio',
