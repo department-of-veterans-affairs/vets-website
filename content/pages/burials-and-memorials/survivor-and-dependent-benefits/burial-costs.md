@@ -34,6 +34,8 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
 
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to "under conditions other than dishonorable," you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+
 ### What kind of benefits can I get?
 
 - An allowance for burial and funeral costs
@@ -47,7 +49,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 You'll need a copy of: 
 - The Veteran’s military discharge papers (DD214 or other separation documents)
 - The Veteran’s death certificate
-- Any receipt you have for costs for transporting the Veteran's remains to its final resting place
+- Any documents you have for costs for transporting the Veteran's remains to its final resting place
 
 </div>
 
@@ -61,7 +63,7 @@ You'll need a copy of:
 
 ##### By mail
 
-Apply by mail using VA Form 21P-530 (Application for Burial Benefits). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
