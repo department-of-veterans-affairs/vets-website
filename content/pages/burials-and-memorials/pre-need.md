@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery Application Process
-display_title: Pre-Need Eligibility Determination Application Process
+title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery
+display_title: Pre-need Eligibility Determination
 collection: burials
 children: burialsPreNeed
 order: 2
@@ -35,7 +35,11 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 <ol class="process">
 <li class="process-step list-one">
   
-**If you haven't done so already, check to see if you qualify for burial in a VA national cemetery.** [Check your eligibility](/burials-and-memorials/eligibility/).
+**Make sure you fit into one of these categories:**
+- A Veteran who was discharged from the military under conditions other than dishonorable, **or**
+- A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
+- The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
+- In some cases, the adult dependent child of a Veteran (if you aren’t married)
 
 </li>
 
@@ -49,13 +53,13 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
 
-- **Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in a specific VA national cemetery.** We ask you where you'd preferred to be buried so we can try to help fulfill your final wishes. But we'll assign a gravesite in a cemetery with available space when the person handling your burial arrangements submits a request for burial after your death.
+- **Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in a specific VA national cemetery.** We ask you where you'd preferred to be buried so we can try to help fulfill your final wishes. But, after your death, when we receive a request for burial from the person handling your burial arrangements, we'll assign a gravesite in a cemetery with available space.
 
 </li>
 
 <li class="process-step list-three">
 
-**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have everything on the list, you can still apply and we'll help find the supporting documents we need. But the more information you can give us when you apply, the faster we can review your application and give you a decision.
+**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have everything on the list, you can still apply and we'll help by finding the supporting documents we need. Just keep in mind that the more information you can give us when you apply, the faster we can review your application and give you a decision.
 
 </li>
 
@@ -83,7 +87,7 @@ To apply, you’ll need your (or your sponsor's):
 
 #### More information needed for certain applicants
 
-- **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your information, including your Social Security number.
+- **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your personal information, including your Social Security number.
 - **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
 - **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
 
@@ -95,7 +99,7 @@ Call our toll-free hotline at 877-222-VETS ( <a href="tel:+18772228387">877-222-
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-[Or, find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 
@@ -113,23 +117,23 @@ You can start your application right now.
 
 ##### By mail
 
-Apply by mail using VA Form 40-10007 (Application for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Apply by mail using the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Print the form, fill it out, and send it along with a copy of your supporting documents to this address:
+Print the form, fill it out, and send it along with copies of your supporting documents to this address:
 
 <dl class="va-address-block">
 <dd>National Cemetery Scheduling Office</dd>
-<dd>P.O. Box 510543</dd>
+<dd>PO Box 510543</dd>
 <dd>St. Louis, MO 63151</dd>
 </dl>
 
-**Please note:** Don't send us the originals of your DD214 or other supporting documents. Please send copies only.
+**Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
 
 <br>
 
 ##### By fax 
 
-[Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+[Download the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007)](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-8299</a>.
 
@@ -137,7 +141,7 @@ Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-82
 
 ### What happens after I apply?
 
-[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/eligibility/after-you-apply).
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
 
 <br>
 
