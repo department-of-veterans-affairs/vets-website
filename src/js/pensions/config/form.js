@@ -1091,7 +1091,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Monthly income'),
-            'ui:description': 'Social Security or other pensions',
+            'ui:description': 'Social Security or other pensions (gross income)',
             monthlyIncome: monthlyIncomeUI
           }
         },
@@ -1181,7 +1181,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
-            'ui:description': 'Social Security or other pensions',
+            'ui:description': 'Social Security or other pensions (gross income)',
             spouseMonthlyIncome: monthlyIncomeUI
           }
         },
@@ -1294,7 +1294,7 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Monthly income'),
-                'ui:description': 'Social Security or other pensions',
+                'ui:description': 'Social Security or other pensions (gross income)',
                 monthlyIncome: monthlyIncomeUI
               }
             }
