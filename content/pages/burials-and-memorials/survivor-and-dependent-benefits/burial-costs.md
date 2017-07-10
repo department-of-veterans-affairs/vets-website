@@ -53,7 +53,7 @@ You'll need a copy of:
 
 ### Ready to apply? 
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for a Burial Allowance</a>
+<a class="usa-button-primary va-button-primary" href="burials-and-memorials/application/530">Apply for a Burial Allowance</a>
 
 <div markdown="0"><br></div>
 
