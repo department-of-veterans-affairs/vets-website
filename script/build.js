@@ -645,14 +645,11 @@ if (options.buildtype !== 'development') {
     });
     const chunkManifest = files[chunkManifestKey].contents.toString();
 
-    Object.keys(files).forEach((filename) => {
-      if (filename.match(/\.html$/) !== null) {
-        const file = files[filename];
-        const contents = file.contents.toString();
-        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
-        file.contents = new Buffer(contents.replace(regex, chunkManifest));
-      }
-    });
+    // Write chunk manifest to a js file we can include. Inlining cause issues with CSP headers
+    files['generated/chunk-manifest.js'] = {
+      contents: new Buffer(`window.webpackManifest='${chunkManifest}';`)
+    };
+
     done();
   });
 }
