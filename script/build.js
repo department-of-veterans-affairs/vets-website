@@ -647,7 +647,7 @@ if (options.buildtype !== 'development') {
 
     // Write chunk manifest to a js file we can include. Inlining cause issues with CSP headers
     files['generated/chunk-manifest.js'] = {
-      contents: new Buffer(`window.webpackManifest='${chunkManifest}';`)
+      contents: new Buffer(`window.webpackManifest=${chunkManifest};`)
     };
 
     done();
