@@ -3,13 +3,15 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import { focusElement } from '../utils/helpers';
+import ProgressBar from '../components/ProgressBar';
 
 export default class FileField extends React.Component {
   constructor(props) {
     super(props);
     const files = this.props.formData || [];
     this.state = {
-      editing: files.map(() => false)
+      editing: files.map(() => false),
+      progress: 0
     };
   }
 
@@ -31,6 +33,12 @@ export default class FileField extends React.Component {
       });
       this.setState({ editing });
     }
+
+    const isUploading = newFiles.some(file => file.uploading);
+    const wasUploading = files.some(file => file.uploading);
+    if (isUploading && !wasUploading) {
+      this.setState({ progress: 0 });
+    }
   }
 
   onAddFile = (event, index = null) => {
@@ -41,13 +49,21 @@ export default class FileField extends React.Component {
         idx = files.length === 0 ? 0 : files.length;
       }
       const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
-      this.props.formContext.uploadFile(event.target.files[0], filePath, this.props.uiSchema['ui:options'])
-        .catch(() => {
-          // rather not use the promise here, but seems better than trying to pass
-          // a blur function
-          this.props.onBlur(this.props.idSchema.$id);
-        });
+      this.props.formContext.uploadFile(
+        event.target.files[0],
+        filePath,
+        this.props.uiSchema['ui:options'],
+        this.updateProgress
+      ).then(() => {
+        // rather not use the promise here, but seems better than trying to pass
+        // a blur function
+        this.props.onBlur(this.props.idSchema.$id);
+      });
     }
+  }
+
+  updateProgress = (progress) => {
+    this.setState({ progress });
   }
 
   editFile = (index, isEditing = true) => {
@@ -94,7 +110,12 @@ export default class FileField extends React.Component {
 
               return (
                 <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
-                  {file.uploading && 'Uploading file...'}
+                  {file.uploading &&
+                    <div className="schemaform-file-uploading">
+                      <span>{file.name}</span><br/>
+                      <ProgressBar percent={this.state.progress}/>
+                    </div>
+                  }
                   {file.confirmationCode && <span>{file.name}</span>}
                   {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
                   {!file.uploading && !editingOrErrors &&

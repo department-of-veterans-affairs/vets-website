@@ -284,7 +284,7 @@ label {
   }
   > .schemaform-file-item-edit {
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
   }
 }
 
@@ -346,4 +346,8 @@ label {
   > .schemaform-label {
     margin-top: 1rem;
   }
+}
+
+.schemaform-file-uploading {
+  width: 100%;
 }

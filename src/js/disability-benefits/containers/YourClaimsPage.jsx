@@ -21,11 +21,11 @@ import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 const sortOptions = [
   {
-    label: 'A-Z by claim type',
+    label: 'A-Z by type',
     value: 'claimType'
   },
   {
-    label: 'Last updated',
+    label: 'Last changed',
     value: 'phaseChangeDate'
   },
   {

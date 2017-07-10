@@ -58,8 +58,6 @@ class VAMap extends Component {
         });
 
         this.reverseGeocode(currentPosition.coords);
-      }, () => {
-        this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
       });
     } else {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);

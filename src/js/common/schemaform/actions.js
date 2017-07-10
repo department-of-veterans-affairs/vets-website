@@ -102,7 +102,7 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, filePath, uiOptions = {}) {
+export function uploadFile(file, filePath, uiOptions, progressCallback) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       dispatch(
@@ -124,41 +124,86 @@ export function uploadFile(file, filePath, uiOptions = {}) {
       return Promise.reject();
     }
 
+    // we limit file types, but it's not respected on mobile and desktop
+    // users can bypass it without much effort
+    if (!uiOptions.fileTypes.some(fileType => file.name.endsWith(fileType))) {
+      dispatch(
+        setData(_.set(filePath, {
+          errorMessage: 'File is not one of the allowed types'
+        }, getState().form.data))
+      );
+
+      return Promise.reject();
+    }
+
     dispatch(
-      setData(_.set(filePath, { uploading: true }, getState().form.data))
+      setData(_.set(filePath, { name: file.name, uploading: true }, getState().form.data))
     );
 
     const payload = new FormData();
     payload.append('file', file);
     payload.append('form_id', getState().form.formId);
 
-    return fetch(`${environment.API_URL}${uiOptions.endpoint}`, {
-      method: 'POST',
-      headers: {
-        'X-Key-Inflection': 'camel'
-      },
-      body: payload
-    }).then(resp => {
-      if (resp.ok) {
-        return resp.json();
-      }
+    return new Promise((resolve) => {
+      const req = new XMLHttpRequest();
 
-      return Promise.reject(new Error(`vets_upload_error: ${resp.statusText}`));
-    }).then(fileInfo => {
-      dispatch(
-        setData(_.set(filePath, {
-          name: fileInfo.data.attributes.name,
-          size: fileInfo.data.attributes.size,
-          confirmationCode: fileInfo.data.attributes.confirmationCode
-        }, getState().form.data))
-      );
-    }).catch(error => {
-      dispatch(
-        setData(_.set(filePath, {
-          errorMessage: error.message.replace('vets_upload_error: ', '')
-        }, getState().form.data))
-      );
-      Raven.captureException(error);
+      req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
+      req.addEventListener('load', () => {
+        if (req.status >= 200 && req.status < 300) {
+          const body = 'response' in req ? req.response : req.responseText;
+          const fileInfo = JSON.parse(body);
+          dispatch(
+            setData(_.set(filePath, {
+              name: fileInfo.data.attributes.name,
+              size: fileInfo.data.attributes.size,
+              confirmationCode: fileInfo.data.attributes.confirmationCode
+            }, getState().form.data))
+          );
+          resolve(fileInfo);
+        } else {
+          dispatch(
+            setData(_.set(filePath, {
+              errorMessage: req.statusText
+            }, getState().form.data))
+          );
+          Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
+          resolve();
+        }
+      });
+
+      req.addEventListener('error', () => {
+        const errorMessage = 'Network request failed';
+        dispatch(
+          setData(_.set(filePath, {
+            errorMessage
+          }, getState().form.data))
+        );
+        Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
+          extra: {
+            statusText: req.statusText
+          }
+        });
+        resolve();
+      });
+
+      req.addEventListener('abort', () => {
+        dispatch(
+          setData(_.set(filePath, {
+            errorMessage: 'Upload aborted'
+          }, getState().form.data))
+        );
+        Raven.captureMessage('vets_upload_error: Upload aborted');
+        resolve();
+      });
+
+      req.upload.addEventListener('progress', (evt) => {
+        if (evt.lengthComputable && progressCallback) {
+          progressCallback((evt.loaded / evt.total) * 100);
+        }
+      });
+
+      req.setRequestHeader('X-Key-Inflection', 'camel');
+      req.send(payload);
     });
   };
 }
