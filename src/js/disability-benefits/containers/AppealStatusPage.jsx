@@ -7,12 +7,14 @@ import _ from 'lodash';
 import { getAppeals } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers.jsx';
+import { setPageFocus } from '../utils/page';
 
 class AppealStatusPage extends React.Component {
   componentDidMount() {
     if (!this.props.appeal) {
       this.props.getAppeals();
     }
+    setPageFocus();
   }
 
   renderStatusNextAction(lastEvent, previousHistory) {
@@ -105,7 +107,7 @@ class AppealStatusPage extends React.Component {
         <div className="row">
           <div>
             <h1>Your Compensation Appeal Status</h1>
-            <p>This information is accurate as of {moment().format('MMM DD, YYYY')}</p>
+            <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}</p>
           </div>
         </div>
         <div className="row">

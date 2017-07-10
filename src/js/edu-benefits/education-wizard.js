@@ -41,12 +41,14 @@ function reInitWidget() {
 
   content.addEventListener('change', (e) => {
     const radio = e.target;
-    const otherChoice = radio.dataset.alternate;
-    const otherNextQuestion = container.querySelector(`#${otherChoice}`).dataset.nextQuestion;
-    if (otherNextQuestion) {
-      const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}]`);
-      closeStateAndCheckChild(otherNextQuestionElement, container);
-    }
+    const otherChoices = radio.dataset.alternate.split(' ');
+    otherChoices.forEach((otherChoice) => {
+      const otherNextQuestion = container.querySelector(`#${otherChoice}`).dataset.nextQuestion;
+      if (otherNextQuestion) {
+        const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}]`);
+        closeStateAndCheckChild(otherNextQuestionElement, container);
+      }
+    });
 
     if ((apply.dataset.state === 'open') && !radio.dataset.selectedForm) {
       closeState(apply);

@@ -108,7 +108,7 @@ export default class AppointmentInfo extends Component {
     return (
       <div className="mb2">
         <h4 className="highlight">Appointments</h4>
-        <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM, YYYY')}</strong></p>
+        <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM YYYY')}</strong></p>
         {this.anyWaitTimes(healthAccessAttrs, 'new') && <div className="mb2">
           <h4>New patient wait times</h4>
           <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
