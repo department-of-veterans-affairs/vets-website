@@ -645,7 +645,7 @@ if (options.buildtype !== 'development') {
     });
     const chunkManifest = files[chunkManifestKey].contents.toString();
 
-    // Write chunk manifest to a js file we can include. Inlining cause issues with CSP headers
+    // Write chunk manifest to a js file we can include. Inlining causes issues with CSP headers
     files['generated/chunk-manifest.js'] = {
       contents: new Buffer(`window.webpackManifest=${chunkManifest};`)
     };
