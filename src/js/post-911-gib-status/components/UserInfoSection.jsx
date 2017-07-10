@@ -83,20 +83,24 @@ class UserInfoSection extends React.Component {
         <div className="section">
           <InfoPair
               label="Name"
+              name="fullName"
               value={fullName}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
           <InfoPair
               label="Date of birth"
+              name="dateOfBirth"
               value={formatDateLong(enrollmentData.dateOfBirth)}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
           <InfoPair
               label="VA file number"
+              name="vaFileNumber"
               value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
           <InfoPair
               label="Regional processing office"
+              name="regionalProcessingOffice"
               value={enrollmentData.regionalProcessingOffice}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
         </div>
         {entitlementInfo}
       </div>

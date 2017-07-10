@@ -71,8 +71,8 @@ const enrollmentData = {
 };
 
 // Create API routes
-function initApplicationMock() {
-  mock(null, {
+function initApplicationMock(token) {
+  mock(token, {
     path: '/v0/post911_gi_bill_status',
     verb: 'get',
     value: enrollmentData
