@@ -54,12 +54,11 @@ export default class FileField extends React.Component {
         filePath,
         this.props.uiSchema['ui:options'],
         this.updateProgress
-      )
-        .then(() => {
-          // rather not use the promise here, but seems better than trying to pass
-          // a blur function
-          this.props.onBlur(this.props.idSchema.$id);
-        });
+      ).then(() => {
+        // rather not use the promise here, but seems better than trying to pass
+        // a blur function
+        this.props.onBlur(this.props.idSchema.$id);
+      });
     }
   }
 
