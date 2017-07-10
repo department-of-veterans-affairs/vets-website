@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Handling Burial Costs (Allowances)
-display_title: Handling Burial Costs
+title: Burial Allowance Application Process
+display_title: Burial Allowance Application Process
 order: 1
 ---
 
