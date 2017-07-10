@@ -133,7 +133,7 @@ Print the form, fill it out, and send it along with copies of your supporting do
 
 ##### By fax 
 
-[Download the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007)](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Apply by fax using the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-8299</a>.
 
