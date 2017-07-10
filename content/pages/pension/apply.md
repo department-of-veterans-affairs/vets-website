@@ -31,7 +31,7 @@ You can apply in person or by mail for Veterans pension benefits. Follow these s
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="TBD">Apply for Benefits</a> 
+<a class="usa-button-primary va-button-primary" href="pension/application/527EZ">Apply for Benefits</a> 
 
 ### Other ways to apply
 
