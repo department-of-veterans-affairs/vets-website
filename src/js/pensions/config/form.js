@@ -107,8 +107,8 @@ function isCurrentMarriage(form, index) {
   return isMarried(form) && numMarriages - 1 === index;
 }
 
-function setupDirectDeposit(form) {
-  return _.get('view:bankAccountChange', form) === 'start';
+function usingDirectDeposit(formData) {
+  return formData['view:noDirectDeposit'] !== true;
 }
 
 const marriageProperties = marriages.items.properties;
@@ -1392,16 +1392,8 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
-            'view:bankAccountChange': {
-              'ui:title': 'Benefit payment method',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  start: 'Setup direct deposit',
-                  'continue': 'I already have direct deposit working',
-                  stop: 'Don’t use direct deposit'
-                }
-              }
+            'view:noDirectDeposit': {
+              'ui:title': 'I don’t want to use direct deposit'
             },
             bankAccount: _.merge(bankAccountUI, {
               'ui:order': [
@@ -1411,39 +1403,33 @@ const formConfig = {
                 'routingNumber'
               ],
               'ui:options': {
-                expandUnder: 'view:bankAccountChange',
-                expandUnderCondition: 'start'
+                hideIf: formData => !usingDirectDeposit(formData)
               },
               bankName: {
                 'ui:title': 'Bank name'
               },
               accountType: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               },
               accountNumber: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               },
               routingNumber: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               }
             }),
             'view:stopWarning': {
               'ui:description': directDepositWarning,
               'ui:options': {
-                hideIf: (formData) => formData['view:bankAccountChange'] !== 'stop'
+                hideIf: usingDirectDeposit
               }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              'view:bankAccountChange': {
-                type: 'string',
-                'enum': [
-                  'start',
-                  'continue',
-                  'stop'
-                ]
+              'view:noDirectDeposit': {
+                type: 'boolean',
               },
               bankAccount,
               'view:stopWarning': {
