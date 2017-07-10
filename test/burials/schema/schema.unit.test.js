@@ -15,7 +15,6 @@ describe('530 schema tests', () => {
     .forEach((file) => {
       const contents = JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
       const submitData = JSON.parse(transform(formConfig, contents)).burialClaim.form;
-      // console.log('submitData:', JSON.stringify(JSON.parse(submitData), null, 2));
       it(`should validate ${file}`, () => {
         const result = v.validate(
           JSON.parse(submitData),
