@@ -3,7 +3,6 @@ import React from 'react';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
-import { formatDateShort } from '../../common/utils/helpers';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -39,7 +38,7 @@ export const letterContent = {
 
 // Options returned by the benefit summary letter request that should be offered in
 // the checkbox list regardless of their values (e.g., true, false, 'unavailable', or other)
-// All other options are conditionall displayed, depending on the value
+// All other options are conditionally displayed, depending on the value
 export const optionsToAlwaysDisplay = [
   'hasChapter35Eligibility',
   'hasDeathResultOfDisability',
@@ -52,7 +51,7 @@ export const optionsToAlwaysDisplay = [
 const benefitOptionText = {
   hasNonServiceConnectedPension: {
     'true': {
-      veteran: <div>Your non-service connected pension information</div>,
+      veteran: <div>You <strong>are</strong> receiving non-service connected pension.</div>,
       dependent: undefined
     },
     'false': {
@@ -62,37 +61,37 @@ const benefitOptionText = {
   },
   hasServiceConnectedDisabilities: {
     'true': {
-      veteran: <div>You have one or more service-connected disabilities</div>,
+      veteran: <div>You <strong>have</strong> one or more service-connected disabilities.</div>,
       dependent: undefined
     },
     'false': {
-      veteran: <div>You <strong>do not</strong> have one or more service-connected disabilities</div>,
+      veteran: <div>You <strong>do not have</strong> one or more service-connected disabilities.</div>,
       dependent: undefined
     }
   },
   hasSurvivorsIndemnityCompensationAward: {
     'true': {
       veteran: undefined,
-      dependent: <div>You <strong>are</strong> receiving Dependency and Indemnity Compensation</div>
+      dependent: <div>You <strong>are</strong> receiving Dependency and Indemnity Compensation.</div>
     },
     'false': {
       veteran: undefined,
-      dependent: <div>You <strong>are not</strong> receiving Dependency and Indemnity Compensation</div>
+      dependent: <div>You <strong>are not</strong> receiving Dependency and Indemnity Compensation.</div>
     }
   },
   hasSurvivorsPensionAward: {
     'true': {
       veteran: undefined,
-      dependent: <div>You <strong>are</strong> receiving Survivors Pension></div>
+      dependent: <div>You <strong>are</strong> receiving Survivors Pension.</div>
     },
     'false': {
       veteran: undefined,
-      dependent: <div>You <strong>are not</strong> receiving Survivors Pension></div>
+      dependent: <div>You <strong>are not</strong> receiving Survivors Pension.</div>
     }
   },
   hasAdaptedHousing: {
     'true': {
-      veteran: <div>You <strong>have</strong> been found entitled to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant</div>,
+      veteran: <div>You <strong>have been found entitled</strong> to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant.</div>,
       dependent: undefined
     },
     'false': {
@@ -102,29 +101,27 @@ const benefitOptionText = {
   },
   hasChapter35Eligibility: {
     'true': {
-      veteran: <div>You are considered to be totally and permanently disabled solely due to your service-connected disabilities</div>,
+      veteran: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities.</div>,
       dependent: <div>You <strong>are</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
     },
     'false': {
-      // This doesn't look right: getting clarification in
-      // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/3685
-      veteran: <div>Information on your totally and permanently disabled status which resulted from service-connected disabilities</div>,
+      veteran: <div>You <strong>are not</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities.</div>,
       dependent: <div>You <strong>are not</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
     }
   },
   hasDeathResultOfDisability: {
     'true': {
       veteran: undefined,
-      dependent: <div>The Veteran died as a result of a service-connected disability</div>
+      dependent: <div>The Veteran died as a result of a service-connected disability.</div>
     },
     'false': {
       veteran: undefined,
-      dependent: <div>The Veteran did not die as a result of a service-connected disability</div>
+      dependent: <div>The Veteran <strong>did not</strong> die as a result of a service-connected disability.</div>
     }
   },
   hasIndividualUnemployabilityGranted: {
     'true': {
-      veteran: <div>You are being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities</div>,
+      veteran: <div>You <strong>are</strong> being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities.</div>,
       dependent: undefined
     },
     'false': {
@@ -134,7 +131,7 @@ const benefitOptionText = {
   },
   hasSpecialMonthlyCompensation: {
     'true': {
-      veteran: <div>You are service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye</div>,
+      veteran: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye.</div>,
       dependent: undefined
     },
     'false': {
@@ -155,37 +152,35 @@ export function getBenefitOptionText(option, value, isVeteran) {
     valueString = value;
   }
 
-  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+  if (!['monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
-    case 'awardEffectiveDate':
-      // TODO: verify that this value must be defined to show this option
-      if (value) {
-        return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
-      }
-      return undefined;
-    case 'monthlyAwardAmount':
+    case 'monthlyAwardAmount': {
       if (value && value !== 'unavailable') {
-        return (<div>Your current monthly award amount is <strong>${value}</strong></div>);
+        return (<div>Your current monthly award amount is <strong>${value}</strong>.</div>);
       }
       return undefined;
-    case 'serviceConnectedPercentage':
+    }
+
+    case 'serviceConnectedPercentage': {
       if (value && value !== 'unavailable') {
         if (isVeteran) {
-          return (<div>Your combined service-connected evaluation is <strong>{value}%</strong></div>);
+          return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
         }
-        return (<div>The Veteran's combined service-connected evaluation is <strong>{value}%</strong></div>);
+        return (<div>The Veterans combined service-connected evaluation is <strong>{value}%</strong>.</div>);
       }
-      break;
+      return undefined;
+    }
+
     default:
       return undefined;
   }
-  return undefined;
 }
 
-// Lookup table to convert the benefit and military service options returned by the benefit summary letter
-// response to the expected request body options for customizing the benefit summary letter.
+// Lookup table to convert the benefit and military service options
+// returned by the benefit summary letter response to the expected
+// request body options for customizing the benefit summary letter.
 export const benefitOptionsMap = {
   hasAdaptedHousing: 'adaptedHousing',
   hasChapter35Eligibility: 'chapter35Eligibility',
@@ -198,7 +193,6 @@ export const benefitOptionsMap = {
   // so both map to the same request body option
   hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
   hasSurvivorsPensionAward: 'survivorsAward',
-  awardEffectiveDate: 'monthlyAward',
   monthlyAwardAmount: 'monthlyAward',
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
