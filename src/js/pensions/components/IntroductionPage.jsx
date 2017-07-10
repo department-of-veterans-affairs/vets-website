@@ -51,13 +51,12 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <div><h6>What if VA needs more information?</h6></div>
-              <ul><li>We will contact you if we need more information.</li></ul>
+              <ul><li>We'll notify you by mail if we need more information from you about your claim.</li></ul>
               <div><h6>How long does it take VA to make a decision?</h6></div>
               <ul><li>We process claims in the order we receive them, unless a claim requires priority processing.</li></ul>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>We'll notify you by mail if we need more information from you about your claim.</li></ul>
               <ul><li>After we process your claim, you’ll get a notice in the mail about the decision.</li></ul>
             </li>
           </ol>
