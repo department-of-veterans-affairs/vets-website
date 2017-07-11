@@ -1,132 +1,89 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
 import { apiRequest } from '../utils/helpers';
 
-class DownloadLetterLink extends React.Component {
+export class DownloadLetterLink extends React.Component {
   constructor(props) {
     super(props);
     this.downloadLetter = this.downloadLetter.bind(this);
   }
 
-  // This opens a duplicate window for some inexplicable reason,
-  // possibly related to some blob response nuance.
-  /*
-  downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-        });
-      });
-  */
-
-  // This opens a new duplicate window, focuses on it, and then opens
-  // the PDF in the original window (so it appears in the browser tab to
-  // the left of the current tab, which is weird.
-  /*
-  downloadLetter() {
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-          window.URL = window.URL || window.webkitURL;
-          const downloadUrl = window.URL.createObjectURL(blob);
-          window.location.href = downloadUrl;
-        });
-      });
-  }
-  */
-
-  // This opens a new blank window and renders the pdf in it (to the
-  // right of the current browser as expected, but also tries to open
-  // a window from the original window as above (which may be blocked
-  // by the popup blocker, or if not blocked will pop up an extra window
-  // for no apparent reason).
-  downloadLetter() {
+  // Either download the pdf or open it in a new window, depending on the
+  // browser. Needs to be manually tested on a variety of
+  // vets.gov-supported platforms, particularly iOS/Safari
+  downloadLetter(e) {
+    e.preventDefault();
     window.dataLayer.push({
       event: 'letter-download',
       'letter-type': this.props.letterType
     });
-    const requestUrl = `/v0/letters/${this.props.letterType}`;
-    const downloadWindow = window.open();
-    apiRequest(
-      requestUrl,
-      { method: 'POST' },
-      response => {
-        response.blob().then(blob => {
-          const URLobj = window.URL || window.webkitURL;
-          // const URLobj = downloadWindow.URL || downloadWindow.webkitURL;
-          const downloadUrl = URLobj.createObjectURL(blob);
-          downloadWindow.location.href = downloadUrl;
-        });
-      });
-  }
 
-  // This is a longer solution that handles various browsers and also
-  // gives the file a nicer name, but does not render it in a window.
-  // Instead, it opens a blank window and downloads the nicely named
-  // file. It suffers from the same issue above that it attempts to
-  // open an extra duplicate window. This should be manually tested on
-  // multiple browsers before launching.
-  /*
-  downloadLetter() {
     const requestUrl = `/v0/letters/${this.props.letterType}`;
+
+    // Temporarily suppress sending request body for usability testing purposes.
+    const settings = { method: 'POST' };
+    /*
+    let settings;
+    if (this.props.letterType === 'benefit_summary') {
+      settings = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.props.letterOptions)
+      };
+    } else {
+      settings = {
+        method: 'POST'
+      };
+    }
+    */
+
+    // We handle IE10 separately but assume all other vets.gov-supported
+    // browsers have blob URL support.
+    // TODO: possibly want to explicitly
+    // check for blob URL support with something like
+    // const blobSupported = !!(/^blob:/.exec(downloadUrl));
     const ie10 = !!window.navigator.msSaveOrOpenBlob;
+    const save = document.createElement('a');
     let downloadWindow;
-    if (!ie10) {
+    const downloadSupported = typeof save.download !== 'undefined';
+    if (!downloadSupported) {
+      // Instead of giving the file a readable name and downloading
+      // it directly, open it in a new window with an ugly hash URL
       downloadWindow = window.open();
     }
+    let downloadUrl;
 
-    // TODO: in addition to the new blank browser window, this tries to
-    // pop up a duplicate window which may or may not be suppressed
-    // by the user's browser content settings.
     apiRequest(
       requestUrl,
-      { method: 'POST' },
+      settings,
       response => {
         response.blob().then(blob => {
           if (ie10) {
             window.navigator.msSaveOrOpenBlob(blob, this.props.letterName);
-            return Promise.resolve();
-          }
-          window.URL = window.URL || window.webkitURL;
-          const downloadUrl = window.URL.createObjectURL(blob);
-          // Make sure blob URLs are supported
-          const blobSupported = !!(/^blob:/.exec(downloadUrl));
-          if (blobSupported) {
-            // Try to give the file a nice name instead of an ugly hash
-            // by creating a new link element and setting its download attribute.
-            const link = document.createElement('a');
-            if (typeof link.download !== 'undefined') {
-              document.body.appendChild(link);
-              // downloadWindow.document.body.appendChild(link);
-              link.style = 'display: none';
-              link.target = '_blank';
-              link.href = downloadUrl;
-              link.download = this.props.letterName;
-              link.click();
+          } else {
+            window.URL = window.URL || window.webkitURL;
+            downloadUrl = window.URL.createObjectURL(blob);
+            if (downloadSupported) {
+              // Give the file a readable name if the download attribute
+              // is supported.
+              save.download = this.props.letterName;
+              save.href = downloadUrl;
+              save.target = '_blank';
+              document.body.appendChild(save);
+              save.click();
+              document.body.removeChild(save);
             } else {
-              // The download attribute is not supported on IE11 or
-              // iOS Safari, so live with the ugly hash name.
               downloadWindow.location.href = downloadUrl;
             }
-            // document.body.removeChild(link);
-            // urlObj.revokeObjectURL(downloadUrl);
-            return Promise.resolve();
           }
-          // Make sure this gets to sentry
-          return Promise.reject(new Error('Cannot download pdf blob'));
         });
       });
+    window.URL.revokeObjectURL(downloadUrl);
   }
-  */
 
   render() {
     return (
@@ -140,9 +97,18 @@ class DownloadLetterLink extends React.Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    letterType: ownProps.letterType,
+    letterName: ownProps.letterName,
+    letterOptions: state.letters.optionsToInclude
+  };
+}
+
 DownloadLetterLink.PropTypes = {
   letterType: PropTypes.string.required,
   letterName: PropTypes.string.required
 };
 
-export default DownloadLetterLink;
+export default connect(mapStateToProps)(DownloadLetterLink);
+

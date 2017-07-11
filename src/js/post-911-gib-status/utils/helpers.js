@@ -12,6 +12,13 @@ export function formatPercent(percent) {
   return validPercent;
 }
 
+export function formatVAFileNumber(n) {
+  const number = n || '';
+  const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
+
+  return number.replace(number.substring(0, lengthOfXString), `${'x'.repeat(lengthOfXString)}-`);
+}
+
 function isJson(response) {
   const contentType = response.headers.get('content-type');
   return contentType && contentType.indexOf('application/json') !== -1;

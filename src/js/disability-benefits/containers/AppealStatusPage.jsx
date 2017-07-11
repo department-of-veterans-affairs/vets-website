@@ -7,12 +7,14 @@ import _ from 'lodash';
 import { getAppeals } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers.jsx';
+import { setPageFocus } from '../utils/page';
 
 class AppealStatusPage extends React.Component {
   componentDidMount() {
     if (!this.props.appeal) {
       this.props.getAppeals();
     }
+    setPageFocus();
   }
 
   renderStatusNextAction(lastEvent, previousHistory) {

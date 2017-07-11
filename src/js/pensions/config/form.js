@@ -15,7 +15,8 @@ import {
   fileHelp,
   directDepositWarning,
   isMarried,
-  applicantDescription
+  applicantDescription,
+  otherExpensesWarning
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -24,6 +25,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
+import ServicePeriodView from '../components/ServicePeriodView';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -105,8 +107,8 @@ function isCurrentMarriage(form, index) {
   return isMarried(form) && numMarriages - 1 === index;
 }
 
-function setupDirectDeposit(form) {
-  return _.get('view:bankAccountChange', form) === 'start';
+function usingDirectDeposit(formData) {
+  return formData['view:noDirectDeposit'] !== true;
 }
 
 const marriageProperties = marriages.items.properties;
@@ -153,6 +155,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  disableSave: __BUILDTYPE__ === 'production',
   formId: '21P-527EZ',
   version: 0,
   savedFormMessages: {
@@ -220,11 +223,58 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        general: {
+        servicePeriods: {
           path: 'military/history',
-          title: 'General history',
+          title: 'Service Periods',
           uiSchema: {
-            'ui:title': 'General history',
+            'ui:title': 'Service periods',
+            servicePeriods: {
+              'ui:options': {
+                viewField: ServicePeriodView,
+                reviewTitle: 'Service periods'
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                activeServiceDateRange: dateRangeUI(
+                  'Date entered active service',
+                  'Date left active service',
+                  'Date entered service must be before date left service'
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              servicePeriods: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['serviceBranch', 'activeServiceDateRange'],
+                  properties: {
+                    serviceBranch: {
+                      type: 'string'
+                    },
+                    activeServiceDateRange: _.assign(dateRange, {
+                      required: ['from', 'to']
+                    })
+                  }
+                }
+              }
+            }
+          }
+        },
+        general: {
+          path: 'military/general',
+          title: 'General History',
+          uiSchema: {
+            'view:serveUnderOtherNames': {
+              'ui:title': 'Did you serve under another name?',
+              'ui:widget': 'yesNo'
+            },
             previousNames: {
               'ui:options': {
                 expandUnder: 'view:serveUnderOtherNames',
@@ -233,25 +283,20 @@ const formConfig = {
               },
               items: fullNameUI
             },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo'
-            },
-            activeServiceDateRange: dateRangeUI(
-              'Date entered active service',
-              'Date left active service',
-              'Date entered service must be before date left service'
-            ),
             placeOfSeparation: {
               'ui:title': 'Place of last or anticipated separation (city and state or foreign country)'
             },
             combatSince911: (() => {
               const rangeExcludes911 = createSelector(
-                _.get('activeServiceDateRange.to'),
-                (to) => {
-                  const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
+                form => form.servicePeriods,
+                (periods) => {
+                  return (periods || []).every(period => {
+                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
 
-                  return !isFullDate.test(to) || !moment('2001-09-11').isBefore(to);
+                    return !period.activeServiceDateRange ||
+                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
+                  });
                 }
               );
 
@@ -267,16 +312,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['activeServiceDateRange', 'view:serveUnderOtherNames'],
+            required: ['view:serveUnderOtherNames'],
             properties: {
               'view:serveUnderOtherNames': {
                 type: 'boolean'
               },
               previousNames: _.assign(previousNames, {
                 minItems: 1
-              }),
-              activeServiceDateRange: _.assign(dateRange, {
-                required: ['from', 'to']
               }),
               placeOfSeparation,
               combatSince911
@@ -298,8 +340,13 @@ const formConfig = {
               },
               name: {
                 'ui:title': 'Name of Reserve/National Guard unit',
+                'ui:required': form => form.nationalGuardActivation === true
               },
-              address: address.uiSchema('Unit address'),
+              address: _.merge(address.uiSchema('Unit address', false, false, true), {
+                state: {
+                  'ui:required': form => form.nationalGuardActivation === true
+                }
+              }),
               phone: phoneUI('Unit phone number'),
               date: currentOrPastDateUI('Service Activation Date')
             }
@@ -463,6 +510,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['view:workedBeforeDisabled'],
             properties: {
               'view:workedBeforeDisabled': { type: 'boolean' },
               'view:history': {
@@ -692,19 +740,14 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            'view:spousePreviousMarried': {
-              'ui:title': 'Has your spouse been married before?',
-              'ui:widget': 'yesNo'
-            },
             spouseMarriages: {
-              'ui:title': 'How many times has your spouse been married before? (Not including current marriage)',
+              'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form => !!form['view:spousePreviousMarried'],
               'ui:options': {
                 showFieldLabel: true,
                 keepInPageOnReview: true,
-                expandUnder: 'view:spousePreviousMarried',
+                countOffset: -1
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage'
@@ -716,9 +759,9 @@ const formConfig = {
             required: [
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
-              'view:spousePreviousMarried',
               'spouseIsVeteran',
-              'liveWithSpouse'
+              'liveWithSpouse',
+              'spouseMarriages'
             ],
             properties: {
               spouseDateOfBirth,
@@ -729,9 +772,6 @@ const formConfig = {
               spouseAddress: address.schema(fullSchemaPensions),
               reasonForNotLivingWithSpouse,
               monthlySpousePayment,
-              'view:spousePreviousMarried': {
-                type: 'boolean'
-              },
               spouseMarriages: marriages
             }
           }
@@ -1051,7 +1091,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Monthly income'),
-            'ui:description': 'Social Security or other pensions',
+            'ui:description': 'Social Security or other pensions (gross income)',
             monthlyIncome: monthlyIncomeUI
           }
         },
@@ -1078,13 +1118,35 @@ const formConfig = {
           title: item => `${item.veteranFullName.first} ${item.veteranFullName.last} expenses`,
           schema: {
             type: 'object',
+            required: ['view:hasOtherExpenses'],
             properties: {
-              otherExpenses
+              'view:hasOtherExpenses': {
+                type: 'boolean'
+              },
+              otherExpenses,
+              'view:otherExpensesWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Medical, legal, or other unreimbursed expenses'),
-            otherExpenses: otherExpensesUI
+            'view:hasOtherExpenses': {
+              'ui:title': 'Do you have any medical, legal or other unreimbursed expenses?',
+              'ui:widget': 'yesNo'
+            },
+            otherExpenses: _.merge(otherExpensesUI, {
+              'ui:options': {
+                expandUnder: 'view:hasOtherExpenses'
+              }
+            }),
+            'view:otherExpensesWarning': {
+              'ui:description': otherExpensesWarning,
+              'ui:options': {
+                expandUnder: 'view:hasOtherExpenses'
+              }
+            }
           }
         },
         spouseNetWorth: {
@@ -1119,7 +1181,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
-            'ui:description': 'Social Security or other pensions',
+            'ui:description': 'Social Security or other pensions (gross income)',
             spouseMonthlyIncome: monthlyIncomeUI
           }
         },
@@ -1147,13 +1209,35 @@ const formConfig = {
           title: 'Spouse other expenses',
           schema: {
             type: 'object',
+            required: ['view:spouseHasOtherExpenses'],
             properties: {
-              spouseOtherExpenses: otherExpenses
+              'view:spouseHasOtherExpenses': {
+                type: 'boolean'
+              },
+              spouseOtherExpenses: otherExpenses,
+              'view:spouseOtherExpensesWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Medical, legal, or other unreimbursed expenses'),
-            spouseOtherExpenses: otherExpensesUI
+            'view:spouseHasOtherExpenses': {
+              'ui:title': 'Does your spouse have any medical, legal or other unreimbursed expenses?',
+              'ui:widget': 'yesNo'
+            },
+            spouseOtherExpenses: _.merge(otherExpensesUI, {
+              'ui:options': {
+                expandUnder: 'view:spouseHasOtherExpenses'
+              }
+            }),
+            'view:spouseOtherExpensesWarning': {
+              'ui:description': otherExpensesWarning,
+              'ui:options': {
+                expandUnder: 'view:spouseHasOtherExpenses'
+              }
+            }
           }
         },
         dependentsNetWorth: {
@@ -1210,7 +1294,7 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Monthly income'),
-                'ui:description': 'Social Security or other pensions',
+                'ui:description': 'Social Security or other pensions (gross income)',
                 monthlyIncome: monthlyIncomeUI
               }
             }
@@ -1259,8 +1343,16 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['view:hasOtherExpenses'],
                   properties: {
-                    otherExpenses
+                    'view:hasOtherExpenses': {
+                      type: 'boolean'
+                    },
+                    otherExpenses,
+                    'view:otherExpensesWarning': {
+                      type: 'object',
+                      properties: {}
+                    }
                   }
                 }
               }
@@ -1270,7 +1362,21 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Medical, legal, or other unreimbursed expenses'),
-                otherExpenses: otherExpensesUI
+                'view:hasOtherExpenses': {
+                  'ui:title': 'Does your child have any medical, legal or other unreimbursed expenses?',
+                  'ui:widget': 'yesNo'
+                },
+                otherExpenses: _.merge(otherExpensesUI, {
+                  'ui:options': {
+                    expandUnder: 'view:hasOtherExpenses'
+                  }
+                }),
+                'view:otherExpensesWarning': {
+                  'ui:description': otherExpensesWarning,
+                  'ui:options': {
+                    expandUnder: 'view:hasOtherExpenses'
+                  }
+                }
               }
             }
           }
@@ -1286,16 +1392,8 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
-            'view:bankAccountChange': {
-              'ui:title': 'Benefit payment method',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  start: 'Setup direct deposit',
-                  'continue': 'I already have direct deposit working',
-                  stop: 'Don’t use direct deposit'
-                }
-              }
+            'view:noDirectDeposit': {
+              'ui:title': 'I don’t want to use direct deposit'
             },
             bankAccount: _.merge(bankAccountUI, {
               'ui:order': [
@@ -1305,39 +1403,33 @@ const formConfig = {
                 'routingNumber'
               ],
               'ui:options': {
-                expandUnder: 'view:bankAccountChange',
-                expandUnderCondition: 'start'
+                hideIf: formData => !usingDirectDeposit(formData)
               },
               bankName: {
                 'ui:title': 'Bank name'
               },
               accountType: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               },
               accountNumber: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               },
               routingNumber: {
-                'ui:required': setupDirectDeposit
+                'ui:required': usingDirectDeposit
               }
             }),
             'view:stopWarning': {
               'ui:description': directDepositWarning,
               'ui:options': {
-                hideIf: (formData) => formData['view:bankAccountChange'] !== 'stop'
+                hideIf: usingDirectDeposit
               }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              'view:bankAccountChange': {
-                type: 'string',
-                'enum': [
-                  'start',
-                  'continue',
-                  'stop'
-                ]
+              'view:noDirectDeposit': {
+                type: 'boolean',
               },
               bankAccount,
               'view:stopWarning': {

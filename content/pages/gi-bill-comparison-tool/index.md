@@ -1,6 +1,7 @@
 ---
 title: GI Bill Comparison Tool
 display_title: Compare GI Bill Benefits
+description: Learn about education programs and compare benefits by school
 layout: page-react.html
 entryname: gi
 collection: education

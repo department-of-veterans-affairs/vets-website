@@ -82,10 +82,38 @@ describe('Schemaform <FileField>', () => {
           requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.subTree('.va-growable-background').text()).to.contain('Uploading file...');
+    expect(tree.everySubTree('ProgressBar')).not.to.be.empty;
     expect(tree.everySubTree('button')).to.be.empty;
   });
 
+  it('should update progress', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {};
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        uploading: true
+      }
+    ];
+    const tree = SkinDeep.shallowRender(
+      <FileField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.subTree('ProgressBar').props.percent).to.equal(0);
+
+    tree.getMountedInstance().updateProgress(20);
+
+    expect(tree.subTree('ProgressBar').props.percent).to.equal(20);
+  });
   it('should render error', () => {
     const idSchema = {
       $id: 'field'
@@ -235,10 +263,9 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.files('input[type=file]', [{}]);
 
-    expect(uploadFile.firstCall.args).to.eql([
-      {},
-      ['fileField', 0],
-      uiSchema['ui:options']
-    ]);
+    expect(uploadFile.firstCall.args[0]).to.eql({});
+    expect(uploadFile.firstCall.args[1]).to.eql(['fileField', 0]);
+    expect(uploadFile.firstCall.args[2]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[3]).to.be.a('function');
   });
 });
