@@ -160,7 +160,7 @@ const formConfig = {
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             placeOfBirth: {
-              'ui:title': 'Place of birth (city, state or country)'
+              'ui:title': 'Place of birth (city and state or foreign country)'
             }
           },
           schema: {
