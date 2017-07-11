@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Allowances & Survivor Compensation
-display_title: Burial Allowances & Survivor Compensation
+title: Burial Allowances and Survivor Compensation
+display_title: Burial Allowances and Survivor Compensation
 collection: burials
 children: burialsSurvivors
 order: 5
