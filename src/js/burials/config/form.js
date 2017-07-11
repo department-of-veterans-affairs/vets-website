@@ -416,7 +416,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
-              'ui:title': 'Amount of government or employer contribution:',
+              'ui:title': 'Amount of government or employer contribution (not including employer life insurance)',
               'ui:options': {
                 expandUnder: 'govtContributions',
                 classNames: 'schemaform-currency-input'
