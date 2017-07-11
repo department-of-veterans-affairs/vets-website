@@ -32,7 +32,7 @@ describe('Child information page', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -48,6 +48,29 @@ describe('Child information page', () => {
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(onSubmit.called).not.to.be.true;
+  });
+
+  // Skipped because it's an array page with a ui:required
+  it.skip('should not require ssn if noSSN is checked', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={dependentData}
+          pagePerItemIndex={0}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+    formDOM.setCheckbox('#root_view\\:noSSN', true);
+    formDOM.submitForm(form);
+    const errors = formDOM.querySelectorAll('.usa-input-error-label');
+
+    errors.forEach(e => console.log(e.getAttribute('for'))); // eslint-disable-line no-console
+
+    expect(errors.length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
 
