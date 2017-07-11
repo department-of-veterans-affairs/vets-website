@@ -10,7 +10,7 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import { validateBooleanGroup, validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -18,7 +18,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ClaimantView from '../components/ClaimantView';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
-import { claimantHeader, formatName } from '../utils/helpers';
+import { claimantHeader, formatName, veteranUISchema } from '../utils/helpers';
 
 const {
   claimant,
@@ -134,64 +134,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                veteran: {
-                  militaryServiceNumber: {
-                    'ui:title': 'Military Service number (if you have one that\'s different than your Social Security number)'
-                  },
-                  vaClaimNumber: {
-                    'ui:title': 'VA claim number (if known)'
-                  },
-                  placeOfBirth: {
-                    'ui:title': 'Place of birth'
-                  },
-                  gender: {
-                    'ui:title': 'Gender',
-                    'ui:widget': 'radio'
-                  },
-                  maritalStatus: {
-                    'ui:title': 'Marital status',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: {
-                        single: 'Single',
-                        separated: 'Separated',
-                        married: 'Married',
-                        divorced: 'Divorced',
-                        widowed: 'Widowed'
-                      }
-                    }
-                  },
-                  militaryStatus: {
-                    'ui:title': 'Military status to determine if you qualify for burial. Please check all that apply.',
-                    veteran: {
-                      'ui:title': 'Veteran'
-                    },
-                    retiredActiveDuty: {
-                      'ui:title': 'Retired Active Duty'
-                    },
-                    diedOnActiveDuty: {
-                      'ui:title': 'Died on Active Duty'
-                    },
-                    retiredReserve: {
-                      'ui:title': 'Retired Reserve'
-                    },
-                    retiredNationalGuard: {
-                      'ui:title': 'Retired National Guard'
-                    },
-                    deathInactiveDuty: {
-                      'ui:title': 'Death Related to Inactive Duty Training'
-                    },
-                    other: {
-                      'ui:title': 'Other'
-                    },
-                    'ui:validations': [
-                      validateBooleanGroup
-                    ],
-                    'ui:options': {
-                      showFieldLabel: true
-                    }
-                  }
-                }
+                veteran: veteranUISchema
               }
             }
           },
@@ -230,6 +173,11 @@ const formConfig = {
           path: 'sponsor-information-1/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
+          depends: (formData) => {
+            return formData.applications.some(
+              a => a.claimant.relationshipToVet.type === 1
+            );
+          },
           itemFilter: item => item.claimant.relationshipToVet.type !== 1,
           uiSchema: {
             applications: {
@@ -278,18 +226,47 @@ const formConfig = {
           path: 'sponsor-information-2/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          depends: {
-            'view:sponsor': 'Other'
-          },
+          itemFilter: item => item.claimant.relationshipToVet.type !== 1 && [undefined, 'Other'].includes(item['view:sponsor']),
           uiSchema: {
-            'ui:description': <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
-            veteran: {
-              name: fullNameUI,
-              maidenName: {
-                'ui:title': 'Maiden name (if applicable)'
-              },
-              socialSecurityNumber: ssnUI,
-              dateOfBirth: currentOrPastDateUI('Date of birth')
+            applications: {
+              items: {
+                'ui:title': claimantHeader,
+                'ui:description': <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
+                veteran: _.merge(veteranUISchema, {
+                  'ui:order': [
+                    '*',
+                    'isDeceased',
+                    'maritalStatus',
+                    'dateOfDeath'
+                  ],
+                  currentName: fullNameUI,
+                  ssn: ssnUI,
+                  dateOfBirth: currentOrPastDateUI('Date of birth'),
+                  isDeceased: {
+                    'ui:title': 'Is the sponsor deceased?',
+                    'ui:widget': 'radio',
+                    'ui:options': {
+                      labels: {
+                        yes: 'Yes',
+                        no: 'No',
+                        unsure: 'I don\'t know'
+                      }
+                    }
+                  },
+                  maritalStatus: {
+                    'ui:options': {
+                      expandUnder: 'isDeceased',
+                      expandUnderCondition: 'no'
+                    }
+                  },
+                  dateOfDeath: _.merge(currentOrPastDateUI('Date of death'), {
+                    'ui:options': {
+                      expandUnder: 'isDeceased',
+                      expandUnderCondition: 'yes'
+                    }
+                  })
+                })
+              }
             }
           },
           schema: {
@@ -303,10 +280,17 @@ const formConfig = {
                     veteran: {
                       type: 'object',
                       properties: _.pick([
-                        'name',
-                        'maidenName',
+                        'currentName',
                         'ssn',
-                        'dateOfBirth'
+                        'dateOfBirth',
+                        'dateOfDeath',
+                        'militaryServiceNumber',
+                        'vaClaimNumber',
+                        'gender',
+                        'placeOfBirth',
+                        'maritalStatus',
+                        'militaryStatus',
+                        'isDeceased'
                       ], veteran.properties)
                     }
                   }
