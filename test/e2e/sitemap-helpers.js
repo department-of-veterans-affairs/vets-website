@@ -1,7 +1,7 @@
 const libxmljs = require('libxmljs');
 const fetch = require('node-fetch');
 const E2eHelpers = require('./e2e-helpers');
-const Timeouts = require('./e2e/timeouts.js');
+const Timeouts = require('./timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
