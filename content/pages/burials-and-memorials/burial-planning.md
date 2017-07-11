@@ -69,7 +69,7 @@ You'll need information about the deceased's next-of-kin (the deceased's closest
  
 You may also need more information in certain cases:
 
-- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember/Veteran or family member
+- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member
 - **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery
 - **If the deceased is a spouse of a Servicemember or Veteran whose spouse has already died**, you'll need the full name of the spouse who died in the past as well as the cemetery section and site number where they're buried
  
@@ -82,7 +82,7 @@ You may also need more information in certain cases:
 You'll need to tell us:
 
  - The cemetery where you'd prefer the deceased to be buried <br />
- [Find A VA national cemetery](/facilities/).<br />
+ [Find a VA national cemetery](/facilities/).<br />
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).   
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
