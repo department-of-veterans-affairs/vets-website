@@ -412,7 +412,7 @@ const formConfig = {
               }
             },
             govtContributions: {
-              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?',
+              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?  (Not including employer life insurance)',
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
