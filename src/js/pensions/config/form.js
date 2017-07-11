@@ -433,11 +433,12 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             disabilities: {
-              'ui:title': 'What Disabilities prevent you from working?',
+              'ui:title': 'What disabilities prevent you from working?',
               'ui:order': ['name', 'disabilityStartDate'],
               'ui:options': {
                 viewField: DisabilityField,
-                reviewTitle: 'Disability history'
+                reviewTitle: 'Disability history',
+                itemName: 'Disability'
               },
               items: {
                 name: {
@@ -454,6 +455,7 @@ const formConfig = {
               'ui:description': 'Please enter all VA medical centers where you have received treatment',
               'ui:options': {
                 viewField: MedicalCenterField,
+                itemName: 'Medical Center',
                 expandUnder: 'view:hasVisitedVAMC'
               },
               items: {
