@@ -25,7 +25,7 @@ majorlinks:
       title: Honor the Deceased with Memorial Items
       description: Find out how to honor the military service of a deceased Servicemember or Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain memorial items as well.
     - url: /burials-and-memorials/survivor-and-dependent-benefits
-      title: Learn about Burial Allowances & Survivor Compensation
+      title: Learn about Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
   - heading: More Helpful Information
     links:
