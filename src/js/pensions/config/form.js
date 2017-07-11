@@ -20,6 +20,7 @@ import {
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
+import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
@@ -67,7 +68,8 @@ const {
   mobilePhone,
   veteranFullName,
   veteranDateOfBirth,
-  veteranSocialSecurityNumber
+  veteranSocialSecurityNumber,
+  vamcTreatmentCenters
 } = fullSchemaPensions.properties;
 
 const {
@@ -444,14 +446,26 @@ const formConfig = {
                 disabilityStartDate: currentOrPastDateUI('Date disability began')
               }
             },
-            hasVisitedVAMC: {
+            'view:hasVisitedVAMC': {
               'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
+            },
+            vamcTreatmentCenters: {
+              'ui:description': 'Please enter all VA medical centers where you have received treatment',
+              'ui:options': {
+                viewField: MedicalCenterField,
+                expandUnder: 'view:hasVisitedVAMC'
+              },
+              items: {
+                location: {
+                  'ui:title': 'Name and location of VA medical center'
+                }
+              }
             }
           },
           schema: {
             type: 'object',
-            required: ['disabilities', 'hasVisitedVAMC'],
+            required: ['disabilities', 'view:hasVisitedVAMC'],
             properties: {
               disabilities: {
                 type: 'array',
@@ -462,9 +476,12 @@ const formConfig = {
                   properties: disabilities.items.properties
                 }
               },
-              hasVisitedVAMC: {
+              'view:hasVisitedVAMC': {
                 type: 'boolean'
-              }
+              },
+              vamcTreatmentCenters: _.assign(vamcTreatmentCenters, {
+                minItems: 1
+              })
             }
           }
         },
