@@ -157,7 +157,7 @@ node('vets-website-linting') {
         }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
       throw error
     }
   }
