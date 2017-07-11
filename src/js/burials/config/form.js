@@ -468,13 +468,13 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+            deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
               hideIf: form => form.burialAllowanceRequested !== 'service'
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
-            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
-              addAnotherLabel: 'Add Another Receipt',
+            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains', {
+              addAnotherLabel: 'Add Another Document',
               hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
