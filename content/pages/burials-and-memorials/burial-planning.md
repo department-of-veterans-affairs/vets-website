@@ -71,7 +71,7 @@ You may also need more information in certain cases:
 
 - **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member
 - **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery
-- **If the deceased is a spouse of a Servicemember or Veteran whose spouse has already died**, you'll need the full name of the spouse who died in the past as well as the cemetery section and site number where they're buried
+- **If the deceased's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried
  
  </li>
  
@@ -87,10 +87,9 @@ You'll need to tell us:
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
  - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
- - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services)
+ - [If you're interested in other possible military honors beyond the playing of "Taps" and flag folding and presentation](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services)
  
  [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
- [Learn more about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
  
 </li>
 
