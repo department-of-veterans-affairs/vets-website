@@ -25,9 +25,7 @@ export class DownloadLetterLink extends React.Component {
 
   render() {
     return (
-      <Link
-          onClick={this.downloadLetter}
-          to="/" target="_blank"
+      <Link onClick={this.downloadLetter} to="/" target="_blank"
           className="usa-button-primary va-button-primary">
         Download Letter
       </Link>

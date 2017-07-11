@@ -1,9 +1,9 @@
 import React from 'react';
-// import { findDOMNode } from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
-// import sinon from 'sinon';
+import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
-// import ReactTestUtils from 'react-dom/test-utils';
+import _ from 'lodash/fp';
 
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 
@@ -28,23 +28,19 @@ describe('<DownloadLetterLink>', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
     expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
   });
-  /*
+
   it('should call getLetterPdf when clicked', () => {
     const oldWindow = global.window;
     global.window = {
       dataLayer: [],
     };
     const getLetterPdf = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
-      <DownloadLetterLink {...defaultProps}/>);
-    const findDOM = findDOMNode(tree);
-
-    const link = findDOM.querySelector('a');
-    expect(link).to.exist;
-    ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
+    const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
+    const component = (ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>));
+    const link = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'a');
+    ReactTestUtils.Simulate.click(link);
     expect(getLetterPdf.calledOnce).to.be.true;
-
+    expect(global.window.dataLayer).not.to.be.empty;
     global.window = oldWindow;
   });
-  */
 });
