@@ -113,4 +113,4 @@ If you have questions about the Burial at Sea program, please contact the United
 
 ### Can I get help paying for burial costs?
 
-If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](https://www.vets.gov/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
+If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
