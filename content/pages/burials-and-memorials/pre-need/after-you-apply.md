@@ -25,12 +25,12 @@ Find out what happens after you apply for a pre-need eligibility determination f
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">If more than 90 days has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than 90 days have passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
 </div>
 
 The amount of time it takes to review your application depends on:
 - The number of applications we're reviewing, **and**
-- How much information you've provided in your application, **and**
+- How much information you provided in your application, **and**
 - Whether you provided your (or your sponsor's) DD214 or other separation documents along with your application
 
 <br>
@@ -41,19 +41,19 @@ You don't need to do anything while you wait. We'll contact you if we need more 
 
 <br>
 
-### If VA decides I qualify for burial, how will I be notified of the decision?
+### If I qualify for burial, how will VA notify me of the decision?
 
 You’ll receive a VA burial and memorial benefits folder from us in the mail. This folder will include:
 
 - A letter telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. 
-- A National Cemetery Administration brochure and burial benefits information sheet. These will tell you more about the benefits you'll receive upon burial in a VA national cemetery.
+- A National Cemetery Administration brochure and a burial benefits information sheet. These will tell you more about the benefits you'll receive when you're buried in a VA national cemetery.
 - A copy of the supporting documents you submitted with your application
 
 <br>
 
-#### What should I do after I receive my pre-need letter and folder?
+#### What should I do after I receive my pre-need decision letter and folder?
 
-Keep your pre-need letter and folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after your death.
+Keep your pre-need decision letter and folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after your death.
 
 <br>
 
@@ -61,7 +61,7 @@ Keep your pre-need letter and folder in a safe place. Talk to your family member
 
 When you die, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
 
-We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements at your time of need. When a burial is requested, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
+We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
 [Learn more about planning a burial for a family member who's died](/burials-and-memorials/burial-planning).
 
@@ -72,13 +72,13 @@ We'll also keep a copy of your letter and supporting documents in our system to 
 No. If you qualify for burial in a VA national cemetery, you’ll receive burial benefits at no cost to your family. These include:
 
 - Opening and closing of the grave
-- A government-furnished burial liner
-- A government-furnished headstone or marker
+- A burial liner provided by the government
+- A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
 After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-and-memorials/honor/).
 
-If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help with paying for funeral costs. [Learn more about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. [Learn more about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 <br>
 
@@ -102,7 +102,7 @@ You can submit more supporting documents whether or not you choose to appeal the
 
 <br>
 
-#### If VA denies my pre-need application, can my family member or personal representative still apply for my burial in a VA national cemetery after I die?
+#### If VA denies my pre-need application, can my family member or authorized representative still apply for my burial in a VA national cemetery after I die?
 
 Yes. Laws and personal circumstances may change earlier eligibility decisions. We'll make the final decision of whether you qualify for burial at the time of need.
 
