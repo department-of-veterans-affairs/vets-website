@@ -412,11 +412,11 @@ const formConfig = {
               }
             },
             govtContributions: {
-              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?',
+              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)',
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
-              'ui:title': 'Amount of government or employer contribution (not including employer life insurance)',
+              'ui:title': 'Amount of government or employer contribution',
               'ui:options': {
                 expandUnder: 'govtContributions',
                 classNames: 'schemaform-currency-input'
