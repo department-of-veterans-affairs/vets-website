@@ -1,11 +1,12 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, transportationWarning, transform } from '../helpers';
+import { fileHelp, transportationWarning, burialDateWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 
@@ -182,6 +183,20 @@ const formConfig = {
           uiSchema: {
             deathDate: currentOrPastDateUI('Date of death'),
             burialDate: currentOrPastDateUI('Date of burial (includes cremation or interment)'),
+            'view:burialDateWarning': {
+              'ui:description': burialDateWarning,
+              'ui:options': {
+                hideIf: formData => {
+                  // If they haven't entered a complete year, don't jump the gun and show the warning
+                  if (formData.burialDate && !/\d{4}-\d{1,2}-\d{1,2}/.test(formData.burialDate)) {
+                    return true;
+                  }
+
+                  // Show the warning if the burial date was more than 2 years ago
+                  return moment().startOf('day').subtract(2, 'years').isBefore(formData.burialDate);
+                }
+              }
+            },
             locationOfDeath: {
               location: {
                 'ui:title': 'Where did the Veteran’s death occur?',
@@ -209,6 +224,7 @@ const formConfig = {
             properties: {
               deathDate,
               burialDate,
+              'view:burialDateWarning': { type: 'object', properties: {} },
               locationOfDeath
             }
           }
