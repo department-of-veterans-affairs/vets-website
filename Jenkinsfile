@@ -180,7 +180,8 @@ node('vets-website-linting') {
   stage('Archive') {
     try {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-builds-s3-upload', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-        sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vets-website-builds/
+        def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+        sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vets-website-builds/${ref}"
       }
     }
   }
