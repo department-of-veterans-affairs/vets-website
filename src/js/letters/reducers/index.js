@@ -47,7 +47,7 @@ function letters(state = initialState, action) {
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
-        if (optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false) &&
+        if ((optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false)) &&
             !possibleOptions.includes[key]) {
           possibleOptions.push(key);
         }

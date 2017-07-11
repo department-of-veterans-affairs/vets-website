@@ -10,7 +10,7 @@ import {
 } from '../utils/helpers';
 import { formatDateShort } from '../../common/utils/helpers';
 
-class VeteranBenefitSummaryLetter extends React.Component {
+export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -43,6 +43,12 @@ class VeteranBenefitSummaryLetter extends React.Component {
     let vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
+      // Need to verify with EVSS and vets-api: values should be true, false, or
+      // some value other than null or undefined, so this check should not be
+      // necessary, or should log a Sentry error.
+      if (benefitInfo[key] === null) {
+        return;
+      }
       // For some options, the customization checkbox is only displayed
       // if the benefit information value is not false. For others, the
       // customization checkbox is always displayed.
@@ -73,7 +79,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
 
     if (this.props.optionsAvailable) {
       vaBenefitInformation = (
-        <table className="usa-table-borderless">
+        <table className="usa-table-borderless" id="benefitInfoTable">
           <thead>
             <tr>
               <th scope="col">Include</th>
@@ -121,7 +127,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
             Include all periods of service
           </label>
         </div>
-        <table className="usa-table-borderless">
+        <table className="usa-table-borderless" id="militaryServiceTable">
           <thead>
             <tr>
               <th scope="col">Branch of Service</th>

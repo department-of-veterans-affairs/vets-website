@@ -3,6 +3,7 @@ import React from 'react';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
+import { formatDateShort } from '../../common/utils/helpers';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -152,10 +153,17 @@ export function getBenefitOptionText(option, value, isVeteran) {
     valueString = value;
   }
 
-  if (!['monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
+    case 'awardEffectiveDate': {
+      if (value) {
+        return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
+      }
+      return undefined;
+    }
+
     case 'monthlyAwardAmount': {
       if (value && value !== 'unavailable') {
         return (<div>Your current monthly award amount is <strong>${value}</strong>.</div>);
@@ -194,6 +202,7 @@ export const benefitOptionsMap = {
   hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
   hasSurvivorsPensionAward: 'survivorsAward',
   monthlyAwardAmount: 'monthlyAward',
+  awardEffectiveDate: 'monthlyAward',
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };

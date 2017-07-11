@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
+import { expect } from 'chai';
 import _ from 'lodash/fp';
 
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
