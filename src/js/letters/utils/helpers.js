@@ -103,11 +103,11 @@ const benefitOptionText = {
   hasChapter35Eligibility: {
     'true': {
       veteran: <div>You <strong>are</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities.</div>,
-      dependent: <div>You <strong>are</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
+      dependent: <div>The veteran <strong>was</strong> totally and permanently disabled.</div>
     },
     'false': {
       veteran: <div>You <strong>are not</strong> considered to be totally and permanently disabled solely due to your service-connected disabilities.</div>,
-      dependent: <div>You <strong>are not</strong> eligible for Dependents' Educational Assistance (Chapter 35).</div>
+      dependent: <div>The veteran <strong>was not</strong> totally and permanently disabled.</div>
     }
   },
   hasDeathResultOfDisability: {
