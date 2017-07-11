@@ -209,7 +209,6 @@ const formConfig = {
             properties: {
               deathDate,
               burialDate,
-              'view:burialDateWarning': { type: 'object', properties: {} },
               locationOfDeath
             }
           }
