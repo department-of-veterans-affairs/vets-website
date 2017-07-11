@@ -12,7 +12,7 @@ relatedlinks:
       title: What to Expect at a Funeral
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
-      title: Survivor Benefits
+      title: Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.  
 ---
 
