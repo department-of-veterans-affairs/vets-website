@@ -51,6 +51,7 @@ describe('Child information page', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
+  // Skipped because it's an array page with a ui:required
   it.skip('should not require ssn if noSSN is checked', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
