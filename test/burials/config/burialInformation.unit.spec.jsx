@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
 describe('Burials veteran burial information', () => {
@@ -17,7 +16,7 @@ describe('Burials veteran burial information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
@@ -32,8 +31,8 @@ describe('Burials veteran burial information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
+    const formDOM = getFormDOM(form);
+    formDOM.submitForm();
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
@@ -46,16 +45,12 @@ describe('Burials veteran burial information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_locationOfDeath_location_3'), {
-      target: {
-        value: 'other'
-      }
-    });
+    formDOM.selectRadio('root_locationOfDeath_location', 'other');
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(11);
-    submitForm(form);
+    formDOM.submitForm();
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
   });
 
@@ -69,51 +64,32 @@ describe('Burials veteran burial information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_burialDateMonth'), {
-      target: {
-        value: '12'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_burialDateDay'), {
-      target: {
-        value: '12'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_burialDateYear'), {
-      target: {
-        value: '2001'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_deathDateMonth'), {
-      target: {
-        value: '12'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_deathDateDay'), {
-      target: {
-        value: '11'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_deathDateYear'), {
-      target: {
-        value: '2001'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_locationOfDeath_location_3'), {
-      target: {
-        value: 'other'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_locationOfDeath_other'), {
-      target: {
-        value: 'House'
-      }
-    });
+    formDOM.fillDate('root_burialDate', '12-12-2001');
+    formDOM.fillDate('root_deathDate', '12-11-2001');
+    formDOM.selectRadio('root_locationOfDeath_location', 'other');
+    formDOM.fillData('#root_locationOfDeath_other', 'House');
 
-    submitForm(form);
+    formDOM.submitForm();
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should show warning if death date was more than 2 years ago', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelector('.usa-alert')).to.be.null;
+    formDOM.fillDate('root_burialDate', '12-11-2001');
+    expect(formDOM.querySelector('.usa-alert')).to.not.be.null;
   });
 });
