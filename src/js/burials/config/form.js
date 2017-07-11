@@ -474,7 +474,7 @@ const formConfig = {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains', {
-              addAnotherLabel: 'Add Another',
+              addAnotherLabel: 'Add Another Document',
               hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
