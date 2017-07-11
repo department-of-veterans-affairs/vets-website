@@ -460,7 +460,7 @@ const formConfig = {
               },
               items: {
                 location: {
-                  'ui:title': 'Name and location of VA medical center'
+                  'ui:title': 'Name and location (city, state) of VA medical center'
                 }
               }
             }
