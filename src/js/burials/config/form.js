@@ -188,7 +188,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => {
                   // If they haven't entered a complete year, don't jump the gun and show the warning
-                  if (formData.burialDate && formData.burialDate.split('-')[0].length !== 4) {
+                  if (formData.burialDate && !/\d{4}-\d{1,2}-\d{1,2}/.test(formData.burialDate)) {
                     return true;
                   }
 
