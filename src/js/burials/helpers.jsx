@@ -8,6 +8,12 @@ export const transportationWarning = (
   </div>
 );
 
+export const burialDateWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span>If filing for a non-service-connected allowance, the Veteran's burial date must be no more than 2 years from the current date.</span>
+  </div>
+);
+
 export function fileHelp({ formContext }) {
   if (formContext.reviewMode) {
     return <p/>;
