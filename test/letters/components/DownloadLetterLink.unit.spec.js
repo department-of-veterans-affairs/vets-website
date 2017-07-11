@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import _ from 'lodash/fp';
 
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 
@@ -9,39 +11,6 @@ const defaultProps = {
   letterName: 'Commissary Letter',
   letterType: 'commissary'
 };
-
-
-let oldWindow;
-let oldFetch;
-
-// TODO: fix this warning and improve test coverage for various scenarios:
-//   UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1):
-//   TypeError: Cannot read property 'ok' of undefined"
-
-const setup = () => {
-  oldFetch = global.fetch;
-  oldWindow = global.window;
-  global.fetch = sinon.spy(() => {
-    return Promise.resolve();
-  });
-  global.window = {
-    navigator: {},
-    open: sinon.spy(),
-    dataLayer: [],
-    URL: {
-      revokeObjectURL: () => {}
-    }
-  };
-  global.sessionStorage = {
-    userToken: 'abc'
-  };
-};
-
-const teardown = () => {
-  global.window = oldWindow;
-  global.fetch = oldFetch;
-};
-
 
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
@@ -60,14 +29,18 @@ describe('<DownloadLetterLink>', () => {
     expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
   });
 
-  it('should call download function on click', () => {
-    setup();
-    const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
-    const link = tree.subTree('Link');
-    link.props.onClick({
-      preventDefault() {}
-    });
-    expect(global.fetch.args[0][0]).to.contain('/v0/letters/');
-    teardown();
+  it('should call getLetterPdf when clicked', () => {
+    const oldWindow = global.window;
+    global.window = {
+      dataLayer: [],
+    };
+    const getLetterPdf = sinon.spy();
+    const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
+    const component = (ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>));
+    const link = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'a');
+    ReactTestUtils.Simulate.click(link);
+    expect(getLetterPdf.calledOnce).to.be.true;
+    expect(global.window.dataLayer).not.to.be.empty;
+    global.window = oldWindow;
   });
 });
