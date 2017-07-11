@@ -34,7 +34,7 @@ class IntroductionPage extends React.Component {
                 <li>Veteran’s Social Security number or VA file number (required)</li>
                 <li>Veteran’s military discharge papers (DD214 or other separation documents)</li>
                 <li>Veteran’s death certificate (if claiming service connected death)</li>
-                <li>Receipts for transportation costs (if claiming transportation costs of the Veteran’s remains)</li>
+                <li>Documentation for transportation costs (if claiming transportation costs of the Veteran’s remains)</li>
               </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
