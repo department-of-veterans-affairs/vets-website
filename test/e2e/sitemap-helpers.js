@@ -17,7 +17,18 @@ function sitemapURLs(callback) {
                       .map(n => n.text().replace(BUILD_BASE_URL, E2eHelpers.baseUrl))
                       .filter(url => !(url.endsWith('auth/login/callback/')));
 
-      callback(urls);
+      // Whitelist of URLs to only test against the 'section508' rule set and not
+      // the stricter 'wcag2a' rule set. For each URL added to this list, please
+      // add a comment explaining why it cannot be tested against stricter rules.
+      const onlyTest508Rules = [
+        // 404 page contains 2 search auto-suggest elements with the same element ID,
+        // which violates WCAG 2.0 standards. This element id is referenced by
+        // https://search.usa.gov/assets/sayt_loader_libs.js, so if we change the ID
+        // of one of the elements, search won't work.
+        '/404.html'
+      ];
+
+      callback(urls, onlyTest508Rules);
     }).catch(callback);
 }
 
