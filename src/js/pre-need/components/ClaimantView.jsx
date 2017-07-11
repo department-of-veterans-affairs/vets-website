@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { formatName } from '../utils/helpers';
+
 export default function ClaimantView({ formData }) {
-  const {
-    name: { first, middle, last, suffix },
-    relationshipToVet
-  } = formData.claimant;
+  const { name, relationshipToVet } = formData.claimant;
 
   let relationship;
 
@@ -24,7 +23,7 @@ export default function ClaimantView({ formData }) {
 
   return (
     <div>
-      <strong>{first} {middle && `${middle} `}{last}{suffix && `, ${suffix}`}</strong><br/>
+      <div><strong>{formatName(name)}</strong></div>
       <div>{relationship}</div>
     </div>
   );
