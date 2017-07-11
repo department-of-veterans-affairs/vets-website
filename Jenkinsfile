@@ -158,13 +158,13 @@ node('vets-website-linting') {
     try {
       parallel (
         e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
+          dockerImage.inside(args + " -e BUILDTYPE=production -e CONCURRENCY=4") {
             sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
         accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
+          dockerImage.inside(args + " -e BUILDTYPE=production -e CONCURRENCY=4") {
             sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
           }
         }
@@ -179,9 +179,9 @@ node('vets-website-linting') {
 
   stage('Archive') {
     try {
-      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-builds-s3-upload', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
         def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-        sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vets-website-builds/${ref}"
+        sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vetsgov-website-builds-s3-upload/${ref}"
       }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
