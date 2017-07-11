@@ -153,6 +153,7 @@ node('vets-website-linting') {
 
   // Run E2E and accessibility tests
 
+/*
   stage('Integration') {
 
     try {
@@ -176,6 +177,7 @@ node('vets-website-linting') {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
+*/
 
   stage('Archive') {
     try {
