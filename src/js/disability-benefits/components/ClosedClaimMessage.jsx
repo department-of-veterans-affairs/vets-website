@@ -12,10 +12,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
       const events = orderBy(claim.attributes.events, [e => moment(e.date).unix()], ['desc']);
       const lastEvent = events[0];
 
-      return !claim.attributes.active
-        && (moment(claim.attributes.prior_decision_date).startOf('day').isAfter(sixtyDaysAgo)
-        || moment(lastEvent.date).startOf('day').isAfter(sixtyDaysAgo)
-      );
+      return !claim.attributes.active && moment(lastEvent.date).startOf('day').isAfter(sixtyDaysAgo);
     }
 
     return !claim.attributes.open
