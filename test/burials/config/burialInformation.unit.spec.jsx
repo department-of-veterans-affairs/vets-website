@@ -75,4 +75,21 @@ describe('Burials veteran burial information', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+
+  it('should show warning if death date was more than 2 years ago', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelector('.usa-alert')).to.be.null;
+    formDOM.fillDate('root_burialDate', '12-11-2001');
+    expect(formDOM.querySelector('.usa-alert')).to.not.be.null;
+  });
 });
