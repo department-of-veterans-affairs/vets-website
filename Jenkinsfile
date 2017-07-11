@@ -14,6 +14,8 @@ def isDeployable = {
 }
 
 def buildDetails = { vars ->
+  def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
   """
     BUILDTYPE=${vars['buildtype']}
     NODE_ENV=production
@@ -21,6 +23,7 @@ def buildDetails = { vars ->
     CHANGE_TARGET=${env.CHANGE_TARGET}
     BUILD_ID=${env.BUILD_ID}
     BUILD_NUMBER=${env.BUILD_NUMBER}
+    REF=${ref}
   """.stripIndent()
 }
 
@@ -171,6 +174,14 @@ node('vets-website-linting') {
       throw error
     } finally {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
+  }
+
+  stage('Archive') {
+    try {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-builds-s3-upload', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+        sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vets-website-builds/
+      }
     }
   }
 
