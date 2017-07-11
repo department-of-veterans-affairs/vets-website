@@ -93,7 +93,12 @@ export const applicantDescription = <p>You aren’t required to fill in <strong>
 
 export const otherExpensesWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> At the end of the application, you will be asked to upload all receipts for any medical, legal, or other unreimbursed expenses you incurred.</span>
+    <span>If you have expenses related to nursing home or home care, providing receipts can significantly speed up processing of your claim.</span>
   </div>
 );
 
+export const uploadMessage = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">If you have many documents to upload you can mail them to us.<br/><br/><em>We’ll provide an address after you finish the application.</em></div>
+  </div>
+);
