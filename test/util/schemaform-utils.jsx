@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
+import { fillDate } from './unit-helpers';
 
 import {
   replaceRefSchemas,
@@ -123,8 +124,19 @@ export function getFormDOM(form) {
     });
   };
 
+  formDOM.selectRadio = function selectRadio(fieldName, value) {
+    ReactTestUtils.Simulate.change(this.querySelector(`input[name^="${fieldName}"][value="${value}"]`), {
+      target: { value }
+    });
+  };
+
   formDOM.click = function click(selector) {
     ReactTestUtils.Simulate.click(this.querySelector(selector));
+  };
+
+  // TODO: Remove fillDate from unit-helpers and prefer this one
+  formDOM.fillDate = function populateDate(partialId, dateString) {
+    fillDate(this, partialId, dateString);
   };
 
   return formDOM;
