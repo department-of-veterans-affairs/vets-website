@@ -30,7 +30,8 @@ const {
   claimant,
   veteran,
   hasCurrentlyBuried,
-  currentlyBuriedPersons
+  currentlyBuriedPersons,
+  attachments
 } = fullSchemaPreNeed.properties.applications.items.properties;
 
 const {
@@ -467,6 +468,42 @@ const formConfig = {
         }
       }
     },
+    supportingDocuments: {
+      title: 'Supporting documents',
+      pages: {
+        supportingDocuments: {
+          title: 'supportingDocuments',
+          path: 'supporting-documents/:index',
+          editModeOnReviewPage: true,
+          showPagePerItem: true,
+          arrayPath: 'applications',
+          itemFilter: requiresSponsorInfo,
+          uiSchema: {
+            applications: {
+              items: {
+                'ui:title': claimantHeader,
+                'ui:description': SupportingDocumentsDescription,
+                attachments: fileUploadUI('Select files to upload')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applications: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    attachments
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     /*
     personalInformation: {
       title: 'Personal Information',
@@ -509,26 +546,6 @@ const formConfig = {
                   phoneNumber
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    supportingDocuments: {
-      title: 'Supporting documents',
-      pages: {
-        supportingDocuments: {
-          title: 'supportingDocuments',
-          path: 'supporting-documents',
-          editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:description': SupportingDocumentsDescription,
-            documents: fileUploadUI('Select files to upload')
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              documents
             }
           }
         }
