@@ -14,11 +14,22 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Check Benefit: Vets.gov')
-      .waitForElementVisible('.schemaform-title', 10000);  // First render of React may be slow.
+      .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
 
-    // // User information section
-    // client
-    //   .expect.element('[name="fullName"]').text.to.contain('First Last');
+    // User information section
+    client.expect.element('[name="fullName"]').text.to.contain('First Last');
+    client.expect.element('[name="dateOfBirth"]').text.to.contain('11/27/1995');
+    client.expect.element('[name="vaFileNumber"]').text.to.contain('xxxx-5678');
+    client.expect.element('[name="regionalProcessingOffice"]').text.to.contain('Central Office Washington, DC');
+
+    client.expect.element('[name="originalEntitlement"]').text.to.contain('100');
+    client.expect.element('[name="usedEntitlement"]').text.to.contain('75');
+    client.expect.element('[name="remainingEntitlement"]').text.to.contain('25');
+
+    client.expect.element('[name="percentageBenefit"]').text.to.contain('25%');
+    client.expect.element('[name="delimitingDate"]').text.to.contain('12/07/2017');
+
+    // client.expect.element('[name=""]').text.to.contain();
 
     client.axeCheck('.main');
 
