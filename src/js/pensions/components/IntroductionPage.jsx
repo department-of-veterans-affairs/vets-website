@@ -63,7 +63,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete this pension benefits form</p>
+              <p>Complete this pension benefits form.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
