@@ -62,24 +62,18 @@ function completeDisabilityHistory(client, data) {
 }
 
 function completeWorkHistory(client, data) {
-  client
-    .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
-    .fill('input[name="root_view:history_jobs_0_employer"]', data['view:history'].jobs[0].employer)
-    .fillAddress('root_view:history_jobs_0_address', data['view:history'].jobs[0].address)
-    .fill('input[name="root_view:history_jobs_0_jobTitle"]', data['view:history'].jobs[0].jobTitle)
-    .fillDate('root_view:history_jobs_0_dateRange_from', data['view:history'].jobs[0].dateRange.from)
-    .fillDate('root_view:history_jobs_0_dateRange_to', data['view:history'].jobs[0].dateRange.to)
-    .fill('input[name="root_view:history_jobs_0_daysMissed"]', data['view:history'].jobs[0].daysMissed)
-    .fill('input[name="root_view:history_jobs_0_annualEarnings"]', data['view:history'].jobs[0].annualEarnings)
-    .click('.va-growable-add-btn')
-    .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
-    .fill('input[name="root_view:history_jobs_1_employer"]', data['view:history'].jobs[1].employer)
-    .fillAddress('root_view:history_jobs_1_address', data['view:history'].jobs[1].address)
-    .fill('input[name="root_view:history_jobs_1_jobTitle"]', data['view:history'].jobs[1].jobTitle)
-    .fillDate('root_view:history_jobs_1_dateRange_from', data['view:history'].jobs[1].dateRange.from)
-    .fillDate('root_view:history_jobs_1_dateRange_to', data['view:history'].jobs[1].dateRange.to)
-    .fill('input[name="root_view:history_jobs_1_daysMissed"]', data['view:history'].jobs[1].daysMissed)
-    .fill('input[name="root_view:history_jobs_1_annualEarnings"]', data['view:history'].jobs[1].annualEarnings);
+  data['view:history'].jobs.forEach((job, index) => {
+    client
+      .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
+      .fill(`input[name="root_view:history_jobs_${index}_employer"]`, job.employer)
+      .fillAddress(`root_view:history_jobs_${index}_address`, job.address)
+      .fill(`input[name="root_view:history_jobs_${index}_jobTitle"]`, job.jobTitle)
+      .fillDate(`root_view:history_jobs_${index}_dateRange_from`, job.dateRange.from)
+      .fillDate(`root_view:history_jobs_${index}_dateRange_to`, job.dateRange.to)
+      .fill(`input[name="root_view:history_jobs_${index}_daysMissed"]`, job.daysMissed)
+      .fill(`input[name="root_view:history_jobs_${index}_annualEarnings"]`, job.annualEarnings)
+      .clickIf('.va-growable-add-btn', index < data['view:history'].jobs.length - 1);
+  });
 }
 
 function initApplicationSubmitMock() {
