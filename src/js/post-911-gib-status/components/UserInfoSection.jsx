@@ -43,7 +43,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Benefit End Date</h4>
             <p>
-              You can use these benefits until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong>.
+              You have until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong> to use these benefits.
             </p>
           </div>
         </div>
