@@ -37,9 +37,14 @@ module.exports = E2eHelpers.createE2eTest(
         client.switchWindow(newWindow);
       });
 
-    client
-      .waitForElementVisible('.print-status', Timeouts.slow)
-      .expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
+    // Ensure main status page renders.
+    LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
+      .waitForElementVisible('body', Timeouts.normal)
+      .axeCheck('.main')
+      .assert.title('Check Benefit: Vets.gov')
+      .waitForElementVisible('.print-status', Timeouts.slow);  // First render of React may be slow.
+
+    client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
 
     client.axeCheck('.main');
 
