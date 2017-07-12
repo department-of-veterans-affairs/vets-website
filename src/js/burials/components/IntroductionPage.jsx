@@ -29,7 +29,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>Review <a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">eligibility information</a></h6></div>
+              <div><h6>Review <a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">eligibility information</a>.</h6></div>
               <br/>
               <div><h6>You’ll need information about the deceased Veteran, including their:</h6></div>
               <ul>
