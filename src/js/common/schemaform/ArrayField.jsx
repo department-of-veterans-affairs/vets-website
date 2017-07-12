@@ -181,10 +181,11 @@ export default class ArrayField extends React.Component {
     } = this.props;
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
-    const ViewField = uiSchema['ui:options'].viewField;
 
+    const uiOptions = uiSchema['ui:options'] || {};
+    const ViewField = uiOptions.viewField;
     const title = uiSchema['ui:title'] || schema.title;
-    const hideTitle = !!_.get(['ui:options', 'hideTitle'], uiSchema);
+    const hideTitle = !!uiOptions.title;
     const description = uiSchema['ui:description'];
     const textDescription = typeof description === 'string' ? description : null;
     const DescriptionField = typeof description === 'function'
@@ -288,7 +289,7 @@ export default class ArrayField extends React.Component {
               )}
               disabled={!this.props.formData}
               onClick={this.handleAdd}>
-            Add Another
+            Add Another {uiOptions.itemName}
           </button>
         </div>
       </div>

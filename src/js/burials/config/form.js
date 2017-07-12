@@ -1,11 +1,12 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, transportationWarning, transform } from '../helpers';
+import { fileHelp, transportationWarning, burialDateWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 
@@ -160,7 +161,7 @@ const formConfig = {
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             placeOfBirth: {
-              'ui:title': 'Place of birth'
+              'ui:title': 'Place of birth (city and state or foreign country)'
             }
           },
           schema: {
@@ -182,6 +183,20 @@ const formConfig = {
           uiSchema: {
             deathDate: currentOrPastDateUI('Date of death'),
             burialDate: currentOrPastDateUI('Date of burial (includes cremation or interment)'),
+            'view:burialDateWarning': {
+              'ui:description': burialDateWarning,
+              'ui:options': {
+                hideIf: formData => {
+                  // If they haven't entered a complete year, don't jump the gun and show the warning
+                  if (formData.burialDate && !/\d{4}-\d{1,2}-\d{1,2}/.test(formData.burialDate)) {
+                    return true;
+                  }
+
+                  // Show the warning if the burial date was more than 2 years ago
+                  return moment().startOf('day').subtract(2, 'years').isBefore(formData.burialDate);
+                }
+              }
+            },
             locationOfDeath: {
               location: {
                 'ui:title': 'Where did the Veteran’s death occur?',
@@ -209,6 +224,7 @@ const formConfig = {
             properties: {
               deathDate,
               burialDate,
+              'view:burialDateWarning': { type: 'object', properties: {} },
               locationOfDeath
             }
           }
@@ -396,7 +412,7 @@ const formConfig = {
               }
             },
             govtContributions: {
-              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?',
+              'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?  (Not including employer life insurance)',
               'ui:widget': 'yesNo'
             },
             amountGovtContribution: {
@@ -468,13 +484,13 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            deathCertificate: _.assign(fileUploadUI('Veterans death certificate', {
+            deathCertificate: _.assign(fileUploadUI('Veteran’s death certificate', {
               hideIf: form => form.burialAllowanceRequested !== 'service'
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
-            transportationReceipts: _.assign(fileUploadUI('Receipt(s) for transportation of the Veteran’s remains', {
-              addAnotherLabel: 'Add Another Receipt',
+            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains', {
+              addAnotherLabel: 'Add Another Document',
               hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
