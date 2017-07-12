@@ -2,6 +2,15 @@ import React from 'react';
 
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 
+export function isVeteran(item) {
+  return item.claimant.relationshipToVet.type === 1;
+}
+
+export function requiresSponsorInfo(item) {
+  const sponsor = item['view:sponsor'];
+  return sponsor === undefined || sponsor === 'Other';
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
