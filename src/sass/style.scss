@@ -16,8 +16,8 @@
 @import "~font-awesome/scss/icons";
 @font-face {
   font-family: "FontAwesome";
-  src: url("~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}") format("woff2"),
-       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff"),
+  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
+       url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
        url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
   font-weight: normal;
   font-style: normal;
