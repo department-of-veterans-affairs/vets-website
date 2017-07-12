@@ -194,7 +194,7 @@ const formConfig = {
                   'ui:title': 'Who is your Sponsor?',
                   'ui:widget': 'radio',
                   'ui:options': {
-                    updateSchema: (form, pageSchema) => {
+                    updateSchema: form => {
                       const veterans = form.applications ?
                         form.applications.filter(isVeteran).map(
                           a => formatName(a.claimant.name)
@@ -597,7 +597,7 @@ const formConfig = {
               'ui:title': 'Who is filling out this form?',
               'ui:widget': 'radio',
               'ui:options': {
-                updateSchema: (form, pageSchema) => {
+                updateSchema: form => {
                   const claimants = form.applications ?
                     form.applications.map(
                       a => formatName(a.claimant.name)
