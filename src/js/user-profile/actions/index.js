@@ -43,6 +43,7 @@ export function fetchLatestTerms(termsName) {
 export function acceptTerms(termsName) {
   return dispatch => {
     dispatch({ type: ACCEPTING_LATEST_MHV_TERMS });
+    window.dataLayer.push({ event: 'terms-accepted' });
 
     const settings = {
       method: 'POST',
