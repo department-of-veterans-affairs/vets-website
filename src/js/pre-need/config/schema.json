@@ -508,7 +508,7 @@
               "properties": {
                 "cemeteryNumber": {
                   "type": "string",
-                  "pattern": "^d{3}$"
+                  "pattern": "^\\d{3}$"
                 },
                 "name": {
                   "type": "string"
