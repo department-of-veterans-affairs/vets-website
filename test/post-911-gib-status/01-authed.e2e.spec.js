@@ -29,7 +29,17 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('[name="percentageBenefit"]').text.to.contain('25%');
     client.expect.element('[name="delimitingDate"]').text.to.contain('12/07/2017');
 
-    // client.expect.element('[name=""]').text.to.contain();
+    // Print page
+    client
+      .click('#print-button')
+      .windowHandles((result) => {
+        const newWindow = result.value[1];
+        client.switchWindow(newWindow);
+      });
+
+    client
+      .waitForElementVisible('.print-status', Timeouts.slow)
+      .expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
 
     client.axeCheck('.main');
 
