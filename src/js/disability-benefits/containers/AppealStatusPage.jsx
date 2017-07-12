@@ -157,6 +157,14 @@ function mapStateToProps(state, ownProps) {
     return a.id === ownProps.params.id;
   })[0];
 
+  // append starting event for post-remand and post-cavc remand appeals
+  if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
+    appeal.attributes.events.unshift({
+      type: appeal.attributes.type === 'post_cavc_remand' ? 'cavc_decision' : 'bva_remand',
+      date: appeal.attributes.prior_decision_date,
+    });
+  }
+
   return {
     appeal,
   };
