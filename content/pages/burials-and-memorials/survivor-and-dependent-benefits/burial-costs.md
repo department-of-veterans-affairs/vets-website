@@ -46,10 +46,10 @@ You must file a claim for a non-service-connected burial allowance within 2 year
 
 ### What documents and information do I need to apply?
 
-You'll need a copy of: 
+You may need a copy of: 
 - The Veteran’s military discharge papers (DD214 or other separation documents)
 - The Veteran’s death certificate
-- Any documents you have for costs for transporting the Veteran's remains
+- Any documents you have for the cost of transporting the Veteran's remains
 
 </div>
 
