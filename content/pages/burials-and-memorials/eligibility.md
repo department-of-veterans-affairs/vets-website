@@ -39,6 +39,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 
 
 <dl class="va-address-block">
+    <dt></dt>
     <dd>National Cemetery Scheduling Office</dd>
     <dd>P.O. Box 510543</dd>
     <dd>St. Louis, MO 63151</dd>
