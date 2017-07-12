@@ -64,6 +64,7 @@ To learn more about VA blind rehabilitation services, contact the Visual Impairm
 Or, contact the Blind Rehabilitation Service Program office by phone (<a href="tel:+1-202-461-7317">202-461-7317</a>) or by mail: 
 
 <dl class="va-address-block">
+<dt></dt>
 <dd>Department of Veterans Affairs</dd>
 <dd>Veterans Health Administration</dd>
 <dd>Blind Rehabilitation Service (117B)</dd>
