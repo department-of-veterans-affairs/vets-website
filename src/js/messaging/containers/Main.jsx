@@ -113,7 +113,7 @@ export class Main extends React.Component {
             <ButtonClose
                 className="messaging-folder-nav-close"
                 onClick={this.props.toggleFolderNav}/>
-            <ComposeButton disabled={_.isEmpty(this.props.recipients)}/>
+            <ComposeButton/>
             <FolderNav
                 currentFolderId={this.props.currentFolderId}
                 folders={this.props.folders}
