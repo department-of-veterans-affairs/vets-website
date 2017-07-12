@@ -288,6 +288,40 @@ describe('Schemaform actions:', () => {
       });
     });
 
+    it('should reject if file is wrong type', () => {
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 5
+        },
+        ['fileField', 0],
+        {
+          fileTypes: ['jpeg'],
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      return thunk(dispatch, getState).then(() => {
+        throw new Error('Should have failed on non-allowed file type');
+      }).catch(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'File is not one of the allowed types'
+              }
+            ]
+          }
+        });
+      });
+    });
     it('should call set data on success', () => {
       const thunk = uploadFile(
         {
@@ -297,7 +331,7 @@ describe('Schemaform actions:', () => {
         ['fileField', 0],
         {
           endpoint: '/v0/endpoint',
-          fileTypes: ['jpg'],
+          fileTypes: ['JPG'],
           maxSize: 5
         }
       );

@@ -126,7 +126,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
 
     // we limit file types, but it's not respected on mobile and desktop
     // users can bypass it without much effort
-    if (!uiOptions.fileTypes.some(fileType => file.name.endsWith(fileType))) {
+    if (!uiOptions.fileTypes.some(fileType => file.name.toLowerCase().endsWith(fileType.toLowerCase()))) {
       dispatch(
         setData(_.set(filePath, {
           errorMessage: 'File is not one of the allowed types'
