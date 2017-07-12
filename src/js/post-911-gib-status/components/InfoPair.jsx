@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class InfoPair extends React.Component {
   render() {
-    const { additionalClass, name } = this.props;
+    const { additionalClass } = this.props;
 
     const gridRowClasses = additionalClass ?
         `usa-grid-full ${additionalClass}`
@@ -14,7 +14,7 @@ class InfoPair extends React.Component {
         <div className="usa-width-one-third">
           <span><strong>{this.props.label}: </strong></span>
         </div>
-        <div className="usa-width-two-thirds" name={name || ''}>
+        <div className="usa-width-two-thirds">
           {this.props.value}
         </div>
       </div>

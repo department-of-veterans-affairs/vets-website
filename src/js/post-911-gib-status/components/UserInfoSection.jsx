@@ -83,7 +83,6 @@ class UserInfoSection extends React.Component {
         <div className="section">
           <InfoPair
               label="Name"
-              name="fullName"
               value={fullName}
               additionalClass="section-line"/>
           <InfoPair
@@ -93,12 +92,10 @@ class UserInfoSection extends React.Component {
               additionalClass="section-line"/>
           <InfoPair
               label="VA file number"
-              name="vaFileNumber"
               value={formatVAFileNumber(enrollmentData.vaFileNumber)}
               additionalClass="section-line"/>
           <InfoPair
               label="Regional processing office"
-              name="regionalProcessingOffice"
               value={enrollmentData.regionalProcessingOffice}
               additionalClass="section-line"/>
         </div>
