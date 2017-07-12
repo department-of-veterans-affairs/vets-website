@@ -29,6 +29,7 @@ import {
 const {
   claimant,
   veteran,
+  applicant,
   hasCurrentlyBuried,
   currentlyBuriedPersons,
   attachments
@@ -100,7 +101,7 @@ const formConfig = {
                       'ui:title': 'Please specify your relationship',
                       // 'ui:required': (form) => _.get('relationship.type', form) === 'other',
                       'ui:options': {
-                        hideIf: (form) => _.get('relationship.type', form) !== 'other'
+                        hideIf: formData => _.get('relationship.type', formData) !== 'other'
                       }
                     }
                   },
@@ -182,7 +183,8 @@ const formConfig = {
           path: 'sponsor-information-1/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          depends: formData => formData.applications.some(isVeteran),
+          // TODO: Fix inconsistent formData upon submission.
+          depends: formData => formData.applications && formData.applications.some(isVeteran),
           itemFilter: item => !isVeteran(item),
           uiSchema: {
             applications: {
@@ -401,7 +403,7 @@ const formConfig = {
       title: 'Burial Benefits',
       pages: {
         burialBenefits: {
-          title: 'Burial benefits',
+          title: item => formatName(item.claimant.name),
           path: 'burial-benefits/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
@@ -472,12 +474,11 @@ const formConfig = {
       title: 'Supporting documents',
       pages: {
         supportingDocuments: {
-          title: 'supportingDocuments',
+          title: item => formatName(item.claimant.name),
           path: 'supporting-documents/:index',
           editModeOnReviewPage: true,
           showPagePerItem: true,
           arrayPath: 'applications',
-          itemFilter: requiresSponsorInfo,
           uiSchema: {
             applications: {
               items: {
@@ -504,46 +505,80 @@ const formConfig = {
         }
       }
     },
-    /*
-    personalInformation: {
-      title: 'Personal Information',
+    contactInformation: {
+      title: 'Contact Information',
       pages: {
-        personalInformation: {
-          title: 'Personal information',
-          path: 'personal-information',
+        contactInformation: {
+          title: item => formatName(item.claimant.name),
+          path: 'contact-information/:index',
+          showPagePerItem: true,
+          arrayPath: 'applications',
           uiSchema: {
-            personalAddress: address.uiSchema(),
-            'view:otherContactInfo': {
-              'ui:title': 'Other contact information',
-              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
-              'ui:validations': [
-                validateMatch('email', 'view:confirmEmail')
-              ],
-              email: {
-                'ui:title': 'Email address'
-              },
-              'view:confirmEmail': {
-                'ui:title': 'Re-enter email address',
-                'ui:options': {
-                  hideOnReview: true
+            applications: {
+              items: {
+                'ui:title': claimantHeader,
+                claimant: {
+                  address: address.uiSchema(),
+                  'view:otherContactInfo': {
+                    'ui:title': 'Other contact information',
+                    'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+                    'ui:validations': [
+                      validateMatch('email', 'view:confirmEmail')
+                    ],
+                    phoneNumber: phoneUI('Primary telephone number'),
+                    email: {
+                      'ui:title': 'Email address'
+                    },
+                    'view:confirmEmail': {
+                      'ui:title': 'Re-enter email address',
+                      'ui:options': {
+                        hideOnReview: true
+                      }
+                    }
+                  }
+                },
+                veteran: {
+                  address: _.merge(address.uiSchema('Sponsor address'), {
+                    'ui:options': {
+                      hideIf: (formData, index) => isVeteran(formData.applications[index])
+                    }
+                  })
                 }
-              },
-              phoneNumber: phoneUI('Primary telephone number')
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              personalAddress: address.schema(fullSchemaPreNeed),
-              'view:otherContactInfo': {
-                type: 'object',
-                properties: {
-                  email,
-                  'view:confirmEmail': {
-                    type: 'string',
-                    format: 'email'
-                  },
-                  phoneNumber
+              applications: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    claimant: {
+                      type: 'object',
+                      properties: {
+                        address: address.schema(fullSchemaPreNeed),
+                        'view:otherContactInfo': {
+                          type: 'object',
+                          properties: {
+                            phoneNumber: claimant.properties.phoneNumber,
+                            email: claimant.properties.email,
+                            'view:confirmEmail': {
+                              type: 'string',
+                              format: 'email'
+                            },
+                          }
+                        }
+                      }
+                    },
+                    veteran: {
+                      type: 'object',
+                      properties: {
+                        address: address.schema(fullSchemaPreNeed)
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -558,22 +593,28 @@ const formConfig = {
           title: 'Certification',
           path: 'certification',
           uiSchema: {
-            'view:isPreparer': {
-              'ui:title': 'Is someone else filling out this application for you?',
+            'view:preparer': {
+              'ui:title': 'Who is filling out this form?',
               'ui:widget': 'radio',
               'ui:options': {
-                labels: {
-                  N: 'No',
-                  Y: 'Yes'
+                updateSchema: (form, pageSchema) => {
+                  const claimants = form.applications ?
+                    form.applications.map(
+                      a => formatName(a.claimant.name)
+                    ) : [];
+                  return {
+                    'enum': [...claimants, 'Other'],
+                    enumNames: [...claimants, 'Other']
+                  };
                 }
               }
             },
-            'view:preparer': {
+            applicant: {
               'ui:options': {
-                expandUnder: 'view:isPreparer',
-                expandUnderCondition: 'Y'
+                expandUnder: 'view:preparer',
+                expandUnderCondition: 'Other'
               },
-              preparerFullName: _.merge(fullNameUI, {
+              name: _.merge(fullNameUI, {
                 'ui:title': 'Preparer information',
                 suffix: {
                   'ui:options': {
@@ -581,31 +622,31 @@ const formConfig = {
                   }
                 }
               }),
-              preparerAddress: address.uiSchema('Mailing address'),
+              mailingAddress: address.uiSchema('Mailing address'),
               'view:contactInfo': {
                 'ui:title': 'Contact information',
-                preparerPhoneNumber: phoneUI('Primary telephone number')
+                applicantPhoneNumber: phoneUI('Primary telephone number')
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['view:isPreparer'],
+            required: ['view:preparer'],
             properties: {
-              'view:isPreparer': {
-                type: 'string',
-                'enum': ['N', 'Y']
-              },
               'view:preparer': {
+                type: 'string'
+              },
+              applicant: {
                 type: 'object',
                 properties: {
-                  preparerFullName,
-                  preparerAddress: address.schema(fullSchemaPreNeed, true),
+                  // TODO: Make fields required when expanded and not required when not.
+                  name: _.omit('required', fullName),
+                  mailingAddress: address.schema(fullSchemaPreNeed, /* true */),
                   'view:contactInfo': {
                     type: 'object',
-                    required: ['preparerPhoneNumber'],
+                    // required: ['applicantPhoneNumber'],
                     properties: {
-                      preparerPhoneNumber
+                      applicantPhoneNumber: applicant.properties.applicantPhoneNumber
                     }
                   }
                 }
@@ -615,7 +656,6 @@ const formConfig = {
         }
       }
     }
-    */
   }
 };
 
