@@ -14,6 +14,8 @@ def isDeployable = {
 }
 
 def buildDetails = { vars ->
+  def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
   """
     BUILDTYPE=${vars['buildtype']}
     NODE_ENV=production
@@ -21,6 +23,7 @@ def buildDetails = { vars ->
     CHANGE_TARGET=${env.CHANGE_TARGET}
     BUILD_ID=${env.BUILD_ID}
     BUILD_NUMBER=${env.BUILD_NUMBER}
+    REF=${vars['ref']}
   """.stripIndent()
 }
 
@@ -34,13 +37,15 @@ def notify = { message, color='good' ->
 }
 
 node('vets-website-linting') {
-  def dockerImage, args
+  def dockerImage, args, ref
 
   // Checkout source, create output directories, build container
 
   stage('Setup') {
     try {
       checkout scm
+
+      ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
       sh "mkdir -p build"
       sh "mkdir -p logs/selenium"
@@ -94,6 +99,69 @@ node('vets-website-linting') {
     }
   }
 
+  // Perform a build for each build type
+
+  stage('Build') {
+    try {
+      def builds = [:]
+
+      for (int i=0; i<envNames.size(); i++) {
+        def envName = envNames.get(i)
+
+        builds[envName] = {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+            sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
+          }
+        }
+      }
+
+      parallel builds
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      throw error
+    }
+  }
+
+  // Run E2E and accessibility tests
+
+  stage('Integration') {
+    try {
+      parallel (
+        e2e: {
+          dockerImage.inside(args + " -e BUILDTYPE=production -e CONCURRENCY=4") {
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
+          }
+        },
+
+        accessibility: {
+          dockerImage.inside(args + " -e BUILDTYPE=production -e CONCURRENCY=4") {
+            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
+          }
+        }
+      )
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
+      throw error
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
+  }
+
+  stage('Archive') {
+    try {
+      dockerImage.inside(args) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+          sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vetsgov-website-builds-s3-upload/${ref}"
+        }
+      }
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
+      throw error
+    }
+  }
+
   stage('Review') {
     try {
       if (!isReviewable()) {
@@ -108,69 +176,6 @@ node('vets-website-linting') {
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
       throw error
-    }
-  }
-
-  // Perform a build for each required build type
-
-  stage('Build') {
-    try {
-      def buildList = ['production']
-
-      if (env.BRANCH_NAME == 'master') {
-        buildList << 'staging'
-        buildList << 'development'
-      }
-
-      def builds = [:]
-
-      for (int i=0; i<envNames.size(); i++) {
-        def envName = envNames.get(i)
-
-        if (buildList.contains(envName)) {
-          builds[envName] = {
-            dockerImage.inside(args) {
-              sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-              sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
-            }
-          }
-        } else {
-          builds[envName] = {
-            println "Build '${envName}' not required, skipped."
-          }
-        }
-      }
-  
-      parallel builds
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
-      throw error
-    }
-  }
-
-  // Run E2E and accessibility tests
-
-  stage('Integration') {
-
-    try {
-      parallel (
-        e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
-        },
-
-        accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
-        }
-      )
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
-      throw error
-    } finally {
-      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
 
