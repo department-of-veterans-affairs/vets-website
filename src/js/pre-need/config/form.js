@@ -18,7 +18,13 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ClaimantView from '../components/ClaimantView';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
-import { claimantHeader, formatName, veteranUISchema } from '../utils/helpers';
+import {
+  claimantHeader,
+  formatName,
+  isVeteran,
+  requiresSponsorInfo,
+  veteranUISchema
+} from '../utils/helpers';
 
 const {
   claimant,
@@ -129,7 +135,7 @@ const formConfig = {
           path: 'applicant-information-2/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          itemFilter: item => item.claimant.relationshipToVet.type === 1,
+          itemFilter: isVeteran,
           uiSchema: {
             applications: {
               items: {
@@ -173,12 +179,8 @@ const formConfig = {
           path: 'sponsor-information-1/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          depends: (formData) => {
-            return formData.applications.some(
-              a => a.claimant.relationshipToVet.type === 1
-            );
-          },
-          itemFilter: item => item.claimant.relationshipToVet.type !== 1,
+          depends: formData => formData.applications.some(isVeteran),
+          itemFilter: item => !isVeteran(item),
           uiSchema: {
             applications: {
               items: {
@@ -188,12 +190,10 @@ const formConfig = {
                   'ui:widget': 'radio',
                   'ui:options': {
                     updateSchema: (form, pageSchema) => {
-                      const veterans = form.applications ? form.applications.filter(
-                        a => a.claimant.relationshipToVet.type === 1
-                      ).map(a => {
-                        const { first, middle, last } = a.claimant.name;
-                        return `${first} ${middle ? `${middle} ` : ''}${last}`;
-                      }) : [];
+                      const veterans = form.applications ?
+                        form.applications.filter(isVeteran).map(
+                          a => formatName(a.claimant.name)
+                        ) : [];
                       return {
                         'enum': [...veterans, 'Other'],
                         enumNames: [...veterans, 'Other']
@@ -222,11 +222,11 @@ const formConfig = {
           }
         },
         sponsorInformation2: {
-          title: 'Sponsor information',
+          title: item => formatName(item.claimant.name),
           path: 'sponsor-information-2/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          itemFilter: item => item.claimant.relationshipToVet.type !== 1 && [undefined, 'Other'].includes(item['view:sponsor']),
+          itemFilter: item => !isVeteran(item) && requiresSponsorInfo(item),
           uiSchema: {
             applications: {
               items: {
@@ -301,46 +301,68 @@ const formConfig = {
         },
       }
     },
-    /*
     militaryHistory: {
       title: 'Military History',
       pages: {
         militaryHistory: {
-          title: 'Military history',
-          path: 'military-history',
+          title: item => formatName(item.claimant.name),
+          path: 'military-history/:index',
+          showPagePerItem: true,
+          arrayPath: 'applications',
+          itemFilter: requiresSponsorInfo,
           uiSchema: {
-            toursOfDuty: {
-              'ui:title': 'Service periods',
-              'ui:description': 'Please record all periods of service',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView
-              },
+            applications: {
               items: {
-                'ui:order': ['serviceBranch', '*'],
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRangeUI(
-                  'Start of service period',
-                  'End of service period',
-                  'End of service must be after start of service'
-                ),
-                dischargeType: {
-                  'ui:title': 'Discharge character of service',
-                  'ui:options': {
-                    labels: {
-                      honorable: 'Honorable',
-                      general: 'General',
-                      other: 'Other Than Honorable',
-                      'bad-conduct': 'Bad Conduct',
-                      dishonorable: 'Dishonorable',
-                      undesirable: 'Undesirable'
+                'ui:title': claimantHeader,
+                veteran: {
+                  'ui:order': [
+                    'serviceRecords',
+                    'view:hasServiceName',
+                    'serviceName'
+                  ],
+                  serviceRecords: {
+                    'ui:title': 'Service periods',
+                    'ui:description': 'Please record all periods of service',
+                    'ui:options': {
+                      viewField: ServicePeriodView
+                    },
+                    items: {
+                      'ui:order': ['serviceBranch', '*'],
+                      serviceBranch: {
+                        'ui:title': 'Branch of service'
+                      },
+                      dateRange: dateRangeUI(
+                        'Start of service period',
+                        'End of service period',
+                        'End of service must be after start of service'
+                      ),
+                      dischargeType: {
+                        'ui:title': 'Discharge character of service',
+                        'ui:options': {
+                          labels: {
+                            honorable: 'Honorable',
+                            general: 'General',
+                            other: 'Other Than Honorable',
+                            'bad-conduct': 'Bad Conduct',
+                            dishonorable: 'Dishonorable',
+                            undesirable: 'Undesirable'
+                          }
+                        }
+                      },
+                      highestRank: {
+                        'ui:title': 'Highest rank attained'
+                      }
                     }
-                  }
-                },
-                rank: {
-                  'ui:title': 'Highest rank attained'
+                  },
+                  'view:hasServiceName': {
+                    'ui:title': 'Used a different name during service?',
+                    'ui:widget': 'yesNo'
+                  },
+                  serviceName: _.merge(fullNameUI, {
+                    'ui:options': {
+                      expandUnder: 'view:hasServiceName'
+                    }
+                  })
                 }
               }
             }
@@ -348,12 +370,31 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              toursOfDuty
+              applications: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    veteran: {
+                      type: 'object',
+                      properties: {
+                        serviceRecords: veteran.properties.serviceRecords,
+                        // TODO: Make fields required when expanded and not required when not.
+                        serviceName: _.omit('required', fullName),
+                        'view:hasServiceName': {
+                          type: 'boolean'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     },
+    /*
     burialBenefits: {
       title: 'Burial Benefits',
       pages: {
