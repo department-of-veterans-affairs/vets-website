@@ -28,7 +28,9 @@ import {
 
 const {
   claimant,
-  veteran
+  veteran,
+  hasCurrentlyBuried,
+  currentlyBuriedPersons
 } = fullSchemaPreNeed.properties.applications.items.properties;
 
 const {
@@ -394,40 +396,49 @@ const formConfig = {
         }
       }
     },
-    /*
     burialBenefits: {
       title: 'Burial Benefits',
       pages: {
         burialBenefits: {
           title: 'Burial benefits',
-          path: 'burial-benefits',
+          path: 'burial-benefits/:index',
+          showPagePerItem: true,
+          arrayPath: 'applications',
+          itemFilter: requiresSponsorInfo,
           uiSchema: {
-            desiredCemetery: {
-              'ui:title': 'Your desired VA National Cemetery'
-            },
-            currentlyBuried: {
-              'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  Y: 'Yes',
-                  N: 'No',
-                  U: 'I don\'t know'
-                }
-              }
-            },
-            eligibleBuried: {
-              'ui:options': {
-                viewField: EligibleBuriedView,
-                expandUnder: 'currentlyBuried',
-                expandUnderCondition: 'Y'
-              },
+            applications: {
               items: {
-                name: {
-                  'ui:title': 'Name of deceased'
+                'ui:title': claimantHeader,
+                claimant: {
+                  desiredCemetery: {
+                    'ui:title': 'Your desired VA National Cemetery'
+                  }
                 },
-                cemetery: {
-                  'ui:title': 'VA National Cemetery where they are buried'
+                hasCurrentlyBuried: {
+                  'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      1: 'Yes',
+                      2: 'No',
+                      3: 'I don\'t know',
+                    }
+                  }
+                },
+                currentlyBuriedPersons: {
+                  'ui:options': {
+                    viewField: EligibleBuriedView,
+                    expandUnder: 'hasCurrentlyBuried',
+                    expandUnderCondition: '1'
+                  },
+                  items: {
+                    name: {
+                      'ui:title': 'Name of deceased'
+                    },
+                    cemeteryNumber: {
+                      'ui:title': 'VA National Cemetery where they are buried'
+                    }
+                  }
                 }
               }
             }
@@ -435,14 +446,28 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              desiredCemetery,
-              currentlyBuried,
-              eligibleBuried
+              applications: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    claimant: {
+                      type: 'object',
+                      properties: {
+                        desiredCemetery: claimant.properties.desiredCemetery
+                      }
+                    },
+                    hasCurrentlyBuried,
+                    currentlyBuriedPersons
+                  }
+                }
+              }
             }
           }
         }
       }
     },
+    /*
     personalInformation: {
       title: 'Personal Information',
       pages: {
