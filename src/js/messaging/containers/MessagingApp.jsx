@@ -33,12 +33,14 @@ function AppContent({ children, isDataAvailable }) {
 class MessagingApp extends React.Component {
   // this warning is rendered if the user has no triage teams
   renderWarningBanner() {
-    if (this.props.folders && this.props.folders.length && isEmpty(this.props.recipients) && !this.props.loading.recipients) {
+    if (this.props.recipients && isEmpty(this.props.recipients) && !this.props.loading.recipients) {
       const alertContent = (
         <div>
           <h4>Currently not assigned to a health care team</h4>
           <p>
-            You can't send secure messages because you're not assigned to a VA health care team right now. Please call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
+            We're sorry. It looks like you don't have a VA health care team linked to your account in our system.
+            To begin sending secure messages, please contact your health care team, and ask them to add you into the system.
+            If you need more help, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
           </p>
         </div>
       );
