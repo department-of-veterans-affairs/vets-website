@@ -18,14 +18,14 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 
 When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), you'll be able to check the status of your appeal on Vets.gov.
 
-<a class="usa-button-primary" href="/track-claims">Track your appeal</a>
+<a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
 </div>
 
 <h3>Appeals Process Overview</h3>
 <p>
 After VBA has made a decision on your claim, if you disagree with the outcome, you can file an appeal for some or all of the issues you were seeking benefits for in your claim.
 </p>
-<p>The process has many steps that can repeat themselves. At any time in the process, VA can issue a decision on part or all of your appeal, but in general an appeal follows these steps:</p>
+<p><strong>The process has many steps that can repeat themselves.</strong> At any time in the process, VA can issue a decision on part or all of your appeal, but in general an appeal follows these steps:</p>
 
 <ul class="vertical-list-group more-bottom-cushion">
   <li class="list-group-item">
@@ -109,7 +109,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
       </div>
     </li>
     <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq3">Can I send in more evidence (supporting documents) or make a new argument to support my appeal?</button>
+      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq3">Can I submit more evidence (supporting documents) or make a new argument to support my appeal?</button>
       <div id="dbq3" class="usa-accordion-content">
         <p>Yes. The appeals process has a “continuous open record.” This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we’ll help you get your treatment records you’ve identified and we’ll provide a physical exam if one is needed.</p>
         <p>Each time you present new arguments and add or find new evidence, VBA will make a decision or prepare a new Supplemental Statement of the Case (SSOC). This can add time to your appeal, but may make your appeal more successful if the evidence supports your argument.</p>
@@ -142,7 +142,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq6">What if I decide I don't want a Board hearing anymore?</button>
       <div id="dbq6" class="usa-accordion-content">
-        <p>If at any time you decide you don't want a Board hearing, you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p>
+        <p>If at any time you decide you don't want a Board hearing, you or your authorized representative can send in a written statement. Your statement should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p>
         <p>
         Send your letter to:<br/>
         <dl class="va-address-block">
