@@ -86,32 +86,12 @@ describe('Pensions disability history', () => {
 
     const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_disabilities_0_name'), {
-      target: {
-        value: 'Back pain'
-      }
-    });
+    formDOM.fillData('#root_disabilities_0_name', 'Back pain');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_disabilities_0_disabilityStartDateMonth'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_disabilities_0_disabilityStartDateDay'), {
-      target: {
-        value: '1'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_disabilities_0_disabilityStartDateYear'), {
-      target: {
-        value: '2003'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_view\\:hasVisitedVAMCNo'), {
-      target: {
-        value: 'N'
-      }
-    });
+    formDOM.fillData('#root_disabilities_0_disabilityStartDateMonth', '1');
+    formDOM.fillData('#root_disabilities_0_disabilityStartDateDay', '1');
+    formDOM.fillData('#root_disabilities_0_disabilityStartDateYear', '2003');
+    formDOM.setYesNo('#root_view\\:hasVisitedVAMCNo', false);
 
     formDOM.submitForm();
     expect(onSubmit.called).to.be.true;
@@ -129,7 +109,7 @@ describe('Pensions disability history', () => {
 
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_view\\:hasVisitedVAMCYes', 'Y');
+    formDOM.setYesNo('#root_view\\:hasVisitedVAMCYes', true);
     formDOM.fillData('#root_vamcTreatmentCenters_0_location', 'Leeds, MA');
     ReactTestUtils.Simulate.click(formDOM.querySelectorAll('.va-growable-add-btn')[1]);
 
