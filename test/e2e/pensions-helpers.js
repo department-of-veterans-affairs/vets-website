@@ -48,6 +48,40 @@ function completePOW(client, data) {
     .fill('input[name="root_severancePay_amount"]', data.severancePay.amount);
 }
 
+function completeDisabilityHistory(client, data) {
+  client
+    .fill('input[name="root_disabilities_0_name"]', data.disabilities[0].name)
+    .fillDate('root_disabilities_0_disabilityStartDate', data.disabilities[0].disabilityStartDate)
+    .click('.va-growable-add-btn')
+    .fill('input[name="root_disabilities_1_name"]', data.disabilities[1].name)
+    .fillDate('root_disabilities_1_disabilityStartDate', data.disabilities[1].disabilityStartDate)
+    .selectYesNo('root_view:hasVisitedVAMC', data['view:hasVisitedVAMC'])
+    .fill('input[name="root_vamcTreatmentCenters_0_location"]', data.vamcTreatmentCenters[0].location)
+    .click('.form-expanding-group .va-growable-add-btn')
+    .fill('input[name="root_vamcTreatmentCenters_1_location"]', data.vamcTreatmentCenters[1].location);
+}
+
+function completeWorkHistory(client, data) {
+  client
+    .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
+    .fill('input[name="root_view:history_jobs_0_employer"]', data['view:history'].jobs[0].employer)
+    .fillAddress('root_view:history_jobs_0_address', data['view:history'].jobs[0].address)
+    .fill('input[name="root_view:history_jobs_0_jobTitle"]', data['view:history'].jobs[0].jobTitle)
+    .fillDate('root_view:history_jobs_0_dateRange_from', data['view:history'].jobs[0].dateRange.from)
+    .fillDate('root_view:history_jobs_0_dateRange_to', data['view:history'].jobs[0].dateRange.to)
+    .fill('input[name="root_view:history_jobs_0_daysMissed"]', data['view:history'].jobs[0].daysMissed)
+    .fill('input[name="root_view:history_jobs_0_annualEarnings"]', data['view:history'].jobs[0].annualEarnings)
+    .click('.va-growable-add-btn')
+    .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
+    .fill('input[name="root_view:history_jobs_1_employer"]', data['view:history'].jobs[1].employer)
+    .fillAddress('root_view:history_jobs_1_address', data['view:history'].jobs[1].address)
+    .fill('input[name="root_view:history_jobs_1_jobTitle"]', data['view:history'].jobs[1].jobTitle)
+    .fillDate('root_view:history_jobs_1_dateRange_from', data['view:history'].jobs[1].dateRange.from)
+    .fillDate('root_view:history_jobs_1_dateRange_to', data['view:history'].jobs[1].dateRange.to)
+    .fill('input[name="root_view:history_jobs_1_daysMissed"]', data['view:history'].jobs[1].daysMissed)
+    .fill('input[name="root_view:history_jobs_1_annualEarnings"]', data['view:history'].jobs[1].annualEarnings);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -70,5 +104,7 @@ module.exports = {
   completeNationalGuard,
   completeGeneralMilitaryInfo,
   completePOW,
+  completeDisabilityHistory,
+  completeWorkHistory,
   initApplicationSubmitMock
 };

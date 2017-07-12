@@ -58,6 +58,20 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Work History page
 
+    client.waitForElementVisible('label[for="root_disabilities_0_name"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDisabilityHistory(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/disability/history');
+
+    client.waitForElementVisible('label[for="root_view:workedBeforeDisabled"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeWorkHistory(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
+
     // Household information page
 
     // Financial disclosure page
