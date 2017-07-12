@@ -12,12 +12,12 @@ export const hearingDescriptions = {
   },
   central_office: { // eslint-disable-line camelcase
     title: 'You asked for a Board hearing in Washington, DC',
-    description: <p>You will get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board's central office hearings take place at 425 Eye Street, Washington, DC, 20001.</p>
+    description: <p>You’ll get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board's central office hearings take place at 425 Eye Street, NW, Washington, DC, 20001.</p>
   },
 };
 
 export function appealStatusDescriptions(lastEvent, previousHistory = []) {
-  const eventDateString = moment(lastEvent.date).format('MMM DD, YYYY');
+  const eventDateString = moment(lastEvent.date).format('MMMM DD, YYYY');
 
   const contentMap = {
     hearing_held: { // eslint-disable-line camelcase
@@ -60,13 +60,17 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'Your Form 9 was received by the Regional Office (RO)',
         description: <div>
-          <p>The Veterans Benefits Administration (VBA) RO has received your Form 9, and is now completing the final steps in the processing of your appeal before it is sent to the Board.</p>
+          <p>You submitted the Form 9, and the Veterans Benefits Administration (VBA) RO has received it. The RO is now processing your appeal to be sent to the Board.
+          </p>
           <ul>
-            <li>If you didn't submit any new evidence with your Form 9, your appeal is now waiting for the RO to certify it to the Board.</li>
-            <li>If you, your legal representative, or your healthcare provider added new evidence, the RO will review the evidence and another SSOC will be developed.</li>
+            <li>If you didn’t submit any new evidence with your Form 9, your appeal is ready for the RO to certify it to the Board. <strong>On average, this step takes 3 months.</strong></li>
+            <li>If you did add new evidence (or are sending in new evidence) from you, your legal representative, or your health care provider, the RO will review the evidence and make a decision. If the RO can’t grant some or all of your appeal, a Supplemental Statement of the Case the (SSOC) will be developed, and you’ll receive a copy of it in the mail.
+            </li>
           </ul>
           <p>
-            On average, Veterans with appeals in the Form 9 stage, wait about 12 months for VBA to complete the necessary action.
+            <strong>
+              On average, Veterans with appeals in the Form 9 stage wait about 12 months for VBA to complete the necessary action.
+            </strong>
           </p>
         </div>,
       },
@@ -76,32 +80,42 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         soc: {
           title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
           description: <div>
-            <p>The Veterans Benefits Administration (VBA) RO has prepared the SSOC for your appeal. An SSOC was created because you, your legal representative, your healthcare provider, or the VA added new evidence to your appeal.</p>
-            <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf">complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you would like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
-            <p>On a Form 9, you can also let the Board know if you would like a hearing for your appeal. Learn more about hearings.</p>
-            <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.</p>
+            <p>The Veterans Benefits Administration (VBA) RO has prepared the SSOC for your appeal. An SSOC was created because:
+              <ul>
+                <li>You, your legal representative, your health care provider, or VA added new evidence to your appeal, and/or
+                </li>
+                <li>VA found it had further duty to assist you in developing your appeal, such as helping you get treatment records or providing a physical exam if needed.</li>
+              </ul>
+            </p>
+            <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf">complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you’d like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
+            <p>On the Form 9, you can also let the Board know if you’d like a hearing for your appeal. <a href="/disability-benefits/claim-appeals/hearings/">Learn more about hearings</a>.</p>
+            <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.            </p>
           </div>,
         },
         form9: {
           title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
           description: <div>
-            <p>The Veterans Benefits Administration (VBA) RO has prepared an SSOC for your appeal. An SSOC was created because you, your legal representative, your healthcare provider, or the VA added new evidence to your appeal.</p>
+            <p>The Veterans Benefits Administration (VBA) RO has prepared an SSOC for your appeal. An SSOC was created because:</p>
             <ul>
-              <li>Your appeal is now ready for the RO to certify it to the Board.</li>
-              <li>If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed.</li>
+              <li>You, your legal representative, your health care provider, or VA added new evidence to your appeal, and/or</li>
+              <li>VA found it had further duty to assist you in developing your appeal, such as helping you get treatment records or providing a physical exam if needed.</li>
             </ul>
+            <p>Your appeal is now ready for the RO to certify it to the Board. <strong>On average, this step takes 3 months.</strong>
+            </p>
+            <p>Note: If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed. There isn't an average time for this step because the complexity of the new evidence can vary.
+            </p>
           </div>,
         },
         activated: {
-          title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Veterans Benefits Administration (VBA)',
-          description: <p>VBA has followed the Board's remand instructions to find additional evidence for your appeal. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you will get a copy of it in the mail.</p>
+          title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
+          description: <p>VBA has completed the Board's remand instructions to obtain additional evidence for your appeal, but was not able to grant some or all of your appeal based on that evidence. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you’ll get a copy of it in the mail.</p>
         },
       },
       nextAction: {
-        title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`,
+        title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}`,
         description: <div>
-          <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
-          <p><a href="#">Learn more about hearings.</a></p>
+          <p>The Form 9 asks you to review the SOC and confirm the issues you would like to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
+          <p><a href="/disability-claims/claim-appeals/hearings">Learn more about hearings.</a></p>
         </div>,
       }
     },
@@ -115,16 +129,16 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'Your Statement of the Case (SOC) was Prepared by the Regional Office (RO)',
         description: <div>
-          <p>The Veterans Benefits Administration (VBA) RO has mailed you the SOC for your appeal. Included with your SOC is a Form 9, which you can use to ask for your appeal to continue.</p>
+          <p>The Veterans Benefits Administration (VBA) RO has mailed you the SOC for your appeal. Included with your SOC is the Form 9, which you can use to ask for your appeal to continue.</p>
           <p>
-            To continue your appeal, you need to complete and send back your Form 9 by July 28, 2017. If you do not send back a Form 9 in time, your appeal will be closed.
+            To continue your appeal, you need to complete and send back your Form 9 by `${moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}`. If you don’t send back the Form 9 in time, your appeal will be closed.
           </p>
         </div>,
       },
       nextAction: {
-        title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMM DD, YYYY')}`,
+        title: `To continue with your appeal, we need your Form 9 by ${moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}`,
         description: <div>
-          <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you would like a hearing for your appeal.</p>
+          <p>The Form 9 asks you to review the SOC and confirm the issues you want to appeal and why you want to appeal them. You can also let the Board know if you’d like a hearing for your appeal.</p>
           <p><a href="#">Learn more about hearings.</a></p>
         </div>,
       }
@@ -149,12 +163,12 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'The Regional Office (RO) Has Certified Your Appeal',
         description: <div>
-          <p>The Veterans Benefits Administration (VBA) RO has certified your appeal to the Board. This means it is now waiting for the Board to receive it and place it in line for review by a lawyer. You will be notified when your appeal is activated by the Board.</p>
+          <p>The Veterans Benefits Administration (VBA) RO has certified your appeal to the Board. This means your appeal is now waiting for the Board to receive it and place it in line for review by a Veterans Law Judge. You’ll be notified when your appeal is activated by the Board.</p>
           <p>The average time it takes for the Board to activate your appeal is 9 months.</p>
           <h5>Note:</h5>
           <ul>
-            <li>If your <strong>Form 9 was received on or after February 2, 2013:</strong> If you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
-            <li>If your <strong>Form 9 was received before February 2, 2013:</strong> If you or anyone submits new evidence on your behalf, then the Board will have to remand the appeal to the RO to review the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
+            <li>If your <strong>Form 9 was received on or after February 2, 2013:</strong> If you or your legal representative add new evidence, the evidence will be reviewed only by the Board and not by the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
+            <li>If your <strong>Form 9 was received before February 2, 2013:</strong> If you or anyone submits new evidence on your behalf, then the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you an SSOC. Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</li>
           </ul>
         </div>,
       },
@@ -199,22 +213,35 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         defaultStatus: {
           title: 'The Board Has Activated Your Appeal',
           description: <div>
-            <p>Your appeal has been activated by the Board. It is now in line for review by a Veterans Law Judge. An appeal typically reaches its place in line for review 3 to 5 years after the receipt of your Form 9.</p>
-            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+            <p>Your appeal has been activated by the Board. It is now in line for review by a Veterans Law Judge.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative add new evidence, the evidence will be reviewed only by the Board and not by the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+            <p>
+              <strong>An appeal typically reaches its place in line for review 3 to 5 years after the receipt of your Form 9.</strong>
+            </p>
           </div>
         },
         bva_remand: { // eslint-disable-line camelcase
           title: 'The Board Has Activated Your Appeal',
           description: <div>
             <p>The Veterans Benefits Administration (VBA) sent the Board the evidence asked for in the remand of your appeal. Your appeal has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
-            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will only be reviewed by the Board and not the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence and issue a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+            <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will be reviewed only by the Board and not by the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
+            <p>
+              <strong>
+                There isn't an average time for this step because the complexity of the new evidence can vary.
+              </strong>
+            </p>
           </div>
         },
         cavc_decision: { // eslint-disable-line camelcase
           title: 'The Board Has Activated Your Appeal from the Court of Appeals for Veterans Claims (CAVC)',
           description: <div>
-            <p>Your appeal has been returned to the Board from the CAVC. It has been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
-            <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You will receive a letter from the Board about how to submit new evidence during this time period.</p>
+            <p>Your appeal has been returned to the Board from the CAVC. It’s been activated by the Board and will be reviewed by a Veterans Law Judge.</p>
+            <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You’ll receive a letter from the Board about how to submit new evidence during this time period.</p>
+            <p>
+              <strong>
+                There isn't an average time for this step, but your appeal has priority status at the Board.
+              </strong>
+            </p>
           </div>
         }
       }
