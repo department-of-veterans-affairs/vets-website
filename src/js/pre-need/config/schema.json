@@ -326,7 +326,7 @@
                 "$ref": "#/definitions/address"
               },
               "name": {
-                "$ref": "#/definitions/name"
+                "$ref": "#/definitions/fullName"
               }
             }
           },
