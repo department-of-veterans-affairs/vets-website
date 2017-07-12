@@ -19,9 +19,8 @@ function AppContent({ children, isDataAvailable }) {
   if (unregistered) {
     view = (
       <h4>
-        To refill prescriptions at this time, you need to be registered as a VA patient through MyHealtheVet.
-        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
-        If you're registered but you don't see your prescriptions here, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+        Vets.gov health tools are only available for patients who've received care at a VA facility.
+        If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
       </h4>
     );
   } else {
