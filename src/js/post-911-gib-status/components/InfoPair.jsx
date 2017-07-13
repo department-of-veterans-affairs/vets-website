@@ -14,7 +14,7 @@ class InfoPair extends React.Component {
         <div className="usa-width-one-third">
           <span><strong>{this.props.label}: </strong></span>
         </div>
-        <div className="usa-width-two-thirds">
+        <div className="usa-width-two-thirds" id="fullName">
           {this.props.value}
         </div>
       </div>
@@ -40,6 +40,7 @@ class InfoPair extends React.Component {
 InfoPair.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.any,
+  id: PropTypes.string,
   additionalClass: PropTypes.string,
   displayIfZero: PropTypes.bool
 };

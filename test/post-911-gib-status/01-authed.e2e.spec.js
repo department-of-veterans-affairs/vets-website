@@ -16,7 +16,13 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.title('Check Benefit: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
 
-    // Print page
+    // Checking field in UserInfoSection has rendered
+    client.expect.element('#fullName').text.to.contain('First Last');
+
+    // Checking field in EnrollmentHistory has rendered
+    client.expect.element('#enrollment-0 h4').text.to.contain('11/01/2012 to 12/01/2012 at Purdue University');
+
+    // Click on print page
     client
       .click('#print-button')
       .windowHandles((result) => {
