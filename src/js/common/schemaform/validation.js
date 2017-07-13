@@ -172,7 +172,7 @@ export function errorSchemaIsValid(errorSchema) {
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const validPages = Object.keys(form.pages)
-    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
+    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form.data));
 
   const v = new Validator();
 
