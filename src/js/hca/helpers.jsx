@@ -123,8 +123,8 @@ export const financialDisclosureText = (
         </span>
       </div>
     </div>
-
-    <ul>Qualifying factors:
+    <p>Qualifying factors:</p>
+    <ul>
       <li>Former prisoner of war</li>
       <li>Received a Purple Heart</li>
       <li>Recently discharged combat Veteran</li>
