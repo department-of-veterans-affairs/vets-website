@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-You can apply online to find out in advance if you can be buried in a VA national cemetery when you die. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members after your death. Follow the steps below to apply. 
+You can apply online to find out in advance if you can be buried in a VA national cemetery. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members in the event of your death. Follow the steps below to apply. 
 
 </div>
 
