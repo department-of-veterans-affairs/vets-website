@@ -172,10 +172,8 @@ export function getBenefitOptionText(option, value, isVeteran) {
     }
 
     case 'serviceConnectedPercentage': {
-      if (value && value !== 'unavailable') {
-        if (isVeteran) {
-          return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
-        }
+      if (value && value !== 'unavailable' && isVeteran) {
+        return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
       }
       return undefined;
     }
