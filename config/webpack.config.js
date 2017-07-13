@@ -15,7 +15,6 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
-  'appeals-beta': './src/js/appeals-beta/appeals-beta-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
