@@ -28,7 +28,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNodeVersion = '6.10.3';
+const minimumNodeVersion = '6.11.1';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
