@@ -150,8 +150,10 @@ class ArrayField extends React.Component {
       path,
       pageTitle
     } = this.props;
+
+    const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
-    const title = _.get('ui:title', uiSchema) || _.get('ui:options.reviewTitle', uiSchema) || pageTitle;
+    const title = _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
     const arrayPageConfig = {
       uiSchema: uiSchema.items,
       pageKey: fieldName
@@ -160,6 +162,7 @@ class ArrayField extends React.Component {
     // TODO: Make this better; it's super hacky for now.
     const itemCountLocked = this.isLocked();
     const items = itemCountLocked ? this.props.arrayData : this.state.items;
+    const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
       <div>
@@ -185,8 +188,8 @@ class ArrayField extends React.Component {
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && uiSchema['ui:options'].itemName && items.length > 1
-                          ? <h5>New {uiSchema['ui:options'].itemName}</h5>
+                      {isLast && uiOptions.itemName && items.length > 1
+                          ? <h5>New {uiOptions.itemName}</h5>
                           : null}
                       <SchemaForm
                           data={item}
@@ -231,6 +234,12 @@ class ArrayField extends React.Component {
               </div>
             );
           })}
+          {itemsNeeded &&
+            <div className="usa-alert usa-alert-error">
+              <div className="usa-alert-body">
+                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item.'}.
+              </div>
+            </div>}
         </div>
       </div>
     );

@@ -440,6 +440,9 @@ const formConfig = {
                 reviewTitle: 'Disability history',
                 itemName: 'Disability'
               },
+              'ui:errorMessages': {
+                minItems: 'Please add at least one disability'
+              },
               items: {
                 name: {
                   'ui:title': 'Disability'
