@@ -28,8 +28,8 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       title: 'Your Hearing Was Canceled',
       description: <div>
         <p>Your hearing was scheduled for {eventDateString}.</p>
-        <p>If you canceled your hearing for an important reason, like you, your representative, or a witness are sick, or you're having difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You will get a copy of the decision about rescheduling your hearing the mail.</p>
-        <p>Send letters explaining why you need to reschedule your hearing to:<br/>
+        <p>If you canceled your hearing for an important reason, like you, your representative, or a witness was sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
+        <p><strong>Send letters explaining why you need to reschedule your hearing to:</strong><br/>
           Director, Office of Management, Planning and Analysis (014)<br/>
           Board of Veterans' Appeals<br/>
           P.O. Box 27063<br/>
@@ -41,7 +41,8 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       title: 'You Missed Your Hearing',
       description: <div>
         <p>Your hearing was scheduled for {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. Because you missed the date, your hearing has been canceled. The Judge will make a decision based on the information you have provided.</p>
-        <p>If you missed your hearing for an important reason, like you, your representative, or a witness are sick, or you're having difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You will get a copy of the decision about rescheduling your hearing the mail.</p>
+        <p>If you missed your hearing for an important reason, like you, your representative, or a witness were sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you had to miss the hearing. The letter should include information about (a) why you missed your appeal and (b) why you could not submit a request to postpone the hearing prior to the originally scheduled date. You must mail the letter no later than 15 days after the original hearing was scheduled. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.
+        </p>
         <p>Send letters explaining why you need to reschedule your hearing to:<br/>
           Director, Office of Management, Planning and Analysis (014)<br/>
           Board of Veterans' Appeals<br/>
@@ -153,9 +154,9 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'The Board Has Made a Decision on Your Appeal',
         description: <div>
-          <p>The Board has made a decision on each issue within your appeal. You will receive a copy of the Board's decision in the mail.</p>
+          <p>The Board has made a decision on each issue within your appeal. You'll receive a copy of the Board's decision in the mail.</p>
           <h5>What if I don’t agree with the Board's decision?</h5>
-          <p>If you disagree with issue the Board decided, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a Federal court. You have 120 days from the date written on the front of the Board decision to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></p>
+          <p>If you disagree with any part of the Board’s decision, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a federal court. You have 120 days to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></p>
         </div>,
       },
     },
@@ -177,16 +178,16 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'Your Appeal Has Been Remanded',
         description: <div>
-          <p>The Board has made a decision on each issue within your appeal and all or some of the issues have been remanded. This means the Veterans Law Judge who reviewed your appeal needs more information before making a decision on all or some of the issues.</p>
-          <p>On average, about 54% of issues in appeals get remanded. The Board has sent your appeal to the Veterans Benefits Administration (VBA) to add any relevant information to your case. If a physical exam was requested, VBA will reach out to you. If your appeal is not granted during the VBA review, a Supplemental Statement of the Case (SSOC) will be developed and sent to the Board.</p>
-          <p><strong>On average, Veterans with appeals in the Remand stage, wait about 14 months for VBA to complete the necessary action.</strong></p>
+          <p>The Board has made a decision on each issue within your appeal, and all or some of the issues have been remanded. This means the Veterans Law Judge who reviewed your appeal needs more information before making a decision on all or some of the issues.</p>
+          <p>On average, about 62% of issues in appeals get remanded. The Board has sent your appeal to the Veterans Benefits Administration (VBA) to add any relevant information to your case. If a physical exam was requested, VBA will reach out to you. If your appeal is not granted during the VBA review, a Supplemental Statement of the Case (SSOC) will be developed and sent to the Board. You’ll also receive a copy of the SSOC in the mail.</p>
+          <p><strong>On average, Veterans with appeals in the Remand stage wait about 14 months for VBA to complete the necessary action.</strong></p>
         </div>
       }
     },
     merged: {
       status: {
         title: 'Your Appeal Has Been Merged With Your Earlier Appeal',
-        description: <p>Because you had separate appeals on multiple claims, the appeals have been merged so that all of the issues you appealed can be considered at the same time. Instead of waiting on two (or more) decisions, all of the issues in your appeals will be addressed in a single decision by the Board. Your place in line will is based on your oldest appeal, meaning that the issues from your newer appeal(s) will be decided more quickly than if the appeals were not merged.</p>
+        description: <p>Because you had separate appeals on multiple claims, the appeals have been merged so that all the issues you appealed can be considered at the same time. Instead of waiting on 2 (or more) decisions, all the issues in your appeals will be addressed in a single decision by the Board. Your place in line is based on your oldest appeal. This means the issues from your newer appeal(s) will be decided more quickly than if the appeals were not merged.</p>
       }
     },
     field_grant: { // eslint-disable-line camelcase
@@ -199,11 +200,12 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'The Court of Appeals for Veterans Claims (CAVC) Has Made a Decision',
         description: <div>
-          <p>The CAVC has made a decision on your appeal. You will receive a copy of the CAVC's decision in the mail.</p>
+          <p>The CAVC has made a decision on your appeal. You'll receive a copy of the CAVC's decision in the mail.</p>
           <ul>
             <li>If the CAVC denied your appeal, your appeal is now closed.</li>
             <li>If the CAVC reversed the Board decision and granted your appeal, the Board will issue a decision following the CAVC's instructions to grant you the benefits you sought on appeal.</li>
-            <li>If the CAVC remanded your case, that means the Board needs to further review your case. The Board will review the CAVC's decision and gather more evidence or make a new decision on your appeal. After a CAVC remand, your appeal has priority status at the Board. The Board will send you a letter when it receives your appeal, and let you know how to submit any additional evidence you may have. If you have additional evidence for the Board to review, you can submit it within 90 days from the date of the Board's letter.</li>
+            <li>If the CAVC remanded your case, that means the Board needs to further review your case. The Board will review the CAVC's decision and gather more evidence or make a new decision on your appeal. After a CAVC remand, your appeal has priority status at the Board. There is no average time for this step. The Board will send you a letter when it receives your appeal, and will let you know how to submit any additional evidence you may have. If you have additional evidence for the Board to review, you can submit it within 90 days from the date of the Board's letter.
+            </li>
           </ul>
         </div>,
       }
