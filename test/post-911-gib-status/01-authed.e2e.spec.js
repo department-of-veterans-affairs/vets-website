@@ -25,7 +25,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Click on print page
     client
       .click('#print-button')
-      .windowHandles((result) => {
+      .window_handles((result) => {
         const newWindow = result.value[1];
         client.switchWindow(newWindow);
       });
