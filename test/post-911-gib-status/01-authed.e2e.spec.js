@@ -24,7 +24,9 @@ module.exports = E2eHelpers.createE2eTest(
         client.switchWindow(newWindow);
       });
 
-    // Ensure main status page renders.
+    // Ensure print page renders.
+    // We need to log in again here because Electron loses the session
+    // when opening a new window.
     LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
