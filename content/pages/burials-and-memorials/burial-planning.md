@@ -69,9 +69,9 @@ You'll need information about the deceased's next-of-kin (the deceased's closest
  
 You may also need more information in certain cases:
 
-- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member
-- **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery
-- **If the deceased's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried
+- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member.
+- **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery.
+- **If the deceased's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried.
  
  </li>
  
