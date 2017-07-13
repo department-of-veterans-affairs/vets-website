@@ -28,18 +28,18 @@ module.exports = E2eHelpers.createE2eTest(
       .window_handles((result) => {
         const newWindow = result.value[1];
         client.switchWindow(newWindow);
+
+        // Ensure print page renders.
+        // We need to log in again here because Electron loses the session
+        // when opening a new window.
+        LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
+          .waitForElementVisible('body', Timeouts.normal)
+          .axeCheck('.main')
+          .assert.title('Check Benefit: Vets.gov')
+          .waitForElementVisible('.print-status', Timeouts.slow);  // First render of React may be slow.
+
+        client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
       });
-
-    // Ensure print page renders.
-    // We need to log in again here because Electron loses the session
-    // when opening a new window.
-    LoginHelpers.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
-      .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck('.main')
-      .assert.title('Check Benefit: Vets.gov')
-      .waitForElementVisible('.print-status', Timeouts.slow);  // First render of React may be slow.
-
-    client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
 
     client.axeCheck('.main');
 
