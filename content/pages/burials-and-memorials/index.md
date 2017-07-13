@@ -15,7 +15,7 @@ majorlinks:
     links:
     - url: /burials-and-memorials/pre-need/
       title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery
-      description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members when you die. 
+      description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members in the event of your death. 
   - heading: What to Do When a Family Member Dies
     links:
     - url: /burials-and-memorials/burial-planning/
