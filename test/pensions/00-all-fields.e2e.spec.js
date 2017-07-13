@@ -28,8 +28,49 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant-information');
 
     // Military History page
+    client.waitForElementVisible('input[name="root_servicePeriods_0_serviceBranch"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeMilitaryHistory(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
+
+    client.waitForElementVisible('label[for="root_view:serveUnderOtherNames"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeGeneralMilitaryInfo(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/general');
+
+    client.waitForElementVisible('label[for="root_nationalGuardActivation"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeNationalGuard(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/reserve-national-guard');
+
+    client.waitForElementVisible('label[for="root_view:powStatus"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completePOW(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/pow-severance');
 
     // Work History page
+
+    client.waitForElementVisible('label[for="root_disabilities_0_name"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDisabilityHistory(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/disability/history');
+
+    client.waitForElementVisible('label[for="root_view:workedBeforeDisabled"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeWorkHistory(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
     // Household information page
 

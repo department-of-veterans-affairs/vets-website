@@ -19,7 +19,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for pension benefits"/>
-        <p>This application is equivalent to Form 21-527EZ (Application for Pension).</p>
+        <p>Equal to Form 21-527EZ</p>
         {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}
             resumeOnly
@@ -29,35 +29,50 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>What you need to fill out this application</h6></div>
+              <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number or VA file number (required)</li>
-                <li>Military history (required)</li>
-                <li>Your financial information and the financial information of your dependents (required)</li>
-                <li>Work history</li>
+                <li>Military history—information like service dates, discharge character, and rank that’s commonly found on the DD214 or other separation documents (required)</li>
+                <li>Financial information—and your dependents’ financial information (required)</li>
                 <li>Bank account direct deposit information</li>
                 <li>Medical information</li>
               </ul>
+              <h6>If you’re under 65 years old, you may also need:</h6>
+              <ul>
+                <li>Work history</li>
+                <li>Any medical evidence that supports your claim</li>
+              </ul>
+              <div className="usa-alert usa-alert-info">
+                <div className="usa-alert-body">
+                  <h6 className="usa-alert-heading">Fully Developed Claim program</h6><br/>
+                  <p>The Fully Developed Claim program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. If you want to use the FDC program for an expedited (faster than usual) application review process, you’ll need to fill out and hand in any additional forms before you give us your pension application. You’ll also need to include all the supporting documents you have access to. We won’t need to ask you for more information.</p>
+                  {/* <p><a href="/">Learn more about the FDC program</a></p> */}
+                  {/* <p>If you’re making a claim for Veterans non-service-connected pension benefits, submit your claim according to FDC Criteria.<br/><a href="/">Find out about FDC Criteria</a></p> */}
+                </div>
+              </div>
+              <br/>
+              <h6>Aid and Attendance and Housebound benefits</h6>
+              If you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.
+              <ul>
+                <li>Aid and Attendance benefits. If you live in a nursing home, the nursing home will need to fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a></li>
+                <li>Housebound benefits. If you live at home and have visiting medical care, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a></li>
+              </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about Veterans Pension rates</h6>
-              <ul>
-                <li>Find out more about how <a href="/pension/rates">pension rates</a> are decided.</li>
-              </ul>
+              <a href="/pension/rates">Find out more about how pension rates are decided.</a>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for Benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this pension benefits form.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <div><h6>What if VA needs more information?</h6></div>
-              <ul><li>We will contact you if we need more information.</li></ul>
-              <div><h6>How long does it take VA to make a decision?</h6></div>
-              <ul><li>We process claims in the order we receive them, unless a claim requires priority processing.</li></ul>
+              <p>We process claims in the order we receive them.</p>
+              <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>After we process your claim, you’ll get a notice in the mail about the decision.</li></ul>
+              <p>After we process your claim, you’ll get a notice in the mail about the decision.</p>
             </li>
           </ol>
         </div>
