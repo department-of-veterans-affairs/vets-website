@@ -165,10 +165,11 @@ class ArrayField extends React.Component {
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
-      <div>
+      <div className={itemsNeeded ? 'schemaform-review-page-warning' : null}>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
+            {itemsNeeded && <span className="schemaform-review-page-warning-icon"/>}
             {!itemCountLocked &&
               <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
             }
@@ -235,9 +236,9 @@ class ArrayField extends React.Component {
             );
           })}
           {itemsNeeded &&
-            <div className="usa-alert usa-alert-error">
+            <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
               <div className="usa-alert-body">
-                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item.'}.
+                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item'}.
               </div>
             </div>}
         </div>
