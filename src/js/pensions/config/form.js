@@ -17,7 +17,8 @@ import {
   isMarried,
   applicantDescription,
   otherExpensesWarning,
-  wartimeWarning
+  wartimeWarning,
+  servedDuringWartime
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -114,24 +115,6 @@ function usingDirectDeposit(formData) {
   return formData['view:noDirectDeposit'] !== true;
 }
 
-function servedDuringWartime(period) {
-  const warDates = [
-    ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
-    ['1917-04-06', '1918-11-11'], // World War I (April 6, 1917 - November 11, 1918)
-    ['1941-12-07', '1946-12-31'], // World War II (December 7, 1941 - December 31, 1946)
-    ['1950-06-27', '1955-01-31'], // Korean Conflict (June 27, 1950 - January 31, 1955)
-    ['1964-08-05', '1975-05-07'], // Vietnam Era (August 5, 1964 - May 7, 1975)
-    ['1990-08-02']// Gulf War (August 2, 1990)
-  ];
-  return warDates.some((warTime) => {
-    const warStart = warTime[0];
-    const warEnd = warTime[1];
-    const periodStart = period.from;
-    const periodEnd = period.to;
-    const overlap = (warStart <= periodStart && periodStart <= warEnd) || (warStart <= periodEnd && periodEnd <= warEnd);
-    return (warEnd ? overlap : warStart < periodEnd);
-  });
-}
 
 const marriageProperties = marriages.items.properties;
 
@@ -267,15 +250,20 @@ const formConfig = {
               }
             },
             'view:wartimeWarning': (() => {
-              const rangeIncludesWartime = createSelector(
+              const hideWartimeWarning = createSelector(
                 form => form.servicePeriods,
                 (periods) => {
-                  return (periods || []).some(period => {
+                  const completePeriods = (periods || []).filter(period => {
                     const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-                    return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
-                      !isFullDate.test(period.activeServiceDateRange.from) ||
-                      servedDuringWartime(period.activeServiceDateRange);
+                    return period.activeServiceDateRange &&
+                      isFullDate.test(period.activeServiceDateRange.to) &&
+                      isFullDate.test(period.activeServiceDateRange.from);
+                  });
+                  if (!completePeriods.length) {
+                    return true;
+                  }
+                  return completePeriods.some(period => {
+                    return servedDuringWartime(period.activeServiceDateRange);
                   });
                 }
               );
@@ -283,7 +271,7 @@ const formConfig = {
               return {
                 'ui:description': wartimeWarning,
                 'ui:options': {
-                  hideIf: rangeIncludesWartime
+                  hideIf: hideWartimeWarning
                 }
               };
             })()

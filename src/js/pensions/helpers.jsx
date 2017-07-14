@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
@@ -102,3 +103,22 @@ export const wartimeWarning = (
     <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility">Check your eligibility.</a></span>
   </div>
 );
+
+const warDates = [
+  ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
+  ['1917-04-06', '1918-11-11'], // World War I (April 6, 1917 - November 11, 1918)
+  ['1941-12-07', '1946-12-31'], // World War II (December 7, 1941 - December 31, 1946)
+  ['1950-06-27', '1955-01-31'], // Korean Conflict (June 27, 1950 - January 31, 1955)
+  ['1964-08-05', '1975-05-07'], // Vietnam Era (August 5, 1964 - May 7, 1975)
+  ['1990-08-02']// Gulf War (August 2, 1990)
+];
+
+export function servedDuringWartime(period) {
+  return warDates.some((warTime) => {
+    const [warStart, warEnd] = warTime;
+    const { from: periodStart, to: periodEnd } = period;
+    const overlap = moment(periodStart).isBetween(warStart, warEnd) || moment(periodEnd).isBetween(warStart, warEnd);
+    return (warEnd ? overlap : warStart < periodEnd);
+  });
+}
+
