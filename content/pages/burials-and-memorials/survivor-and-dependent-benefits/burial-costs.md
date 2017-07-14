@@ -22,8 +22,6 @@ You may be able to get burial allowances if you’re:
 - A parent of the Veteran, **or**
 - The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
 
-</div>
-
 To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and must have:
 
 - Died as a result of a service-connected disability (a disability related to service), **or**
@@ -34,7 +32,10 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
 
+</div>
+
 You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to "under conditions other than dishonorable," you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+
 
 ### What kind of benefits can I get?
 
