@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileHelp, transportationWarning, burialDateWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -188,7 +189,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => {
                   // If they haven't entered a complete year, don't jump the gun and show the warning
-                  if (formData.burialDate && !/\d{4}-\d{1,2}-\d{1,2}/.test(formData.burialDate)) {
+                  if (formData.burialDate && !isFullDate(formData.burialDate)) {
                     return true;
                   }
 

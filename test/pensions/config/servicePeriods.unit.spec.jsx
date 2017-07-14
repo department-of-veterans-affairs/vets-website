@@ -51,12 +51,8 @@ describe('Pensions service periods', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '1983');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '1984');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1-1-1983');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1-1-1984');
 
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
   });
@@ -74,12 +70,8 @@ describe('Pensions service periods', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '1995');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2004');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1-1-1995');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1-1-2004');
 
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
   });
@@ -99,12 +91,8 @@ describe('Pensions service periods', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1-1-2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1-1-2003');
 
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
@@ -125,12 +113,8 @@ describe('Pensions service periods', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1-1-2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1-1-2003');
 
     formDOM.submitForm();
 

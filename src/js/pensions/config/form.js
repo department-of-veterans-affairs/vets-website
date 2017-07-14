@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -114,7 +115,6 @@ function isCurrentMarriage(form, index) {
 function usingDirectDeposit(formData) {
   return formData['view:noDirectDeposit'] !== true;
 }
-
 
 const marriageProperties = marriages.items.properties;
 
@@ -254,10 +254,9 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   const completePeriods = (periods || []).filter(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
                     return period.activeServiceDateRange &&
-                      isFullDate.test(period.activeServiceDateRange.to) &&
-                      isFullDate.test(period.activeServiceDateRange.from);
+                      isFullDate(period.activeServiceDateRange.to) &&
+                      isFullDate(period.activeServiceDateRange.from);
                   });
                   if (!completePeriods.length) {
                     return true;
@@ -326,10 +325,8 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   return (periods || []).every(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
                     return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !isFullDate(period.activeServiceDateRange.to) ||
                       !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
                   });
                 }
