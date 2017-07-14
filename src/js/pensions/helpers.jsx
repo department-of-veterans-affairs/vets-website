@@ -118,11 +118,11 @@ export function servedDuringWartime(period) {
     const [warStart, warEnd] = warTime;
     const { from: periodStart, to: periodEnd } = period;
     const overlap =
-      moment(periodStart).isBetween(warStart, warEnd) ||
-      moment(periodEnd).isBetween(warStart, warEnd) ||
-      moment(warStart).isBetween(periodStart, periodEnd) ||
-      moment(warEnd).isBetween(periodStart, periodEnd);
-    return (warEnd ? overlap : warStart < periodEnd);
+      moment(periodStart).isBetween(warStart, warEnd, null, []) ||
+      moment(periodEnd).isBetween(warStart, warEnd, null, []) ||
+      moment(warStart).isBetween(periodStart, periodEnd, null, []) ||
+      moment(warEnd).isBetween(periodStart, periodEnd, null, []);
+    return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }
 
