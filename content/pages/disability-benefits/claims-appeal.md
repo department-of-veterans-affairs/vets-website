@@ -78,7 +78,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <p>
       The Board has reviewed your appeal and provides a decision on each issue in your appeal. Each issue will be decided in 1 of 3 ways:
     </p>
-    <ul
+    <ul>
       <li><strong>Allowed:</strong> The Board grants benefits.</li>
       <li><strong>Remanded:</strong> The Board needs more evidence to make a decision and will return your appeal to VBA. After VBA obtains the additional evidence, it will then make a new decision on the appeal. If VBA can’t grant all or part of your appeal, it will prepare a new SSOC and return the appeal to the Board.</li>
       <li><strong>Denied:</strong> The Board does not grant benefits.</li>

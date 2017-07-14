@@ -21,7 +21,7 @@ majorlinks:
       title: Burial Flags and Presidential Memorial Certificates
       description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.
     - url: /burials-and-memorials/what-to-expect-at-a-funeral
-      title: What to Expect at a Funeral
+      title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/find-a-cemetery
       title: Find a Cemetery or Gravesite 
