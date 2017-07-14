@@ -38,6 +38,52 @@ describe('Pensions service periods', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should display warning if the veteran did not serve during a wartime period', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '1983');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '1984');
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
+  });
+
+  it('should not display warning if the veteran did serve during a wartime period', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '1995');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
+    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2004');
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
+  });
+
   it('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
