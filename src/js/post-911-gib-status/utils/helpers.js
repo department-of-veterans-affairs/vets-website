@@ -19,6 +19,10 @@ export function formatVAFileNumber(n) {
   return number.replace(number.substring(0, lengthOfXString), `${'x'.repeat(lengthOfXString)}-`);
 }
 
+export function formatMonthDayFields(field) {
+  return `${field.months || 0} months, ${field.days || 0} days`;
+}
+
 function isJson(response) {
   const contentType = response.headers.get('content-type');
   return contentType && contentType.indexOf('application/json') !== -1;
