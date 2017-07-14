@@ -84,7 +84,7 @@ class UserInfoSection extends React.Component {
           <InfoPair
               label="Name"
               value={fullName}
-              id="fullName"
+              id="gibs-full-name"
               additionalClass="section-line"/>
           <InfoPair
               label="Date of birth"

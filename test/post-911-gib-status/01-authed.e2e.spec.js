@@ -17,7 +17,8 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
 
     // Checking field in UserInfoSection has rendered
-    client.expect.element('#fullName').text.to.contain('First Last');
+    client.pause();
+    client.expect.element('#gibs-full-name').text.to.contain('First Last');
 
     // Checking field in EnrollmentHistory has rendered
     client.expect.element('#enrollment-0 h4').text.to.contain('11/01/2012 to 12/01/2012 at Purdue University');
