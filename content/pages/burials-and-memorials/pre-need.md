@@ -35,7 +35,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 <ol class="process">
 <li class="process-step list-one">
   
-**Make sure one of these describes you:**
+#### Make sure one of these describes you:
 - A Servicemember on active duty, **or**
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran died first, **or**
@@ -47,7 +47,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
   
 **Choose the VA national cemetery where you’d prefer to be buried.** [Find a VA national cemetery](/facilities/). 
   
-**Please note:**
+#### Please note:
 
 - **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
 
@@ -59,13 +59,17 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 <li class="process-step list-three">
 
-**Gather the supporting documents and information you’ll need to fill out the application.** Please see the list below. If you don’t have everything on the list, you can still apply and we'll help by finding the supporting documents we need. Just keep in mind that the more information you can give us when you apply, the faster we can review your application and give you a decision.
+#### Gather the supporting documents and information you’ll need to fill out the application.
+
+Please see the list below. If you don’t have everything on the list, you can still apply and we'll help by finding the supporting documents we need. Just keep in mind that the more information you can give us when you apply, the faster we can review your application and give you a decision.
 
 </li>
 
 <li class="process-step list-four">
 
-**Be ready to fill out an application for each person requesting a pre-need eligibility determination**. If both you and your spouse are applying, you’ll each need to fill out your own application.
+#### Be ready to fill out an application for each person requesting a pre-need eligibility determination.
+
+If both you and your spouse are applying, you’ll each need to fill out your own application.
 
 </li>
 </ol>
@@ -93,6 +97,8 @@ To apply, you’ll need your (or your sponsor's):
 
 <br>
 
+</div>
+
 ### What if I need help filling out my application forms?
 
 Call our toll-free hotline at 877-222-VETS ( <a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
@@ -100,8 +106,6 @@ Call our toll-free hotline at 877-222-VETS ( <a href="tel:+18772228387">877-222-
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
 [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
-</div>
 
 <div markdown="0"><br></div>
 
