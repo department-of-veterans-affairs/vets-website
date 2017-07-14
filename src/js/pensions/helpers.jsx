@@ -97,3 +97,43 @@ export const otherExpensesWarning = (
   </div>
 );
 
+export const aidAttendenceEvidence = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</strong>, the evidence must show that you:
+    <ul>
+      <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+      <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+      <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+      <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+      <li>Are bedridden, and have to spend most of the day in bed because of your disability</li>
+    </ul>
+
+    <p>To support a claim for <strong>increased disability pension benefits based on being housebound</strong>, the evidence must show that you:</p>
+    <ul>
+      <li>Have a single permanent disability that’s 100% disabling, and you spend most of your time at home, <strong>or</strong></li>
+      <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+    </ul>
+  </div>
+);
+
+export const disabilityDocs = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    You'll need to provide all private medical records for your child's disability.
+  </div>
+);
+
+export const schoolAttendanceWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    Since your child is between 18 and 23 years old, you'll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+  </div>
+);
+
+export const marriageWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h5 className="usa-alert-heading">Recognition of marriages</h5>
+      If you're certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
+      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+    </div>
+  </div>
+);

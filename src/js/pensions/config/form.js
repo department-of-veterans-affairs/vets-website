@@ -16,7 +16,11 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning
+  otherExpensesWarning,
+  disabilityDocs,
+  schoolAttendanceWarning,
+  marriageWarning,
+  aidAttendenceEvidence
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -217,6 +221,39 @@ const formConfig = {
               veteranSocialSecurityNumber,
               vaFileNumber,
               veteranDateOfBirth
+            }
+          }
+        }
+      }
+    },
+    benefitsSelection: {
+      title: 'Benefits Selection',
+      pages: {
+        benefitsSelection: {
+          path: 'benefits/selection',
+          title: 'Benefits Selection',
+          uiSchema: {
+            'view:aidAttendence': {
+              'ui:title': 'Are you also claiming Aid and Attendance or Housebound Benefits?',
+              'ui:widget': 'yesNo'
+            },
+            'view:evidenceInfo': {
+              'ui:description': aidAttendenceEvidence,
+              'ui:options': {
+                expandUnder: 'view:aidAttendence'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:aidAttendence': {
+                type: 'boolean'
+              },
+              'view:evidenceInfo': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -639,6 +676,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['marriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 'view:pastMarriage': {
                   'ui:options': {
                     hideIf: isCurrentMarriage
@@ -678,6 +721,7 @@ const formConfig = {
                     locationOfMarriage: marriageProperties.locationOfMarriage,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
@@ -845,6 +889,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['spouseMarriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 reasonForSeparation: {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
@@ -878,6 +928,7 @@ const formConfig = {
                     spouseFullName: marriageProperties.spouseFullName,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     reasonForSeparation,
                     dateOfSeparation: marriageProperties.dateOfSeparation,
                     locationOfSeparation: marriageProperties.locationOfSeparation
@@ -948,7 +999,15 @@ const formConfig = {
                     'view:noSSN': { type: 'boolean' },
                     childRelationship: dependents.items.properties.childRelationship,
                     attendingCollege: dependents.items.properties.attendingCollege,
+                    'view:schoolWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     disabled: dependents.items.properties.disabled,
+                    'view:disabilityDocs': {
+                      type: 'object',
+                      properties: {}
+                    },
                     previouslyMarried: dependents.items.properties.previouslyMarried,
                     married: dependents.items.properties.married,
                   }
@@ -989,6 +1048,12 @@ const formConfig = {
                     hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   }
                 },
+                'view:schoolWarning': {
+                  'ui:description': schoolAttendanceWarning,
+                  'ui:options': {
+                    expandUnder: 'attendingCollege'
+                  }
+                },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
                   'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
@@ -996,6 +1061,12 @@ const formConfig = {
                     hideIf: (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
                   },
                   'ui:widget': 'yesNo',
+                },
+                'view:disabilityDocs': {
+                  'ui:description': disabilityDocs,
+                  'ui:options': {
+                    expandUnder: 'disabled'
+                  }
                 },
                 previouslyMarried: {
                   'ui:title': 'Has your child ever been married?',
