@@ -100,7 +100,7 @@ export const otherExpensesWarning = (
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility">Check your eligibility.</a></span>
+    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility" target="_blank">Check your eligibility.</a></span>
   </div>
 );
 
