@@ -7,32 +7,12 @@ display_title: Handling Burial Costs
 
 <div class="va-introtext">
 
-If you’re the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. You may also qualify for plot or burial allowances to help pay for the area of land used for the burial and other costs related to the burial. We may help with transportation costs as well. Find out how to get allowances. 
+If you’re the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. You may also qualify for plot or burial allowances to help pay for the area of land used for the burial and other costs related to the burial. We may help with transportation costs as well. Find out how to get allowances.
 
 </div>
 
 <div class="feature" markdown="0">
 
-### Can I get burial allowances?
-
-You may be able to get burial allowances if you’re:
-
-- The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
-- A surviving child of the Veteran, **or**
-- A parent of the Veteran, **or**
-- The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
-
-</div>
-
-To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and must have:
-
-- Died as a result of a service-connected disability (a disability related to service), **or**
-- Been getting a VA pension or compensation when they died, **or**
-- Been qualified to get a VA pension or compensation, but chose not to, **or**
-- Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
-- Died while traveling to approved VA care, **or**
-- Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
-- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
 
 ### What kind of benefits can I get?
 
@@ -63,7 +43,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
 | If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $747 for a plot |
-| If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot | 
+| If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $300 burial allowance and $734 for a plot |
 
 #### What are the burial allowance amounts if the Veteran was hospitalized by VA at the time of their death?
@@ -77,5 +57,4 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if they were hospitalized or in a VA-contracted nursing home at the time of death.
 - We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
 
-**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
-
+**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot.
