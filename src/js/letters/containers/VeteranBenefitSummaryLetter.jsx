@@ -17,7 +17,11 @@ export class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
-    window.dataLayer.push({ event: `letter-benefit-${domEvent.target.id}-${domEvent.target.checked ? 'checked' : 'unchecked'}` });
+    window.dataLayer.push({
+      event: 'letter-benefit-option-clicked',
+      'letter-benefit-option': domEvent.target.id,
+      'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
+    });
     this.props.updateBenefitSummaryRequestOption(
       benefitOptionsMap[domEvent.target.id],
       domEvent.target.checked);
