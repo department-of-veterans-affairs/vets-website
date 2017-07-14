@@ -30,6 +30,20 @@ class ReviewPage extends React.Component {
     this.goBack = this.goBack.bind(this);
     // this only needs to be run once
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
+
+    const { eligiblePageList } = this.getEligiblePages();
+    const expandedPageList = expandArrayPages(eligiblePageList, props.form.data);
+    this.state = {
+      viewedPages: new Set(
+        expandedPageList.map(page => {
+          let pageKey = page.pageKey;
+          if (typeof page.index !== 'undefined') {
+            pageKey += `_${page.index}`;
+          }
+          return pageKey;
+        })
+      )
+    };
   }
 
   componentDidMount() {
@@ -42,6 +56,27 @@ class ReviewPage extends React.Component {
     const previousStatus = this.props.form.submission.status;
     if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
       this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
+    }
+  }
+
+  setPageViewed = (key) => {
+    if (!this.state.viewedPages.has(key)) {
+      this.state.viewedPages.add(key);
+      this.setState({ viewedPages: this.state.viewedPages });
+    }
+  }
+
+  setPagesViewed = (keys) => {
+    let stateChanged = false;
+    keys.forEach(key => {
+      if (!this.state.viewedPages.has(key)) {
+        this.state.viewedPages.add(key);
+        stateChanged = true;
+      }
+    });
+
+    if (stateChanged) {
+      this.setState({ viewedPages: this.state.viewedPages });
     }
   }
 
@@ -87,6 +122,7 @@ class ReviewPage extends React.Component {
                   setValid={this.props.setValid}
                   uploadFile={this.props.uploadFile}
                   chapter={formConfig.chapters[chapter]}
+                  viewedPages={this.state.viewedPages}
                   form={form}/>
             ))}
           </div>

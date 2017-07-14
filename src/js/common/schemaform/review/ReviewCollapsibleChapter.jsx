@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import SchemaForm from '../SchemaForm';
@@ -75,11 +76,20 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    if (this.state.open) {
-      const { form, pages } = this.props;
-      const activePages = getActivePages(pages, form.data);
-      const expandedPages = expandArrayPages(activePages, form.data);
+    const { form, pages, viewedPages } = this.props;
+    const activePages = getActivePages(pages, form.data);
+    const expandedPages = expandArrayPages(activePages, form.data);
+    const pageKeys = expandedPages.map(page => {
+      let pageKey = page.pageKey;
+      if (typeof page.index !== 'undefined') {
+        pageKey += `_${page.index}`;
+      }
+      return pageKey;
+    });
+    const hasUnViewedPages = pageKeys.some(key =>
+      !viewedPages.has(key));
 
+    if (this.state.open) {
       pageContent = (
         <div className="usa-accordion-content">
           {expandedPages.map(page => {
@@ -89,6 +99,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
             let pageData;
             let arrayFields;
             let editing;
+            let fullPageKey;
 
             if (page.showPagePerItem) {
               editing = pageState.editMode[page.index];
@@ -96,6 +107,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               pageUiSchema = pageState.uiSchema[page.arrayPath].items;
               pageData = _.get([page.arrayPath, page.index], form.data);
               arrayFields = [];
+              fullPageKey = `${page.pageKey}_${page.index}`;
             } else {
               editing = pageState.editMode;
               // TODO: support array fields inside of an array page?
@@ -108,10 +120,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
               pageSchema = getNonArraySchema(pageState.schema, pageState.uiSchema);
               pageUiSchema = pageState.uiSchema;
               pageData = form.data;
+              fullPageKey = page.pageKey;
             }
 
+            const classes = classNames('form-review-panel-page', {
+              'schemaform-review-page-warning': !viewedPages.has(fullPageKey)
+            });
+
             return (
-              <div key={`${page.pageKey}${page.index}`} className="form-review-panel-page">
+              <div key={`${page.pageKey}${page.index}`} className={classes}>
                 <Element name={`${page.pageKey}${page.index}ScrollElement`}/>
                 {pageSchema &&
                   <SchemaForm
@@ -155,8 +172,12 @@ export default class ReviewCollapsibleChapter extends React.Component {
       );
     }
 
+    const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
+      'schemaform-review-chapter-warning': hasUnViewedPages
+    });
+
     return (
-      <div id={`${this.id}-collapsiblePanel`} className="usa-accordion-bordered form-review-panel">
+      <div id={`${this.id}-collapsiblePanel`} className={classes}>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
