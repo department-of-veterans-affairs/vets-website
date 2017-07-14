@@ -20,7 +20,13 @@ export function formatVAFileNumber(n) {
 }
 
 export function formatMonthDayFields(field) {
-  return `${field.months || 0} months, ${field.days || 0} days`;
+  let displayValue;
+  if (field) {
+    displayValue = `${field.months || 0} months, ${field.days || 0} days`;
+  } else {
+    displayValue = 'unavailable';
+  }
+  return displayValue;
 }
 
 function isJson(response) {
