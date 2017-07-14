@@ -195,64 +195,35 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('uploadFile', () => {
-    let fetchMock;
-    let oldFetch;
+    let xhr;
+    let requests = [];
 
     beforeEach(() => {
       global.FormData = sinon.stub().returns({
         append: sinon.spy()
       });
-      oldFetch = global.fetch;
-      fetchMock = sinon.stub().returns(Promise.resolve());
-      global.fetch = fetchMock;
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = (req) => {
+        requests.push(req);
+      };
     });
 
     afterEach(() => {
       delete global.FormData;
-      global.fetch = oldFetch;
-    });
-
-    it('should set uploading', (done) => {
-      const thunk = uploadFile(
-        {
-          size: 0
-        },
-        ['fileField', 0],
-        {
-          maxSize: 5
-        }
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {}
-        }
-      });
-
-      thunk(dispatch, getState).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                uploading: true
-              }
-            ]
-          }
-        });
-        done();
-      }).catch(err => {
-        done(err);
-      });
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
     });
 
     it('should reject if file is too big', (done) => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 10
         },
         ['fileField', 0],
         {
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
@@ -280,13 +251,52 @@ describe('Schemaform actions:', () => {
       });
     });
 
-    it('should call set data on success', () => {
+    it('should reject if file is too small', (done) => {
       const thunk = uploadFile(
         {
-          size: 0
+          name: 'jpg',
+          size: 1
         },
         ['fileField', 0],
         {
+          minSize: 5,
+          fileTypes: ['jpg'],
+          maxSize: 8
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      thunk(dispatch, getState).then(() => {
+        done('Should have failed on a file that is too small');
+      }).catch(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'File is too small to be uploaded'
+              }
+            ]
+          }
+        });
+        done();
+      });
+    });
+
+    it('should reject if file is wrong type', () => {
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 5
+        },
+        ['fileField', 0],
+        {
+          fileTypes: ['jpeg'],
           maxSize: 5
         }
       );
@@ -296,26 +306,49 @@ describe('Schemaform actions:', () => {
           data: {}
         }
       });
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve({
-              name: 'Test name',
-              size: 1234,
-              confirmationCode: 'Test code'
-            })
-          }
-        )
-      });
 
       return thunk(dispatch, getState).then(() => {
+        throw new Error('Should have failed on non-allowed file type');
+      }).catch(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
             fileField: [
               {
+                errorMessage: 'File is not one of the allowed types'
+              }
+            ]
+          }
+        });
+      });
+    });
+    it('should call set data on success', () => {
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          endpoint: '/v0/endpoint',
+          fileTypes: ['JPG'],
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      const promise = thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                name: 'jpg',
                 uploading: true
               }
             ]
@@ -334,14 +367,29 @@ describe('Schemaform actions:', () => {
           }
         });
       });
+
+      requests[0].respond(200, null, JSON.stringify({
+        data: {
+          attributes: {
+            name: 'Test name',
+            size: 1234,
+            confirmationCode: 'Test code'
+          }
+        }
+      }));
+
+      return promise;
     });
+
     it('should set error on failure', () => {
       const thunk = uploadFile(
         {
+          name: 'jpg',
           size: 0
         },
         ['fileField', 0],
         {
+          fileTypes: ['jpg'],
           maxSize: 5
         }
       );
@@ -351,22 +399,14 @@ describe('Schemaform actions:', () => {
           data: {}
         }
       });
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: false,
-            status: 400,
-            statusText: 'bad request'
-          }
-        )
-      });
 
-      return thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
             fileField: [
               {
+                name: 'jpg',
                 uploading: true
               }
             ]
@@ -377,12 +417,63 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
-                errorMessage: 'bad request'
+                errorMessage: 'Bad Request'
               }
             ]
           }
         });
       });
+
+      requests[0].respond(400);
+
+      return promise;
+    });
+    it('should set error on network issue', () => {
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 0
+        },
+        ['fileField', 0],
+        {
+          fileTypes: ['jpg'],
+          maxSize: 5
+        }
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {}
+        }
+      });
+
+      const promise = thunk(dispatch, getState).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                name: 'jpg',
+                uploading: true
+              }
+            ]
+          }
+        });
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_DATA,
+          data: {
+            fileField: [
+              {
+                errorMessage: 'Network request failed'
+              }
+            ]
+          }
+        });
+      });
+
+      requests[0].error();
+
+      return promise;
     });
   });
 });

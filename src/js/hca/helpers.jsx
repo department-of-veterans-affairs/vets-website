@@ -123,8 +123,8 @@ export const financialDisclosureText = (
         </span>
       </div>
     </div>
-
-    <ul>Qualifying factors:
+    <p>Qualifying factors:</p>
+    <ul>
       <li>Former prisoner of war</li>
       <li>Received a Purple Heart</li>
       <li>Recently discharged combat Veteran</li>
@@ -158,4 +158,8 @@ export const disclosureWarning = (
       <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
     </div>
   </div>
+);
+
+export const resumeMessage = (
+  <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
 );

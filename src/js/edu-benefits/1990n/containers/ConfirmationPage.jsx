@@ -68,7 +68,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{response.regionalOffice}</address>
+              <address className="schemaform-address-view">{response.regionalOffice}</address>
             </li>
           </ul>
         </div>
@@ -84,7 +84,9 @@ class ConfirmationPage extends React.Component {
                   No documents required at this time
                 </button>
               </div>
-              {docExplanation}
+              <div id="collapsible-document-explanation">
+                {docExplanation}
+              </div>
             </li>
           </ul>
         </div>

@@ -1,36 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import MviRecordsUnavailable from '../components/MviRecordsUnavailable';
-import AskVAQuestions from '../components/AskVAQuestions';
-import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
+import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-
-const unavailableView = (
-  <div className="row">
-    <div className="columns usa-width-two-thirds medium-8"><ClaimsUnavailable/></div>
-    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
-  </div>
-);
-
-const unavailableMviRecords = (
-  <div className="row">
-    <div className="columns usa-width-two-thirds medium-8"><MviRecordsUnavailable/></div>
-    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
-  </div>
-);
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ authorized, available, children, isDataAvailable }) {
+function AppContent({ children, isDataAvailable }) {
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
-      {!authorized && <div className="row"><div className="columns usa-width-two-thirds medium-8"><ClaimsUnauthorized/></div></div>}
-      {authorized && !available && unavailableView}
-      {authorized && !canUseApp && available && unavailableMviRecords}
-      {available && authorized && canUseApp &&
+      {!canUseApp && <ClaimsAppealsUnavailable/>}
+      {canUseApp &&
         <div>
           {children}
         </div>}
@@ -40,18 +22,19 @@ function AppContent({ authorized, available, children, isDataAvailable }) {
 
 class DisabilityBenefitsApp extends React.Component {
   render() {
-    const { available, authorized } = this.props;
-
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"evss-claims"}
+          serviceRequired={['evss-claims', 'appeals-status']}
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <AppContent
-            authorized={authorized}
-            available={available}>
+        <AppContent>
+          <div>
+            <div className="row">
+              <Breadcrumbs location={this.props.location}/>
+            </div>
+          </div>
           {this.props.children}
         </AppContent>
       </RequiredLoginView>
@@ -60,11 +43,8 @@ class DisabilityBenefitsApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const claimsState = state.disability.status;
   const userState = state.user;
   return {
-    available: claimsState.claimSync.available,
-    authorized: claimsState.claimSync.authorized,
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl

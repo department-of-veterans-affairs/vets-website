@@ -25,7 +25,7 @@ function isMilitaryCity(city = '') {
   return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
 }
 
-const requiredFields = ['street', 'city', 'country', 'postalCode'];
+const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',
@@ -57,8 +57,10 @@ export function schema(currentSchema, isRequired = false) {
  * @param {boolean} useStreet3 - Show a third line in the address
  * @param {function} isRequired - A function for conditionally setting if an address is required.
  *   Receives formData and an index (if in an array item)
+ * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
+ *   customizations
  */
-export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null) {
+export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null, ignoreRequired = false) {
   let fieldOrder = ['country', 'street', 'street2', 'street3', 'city', 'state', 'postalCode'];
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
@@ -96,7 +98,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
           schemaUpdate.properties = _.set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
-          if (required && !addressSchema.required.some(field => field === 'state')) {
+          if (!ignoreRequired && required && !addressSchema.required.some(field => field === 'state')) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
         }
@@ -105,7 +107,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
         schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
-        if (required) {
+        if (!ignoreRequired && required) {
           schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
         }
       }

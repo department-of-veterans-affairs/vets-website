@@ -25,11 +25,7 @@ legend {
   }
 }
 
-.form-review-panel-page .va-growable-add-btn {
-  display: none;
-}
-
-.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date {
+.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
   &:focus {
     outline: none;
   }
@@ -288,7 +284,7 @@ label {
   }
   > .schemaform-file-item-edit {
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
   }
 }
 
@@ -322,4 +318,36 @@ label {
 .schemaform-save-error {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+.schemaform-address-view {
+  white-space: pre-wrap;
+}
+
+.schemaform-array-readonly-header {
+  padding-bottom: 1.5rem;
+}
+
+.schemaform-prefill-message {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
+}
+
+.schemaform-process-sip {
+  padding-bottom: 0;
+}
+
+.schemaform-sip-alert {
+  margin-top: 0;
+}
+
+.schemaform-label-no-top-margin {
+  > .schemaform-label {
+    margin-top: 1rem;
+  }
+}
+
+.schemaform-file-uploading {
+  width: 100%;
 }

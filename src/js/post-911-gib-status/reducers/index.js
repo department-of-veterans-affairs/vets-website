@@ -2,7 +2,7 @@ import set from 'lodash/fp/set';
 
 const initialState = {
   enrollmentData: null,
-  available: false
+  availability: 'awaitingResponse'
 };
 
 function post911GIBStatus(state = initialState, action) {
@@ -11,10 +11,10 @@ function post911GIBStatus(state = initialState, action) {
       return {
         ...state,
         enrollmentData: action.data,
-        available: true
+        availability: 'available'
       };
     case 'GET_ENROLLMENT_DATA_FAILURE':
-      return set('available', false, state);
+      return set('availability', 'unavailable', state);
     default:
       return state;
   }

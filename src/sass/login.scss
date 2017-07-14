@@ -30,3 +30,37 @@
     display: inline;
   }
 }
+
+.terms-acceptance {
+  margin-bottom: 3em;
+
+  .terms-box {
+    border: 1px solid $color-gray-light;
+    margin-bottom: 10px;
+
+    .terms-head {
+      padding: 10px;
+      font-weight: bold;
+      color: $color-gray-dark;
+      background-color: $color-inset-bg;
+      border-bottom: 1px solid $color-gray-light;
+    }
+
+    .terms-scroller {
+      padding: 10px;
+      max-height: 400px;
+      overflow: auto;
+    }
+
+    .form-radio-buttons {
+      padding: 0 10px 5px 10px;
+      border-top: 1px solid $color-gray-light;
+      background-color: $color-inset-bg;
+      color: $color-gray-dark;
+
+      &.disabled {
+        color: $color-gray-light;
+      }
+    }
+  }
+}

@@ -43,7 +43,7 @@ class LoginPrompt extends React.Component {
             <ul>
               <li>Refill a prescription.</li>
               <li>Send a secure message to your health care provider.</li>
-              <li>Check the status of a disability or pension claim.</li>
+              <li>Check the status of a disability or pension claim or appeal.</li>
             </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>

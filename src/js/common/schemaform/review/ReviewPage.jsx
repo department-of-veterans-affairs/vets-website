@@ -51,15 +51,15 @@ class ReviewPage extends React.Component {
    */
   getEligiblePages() {
     const { form, route: { pageList, path } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form);
+    const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
     return { eligiblePageList, pageIndex };
   }
 
   goBack() {
-    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    const { eligiblePageList } = this.getEligiblePages();
     const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-    this.props.router.push(expandedPageList[pageIndex - 1].path);
+    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
   }
 
   handleSubmit() {

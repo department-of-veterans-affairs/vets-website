@@ -1,6 +1,6 @@
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField } from '../../user-profile/actions';
+import { updateProfileField, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
   window.dataLayer.push({ event: 'verify-link-clicked' });
@@ -28,6 +28,7 @@ export function getUserData(dispatch) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
       dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
+      dispatch(updateProfileField('prefillsAvailable', json.data.attributes.prefills_available));
       dispatch(updateProfileField('accountType', userData.loa.current));
       dispatch(updateProfileField('email', userData.email));
       dispatch(updateProfileField('userFullName.first', userData.first_name));
@@ -37,7 +38,10 @@ export function getUserData(dispatch) {
       dispatch(updateProfileField('dob', userData.birth_date));
       dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
       dispatch(updateProfileField('services', json.data.attributes.services));
+      dispatch(updateProfileField('healthTermsCurrent', json.data.attributes.health_terms_current));
       dispatch(updateLoggedInStatus(true));
+    } else {
+      dispatch(profileLoadingFinished());
     }
   });
 }

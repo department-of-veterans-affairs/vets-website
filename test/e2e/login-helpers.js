@@ -40,6 +40,7 @@ function initUserMock(token, level) {
             birth_date: '1985-01-01'
           },
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          health_terms_current: true,
           va_profile: {
             status: 'OK',
             birth_date: '19511118',
@@ -118,4 +119,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
+  setUserToken
 };

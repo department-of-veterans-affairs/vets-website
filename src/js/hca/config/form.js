@@ -21,7 +21,8 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning
+  disclosureWarning,
+  resumeMessage
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -116,13 +117,15 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
-  formId: 'hca',
+  formId: '1010ez',
   version: 0,
   // Disable save in progress for production
   disableSave: __BUILDTYPE__ === 'production',
-  savedFormErrorMessages: {
+  savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.'
+    noAuth: 'Please sign in again to resume your application for health care.',
+    success: resumeMessage,
+    startOver: 'This will remove anything you have put into the Health Care Application.'
   },
   transformForSubmit: transform,
   // Use the old intro page for production, but SiP for dev and staging
@@ -159,6 +162,9 @@ const formConfig = {
             }),
             mothersMaidenName: {
               'ui:title': 'Mother’s maiden name'
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
