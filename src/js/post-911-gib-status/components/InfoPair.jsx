@@ -14,7 +14,7 @@ class InfoPair extends React.Component {
         <div className="usa-width-one-third">
           <span><strong>{this.props.label}: </strong></span>
         </div>
-        <div className="usa-width-two-thirds" id="fullName">
+        <div className="usa-width-two-thirds" id={this.props.id}>
           {this.props.value}
         </div>
       </div>
