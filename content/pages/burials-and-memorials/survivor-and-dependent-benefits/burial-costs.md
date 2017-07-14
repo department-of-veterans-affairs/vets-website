@@ -11,8 +11,6 @@ If you’re the spouse of record (the legally recognized spouse) or a designated
 
 </div>
 
-<div class="feature" markdown="0">
-
 
 ### What kind of benefits can I get?
 
