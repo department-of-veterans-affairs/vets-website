@@ -37,7 +37,11 @@ class UserInfoSection extends React.Component {
             <InfoPair label="Months you've used" value={enrollmentData.usedEntitlement}/>
             <InfoPair label="Months you have left to use" value={enrollmentData.remainingEntitlement} displayIfZero/>
             <p id="benefit-level">
-              Your eligibility rate for payments and maximum amounts is <strong>{percentageBenefit}</strong>.
+              Your eligibility percentage is <strong>{percentageBenefit}</strong>.
+              <br/>
+              <a href="http://benefits.va.gov/GIBILL/resources/benefits_resources/rate_tables.asp" target="_blank">
+                Find out how much money you can expect to get based on your eligibility percentage.
+              </a>
             </p>
           </div>
           <div className="section">
