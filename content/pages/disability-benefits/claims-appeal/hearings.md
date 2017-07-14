@@ -50,6 +50,7 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p>
 <em>Any request to reschedule must be in writing and be mailed to:</em><br/>
 <dl class="va-address-block">
+  <dt></dt>
   <dd>Director, Office of Management, Planning and Analysis (014)</dd>
   <dd>Board of Veterans' Appeals</dd>
   <dd>P.O. Box 27063</dd>
@@ -63,6 +64,7 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p>
 Send the letter to:<br/>
 <dl class="va-address-block">
+  <dt></dt>
   <dd>Director, Office of Management, Planning and Analysis (014)</dd>
   <dd>Board of Veterans' Appeals</dd>
   <dd>P.O. Box 27063</dd>

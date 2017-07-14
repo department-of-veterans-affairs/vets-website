@@ -88,9 +88,8 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <br>
 
-<span id="priority-groups">
-
 <span id="priority-groups"></span>
+
 #### What are priority groups and how do they affect me? 
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
@@ -110,7 +109,7 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 <br>
 
-<span id="other-health-insurance">
+<span id="other-health-insurance"></span>
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
@@ -118,7 +117,7 @@ No. Whether or not you have other health insurance coverage doesn't affect the V
 
 <br>
 
-<span id="vision-care">
+<span id="vision-care"></span>
 
 #### I need vision care. Can I get it through VA? 
 
@@ -126,7 +125,7 @@ We cover routine eye exams and preventive tests under VA health care benefits. I
 
 <br>
 
-<span id="dental-care">
+<span id="dental-care"></span>
 
 #### I need dental care. Can I get it through VA? 
 
@@ -134,7 +133,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 
 <br>
 
-<span id="disability-compensation">
+<span id="disability-compensation"></span>
 
 #### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? 
 
