@@ -117,12 +117,10 @@ export function servedDuringWartime(period) {
   return warDates.some((warTime) => {
     const [warStart, warEnd] = warTime;
     const { from: periodStart, to: periodEnd } = period;
-    const overlap =
-      moment(periodStart).isBetween(warStart, warEnd, null, []) ||
-      moment(periodEnd).isBetween(warStart, warEnd, null, []) ||
-      moment(warStart).isBetween(periodStart, periodEnd, null, []) ||
-      moment(warEnd).isBetween(periodStart, periodEnd, null, []);
+
+    // If the service period starts before the war ends and finishes after the
+    // war begins, they served during a wartime.
+    const overlap = moment(periodEnd).isSameOrAfter(warStart) && moment(periodStart).isSameOrBefore(warEnd);
     return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }
-
