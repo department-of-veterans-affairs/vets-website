@@ -22,7 +22,7 @@ export function formatVAFileNumber(n) {
 export function formatMonthDayFields(field) {
   let displayValue;
   if (field) {
-    displayValue = `${field.months || 0} months, ${field.days || 0} days`;
+    displayValue = `${field.months} months, ${field.days} days`;
   } else {
     displayValue = 'unavailable';
   }
