@@ -98,7 +98,6 @@ class UserInfoSection extends React.Component {
               label="Date of birth"
               value={formatDateLong(enrollmentData.dateOfBirth)}
               spacingClass="section-line"/>
-          {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
           <InfoPair
               label="VA file number"
               value={formatVAFileNumber(enrollmentData.vaFileNumber)}
