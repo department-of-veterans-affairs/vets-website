@@ -16,8 +16,13 @@ const defaultProps = {
     delimitingDate: '2017-12-07T05:00:00.000+0000',
     percentageBenefit: 100,
     originalEntitlement: { months: 36, days: 0 },
+<<<<<<< HEAD
     usedEntitlement: { months: 3, days: 15 },
     remainingEntitlement: { months: 32, days: 15 },
+=======
+    usedEntitlement: { months: 3, days: 0 },
+    remainingEntitlement: { months: 33, days: 0 },
+>>>>>>> 2b30e8c... Fix all but one failing test
     enrollments: [
       {
         beginDate: '2012-11-01T04:00:00.000+0000',
@@ -53,11 +58,18 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
+<<<<<<< HEAD
   it('should show history may be incorrect warning if not active duty', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: true,
         activeDuty: false,
+=======
+  it('should show history may be incorrect warning if benefit used up', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: true,
+>>>>>>> 2b30e8c... Fix all but one failing test
         percentageBenefit: 100,
         originalEntitlement: { months: 36, days: 0 },
         usedEntitlement: { months: 36, days: 0 },
