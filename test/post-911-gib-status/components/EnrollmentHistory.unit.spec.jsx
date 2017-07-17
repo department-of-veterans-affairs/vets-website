@@ -16,8 +16,8 @@ const defaultProps = {
     delimitingDate: '2017-12-07T05:00:00.000+0000',
     percentageBenefit: 100,
     originalEntitlement: { months: 36, days: 0 },
-    usedEntitlement: { months: 3, days: 0 },
-    remainingEntitlement: { months: 33, days: 0 },
+    usedEntitlement: { months: 3, days: 15 },
+    remainingEntitlement: { months: 32, days: 15 },
     enrollments: [
       {
         beginDate: '2012-11-01T04:00:00.000+0000',
