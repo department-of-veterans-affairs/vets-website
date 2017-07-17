@@ -138,13 +138,12 @@ const formConfig = {
       }
     },
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Deceased Veteran Information',
       pages: {
         veteranInformation: {
           title: 'Deceased Veteran information',
           path: 'veteran-information',
           uiSchema: {
-            'ui:title': 'Deceased Veteran information',
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: _.assign(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
