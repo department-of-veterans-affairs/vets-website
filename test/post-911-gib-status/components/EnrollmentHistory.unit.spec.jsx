@@ -6,6 +6,7 @@ import EnrollmentHistory from '../../../src/js/post-911-gib-status/components/En
 
 const defaultProps = {
   enrollmentData: {
+    veteranIsEligible: true,
     firstName: 'Joe',
     lastName: 'West',
     dateOfBirth: '1995-11-12T06:00:00.000+0000',
@@ -14,9 +15,9 @@ const defaultProps = {
     eligibilityDate: '2016-12-01T05:00:00.000+0000',
     delimitingDate: '2017-12-07T05:00:00.000+0000',
     percentageBenefit: 100,
-    originalEntitlement: 36,
-    usedEntitlement: 3,
-    remainingEntitlement: 33,
+    originalEntitlement: { months: 36, days: 0 },
+    usedEntitlement: { months: 3, days: 0 },
+    remainingEntitlement: { months: 33, days: 0 },
     enrollments: [
       {
         beginDate: '2012-11-01T04:00:00.000+0000',
@@ -52,12 +53,14 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show history may be incorrect warning if benefit pending', () => {
+  it('should show history may be incorrect warning if benefit used up', () => {
     const props = {
       enrollmentData: {
+        veteranIsEligible: true,
         percentageBenefit: 100,
-        originalEntitlement: 36,
-        usedEntitlement: 0,
+        originalEntitlement: { months: 36, days: 0 },
+        usedEntitlement: { months: 36, days: 0 },
+        remainingEntitlement: { months: 0, days: 0 },
         enrollments: []
       }
     };
@@ -69,7 +72,10 @@ describe('<EnrollmentHistory>', () => {
   it('should show no enrollment history warning', () => {
     const props = {
       enrollmentData: {
-        usedEntitlement: 3,
+        veteranIsEligible: true,
+        originalEntitlement: { months: 3, days: 0 },
+        usedEntitlement: { months: 0, days: 0 },
+        remainingEntitlement: { months: 3, days: 0 },
         enrollments: []
       }
     };

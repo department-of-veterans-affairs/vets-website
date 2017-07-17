@@ -14,7 +14,6 @@ class UserInfoSection extends React.Component {
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-    // const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     let currentAsOfAlert;
     if (this.props.showCurrentAsOfAlert) {
