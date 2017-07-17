@@ -20,6 +20,9 @@ import {
   disabilityDocs,
   schoolAttendanceWarning,
   marriageWarning,
+  fdcWarning,
+  noFDCWarning,
+  expeditedProcessDescription,
   aidAttendenceEvidence
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -73,7 +76,8 @@ const {
   veteranFullName,
   veteranDateOfBirth,
   veteranSocialSecurityNumber,
-  vamcTreatmentCenters
+  vamcTreatmentCenters,
+  noRapidProcessing
 } = fullSchemaPensions.properties;
 
 const {
@@ -1562,12 +1566,7 @@ const formConfig = {
               mobilePhone
             }
           }
-        }
-      }
-    },
-    documentUpload: {
-      title: 'Document Upload',
-      pages: {
+        },
         documentUpload: {
           title: 'Document upload',
           path: 'documents',
@@ -1580,6 +1579,52 @@ const formConfig = {
             type: 'object',
             properties: {
               files
+            }
+          }
+        },
+        expedited: {
+          title: 'Expedited process',
+          path: 'fdc',
+          uiSchema: {
+            'ui:description': expeditedProcessDescription,
+            noRapidProcessing: {
+              'ui:title': 'Do you want to use the expedited process?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes, I have uploaded all my documentation',
+                  N: 'No, I have some extra information that I will submit to the VA later'
+                }
+              }
+            },
+            fdcWarning: {
+              'ui:description': fdcWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: false
+              }
+            },
+            noFDCWarning: {
+              'ui:description': noFDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              noRapidProcessing,
+              fdcWarning: {
+                type: 'object',
+                properties: {}
+              },
+              noFDCWarning: {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

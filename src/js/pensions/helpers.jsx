@@ -137,3 +137,23 @@ export const marriageWarning = (
     </div>
   </div>
 );
+
+export const fdcWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    Your application will be submitted as a Fully Developed Claim and will be reviewed faster.
+  </div>
+);
+
+export const noFDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    Your application doesn't qualify for the Fully Developed Claim (FDC) program. We'll review your claim through the Standard Claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+  </div>
+);
+
+export const expeditedProcessDescription = (
+  <div>
+    <h5>Optional expedited process</h5>
+    <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
+    <a href="/" target="_blank">Learn more about the FDC program</a>
+  </div>
+);
