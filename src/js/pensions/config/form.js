@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -17,6 +18,8 @@ import {
   isMarried,
   applicantDescription,
   otherExpensesWarning,
+  wartimeWarning,
+  servedDuringWartime,
   uploadMessage
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -246,7 +249,32 @@ const formConfig = {
                   'Date entered service must be before date left service'
                 )
               }
-            }
+            },
+            'view:wartimeWarning': (() => {
+              const hideWartimeWarning = createSelector(
+                form => form.servicePeriods,
+                (periods) => {
+                  const completePeriods = (periods || []).filter(period => {
+                    return period.activeServiceDateRange &&
+                      isFullDate(period.activeServiceDateRange.to) &&
+                      isFullDate(period.activeServiceDateRange.from);
+                  });
+                  if (!completePeriods.length) {
+                    return true;
+                  }
+                  return completePeriods.some(period => {
+                    return servedDuringWartime(period.activeServiceDateRange);
+                  });
+                }
+              );
+
+              return {
+                'ui:description': wartimeWarning,
+                'ui:options': {
+                  hideIf: hideWartimeWarning
+                }
+              };
+            })()
           },
           schema: {
             type: 'object',
@@ -266,6 +294,10 @@ const formConfig = {
                     })
                   }
                 }
+              },
+              'view:wartimeWarning': {
+                type: 'object',
+                properties: {}
               }
             }
           }
@@ -294,10 +326,8 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   return (periods || []).every(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
                     return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !isFullDate(period.activeServiceDateRange.to) ||
                       !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
                   });
                 }
