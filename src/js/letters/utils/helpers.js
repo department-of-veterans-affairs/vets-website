@@ -77,7 +77,7 @@ const benefitOptionText = {
     },
     'false': {
       veteran: undefined,
-      dependent: <div>You <strong>are not</strong> receiving Dependency and Indemnity Compensation.</div>
+      dependent: undefined
     }
   },
   hasSurvivorsPensionAward: {
@@ -87,7 +87,7 @@ const benefitOptionText = {
     },
     'false': {
       veteran: undefined,
-      dependent: <div>You <strong>are not</strong> receiving Survivors Pension.</div>
+      dependent: undefined
     }
   },
   hasAdaptedHousing: {
@@ -158,7 +158,7 @@ export function getBenefitOptionText(option, value, isVeteran) {
   }
   switch (option) {
     case 'awardEffectiveDate': {
-      if (value) {
+      if (value && value !== 'unavailable') {
         return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
       }
       return undefined;
@@ -172,11 +172,8 @@ export function getBenefitOptionText(option, value, isVeteran) {
     }
 
     case 'serviceConnectedPercentage': {
-      if (value && value !== 'unavailable') {
-        if (isVeteran) {
-          return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
-        }
-        return (<div>The Veterans combined service-connected evaluation is <strong>{value}%</strong>.</div>);
+      if (value && value !== 'unavailable' && isVeteran) {
+        return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
       }
       return undefined;
     }
