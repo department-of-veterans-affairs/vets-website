@@ -28,13 +28,13 @@ const teardown = () => {
 describe('<StatusPage>', () => {
   beforeEach(setup);
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<StatusPage store={store}/>);
+    const tree = SkinDeep.shallowRender(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show title and print button', () => {
-    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store}/>));
+    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
