@@ -11,6 +11,11 @@ import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);
+const defaultProps = {
+  enrollmentData: {
+    veteranIsEligible: true,
+  }
+};
 
 let oldFetch;
 const setup = () => {
@@ -28,13 +33,13 @@ const teardown = () => {
 describe('<StatusPage>', () => {
   beforeEach(setup);
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>);
+    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should show title and print button', () => {
-    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>));
+  it.only('should show title and print button', () => {
+    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
