@@ -32,18 +32,18 @@ class UserInfoSection extends React.Component {
       benefitEndDate = (
         <div className="section">
           <h4>Benefit End Date</h4>
-          <p>
+          <div>
             Since you are currently on active duty, your benefits don't yet have an expiration date.
-          </p>
+          </div>
         </div>
       );
     } else {
       benefitEndDate = (
         <div className="section">
           <h4>Benefit End Date</h4>
-          <p>
+          <div>
             You have until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong> to use these benefits.
-          </p>
+          </div>
         </div>
       );
     }
