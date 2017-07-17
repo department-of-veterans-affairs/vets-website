@@ -38,7 +38,7 @@ describe('<StatusPage>', () => {
     expect(vdom).to.exist;
   });
 
-  it.only('should show title and print button', () => {
+  it('should show title and print button', () => {
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
