@@ -1,5 +1,6 @@
 import merge from 'lodash/fp/merge';
 
+import { isJson } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 
 export function formatPercent(percent) {
@@ -16,7 +17,8 @@ export function formatVAFileNumber(n) {
   const number = n || '';
   const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
 
-  return number.replace(number.substring(0, lengthOfXString), `${'x'.repeat(lengthOfXString)}-`);
+  return number.replace(number.substring(0, lengthOfXString),
+                        `${'x'.repeat(lengthOfXString)}-`);
 }
 
 export function formatMonthDayFields(field) {
@@ -29,34 +31,33 @@ export function formatMonthDayFields(field) {
   return displayValue;
 }
 
-function isJson(response) {
-  const contentType = response.headers.get('content-type');
-  return contentType && contentType.indexOf('application/json') !== -1;
-}
-
-export function apiRequest(url, optionalSettings = {}, success, error) {
-  const requestUrl = `${environment.API_URL}${url}`;
+export function apiRequest(resource, optionalSettings = {}, success, error) {
+  const baseUrl = `${environment.API_URL}/v0`;
+  const url = resource[0] === '/'
+            ? [baseUrl, resource].join('')
+            : resource;
 
   const defaultSettings = {
     method: 'GET',
     headers: {
       Authorization: `Token token=${sessionStorage.userToken}`,
-      'X-Key-Inflection': 'camel',
+      'X-Key-Inflection': 'camel'
     }
   };
 
   const settings = merge(defaultSettings, optionalSettings);
 
-  return fetch(requestUrl, settings)
+  return fetch(url, settings)
     .then((response) => {
+      const data = isJson(response)
+                 ? response.json()
+                 : Promise.resolve(response);
       if (!response.ok) {
         // Refresh to show login view when requests are unauthorized.
         if (response.status === 401) { return window.location.reload(); }
         return Promise.reject(response);
-      } else if (isJson(response)) {
-        return response.json();
       }
-      return Promise.resolve(response);
+      return data;
     })
     .then(success, error);
 }

@@ -13,6 +13,12 @@ function post911GIBStatus(state = initialState, action) {
         enrollmentData: action.data,
         availability: 'available'
       };
+    case 'BACKEND_SERVICE_ERROR':
+      return set('availability', 'backendServiceError', state);
+    case 'BACKEND_AUTHENTICATION_ERROR':
+      return set('availability', 'backendAuthenticationError', state);
+    case 'NO_CHAPTER33_RECORD_AVAILABLE':
+      return set('availability', 'noChapter33Record', state);
     case 'GET_ENROLLMENT_DATA_FAILURE':
       return set('availability', 'unavailable', state);
     default:
