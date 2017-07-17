@@ -83,7 +83,7 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 
 ### How do I get these benefits as a family member?
 
-You’ll need to apply for benefits in 1 of 2 ways:
+You’ll need to apply for benefits:
 
 -	[Fill out the Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
 
