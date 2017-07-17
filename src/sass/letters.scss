@@ -41,6 +41,10 @@
       opacity: inherit;
       position: inherit;
       width: 50%;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
 
     label {

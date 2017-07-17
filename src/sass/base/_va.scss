@@ -1466,7 +1466,7 @@ p.info-message {
 }
 .vertical-list-group .list-group-item::before {
   border-radius: 50%;
-  background-color: #757575;
+  background-color: $color-gray-medium;
   content: "";
   display: inline-block;
   float: left;

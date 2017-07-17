@@ -18,6 +18,7 @@ import {
   applicantDescription,
   otherExpensesWarning,
   disabilityDocs,
+  uploadMessage,
   schoolAttendanceWarning,
   marriageWarning,
   fdcWarning,
@@ -1574,12 +1575,19 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim')
+            files: fileUploadUI('Please upload any documentation that you need to support your claim'),
+            'view:uploadMessage': {
+              'ui:description': uploadMessage
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              'view:uploadMessage': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
