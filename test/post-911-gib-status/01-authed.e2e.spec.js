@@ -42,8 +42,6 @@ module.exports = E2eHelpers.createE2eTest(
     //     client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');
     //   });
 
-    client.axeCheck('.main');
-
     client.end();
   }
 );
