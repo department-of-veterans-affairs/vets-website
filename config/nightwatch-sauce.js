@@ -53,6 +53,38 @@ module.exports = {
         platform: 'Windows 10',
         version: '11.103'
       }
+    },
+    edge: {
+      desiredCapabilities: {
+        browserName: 'MicrosoftEdge',
+        platform: 'Windows 10',
+        version: '15.15063'
+      }
+    },
+    safari: {
+      desiredCapabilities: {
+        browserName: 'safari',
+        platform: 'macOS 10.12',
+        version: '10.0'
+      }
+    },
+    android: {
+      desiredCapabilities: {
+        deviceName: 'Android Emulator',
+        deviceOrientation: 'portrait',
+        browserName: 'Chrome',
+        platformVersion: '6.0',
+        platformName: 'Android',
+      }
+    },
+    ios: {
+      desiredCapabilities: {
+        deviceName: 'iPhone Simulator',
+        deviceOrientation: 'portrait',
+        browserName: 'Safari',
+        platformVersion: '10.3',
+        platformName: 'iOS',
+      }
     }
   }
 };
