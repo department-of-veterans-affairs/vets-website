@@ -14,7 +14,7 @@ class UserInfoSection extends React.Component {
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-    const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
+    // const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     let currentAsOfAlert;
     if (this.props.showCurrentAsOfAlert) {
@@ -27,12 +27,33 @@ class UserInfoSection extends React.Component {
       );
     }
 
+    let benefitEndDate;
+    if (enrollmentData.activeDuty) {
+      benefitEndDate = (
+        <div className="section">
+          <h4>Benefit End Date</h4>
+          <p>
+            Since you are currently on active duty, your benefits don't yet have an expiration date.
+          </p>
+        </div>
+      );
+    } else {
+      benefitEndDate = (
+        <div className="section">
+          <h4>Benefit End Date</h4>
+          <p>
+            You have until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong> to use these benefits.
+          </p>
+        </div>
+      );
+    }
+
     let entitlementInfo;
     const originalEntitlement = enrollmentData.originalEntitlement;
     const usedEntitlement = enrollmentData.usedEntitlement;
     const remainingEntitlement = enrollmentData.remainingEntitlement;
 
-    if (currentlyAllowed) {
+    if (enrollmentData.veteranIsEligible) {
       entitlementInfo = (
         <div>
           <div className="section">
@@ -48,12 +69,7 @@ class UserInfoSection extends React.Component {
               </a>
             </p>
           </div>
-          <div className="section">
-            <h4>Benefit End Date</h4>
-            <p>
-              You have until <strong>{formatDateLong(enrollmentData.delimitingDate)}</strong> to use these benefits.
-            </p>
-          </div>
+          {benefitEndDate}
         </div>
       );
     } else {
