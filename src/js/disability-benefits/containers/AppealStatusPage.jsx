@@ -65,7 +65,7 @@ class AppealStatusPage extends React.Component {
       return (
         <div>
           <p>
-            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 532 days for VBA to complete the necessary action.
+            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 18 months for VBA to complete the necessary action.
           </p>
         </div>
       );
@@ -79,7 +79,7 @@ class AppealStatusPage extends React.Component {
               <tr key={i}>
                 <td><i className="fa fa-check-circle"></i></td>
                 <td className="date">
-                  <strong>{moment(e.date).format('MMM DD, YYYY')}</strong>
+                  <strong>{moment(e.date).format('MMMM DD, YYYY')}</strong>
                 </td>
                 <td>{appealStatusDescriptions(e).status.title}</td>
               </tr>
@@ -107,7 +107,7 @@ class AppealStatusPage extends React.Component {
         <div className="row">
           <div>
             <h1>Your Compensation Appeal Status</h1>
-            <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}</p>
+            <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}.</p>
           </div>
         </div>
         <div className="row">
@@ -127,10 +127,10 @@ class AppealStatusPage extends React.Component {
                 <div className="content">
                   <i className="fa fa-check-circle"></i>
                   <h5>{status.title}</h5>
-                  <strong>{moment(lastEvent.date).format('MMM DD, YYYY')}</strong>
+                  <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
                   {status.description}
                   <p>
-                    <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>
+                    <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>.
                   </p>
                 </div>
               </div>

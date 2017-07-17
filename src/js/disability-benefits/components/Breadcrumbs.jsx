@@ -11,12 +11,12 @@ class Breadcrumbs extends React.Component {
     ];
 
     if (pathname.match(/status\/?$/)) {
-      crumbs.push(<Link to="/" key="main">Your Claims</Link>);
+      crumbs.push(<Link to="/" key="main">Your Claims and Appeals</Link>);
       crumbs.push(<span key="status"><strong>Your Compensation Appeal Status</strong></span>);
     } else if (pathname.match(/learn-more\/?$/)) {
       crumbs.push(<span key="learn-more"><strong>Appeals</strong></span>);
     } else {
-      crumbs.push(<span key="main"><strong>Your Claims</strong></span>);
+      crumbs.push(<span key="main"><strong>Your Claims and Appeals</strong></span>);
     }
 
     return (<div className="db-breadcrumbs">

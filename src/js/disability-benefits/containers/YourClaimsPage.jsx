@@ -6,6 +6,8 @@ import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsol
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import AppealsUnavailable from '../components/AppealsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
@@ -86,7 +88,13 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+
+    if (canAccessAppeals && canAccessClaims) {
+      if (!claimsAvailable && !appealsAvailable) {
+        return <ClaimsAppealsUnavailable/>;
+      }
+    }
 
     if (canAccessClaims) {
       if (!claimsAvailable) {
@@ -94,6 +102,10 @@ class YourClaimsPage extends React.Component {
       } else if (!claimsAuthorized) {
         return <ClaimsUnauthorized/>;
       }
+    }
+
+    if (canAccessAppeals && !appealsAvailable) {
+      return <AppealsUnavailable/>;
     }
 
     return null;
@@ -109,7 +121,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator message="Loading claims list" setFocus/>;
+      content = <LoadingIndicator message="Loading claims and appeals list" setFocus/>;
     } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
@@ -160,7 +172,7 @@ class YourClaimsPage extends React.Component {
         </div>
         <div className="row">
           <div>
-            <h1>Your Claims</h1>
+            <h1>Your Claims and Appeals</h1>
           </div>
           {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
         </div>
@@ -202,6 +214,7 @@ function mapStateToProps(state) {
   const canAccessClaims = profileState.services.includes('evss-claims');
 
   return {
+    appealsAvailable: claimsState.appeals.available,
     claimsAuthorized: claimsState.claimSync.authorized,
     claimsAvailable: claimsState.claimSync.available,
     loading: claimsRoot.loading,

@@ -293,10 +293,13 @@ const formConfig = {
                 'ui:title': 'Plot or interment allowance (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)'
               },
               transportation: {
-                'ui:title': 'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)'
+                'ui:title': 'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)',
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
+                }
               },
               amountIncurred: {
-                'ui:title': 'Amount incurred',
+                'ui:title': 'Transportation amount incurred',
                 'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
                 'ui:options': {
                   expandUnder: 'transportation',

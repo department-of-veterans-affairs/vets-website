@@ -7,7 +7,8 @@ class ClaimsUnavailable extends React.Component {
         <h4 className="warning-title">
           <i className="fa fa-exclamation-triangle"></i>&nbsp;Claim status is unavailable
         </h4>
-          We couldn't check your claim status. Please try again later.
+        Vets.gov is having trouble loading claims information at this time. Please check back again in a hour.
+        Please note: You are still able to review appeals information.
       </div>
     );
   }

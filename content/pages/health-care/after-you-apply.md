@@ -101,6 +101,7 @@ You can update your personal information, such as income, address, and insurance
 Mail this form and any supporting materials to:
 
 <dl class="va-address-block">
+<dt></dt>
 <dd>Health Eligibility Center</dd>
 <dd>2957 Clairmont Road, Suite 200</dd>
 <dd>Atlanta, GA 30329</dd>
