@@ -31,7 +31,8 @@ module.exports = {
         recordScreenshots: true,
         recordLogs: true,
         captureHtml: true,
-      },
+        seleniumVersion: '3.4.0'
+      }
     },
     chrome: {
       desiredCapabilities: {
@@ -68,22 +69,24 @@ module.exports = {
         version: '10.0'
       }
     },
-    android: {
-      desiredCapabilities: {
-        deviceName: 'Android Emulator',
-        deviceOrientation: 'portrait',
-        browserName: 'Chrome',
-        platformVersion: '6.0',
-        platformName: 'Android',
-      }
-    },
     ios: {
       desiredCapabilities: {
-        deviceName: 'iPhone Simulator',
+        appiumVersion: '1.6.5',
+        deviceName: 'iPhone 7 Simulator',
         deviceOrientation: 'portrait',
-        browserName: 'Safari',
         platformVersion: '10.3',
         platformName: 'iOS',
+        browserName: 'Safari'
+      }
+    },
+    android: {
+      desiredCapabilities: {
+        appiumVersion: '1.6.5',
+        deviceName: 'Android Emulator',
+        deviceOrientation: 'portrait',
+        platformVersion: '6.0',
+        platformName: 'Android',
+        browserName: 'Chrome'
       }
     }
   }
