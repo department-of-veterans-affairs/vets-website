@@ -11,9 +11,13 @@ import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);
-const defaultProps = {
+const defaultProps = store.getState();
+defaultProps.post911GIBStatus = {
   enrollmentData: {
     veteranIsEligible: true,
+    remainingEntitlement: {},
+    originalEntitlement: {},
+    usedEntitlement: {}
   }
 };
 
