@@ -13,7 +13,7 @@ module.exports = {
     const jobName = browser.currentTest.module;
 
     function noFailures(item) {
-      return item.failed === 0;
+      return item.failed === 0 && item.errors === 0;
     }
 
     const testCaseData = Object.keys(browser.currentTest.results.testcases).map((key) => {
@@ -21,8 +21,6 @@ module.exports = {
     });
 
     const passed = testCaseData.every(noFailures);
-
-    // console.log(`SauceOnDemandSessionID=${sessionid} job-name=${jobName}`);
 
     saucelabs.updateJob(sessionid, {
       passed,
