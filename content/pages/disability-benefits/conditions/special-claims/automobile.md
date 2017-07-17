@@ -46,11 +46,11 @@ You'll need to apply for benefits and get our approval **before** buying a vehic
 When you apply, you'll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
 #### For the 1-time payment to help you buy a specially equipped vehicle 
-- You'll need to fill out VA Form 21-4502: Application for Automobile or Other Conveyance and Adaptive Equipment.
+- You'll need to fill out the Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).
 [Download VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
 - We'll pay the vehicle's seller directly. 
 
 #### For the adaptive-equipment grant
-- If you qualify for adaptive equipment only, you'll need to fill out VA Form 10-1394: Application for Adaptive Equipment—Motor Vehicle. [Download VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
+- If you qualify for adaptive equipment only, you'll need to fill out the Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). [Download VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
 - We may pay you, or we may pay the equipment seller directly.  
 
