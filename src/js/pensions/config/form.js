@@ -16,7 +16,8 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning
+  otherExpensesWarning,
+  uploadMessage
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -1503,12 +1504,19 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim')
+            files: fileUploadUI('Please upload any documentation that you need to support your claim'),
+            'view:uploadMessage': {
+              'ui:description': uploadMessage
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              'view:uploadMessage': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
