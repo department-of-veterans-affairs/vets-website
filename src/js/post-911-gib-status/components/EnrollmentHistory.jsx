@@ -23,11 +23,11 @@ class EnrollmentHistory extends React.Component {
     // History explanation box
     let historyExplanationBox;
     const benefitMaybePending =
-      (enrollmentData.percentageBenefit > 0 || enrollmentData.originalEntitlement > 0) &&
-      enrollmentData.usedEntitlement === 0;
+      (enrollmentData.percentageBenefit > 0 || enrollmentData.originalEntitlement.months > 0) &&
+      (enrollmentData.usedEntitlement.months === 0 && enrollmentData.usedEntitlement.days === 0);
     const historyMayLookIncorrect = enrollments.length > 0 || benefitMaybePending;
-    const noEnrollmentHistory = enrollmentData.usedEntitlement === 0;
-    const benefitUsedUp = enrollmentData.remainingEntitlement === 0;
+    const noEnrollmentHistory = enrollmentData.usedEntitlement.months === 0 && enrollmentData.usedEntitlement.days === 0;
+    const benefitUsedUp = enrollmentData.remainingEntitlement.months === 0 && enrollmentData.remainingEntitlement.days === 0;
 
     if (noEnrollmentHistory) {
       historyExplanationBox = (
