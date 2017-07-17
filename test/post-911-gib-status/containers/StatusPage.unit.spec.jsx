@@ -37,21 +37,13 @@ const teardown = () => {
 describe('<StatusPage>', () => {
   beforeEach(setup);
   it('should render', () => {
-<<<<<<< HEAD
     const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
-=======
-    const tree = SkinDeep.shallowRender(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>);
->>>>>>> 2b30e8c... Fix all but one failing test
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show title and print button', () => {
-<<<<<<< HEAD
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
-=======
-    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} enrollmentData={{ veteranIsEligible: true }}/>));
->>>>>>> 2b30e8c... Fix all but one failing test
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
