@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InfoPair from './InfoPair';
 
 import { formatDateShort } from '../../common/utils/helpers';
-import { formatPercent, formatVAFileNumber } from '../utils/helpers';
+import { formatPercent, formatVAFileNumber, formatMonthDayFields } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -28,14 +28,18 @@ class UserInfoSection extends React.Component {
     }
 
     let entitlementInfo;
+    const originalEntitlement = enrollmentData.originalEntitlement;
+    const usedEntitlement = enrollmentData.usedEntitlement;
+    const remainingEntitlement = enrollmentData.remainingEntitlement;
+
     if (currentlyAllowed) {
       entitlementInfo = (
         <div>
           <div className="section">
             <h4>Your Benefits</h4>
-            <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-            <InfoPair label="Months you've used" value={enrollmentData.usedEntitlement}/>
-            <InfoPair label="Months you have left to use" value={enrollmentData.remainingEntitlement} displayIfZero/>
+            <InfoPair label="Total months received" value={formatMonthDayFields(originalEntitlement)}/>
+            <InfoPair label="Months you've used" value={formatMonthDayFields(usedEntitlement)}/>
+            <InfoPair label="Months you have left to use" value={formatMonthDayFields(remainingEntitlement)} displayIfZero/>
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.
               <br/>
