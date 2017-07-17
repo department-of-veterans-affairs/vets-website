@@ -32,7 +32,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (Form 21-0958)</a>
+        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>
       </p>
       <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
     </div>
