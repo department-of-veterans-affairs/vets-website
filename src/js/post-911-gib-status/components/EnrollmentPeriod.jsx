@@ -37,7 +37,8 @@ class EnrollmentPeriod extends React.Component {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
     const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
-      <div>This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
+      <div>
+        This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
       </div>
     );
 
@@ -82,12 +83,12 @@ class EnrollmentPeriod extends React.Component {
 
     return (
       <div id={id}>
-        <hr/>
         <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
         {yellowRibbonStatus}
         <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>
         <InfoPair label="Online Hours" value={enrollment.onlineHours}/>
         {changeHistory}
+        <hr/>
       </div>
     );
   }

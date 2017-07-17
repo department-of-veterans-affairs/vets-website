@@ -53,10 +53,11 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show history may be incorrect warning if benefit used up', () => {
+  it('should show history may be incorrect warning if not active duty', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: true,
+        activeDuty: false,
         percentageBenefit: 100,
         originalEntitlement: { months: 36, days: 0 },
         usedEntitlement: { months: 36, days: 0 },
@@ -82,5 +83,19 @@ describe('<EnrollmentHistory>', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
     expect(featureBoxes[0].text()).to.equal('You don\'t have any enrollment history');
+  });
+
+  it('should not show no enrollment history warning if there has been used entitlement', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: true,
+        originalEntitlement: { months: 3, days: 0 },
+        usedEntitlement: { months: 0, days: 10 },
+        remainingEntitlement: { months: 3, days: 0 },
+        enrollments: []
+      }
+    };
+    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
+    expect(tree.subTree('.feature')).to.be.false;
   });
 });
