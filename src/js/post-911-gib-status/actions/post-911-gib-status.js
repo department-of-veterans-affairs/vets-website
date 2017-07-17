@@ -12,8 +12,8 @@ export function getEnrollmentData() {
         });
       },
       (response) => {
-        if (response.status === 422 || response.status === 504) {
-          // Either an EVSS partner service is down or EVSS is down or times out.
+        if (response.status === 503 || response.status === 504) {
+          // Either EVSS or a partner service is down or EVSS times out.
           return dispatch({ type: 'BACKEND_SERVICE_ERROR' });
         }
         if (response.status === 403) {
