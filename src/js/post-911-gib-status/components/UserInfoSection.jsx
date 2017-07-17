@@ -37,7 +37,7 @@ class UserInfoSection extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
       benefitEndDate = (
         <div className="section">
           <h4>Benefit End Date</h4>
