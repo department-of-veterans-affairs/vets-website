@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
@@ -70,16 +71,28 @@ export function getMarriageTitleWithCurrent(form, index) {
 
 export const spouseContribution = <span>How much do you <strong>contribute monthly</strong> to your spouse’s support?</span>;
 
-export function fileHelp({ formContext }) {
-  if (formContext.reviewMode) {
-    return null;
-  }
+export function fileHelp({ formData }) {
+  const hasSchoolChild = (formData.dependents || []).some(child => child.attendingCollege);
+
+  const hasDisabledChild = (formData.dependents || []).some(child => child.disabled);
 
   return (
-    <p>
-      Files we accept: pdf, jpg, png<br/>
-      Maximum file size: 20MB
-    </p>
+    <div>
+      <p>Please upload all documentation to support your claim. This includes:</p>
+      <ul>
+        <li>All necessary income and net-worth information</li>
+        <li>All private medical records you have that are related to your claim, and information about any health records that are available at a federal facility, like a VA medical center or clinic</li>
+        {formData['view:aidAttendence'] === true &&
+          <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)</li>}
+        {formData['view:aidAttendence'] === true &&
+          <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779)</li>}
+        {hasSchoolChild &&
+          <li>A completed Request for Approval of School Attendance (VA Form 21-674)</li>}
+        {hasDisabledChild &&
+          <li>All private medical records for your child’s disability</li>}
+      </ul>
+      <p>File types you can upload: PDF, JPG, PNG</p>
+    </div>
   );
 }
 
