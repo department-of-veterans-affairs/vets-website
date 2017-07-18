@@ -15,7 +15,7 @@ class StatusPage extends React.Component {
 
     return (
       <div>
-        <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
+        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
         <div className="va-introtext">
           <p>
             The information on this page is the same information that's in your
