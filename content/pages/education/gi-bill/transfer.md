@@ -68,7 +68,7 @@ While you're still on active duty, you'll request to transfer, change, or revoke
 
 If DOD approves the TOE, family members may apply for benefits. 
 - [Apply online](/education/apply-for-education-benefits/application/1990e/). 
-- Apply by mail. You'll need to fill out and mail VA Form 22-1990E to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
+- Apply by mail. You'll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
 
 [Find a nearby VA facility](/facilities/).
 
