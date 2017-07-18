@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import { apiRequest } from '../utils/helpers.jsx';
 
 import {
@@ -46,6 +47,9 @@ export function getEnrollmentData() {
           // EVSS partner service has no record of this user
           return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
         }
+        // TODO: find out if we have any best practices for logging Sentry errors
+        Raven.captureMessage('post-911-gib-status-get-enrollment-data-failure');
+        // Raven.captureException(response, { extra: response.message });
         return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
       });
   };

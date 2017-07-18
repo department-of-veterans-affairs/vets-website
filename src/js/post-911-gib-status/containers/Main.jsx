@@ -35,8 +35,9 @@ class Main extends React.Component {
         break;
       case 'unavailable':
       default:
-        // TODO: This should never happen; log a Sentry error and show same as serviceError
-        appContent = (<div>This should never happen.</div>);
+        // TODO: This should never happen, so log a Sentry error and
+        // show the generic system-down message.
+        appContent = systemDownMessage();
     }
 
     return (
