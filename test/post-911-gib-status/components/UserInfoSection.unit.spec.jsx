@@ -8,6 +8,7 @@ import UserInfoSection from '../../../src/js/post-911-gib-status/components/User
 const props = {
   enrollmentData: {
     veteranIsEligible: true,
+    activeDuty: false,
     firstName: 'Joe',
     lastName: 'West',
     dateOfBirth: '1995-11-12T06:00:00.000+0000',
@@ -70,6 +71,33 @@ describe('<UserInfoSection>', () => {
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.not.be.false;
       expect(benefitLevel.text()).to.contain('unavailable');
+    });
+  });
+
+  describe('should display delimitingDate', () => {
+    it('should display the delimiting date', () => {
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
+      const benefitEndDate = tree.subTree('.benefit-end-date');
+      expect(benefitEndDate).to.not.be.false;
+      expect(benefitEndDate.text()).to.contain('You have until');
+    });
+
+    it('should not display the delimiting date if active duty', () => {
+      const newProps = {
+        enrollmentData: {
+          veteranIsEligible: true,
+          activeDuty: true,
+          originalEntitlement: {},
+          usedEntitlement: {},
+          remainingEntitlement: {},
+          enrollments: []
+        }
+      };
+
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...newProps}/>);
+      const benefitEndDate = tree.subTree('.benefit-end-date');
+      expect(benefitEndDate).to.not.be.false;
+      expect(benefitEndDate.text()).to.contain('Since you are currently on active duty');
     });
   });
 });

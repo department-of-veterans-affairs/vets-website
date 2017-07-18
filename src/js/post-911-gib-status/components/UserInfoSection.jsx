@@ -29,7 +29,7 @@ class UserInfoSection extends React.Component {
     let benefitEndDate;
     if (enrollmentData.activeDuty) {
       benefitEndDate = (
-        <div className="section">
+        <div className="section benefit-end-date">
           <h4>Benefit End Date</h4>
           <div>
             Since you are currently on active duty, your benefits don't yet have an expiration date.
@@ -38,7 +38,7 @@ class UserInfoSection extends React.Component {
       );
     } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
       benefitEndDate = (
-        <div className="section">
+        <div className="section benefit-end-date">
           <h4>Benefit End Date</h4>
           <div>
             You have until <strong>{formatDateLong(enrollmentData.delimitingDate)}</strong> to use these benefits.

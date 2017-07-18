@@ -53,11 +53,10 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show history may be incorrect warning if not active duty', () => {
+  it('should show history may be incorrect warning', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: true,
-        activeDuty: false,
         percentageBenefit: 100,
         originalEntitlement: { months: 36, days: 0 },
         usedEntitlement: { months: 36, days: 0 },
