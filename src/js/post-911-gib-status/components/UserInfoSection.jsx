@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import InfoPair from './InfoPair';
 
 import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
-import { formatPercent, formatVAFileNumber, formatMonthDayFields } from '../utils/helpers';
+import {
+  formatPercent,
+  formatVAFileNumber,
+  formatMonthDayFields,
+  benefitEndDateExplanation
+} from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -28,23 +33,9 @@ class UserInfoSection extends React.Component {
 
     let benefitEndDate;
     if (enrollmentData.activeDuty) {
-      benefitEndDate = (
-        <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
-          <div>
-            Since you are currently on active duty, your benefits don't yet have an expiration date.
-          </div>
-        </div>
-      );
+      benefitEndDate = benefitEndDateExplanation('activeDuty', enrollmentData.delimitingDate);
     } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
-      benefitEndDate = (
-        <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
-          <div>
-            You have until <strong>{formatDateLong(enrollmentData.delimitingDate)}</strong> to use these benefits.
-          </div>
-        </div>
-      );
+      benefitEndDate = benefitEndDateExplanation('remainingEntitlement', enrollmentData.delimitingDate);
     }
 
     let entitlementInfo;

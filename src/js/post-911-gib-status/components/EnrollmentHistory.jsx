@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { enrollmentHistoryExplanation } from '../utils/helpers';
+
 import EnrollmentPeriod from './EnrollmentPeriod';
 
 class EnrollmentHistory extends React.Component {
@@ -13,28 +15,9 @@ class EnrollmentHistory extends React.Component {
     const noEnrollmentHistory = enrollmentData.usedEntitlement.months === 0 && enrollmentData.usedEntitlement.days === 0;
 
     if (noEnrollmentHistory) {
-      historyExplanationBox = (
-        <div className="feature">
-          <h4>You don't have any enrollment history</h4>
-          <span>Your enrollment history may not be available if:</span>
-          <ul>
-            <li>You or your school did not yet make a request to us, <strong>or</strong></li>
-            <li>You or your school made a request that's still in process</li>
-          </ul>
-        </div>
-      );
+      historyExplanationBox = enrollmentHistoryExplanation.noEnrollmentHistory;
     } else {
-      historyExplanationBox = (
-        <div className="feature">
-          <h4>Does something look wrong in your enrollment history?</h4>
-          <span>Certain enrollments may not be displayed in this history if:</span>
-          <ul>
-            <li>Your school made a request to us that's still in process, <strong>or</strong></li>
-            <li>You made a request to us that's still in process, <strong>or</strong></li>
-            <li>You used or are using your benefit for flight, on-the-job, apprenticeship, or correspondence training</li>
-          </ul>
-        </div>
-      );
+      historyExplanationBox = enrollmentHistoryExplanation.standard;
     }
 
     // Render enrollment periods
