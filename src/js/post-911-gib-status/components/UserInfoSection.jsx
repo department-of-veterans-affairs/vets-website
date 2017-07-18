@@ -81,7 +81,7 @@ class UserInfoSection extends React.Component {
               spacingClass="section-line"/>
           <InfoPair
               label="Date of birth"
-              value={formatDateShort(enrollmentData.dateOfBirth)}
+              value={formatDateLong(enrollmentData.dateOfBirth)}
               spacingClass="section-line"/>
           {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
           <InfoPair
