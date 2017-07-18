@@ -46,7 +46,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Attach a copy of the Veteran’s military discharge papers (DD214 or other separation documents).
 - Attach a copy of the Veteran’s death certificate.
 - To get paid back for transportation costs, attach receipts that show how much you paid.
-- Mail the application form and other paperwork to your local Regional Benefits Office. [Find your local regional benefits office](/facilities).
+- Mail the application form and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
 - If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
 
