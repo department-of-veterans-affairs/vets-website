@@ -5,7 +5,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {
-  chapter33InfoUnavailableWarning,
+  unableToFindRecordWarning,
   noChapter33BenefitsWarning,
   systemDownMessage
 } from '../utils/helpers.jsx';
@@ -28,7 +28,7 @@ class Main extends React.Component {
         appContent = systemDownMessage();
         break;
       case 'backendAuthenticationError':
-        appContent = chapter33InfoUnavailableWarning();
+        appContent = unableToFindRecordWarning();
         break;
       case 'noChapter33Record':
         appContent = noChapter33BenefitsWarning();

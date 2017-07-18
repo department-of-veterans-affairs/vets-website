@@ -41,19 +41,15 @@ export function systemDownMessage() {
   );
 }
 
-export function chapter33InfoUnavailableWarning() {
+export function unableToFindRecordWarning() {
   return (
     <div>
-      <div className="usa-alert usa-alert-error" role="alert">
-        <div className="usa-alert-body">
-          <h4 className="usa-alert-heading">Post-9/11 GI Bill Benefit Information Unavailable</h4>
-          <p className="usa-alert-text">
-            We weren't able to retrieve your Post-9/11 GI Bill benefit information. Please call
-            888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m. (ET).
-          </p>
-        </div>
+      <div className="usa-alert usa-alert-warning claims-no-icon claims-unavailable">
+        <h4 className="warning-title">
+          <i className="fa fa-exclamation-triangle"></i>&nbsp;We weren't able to find your records
+        </h4>
+        Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.
       </div>
-      <br/>
     </div>
   );
 }

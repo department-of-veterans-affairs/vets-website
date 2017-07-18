@@ -17,10 +17,9 @@ export function getEnrollmentData() {
       '/post911_gi_bill_status',
       null,
       (response) => {
-        // TODO: clarify with backend devs whether vets-api will continue to
-        // return a 200 and pass errors in the `meta` object, or if it will
-        // transform these into some other status code. For now, all of the below
-        // actions are tentative.
+        // TODO: remove this once vets-api stops returning 200s that pass
+        // errors in the `meta` object. Instead, it will transform these into
+        // non-200 status codes so the error callback will handle them.
         if (response.meta) {
           if (response.meta.status === metaStatus.SERVER_ERROR ||
               response.meta.status === metaStatus.NOT_FOUND) {
@@ -48,9 +47,16 @@ export function getEnrollmentData() {
           // EVSS partner service has no record of this user
           return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
         }
-        // TODO: find out if we have any best practices for logging Sentry errors
-        Raven.captureMessage('post-911-gib-status-get-enrollment-data-failure');
-        // Raven.captureException(response, { extra: response.message });
+        throw (response);
+      })
+      .catch((error) => {
+        // TODO: find out why Raven does not treat this object as an error
+        // Raven.captureException(error);
+        let errorMessage;
+        if (error.errors && error.errors.length > 0) {
+          errorMessage = `${error.errors[0].title}: ${error.errors[0].detail}`;
+        }
+        Raven.captureMessage(`post-911-gi-b-status: ${errorMessage}`);
         return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
       });
   };
