@@ -29,6 +29,12 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.id = _.uniqueId();
   }
 
+  componentDidUpdate(oldProps, oldState) {
+    if (!oldState.open && this.state.open) {
+      this.scrollToTop();
+    }
+  }
+
   onChange(formData, path = null, index = null) {
     let newData = formData;
     if (path) {
@@ -42,8 +48,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
     focusElement(pageDiv);
   }
 
-  handleEdit(key, editing, index) {
-    this.props.onEdit(key, editing, index);
+  handleEdit(key, editing, fullPageKey, index) {
+    this.props.onEdit(key, editing, fullPageKey, index);
     this.scrollToPage(key, index);
     this.focusOnPage(key, index);
   }
@@ -57,7 +63,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   scrollToPage(key, index) {
-    scroller.scrollTo(`${key}${index}ScrollElement`, {
+    scroller.scrollTo(`${key}${index || ''}ScrollElement`, {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -65,33 +71,39 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   toggleChapter() {
-    const isOpening = !this.state.open;
-    this.setState({ open: !this.state.open }, () => {
-      if (isOpening) {
-        this.scrollToTop();
-      }
-    });
+    const opening = !this.state.open;
+    this.setState({ open: opening });
+
+    if (!opening) {
+      this.props.setPagesViewed(this.pageKeys);
+    }
   }
 
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages } = this.props;
+    const { form, pages, viewedPages, chapter } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
-    const pageKeys = expandedPages.map(page => {
+    this.pageKeys = expandedPages.map(page => {
       let pageKey = page.pageKey;
       if (typeof page.index !== 'undefined') {
-        pageKey += `_${page.index}`;
+        pageKey += page.index;
       }
       return pageKey;
     });
-    const hasUnViewedPages = pageKeys.some(key =>
+    const hasUnViewedPages = this.pageKeys.some(key =>
       !viewedPages.has(key));
+    const ChapterDescription = chapter.reviewDescription;
 
     if (this.state.open) {
       pageContent = (
-        <div className="usa-accordion-content">
+        <div className="usa-accordion-content schemaform-chapter-accordion-content">
+          {ChapterDescription &&
+            <ChapterDescription
+                viewedPages={viewedPages}
+                pageKeys={this.pageKeys}
+                formData={form.data}/>}
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
             let pageSchema;
@@ -107,7 +119,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               pageUiSchema = pageState.uiSchema[page.arrayPath].items;
               pageData = _.get([page.arrayPath, page.index], form.data);
               arrayFields = [];
-              fullPageKey = `${page.pageKey}_${page.index}`;
+              fullPageKey = `${page.pageKey}${page.index}`;
             } else {
               editing = pageState.editMode;
               // TODO: support array fields inside of an array page?
@@ -128,8 +140,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
             });
 
             return (
-              <div key={`${page.pageKey}${page.index}`} className={classes}>
-                <Element name={`${page.pageKey}${page.index}ScrollElement`}/>
+              <div key={`${fullPageKey}`} className={classes}>
+                <Element name={`${fullPageKey}ScrollElement`}/>
                 {pageSchema &&
                   <SchemaForm
                       name={page.pageKey}
@@ -140,8 +152,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       hideHeaderRow={page.hideHeaderRow}
                       hideTitle={expandedPages.length === 1}
                       pagePerItemIndex={page.index}
-                      onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-                      onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
+                      onEdit={() => this.handleEdit(page.pageKey, !editing, fullPageKey, page.index)}
+                      onSubmit={() => this.handleEdit(page.pageKey, false, fullPageKey, page.index)}
                       onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                       uploadFile={this.props.uploadFile}
                       reviewMode={!editing}
@@ -181,7 +193,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
         <Element name={`chapter${this.props.chapterKey}ScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
-            <div className="accordion-header clearfix">
+            <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <button
                   className="usa-button-unstyled"
                   aria-expanded={this.state.open ? 'true' : 'false'}
@@ -189,6 +201,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                   onClick={this.toggleChapter}>
                 {this.props.chapter.title}
               </button>
+              {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
             <div id={`collapsible-${this.id}`}>
               {pageContent}

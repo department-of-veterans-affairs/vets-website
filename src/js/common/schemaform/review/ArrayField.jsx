@@ -165,11 +165,11 @@ class ArrayField extends React.Component {
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
-      <div className={itemsNeeded ? 'schemaform-review-page-warning' : null}>
+      <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
-            {itemsNeeded && <span className="schemaform-review-page-warning-icon"/>}
+            {itemsNeeded && <span className="schemaform-review-array-warning-icon"/>}
             {!itemCountLocked &&
               <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
             }

@@ -28,6 +28,7 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -1088,6 +1089,7 @@ const formConfig = {
     },
     financialDisclosure: {
       title: 'Financial Disclosure',
+      reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',

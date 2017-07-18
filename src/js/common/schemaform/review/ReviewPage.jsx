@@ -34,11 +34,13 @@ class ReviewPage extends React.Component {
     const { eligiblePageList } = this.getEligiblePages();
     const expandedPageList = expandArrayPages(eligiblePageList, props.form.data);
     this.state = {
+      // we're going to shallow clone this set at times later, but that does not appear
+      // to be slower than shallow cloning objects
       viewedPages: new Set(
         expandedPageList.map(page => {
           let pageKey = page.pageKey;
           if (typeof page.index !== 'undefined') {
-            pageKey += `_${page.index}`;
+            pageKey += page.index;
           }
           return pageKey;
         })
@@ -59,24 +61,26 @@ class ReviewPage extends React.Component {
     }
   }
 
-  setPageViewed = (key) => {
-    if (!this.state.viewedPages.has(key)) {
-      this.state.viewedPages.add(key);
-      this.setState({ viewedPages: this.state.viewedPages });
-    }
-  }
-
   setPagesViewed = (keys) => {
-    let stateChanged = false;
-    keys.forEach(key => {
-      if (!this.state.viewedPages.has(key)) {
-        this.state.viewedPages.add(key);
-        stateChanged = true;
-      }
-    });
+    const viewedPages = keys.reduce((pages, key) => {
+      if (!pages.has(key)) {
+        // if we hit a page that we need to add, check to see if
+        // we haven't cloned the set yet; we should only do that once
+        if (pages === this.state.viewedPages) {
+          const newPages = new Set(this.state.viewedPages);
+          newPages.add(key);
 
-    if (stateChanged) {
-      this.setState({ viewedPages: this.state.viewedPages });
+          return newPages;
+        }
+
+        pages.add(key);
+      }
+
+      return pages;
+    }, this.state.viewedPages);
+
+    if (viewedPages !== this.state.viewedPages) {
+      this.setState({ viewedPages });
     }
   }
 
@@ -105,6 +109,13 @@ class ReviewPage extends React.Component {
     }
   }
 
+  handleEdit = (pageKey, editing, fullPageKey, index) => {
+    if (editing) {
+      this.setPagesViewed([fullPageKey]);
+    }
+    this.props.setEditMode(pageKey, editing, index);
+  }
+
   render() {
     const { form } = this.props;
     const formConfig = this.props.route.formConfig;
@@ -115,7 +126,7 @@ class ReviewPage extends React.Component {
             {Object.keys(formConfig.chapters).map(chapter => (
               <ReviewCollapsibleChapter
                   key={chapter}
-                  onEdit={this.props.setEditMode}
+                  onEdit={this.handleEdit}
                   pages={this.pagesByChapter[chapter]}
                   chapterKey={chapter}
                   setData={this.props.setData}
@@ -123,6 +134,7 @@ class ReviewPage extends React.Component {
                   uploadFile={this.props.uploadFile}
                   chapter={formConfig.chapters[chapter]}
                   viewedPages={this.state.viewedPages}
+                  setPagesViewed={this.setPagesViewed}
                   form={form}/>
             ))}
           </div>
