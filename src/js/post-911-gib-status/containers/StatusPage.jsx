@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 
 import FormTitle from '../../common/schemaform/FormTitle';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
@@ -46,8 +45,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);

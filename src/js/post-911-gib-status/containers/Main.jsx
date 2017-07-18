@@ -10,7 +10,7 @@ import {
   systemDownMessage
 } from '../utils/helpers.jsx';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   componentDidMount() {
     this.props.getEnrollmentData();
   }
@@ -35,8 +35,6 @@ class Main extends React.Component {
         break;
       case 'unavailable':
       default:
-        // TODO: This should never happen, so log a Sentry error and
-        // show the generic system-down message.
         appContent = systemDownMessage();
     }
 
