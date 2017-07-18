@@ -11,7 +11,6 @@ class EnrollmentHistory extends React.Component {
     // History explanation box
     let historyExplanationBox;
     const noEnrollmentHistory = enrollmentData.usedEntitlement.months === 0 && enrollmentData.usedEntitlement.days === 0;
-    const historyMayLookIncorrect = enrollmentData.activeDuty === false || enrollmentData.delimitingDate;
 
     if (noEnrollmentHistory) {
       historyExplanationBox = (
@@ -24,7 +23,7 @@ class EnrollmentHistory extends React.Component {
           </ul>
         </div>
       );
-    } else if (historyMayLookIncorrect) {
+    } else {
       historyExplanationBox = (
         <div className="feature">
           <h4>Does something look wrong in your enrollment history?</h4>
