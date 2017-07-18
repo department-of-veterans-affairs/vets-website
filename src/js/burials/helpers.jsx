@@ -2,6 +2,18 @@ import React from 'react';
 
 import { transformForSubmit } from '../common/schemaform/helpers';
 
+export const serviceRecordNotification = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span><strong>Note:</strong> If you would rather upload a DD214 than enter dates here, you can do that later in the form.</span>
+  </div>
+);
+
+export const serviceRecordWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span><strong>Note:</strong> If you chose to upload a DD214 instead of recording service periods, you can do that here</span>
+  </div>
+);
+
 export const transportationWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <span><strong>Note:</strong> At the end of the application, you will be asked to upload documentation for the expenses you incurred for transporting the Veteran’s remains.</span>

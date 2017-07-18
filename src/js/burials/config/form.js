@@ -7,7 +7,7 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, transportationWarning, burialDateWarning, transform } from '../helpers';
+import { fileHelp, transportationWarning, serviceRecordNotification, serviceRecordWarning, burialDateWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../common/utils/validations';
@@ -244,11 +244,18 @@ const formConfig = {
           title: 'Service Periods',
           path: 'military-history/service-periods',
           uiSchema: {
+            'view:serviceRecordNotification': {
+              'ui:description': serviceRecordNotification
+            },
             toursOfDuty: toursOfDutyUI
           },
           schema: {
             type: 'object',
             properties: {
+              'view:serviceRecordNotification': {
+                type: 'object',
+                properties: {}
+              },
               toursOfDuty
             }
           }
@@ -513,8 +520,6 @@ const formConfig = {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
-          depends: form =>
-            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
@@ -523,12 +528,17 @@ const formConfig = {
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
-            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains', {
-              addAnotherLabel: 'Add Another Document',
-              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
+              addAnotherLabel: 'Add Another Document'
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
-            })
+            }),
+            'view:serviceRecordWarning': {
+              'ui:description': serviceRecordWarning,
+              'ui:options': {
+                hideIf: form => form.toursOfDuty
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -539,7 +549,11 @@ const formConfig = {
               }),
               transportationReceipts: _.assign(files, {
                 minItems: 1
-              })
+              }),
+              'view:serviceRecordWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
