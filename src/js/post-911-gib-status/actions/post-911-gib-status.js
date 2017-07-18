@@ -1,4 +1,4 @@
-import { apiRequest } from '../utils/helpers';
+import { apiRequest } from '../utils/helpers.jsx';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,

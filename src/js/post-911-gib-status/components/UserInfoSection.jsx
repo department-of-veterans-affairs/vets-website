@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import InfoPair from './InfoPair';
 
 import { formatDateShort } from '../../common/utils/helpers';
-import { formatPercent, formatVAFileNumber, formatMonthDayFields } from '../utils/helpers';
+import {
+  formatPercent,
+  formatVAFileNumber,
+  formatMonthDayFields }
+from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
   render() {
