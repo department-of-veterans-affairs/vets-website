@@ -7,7 +7,7 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form';
 
 describe('Burials document upload', () => {
-  const { schema, uiSchema, depends } = formConfig.chapters.additionalInformation.pages.documentUpload;
+  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -18,7 +18,7 @@ describe('Burials document upload', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(0);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
   });
 
   it('should render death certificate field', () => {
@@ -33,7 +33,7 @@ describe('Burials document upload', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
 
   it('should render receipts field', () => {
@@ -136,29 +136,5 @@ describe('Burials document upload', () => {
 
     formDOM.submitForm();
     expect(onSubmit.called).to.be.true;
-  });
-
-  it('depends should not be true without transportation or service connected death', () => {
-    const result = depends({});
-
-    expect(result).to.be.false;
-  });
-
-  it('depends should be true with transportation', () => {
-    const result = depends({
-      'view:claimedBenefits': {
-        transportation: true
-      }
-    });
-
-    expect(result).to.be.true;
-  });
-
-  it('depends should be true with service connected death', () => {
-    const result = depends({
-      burialAllowanceRequested: 'service'
-    });
-
-    expect(result).to.be.true;
   });
 });
