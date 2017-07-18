@@ -13,12 +13,41 @@ describe('Burials burial allowance', () => {
       <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
-          data={{}}
+          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(3);
+  });
+
+  it('should show warning when ineligible for non-service connected death allowance', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{ burialDate: '2013-11-05' }}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+    formDOM.fillData('#root_burialAllowanceRequested_1', 'nonService');
+    expect(formDOM.querySelectorAll('.usa-alert-warning').length).to.equal(1);
+  });
+
+  it('should not show vaMC option when neither vaMC nor nursing home selected as burial location', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{ locationOfDeath: { location: 'stateVeteransHome' } }}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -28,7 +57,7 @@ describe('Burials burial allowance', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           onSubmit={onSubmit}
-          data={{}}
+          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
@@ -42,7 +71,7 @@ describe('Burials burial allowance', () => {
       <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
-          data={{}}
+          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
@@ -58,6 +87,9 @@ describe('Burials burial allowance', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
+            locationOfDeath: {
+              location: 'vaMedicalCenter'
+            },
             relationship: {
               type: 'spouse'
             }
@@ -76,6 +108,9 @@ describe('Burials burial allowance', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
+            locationOfDeath: {
+              location: 'vaMedicalCenter'
+            },
             relationship: {
               type: 'other'
             }
@@ -95,7 +130,7 @@ describe('Burials burial allowance', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           onSubmit={onSubmit}
-          data={{}}
+          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);

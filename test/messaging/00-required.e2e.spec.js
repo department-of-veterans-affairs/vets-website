@@ -18,7 +18,7 @@ module.exports = E2eHelpers.createE2eTest(
     LoginHelpers.logIn(token, client, '/health-care/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
-      .assert.title('Send a Message to Your Provider: Vets.gov')
+      .assert.title('Send a Secure Message to Your Health Care Team: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);
 
     client

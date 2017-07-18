@@ -36,7 +36,7 @@ describe('<StatusPage>', () => {
   it('should show title and print button', () => {
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store}/>));
     expect(node.querySelector('.schemaform-title').textContent)
-      .to.contain('Post-9/11 GI Bill Benefit Information');
+      .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
       .to.contain('Print Benefit Information');
   });

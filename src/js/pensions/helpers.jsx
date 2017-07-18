@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
@@ -96,6 +97,33 @@ export const otherExpensesWarning = (
     <span><strong>Note:</strong> At the end of the application, you will be asked to upload documentation for any medical, legal, or other unreimbursed expenses you incurred.</span>
   </div>
 );
+
+export const wartimeWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility" target="_blank">Check your eligibility.</a></span>
+  </div>
+);
+
+const warDates = [
+  ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
+  ['1917-04-06', '1918-11-11'], // World War I (April 6, 1917 - November 11, 1918)
+  ['1941-12-07', '1946-12-31'], // World War II (December 7, 1941 - December 31, 1946)
+  ['1950-06-27', '1955-01-31'], // Korean Conflict (June 27, 1950 - January 31, 1955)
+  ['1964-08-05', '1975-05-07'], // Vietnam Era (August 5, 1964 - May 7, 1975)
+  ['1990-08-02']// Gulf War (August 2, 1990)
+];
+
+export function servedDuringWartime(period) {
+  return warDates.some((warTime) => {
+    const [warStart, warEnd] = warTime;
+    const { from: periodStart, to: periodEnd } = period;
+
+    // If the service period starts before the war ends and finishes after the
+    // war begins, they served during a wartime.
+    const overlap = moment(periodEnd).isSameOrAfter(warStart) && moment(periodStart).isSameOrBefore(warEnd);
+    return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
+  });
+}
 
 export const uploadMessage = (
   <div className="usa-alert usa-alert-info">
