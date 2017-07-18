@@ -60,7 +60,7 @@ Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, M
 
 ##### By mail
 
-[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Complete an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -73,9 +73,9 @@ Print the form, fill it out, and send it to this address:
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br />
+Go to your nearest VA medical center or clinic. Bring VA Form 10-10EZ with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
-[Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 <br>
 
@@ -98,6 +98,6 @@ If you've also applied for a VA pension or disability benefits, you can check th
 
 ### How do I update my information if I’m already signed up?
 
-To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR. [Download the 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
 
 <div markdown="0"><br></div>
