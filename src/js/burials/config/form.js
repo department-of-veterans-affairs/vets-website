@@ -520,8 +520,6 @@ const formConfig = {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
-          depends: form =>
-            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
@@ -531,15 +529,14 @@ const formConfig = {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
             transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
-              addAnotherLabel: 'Add Another Document',
-              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+              addAnotherLabel: 'Add Another Document'
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
             }),
             'view:serviceRecordWarning': {
               'ui:description': serviceRecordWarning,
               'ui:options': {
-                hideIf: (form) => form.toursOfDuty
+                hideIf: form => form.toursOfDuty
               }
             }
           },
