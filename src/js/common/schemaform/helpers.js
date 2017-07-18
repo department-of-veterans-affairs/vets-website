@@ -489,6 +489,14 @@ export function expandArrayPages(pageList, data) {
   return result.currentList;
 }
 
+/**
+ * getPageKeys returns a list of keys for the currently active pages
+ *
+ * @param pages {Array} List of page configs
+ * @param formData {Object} Current form data
+ * @returns {Array} A list of strings with the page key from the page config
+ *   and the index if it's a pagePerItem page
+ */
 export function getPageKeys(pages, formData) {
   const eligiblePageList = getActivePages(pages, formData);
   const expandedPageList = expandArrayPages(eligiblePageList, formData);
