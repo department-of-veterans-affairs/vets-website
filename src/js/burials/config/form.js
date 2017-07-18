@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 import moment from 'moment';
+import { createSelector } from 'reselect';
 
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
@@ -62,6 +63,11 @@ const {
   files,
   dateRange
 } = fullSchemaBurials.definitions;
+
+// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
+function isEligibleNonService(veteranBurialDate) {
+  return moment().startOf('day').subtract(2, 'years').isBefore(veteranBurialDate);
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -193,7 +199,7 @@ const formConfig = {
                   }
 
                   // Show the warning if the burial date was more than 2 years ago
-                  return moment().startOf('day').subtract(2, 'years').isBefore(formData.burialDate);
+                  return isEligibleNonService(formData.burialDate);
                 }
               }
             },
@@ -353,7 +359,31 @@ const formConfig = {
               'ui:title': 'Type of burial allowance requested',
               'ui:widget': 'radio',
               'ui:options': {
-                labels: allowanceLabels
+                labels: allowanceLabels,
+                updateSchema: (() => {
+                  const burialAllowanceTypes = burialAllowanceRequested.enum;
+                  const filterAllowanceType = createSelector(
+                    _.get('locationOfDeath.location'),
+                    (locationData) => {
+                      let allowanceTypes = burialAllowanceTypes;
+                      if (locationData !== 'vaMedicalCenter' && locationData !== 'nursingHome') {
+                        allowanceTypes = allowanceTypes.filter(type => type !== 'vaMC');
+                      }
+                      return { 'enum': allowanceTypes };
+                    });
+                  return (form) => filterAllowanceType(form);
+                })()
+              }
+            },
+            'view:nonServiceWarning': {
+              'ui:description': burialDateWarning,
+              'ui:options': {
+                hideIf: (formData) => {
+                  if (!formData.burialAllowanceRequested || isEligibleNonService(formData.burialDate)) {
+                    return true;
+                  }
+                  return !(formData.burialAllowanceRequested === 'nonService');
+                }
               }
             },
             burialCost: {
@@ -386,6 +416,7 @@ const formConfig = {
             required: ['burialAllowanceRequested'],
             properties: {
               burialAllowanceRequested,
+              'view:nonServiceWarning': { type: 'object', properties: {} },
               burialCost,
               previouslyReceivedAllowance,
               benefitsUnclaimedRemains,
