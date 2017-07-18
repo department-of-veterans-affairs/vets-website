@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
-import { apiRequest } from '../utils/helpers.jsx';
+
+import { apiRequest } from '../../common/helpers/api';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,
