@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort } from '../../common/utils/helpers';
+import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
 import { formatPercent, formatVAFileNumber, formatMonthDayFields } from '../utils/helpers';
 
 class UserInfoSection extends React.Component {
@@ -51,7 +51,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Benefit End Date</h4>
             <p>
-              You have until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong> to use these benefits.
+              You have until <strong>{formatDateLong(enrollmentData.delimitingDate)}</strong> to use these benefits.
             </p>
           </div>
         </div>
