@@ -60,7 +60,7 @@ Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, M
 
 ##### By mail
 
-Complete an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+[Download an Application for Health Benefits (VA Form 10-10EZ)](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -73,7 +73,7 @@ Print the form, fill it out, and send it to this address:
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring VA Form 10-10EZ with you.<br />
+Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
 [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
