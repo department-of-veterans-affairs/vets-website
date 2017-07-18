@@ -42,7 +42,7 @@ class LoginPrompt extends React.Component {
             <p>Sign in to:</p>
             <ul>
               <li>Refill a prescription.</li>
-              <li>Send a secure message to your health care provider.</li>
+              <li>Send a secure message to your health care team.</li>
               <li>Check the status of a disability or pension claim or appeal.</li>
             </ul>
             <p>
