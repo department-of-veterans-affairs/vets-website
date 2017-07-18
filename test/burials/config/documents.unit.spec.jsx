@@ -53,6 +53,37 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
   });
 
+  it('should render DD214 warning if no tours of duty provided', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{
+            burialAllowanceRequested: 'service'
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
+  });
+
+  it('should not render DD214 warning if tours of duty provided', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{
+            toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
+            burialAllowanceRequested: 'service'
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
+  });
+
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
