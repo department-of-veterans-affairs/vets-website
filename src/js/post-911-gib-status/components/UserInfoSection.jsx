@@ -66,7 +66,7 @@ class UserInfoSection extends React.Component {
       entitlementInfo = (
         <div>
           <h4>Your Benefits</h4>
-          <div className="usa-alert usa-alert-warning usa-content">
+          <div className="usa-alert usa-alert-warning usa-content not-qualified">
             <div className="usa-alert-body">
               <h2>Currently Not Qualified</h2>
               You can't get Post-9/11 GI Bill benefits right now. If you continue to

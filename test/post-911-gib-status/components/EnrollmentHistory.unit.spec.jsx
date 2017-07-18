@@ -41,10 +41,26 @@ describe('<EnrollmentHistory>', () => {
     expect(vdom).to.exist;
   });
 
-  it('should show enrollments', () => {
+  it('should show enrollments if veteran is eligible', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     expect(tree.subTree('EnrollmentPeriod')).to.exist;
     expect(tree.dive(['.section-header']).text()).to.equal('Enrollment History');
+  });
+
+  it('should not show enrollments if veteran is not eligible', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: false,
+        percentageBenefit: 100,
+        originalEntitlement: { months: 36, days: 0 },
+        usedEntitlement: { months: 36, days: 0 },
+        remainingEntitlement: { months: 0, days: 0 },
+        enrollments: []
+      }
+    };
+    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
+    expect(tree.subTree('EnrollmentPeriod')).to.be.false;
+    expect(tree.subTree('.section-header')).to.be.false;
   });
 
   it('should show history may be incorrect warning', () => {

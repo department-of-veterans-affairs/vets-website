@@ -49,6 +49,21 @@ describe('<StatusPage>', () => {
     expect(node.querySelector('.usa-button-primary').textContent)
       .to.contain('Print Benefit Information');
   });
+
+  it('should not show intro and print button if veteran is not eligible', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: false,
+        originalEntitlement: {},
+        usedEntitlement: {},
+        remainingEntitlement: {},
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...props}/>);
+    expect(tree.subTree('.va-introtext')).to.be.false;
+    expect(tree.subTree('.usa-button-primary')).to.be.false;
+  });
   afterEach(teardown);
 });
 

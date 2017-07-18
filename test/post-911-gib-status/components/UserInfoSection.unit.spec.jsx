@@ -64,6 +64,32 @@ describe('<UserInfoSection>', () => {
     });
   });
 
+  describe('veteran eligibility', () => {
+    it('should show benefit information if eligible', () => {
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
+      const benefitLevel = tree.subTree('#benefit-level');
+      expect(benefitLevel).to.not.be.false;
+    });
+
+    it('should show not qualified message if not eligible', () => {
+      const newProps = {
+        enrollmentData: {
+          veteranIsEligible: false,
+          originalEntitlement: {},
+          usedEntitlement: {},
+          remainingEntitlement: {},
+          enrollments: []
+        }
+      };
+
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...newProps}/>);
+      const benefitLevel = tree.subTree('#benefit-level');
+      expect(benefitLevel).to.be.false;
+      const notQualifiedMessage = tree.subTree('.not-qualified');
+      expect(notQualifiedMessage.text()).to.contain('Currently Not Qualified');
+    });
+  });
+
   describe('percentageBenefit is not provided', () => {
     // TODO: handle corrupt data department-of-veterans-affairs/vets.gov-team#3336
     it('should display "unavailable"', () => {
