@@ -1,6 +1,5 @@
 import merge from 'lodash/fp/merge';
 
-import { isJson } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 
 export function formatPercent(percent) {
@@ -29,6 +28,11 @@ export function formatMonthDayFields(field) {
     displayValue = 'unavailable';
   }
   return displayValue;
+}
+
+function isJson(response) {
+  const contentType = response.headers.get('content-type');
+  return contentType && contentType.indexOf('application/json') !== -1;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
