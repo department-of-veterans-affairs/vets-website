@@ -366,11 +366,11 @@ const formConfig = {
                   const filterAllowanceType = createSelector(
                     _.get('locationOfDeath.location'),
                     (locationData) => {
-                      const filterOut = [];
+                      let allowanceTypes = burialAllowanceTypes;
                       if (locationData !== 'vaMedicalCenter' && locationData !== 'nursingHome') {
-                        filterOut.push('vaMC');
+                        allowanceTypes = allowanceTypes.filter(type => type !== 'vaMC');
                       }
-                      return { 'enum': _.without(filterOut, burialAllowanceTypes) };
+                      return { 'enum': allowanceTypes };
                     });
                   return (form) => filterAllowanceType(form);
                 })()
