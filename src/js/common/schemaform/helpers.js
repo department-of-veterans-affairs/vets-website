@@ -5,7 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../utils/helpers';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
@@ -487,4 +487,17 @@ export function expandArrayPages(pageList, data) {
   }
 
   return result.currentList;
+}
+
+export function getPageKeys(pages, formData) {
+  const eligiblePageList = getActivePages(pages, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return expandedPageList.map(page => {
+    let pageKey = page.pageKey;
+    if (typeof page.index !== 'undefined') {
+      pageKey += page.index;
+    }
+    return pageKey;
+  });
 }

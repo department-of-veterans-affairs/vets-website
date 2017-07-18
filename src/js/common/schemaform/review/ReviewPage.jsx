@@ -10,7 +10,7 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { focusElement, getActivePages } from '../../utils/helpers';
-import { createPageListByChapter, expandArrayPages } from '../helpers';
+import { createPageListByChapter, expandArrayPages, getPageKeys } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
 
 const scroller = Scroll.scroller;
@@ -31,19 +31,11 @@ class ReviewPage extends React.Component {
     // this only needs to be run once
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
 
-    const { eligiblePageList } = this.getEligiblePages();
-    const expandedPageList = expandArrayPages(eligiblePageList, props.form.data);
     this.state = {
       // we're going to shallow clone this set at times later, but that does not appear
       // to be slower than shallow cloning objects
       viewedPages: new Set(
-        expandedPageList.map(page => {
-          let pageKey = page.pageKey;
-          if (typeof page.index !== 'undefined') {
-            pageKey += page.index;
-          }
-          return pageKey;
-        })
+        getPageKeys(props.route.pageList, props.form.data)
       )
     };
   }
@@ -109,7 +101,8 @@ class ReviewPage extends React.Component {
     }
   }
 
-  handleEdit = (pageKey, editing, fullPageKey, index) => {
+  handleEdit = (pageKey, editing, index = null) => {
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
     if (editing) {
       this.setPagesViewed([fullPageKey]);
     }

@@ -17,7 +17,8 @@ import {
   isMarried,
   applicantDescription,
   otherExpensesWarning,
-  uploadMessage
+  uploadMessage,
+  dependentsMinItem
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -443,7 +444,7 @@ const formConfig = {
                 itemName: 'Disability'
               },
               'ui:errorMessages': {
-                minItems: 'Please add at least one disability'
+                minItems: 'Please add at least one disability.'
               },
               items: {
                 name: {
@@ -905,6 +906,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
+              },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
               },
               items: {
                 fullName: fullNameUI,

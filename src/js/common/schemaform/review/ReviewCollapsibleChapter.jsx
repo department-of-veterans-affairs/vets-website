@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import SchemaForm from '../SchemaForm';
-import { getArrayFields, getNonArraySchema, expandArrayPages } from '../helpers';
+import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
@@ -43,15 +43,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.props.setData(newData);
   }
 
-  focusOnPage(key, index) {
-    const pageDiv = document.querySelector(`#${key}${index}`);
+  focusOnPage(key) {
+    const pageDiv = document.querySelector(`#${key}`);
     focusElement(pageDiv);
   }
 
-  handleEdit(key, editing, fullPageKey, index) {
-    this.props.onEdit(key, editing, fullPageKey, index);
-    this.scrollToPage(key, index);
-    this.focusOnPage(key, index);
+  handleEdit(key, editing, index = null) {
+    this.props.onEdit(key, editing, index);
+    this.scrollToPage(`${key}${index === null ? '' : index}`);
+    this.focusOnPage(`${key}${index === null ? '' : index}`);
   }
 
   scrollToTop() {
@@ -62,8 +62,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
     });
   }
 
-  scrollToPage(key, index) {
-    scroller.scrollTo(`${key}${index || ''}ScrollElement`, {
+  scrollToPage(key) {
+    scroller.scrollTo(`${key}ScrollElement`, {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -85,15 +85,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const { form, pages, viewedPages, chapter } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
-    this.pageKeys = expandedPages.map(page => {
-      let pageKey = page.pageKey;
-      if (typeof page.index !== 'undefined') {
-        pageKey += page.index;
-      }
-      return pageKey;
-    });
+
+    this.pageKeys = getPageKeys(pages, form.data);
     const hasUnViewedPages = this.pageKeys.some(key =>
       !viewedPages.has(key));
+
     const ChapterDescription = chapter.reviewDescription;
 
     if (this.state.open) {
@@ -152,8 +148,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       hideHeaderRow={page.hideHeaderRow}
                       hideTitle={expandedPages.length === 1}
                       pagePerItemIndex={page.index}
-                      onEdit={() => this.handleEdit(page.pageKey, !editing, fullPageKey, page.index)}
-                      onSubmit={() => this.handleEdit(page.pageKey, false, fullPageKey, page.index)}
+                      onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+                      onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
                       onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                       uploadFile={this.props.uploadFile}
                       reviewMode={!editing}

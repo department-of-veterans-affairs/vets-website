@@ -238,7 +238,7 @@ class ArrayField extends React.Component {
           {itemsNeeded &&
             <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
               <div className="usa-alert-body">
-                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item'}.
+                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item.'}
               </div>
             </div>}
         </div>
