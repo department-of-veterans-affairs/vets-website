@@ -67,8 +67,7 @@
     "deathDate": "2017-06-25",
     "burialDate": "2017-06-26",
     "locationOfDeath": {
-      "location": "other",
-      "other": "Location of death"
+      "location": "vaMedicalCenter"
     },
     "veteranFullName": {
       "first": "Donald",
