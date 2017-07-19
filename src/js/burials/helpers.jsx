@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import { transformForSubmit } from '../common/schemaform/helpers';
 
@@ -44,6 +45,8 @@ export function transform(formConfig, form) {
   return JSON.stringify({
     burialClaim: {
       form: formData
-    }
+    },
+    // can't use toISOString because we need the offset
+    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }
