@@ -15,7 +15,6 @@ class StatusPage extends React.Component {
     let printButton;
     if (enrollmentData.veteranIsEligible) {
       introText = (
-
         <div className="va-introtext">
           <p>
             The information on this page is the same information that's in your
@@ -37,7 +36,7 @@ class StatusPage extends React.Component {
 
     return (
       <div className="usa-width-two-thirds medium-8 columns gib-info">
-        <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
+        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
         {introText}
         {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
