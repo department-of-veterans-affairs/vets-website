@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import classNames from 'classnames';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -39,10 +40,16 @@ class AcceptTermsPrompt extends React.Component {
       return <div></div>;
     }
 
-    let submitButton = <button className="usa-button-disabled" disabled>Submit</button>;
-    if (this.state.scrolledToBottom && this.state.yesSelected) {
-      submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
-    }
+    const submitDisabled = !(this.state.scrolledToBottom && this.state.yesSelected);
+
+    const submitClass = classNames({
+      'usa-button': true,
+      'usa-button-disabled': submitDisabled
+    });
+
+    const submitButton = (<button
+        className={submitClass}
+        disabled={submitDisabled}>Submit</button>);
 
     const yesButton = (<div>
       <input
