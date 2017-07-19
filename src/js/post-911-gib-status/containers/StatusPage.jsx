@@ -5,17 +5,16 @@ import { Link } from 'react-router';
 
 import FormTitle from '../../common/schemaform/FormTitle';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
   render() {
     const { enrollmentData } = this.props;
-
-    return (
-      <div>
-        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
+    let introText;
+    let printButton;
+    if (enrollmentData.veteranIsEligible) {
+      introText = (
         <div className="va-introtext">
           <p>
             The information on this page is the same information that's in your
@@ -24,11 +23,22 @@ class StatusPage extends React.Component {
             of your COE to show that you qualify for benefits.
           </p>
         </div>
+      );
+
+      printButton = (
         <div className="section">
           <Link to="/print" target="_blank" className="usa-button-primary">
-            Print Benefit Information
+            Print Statement of Benefits
           </Link>
         </div>
+      );
+    }
+
+    return (
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
+        {introText}
+        {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
@@ -46,8 +56,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);

@@ -1,6 +1,8 @@
 @import "shared-variables";
 
 .gib-info {
+  margin-bottom: 5em;
+
   h3 {
     border-bottom: 1px solid $color-gray-light;
     margin: 1em 0 .5em 0;
@@ -42,6 +44,10 @@
 
   .facility {
     text-transform: capitalize;
+  }
+
+  .yellow-ribbon-school {
+    margin-bottom: 0.75em;
   }
 
   .print-status {
