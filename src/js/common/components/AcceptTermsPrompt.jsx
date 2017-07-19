@@ -64,7 +64,10 @@ class AcceptTermsPrompt extends React.Component {
       </label>
     </div>);
 
-    const actionButtonClass = `form-radio-buttons ${this.state.scrolledToBottom ? null : 'disabled'}`;
+    const actionButtonClass = classNames({
+      'form-radio-buttons': true,
+      disabled: !this.state.scrolledToBottom
+    });
 
     return (
       <div className="row primary terms-acceptance">
