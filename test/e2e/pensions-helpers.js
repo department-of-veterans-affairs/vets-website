@@ -135,13 +135,27 @@ function completeDependents(client, data) {
 function completeDependentInfo(client, data, index) {
   client
     .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
+    .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
     .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
-    .clickIf('label[for="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
-    .selectRadio('root_childRelationship', data.dependents[index].childRelationship)
-    .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege)
-    .selectYesNo('root_disabled', data.dependents[index].disabled)
-    .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried)
-    .selectYesNo('root_married', data.dependents[index].married);
+    .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
+
+  if (typeof data.dependents[index].attendingCollege !== 'undefined') {
+    client
+      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege);
+  }
+
+  if (typeof data.dependents[index].disabled !== 'undefined') {
+    client
+      .selectYesNo('root_disabled', data.dependents[index].disabled);
+  }
+
+  client
+    .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried);
+
+  if (data.dependents[index].previouslyMarried) {
+    client
+      .selectYesNo('root_married', data.dependents[index].married);
+  }
 }
 
 function completeDependentAddressInfo(client, data, index) {
