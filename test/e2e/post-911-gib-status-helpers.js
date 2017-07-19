@@ -3,6 +3,7 @@ const mock = require('./mock-helpers');
 const enrollmentData = {
   data: {
     attributes: {
+      veteranIsEligible: true,
       firstName: 'First',
       lastName: 'Last',
       nameSuffix: 'II',
