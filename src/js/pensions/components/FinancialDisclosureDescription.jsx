@@ -7,7 +7,7 @@ function scrollToPage(key) {
   scroller.scrollTo(`${key}ScrollElement`, {
     duration: 500,
     delay: 2,
-    smooth: true,
+    smooth: true
   });
 }
 

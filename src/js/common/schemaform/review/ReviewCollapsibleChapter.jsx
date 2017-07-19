@@ -87,8 +87,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const expandedPages = expandArrayPages(activePages, form.data);
 
     this.pageKeys = getPageKeys(pages, form.data);
-    const hasUnViewedPages = this.pageKeys.some(key =>
-      !viewedPages.has(key));
+    const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
     const ChapterDescription = chapter.reviewDescription;
 

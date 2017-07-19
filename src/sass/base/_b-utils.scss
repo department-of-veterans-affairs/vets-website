@@ -6,6 +6,9 @@
   background-image: none;
 }
 
+// This is intended to override button styles and make a button
+// look like a link. We have plenty of overspecified button styles, so there are
+// several instances in here of !important.
 .va-button-link {
   background: none;
   background-color: transparent !important;
