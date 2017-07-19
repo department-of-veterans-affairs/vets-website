@@ -69,22 +69,6 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show history may be incorrect warning', () => {
-    const props = {
-      enrollmentData: {
-        veteranIsEligible: true,
-        percentageBenefit: 100,
-        originalEntitlement: { months: 36, days: 0 },
-        usedEntitlement: { months: 36, days: 0 },
-        remainingEntitlement: { months: 0, days: 0 },
-        enrollments: []
-      }
-    };
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
-    const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
-  });
-
   it('should show no enrollment history warning', () => {
     const props = {
       enrollmentData: {
