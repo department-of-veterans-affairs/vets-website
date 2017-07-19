@@ -119,7 +119,7 @@
         }
       ]
     },
-		"spouseDateOfBirth": "1960-01-01",
+    "spouseDateOfBirth": "1960-01-01",
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
     "spouseVaFileNumber": "23423444",
@@ -176,48 +176,48 @@
         "marriageType": "Ceremonial"
       }
     ],
-		"view:hasDependents": true,
-		"dependents": [
-			{
-				"childInHousehold": false,
-				"childAddress": {
-					"street": "123 8th st",
-					"city": "Hadley",
-					"country": "USA",
-					"state": "ME",
-					"postalCode": "01050"
-				},
-				"personWhoLivesWithChild": {
-					"first": "Joe",
-					"last": "Smith"
-				},
-				"monthlyPayment": 3444,
-				"childPlaceOfBirth": "Tallahassee, FL",
-				"childSocialSecurityNumber": "324234444",
-				"childRelationship": "biological",
-				"attendingCollege": true,
-				"disabled": true,
-				"previouslyMarried": true,
-				"married": true,
-				"fullName": {
-					"first": "Bobby",
-					"last": "Doe"
-				},
-				"childDateOfBirth": "1997-03-02"
-			},
-			{
-				"childInHousehold": true,
-				"childPlaceOfBirth": "Troy, MT",
-				"view:noSSN": true,
-				"childRelationship": "adopted",
-				"disabled": false,
-				"previouslyMarried": false,
-				"fullName": {
-					"first": "Emily",
-					"last": "Doe"
-				},
-				"childDateOfBirth": "1993-03-02"
-			}
-		]
+    "view:hasDependents": true,
+    "dependents": [
+      {
+        "childInHousehold": false,
+        "childAddress": {
+          "street": "123 8th st",
+          "city": "Hadley",
+          "country": "USA",
+          "state": "ME",
+          "postalCode": "01050"
+        },
+        "personWhoLivesWithChild": {
+          "first": "Joe",
+          "last": "Smith"
+        },
+        "monthlyPayment": 3444,
+        "childPlaceOfBirth": "Tallahassee, FL",
+        "childSocialSecurityNumber": "324234444",
+        "childRelationship": "biological",
+        "attendingCollege": true,
+        "disabled": true,
+        "previouslyMarried": true,
+        "married": true,
+        "fullName": {
+          "first": "Bobby",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1997-03-02"
+      },
+      {
+        "childInHousehold": true,
+        "childPlaceOfBirth": "Troy, MT",
+        "view:noSSN": true,
+        "childRelationship": "adopted",
+        "disabled": false,
+        "previouslyMarried": false,
+        "fullName": {
+          "first": "Emily",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1993-03-02"
+      }
+    ]
   }
 }
