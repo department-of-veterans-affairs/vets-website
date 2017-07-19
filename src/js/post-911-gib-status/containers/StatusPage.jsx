@@ -28,7 +28,7 @@ class StatusPage extends React.Component {
       printButton = (
         <div className="section">
           <Link to="/print" target="_blank" className="usa-button-primary">
-            Print Benefit Information
+            Print Statement of Benefits
           </Link>
         </div>
       );
