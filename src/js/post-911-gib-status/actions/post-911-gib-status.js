@@ -47,16 +47,11 @@ export function getEnrollmentData() {
           // EVSS partner service has no record of this user
           return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
         }
-        throw (response);
+        return Promise.reject(
+          new Error('post-911-gib-status getEnrollmentData() received unexpected status code: `${response.status}`'));
       })
       .catch((error) => {
-        // TODO: find out why Raven does not treat this object as an error
-        // Raven.captureException(error);
-        let errorMessage;
-        if (error.errors && error.errors.length > 0) {
-          errorMessage = `${error.errors[0].title}: ${error.errors[0].detail}`;
-        }
-        Raven.captureMessage(`post-911-gi-b-status: ${errorMessage}`);
+        Raven.captureException(error);
         return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
       });
   };
