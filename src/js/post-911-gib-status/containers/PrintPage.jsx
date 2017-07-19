@@ -12,13 +12,15 @@ class PrintPage extends React.Component {
     const todayFormatted = formatDateShort(new Date());
 
     return (
-      <div className="print-status">
-        <div className="print-screen">
-          <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
-          <h1 className="section-header">Post-9/11 GI Bill Benefit Information</h1>
-          <p>Date generated: {todayFormatted}*</p>
-          <UserInfoSection enrollmentData={enrollmentData}/>
-          <p>*This information is current as of this date. Any pending or recent changes to enrollment may affect remaining entitlement shown above.</p>
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <div className="print-status">
+          <div className="print-screen">
+            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
+            <h1 className="section-header">Post-9/11 GI Bill Benefit Information</h1>
+            <p>Date generated: {todayFormatted}*</p>
+            <UserInfoSection enrollmentData={enrollmentData}/>
+            <p>*This information is current as of this date. Any pending or recent changes to enrollment may affect remaining entitlement shown above.</p>
+          </div>
         </div>
       </div>
     );
