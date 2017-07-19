@@ -44,10 +44,16 @@ class AcceptTermsPrompt extends React.Component {
       submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
     }
 
-    let noRadio = terms.noContent === null ? <div/> : (<div>
-      <input type="radio" name="form-selection" id="form-no" value="no" onChange={this.handleAnswer}/>
-      <label htmlFor="form-no">
-        {terms.noContent}
+    const yesButton = (<div>
+      <input
+          type="checkbox"
+          name="form-selection"
+          id="form-yes"
+          value="yes"
+          onChange={this.handleAnswer}
+          disabled={!this.state.scrolledToBottom}/>
+      <label htmlFor="form-yes">
+        {terms.yesContent}
       </label>
     </div>);
 
@@ -66,11 +72,7 @@ class AcceptTermsPrompt extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
             <div className={actionButtonClass}>
-              <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer} disabled={!this.state.scrolledToBottom}/>
-              <label htmlFor="form-yes">
-                {terms.yesContent}
-              </label>
-              {noRadio}
+              {yesButton}
             </div>
           </div>
           <div>
