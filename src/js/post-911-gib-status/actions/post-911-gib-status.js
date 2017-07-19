@@ -5,14 +5,18 @@ export function getEnrollmentData() {
     apiRequest('/v0/post911_gi_bill_status',
       null,
       (response) => {
+        window.dataLayer.push({ event: 'post911-status-success' });
         return dispatch({
           type: 'GET_ENROLLMENT_DATA_SUCCESS',
           data: response.data.attributes,
         });
       },
-      () => dispatch({
-        type: 'GET_ENROLLMENT_DATA_FAILURE'
-      })
+      () => {
+        window.dataLayer.push({ event: 'post911-status-failure' });
+        return dispatch({
+          type: 'GET_ENROLLMENT_DATA_FAILURE'
+        });
+      }
     );
   };
 }
