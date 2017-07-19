@@ -32,7 +32,7 @@ describe('<StatusPage>', () => {
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
-      .to.contain('Print Benefit Information');
+      .to.contain('Print Statement of Benefits');
   });
 
   it('should not show intro and print button if veteran is not eligible', () => {
