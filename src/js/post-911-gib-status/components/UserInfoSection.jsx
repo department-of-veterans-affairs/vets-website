@@ -9,7 +9,7 @@ import {
   formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation
-} from '../utils/helpers';
+} from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
   render() {

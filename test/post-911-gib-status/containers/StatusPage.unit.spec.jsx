@@ -2,7 +2,6 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import StatusPage from '../../../src/js/post-911-gib-status/containers/StatusPage.jsx';
@@ -21,21 +20,7 @@ defaultProps.post911GIBStatus = {
   }
 };
 
-let oldFetch;
-const setup = () => {
-  oldFetch = global.fetch;
-  global.sessionStorage = {
-    userToken: '123abc'
-  };
-  global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({ ok: true }));
-};
-const teardown = () => {
-  global.fetch = oldFetch;
-};
-
 describe('<StatusPage>', () => {
-  beforeEach(setup);
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
@@ -64,6 +49,5 @@ describe('<StatusPage>', () => {
     expect(tree.subTree('.va-introtext')).to.be.false;
     expect(tree.subTree('.usa-button-primary')).to.be.false;
   });
-  afterEach(teardown);
 });
 

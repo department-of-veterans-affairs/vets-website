@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { enrollmentHistoryExplanation } from '../utils/helpers';
+import { enrollmentHistoryExplanation } from '../utils/helpers.jsx';
 
 import EnrollmentPeriod from './EnrollmentPeriod';
 

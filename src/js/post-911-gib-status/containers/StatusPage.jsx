@@ -5,14 +5,12 @@ import { Link } from 'react-router';
 
 import FormTitle from '../../common/schemaform/FormTitle';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
   render() {
     const { enrollmentData } = this.props;
-
     let introText;
     let printButton;
     if (enrollmentData.veteranIsEligible) {
@@ -37,7 +35,7 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
         <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
         {introText}
         {printButton}
@@ -58,8 +56,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);
