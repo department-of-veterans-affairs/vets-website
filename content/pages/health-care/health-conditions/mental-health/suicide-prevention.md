@@ -54,7 +54,9 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 - **Our specially trained Suicide Prevention Coordinators**—available in each VA medical center across the country—can help you get the counseling and services you need. 
 - **Our Vet Centers** can help you—and your family—readjust to life at home after you’ve returned from serving in a combat zone.
 - **Our Veterans Benefits Administration offices** can help you access benefits for disability compensation (monthly payments), job training, home loans, and more. 
+
 <br> 
+
 [Find these and other resources near you](https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx). 
 
 <br>
