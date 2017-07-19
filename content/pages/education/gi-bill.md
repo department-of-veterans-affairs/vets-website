@@ -54,5 +54,7 @@ Since 1944, the GI Bill has helped millions of Veterans pay for college, graduat
 
 The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. [Find a Veterans Service Organization](http://www.va.gov/vso/).
 
+[Check Post-9/11 GI Bill statement of benefits](education/gi-bill/post-9-11/ch-33-benefit).
+
 <a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 </div>
