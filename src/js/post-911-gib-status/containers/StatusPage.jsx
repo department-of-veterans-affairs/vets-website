@@ -11,7 +11,6 @@ import UserInfoSection from '../components/UserInfoSection';
 class StatusPage extends React.Component {
   render() {
     const { enrollmentData } = this.props;
-
     return (
       <div className="usa-width-two-thirds medium-8 columns gib-info">
         <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
