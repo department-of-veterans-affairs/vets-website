@@ -22,7 +22,7 @@ You may be able to get benefits through the Post-9/11 GI Bill if you've served o
 
 [Learn more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
-[Check Post-9/11 GI Bill statement of benefits](education/gi-bill/post-9-11/ch-33-benefit).
+[Find out if you have Post-9/11 GI Bill benefits](education/gi-bill/post-9-11/ch-33-benefit).
 
 </div><div markdown="0"><br></div>
 
