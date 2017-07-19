@@ -30,7 +30,7 @@ export function formatMonthDayFields(field) {
 
 export function systemDownMessage() {
   return (
-    <div className="row">
+    <div className="row" id="systemDownMessage">
       <div className="small-12 columns">
         <div className="react-container">
           <h3>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h3>
@@ -43,9 +43,9 @@ export function systemDownMessage() {
 
 export function unableToFindRecordWarning() {
   return (
-    <div>
-      <div className="usa-alert usa-alert-warning claims-no-icon claims-unavailable">
-        <h4 className="warning-title">
+    <div id="recordNotFound">
+      <div className="usa-alert usa-alert-warning">
+        <h4>
           <i className="fa fa-exclamation-triangle"></i>&nbsp;We weren't able to find your records
         </h4>
         Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.
@@ -57,7 +57,7 @@ export function unableToFindRecordWarning() {
 export function noChapter33BenefitsWarning() {
   // TODO: expand vertical spacing
   return (
-    <div className="feature">
+    <div className="feature" id="noChapter33Benefits">
       <h4>You don't have any Post-9/11 GI Bill Benefits</h4>
       We may not have information about your Post-9/11 GI Bill benefit because
       <ul>
