@@ -13,7 +13,7 @@ class StatusPage extends React.Component {
     const { enrollmentData } = this.props;
 
     return (
-      <div>
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
         <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
         <div className="va-introtext">
           <p>

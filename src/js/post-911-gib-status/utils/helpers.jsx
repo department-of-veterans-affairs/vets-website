@@ -44,11 +44,11 @@ export function systemDownMessage() {
 export function unableToFindRecordWarning() {
   return (
     <div id="recordNotFound">
-      <div className="usa-alert usa-alert-warning">
-        <h4>
-          <i className="fa fa-exclamation-triangle"></i>&nbsp;We weren't able to find your records
-        </h4>
-        Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.
+      <div className="small-12 columns">
+        <div className="react-container">
+          <h3>We weren't able to find your records.</h3>
+          <h4>Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.</h4>
+        </div>
       </div>
     </div>
   );

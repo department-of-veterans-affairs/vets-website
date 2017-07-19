@@ -39,7 +39,7 @@ export class Main extends React.Component {
     }
 
     return (
-      <div className="gib-info">
+      <div>
         {appContent}
       </div>
     );
