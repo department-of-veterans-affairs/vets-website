@@ -27,7 +27,8 @@ import {
   fdcWarning,
   noFDCWarning,
   expeditedProcessDescription,
-  aidAttendenceEvidence
+  aidAttendenceEvidence,
+  dependentWarning
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -1043,6 +1044,10 @@ const formConfig = {
                       type: 'object',
                       properties: {}
                     },
+                    'view:dependentWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     previouslyMarried: dependents.items.properties.previouslyMarried,
                     married: dependents.items.properties.married,
                   }
@@ -1101,6 +1106,13 @@ const formConfig = {
                   'ui:description': disabilityDocs,
                   'ui:options': {
                     expandUnder: 'disabled'
+                  }
+                },
+                'view:dependentWarning': {
+                  'ui:description': dependentWarning,
+                  'ui:options': {
+                    hideIf: (formData, index) => _.get(['dependents', index, 'disabled'], formData) !== false
+                      || _.get(['dependents', index, 'attendingCollege'], formData) !== false
                   }
                 },
                 previouslyMarried: {

@@ -52,10 +52,11 @@ class IntroductionPage extends React.Component {
               </div>
               <br/>
               <h6>Aid and Attendance and Housebound benefits</h6>
-              If you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.
+              If you need help with your daily living activities, or if you’re confined to your home, you may qualify for an Aid and Attendance (A&A) or Housebound allowance in addition to your pension benefits.<br/>
+              <a href="/pension/aid-attendance-housebound/">Learn more about eligibility</a>.<br/><br/>
               <ul>
-                <li>Aid and Attendance benefits. If you live in a nursing home, the nursing home will need to fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a></li>
-                <li>Housebound benefits. If you live at home and have visiting medical care, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a></li>
+                <li>To submit a claim for Aid and Attendance or Housebound benefits in <strong>addition to your pension claim</strong>, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). <strong>Turn in the completed form</strong> with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a></li>
+                <li>In addition to your claim for Aid and Attendance or Housebound benefits, if you live in a nursing home, please have the nursing home fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). <strong>Turn in the completed form</strong> with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a></li>
               </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about Veterans Pension rates</h6>

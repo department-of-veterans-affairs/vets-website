@@ -146,7 +146,7 @@ export const uploadMessage = (
 
 export const aidAttendenceEvidence = (
   <div className="usa-alert usa-alert-info no-background-image">
-    <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</strong>, the evidence must show that you:
+    <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance</strong>, the evidence must show that you:
     <ul>
       <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
       <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
@@ -202,5 +202,14 @@ export const expeditedProcessDescription = (
     <h5>Optional expedited process</h5>
     <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
     <a href="/" target="_blank">Learn more about the FDC program</a>
+  </div>
+);
+
+export const dependentWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h5 className="usa-alert-heading">You will likely not qualify for the dependent credit for your pension application</h5>
+      You don't qualify for the dependent credit because you claimed that your child isn't in school and isn't disabled.
+    </div>
   </div>
 );
