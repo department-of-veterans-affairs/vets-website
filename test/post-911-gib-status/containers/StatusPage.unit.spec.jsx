@@ -11,6 +11,15 @@ import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);
+const defaultProps = store.getState();
+defaultProps.post911GIBStatus = {
+  enrollmentData: {
+    veteranIsEligible: true,
+    remainingEntitlement: {},
+    originalEntitlement: {},
+    usedEntitlement: {}
+  }
+};
 
 let oldFetch;
 const setup = () => {
@@ -28,17 +37,32 @@ const teardown = () => {
 describe('<StatusPage>', () => {
   beforeEach(setup);
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<StatusPage store={store}/>);
+    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show title and print button', () => {
-    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store}/>));
+    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
     expect(node.querySelector('.usa-button-primary').textContent)
       .to.contain('Print Benefit Information');
+  });
+
+  it('should not show intro and print button if veteran is not eligible', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: false,
+        originalEntitlement: {},
+        usedEntitlement: {},
+        remainingEntitlement: {},
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...props}/>);
+    expect(tree.subTree('.va-introtext')).to.be.false;
+    expect(tree.subTree('.usa-button-primary')).to.be.false;
   });
   afterEach(teardown);
 });

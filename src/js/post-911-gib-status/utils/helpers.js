@@ -1,6 +1,10 @@
+/* eslint-disable camelcase */
+import React from 'react';
+
 import merge from 'lodash/fp/merge';
 
 import environment from '../../common/helpers/environment';
+import { formatDateLong } from '../../common/utils/helpers';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -27,6 +31,55 @@ export function formatMonthDayFields(field) {
     displayValue = 'unavailable';
   }
   return displayValue;
+}
+
+export const enrollmentHistoryExplanation = {
+  standard: (
+    <div className="feature">
+      <h4>Does something look wrong in your enrollment history?</h4>
+      <span>Certain enrollments may not be displayed in this history if:</span>
+      <ul>
+        <li>Your school made a request to us that's still in process, <strong>or</strong></li>
+        <li>You made a request to us that's still in process, <strong>or</strong></li>
+        <li>You used or are using your benefit for flight, on-the-job, apprenticeship, or correspondence training</li>
+      </ul>
+    </div>
+  ),
+  noEnrollmentHistory: (
+    <div className="feature">
+      <h4>You don't have any enrollment history</h4>
+      <span>Your enrollment history may not be available if:</span>
+      <ul>
+        <li>You or your school did not yet make a request to us, <strong>or</strong></li>
+        <li>You or your school made a request that's still in process</li>
+      </ul>
+    </div>
+  )
+};
+
+export function benefitEndDateExplanation(condition, delimitingDate) {
+  switch (condition) {
+    case 'activeDuty':
+      return (
+        <div className="section benefit-end-date">
+          <h4>Benefit End Date</h4>
+          <div>
+            Since you are currently on active duty, your benefits don't yet have an expiration date.
+          </div>
+        </div>
+      );
+    case 'remainingEntitlement':
+      return (
+        <div className="section benefit-end-date">
+          <h4>Benefit End Date</h4>
+          <div>
+            You have until <strong>{formatDateLong(delimitingDate)}</strong> to use these benefits.
+          </div>
+        </div>
+      );
+    default:
+      return undefined;
+  }
 }
 
 function isJson(response) {

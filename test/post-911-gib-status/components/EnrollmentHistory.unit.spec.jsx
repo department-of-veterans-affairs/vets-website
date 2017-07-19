@@ -6,6 +6,7 @@ import EnrollmentHistory from '../../../src/js/post-911-gib-status/components/En
 
 const defaultProps = {
   enrollmentData: {
+    veteranIsEligible: true,
     firstName: 'Joe',
     lastName: 'West',
     dateOfBirth: '1995-11-12T06:00:00.000+0000',
@@ -14,9 +15,9 @@ const defaultProps = {
     eligibilityDate: '2016-12-01T05:00:00.000+0000',
     delimitingDate: '2017-12-07T05:00:00.000+0000',
     percentageBenefit: 100,
-    originalEntitlement: 36,
-    usedEntitlement: 3,
-    remainingEntitlement: 33,
+    originalEntitlement: { months: 36, days: 0 },
+    usedEntitlement: { months: 3, days: 15 },
+    remainingEntitlement: { months: 32, days: 15 },
     enrollments: [
       {
         beginDate: '2012-11-01T04:00:00.000+0000',
@@ -40,10 +41,26 @@ describe('<EnrollmentHistory>', () => {
     expect(vdom).to.exist;
   });
 
-  it('should show enrollments', () => {
+  it('should show enrollments if veteran is eligible', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     expect(tree.subTree('EnrollmentPeriod')).to.exist;
     expect(tree.dive(['.section-header']).text()).to.equal('Enrollment History');
+  });
+
+  it('should not show enrollments if veteran is not eligible', () => {
+    const props = {
+      enrollmentData: {
+        veteranIsEligible: false,
+        percentageBenefit: 100,
+        originalEntitlement: { months: 36, days: 0 },
+        usedEntitlement: { months: 36, days: 0 },
+        remainingEntitlement: { months: 0, days: 0 },
+        enrollments: []
+      }
+    };
+    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
+    expect(tree.subTree('EnrollmentPeriod')).to.be.false;
+    expect(tree.subTree('.section-header')).to.be.false;
   });
 
   it('should show history may be incorrect warning', () => {
@@ -52,24 +69,13 @@ describe('<EnrollmentHistory>', () => {
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show history may be incorrect warning if benefit pending', () => {
-    const props = {
-      enrollmentData: {
-        percentageBenefit: 100,
-        originalEntitlement: 36,
-        usedEntitlement: 0,
-        enrollments: []
-      }
-    };
-    const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
-    const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
-  });
-
   it('should show no enrollment history warning', () => {
     const props = {
       enrollmentData: {
-        usedEntitlement: 3,
+        veteranIsEligible: true,
+        originalEntitlement: { months: 3, days: 0 },
+        usedEntitlement: { months: 0, days: 0 },
+        remainingEntitlement: { months: 3, days: 0 },
         enrollments: []
       }
     };
