@@ -44,16 +44,12 @@ class AcceptTermsPrompt extends React.Component {
       submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
     }
 
-    let noRadio = (<div>
+    let noRadio = terms.noContent === null ? <div/> : (<div>
       <input type="radio" name="form-selection" id="form-no" value="no" onChange={this.handleAnswer}/>
       <label htmlFor="form-no">
         {terms.noContent}
       </label>
     </div>);
-
-    if (terms.noContent === null) {
-      noRadio = <div></div>;
-    }
 
     const actionButtonClass = `form-radio-buttons ${this.state.scrolledToBottom ? null : 'disabled'}`;
 
