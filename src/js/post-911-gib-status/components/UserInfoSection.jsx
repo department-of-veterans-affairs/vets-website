@@ -96,7 +96,7 @@ class UserInfoSection extends React.Component {
               value={formatVAFileNumber(enrollmentData.vaFileNumber)}
               additionalClass="section-line"/>
           <InfoPair
-              label="Regional processing office"
+              label="Regional Processing Office"
               value={enrollmentData.regionalProcessingOffice}
               additionalClass="section-line"/>
         </div>
