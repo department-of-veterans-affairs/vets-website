@@ -11,9 +11,11 @@ import UserInfoSection from '../components/UserInfoSection';
 class StatusPage extends React.Component {
   render() {
     const { enrollmentData } = this.props;
-    return (
-      <div className="usa-width-two-thirds medium-8 columns gib-info">
-        <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
+    let introText;
+    let printButton;
+    if (enrollmentData.veteranIsEligible) {
+      introText = (
+
         <div className="va-introtext">
           <p>
             The information on this page is the same information that's in your
@@ -22,11 +24,22 @@ class StatusPage extends React.Component {
             of your COE to show that you qualify for benefits.
           </p>
         </div>
+      );
+
+      printButton = (
         <div className="section">
           <Link to="/print" target="_blank" className="usa-button-primary">
             Print Benefit Information
           </Link>
         </div>
+      );
+    }
+
+    return (
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
+        {introText}
+        {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">

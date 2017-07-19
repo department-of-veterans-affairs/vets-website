@@ -26,23 +26,23 @@ describe('<AddressSection>', () => {
 
   it('should format 1 address line', () => {
     const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street');
+    expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
   });
 
   it('should format address 2 address lines', () => {
-    const props = _.merge({}, defaultProps, { destination: { addressLine2: 'Ste #12' } });
+    const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street, Ste #12');
+    expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
   });
 
   it('should format address 3 address lines', () => {
     const props = _.merge({}, defaultProps, {
       destination: {
-        addressLine2: 'Ste #12',
-        addressLine3: 'West'
+        addressLine2: 'ste #12',
+        addressLine3: 'west'
       }
     });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 Main Street, Ste #12 West');
+    expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12 west');
   });
 });
