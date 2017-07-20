@@ -64,6 +64,10 @@ export function submitForm(formConfig, form) {
       req.open('POST', `${environment.API_URL}${formConfig.submitUrl}`);
       req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 300) {
+          window.dataLayer.push({
+            event: `${formConfig.trackingPrefix}-submission-successful`,
+          });
+          // got this from the fetch polyfill, keeping it to be safe
           const responseBody = 'response' in req ? req.response : req.responseText;
           const results = JSON.parse(responseBody);
           resolve(results);
@@ -71,6 +75,7 @@ export function submitForm(formConfig, form) {
           const error = new Error(`vets_server_error: ${req.statusText}`);
           Raven.captureException(error, {
             extra: {
+              clientError: false,
               statusText: req.statusText
             }
           });
@@ -82,6 +87,7 @@ export function submitForm(formConfig, form) {
         const error = new Error('vets_client_error: Network request failed');
         Raven.captureException(error, {
           extra: {
+            clientError: true,
             statusText: req.statusText
           }
         });
@@ -92,6 +98,7 @@ export function submitForm(formConfig, form) {
         const error = new Error('vets_client_error: Request aborted');
         Raven.captureException(error, {
           extra: {
+            clientError: true,
             statusText: req.statusText
           }
         });
@@ -102,6 +109,7 @@ export function submitForm(formConfig, form) {
         const error = new Error('vets_client_error: Request timed out');
         Raven.captureException(error, {
           extra: {
+            clientError: true,
             statusText: req.statusText
           }
         });
