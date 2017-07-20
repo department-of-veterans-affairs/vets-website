@@ -16,7 +16,7 @@ import {
   uploadFile
 } from '../../../src/js/common/schemaform/actions';
 
-describe.only('Schemaform actions:', () => {
+describe('Schemaform actions:', () => {
   describe('setData', () => {
     it('should return action', () => {
       const data = {};
@@ -140,23 +140,18 @@ describe.only('Schemaform actions:', () => {
           test: 1
         }
       };
-      global.sessionStorage = { userToken: 'testing' };
+      window.sessionStorage = { userToken: 'testing' };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
       const response = { data: {} };
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve(response)
-          }
-        )
+
+      const promise = thunk(dispatch).then(() => {
+        expect(requests[0].requestHeaders.Authorization).to.equal('Token token=testing');
       });
 
-      return thunk(dispatch).then(() => {
-        expect(fetchMock.firstCall.args[1].headers.Authorization).to.equal('Token token=testing');
-      });
+      requests[0].respond(200, null, JSON.stringify(response));
+
+      return promise;
     });
     it('should set submission error', () => {
       const formConfig = {
@@ -173,17 +168,8 @@ describe.only('Schemaform actions:', () => {
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
       const response = { data: {} };
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: false,
-            status: 500,
-            json: () => Promise.resolve(response)
-          }
-        )
-      });
 
-      return thunk(dispatch).then(() => {
+      const promise = thunk(dispatch).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
@@ -195,6 +181,10 @@ describe.only('Schemaform actions:', () => {
           value: 'error'
         });
       });
+
+      requests[0].respond(400, null, JSON.stringify(response));
+
+      return promise;
     });
   });
   describe('uploadFile', () => {
