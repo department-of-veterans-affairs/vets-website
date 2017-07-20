@@ -81,8 +81,7 @@ export function fileHelp({ formData }) {
     <div>
       <p>Please upload all documentation to support your claim. This includes:</p>
       <ul>
-        <li>All necessary income and net-worth information</li>
-        <li>All private medical records you have that are related to your claim, and information about any health records that are available at a federal facility, like a VA medical center or clinic</li>
+        <li>All, if any, relevant, private medical treatment records.</li>
         {formData['view:aidAttendence'] === true &&
           <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)</li>}
         {formData['view:aidAttendence'] === true &&
