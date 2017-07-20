@@ -47,7 +47,6 @@ export function setSubmitted(response) {
   };
 }
 
-
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
@@ -59,46 +58,78 @@ export function submitForm(formConfig, form) {
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel'
-      },
-      body
-    };
+    const promise = new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
 
-    const userToken = sessionStorage.userToken;
-    if (userToken) {
-      fetchOptions.headers.Authorization = `Token token=${userToken}`;
-    }
-
-    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, fetchOptions)
-    .then(res => {
-      if (res.ok) {
-        window.dataLayer.push({
-          event: `${formConfig.trackingPrefix}-submission-successful`,
-        });
-        return res.json();
-      }
-
-      return Promise.reject(new Error(`vets_server_error: ${res.statusText}`));
-    })
-    .then(resp => dispatch(setSubmitted(resp)))
-    .catch(error => {
-      // overly cautious
-      const errorMessage = _.get('message', error);
-      const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-      Raven.captureException(error, {
-        extra: {
-          clientError
+      req.open('POST', `${environment.API_URL}${formConfig.submitUrl}`);
+      req.addEventListener('load', () => {
+        if (req.status >= 200 && req.status < 300) {
+          const responseBody = 'response' in req ? req.response : req.responseText;
+          const results = JSON.parse(responseBody);
+          resolve(results);
+        } else {
+          const error = new Error(`vets_server_error: ${req.statusText}`);
+          Raven.captureException(error, {
+            extra: {
+              statusText: req.statusText
+            }
+          });
+          reject(error);
         }
       });
-      window.dataLayer.push({
-        event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+
+      req.addEventListener('error', () => {
+        const error = new Error('vets_client_error: Network request failed');
+        Raven.captureException(error, {
+          extra: {
+            statusText: req.statusText
+          }
+        });
+        reject(error);
       });
-      dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+
+      req.addEventListener('abort', () => {
+        const error = new Error('vets_client_error: Request aborted');
+        Raven.captureException(error, {
+          extra: {
+            statusText: req.statusText
+          }
+        });
+        reject(error);
+      });
+
+      req.addEventListener('timeout', () => {
+        const error = new Error('vets_client_error: Request timed out');
+        Raven.captureException(error, {
+          extra: {
+            statusText: req.statusText
+          }
+        });
+        reject(error);
+      });
+
+      req.setRequestHeader('X-Key-Inflection', 'camel');
+      req.setRequestHeader('Content-Type', 'application/json');
+
+      const userToken = window.sessionStorage.userToken;
+      if (userToken) {
+        req.setRequestHeader('Authorization', `Token token=${userToken}`);
+      }
+
+      req.send(body);
     });
+
+    return promise
+      .then(resp => dispatch(setSubmitted(resp)))
+      .catch(error => {
+        // overly cautious
+        const errorMessage = _.get('message', error);
+        const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+        });
+        dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+      });
   };
 }
 
