@@ -9,7 +9,6 @@ if ! [ -x "$(command -v yarn)" ]; then
         exit 1
     fi
 else
-    echo "installed"
     yarn_version=$(yarn --version)
     if [ "$yarn_version" != "0.27.5" ]; then
         echo "Install yarn version 0.27.5 [y/N]: "
