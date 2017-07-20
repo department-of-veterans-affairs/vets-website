@@ -108,7 +108,7 @@ export function noChapter33BenefitsWarning() {
   // TODO: expand vertical spacing
   return (
     <div className="feature" id="noChapter33Benefits">
-      <h4>You don't have any Post-9/11 GI Bill Benefits</h4>
+      <h4>You don't currently have any Post-9/11 GI Bill Benefits</h4>
       We may not have information about your Post-9/11 GI Bill benefit because
       <ul>
         <li>You haven't applied for Post-9/11 GI Bill benefits, <strong>or</strong></li>
