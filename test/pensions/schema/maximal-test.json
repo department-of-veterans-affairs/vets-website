@@ -118,6 +118,106 @@
           "annualEarnings": 332
         }
       ]
-    }
+    },
+    "spouseDateOfBirth": "1960-01-01",
+    "spouseSocialSecurityNumber": "342342444",
+    "spouseIsVeteran": true,
+    "spouseVaFileNumber": "23423444",
+    "liveWithSpouse": false,
+    "spouseAddress": {
+      "street": "123 7th st",
+      "street2": "Apt 3",
+      "city": "Pittsfield",
+      "country": "USA",
+      "state": "MA",
+      "postalCode": "01050"
+    },
+    "reasonForNotLivingWithSpouse": "Personal choice",
+    "monthlySpousePayment": 2444,
+    "spouseMarriages": [
+      {
+        "dateOfMarriage": "1980-03-02",
+        "locationOfMarriage": "Seattle, WA",
+        "spouseFullName": {
+          "first": "Joe",
+          "middle": "F",
+          "last": "Generic",
+          "suffix": "Jr."
+        },
+        "marriageType": "Proxy",
+        "reasonForSeparation": "Widowed",
+        "dateOfSeparation": "1990-03-02",
+        "locationOfSeparation": "Tacoma, WA"
+      }
+    ],
+    "maritalStatus": "Married",
+    "marriages": [
+      {
+        "spouseFullName": {
+          "first": "Jessica",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1989-03-02",
+        "locationOfMarriage": "Dallas",
+        "marriageType": "Ceremonial",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Divorced",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Meg",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1994-03-02",
+        "locationOfMarriage": "North Adams, MA",
+        "marriageType": "Ceremonial"
+      }
+    ],
+    "view:hasDependents": true,
+    "dependents": [
+      {
+        "childInHousehold": false,
+        "childAddress": {
+          "street": "123 8th st",
+          "city": "Hadley",
+          "country": "USA",
+          "state": "ME",
+          "postalCode": "01050"
+        },
+        "personWhoLivesWithChild": {
+          "first": "Joe",
+          "last": "Smith"
+        },
+        "monthlyPayment": 3444,
+        "childPlaceOfBirth": "Tallahassee, FL",
+        "childSocialSecurityNumber": "324234444",
+        "childRelationship": "biological",
+        "attendingCollege": true,
+        "disabled": true,
+        "previouslyMarried": true,
+        "married": true,
+        "fullName": {
+          "first": "Bobby",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1997-03-02"
+      },
+      {
+        "childInHousehold": true,
+        "childPlaceOfBirth": "Troy, MT",
+        "view:noSSN": true,
+        "childRelationship": "adopted",
+        "disabled": false,
+        "previouslyMarried": false,
+        "fullName": {
+          "first": "Emily",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1993-03-02"
+      }
+    ]
   }
 }

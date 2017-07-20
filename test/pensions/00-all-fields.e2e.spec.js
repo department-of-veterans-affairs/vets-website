@@ -72,7 +72,84 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
-    // Household information page
+    // marriage info
+    client.waitForElementVisible('label[for="root_maritalStatus"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeMaritalStatus(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/marriage-info');
+
+    // first marriage
+    client.waitForElementVisible('label[for="root_spouseFullName_first"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeMarriage(client, testData.data, 0);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/marriages/0');
+
+    // second marriage
+    client.waitForElementVisible('label[for="root_spouseFullName_first"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeMarriage(client, testData.data, 1);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/marriages/1');
+
+    // spouse info
+    client.waitForElementVisible('label[for="root_spouseDateOfBirth"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeSpouseInfo(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-info');
+
+    // spouse marriage
+    client.waitForElementVisible('label[for="root_dateOfMarriage"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeSpouseMarriage(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-marriages/0');
+
+    // dependents
+    client.waitForElementVisible('label[for="root_view:hasDependents"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDependents(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+
+    // dependent info
+    client.waitForElementVisible('label[for="root_childPlaceOfBirth"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDependentInfo(client, testData.data, 0);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/information/0');
+
+    // dependent address info
+    client.waitForElementVisible('label[for="root_childInHousehold"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDependentAddressInfo(client, testData.data, 0);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/address/0');
+
+    // second dependent info
+    client.waitForElementVisible('label[for="root_childPlaceOfBirth"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDependentInfo(client, testData.data, 1);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/information/1');
+
+    // second dependent address info
+    client.waitForElementVisible('label[for="root_childInHousehold"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDependentAddressInfo(client, testData.data, 1);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/address/0');
 
     // Financial disclosure page
 
