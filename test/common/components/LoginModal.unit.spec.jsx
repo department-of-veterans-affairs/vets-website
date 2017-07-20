@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import SkinDeep from 'skin-deep';
 
 import LoginModal from '../../../src/js/common/components/LoginModal';
 
@@ -118,10 +119,7 @@ describe('<LoginModal>', () => {
     teardown();
   });
 
-  // TODO: While this _does_ test that the function is called, it doesn't test
-  //  that the function is called _at the right time_. We should circle back to
-  //  this and fix that.
-  it('should call onLogin after a successful login', () => {
+  it('should call onUpdateLoginUrl after a login attempt', () => {
     setup();
     const loginSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -137,15 +135,41 @@ describe('<LoginModal>', () => {
 
     // Poke the button!
     ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
+    const promise = ReactTestUtils.findRenderedComponentWithType(tree, LoginModal).loginUrlRequest;
 
-    // setTimeout is gross, but the test doesn't have visibility into
-    //  LoginModal's loginUrlRequest, so...we have to wait until it's done doing
-    //  its thing
-    // If this fails consistently, increase the timeout
-    setTimeout(() => {
-      expect(loginSpy.called).to.be.true;
-    }, 500);
+    return promise.then(() => {
+      expect(updateLoginSpy.called).to.be.true;
+      teardown();
+    }).catch((e) => {
+      teardown();
+      throw e;
+    });
+  });
 
-    teardown();
+  it('should call onLogin after a successful login', () => {
+    const loginSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <LoginModal
+          user={user}
+          visible
+          onClose={onCloseSpy}
+          onUpdateLoginUrl={updateLoginSpy}
+          title="Some title"
+          onLogin={loginSpy}/>
+    );
+
+    const instance = tree.getMountedInstance();
+    instance.loginButtonClicked = true;
+    instance.componentWillReceiveProps({
+      user: {
+        login: {
+          currentlyLoggedIn: true
+        }
+      }
+    });
+
+    expect(loginSpy.called).to.be.true;
+    expect(instance.loginButtonClicked).to.be.false;
+    expect(onCloseSpy.called).to.be.true;
   });
 });
