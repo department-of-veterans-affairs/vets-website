@@ -35,20 +35,23 @@ export function getEnrollmentData() {
         });
       },
       (response) => {
-        if (response.status === 503 || response.status === 504) {
-          // Either EVSS or a partner service is down or EVSS times out
-          return dispatch({ type: BACKEND_SERVICE_ERROR });
-        }
-        if (response.status === 403) {
-          // Backend authentication problem
-          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-        }
-        if (response.status === 404) {
-          // EVSS partner service has no record of this user
-          return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
+        const error = response.errors.length > 0 ? response.errors[0] : undefined;
+        if (error) {
+          if (error.status === '503' || error.status === '504') {
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          }
+          if (error.status === '403') {
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          }
+          if (error.status === '404') {
+            // EVSS partner service has no record of this user
+            return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
+          }
         }
         return Promise.reject(
-          new Error('post-911-gib-status getEnrollmentData() received unexpected status code: `${response.status}`'));
+          new Error('post-911-gib-status getEnrollmentData() received unexpected error: `${error.status}: ${error.title}: ${error.detail}`'));
       })
       .catch((error) => {
         Raven.captureException(error);
