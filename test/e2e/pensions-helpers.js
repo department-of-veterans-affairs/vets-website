@@ -170,6 +170,96 @@ function completeDependentAddressInfo(client, data, index) {
   }
 }
 
+function completeNetWorthInfo(client, data) {
+  client
+      .fill('input[name="root_netWorth_bank"]', data.netWorth.bank)
+      .fill('input[name="root_netWorth_interestBank"]', data.netWorth.interestBank)
+      .fill('input[name="root_netWorth_ira"]', data.netWorth.ira)
+      .fill('input[name="root_netWorth_stocks"]', data.netWorth.stocks)
+      .fill('input[name="root_netWorth_realProperty"]', data.netWorth.realProperty)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name="root_netWorth_additionalSources_0_name"]', data.netWorth.additionalSources[0].name)
+      .fill('input[name="root_netWorth_additionalSources_0_amount"]', data.netWorth.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeMonthlyIncomeInfo(client, data) {
+  client
+      .fill('input[name="root_monthlyIncome_socialSecurity"]', data.monthlyIncome.socialSecurity)
+      .fill('input[name="root_monthlyIncome_civilService"]', data.monthlyIncome.civilService)
+      .fill('input[name="root_monthlyIncome_railroad"]', data.monthlyIncome.railroad)
+      .fill('input[name="root_monthlyIncome_blackLung"]', data.monthlyIncome.blackLung)
+      .fill('input[name="root_monthlyIncome_serviceRetirement"]', data.monthlyIncome.serviceRetirement)
+      .fill('input[name="root_monthlyIncome_ssi"]', data.monthlyIncome.ssi)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name="root_monthlyIncome_additionalSources_0_name"]', data.netWorth.additionalSources[0].name)
+      .fill('input[name="root_monthlyIncome_additionalSources_0_amount"]', data.netWorth.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeExpectedIncomeInfo(client, data) {
+  client
+      .fill('input[name="root_expectedIncome_salary"]', data.expectedIncome.salary)
+      .fill('input[name="root_expectedIncome_interest"]', data.expectedIncome.interest)
+      .fill('input[name="root_expectedIncome_additionalSources_0_name"]', data.expectedIncome.additionalSources[0].name)
+      .fill('input[name="root_expectedIncome_additionalSources_0_amount"]', data.expectedIncome.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeOtherExpensesInfo(client, data) {
+  client
+      .selectYesNo('root_view:hasOtherExpensesYes', data['view:hasOtherExpenses'])
+      .fill('input[name="root_otherExpenses_0_amount"]', data.otherExpenses[0].amount)
+      .fill('input[name="root_otherExpenses_0_purpose"]', data.otherExpenses[0].purpose)
+      .fillDate('input[name="root_otherExpenses_0_amount"]', data.otherExpenses[0].date)
+      .fill('input[name="root_otherExpenses_0_paidTo"]', data.otherExpenses[0].paidTo);
+}
+
+function completeSpouseNetWorthInfo(client, data) {
+  client
+      .fill('input[name="root_spouseNetWorth_bank"]', data.spouseNetWorth.bank)
+      .fill('input[name="root_spouseNetWorth_interestBank"]', data.spouseNetWorth.interestBank)
+      .fill('input[name="root_spouseNetWorth_ira"]', data.spouseNetWorth.ira)
+      .fill('input[name="root_spouseNetWorth_stocks"]', data.spouseNetWorth.stocks)
+      .fill('input[name="root_spouseNetWorth_realProperty"]', data.spouseNetWorth.realProperty)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name="root_spouseNetWorth_additionalSources_0_name"]', data.spouseNetWorth.additionalSources[0].name)
+      .fill('input[name="root_spouseNetWorth_additionalSources_0_amount"]', data.spouseNetWorth.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeSpouseMonthlyIncomeInfo(client, data) {
+  client
+      .fill('input[name="root_spouseMonthlyIncome_socialSecurity"]', data.spouseMonthlyIncome.socialSecurity)
+      .fill('input[name="root_spouseMonthlyIncome_civilService"]', data.spouseMonthlyIncome.civilService)
+      .fill('input[name="root_spouseMonthlyIncome_railroad"]', data.spouseMonthlyIncome.railroad)
+      .fill('input[name="root_spouseMonthlyIncome_blackLung"]', data.spouseMonthlyIncome.blackLung)
+      .fill('input[name="root_spouseMonthlyIncome_serviceRetirement"]', data.spouseMonthlyIncome.serviceRetirement)
+      .fill('input[name="root_spouseMonthlyIncome_ssi"]', data.spouseMonthlyIncome.ssi)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name="root_spouseMonthlyIncome_additionalSources_0_name"]', data.spouseMonthlyIncome.additionalSources[0].name)
+      .fill('input[name="root_spouseMonthlyIncome_additionalSources_0_amount"]', data.spouseMonthlyIncome.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeSpouseExpectedIncomeInfo(client, data) {
+  client
+      .fill('input[name="root_spouseExpectedIncome_salary"]', data.spouseExpectedIncome.salary)
+      .fill('input[name="root_spouseExpectedIncome_interest"]', data.spouseExpectedIncome.interest)
+      .fill('input[name="root_spouseExpectedIncome_additionalSources_0_name"]', data.spouseExpectedIncome.additionalSources[0].name)
+      .fill('input[name="root_spouseExpectedIncome_additionalSources_0_amount"]', data.spouseExpectedIncome.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeSpouseOtherExpensesInfo(client, data) {
+  client
+      .selectYesNo('root_view:spouseHasOtherExpensesYes', data['view:spouseHasOtherExpenses'])
+      .fill('input[name="root_spouseOtherExpenses_0_amount"]', data.spouseOtherExpenses[0].amount)
+      .fill('input[name="root_spouseOtherExpenses_0_purpose"]', data.spouseOtherExpenses[0].purpose)
+      .fillDate('input[name="root_spouseOtherExpenses_0_amount"]', data.spouseOtherExpenses[0].date)
+      .fill('input[name="root_spouseOtherExpenses_0_paidTo"]', data.spouseOtherExpenses[0].paidTo);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -201,5 +291,13 @@ module.exports = {
   completeDependents,
   completeDependentInfo,
   completeDependentAddressInfo,
+  completeNetWorthInfo,
+  completeMonthlyIncomeInfo,
+  completeExpectedIncomeInfo,
+  completeOtherExpensesInfo,
+  completeSpouseNetWorthInfo,
+  completeSpouseMonthlyIncomeInfo,
+  completeSpouseExpectedIncomeInfo,
+  completeSpouseOtherExpensesInfo,
   initApplicationSubmitMock
 };
