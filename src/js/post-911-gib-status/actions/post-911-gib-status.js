@@ -49,9 +49,11 @@ export function getEnrollmentData() {
             // EVSS partner service has no record of this user
             return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
           }
+          return Promise.reject(
+            new Error('post-911-gib-status getEnrollmentData() received unexpected error: `${error.status}: ${error.title}: ${error.detail}`'));
         }
         return Promise.reject(
-          new Error('post-911-gib-status getEnrollmentData() received unexpected error: `${error.status}: ${error.title}: ${error.detail}`'));
+          new Error('post-911-gib-status getEnrollmentData() received unexpected error'));
       })
       .catch((error) => {
         Raven.captureException(error);
