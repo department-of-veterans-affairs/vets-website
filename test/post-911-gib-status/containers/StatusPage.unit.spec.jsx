@@ -21,7 +21,7 @@ defaultProps.post911GIBStatus = {
 };
 
 describe('<StatusPage>', () => {
-  var window.dataLayer = [];
+  window.dataLayer = [];
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
