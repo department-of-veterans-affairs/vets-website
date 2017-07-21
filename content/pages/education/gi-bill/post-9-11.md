@@ -13,7 +13,7 @@ If you need help paying for school or job training and you’ve served on active
 
 </div>
 
-<div class="call-out usa-content" markdown="1">
+<div class="feature" markdown="0"> 
 
 ### Can I get education benefits?
 
@@ -29,6 +29,8 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 - Qualified dependents
 
 </div>
+
+You can find out if you qualify for Post-9/11 GI Bill benefits and view and print your benefits summary. [Check your Post-9/11 GI Bill benefits](education/gi-bill/post-9-11/ch-33-benefit).
 
 ### What benefits can I get? 
 
