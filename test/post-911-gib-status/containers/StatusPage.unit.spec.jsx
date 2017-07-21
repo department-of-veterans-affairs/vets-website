@@ -21,7 +21,6 @@ defaultProps.post911GIBStatus = {
 };
 
 describe('<StatusPage>', () => {
-  window.dataLayer = [];
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
@@ -29,6 +28,7 @@ describe('<StatusPage>', () => {
   });
 
   it('should show title and print button', () => {
+    window.dataLayer = [];
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
