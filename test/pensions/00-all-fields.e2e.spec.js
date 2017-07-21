@@ -298,6 +298,28 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
 
     // Document Upload page
+    // TODO: Test file upload
+    client.waitForElementVisible('label[for="root_files"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/documents');
+
+    // Review and Submit page
+    client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
+      .click('input[type="checkbox"]')
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+    client.expect.element('.js-test-location').attribute('data-location')
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
+
+    // Submit message
+    client.expect.element('.edu-benefits-submit-success').to.be.visible;
+
+    client.axeCheck('.main');
     client.end();
   }
 );
