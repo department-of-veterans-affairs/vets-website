@@ -53,7 +53,7 @@ export function getEnrollmentData() {
             new Error('post-911-gib-status getEnrollmentData() received unexpected error: `${error.status}: ${error.title}: ${error.detail}`'));
         }
         return Promise.reject(
-          new Error('post-911-gib-status getEnrollmentData() received unexpected error'));
+          new Error('post-911-gib-status getEnrollmentData() received unexpected error (no status code available)'));
       })
       .catch((error) => {
         Raven.captureException(error);
