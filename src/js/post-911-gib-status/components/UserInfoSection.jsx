@@ -54,7 +54,7 @@ class UserInfoSection extends React.Component {
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.
               <br/>
-              <a href="https://www.vets.gov/gi-bill-comparison-tool/" target="_blank">
+              <a href="//www.vets.gov/gi-bill-comparison-tool/" target="_blank">
                 Find out how much money you can expect to get based on your eligibility percentage.
               </a>
             </p>
