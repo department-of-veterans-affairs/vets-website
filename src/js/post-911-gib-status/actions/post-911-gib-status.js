@@ -23,18 +23,22 @@ export function getEnrollmentData() {
         if (response.meta) {
           if (response.meta.status === metaStatus.SERVER_ERROR ||
               response.meta.status === metaStatus.NOT_FOUND) {
+            window.dataLayer.push({ event: 'post911-status-failure' });
             return dispatch({ type: BACKEND_SERVICE_ERROR });
           }
           if (response.meta.status === metaStatus.NOT_AUTHORIZED) {
+            window.dataLayer.push({ event: 'post911-status-failure' });
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
           }
         }
+        window.dataLayer.push({ event: 'post911-status-success' });
         return dispatch({
           type: GET_ENROLLMENT_DATA_SUCCESS,
           data: response.data.attributes,
         });
       },
       (response) => {
+        window.dataLayer.push({ event: 'post911-status-failure' });
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
           if (error.status === '503' || error.status === '504') {
