@@ -260,6 +260,28 @@ function completeSpouseOtherExpensesInfo(client, data) {
       .fill('input[name="root_spouseOtherExpenses_0_paidTo"]', data.spouseOtherExpenses[0].paidTo);
 }
 
+function completeDirectDepositInfo(client, data) {
+  client
+      .fill('input[name="root_bankAccount_accountType"]', data.bankAccount.accountType)
+      .fill('input[name="root_bankAccount_bankName"]', data.bankAccount.bankName)
+      .fill('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
+      .fill('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
+}
+
+function completeContactInfo(client, data) {
+  client
+      .fill('input[name="root_veteranAddress_country"]', data.veteranAddress.country)
+      .fill('input[name="root_veteranAddress_street"]', data.veteranAddress.street)
+      .fill('input[name="root_veteranAddress_city"]', data.veteranAddress.city)
+      .fill('input[name="root_veteranAddress_state"]', data.veteranAddress.state)
+      .fill('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode)
+      .fill('input[name="root_veteranAddress_email"]', data.veteranAddress.email)
+      .fill('input[name="root_veteranAddress_altEmail"]', data.veteranAddress.altEmail)
+      .fill('input[name="root_veteranAddress_dayPhone"]', data.veteranAddress.dayPhone)
+      .fill('input[name="root_veteranAddress_nightPhone"]', data.veteranAddress.nightPhone)
+      .fill('input[name="root_veteranAddress_mobilePhone"]', data.veteranAddress.mobilePhone);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -299,5 +321,7 @@ module.exports = {
   completeSpouseMonthlyIncomeInfo,
   completeSpouseExpectedIncomeInfo,
   completeSpouseOtherExpensesInfo,
+  completeDirectDepositInfo,
+  completeContactInfo,
   initApplicationSubmitMock
 };

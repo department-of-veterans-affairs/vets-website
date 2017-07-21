@@ -335,5 +335,24 @@
       "date": "2017-05-05",
       "paidTo": "vendor"
     }]
+  },
+  "bankAccount": {
+    "accountType": "checking",
+    "bankName": "Best Bank",
+    "accountNumber": 123123123,
+    "routingNumber": 123123123
+  },
+  "veteranAddress": {
+    "country": "US",
+    "street": "123 8th st",
+    "city": "Hadley",
+    "country": "USA",
+    "state": "ME",
+    "postalCode": "01050",
+    "email": "test@example.com",
+    "altEmail": "test2@example.com",
+    "dayPhone": 1231231231,
+    "nightPhone": 1231231231,
+    "mobilePhone": 1231231231
   }
 }
