@@ -298,6 +298,22 @@ function initApplicationSubmitMock() {
   });
 }
 
+function initDocumentUploadMock() {
+  mock(null, {
+    path: '/v0/claim_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        files: [{
+          confirmationCode: 'testing'
+        }, {
+          confirmationCode: 'testing2'
+        }]
+      }
+    }
+  });
+}
+
 module.exports = {
   completeApplicantInformation,
   completeMilitaryHistory,
@@ -323,5 +339,6 @@ module.exports = {
   completeSpouseOtherExpensesInfo,
   completeDirectDepositInfo,
   completeContactInfo,
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
+  initDocumentUploadMock
 };

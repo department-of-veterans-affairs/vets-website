@@ -6,6 +6,7 @@ const testData = require('./schema/maximal-test.json');
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
     PageHelpers.initApplicationSubmitMock();
+    PageHelpers.initDocumentUploadMock();
 
     // Ensure introduction page renders.
     client
@@ -282,12 +283,12 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Additional Information page
     // direct deposit
-    client.waitForElementVisible('label[for="root_view:noDirectDeposit"]', Timeouts.normal);
-    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeDirectDepositInfo(client, testData.data);
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
+    // client.waitForElementVisible('label[for="root_view:noDirectDeposit"]', Timeouts.normal);
+    // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    // PageHelpers.completeDirectDepositInfo(client, testData.data);
+    // client.axeCheck('.main')
+    //  .click('.form-panel .usa-button-primary');
+    // E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // contact information
     client.waitForElementVisible('label[for="root_veteranAddress_country"]', Timeouts.normal);
@@ -298,9 +299,10 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
 
     // Document Upload page
-    // TODO: Test file upload
     client.waitForElementVisible('label[for="root_files"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    client
+      .setValue('input#root_files', require('path').resolve(`${__dirname}/test.png`));
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');
