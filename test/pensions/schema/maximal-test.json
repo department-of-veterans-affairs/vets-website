@@ -343,7 +343,6 @@
     "routingNumber": 123123123
   },
   "veteranAddress": {
-    "country": "US",
     "street": "123 8th st",
     "city": "Hadley",
     "country": "USA",
