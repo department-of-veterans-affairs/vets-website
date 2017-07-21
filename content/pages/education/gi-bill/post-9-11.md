@@ -30,13 +30,14 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 
 </div>
 
-You can find out if you qualify for Post-9/11 GI Bill benefits and view and print your benefits summary. [Check your Post-9/11 GI Bill benefits](education/gi-bill/post-9-11/ch-33-benefit).
 
 ### What benefits can I get? 
 
 - Tuition and fees
 - Money for housing (if you're in school more than half time)
 - Money for books and supplies (up to $1,000 per school year)
+
+You can check to see if you have Post-9/11 GI Bill benefits. [View and print your benefits summary](education/gi-bill/post-9-11/ch-33-benefit).
 
 -------
 
