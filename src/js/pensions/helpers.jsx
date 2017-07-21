@@ -132,3 +132,7 @@ export const uploadMessage = (
     <div className="usa-alert-body">If you have many documents to upload you can mail them to us.<br/><br/><em>We’ll provide an address after you finish the application.</em></div>
   </div>
 );
+
+export const dependentsMinItem = (
+  <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
+);
