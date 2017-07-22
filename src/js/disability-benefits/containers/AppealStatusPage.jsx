@@ -5,8 +5,9 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import { getAppeals } from '../actions';
+import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
-import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers.jsx';
+import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers';
 import { setPageFocus } from '../utils/page';
 
 class AppealStatusPage extends React.Component {
@@ -72,21 +73,11 @@ class AppealStatusPage extends React.Component {
     }
 
     return (
-      <table className="events-list">
-        <tbody>
-          {previousHistory.map((e, i) => {
-            return (
-              <tr key={i}>
-                <td><i className="fa fa-check-circle"></i></td>
-                <td className="date">
-                  <strong>{moment(e.date).format('MMMM DD, YYYY')}</strong>
-                </td>
-                <td>{appealStatusDescriptions(e).status.title}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ul className="events-list">
+        {previousHistory.map((e, i) => (
+          <AppealEventItem key={i} event={e}/>
+        ))}
+      </ul>
     );
   }
 

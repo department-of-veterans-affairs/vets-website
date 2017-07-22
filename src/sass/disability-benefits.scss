@@ -352,27 +352,48 @@ a.claim-list-item {
 
   .events-list {
     margin-top: 0;
+    padding: 0;
+  }
 
-    tr {
-      td {
-        border: none;
-        border-bottom: solid thin $color-gray-light;
-        vertical-align: middle;
-        padding: 0.75em 0.5em;
+  .event-item {
+    list-style: none;
+    border-bottom: solid thin $color-gray-light;
+    padding: 1.5rem 0;
 
-        &.date {
-          min-width: 7em;
-        }
+    &:last-child {
+      border: none;
+    }
+  }
 
-        i.fa {
-          color: $color-gray;
-        }
+  .event-header {
+    & > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .date {
+      display: inline-block;
+      width: 12rem;
+    }
+
+    i.fa {
+      &:first-child {
+        color: $color-gray;
+        margin-right: 1rem;
       }
 
-      &:last-child td {
-        border: none;
+      &:last-child {
+        float: right;
       }
     }
+  }
+
+  .event-title {
+    max-width: 45rem;
+  }
+
+  .event-description {
+    padding: 2rem 0;
   }
 }
 
