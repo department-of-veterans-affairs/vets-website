@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import { appealStatusDescriptions } from '../utils/appeal-helpers.jsx';
+import { appealStatusDescriptions } from '../utils/appeal-helpers';
 
 export default class AppealEventItem extends React.Component {
   constructor(props) {
