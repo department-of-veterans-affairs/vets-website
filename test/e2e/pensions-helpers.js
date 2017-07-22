@@ -201,6 +201,7 @@ function completeExpectedIncomeInfo(client, data) {
   client
       .fill('input[name="root_expectedIncome_salary"]', data.expectedIncome.salary)
       .fill('input[name="root_expectedIncome_interest"]', data.expectedIncome.interest)
+      .click('.pensions-sources-add-btn')
       .fill('input[name="root_expectedIncome_additionalSources_0_name"]', data.expectedIncome.additionalSources[0].name)
       .fill('input[name="root_expectedIncome_additionalSources_0_amount"]', data.expectedIncome.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');
@@ -208,10 +209,10 @@ function completeExpectedIncomeInfo(client, data) {
 
 function completeOtherExpensesInfo(client, data) {
   client
-      .selectYesNo('root_view:hasOtherExpensesYes', data['view:hasOtherExpenses'])
+      .selectYesNo('root_view:hasOtherExpenses', data['view:hasOtherExpenses'])
       .fill('input[name="root_otherExpenses_0_amount"]', data.otherExpenses[0].amount)
       .fill('input[name="root_otherExpenses_0_purpose"]', data.otherExpenses[0].purpose)
-      .fillDate('input[name="root_otherExpenses_0_amount"]', data.otherExpenses[0].date)
+      .fillDate('root_otherExpenses_0_date', data.otherExpenses[0].date)
       .fill('input[name="root_otherExpenses_0_paidTo"]', data.otherExpenses[0].paidTo);
 }
 
@@ -246,6 +247,7 @@ function completeSpouseExpectedIncomeInfo(client, data) {
   client
       .fill('input[name="root_spouseExpectedIncome_salary"]', data.spouseExpectedIncome.salary)
       .fill('input[name="root_spouseExpectedIncome_interest"]', data.spouseExpectedIncome.interest)
+      .click('.pensions-sources-add-btn')
       .fill('input[name="root_spouseExpectedIncome_additionalSources_0_name"]', data.spouseExpectedIncome.additionalSources[0].name)
       .fill('input[name="root_spouseExpectedIncome_additionalSources_0_amount"]', data.spouseExpectedIncome.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');
@@ -253,10 +255,10 @@ function completeSpouseExpectedIncomeInfo(client, data) {
 
 function completeSpouseOtherExpensesInfo(client, data) {
   client
-      .selectYesNo('root_view:spouseHasOtherExpensesYes', data['view:spouseHasOtherExpenses'])
+      .selectYesNo('root_view:spouseHasOtherExpenses', data['view:spouseHasOtherExpenses'])
       .fill('input[name="root_spouseOtherExpenses_0_amount"]', data.spouseOtherExpenses[0].amount)
       .fill('input[name="root_spouseOtherExpenses_0_purpose"]', data.spouseOtherExpenses[0].purpose)
-      .fillDate('input[name="root_spouseOtherExpenses_0_amount"]', data.spouseOtherExpenses[0].date)
+      .fillDate('root_spouseOtherExpenses_0_date', data.spouseOtherExpenses[0].date)
       .fill('input[name="root_spouseOtherExpenses_0_paidTo"]', data.spouseOtherExpenses[0].paidTo);
 }
 
