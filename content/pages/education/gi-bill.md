@@ -16,7 +16,7 @@ majorlinks:
     - url: /education/gi-bill/transfer/
       title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
       description: If you have unused Post-9/11 GI Bill benefits, find out if you can transfer your benefits to your spouse or dependent children.
-  - heading: Benefit Rates and How You Can Use Your Benefits
+  - heading: Benefit Rates and Ways You Can Use Your Benefits
     links:
     - url: /education/rates/
       title: Rates
@@ -27,7 +27,7 @@ majorlinks:
     - url: /education/gi-bill/higher-learning/
       title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
       description: If you’re looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
-  - heading: Other GI Bill Programs You May Qualify For
+  - heading: Other GI Bill Programs You May Qualify for
     links:
     - url: /education/gi-bill/montgomery-active-duty/
       title: Montgomery GI Bill Active Duty (MGIB-AD)
@@ -56,7 +56,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and training programs. Under this bill, qualifying Veterans and their family members can get money to cover all or some of the costs for school or training. Learn more about these benefits—and how to apply for them.
+Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and training programs. Under this bill, qualifying Veterans and their family members can get money to cover all or some of the costs for school or training. Learn more about these benefits below—and how to apply for them.
 
 If you served on active duty after September 11, 2001, you may qualify for Post-9/11 GI Bill education benefits. You can check to see if you have Post-9/11 GI Bill benefits. [View and print your benefits summary](/education/gi-bill/post-9-11/ch-33-benefit/).
 
