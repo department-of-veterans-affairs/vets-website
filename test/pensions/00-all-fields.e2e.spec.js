@@ -155,7 +155,7 @@ const runTest = E2eHelpers.createE2eTest(
     // net worth info
     client.waitForElementVisible('label[for="root_netWorth_bank"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeNetWorthInfo(client, testData.data);
+    PageHelpers.completeNetWorthInfo(client, testData.data.netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth');
@@ -163,7 +163,7 @@ const runTest = E2eHelpers.createE2eTest(
     // monthly income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeMonthlyIncomeInfo(client, testData.data);
+    PageHelpers.completeMonthlyIncomeInfo(client, testData.data.monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome');
@@ -171,7 +171,7 @@ const runTest = E2eHelpers.createE2eTest(
     // expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeExpectedIncomeInfo(client, testData.data);
+    PageHelpers.completeExpectedIncomeInfo(client, testData.data.expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome');
@@ -179,7 +179,8 @@ const runTest = E2eHelpers.createE2eTest(
     // other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeOtherExpensesInfo(client, testData.data);
+    client.selectYesNo('root_view:hasOtherExpenses', testData.data['view:hasOtherExpenses']);
+    PageHelpers.completeOtherExpensesInfo(client, testData.data.otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses');
@@ -187,7 +188,7 @@ const runTest = E2eHelpers.createE2eTest(
     // spouse net worth info
     client.waitForElementVisible('label[for="root_spouseNetWorth_bank"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeSpouseNetWorthInfo(client, testData.data);
+    PageHelpers.completeNetWorthInfo(client, testData.data.spouseNetWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/spouse');
@@ -195,7 +196,7 @@ const runTest = E2eHelpers.createE2eTest(
     // spouse monthly income info
     client.waitForElementVisible('label[for="root_spouseMonthlyIncome_socialSecurity"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeSpouseMonthlyIncomeInfo(client, testData.data);
+    PageHelpers.completeMonthlyIncomeInfo(client, testData.data.spouseMonthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/spouse');
@@ -203,7 +204,7 @@ const runTest = E2eHelpers.createE2eTest(
     // spouse expected income info
     client.waitForElementVisible('label[for="root_spouseExpectedIncome_salary"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeSpouseExpectedIncomeInfo(client, testData.data);
+    PageHelpers.completeExpectedIncomeInfo(client, testData.data.spouseExpectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/spouse');
@@ -211,7 +212,8 @@ const runTest = E2eHelpers.createE2eTest(
     // spouse other expenses info
     client.waitForElementVisible('label[for="root_view:spouseHasOtherExpensesYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeSpouseOtherExpensesInfo(client, testData.data);
+    client.selectYesNo('root_view:spouseHasOtherExpenses', testData.data['view:spouseHasOtherExpenses']);
+    PageHelpers.completeOtherExpensesInfo(client, testData.data.spouseOtherExpenses[0], 'spouseOther');
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/spouse');
@@ -219,7 +221,7 @@ const runTest = E2eHelpers.createE2eTest(
     // first dependent net worth info
     client.waitForElementVisible('label[for="root_netWorth_bank"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeNetWorthInfo(client, testData.data);
+    PageHelpers.completeNetWorthInfo(client, testData.data.dependents[0].netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/dependents/0');
@@ -227,7 +229,7 @@ const runTest = E2eHelpers.createE2eTest(
     // first dependent income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeMonthlyIncomeInfo(client, testData.data);
+    PageHelpers.completeMonthlyIncomeInfo(client, testData.data.dependents[0].monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/dependents/0');
@@ -235,15 +237,16 @@ const runTest = E2eHelpers.createE2eTest(
     // first dependent expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeExpectedIncomeInfo(client, testData.data);
+    PageHelpers.completeExpectedIncomeInfo(client, testData.data.dependents[0].expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/dependents/0');
 
     // first dependent other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
+    client.selectYesNo('root_view:hasOtherExpenses', testData.data.dependents[0]['view:hasOtherExpenses']);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeOtherExpensesInfo(client, testData.data);
+    PageHelpers.completeOtherExpensesInfo(client, testData.data.dependents[0].otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/dependents/0');
@@ -251,7 +254,7 @@ const runTest = E2eHelpers.createE2eTest(
     // second dependent net worth info
     client.waitForElementVisible('label[for="root_netWorth_bank"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeNetWorthInfo(client, testData.data);
+    PageHelpers.completeNetWorthInfo(client, testData.data.dependents[1].netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/dependents/1');
@@ -259,7 +262,7 @@ const runTest = E2eHelpers.createE2eTest(
     // second dependent income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeMonthlyIncomeInfo(client, testData.data);
+    PageHelpers.completeMonthlyIncomeInfo(client, testData.data.dependents[1].monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/dependents/1');
@@ -267,7 +270,7 @@ const runTest = E2eHelpers.createE2eTest(
     // second dependent expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeExpectedIncomeInfo(client, testData.data);
+    PageHelpers.completeExpectedIncomeInfo(client, testData.data.dependents[1].expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/dependents/1');
@@ -275,13 +278,16 @@ const runTest = E2eHelpers.createE2eTest(
     // second dependent other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeOtherExpensesInfo(client, testData.data);
+    client.selectYesNo('root_view:hasOtherExpenses', testData.data.dependents[1]['view:hasOtherExpenses']);
+    PageHelpers.completeOtherExpensesInfo(client, testData.data.dependents[1].otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/dependents/1');
 
-
     // Additional Information page
+    // direct deposit
+
+    // contact information
 
     // Document Upload page
     client.end();
