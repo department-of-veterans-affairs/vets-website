@@ -170,6 +170,51 @@ function completeDependentAddressInfo(client, data, index) {
   }
 }
 
+function completeNetWorthInfo(client, data) {
+  client
+      .fill('input[name$="bank"]', data.bank)
+      .fill('input[name$="interestBank"]', data.interestBank)
+      .fill('input[name$="ira"]', data.ira)
+      .fill('input[name$="stocks"]', data.stocks)
+      .fill('input[name$="realProperty"]', data.realProperty)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeMonthlyIncomeInfo(client, data) {
+  client
+      .fill('input[name$="socialSecurity"]', data.socialSecurity)
+      .fill('input[name$="civilService"]', data.civilService)
+      .fill('input[name$="railroad"]', data.railroad)
+      .fill('input[name$="blackLung"]', data.blackLung)
+      .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
+      .fill('input[name$="ssi"]', data.ssi)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeExpectedIncomeInfo(client, data) {
+  client
+      .fill('input[name$="salary"]', data.salary)
+      .fill('input[name$="interest"]', data.interest)
+      .click('.pensions-sources-add-btn')
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeOtherExpensesInfo(client, data, prefix = 'other') {
+  client
+      .fill('input[name$="amount"]', data.amount)
+      .fill('input[name$="purpose"]', data.purpose)
+      .fillDate(`root_${prefix}Expenses_0_date`, data.date)
+      .fill('input[name$="paidTo"]', data.paidTo);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -201,5 +246,10 @@ module.exports = {
   completeDependents,
   completeDependentInfo,
   completeDependentAddressInfo,
+  completeNetWorthInfo,
+  completeMonthlyIncomeInfo,
+  completeExpectedIncomeInfo,
+  completeOtherExpensesInfo,
   initApplicationSubmitMock
 };
+
