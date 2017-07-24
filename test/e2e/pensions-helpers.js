@@ -172,14 +172,14 @@ function completeDependentAddressInfo(client, data, index) {
 
 function completeNetWorthInfo(client, data) {
   client
-      .fill('input[name="root_netWorth_bank"]', data.netWorth.bank)
-      .fill('input[name="root_netWorth_interestBank"]', data.netWorth.interestBank)
-      .fill('input[name="root_netWorth_ira"]', data.netWorth.ira)
-      .fill('input[name="root_netWorth_stocks"]', data.netWorth.stocks)
-      .fill('input[name="root_netWorth_realProperty"]', data.netWorth.realProperty)
+      .fill('input[name="bank"]', data.bank)
+      .fill('input[name="interestBank"]', data.interestBank)
+      .fill('input[name="ira"]', data.ira)
+      .fill('input[name="stocks"]', data.stocks)
+      .fill('input[name="realProperty"]', data.realProperty)
       .click('.pensions-sources-add-btn')
-      .fill('input[name="root_netWorth_additionalSources_0_name"]', data.netWorth.additionalSources[0].name)
-      .fill('input[name="root_netWorth_additionalSources_0_amount"]', data.netWorth.additionalSources[0].amount)
+      .fill('input[name="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name="additionalSources_0_amount"]', data.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');
 }
 
