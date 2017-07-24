@@ -300,7 +300,7 @@ const runTest = E2eHelpers.createE2eTest(
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
-
+    
     // Document Upload page
     client.end();
   }
