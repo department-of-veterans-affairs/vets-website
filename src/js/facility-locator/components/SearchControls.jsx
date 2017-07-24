@@ -85,17 +85,19 @@ class SearchControls extends Component {
     }
   }
 
-  handleFacilityFilterSelect(facilityType) {
-    if (['benefits', 'vet_center'].includes(facilityType)) {
+  handleFacilityFilterSelect(newFacilityType) {
+    const { currentQuery: { facilityType } } = this.props;
+    if (['benefits', 'vet_center'].includes(newFacilityType) &&
+        newFacilityType === facilityType) {
       return () => {
         this.props.updateSearchQuery({
-          facilityType,
+          facilityType: newFacilityType,
         });
       };
     }
     return () => {
       this.props.updateSearchQuery({
-        facilityType,
+        facilityType: newFacilityType,
         serviceType: null,
       });
     };
