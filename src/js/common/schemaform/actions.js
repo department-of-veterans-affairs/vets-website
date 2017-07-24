@@ -47,10 +47,23 @@ export function setSubmitted(response) {
   };
 }
 
+
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
+
+  const captureError = (error, clientError) => {
+    Raven.captureException(error, {
+      extra: {
+        clientError,
+        statusText: error.statusText
+      }
+    });
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+    });
+  };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
@@ -60,7 +73,6 @@ export function submitForm(formConfig, form) {
 
     const promise = new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
-
       req.open('POST', `${environment.API_URL}${formConfig.submitUrl}`);
       req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 300) {
@@ -73,46 +85,26 @@ export function submitForm(formConfig, form) {
           resolve(results);
         } else {
           const error = new Error(`vets_server_error: ${req.statusText}`);
-          Raven.captureException(error, {
-            extra: {
-              clientError: false,
-              statusText: req.statusText
-            }
-          });
+          error.statusText = req.statusText;
           reject(error);
         }
       });
 
       req.addEventListener('error', () => {
         const error = new Error('vets_client_error: Network request failed');
-        Raven.captureException(error, {
-          extra: {
-            clientError: true,
-            statusText: req.statusText
-          }
-        });
+        error.statusText = req.statusText;
         reject(error);
       });
 
       req.addEventListener('abort', () => {
         const error = new Error('vets_client_error: Request aborted');
-        Raven.captureException(error, {
-          extra: {
-            clientError: true,
-            statusText: req.statusText
-          }
-        });
+        error.statusText = req.statusText;
         reject(error);
       });
 
       req.addEventListener('timeout', () => {
         const error = new Error('vets_client_error: Request timed out');
-        Raven.captureException(error, {
-          extra: {
-            clientError: true,
-            statusText: req.statusText
-          }
-        });
+        error.statusText = req.statusText;
         reject(error);
       });
 
@@ -133,9 +125,7 @@ export function submitForm(formConfig, form) {
         // overly cautious
         const errorMessage = _.get('message', error);
         const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-        window.dataLayer.push({
-          event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
-        });
+        captureError(error, clientError);
         dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
       });
   };
