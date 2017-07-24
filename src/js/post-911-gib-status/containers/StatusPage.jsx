@@ -14,6 +14,7 @@ class StatusPage extends React.Component {
     let introText;
     let printButton;
     if (enrollmentData.veteranIsEligible) {
+      window.dataLayer.push({ event: 'post911-status-info-shown' });
       introText = (
         <div className="va-introtext">
           <p>
