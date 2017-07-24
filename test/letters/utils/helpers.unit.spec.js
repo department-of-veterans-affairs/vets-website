@@ -26,11 +26,17 @@ describe('Letters helpers: ', () => {
         expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
       }, ['hasSurvivorsIndemnityCompensationAward', 'hasSurvivorsPensionAward', 'hasDeathResultOfDisability']);
     });
-    it('should only be defined if value is true', () => {
+    it('should only be defined for veterans if value is true', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, false, true)).to.be.undefined;
       }, ['hasNonServiceConnectedPension', 'hasAdaptedHousing', 'hasIndividualUnemployabilityGranted', 'hasSpecialMonthlyCompensation']);
+    });
+    it('should only be defined for dependents if value is true', () => {
+      _.forEach(option => {
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).to.be.undefined;
+      }, ['hasSurvivorsIndemnityCompensationAward', 'hasSurvivorsPensionAward']);
     });
     it('should be defined whether value is true or false', () => {
       // For both veterans and dependents
@@ -49,7 +55,7 @@ describe('Letters helpers: ', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
         expect(getBenefitOptionText(option, false, false)).not.to.be.undefined;
-      }, ['hasSurvivorsIndemnityCompensationAward', 'hasSurvivorsPensionAward', 'hasDeathResultOfDisability']);
+      }, ['hasDeathResultOfDisability']);
     });
     // Special cases for non-boolean options
     it('should only be defined if date is valid', () => {

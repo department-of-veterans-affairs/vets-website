@@ -6,17 +6,20 @@
   background-image: none;
 }
 
+// This is intended to override button styles and make a button
+// look like a link. We have plenty of overspecified button styles, so there are
+// several instances in here of !important.
 .va-button-link {
   background: none;
   background-color: transparent !important;
   border: 0;
   border-radius: 0;
   outline: 0;
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
   text-align: left;
   -webkit-font-smoothing: auto;
-  color: $color-link-default;
+  color: $color-link-default !important;
   font-weight: normal;
   text-decoration: underline;
   display: inline;
@@ -27,7 +30,7 @@
     border: 0;
     border-radius: 0;
     outline: 0;
-    padding: 0;
+    padding: 0 !important;
     color: $color-link-default;
     text-decoration: underline;
     background-color: $color-link-default-hover !important;

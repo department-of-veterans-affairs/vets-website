@@ -15,7 +15,7 @@ export const locationOfDeathLabels = {
 
 export const allowanceLabels = {
   nonService: 'Non-service-connected death',
-  service: 'Service-connected death',
+  service: 'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
   vaMC: 'VA medical center death'
 };
 

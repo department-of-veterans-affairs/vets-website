@@ -76,6 +76,100 @@ function completeWorkHistory(client, data) {
   });
 }
 
+function completeMaritalStatus(client, data) {
+  client
+    .selectRadio('root_maritalStatus', data.maritalStatus)
+    .fill('input[name="root_marriages"]', data.marriages.length);
+}
+
+function completeMarriage(client, data, index) {
+  client
+    .fillName('root_spouseFullName', data.marriages[index].spouseFullName)
+    .fillDate('root_dateOfMarriage', data.marriages[index].dateOfMarriage)
+    .fill('input[name="root_locationOfMarriage"]', data.marriages[index].locationOfMarriage)
+    .selectRadio('root_marriageType', data.marriages[index].marriageType);
+  if (data.marriages[index]['view:pastMarriage']) {
+    client
+      .selectRadio('root_view:pastMarriage_reasonForSeparation', data.marriages[index]['view:pastMarriage'].reasonForSeparation)
+      .fillDate('root_view:pastMarriage_dateOfSeparation', data.marriages[index]['view:pastMarriage'].dateOfSeparation)
+      .fill('input[name="root_view:pastMarriage_locationOfSeparation"]', data.marriages[index]['view:pastMarriage'].locationOfSeparation);
+  }
+}
+
+function completeSpouseInfo(client, data) {
+  client
+    .fillDate('root_spouseDateOfBirth', data.spouseDateOfBirth)
+    .fill('input[name="root_spouseSocialSecurityNumber"]', data.spouseSocialSecurityNumber)
+    .selectYesNo('root_spouseIsVeteran', data.spouseIsVeteran)
+    .fill('input[name="root_spouseVaFileNumber"]', data.spouseVaFileNumber)
+    .selectYesNo('root_liveWithSpouse', data.liveWithSpouse)
+    .fillAddress('root_spouseAddress', data.spouseAddress)
+    .fill('input[name="root_reasonForNotLivingWithSpouse"]', data.reasonForNotLivingWithSpouse)
+    .fill('input[name="root_monthlySpousePayment"]', data.monthlySpousePayment)
+    .fill('input[name="root_spouseMarriages"]', data.spouseMarriages.length + 1);
+}
+
+function completeSpouseMarriage(client, data) {
+  client
+    .fillDate('root_dateOfMarriage', data.spouseMarriages[0].dateOfMarriage)
+    .fill('input[name="root_locationOfMarriage"]', data.spouseMarriages[0].locationOfMarriage)
+    .fillName('root_spouseFullName', data.spouseMarriages[0].spouseFullName)
+    .selectRadio('root_marriageType', data.spouseMarriages[0].marriageType)
+    .selectRadio('root_reasonForSeparation', data.spouseMarriages[0].reasonForSeparation)
+    .fillDate('root_dateOfSeparation', data.spouseMarriages[0].dateOfSeparation)
+    .fill('input[name="root_locationOfSeparation"]', data.spouseMarriages[0].locationOfSeparation);
+}
+
+function completeDependents(client, data) {
+  client
+    .selectYesNo('root_view:hasDependents', data['view:hasDependents']);
+
+  data.dependents.forEach((dependent, index) => {
+    client
+      .fillName(`root_dependents_${index}_fullName`, data.dependents[index].fullName)
+      .fillDate(`root_dependents_${index}_childDateOfBirth`, data.dependents[index].childDateOfBirth)
+      .clickIf('.va-growable-add-btn', index < data.dependents.length - 1);
+  });
+}
+
+function completeDependentInfo(client, data, index) {
+  client
+    .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
+    .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
+    .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
+    .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
+
+  if (typeof data.dependents[index].attendingCollege !== 'undefined') {
+    client
+      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege);
+  }
+
+  if (typeof data.dependents[index].disabled !== 'undefined') {
+    client
+      .selectYesNo('root_disabled', data.dependents[index].disabled);
+  }
+
+  client
+    .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried);
+
+  if (data.dependents[index].previouslyMarried) {
+    client
+      .selectYesNo('root_married', data.dependents[index].married);
+  }
+}
+
+function completeDependentAddressInfo(client, data, index) {
+  client
+    .selectYesNo('root_childInHousehold', data.dependents[index].childInHousehold);
+
+  if (!data.dependents[index].childInHousehold) {
+    client
+      .fillAddress('root_childAddress', data.dependents[index].childAddress)
+      .fillName('root_personWhoLivesWithChild', data.dependents[index].personWhoLivesWithChild)
+      .fill('input[name="root_monthlyPayment"]', data.dependents[index].monthlyPayment);
+  }
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -100,5 +194,12 @@ module.exports = {
   completePOW,
   completeDisabilityHistory,
   completeWorkHistory,
+  completeMaritalStatus,
+  completeMarriage,
+  completeSpouseInfo,
+  completeSpouseMarriage,
+  completeDependents,
+  completeDependentInfo,
+  completeDependentAddressInfo,
   initApplicationSubmitMock
 };

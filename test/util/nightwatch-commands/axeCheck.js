@@ -28,12 +28,7 @@ export function command(context, config, _callback) {
     }, (err, results) => {
       done({ err, results });
     });
-  }, [context, (config || {}).rules || this.globals.rules || ['section508']], response => {
-    if (response.state !== 'success') {
-      this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
-      return;
-    }
-
+  }, [context, (config || {}).rules || this.globals.rules || ['section508', 'wcag2a']], response => {
     const { err, results } = response.value;
 
     if (err) {

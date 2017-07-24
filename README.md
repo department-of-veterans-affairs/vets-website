@@ -67,7 +67,9 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-The requirements for running this application are Node.js 6.11.1, npm 3.8.9, and yarn 0.21.3
+
+The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
+
 
 Node.js's version is managed using nvm. Please follow the installation instructions on `nvm`
 to ensure you are using the same version of node as others.
@@ -89,13 +91,13 @@ nvm alias default 6.11.1
 
 And Yarn by running:
 ```bash
-npm i -g yarn@0.21.3
+npm i -g yarn@0.27.5
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 6.11.1
-yarn --version // 0.21.3
+yarn --version // 0.27.5
 ```
 
 

@@ -84,7 +84,9 @@ class ConfirmationPage extends React.Component {
                   No documents required at this time
                 </button>
               </div>
-              {docExplanation}
+              <div id="collapsible-document-explanation">
+                {docExplanation}
+              </div>
             </li>
           </ul>
         </div>
