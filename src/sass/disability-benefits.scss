@@ -331,7 +331,7 @@ a.claim-list-item {
 
     .content {
       position: relative;
-      padding-left: 2em;
+      padding-left: 3.25rem;
 
       h5 + p {
         margin-top: 0;
@@ -379,7 +379,7 @@ a.claim-list-item {
     i.fa {
       &:first-child {
         color: $color-gray;
-        margin-right: 1rem;
+        width: 3.25rem;
       }
 
       &:last-child {
@@ -393,7 +393,7 @@ a.claim-list-item {
   }
 
   .event-description {
-    padding: 2rem 0;
+    padding: 2rem 0 2rem 3.25rem;
   }
 }
 
