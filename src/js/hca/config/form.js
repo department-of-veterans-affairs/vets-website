@@ -592,6 +592,9 @@ const formConfig = {
                 itemName: 'Child',
                 hideTitle: true,
                 viewField: ChildView
+              },
+              'ui:errorMessages': {
+                minItems: 'You must add at least one child.'
               }
             }
           },
@@ -600,7 +603,9 @@ const formConfig = {
             required: ['view:reportChildren'],
             properties: {
               'view:reportChildren': { type: 'boolean' },
-              children
+              children: _.assign(children, {
+                minItems: 1
+              })
             }
           }
         },
@@ -753,6 +758,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'isCoveredByHealthInsurance',
                 viewField: InsuranceProviderView
+              },
+              'ui:errorMessages': {
+                minItems: 'You need to at least one provider.'
               },
               items: {
                 insuranceName: {

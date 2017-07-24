@@ -16,11 +16,12 @@ class PrintPage extends React.Component {
         <div className="print-status">
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
-            <h1 className="section-header">Post-9/11 GI Bill Statement of Benefits</h1>
+            <h1 className="section-header">Post-9/11 GI Bill<sup>&reg;</sup> Statement of Benefits</h1>
             <p>
-              The information in this letter is the Post-9/11 GI Bill Statement of Benefits
-              for the beneficiary listed below as of {todayFormatted}. Any pending or recent
-              changes to enrollment may affect remaining entitlement.
+              The information in this letter is the Post-9/11 GI Bill
+              Statement of Benefits for the beneficiary listed below as of
+              {todayFormatted}. Any pending or recent changes to enrollment may
+              affect remaining entitlement.
             </p>
             <UserInfoSection enrollmentData={enrollmentData}/>
           </div>

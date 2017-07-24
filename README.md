@@ -67,7 +67,7 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-The requirements for running this application are Node.js 4.4.7, npm 3.8.9, and yarn 0.21.3
+The requirements for running this application are Node.js 4.4.7, npm 3.8.9, and yarn 0.27.5
 
 Node.js's version is managed using nvm. Please follow the installation instructions on `nvm`
 to ensure you are using the same version of node as others.
