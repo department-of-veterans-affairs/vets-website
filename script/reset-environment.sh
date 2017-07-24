@@ -1,12 +1,25 @@
 #!/usr/bin/env bash
 if ! [ -x "$(command -v yarn)" ]; then
     echo "Installing yarn..."
-    npm i -g yarn@0.21.3
+    npm i -g yarn@0.27.5
     if [ $? -eq 0 ]; then
         echo "Yarn successfulling installed globally."
     else 
         echo "Yarn failed to install...please install manually."
         exit 1
+    fi
+else
+    yarn_version=$(yarn --version)
+    if [ "$yarn_version" != "0.27.5" ]; then
+        echo "Install yarn version 0.27.5 [y/N]: "
+        read input
+        case "$input" in 
+            y|Y|yes|Yes)
+                npm i -g yarn@0.27.5
+                ;;
+            *)
+                ;;
+        esac
     fi
 fi
 echo "Removing the node modules folder..."
