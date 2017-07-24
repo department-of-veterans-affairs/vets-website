@@ -307,6 +307,7 @@ const runTest = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     client
       .setValue('input#root_files', require('path').resolve(`${__dirname}/test.png`));
+    client.waitForElementVisible('.schemaform-file-remove-button', Timeouts.slow);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');

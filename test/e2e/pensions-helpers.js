@@ -255,11 +255,11 @@ function initDocumentUploadMock() {
     verb: 'post',
     value: {
       data: {
-        files: [{
-          confirmationCode: 'testing'
-        }, {
-          confirmationCode: 'testing2'
-        }]
+        attributes: {
+          size: 155993,
+          name: 'test.png',
+          confirmationCode: '871af1d9-ae04-4ed2-99ef-4c11686c53d2',
+        }
       }
     }
   });
