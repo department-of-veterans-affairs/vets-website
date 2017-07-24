@@ -272,3 +272,4 @@ module.exports = {
   completeContactInfo,
   initApplicationSubmitMock
 };
+
