@@ -1443,7 +1443,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+          path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
