@@ -358,7 +358,6 @@ a.claim-list-item {
   .event-item {
     list-style: none;
     border-bottom: solid thin $color-gray-light;
-    padding: 1.5rem 0;
 
     &:last-child {
       border: none;
@@ -366,6 +365,9 @@ a.claim-list-item {
   }
 
   .event-header {
+    cursor: pointer;
+    padding: 1.5rem 0;
+
     & > * {
       display: inline-block;
       vertical-align: middle;
@@ -395,7 +397,8 @@ a.claim-list-item {
   }
 
   .event-description {
-    padding: 2rem 0 2rem 3.25rem;
+    margin-bottom: 1.5rem;
+    margin-left: 3.25rem;
   }
 }
 
