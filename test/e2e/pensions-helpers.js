@@ -217,20 +217,20 @@ function completeOtherExpensesInfo(client, data, prefix = 'other') {
 
 function completeDirectDepositInfo(client, data) {
   client
-      .selectRadio('root_bankAccount_accountType', data.bankAccount.accountType)
-      .fill('input[name="root_bankAccount_bankName"]', data.bankAccount.bankName)
-      .fill('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
-      .fill('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
+      .selectRadio('root_bankAccount_accountType', data.accountType)
+      .fill('input[name$="bankName"]', data.bankName)
+      .fill('input[name$="accountNumber"]', data.accountNumber)
+      .fill('input[name$="routingNumber"]', data.routingNumber);
 }
 
 function completeContactInfo(client, data) {
   client
-      .fillAddress('root_veteranAddress', data.veteranAddress)
-      .fill('input[name="root_email"]', data.veteranAddress.email)
-      .fill('input[name="root_altEmail"]', data.veteranAddress.altEmail)
-      .fill('input[name="root_dayPhone"]', data.veteranAddress.dayPhone)
-      .fill('input[name="root_nightPhone"]', data.veteranAddress.nightPhone)
-      .fill('input[name="root_mobilePhone"]', data.veteranAddress.mobilePhone);
+      .fillAddress('root_veteranAddress', data)
+      .fill('input[name$="email"]', data.email)
+      .fill('input[name$="altEmail"]', data.altEmail)
+      .fill('input[name$="dayPhone"]', data.dayPhone)
+      .fill('input[name$="nightPhone"]', data.nightPhone)
+      .fill('input[name$="mobilePhone"]', data.mobilePhone);
 }
 
 function initApplicationSubmitMock() {
