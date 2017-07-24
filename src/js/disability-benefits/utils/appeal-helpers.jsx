@@ -131,7 +131,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         description: <div>
           <p>The Veterans Benefits Administration (VBA) RO has mailed you the SOC for your appeal. Included with your SOC is the Form 9, which you can use to ask for your appeal to continue.</p>
           <p>
-            To continue your appeal, you need to complete and send back your Form 9 by `${moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}`. If you don’t send back the Form 9 in time, your appeal will be closed.
+            To continue your appeal, you need to complete and send back your Form 9 by {moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}. If you don’t send back the Form 9 in time, your appeal will be closed.
           </p>
         </div>,
       },
