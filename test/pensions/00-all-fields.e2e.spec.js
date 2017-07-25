@@ -286,8 +286,20 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Additional Information page
     // direct deposit
+    client.waitForElementVisible('label[for="root_view:noDirectDeposit"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeDirectDepositInfo(client, testData.data.bankAccount);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/direct-deposit');
 
     // contact information
+    client.waitForElementVisible('label[for="root_veteranAddress_country"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeContactInfo(client, testData.data.veteranAddress);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
 
     // Document Upload page
     client.end();

@@ -306,14 +306,14 @@
       "date": "2017-05-05",
       "paidTo": "vendor"
     }],
-   "spouseNetWorth": {
+    "spouseNetWorth": {
       "bank": 34,
       "interestBank": 23,
       "ira": 23,
       "stocks": 23,
       "realProperty": 23,
       "additionalSources": [{ "name": "additional source", "amount": 23 }] 
-   },
+    },
     "spouseMonthlyIncome": {
       "socialSecurity": 40,
       "civilService": 40,
@@ -334,6 +334,24 @@
       "purpose": "to cover expense",
       "date": "2017-05-05",
       "paidTo": "vendor"
-    }]
+    }],
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "Best Bank",
+      "accountNumber": 123123123,
+      "routingNumber": 123123123
+    },
+    "veteranAddress": {
+      "street": "123 8th st",
+      "city": "Hadley",
+      "country": "USA",
+      "state": "ME",
+      "postalCode": "01050",
+      "email": "test@example.com",
+      "altEmail": "test2@example.com",
+      "dayPhone": 1231231231,
+      "nightPhone": 1231231231,
+      "mobilePhone": 1231231231
+    }
   }
 }

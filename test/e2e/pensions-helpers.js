@@ -215,6 +215,24 @@ function completeOtherExpensesInfo(client, data, prefix = 'other') {
       .fill('input[name$="paidTo"]', data.paidTo);
 }
 
+function completeDirectDepositInfo(client, data) {
+  client
+      .selectRadio('root_bankAccount_accountType', data.accountType)
+      .fill('input[name$="bankName"]', data.bankName)
+      .fill('input[name$="accountNumber"]', data.accountNumber)
+      .fill('input[name$="routingNumber"]', data.routingNumber);
+}
+
+function completeContactInfo(client, data) {
+  client
+      .fillAddress('root_veteranAddress', data)
+      .fill('input[name$="email"]', data.email)
+      .fill('input[name$="altEmail"]', data.altEmail)
+      .fill('input[name$="dayPhone"]', data.dayPhone)
+      .fill('input[name$="nightPhone"]', data.nightPhone)
+      .fill('input[name$="mobilePhone"]', data.mobilePhone);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -250,6 +268,8 @@ module.exports = {
   completeMonthlyIncomeInfo,
   completeExpectedIncomeInfo,
   completeOtherExpensesInfo,
+  completeDirectDepositInfo,
+  completeContactInfo,
   initApplicationSubmitMock
 };
 
