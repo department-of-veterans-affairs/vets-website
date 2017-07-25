@@ -35,12 +35,12 @@ class FacilityInfoBlock extends Component {
           <h5>{name}</h5>
         </Link>
         <p>
+          <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
+        </p>
+        <p>
           <FacilityAddress facility={facility}/>
         </p>
         {this.renderDistance()}
-        <p>
-          <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
-        </p>
       </div>
     );
   }
