@@ -44,7 +44,7 @@ class ConfirmationPage extends React.Component {
     }
 
     return (
-      <div className="edu-benefits-submit-success">
+      <div className="benefit-submit-success">
         <h3 className="pensions-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>

@@ -44,7 +44,7 @@ class ConfirmationPage extends React.Component {
     const { deathCertificate, transportationReceipts } = form.data;
 
     return (
-      <div className="edu-benefits-submit-success">
+      <div className="benefit-submit-success">
         <h3 className="burial-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>

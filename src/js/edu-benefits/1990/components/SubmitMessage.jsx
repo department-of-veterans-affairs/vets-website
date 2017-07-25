@@ -42,7 +42,7 @@ export default class SubmitMessage extends React.Component {
       </div>);
     }
     return (
-      <div className="edu-benefits-submit-success">
+      <div className="benefit-submit-success">
         <h3 className="edu-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
