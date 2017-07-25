@@ -18,6 +18,8 @@ import {
   isMarried,
   applicantDescription,
   otherExpensesWarning,
+  uploadMessage,
+  dependentsMinItem,
   wartimeWarning,
   servedDuringWartime,
   disabilityDocs,
@@ -39,6 +41,7 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -512,6 +515,9 @@ const formConfig = {
                 viewField: DisabilityField,
                 reviewTitle: 'Disability history',
                 itemName: 'Disability'
+              },
+              'ui:errorMessages': {
+                minItems: 'Please add at least one disability.'
               },
               items: {
                 name: {
@@ -988,6 +994,9 @@ const formConfig = {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
               },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
+              },
               items: {
                 fullName: fullNameUI,
                 childDateOfBirth: currentOrPastDateUI('Date of birth')
@@ -1202,6 +1211,7 @@ const formConfig = {
     },
     financialDisclosure: {
       title: 'Financial Disclosure',
+      reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
@@ -1530,7 +1540,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+          path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',

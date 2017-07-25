@@ -27,7 +27,9 @@ export function transform(formConfig, form) {
   return JSON.stringify({
     pensionClaim: {
       form: formData
-    }
+    },
+    // can't use toISOString because we need the offset
+    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }
 
@@ -211,4 +213,8 @@ export const dependentWarning = (
       You don't qualify for the dependent credit because you claimed that your child isn't in school and isn't disabled.
     </div>
   </div>
+);
+
+export const dependentsMinItem = (
+  <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
 );

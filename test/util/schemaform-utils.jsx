@@ -43,13 +43,21 @@ export class DefinitionTester extends React.Component {
   handleChange = (data) => {
     const {
       schema,
-      uiSchema
+      uiSchema,
+      formData
     } = this.state;
+    const { pagePerItemIndex, arrayPath } = this.props;
+
+    let fullData = data;
+
+    if (arrayPath) {
+      fullData = _.set([arrayPath, pagePerItemIndex], data, formData);
+    }
 
     const {
       data: newData,
       schema: newSchema
-    } = updateSchemaAndData(schema, uiSchema, data);
+    } = updateSchemaAndData(schema, uiSchema, fullData);
 
     this.setState({
       formData: newData,
@@ -58,7 +66,14 @@ export class DefinitionTester extends React.Component {
     });
   }
   render() {
-    const { schema, uiSchema, formData } = this.state;
+    let { schema, uiSchema, formData } = this.state;
+    const { pagePerItemIndex, arrayPath } = this.props;
+
+    if (arrayPath) {
+      schema = schema.properties[arrayPath].items[pagePerItemIndex];
+      uiSchema = uiSchema[arrayPath].items;
+      formData = formData ? formData[arrayPath][pagePerItemIndex] : formData;
+    }
 
     return (
       <SchemaForm

@@ -96,6 +96,9 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
 
     // TODO: Test file upload
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
 
@@ -120,6 +123,4 @@ const runTest = E2eHelpers.createE2eTest(
   }
 );
 
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = runTest;
-}
+module.exports = runTest;
