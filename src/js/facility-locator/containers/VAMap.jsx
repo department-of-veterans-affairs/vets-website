@@ -191,13 +191,11 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
-    if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-      this.props.searchWithAddress(currentQuery);
-    }
+    this.props.searchWithAddress(currentQuery);
   }
 
   handleBoundsChanged = () => {

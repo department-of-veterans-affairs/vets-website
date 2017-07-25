@@ -76,6 +76,12 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
 }
 
 export function searchWithAddress(query) {
+  // Empty search string will result in error from Mapbox,
+  // but results list still needs to respond to users with no facilities found.
+  if (!query.searchString) {
+    return { type: 'SEARCH_FAILED' };
+  }
+
   return dispatch => {
     dispatch({
       type: 'SEARCH_STARTED',
