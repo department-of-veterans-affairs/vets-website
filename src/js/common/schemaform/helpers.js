@@ -509,3 +509,19 @@ export function getPageKeys(pages, formData) {
     return pageKey;
   });
 }
+
+/**
+ * getActiveChapters returns the list of chapter keys with active pages
+ *
+ * @param formConfig {Object} The form config object
+ * @param formData {Object} The current form data
+ * @returns {Array<string>} The list of chapter key strings for active chapters
+ */
+export function getActiveChapters(formConfig, formData) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const eligiblePageList = getActivePages(pageList, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
+}
