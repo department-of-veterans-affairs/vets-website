@@ -65,7 +65,7 @@ class AppealStatusPage extends React.Component {
       return (
         <div>
           <p>
-            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 532 days for VBA to complete the necessary action.
+            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 18 months for VBA to complete the necessary action.
           </p>
         </div>
       );

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -16,7 +17,11 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning
+  otherExpensesWarning,
+  uploadMessage,
+  dependentsMinItem,
+  wartimeWarning,
+  servedDuringWartime
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -27,6 +32,7 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -245,7 +251,32 @@ const formConfig = {
                   'Date entered service must be before date left service'
                 )
               }
-            }
+            },
+            'view:wartimeWarning': (() => {
+              const hideWartimeWarning = createSelector(
+                form => form.servicePeriods,
+                (periods) => {
+                  const completePeriods = (periods || []).filter(period => {
+                    return period.activeServiceDateRange &&
+                      isFullDate(period.activeServiceDateRange.to) &&
+                      isFullDate(period.activeServiceDateRange.from);
+                  });
+                  if (!completePeriods.length) {
+                    return true;
+                  }
+                  return completePeriods.some(period => {
+                    return servedDuringWartime(period.activeServiceDateRange);
+                  });
+                }
+              );
+
+              return {
+                'ui:description': wartimeWarning,
+                'ui:options': {
+                  hideIf: hideWartimeWarning
+                }
+              };
+            })()
           },
           schema: {
             type: 'object',
@@ -265,6 +296,10 @@ const formConfig = {
                     })
                   }
                 }
+              },
+              'view:wartimeWarning': {
+                type: 'object',
+                properties: {}
               }
             }
           }
@@ -293,10 +328,8 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   return (periods || []).every(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
                     return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !isFullDate(period.activeServiceDateRange.to) ||
                       !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
                   });
                 }
@@ -439,6 +472,9 @@ const formConfig = {
                 viewField: DisabilityField,
                 reviewTitle: 'Disability history',
                 itemName: 'Disability'
+              },
+              'ui:errorMessages': {
+                minItems: 'Please add at least one disability.'
               },
               items: {
                 name: {
@@ -901,6 +937,9 @@ const formConfig = {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
               },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
+              },
               items: {
                 fullName: fullNameUI,
                 childDateOfBirth: currentOrPastDateUI('Date of birth')
@@ -1084,6 +1123,7 @@ const formConfig = {
     },
     financialDisclosure: {
       title: 'Financial Disclosure',
+      reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
@@ -1412,7 +1452,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+          path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
@@ -1503,12 +1543,19 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim')
+            files: fileUploadUI('Please upload any documentation that you need to support your claim'),
+            'view:uploadMessage': {
+              'ui:description': uploadMessage
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              'view:uploadMessage': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

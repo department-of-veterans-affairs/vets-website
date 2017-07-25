@@ -1,14 +1,16 @@
 import _ from 'lodash/fp';
 import moment from 'moment';
+import { createSelector } from 'reselect';
 
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, transportationWarning, burialDateWarning, transform } from '../helpers';
+import { fileHelp, transportationWarning, serviceRecordNotification, serviceRecordWarning, burialDateWarning, transform } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -61,6 +63,11 @@ const {
   files,
   dateRange
 } = fullSchemaBurials.definitions;
+
+// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
+function isEligibleNonService(veteranBurialDate) {
+  return moment().startOf('day').subtract(2, 'years').isBefore(veteranBurialDate);
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -137,13 +144,12 @@ const formConfig = {
       }
     },
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Deceased Veteran Information',
       pages: {
         veteranInformation: {
           title: 'Deceased Veteran information',
           path: 'veteran-information',
           uiSchema: {
-            'ui:title': 'Deceased Veteran information',
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: _.assign(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
@@ -188,12 +194,12 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => {
                   // If they haven't entered a complete year, don't jump the gun and show the warning
-                  if (formData.burialDate && !/\d{4}-\d{1,2}-\d{1,2}/.test(formData.burialDate)) {
+                  if (formData.burialDate && !isFullDate(formData.burialDate)) {
                     return true;
                   }
 
                   // Show the warning if the burial date was more than 2 years ago
-                  return moment().startOf('day').subtract(2, 'years').isBefore(formData.burialDate);
+                  return isEligibleNonService(formData.burialDate);
                 }
               }
             },
@@ -238,11 +244,18 @@ const formConfig = {
           title: 'Service Periods',
           path: 'military-history/service-periods',
           uiSchema: {
+            'view:serviceRecordNotification': {
+              'ui:description': serviceRecordNotification
+            },
             toursOfDuty: toursOfDutyUI
           },
           schema: {
             type: 'object',
             properties: {
+              'view:serviceRecordNotification': {
+                type: 'object',
+                properties: {}
+              },
               toursOfDuty
             }
           }
@@ -353,7 +366,31 @@ const formConfig = {
               'ui:title': 'Type of burial allowance requested',
               'ui:widget': 'radio',
               'ui:options': {
-                labels: allowanceLabels
+                labels: allowanceLabels,
+                updateSchema: (() => {
+                  const burialAllowanceTypes = burialAllowanceRequested.enum;
+                  const filterAllowanceType = createSelector(
+                    _.get('locationOfDeath.location'),
+                    (locationData) => {
+                      let allowanceTypes = burialAllowanceTypes;
+                      if (locationData !== 'vaMedicalCenter' && locationData !== 'nursingHome') {
+                        allowanceTypes = allowanceTypes.filter(type => type !== 'vaMC');
+                      }
+                      return { 'enum': allowanceTypes };
+                    });
+                  return (form) => filterAllowanceType(form);
+                })()
+              }
+            },
+            'view:nonServiceWarning': {
+              'ui:description': burialDateWarning,
+              'ui:options': {
+                hideIf: (formData) => {
+                  if (!formData.burialAllowanceRequested || isEligibleNonService(formData.burialDate)) {
+                    return true;
+                  }
+                  return !(formData.burialAllowanceRequested === 'nonService');
+                }
               }
             },
             burialCost: {
@@ -386,6 +423,7 @@ const formConfig = {
             required: ['burialAllowanceRequested'],
             properties: {
               burialAllowanceRequested,
+              'view:nonServiceWarning': { type: 'object', properties: {} },
               burialCost,
               previouslyReceivedAllowance,
               benefitsUnclaimedRemains,
@@ -482,8 +520,6 @@ const formConfig = {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
-          depends: form =>
-            form.burialAllowanceRequested === 'service' || _.get('view:claimedBenefits.transportation', form) === true,
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
@@ -492,12 +528,17 @@ const formConfig = {
             }), {
               'ui:required': form => form.burialAllowanceRequested === 'service',
             }),
-            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains', {
-              addAnotherLabel: 'Add Another Document',
-              hideIf: form => _.get('view:claimedBenefits.transportation', form) !== true
+            transportationReceipts: _.assign(fileUploadUI('Documentation for transportation of the Veteran’s remains or other supporting evidence', {
+              addAnotherLabel: 'Add Another Document'
             }), {
               'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
-            })
+            }),
+            'view:serviceRecordWarning': {
+              'ui:description': serviceRecordWarning,
+              'ui:options': {
+                hideIf: form => form.toursOfDuty
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -508,7 +549,11 @@ const formConfig = {
               }),
               transportationReceipts: _.assign(files, {
                 minItems: 1
-              })
+              }),
+              'view:serviceRecordWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

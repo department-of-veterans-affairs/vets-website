@@ -8,8 +8,7 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child information page', () => {
-  const schema = formConfig.chapters.householdInformation.pages.childrenInformation.schema.properties.dependents.items;
-  const uiSchema = formConfig.chapters.householdInformation.pages.childrenInformation.uiSchema.dependents.items;
+  const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenInformation;
   let dependentData = {
     'view:hasDependents': true,
     dependents: [
@@ -25,6 +24,8 @@ describe('Child information page', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={dependentData}
@@ -39,6 +40,8 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           onSubmit={onSubmit}
@@ -51,16 +54,16 @@ describe('Child information page', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  // Skipped because it's an array page with a ui:required
-  it.skip('should not require ssn if noSSN is checked', () => {
+  it('should not require ssn if noSSN is checked', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           onSubmit={onSubmit}
           data={dependentData}
-          pagePerItemIndex={0}
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
@@ -78,6 +81,8 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={dependentData}
@@ -96,14 +101,15 @@ describe('Child information page', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  // Skipping these until we DefinitionTester deals with showPagePerItem pages
-  it.skip('should ask if the child is in school', () => {
+  it('should ask if the child is in school', () => {
     const data = Object.assign({}, dependentData);
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={data}
@@ -115,14 +121,15 @@ describe('Child information page', () => {
     expect(formDOM.querySelector('#root_attendingCollegeYes')).to.not.be.null;
   });
 
-  // Could be in the above test...
-  it.skip('should ask if the child is disabled', () => {
+  it('should ask if the child is disabled', () => {
     const data = Object.assign({}, dependentData);
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={data}

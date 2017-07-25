@@ -53,52 +53,81 @@ export function submitForm(formConfig, form) {
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
+  const captureError = (error, clientError) => {
+    Raven.captureException(error, {
+      extra: {
+        clientError,
+        statusText: error.statusText
+      }
+    });
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+    });
+  };
+
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel'
-      },
-      body
-    };
-
-    const userToken = sessionStorage.userToken;
-    if (userToken) {
-      fetchOptions.headers.Authorization = `Token token=${userToken}`;
-    }
-
-    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, fetchOptions)
-    .then(res => {
-      if (res.ok) {
-        window.dataLayer.push({
-          event: `${formConfig.trackingPrefix}-submission-successful`,
-        });
-        return res.json();
-      }
-
-      return Promise.reject(new Error(`vets_server_error: ${res.statusText}`));
-    })
-    .then(resp => dispatch(setSubmitted(resp)))
-    .catch(error => {
-      // overly cautious
-      const errorMessage = _.get('message', error);
-      const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-      Raven.captureException(error, {
-        extra: {
-          clientError
+    const promise = new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+      req.open('POST', `${environment.API_URL}${formConfig.submitUrl}`);
+      req.addEventListener('load', () => {
+        if (req.status >= 200 && req.status < 300) {
+          window.dataLayer.push({
+            event: `${formConfig.trackingPrefix}-submission-successful`,
+          });
+          // got this from the fetch polyfill, keeping it to be safe
+          const responseBody = 'response' in req ? req.response : req.responseText;
+          const results = JSON.parse(responseBody);
+          resolve(results);
+        } else {
+          const error = new Error(`vets_server_error: ${req.statusText}`);
+          error.statusText = req.statusText;
+          reject(error);
         }
       });
-      window.dataLayer.push({
-        event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+
+      req.addEventListener('error', () => {
+        const error = new Error('vets_client_error: Network request failed');
+        error.statusText = req.statusText;
+        reject(error);
       });
-      dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+
+      req.addEventListener('abort', () => {
+        const error = new Error('vets_client_error: Request aborted');
+        error.statusText = req.statusText;
+        reject(error);
+      });
+
+      req.addEventListener('timeout', () => {
+        const error = new Error('vets_client_error: Request timed out');
+        error.statusText = req.statusText;
+        reject(error);
+      });
+
+      req.setRequestHeader('X-Key-Inflection', 'camel');
+      req.setRequestHeader('Content-Type', 'application/json');
+
+      const userToken = _.get('sessionStorage.userToken', window);
+      if (userToken) {
+        req.setRequestHeader('Authorization', `Token token=${userToken}`);
+      }
+
+      req.send(body);
     });
+
+    return promise
+      .then(resp => dispatch(setSubmitted(resp)))
+      .catch(error => {
+        // overly cautious
+        const errorMessage = _.get('message', error);
+        const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
+        captureError(error, clientError);
+        dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+      });
   };
 }
 
