@@ -79,19 +79,20 @@ export function fileHelp({ formData }) {
 
   const hasDisabledChild = (formData.dependents || []).some(child => child.disabled);
 
+  const hasBullets = formData['view:aidAttendance'] || hasSchoolChild || hasDisabledChild;
+
   return (
     <div>
-      <p>Please upload all documentation to support your claim. This includes:</p>
+      <p>Please upload any documentation to support your claim. {hasBullets && 'This includes:'}</p>
       <ul>
-        <li>All, if any, relevant, private medical treatment records.</li>
         {formData['view:aidAttendence'] === true &&
-          <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)</li>}
+          <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>}
         {formData['view:aidAttendence'] === true &&
-          <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779)</li>}
+          <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>}
         {hasSchoolChild &&
-          <li>A completed Request for Approval of School Attendance (VA Form 21-674)</li>}
+          <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
         {hasDisabledChild &&
-          <li>All private medical records for your child’s disability</li>}
+          <li>Private medical records documenting your child's disability before the age of 18</li>}
       </ul>
       <p>File types you can upload: PDF, JPG, PNG</p>
     </div>
@@ -165,13 +166,13 @@ export const aidAttendenceEvidence = (
 );
 
 export const disabilityDocs = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-warning no-background-image">
     You'll need to provide all private medical records for your child's disability.
   </div>
 );
 
 export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-warning no-background-image">
     Since your child is between 18 and 23 years old, you'll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
   </div>
 );
@@ -209,8 +210,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h5 className="usa-alert-heading">You will likely not qualify for the dependent credit for your pension application</h5>
-      You don't qualify for the dependent credit because you claimed that your child isn't in school and isn't disabled.
+      Your child won't qualify for the dependent credit unless they are in school or disabled.
     </div>
   </div>
 );

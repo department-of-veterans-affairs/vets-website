@@ -23,7 +23,6 @@ import {
   wartimeWarning,
   servedDuringWartime,
   disabilityDocs,
-  uploadMessage,
   schoolAttendanceWarning,
   marriageWarning,
   fdcWarning,
