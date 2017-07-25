@@ -104,8 +104,6 @@ It depends. We may pay for you to receive care through the VA community care net
 
 VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you. 
 
-[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp). <br />
+[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp). <br>
 [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/). 
-
-<br>
 

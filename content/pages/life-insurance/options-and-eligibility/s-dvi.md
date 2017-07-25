@@ -118,5 +118,3 @@ To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Gran
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
 
-<br>
-
