@@ -1,4 +1,5 @@
 const mock = require('./mock-helpers');
+const Timeouts = require('../e2e/timeouts');
 
 function completeApplicantInformation(client, data) {
   client
@@ -178,6 +179,7 @@ function completeNetWorthInfo(client, data) {
       .fill('input[name$="stocks"]', data.stocks)
       .fill('input[name$="realProperty"]', data.realProperty)
       .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
       .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
       .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');
@@ -192,6 +194,7 @@ function completeMonthlyIncomeInfo(client, data) {
       .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
       .fill('input[name$="ssi"]', data.ssi)
       .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
       .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
       .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');
@@ -202,6 +205,7 @@ function completeExpectedIncomeInfo(client, data) {
       .fill('input[name$="salary"]', data.salary)
       .fill('input[name$="interest"]', data.interest)
       .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
       .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
       .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
       .click('.va-growable-expanded .float-left');

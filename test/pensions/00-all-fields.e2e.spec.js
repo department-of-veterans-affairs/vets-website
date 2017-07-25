@@ -159,7 +159,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeNetWorthInfo(client, testData.data.netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/net-worth');
 
     // monthly income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
@@ -167,7 +167,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeMonthlyIncomeInfo(client, testData.data.monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthly-income');
 
     // expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
@@ -175,7 +175,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeExpectedIncomeInfo(client, testData.data.expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expected-income');
 
     // other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
@@ -184,7 +184,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeOtherExpensesInfo(client, testData.data.otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/other-expenses');
 
     // spouse net worth info
     client.waitForElementVisible('label[for="root_spouseNetWorth_bank"]', Timeouts.normal);
@@ -192,7 +192,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeNetWorthInfo(client, testData.data.spouseNetWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/spouse');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/net-worth/spouse');
 
     // spouse monthly income info
     client.waitForElementVisible('label[for="root_spouseMonthlyIncome_socialSecurity"]', Timeouts.normal);
@@ -200,7 +200,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeMonthlyIncomeInfo(client, testData.data.spouseMonthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/spouse');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthly-income/spouse');
 
     // spouse expected income info
     client.waitForElementVisible('label[for="root_spouseExpectedIncome_salary"]', Timeouts.normal);
@@ -208,7 +208,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeExpectedIncomeInfo(client, testData.data.spouseExpectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/spouse');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expected-income/spouse');
 
     // spouse other expenses info
     client.waitForElementVisible('label[for="root_view:spouseHasOtherExpensesYes"]', Timeouts.normal);
@@ -217,7 +217,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeOtherExpensesInfo(client, testData.data.spouseOtherExpenses[0], 'spouseOther');
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/spouse');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/other-expenses/spouse');
 
     // first dependent net worth info
     client.waitForElementVisible('label[for="root_netWorth_bank"]', Timeouts.normal);
@@ -225,7 +225,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeNetWorthInfo(client, testData.data.dependents[0].netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/dependents/0');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/net-worth/dependents/0');
 
     // first dependent income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
@@ -233,7 +233,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeMonthlyIncomeInfo(client, testData.data.dependents[0].monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/dependents/0');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthly-income/dependents/0');
 
     // first dependent expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
@@ -241,7 +241,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeExpectedIncomeInfo(client, testData.data.dependents[0].expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/dependents/0');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expected-income/dependents/0');
 
     // first dependent other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
@@ -250,7 +250,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeOtherExpensesInfo(client, testData.data.dependents[0].otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/dependents/0');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/other-expenses/dependents/0');
 
     // second dependent net worth info
     client.waitForElementVisible('label[for="root_netWorth_bank"]', Timeouts.normal);
@@ -258,7 +258,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeNetWorthInfo(client, testData.data.dependents[1].netWorth);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/netWorth/dependents/1');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/net-worth/dependents/1');
 
     // second dependent income info
     client.waitForElementVisible('label[for="root_monthlyIncome_socialSecurity"]', Timeouts.normal);
@@ -266,7 +266,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeMonthlyIncomeInfo(client, testData.data.dependents[1].monthlyIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthlyIncome/dependents/1');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/monthly-income/dependents/1');
 
     // second dependent expected income info
     client.waitForElementVisible('label[for="root_expectedIncome_salary"]', Timeouts.normal);
@@ -274,7 +274,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeExpectedIncomeInfo(client, testData.data.dependents[1].expectedIncome);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expectedIncome/dependents/1');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/expected-income/dependents/1');
 
     // second dependent other expenses info
     client.waitForElementVisible('label[for="root_view:hasOtherExpensesYes"]', Timeouts.normal);
@@ -283,7 +283,7 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.completeOtherExpensesInfo(client, testData.data.dependents[1].otherExpenses[0]);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/otherExpenses/dependents/1');
+    E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/other-expenses/dependents/1');
 
     // Additional Information page
     // direct deposit
