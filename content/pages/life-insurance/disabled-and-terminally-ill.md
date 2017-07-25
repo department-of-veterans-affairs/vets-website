@@ -116,12 +116,11 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
 
 - If you're a Veteran, have your doctor fill out their part of the form, then send the completed form to:
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>The Prudential Insurance Company of America</dd>
-  <dd>PO Box 70173</dd>
-  <dd>Philadelphia, PA 19176-0173</dd>
-</dl>
+<p class="va-address-block">
+  The Prudential Insurance Company of America<br>
+  PO Box 70173<br>
+  Philadelphia, PA 19176-0173<br>
+</p>
 
 Or, fax the form to 877-832-4943.
 
