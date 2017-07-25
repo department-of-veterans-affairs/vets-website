@@ -12,50 +12,50 @@ very secret.
 
 ## I want to...
 
-| I want to... | Then you should... |
-| ------------ | ------------------ |
-| clone the site and install dependencies | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
-| deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
+| I want to...                             | Then you should...                       |
+| ---------------------------------------- | ---------------------------------------- |
+| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
-| add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
-| build the site with dev features enabled. | `npm run build` |
+| add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
+| build the site with dev features enabled. | `npm run build`                          |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
-| reset local environment (clean out node modules and runs npm install) | `npm run reset:env` |
+| reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
-| run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
-| run all tests | `npm run test` |
-| run only unit tests | `npm run test:unit` |
+| run the site so that devices on your local network can access it | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| run all tests                            | `npm run test`                           |
+| run only unit tests                      | `npm run test:unit`                      |
 | run only unit tests for a subset of tests | `BABEL_ENV=test ./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` <br> or <br> `BABEL_ENV=test ./node_modules/.bin/mocha --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
-| run only e2e tests | `npm run test:e2e` |
+| run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
-| run all linters | `npm run lint` |
-| run only javascript linter | `npm run lint:js` |
-| run only sass linter | `npm run lint:sass` |
-| run automated accessibility tests | `npm run build && npm run test:accessibility` |
-| test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
-| add new npm modules | `yarn add my-module --dev`. There are no non-dev modules here. |
-| get the latest json schema | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
-| check test coverage | `npm run test:coverage` |
+| run all linters                          | `npm run lint`                           |
+| run only javascript linter               | `npm run lint:js`                        |
+| run only sass linter                     | `npm run lint:sass`                      |
+| run automated accessibility tests        | `npm run build && npm run test:accessibility` |
+| test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
+| add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
+| get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
+| check test coverage                      | `npm run test:coverage`                  |
 
 ## Directory structure
 
-| Directory | Description |
-| ----------| ------------|
-| assets | Static assets such as images or fonts. These may get some optimization-style processing done on them, but in general files here are expected to show up directly in the output.  |
-| build | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
-| config | Contains config files for the site. |
-| content/pages | Static content for the site. If a file is added here, it will appear on the website by default. |
-| content/layouts | Collection of layouts that can be used by content/pages. Must be html. No Markdown. |
+| Directory        | Description                              |
+| ---------------- | ---------------------------------------- |
+| assets           | Static assets such as images or fonts. These may get some optimization-style processing done on them, but in general files here are expected to show up directly in the output. |
+| build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
+| config           | Contains config files for the site.      |
+| content/pages    | Static content for the site. If a file is added here, it will appear on the website by default. |
+| content/layouts  | Collection of layouts that can be used by content/pages. Must be html. No Markdown. |
 | content/includes | Collection of HTML fragments shared between layouts. Must be html. No Markdown. |
-| logs | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
-| node\_modules | install location of npm modules. Managed by npm. |
-| old | Directories from the original Jekyll site that still need to be examined for possibly useful content before being deleted. |
-| script | Scripts for building the repostiory. The most commonly used script is `build.js` which runs Metalsmith |
-| src | Any source files that require compilation. This is all our Javascript and Sass currently. |
-| test | Tests for files inside `src`.  The directory structure of `test` should mirror that of `src`. |
+| logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
+| node\_modules    | install location of npm modules. Managed by npm. |
+| old              | Directories from the original Jekyll site that still need to be examined for possibly useful content before being deleted. |
+| script           | Scripts for building the repostiory. The most commonly used script is `build.js` which runs Metalsmith |
+| src              | Any source files that require compilation. This is all our Javascript and Sass currently. |
+| test             | Tests for files inside `src`.  The directory structure of `test` should mirror that of `src`. |
 
 ### Where are the Javascript and Sass `vendor` or `libs` directories?
 
@@ -67,39 +67,48 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-The requirements for running this application are Node.js 4.4.7, npm 3.8.9, and yarn 0.27.5
+The requirements for running this application are:
 
-Node.js's version is managed using nvm. Please follow the installation instructions on `nvm`
-to ensure you are using the same version of node as others.
-You should use Node Version Manager (nvm) to manage the versions of node.js on your local machine.
-To install please visit: https://github.com/creationix/nvm
-_If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
+- Node.js 4.4.7
+- NPM 3.8.9
+- Yarn 0.27.5
 
-Once you have nvm installed you should now install node.js version 6.10.3 by running:
+We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with everyone else will reduce errors. To install please visit: https://github.com/creationix/nvm
+
+> If you are on a mac and use [homebrew](http://brew.sh/), you can install `nvm` by typing in the Terminal:
+> ```bash
+> brew update && brew install nvm		
+> ```
+> _There will be some further instructions in the success message after install "finishes"._ 
+
+Once you have `nvm` installed, you should install Node.js:
 
 ```bash
 nvm install 6.10.3
 ```
+_This will also install `npm`_
 
-Once you have node.js 6.10.3 you should set as the default version for nvm, you do that by running: 
+Next, set the default version for `node`: 
 
 ```bash
 nvm alias default 6.10.3
 ```
 
-And Yarn by running:
+Next install Yarn:
 ```bash
-npm i -g yarn@0.21.3
+npm i -g yarn@0.27.5
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 6.10.3
-yarn --version // 0.21.3
+yarn --version // 0.27.5
 ```
 
+Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
 
 ## How it all works
+
 ### Build
 The build is abstracted by the command `npm run build` which really just exectues
 `scripts/build.js` --  a simple Javscript program that configures Metalscript and Webpack
@@ -171,7 +180,7 @@ If a 404 is incorrectly handled, that's a configuration problem with Webpack Dev
 Similarly, everything in `src/\*` is dependent on the webpack configuration.
 
 Quirks:
-  * metalsmith-watch cannot do broken link detection during incrementals.
+* metalsmith-watch cannot do broken link detection during incrementals.
   * Webpack Dev Server uses an in-memory filesystem so nothing shows up in `build/${}/generated`
   * Visit `http://localhost:3001/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
 
@@ -185,8 +194,7 @@ server would allow them to execute during incremental builds as well.
 All unittests re under `test/\*` and are named with the suffix `.unit.spec.js`.
 
 Unittests are done via `mocha` with the `chai` assertion library run directly via
-the mocha test runner without going through karma or PhantomJS. This means they
-run very fast.
+the mocha test runner without going through karma or PhantomJS. This means they run very fast.
 
 Unfortunately, it also means there is no true `window` or `document` provided which
 breaks `ReactTestUtils`'s simulate calls. To rememdy, a fake `window` and
@@ -281,13 +289,13 @@ in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
 example implementation.
 
 ### Supported Browsers
-| Browser | Minimum version  | Note |
-|---------|------------------| ---- | 
-| Internet Explorer | 11 |
-| Microsoft Edge    | 13 |
-| Safari / iOS Safari |  9 |
-| Chrome / Android Web view | 44 | _Latest version with >0.5% of traffic_ |
-| Firefox           | 52 | _Latest version with >0.5% of traffic_ |
+| Browser                   | Minimum version | Note                                   |
+| ------------------------- | --------------- | -------------------------------------- |
+| Internet Explorer         | 11              |                                        |
+| Microsoft Edge            | 13              |                                        |
+| Safari / iOS Safari       | 9               |                                        |
+| Chrome / Android Web view | 44              | _Latest version with >0.5% of traffic_ |
+| Firefox                   | 52              | _Latest version with >0.5% of traffic_ |
 
 ## More documentation
 
