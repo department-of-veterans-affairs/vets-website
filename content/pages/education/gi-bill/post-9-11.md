@@ -39,7 +39,7 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 
 
 ### Do I have Post-9/11 GI Bill benefits?
-You can check to see if you have Post-9/11 GI Bill benefits. [View and print your benefits summary](education/gi-bill/post-9-11/ch-33-benefit).
+You can check to see if you have Post-9/11 GI Bill benefits. [View and print your statement of benefits](education/gi-bill/post-9-11/ch-33-benefit).
 
 -------
 
