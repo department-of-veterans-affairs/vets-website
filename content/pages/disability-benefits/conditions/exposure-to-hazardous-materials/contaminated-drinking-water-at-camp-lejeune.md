@@ -89,12 +89,12 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
 - [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to:
 
-<dl class="va-address-block">
-<dt><b>Department of Veterans Affairs</b><dt>
-<dd>Financial Services Center
-<dd>PO Box 149200</dd>
-<dd>Austin, TX 78714-9200</dd>
-</dl>
+<p class="va-address-block">
+<b>Department of Veterans Affairs</b><br>
+Financial Services Center<br>
+PO Box 149200<br>
+Austin, TX 78714-9200<br>
+</p>
 
 When you apply, please provide:
 
