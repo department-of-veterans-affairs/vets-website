@@ -21,7 +21,7 @@ If you're an active duty Servicemember or Veteran, a member of the National Guar
 You may be able to get benefits through the Post-9/11 GI Bill if you've served on active duty for at least 90 days, whether continuous (all at once) or interrupted (for shorter periods over time), after September 10, 2001. 
 [Learn more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
-You can check to see if you have Post-9/11 GI Bill benefits. [View and print your benefits summary](/education/gi-bill/post-9-11/ch-33-benefit).
+You can check to see if you have Post-9/11 GI Bill benefits. [View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
 
 </div><div markdown="0"><br></div>
 
