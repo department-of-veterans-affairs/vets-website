@@ -147,7 +147,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Submit message
     client
-      .expect.element('.benefit-submit-success').to.be.visible;
+      .expect.element('.page-title').to.be.visible;
     client
       .axeCheck('.main')
       .end();

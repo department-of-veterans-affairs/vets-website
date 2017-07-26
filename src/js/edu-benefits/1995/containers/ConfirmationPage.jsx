@@ -52,7 +52,7 @@ class ConfirmationPage extends React.Component {
       : null;
 
     return (
-      <div className="benefit-submit-success">
+      <div>
         <h3 className="page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>

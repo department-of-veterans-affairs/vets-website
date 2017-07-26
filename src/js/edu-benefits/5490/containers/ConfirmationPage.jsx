@@ -44,7 +44,7 @@ class ConfirmationPage extends React.Component {
     const benefit = form.data.benefit;
 
     return (
-      <div className="benefit-submit-success">
+      <div>
         <h3 className="page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
