@@ -111,8 +111,8 @@ function getIdentifier(node) {
   const classes = node.getAttribute('class');
   if (classes) {
     // Make a dot-separated list of class names
-    const classList = classes.split(' ').reduce((c, carry) => `${carry}.${c}`, '');
-    return `${tagName}.${classList}`;
+    const classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
+    return `${tagName}${classList}`;
   }
 
   return tagName;
