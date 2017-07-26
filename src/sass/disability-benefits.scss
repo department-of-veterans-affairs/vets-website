@@ -394,6 +394,12 @@ a.claim-list-item {
   .event-description {
     margin-bottom: 1.5rem;
     margin-left: 3.25rem;
+
+    p {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 }
 
