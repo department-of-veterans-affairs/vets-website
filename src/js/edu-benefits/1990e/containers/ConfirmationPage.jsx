@@ -26,7 +26,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.page-title');
     scrollToTop();
   }
 
@@ -45,7 +45,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div className="benefit-submit-success">
-        <h3 className="edu-page-title">Claim received</h3>
+        <h3 className="page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           We may contact you for more information or documents.<br/>

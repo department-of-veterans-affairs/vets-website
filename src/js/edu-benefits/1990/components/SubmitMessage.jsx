@@ -11,7 +11,7 @@ export default class SubmitMessage extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.page-title');
   }
   handleClick(e) {
     e.preventDefault();
@@ -43,7 +43,7 @@ export default class SubmitMessage extends React.Component {
     }
     return (
       <div className="benefit-submit-success">
-        <h3 className="edu-page-title">Claim received</h3>
+        <h3 className="page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           VA may contact you for more information or documents.<br/>
