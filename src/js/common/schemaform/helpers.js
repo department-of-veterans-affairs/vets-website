@@ -59,7 +59,7 @@ export function createPageList(formConfig, formPages) {
       }
     ])
     .map(page => {
-      return _.set('path', `${formConfig.urlPrefix}${page.path}`, page);
+      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
     });
 }
 
