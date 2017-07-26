@@ -98,6 +98,44 @@ export function submitForm(form) {
   });
 }
 
+function getIdentifier(node) {
+  const tagName = node.tagName.toLowerCase();
+  if (node.id) {
+    return `${tagName}#${node.id}`;
+  }
+
+  if (node.name) {
+    return `${tagName}[name='${node.name}']`;
+  }
+
+  const classes = node.getAttribute('class');
+  if (classes) {
+    // Make a dot-separated list of class names
+    const classList = classes.split(' ').reduce((c, carry) => `${carry}.${c}`, '');
+    return `${tagName}.${classList}`;
+  }
+
+  return tagName;
+}
+
+const bar = '\u2551';
+const elbow = '\u2559';
+const tee = '\u255F';
+
+function printTree(node, level = 1, isLastChild = true, padding = '') {
+  const nextLevel = level + 1; // For tail call optimization...theoretically...
+  const lastPipe = isLastChild ? `${elbow} ` : `${tee} `;
+
+  // If there are more children, we should have a bar or a tee
+
+  console.log(`${padding}${lastPipe}${getIdentifier(node)}`); // eslint-disable-line no-console
+
+  // Recurse for each child
+  const newPadding = padding + (isLastChild ? '  ' : `${bar} `);
+  const children = Array.from(node.children);
+  children.forEach((child, index) => printTree(child, nextLevel, index === children.length - 1, newPadding));
+}
+
 export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
@@ -152,6 +190,10 @@ export function getFormDOM(form) {
   // TODO: Remove fillDate from unit-helpers and prefer this one
   formDOM.fillDate = function populateDate(partialId, dateString) {
     fillDate(this, partialId, dateString);
+  };
+
+  formDOM.printTree = function print() {
+    printTree(this);
   };
 
   return formDOM;
