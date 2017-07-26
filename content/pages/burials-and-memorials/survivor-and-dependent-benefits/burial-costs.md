@@ -42,7 +42,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 ### How do I get these benefits?
 
-- Fill out the Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+- Fill out an Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 - Attach a copy of the Veteran’s military discharge papers (DD214 or other separation documents).
 - Attach a copy of the Veteran’s death certificate.
 - To get paid back for transportation costs, attach receipts that show how much you paid.
