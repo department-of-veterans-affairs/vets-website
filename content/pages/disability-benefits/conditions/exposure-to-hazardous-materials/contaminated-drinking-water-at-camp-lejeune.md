@@ -7,7 +7,7 @@ template: detail-page
 
 <div class="va-introtext">
 
-If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and development of certain diseases later on. If you have qualifying service at Camp Lejeune and a current diagnosis of 1 of the conditions listed below, you may be able to get disability benefits.
+If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and development of certain diseases later on. If you have qualifying service at Camp Lejeune and a current diagnosis of one of the conditions listed below, you may be able to get disability benefits.
 
 </div>
 
@@ -20,7 +20,7 @@ If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCA
 You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
-- You have a diagnosis of 1 or more of these presumptive conditions:
+- You have a diagnosis of one or more of these presumptive conditions:
 
   - Adult leukemia
   - Aplastic anemia and other myelodysplastic syndromes
@@ -58,7 +58,7 @@ When you apply, you'll need to give us:
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
-- Evidence stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
+- Evidence stating that you have one or more of the 8 illnesses on the presumptive conditions list (see above)
 
 
 ### Are Veterans and their family members covered for health care?
@@ -87,7 +87,9 @@ You’ll need to apply for benefits:
 
 -	[Fill out the Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
 
-- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to:
+- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
+<br>
+Fax it to 512-460-5536, or mail it to:
 
 <dl class="va-address-block">
 <dt><b>Department of Veterans Affairs</b><dt>
@@ -102,7 +104,7 @@ When you apply, please provide:
 
 - Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
 
-- Medical records that show you have 1 of the 15 conditions listed above, **and**
+- Medical records that show you have one of the 15 conditions listed above, **and**
 
 - [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
 
