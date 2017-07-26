@@ -3,7 +3,7 @@ const Timeouts = require('../e2e/timeouts.js');
 const HcaHelpers = require('../e2e/hca-helpers.js');
 
 if (process.env.BUILDTYPE !== 'production') {
-  E2eHelpers.createE2eTest(
+  module.exports = E2eHelpers.createE2eTest(
     (client) => {
       const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
       HcaHelpers.initSaveInProgressMock(url, client);
