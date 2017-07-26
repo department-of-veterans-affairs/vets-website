@@ -7,7 +7,7 @@ display_title: Burial Allowance Application Process
 
 <div class="va-introtext">
 
-If you’re the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. You may also qualify for plot or burial allowances to help pay for the area of land used for the burial and other costs related to the burial. We may help with transportation costs as well. Find out how to get allowances. 
+If you’re the legally recognized spouse or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. We may also help with transportation costs. Find out how to get allowances. 
 
 </div>
 
@@ -26,7 +26,7 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 
 - Died as a result of a service-connected disability (a disability related to service), **or**
 - Been getting a VA pension or compensation when they died, **or**
-- Been qualified to get a VA pension or compensation, but chose not to, **or**
+- Chosen to get military retired pay instead of compensation, **or**
 - Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
@@ -42,8 +42,8 @@ You must file a claim for a non-service-connected burial allowance within 2 year
 ### What kind of benefits can I get?
 
 - An allowance for burial and funeral costs
-- An allowance for the plot or burial
-- An allowance for transporting the Veteran's remains 
+- An allowance for the plot or interment
+- An allowance for transporting the Veteran's remains for burial in a national cemetery
 
 <div class="feature" markdown="1">
 
@@ -84,7 +84,7 @@ If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
-| If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $747 for a plot |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $749 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot | 
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $300 burial allowance and $734 for a plot |
 
@@ -92,7 +92,7 @@ If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
-| If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $747 for a plot |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $749 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $745 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $734 burial allowance and $734 for a plot |
 
