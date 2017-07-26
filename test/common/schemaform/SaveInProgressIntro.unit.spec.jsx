@@ -32,6 +32,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
+    expect(tree.subTree('.usa-alert').text()).to.contain('Expires in');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');

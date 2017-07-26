@@ -3,7 +3,7 @@ const Timeouts = require('../e2e/timeouts.js');
 const HcaHelpers = require('../e2e/hca-helpers.js');
 const testData = require('./schema/maximal-test.json');
 
-module.exports = E2eHelpers.createE2eTest(
+E2eHelpers.createE2eTest(
   (client) => {
     HcaHelpers.initApplicationSubmitMock();
 
@@ -158,3 +158,4 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.end();
   });
+
