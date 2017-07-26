@@ -28,7 +28,7 @@ import {
   fdcWarning,
   noFDCWarning,
   expeditedProcessDescription,
-  aidAttendenceEvidence,
+  aidAttendanceEvidence,
   dependentWarning
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -244,21 +244,21 @@ const formConfig = {
           path: 'benefits/selection',
           title: 'Benefits Selection',
           uiSchema: {
-            'view:aidAttendence': {
+            'view:aidAttendance': {
               'ui:title': 'Are you also claiming Aid and Attendance or Housebound Benefits?',
               'ui:widget': 'yesNo'
             },
             'view:evidenceInfo': {
-              'ui:description': aidAttendenceEvidence,
+              'ui:description': aidAttendanceEvidence,
               'ui:options': {
-                expandUnder: 'view:aidAttendence'
+                expandUnder: 'view:aidAttendance'
               }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              'view:aidAttendence': {
+              'view:aidAttendance': {
                 type: 'boolean'
               },
               'view:evidenceInfo': {
@@ -1644,7 +1644,7 @@ const formConfig = {
         },
         expedited: {
           title: 'Expedited process',
-          path: 'fdc',
+          path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,
             noRapidProcessing: {

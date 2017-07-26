@@ -85,9 +85,9 @@ export function fileHelp({ formData }) {
     <div>
       <p>Please upload any documentation to support your claim. {hasBullets && 'This includes:'}</p>
       <ul>
-        {formData['view:aidAttendence'] === true &&
+        {formData['view:aidAttendance'] === true &&
           <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>}
-        {formData['view:aidAttendence'] === true &&
+        {formData['view:aidAttendance'] === true &&
           <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>}
         {hasSchoolChild &&
           <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
@@ -146,7 +146,7 @@ export const uploadMessage = (
   </div>
 );
 
-export const aidAttendenceEvidence = (
+export const aidAttendanceEvidence = (
   <div className="usa-alert usa-alert-info no-background-image">
     <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance</strong>, the evidence must show that you:
     <ul>
