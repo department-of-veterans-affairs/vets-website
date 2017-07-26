@@ -404,10 +404,10 @@ smith.use(collections({
     }
   },
   pensionApplication: {
-    pattern: 'pension/application/*.md',
+    pattern: 'pension/apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Appllication Process'
+      name: 'Application Process'
     }
   },
 }));
