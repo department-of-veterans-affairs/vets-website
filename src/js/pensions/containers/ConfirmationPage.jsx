@@ -21,7 +21,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -45,7 +45,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
