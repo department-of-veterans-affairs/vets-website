@@ -18,7 +18,7 @@ describe('Pensions helpers', () => {
     });
     it('should show two aid attendance bullets', () => {
       const formData = {
-        'view:aidAttendence': true
+        'view:aidAttendance': true
       };
       const tree = SkinDeep.shallowRender(
         <FileHelp

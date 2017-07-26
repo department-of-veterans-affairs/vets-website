@@ -8,7 +8,7 @@ import formConfig from '../../../src/js/pensions/config/form';
 
 const definitions = formConfig.defaultDefinitions;
 
-describe.only('Pensions benefitsSelection', () => {
+describe('Pensions benefitsSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitsSelection.pages.benefitsSelection;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(

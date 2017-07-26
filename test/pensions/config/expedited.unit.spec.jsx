@@ -8,8 +8,8 @@ import formConfig from '../../../src/js/pensions/config/form';
 
 const definitions = formConfig.defaultDefinitions;
 
-describe.only('Pensions benefitsSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitsSelection.pages.benefitsSelection;
+describe('Pensions expedited', () => {
+  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.expedited;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -33,8 +33,21 @@ describe.only('Pensions benefitsSelection', () => {
     );
 
     const formDOM = getFormDOM(form);
-    formDOM.fillData('#root_view\\:aidAttendanceYes', 'Y');
-    expect(formDOM.querySelector('.usa-alert-info')).not.to.be.null;
+    formDOM.fillData('#root_noRapidProcessingYes', 'Y');
+    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('will be submitted as');
+  });
+  it('should render warning on No', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={definitions}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+    formDOM.fillData('#root_noRapidProcessingNo', 'N');
+    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn\'t qualify');
   });
   it('should submit', () => {
     const onSubmit = sinon.spy();
