@@ -122,11 +122,9 @@ const bar = '\u2551';
 const elbow = '\u2559';
 const tee = '\u255F';
 
-function printTree(node, level = 1, isLastChild = true, padding = '') {
+function printTree(node, level = 0, isLastChild = true, padding = '') {
   const nextLevel = level + 1; // For tail call optimization...theoretically...
   const lastPipe = isLastChild ? `${elbow} ` : `${tee} `;
-
-  // If there are more children, we should have a bar or a tee
 
   console.log(`${padding}${lastPipe}${getIdentifier(node)}`); // eslint-disable-line no-console
 
