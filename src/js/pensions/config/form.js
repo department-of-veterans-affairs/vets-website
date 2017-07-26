@@ -1626,7 +1626,9 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim'),
+            files: fileUploadUI('', {
+              hideLabelText: true,
+            }),
             'view:uploadMessage': {
               'ui:description': uploadMessage
             }
