@@ -192,6 +192,10 @@ export function getFormDOM(form) {
     fillDate(this, partialId, dateString);
   };
 
+  /**
+   * Prints the formDOM as a tree in the console for debugging purposes
+   * @return {void}
+   */
   formDOM.printTree = function print() {
     printTree(this);
   };
