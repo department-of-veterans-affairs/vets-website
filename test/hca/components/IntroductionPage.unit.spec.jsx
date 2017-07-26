@@ -18,7 +18,7 @@ describe('hca <IntroductionPage>', () => {
   it('should render', () => {
     const page = findDOMNode(ReactTestUtils.renderIntoDocument(<IntroductionPage {...defaultProps}/>));
 
-    expect(page.textContent).to.contain('10-10ez');
+    expect(page.textContent).to.contain('10-10EZ');
   });
   it('should go to next page', () => {
     const onPush = sinon.spy();
