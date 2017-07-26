@@ -131,7 +131,10 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
   // Recurse for each child
   const newPadding = padding + (isLastChild ? '  ' : `${bar} `);
   const children = Array.from(node.children);
-  children.forEach((child, index) => printTree(child, nextLevel, index === children.length - 1, newPadding));
+  children.forEach((child, index) => {
+    const isLast = index === children.length - 1;
+    return printTree(child, nextLevel, isLast, newPadding);
+  });
 }
 
 export function getFormDOM(form) {
