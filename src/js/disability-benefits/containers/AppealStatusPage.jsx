@@ -79,11 +79,11 @@ class AppealStatusPage extends React.Component {
     }
 
     return (
-      <ul className="events-list">
+      <ol className="events-list">
         {previousHistory.map((e, i) => (
           <AppealEventItem key={i} event={e}/>
         ))}
-      </ul>
+      </ol>
     );
   }
 
