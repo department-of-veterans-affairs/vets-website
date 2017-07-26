@@ -141,5 +141,3 @@ We pay the remaining amount of the face value of the insurance policy to your de
 
 [Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
-<br>
-

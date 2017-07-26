@@ -43,6 +43,10 @@ class VAMap extends Component {
       return;
     }
 
+    this.props.updateSearchQuery({
+      facilityType: location.query.facilityType,
+      serviceType: location.query.serviceType,
+    });
     if (location.query.address) {
       this.props.updateSearchQuery({
         searchString: location.query.address,
@@ -144,12 +148,13 @@ class VAMap extends Component {
   // TODO (bshyong): try out existing query-string npm library
   updateUrlParams = (params) => {
     const { location, currentQuery } = this.props;
-
     const queryParams = compact(map({
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }

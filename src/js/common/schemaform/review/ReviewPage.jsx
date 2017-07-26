@@ -94,9 +94,17 @@ class ReviewPage extends React.Component {
   }
 
   handleSubmit() {
+    const formConfig = this.props.route.formConfig;
     if (isValidForm(this.props.form, this.pagesByChapter)) {
-      this.props.submitForm(this.props.route.formConfig, this.props.form);
+      this.props.submitForm(formConfig, this.props.form);
     } else {
+      // validation errors in this situation are not visible, so we'd
+      // like to know if they're common
+      if (this.props.form.data.privacyAgreementAccepted) {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-validation-failed`,
+        });
+      }
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
   }

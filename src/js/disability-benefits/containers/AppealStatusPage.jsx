@@ -4,9 +4,11 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { getAppeals } from '../actions';
+import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
-import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers.jsx';
+import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers';
 import { setPageFocus } from '../utils/page';
 
 class AppealStatusPage extends React.Component {
@@ -14,7 +16,12 @@ class AppealStatusPage extends React.Component {
     if (!this.props.appeal) {
       this.props.getAppeals();
     }
-    setPageFocus();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
+    }
   }
 
   renderStatusNextAction(lastEvent, previousHistory) {
@@ -72,30 +79,25 @@ class AppealStatusPage extends React.Component {
     }
 
     return (
-      <table className="events-list">
-        <tbody>
-          {previousHistory.map((e, i) => {
-            return (
-              <tr key={i}>
-                <td><i className="fa fa-check-circle"></i></td>
-                <td className="date">
-                  <strong>{moment(e.date).format('MMMM DD, YYYY')}</strong>
-                </td>
-                <td>{appealStatusDescriptions(e).status.title}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ul className="events-list">
+        {previousHistory.map((e, i) => (
+          <AppealEventItem key={i} event={e}/>
+        ))}
+      </ul>
     );
   }
 
   render() {
-    if (!this.props.appeal) {
+    const { appeal, loading } = this.props;
+
+    if (loading) {
+      return <LoadingIndicator message="Loading your appeal status" setFocus/>;
+    }
+
+    if (!appeal) {
       return null;
     }
 
-    const { appeal } = this.props;
     // always show merged event on top
     const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
@@ -153,9 +155,8 @@ class AppealStatusPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
-  const appeal = claimsState.claims.appeals.filter(a => {
-    return a.id === ownProps.params.id;
-  })[0];
+  const { appeals, loading } = claimsState.claims;
+  const appeal = appeals.find(a => a.id === ownProps.params.id);
 
   // append starting event for post-remand and post-cavc remand appeals
   if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
@@ -165,9 +166,7 @@ function mapStateToProps(state, ownProps) {
     });
   }
 
-  return {
-    appeal,
-  };
+  return { appeal, loading };
 }
 
 const mapDispatchToProps = {

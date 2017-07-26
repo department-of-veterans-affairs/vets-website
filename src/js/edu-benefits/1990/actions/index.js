@@ -98,48 +98,86 @@ export function setAttemptedSubmit() {
 
 export function submitForm(data) {
   const application = veteranToApplication(data);
+
+  const captureError = (error, clientError) => {
+    Raven.captureException(error, {
+      extra: {
+        clientError,
+        statusText: error.statusText
+      }
+    });
+    window.dataLayer.push({
+      event: `edu-submission-failed${clientError ? '-client' : ''}`,
+    });
+  };
+
   return dispatch => {
     dispatch(updateCompletedStatus('/1990/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
     window.dataLayer.push({
       event: 'edu-submission',
     });
-    fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel'
-      },
-      body: JSON.stringify({
+
+    const promise = new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+      req.open('POST', `${environment.API_URL}/v0/education_benefits_claims`);
+      req.addEventListener('load', () => {
+        if (req.status >= 200 && req.status < 300) {
+          window.dataLayer.push({
+            event: 'edu-submission-successful'
+          });
+          // got this from the fetch polyfill, keeping it to be safe
+          const responseBody = 'response' in req ? req.response : req.responseText;
+          const results = JSON.parse(responseBody);
+          resolve(results);
+        } else {
+          const error = new Error(`vets_server_error: ${req.statusText}`);
+          error.statusText = req.statusText;
+          reject(error);
+        }
+      });
+
+      req.addEventListener('error', () => {
+        const error = new Error('vets_client_error: Network request failed');
+        error.statusText = req.statusText;
+        reject(error);
+      });
+
+      req.addEventListener('abort', () => {
+        const error = new Error('vets_client_error: Request aborted');
+        error.statusText = req.statusText;
+        reject(error);
+      });
+
+      req.addEventListener('timeout', () => {
+        const error = new Error('vets_client_error: Request timed out');
+        error.statusText = req.statusText;
+        reject(error);
+      });
+
+      req.setRequestHeader('X-Key-Inflection', 'camel');
+      req.setRequestHeader('Content-Type', 'application/json');
+
+      const userToken = _.get('sessionStorage.userToken', window);
+      if (userToken) {
+        req.setRequestHeader('Authorization', `Token token=${userToken}`);
+      }
+
+      req.send(JSON.stringify({
         educationBenefitsClaim: {
           form: application
         }
-      })
-    })
-    .then(res => {
-      if (res.ok) {
-        window.dataLayer.push({
-          event: 'edu-submission-successful'
-        });
-        return res.json();
-      }
-
-      return Promise.reject(new Error(`vets_server_error: ${res.statusText}`));
-    })
-    .then((resp) => dispatch(updateSubmissionDetails(resp.data.attributes)))
-    .catch(error => {
-      // overly cautious
-      const errorMessage = _.get('message', error);
-      const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-      Raven.captureException(error, {
-        extra: {
-          clientError
-        }
-      });
-      window.dataLayer.push({
-        event: `edu-submission-failed${clientError ? '-client' : ''}`,
-      });
-      dispatch(updateSubmissionStatus(clientError ? 'clientError' : 'error'));
+      }));
     });
+
+    return promise
+      .then((resp) => dispatch(updateSubmissionDetails(resp.data.attributes)))
+      .catch(error => {
+        // overly cautious
+        const errorMessage = _.get('message', error);
+        const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
+        captureError(error, clientError);
+        dispatch(updateSubmissionStatus(clientError ? 'clientError' : 'error'));
+      });
   };
 }
