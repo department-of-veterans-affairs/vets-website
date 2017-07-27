@@ -1,4 +1,5 @@
 const mock = require('./mock-helpers');
+const Timeouts = require('../e2e/timeouts');
 
 function completeApplicantInformation(client, data) {
   client
@@ -76,6 +77,166 @@ function completeWorkHistory(client, data) {
   });
 }
 
+function completeMaritalStatus(client, data) {
+  client
+    .selectRadio('root_maritalStatus', data.maritalStatus)
+    .fill('input[name="root_marriages"]', data.marriages.length);
+}
+
+function completeMarriage(client, data, index) {
+  client
+    .fillName('root_spouseFullName', data.marriages[index].spouseFullName)
+    .fillDate('root_dateOfMarriage', data.marriages[index].dateOfMarriage)
+    .fill('input[name="root_locationOfMarriage"]', data.marriages[index].locationOfMarriage)
+    .selectRadio('root_marriageType', data.marriages[index].marriageType);
+  if (data.marriages[index]['view:pastMarriage']) {
+    client
+      .selectRadio('root_view:pastMarriage_reasonForSeparation', data.marriages[index]['view:pastMarriage'].reasonForSeparation)
+      .fillDate('root_view:pastMarriage_dateOfSeparation', data.marriages[index]['view:pastMarriage'].dateOfSeparation)
+      .fill('input[name="root_view:pastMarriage_locationOfSeparation"]', data.marriages[index]['view:pastMarriage'].locationOfSeparation);
+  }
+}
+
+function completeSpouseInfo(client, data) {
+  client
+    .fillDate('root_spouseDateOfBirth', data.spouseDateOfBirth)
+    .fill('input[name="root_spouseSocialSecurityNumber"]', data.spouseSocialSecurityNumber)
+    .selectYesNo('root_spouseIsVeteran', data.spouseIsVeteran)
+    .fill('input[name="root_spouseVaFileNumber"]', data.spouseVaFileNumber)
+    .selectYesNo('root_liveWithSpouse', data.liveWithSpouse)
+    .fillAddress('root_spouseAddress', data.spouseAddress)
+    .fill('input[name="root_reasonForNotLivingWithSpouse"]', data.reasonForNotLivingWithSpouse)
+    .fill('input[name="root_monthlySpousePayment"]', data.monthlySpousePayment)
+    .fill('input[name="root_spouseMarriages"]', data.spouseMarriages.length + 1);
+}
+
+function completeSpouseMarriage(client, data) {
+  client
+    .fillDate('root_dateOfMarriage', data.spouseMarriages[0].dateOfMarriage)
+    .fill('input[name="root_locationOfMarriage"]', data.spouseMarriages[0].locationOfMarriage)
+    .fillName('root_spouseFullName', data.spouseMarriages[0].spouseFullName)
+    .selectRadio('root_marriageType', data.spouseMarriages[0].marriageType)
+    .selectRadio('root_reasonForSeparation', data.spouseMarriages[0].reasonForSeparation)
+    .fillDate('root_dateOfSeparation', data.spouseMarriages[0].dateOfSeparation)
+    .fill('input[name="root_locationOfSeparation"]', data.spouseMarriages[0].locationOfSeparation);
+}
+
+function completeDependents(client, data) {
+  client
+    .selectYesNo('root_view:hasDependents', data['view:hasDependents']);
+
+  data.dependents.forEach((dependent, index) => {
+    client
+      .fillName(`root_dependents_${index}_fullName`, data.dependents[index].fullName)
+      .fillDate(`root_dependents_${index}_childDateOfBirth`, data.dependents[index].childDateOfBirth)
+      .clickIf('.va-growable-add-btn', index < data.dependents.length - 1);
+  });
+}
+
+function completeDependentInfo(client, data, index) {
+  client
+    .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
+    .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
+    .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
+    .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
+
+  if (typeof data.dependents[index].attendingCollege !== 'undefined') {
+    client
+      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege);
+  }
+
+  if (typeof data.dependents[index].disabled !== 'undefined') {
+    client
+      .selectYesNo('root_disabled', data.dependents[index].disabled);
+  }
+
+  client
+    .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried);
+
+  if (data.dependents[index].previouslyMarried) {
+    client
+      .selectYesNo('root_married', data.dependents[index].married);
+  }
+}
+
+function completeDependentAddressInfo(client, data, index) {
+  client
+    .selectYesNo('root_childInHousehold', data.dependents[index].childInHousehold);
+
+  if (!data.dependents[index].childInHousehold) {
+    client
+      .fillAddress('root_childAddress', data.dependents[index].childAddress)
+      .fillName('root_personWhoLivesWithChild', data.dependents[index].personWhoLivesWithChild)
+      .fill('input[name="root_monthlyPayment"]', data.dependents[index].monthlyPayment);
+  }
+}
+
+function completeNetWorthInfo(client, data) {
+  client
+      .fill('input[name$="bank"]', data.bank)
+      .fill('input[name$="interestBank"]', data.interestBank)
+      .fill('input[name$="ira"]', data.ira)
+      .fill('input[name$="stocks"]', data.stocks)
+      .fill('input[name$="realProperty"]', data.realProperty)
+      .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeMonthlyIncomeInfo(client, data) {
+  client
+      .fill('input[name$="socialSecurity"]', data.socialSecurity)
+      .fill('input[name$="civilService"]', data.civilService)
+      .fill('input[name$="railroad"]', data.railroad)
+      .fill('input[name$="blackLung"]', data.blackLung)
+      .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
+      .fill('input[name$="ssi"]', data.ssi)
+      .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeExpectedIncomeInfo(client, data) {
+  client
+      .fill('input[name$="salary"]', data.salary)
+      .fill('input[name$="interest"]', data.interest)
+      .click('.pensions-sources-add-btn')
+      .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+      .click('.va-growable-expanded .float-left');
+}
+
+function completeOtherExpensesInfo(client, data, prefix = 'other') {
+  client
+      .fill('input[name$="amount"]', data.amount)
+      .fill('input[name$="purpose"]', data.purpose)
+      .fillDate(`root_${prefix}Expenses_0_date`, data.date)
+      .fill('input[name$="paidTo"]', data.paidTo);
+}
+
+function completeDirectDepositInfo(client, data) {
+  client
+      .selectRadio('root_bankAccount_accountType', data.accountType)
+      .fill('input[name$="bankName"]', data.bankName)
+      .fill('input[name$="accountNumber"]', data.accountNumber)
+      .fill('input[name$="routingNumber"]', data.routingNumber);
+}
+
+function completeContactInfo(client, data) {
+  client
+      .fillAddress('root_veteranAddress', data)
+      .fill('input[name$="email"]', data.email)
+      .fill('input[name$="altEmail"]', data.altEmail)
+      .fill('input[name$="dayPhone"]', data.dayPhone)
+      .fill('input[name$="nightPhone"]', data.nightPhone)
+      .fill('input[name$="mobilePhone"]', data.mobilePhone);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/pension_claims',
@@ -92,6 +253,22 @@ function initApplicationSubmitMock() {
   });
 }
 
+function initDocumentUploadMock() {
+  mock(null, {
+    path: '/v0/claim_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          size: 155993,
+          name: 'test.png',
+          confirmationCode: '871af1d9-ae04-4ed2-99ef-4c11686c53d2',
+        }
+      }
+    }
+  });
+}
+
 module.exports = {
   completeApplicantInformation,
   completeMilitaryHistory,
@@ -100,5 +277,20 @@ module.exports = {
   completePOW,
   completeDisabilityHistory,
   completeWorkHistory,
-  initApplicationSubmitMock
+  completeMaritalStatus,
+  completeMarriage,
+  completeSpouseInfo,
+  completeSpouseMarriage,
+  completeDependents,
+  completeDependentInfo,
+  completeDependentAddressInfo,
+  completeNetWorthInfo,
+  completeMonthlyIncomeInfo,
+  completeExpectedIncomeInfo,
+  completeOtherExpensesInfo,
+  completeDirectDepositInfo,
+  completeContactInfo,
+  initApplicationSubmitMock,
+  initDocumentUploadMock
 };
+

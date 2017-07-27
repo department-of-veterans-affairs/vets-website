@@ -43,7 +43,6 @@ class LoginPrompt extends React.Component {
               <li>Use health tools, including refilling your VA prescription, sending messages to your healthcare team, and accessing your VA health record</li>
               <li>Check the status of your claims and appeals</li>
               <li>View Post-9/11 Bill enrollment information</li>
-              <li>Download VA documents and letters related to your benefits and eligibility</li>
             </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>

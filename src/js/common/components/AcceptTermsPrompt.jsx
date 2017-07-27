@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
+import classNames from 'classnames';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -39,23 +40,35 @@ class AcceptTermsPrompt extends React.Component {
       return <div></div>;
     }
 
-    let submitButton = <button className="usa-button-disabled" disabled>Submit</button>;
-    if (this.state.scrolledToBottom && this.state.yesSelected) {
-      submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
-    }
+    const submitDisabled = !(this.state.scrolledToBottom && this.state.yesSelected);
 
-    let noRadio = (<div>
-      <input type="radio" name="form-selection" id="form-no" value="no" onChange={this.handleAnswer}/>
-      <label htmlFor="form-no">
-        {terms.noContent}
+    const submitClass = classNames({
+      'usa-button': true,
+      'usa-button-disabled': submitDisabled
+    });
+
+    const submitButton = (<button
+        className={submitClass}
+        disabled={submitDisabled}
+        onClick={this.handleSubmit}>Submit</button>);
+
+    const yesButton = (<div>
+      <input
+          type="checkbox"
+          name="form-selection"
+          id="form-yes"
+          value="yes"
+          onChange={this.handleAnswer}
+          disabled={!this.state.scrolledToBottom}/>
+      <label htmlFor="form-yes">
+        {terms.yesContent}
       </label>
     </div>);
 
-    if (terms.noContent === null) {
-      noRadio = <div></div>;
-    }
-
-    const actionButtonClass = `form-radio-buttons ${this.state.scrolledToBottom ? null : 'disabled'}`;
+    const actionButtonClass = classNames({
+      'form-radio-buttons': true,
+      disabled: !this.state.scrolledToBottom
+    });
 
     return (
       <div className="row primary terms-acceptance">
@@ -70,11 +83,7 @@ class AcceptTermsPrompt extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
             <div className={actionButtonClass}>
-              <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer} disabled={!this.state.scrolledToBottom}/>
-              <label htmlFor="form-yes">
-                {terms.yesContent}
-              </label>
-              {noRadio}
+              {yesButton}
             </div>
           </div>
           <div>

@@ -8,6 +8,7 @@ import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
 import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
+import { dateDiffDesc } from '../utils/helpers';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -18,13 +19,14 @@ export default class SaveInProgressIntro extends React.Component {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
+        const expirationDate = moment(savedAt).add(30, 'days');
 
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
               <br/>
-              <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}</div>
+              <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}. <span className="schemaform-sip-expires">Expires in {dateDiffDesc(expirationDate)}</span>.</div>
               <div>{this.props.children}</div>
             </div>
             <br/>

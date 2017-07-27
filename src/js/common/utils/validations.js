@@ -71,6 +71,10 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isFullDate(date) {
+  return /\d{4}-\d{1,2}-\d{1,2}/.test(date);
+}
+
 function isValidDate(day, month, year) {
   // Use the date class to see if the date parses back sanely as a
   // validation check. Not sure is a great idea...
@@ -327,6 +331,7 @@ export {
   isBlankAddress,
   isBlankMonthYear,
   isDirtyDate,
+  isFullDate,
   isNotBlank,
   isNotBlankDateField,
   isValidAddressField,

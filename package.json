@@ -12,14 +12,18 @@
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch": "nightwatch -c config/nightwatch.js",
+    "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
-    "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:sauce": "./script/run-nightwatch.sh --sauce",
+    "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
+    "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
+    "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:edu": "BABEL_ENV=test mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
     "test:unit:hca": "BABEL_ENV=test mocha --recursive 'test/hca/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "BABEL_ENV=test mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
@@ -49,7 +53,7 @@
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
     "ajv": "^4.7.1",
-    "axe-core": "^2.1.7",
+    "axe-core": "^2.3.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.4.1",
@@ -134,7 +138,7 @@
     "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
-    "nightwatch": "0.9.12",
+    "nightwatch": "^0.9.16",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
     "node-sass": "^3.10.1",
     "null-loader": "^0.1.1",
@@ -167,7 +171,8 @@
     "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.10.2",
     "sass-loader": "^4.0.0",
-    "selenium-server": "^3.0.1",
+    "saucelabs": "^1.4.0",
+    "selenium-server": "^3.4.0",
     "semver": "^5.3.0",
     "sinon": "^1.17.5",
     "skin-deep": "^1.0.0",
@@ -193,6 +198,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc403e6bdf153f47a1338cef7c7cf370a313fb6d"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#45e0292c2e731817288846c9128109bc1a78b379"
   }
 }

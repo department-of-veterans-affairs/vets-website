@@ -5,7 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../utils/helpers';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
@@ -178,16 +178,6 @@ export function parseISODate(dateString) {
     day: '',
     year: ''
   };
-}
-
-/*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
 }
 
 /*
@@ -487,4 +477,25 @@ export function expandArrayPages(pageList, data) {
   }
 
   return result.currentList;
+}
+
+/**
+ * getPageKeys returns a list of keys for the currently active pages
+ *
+ * @param pages {Array<Object>} List of page configs
+ * @param formData {Object} Current form data
+ * @returns {Array<string>} A list of page keys from the page config
+ *   and the index if it's a pagePerItem page
+ */
+export function getPageKeys(pages, formData) {
+  const eligiblePageList = getActivePages(pages, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return expandedPageList.map(page => {
+    let pageKey = page.pageKey;
+    if (typeof page.index !== 'undefined') {
+      pageKey += page.index;
+    }
+    return pageKey;
+  });
 }
