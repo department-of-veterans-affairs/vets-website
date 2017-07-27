@@ -81,16 +81,15 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         soc: {
           title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
           description: <div>
-            <p>The Veterans Benefits Administration (VBA) RO has prepared the SSOC for your appeal. An SSOC was created because:
-              <ul>
-                <li>You, your legal representative, your health care provider, or VA added new evidence to your appeal, and/or
-                </li>
-                <li>VA found it had further duty to assist you in developing your appeal, such as helping you get treatment records or providing a physical exam if needed.</li>
-              </ul>
-            </p>
+            <p>The Veterans Benefits Administration (VBA) RO has prepared the SSOC for your appeal. An SSOC was created because:</p>
+            <ul>
+              <li>You, your legal representative, your health care provider, or VA added new evidence to your appeal, and/or
+              </li>
+              <li>VA found it had further duty to assist you in developing your appeal, such as helping you get treatment records or providing a physical exam if needed.</li>
+            </ul>
             <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf">complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you’d like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
             <p>On the Form 9, you can also let the Board know if you’d like a hearing for your appeal. <a href="/disability-benefits/claim-appeals/hearings/">Learn more about hearings</a>.</p>
-            <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.            </p>
+            <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.</p>
           </div>,
         },
         form9: {
@@ -132,7 +131,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         description: <div>
           <p>The Veterans Benefits Administration (VBA) RO has mailed you the SOC for your appeal. Included with your SOC is the Form 9, which you can use to ask for your appeal to continue.</p>
           <p>
-            To continue your appeal, you need to complete and send back your Form 9 by `${moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}`. If you don’t send back the Form 9 in time, your appeal will be closed.
+            To continue your appeal, you need to complete and send back your Form 9 by {moment(lastEvent.date).add(60, 'days').format('MMMM DD, YYYY')}. If you don’t send back the Form 9 in time, your appeal will be closed.
           </p>
         </div>,
       },

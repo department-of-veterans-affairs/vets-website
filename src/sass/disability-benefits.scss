@@ -331,7 +331,7 @@ a.claim-list-item {
 
     .content {
       position: relative;
-      padding-left: 2em;
+      padding-left: 3.25rem;
 
       h5 + p {
         margin-top: 0;
@@ -351,26 +351,53 @@ a.claim-list-item {
   }
 
   .events-list {
-    margin-top: 0;
+    margin: 0;
+    padding: 0;
+  }
 
-    tr {
-      td {
-        border: none;
-        border-bottom: solid thin $color-gray-light;
-        vertical-align: middle;
-        padding: 0.75em 0.5em;
+  .event-item {
+    list-style: none;
+    border-bottom: solid thin $color-gray-light;
 
-        &.date {
-          min-width: 7em;
-        }
+    &:last-child {
+      border: none;
+    }
+  }
 
-        i.fa {
-          color: $color-gray;
-        }
+  .event-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+
+    .date {
+      flex: 0 1 12rem;
+    }
+
+    i.fa {
+      &:first-child {
+        color: $color-gray;
+        flex: 0 1 3.25rem;
       }
 
-      &:last-child td {
-        border: none;
+      &:last-child {
+        font-size: 1.75rem;
+        margin-left: 2rem;
+      }
+    }
+  }
+
+  .event-title {
+    flex: 1 0 40rem;
+  }
+
+  .event-description {
+    margin-bottom: 1.5rem;
+    margin-left: 3.25rem;
+
+    p {
+      &:first-child {
+        margin-top: 0;
       }
     }
   }

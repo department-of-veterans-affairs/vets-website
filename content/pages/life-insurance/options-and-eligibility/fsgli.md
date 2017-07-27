@@ -324,7 +324,6 @@ You can’t convert other types of policies—such as term, variable, or univers
 
 [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
 
-<br>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

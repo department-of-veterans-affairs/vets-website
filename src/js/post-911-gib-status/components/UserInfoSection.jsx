@@ -8,7 +8,8 @@ import {
   formatPercent,
   formatVAFileNumber,
   formatMonthDayFields,
-  benefitEndDateExplanation
+  benefitEndDateExplanation,
+  notQualifiedWarning
 } from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
@@ -54,7 +55,7 @@ class UserInfoSection extends React.Component {
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.
               <br/>
-              <a href="http://benefits.va.gov/GIBILL/resources/benefits_resources/rate_tables.asp" target="_blank">
+              <a href="/gi-bill-comparison-tool/" target="_blank">
                 Find out how much money you can expect to get based on your eligibility percentage.
               </a>
             </p>
@@ -63,18 +64,7 @@ class UserInfoSection extends React.Component {
         </div>
       );
     } else {
-      entitlementInfo = (
-        <div>
-          <h4>Your Benefits</h4>
-          <div className="usa-alert usa-alert-warning usa-content not-qualified">
-            <div className="usa-alert-body">
-              <h2>Currently Not Qualified</h2>
-              You can't get Post-9/11 GI Bill benefits right now. If you continue to
-              serve, you may qualify in the future.
-            </div>
-          </div>
-        </div>
-      );
+      entitlementInfo = notQualifiedWarning();
     }
 
     return (

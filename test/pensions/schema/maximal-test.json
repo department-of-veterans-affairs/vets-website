@@ -203,7 +203,36 @@
           "first": "Bobby",
           "last": "Doe"
         },
-        "childDateOfBirth": "1997-03-02"
+        "childDateOfBirth": "1997-03-02",
+        "netWorth": {
+          "bank": 34,
+          "interestBank": 23,
+          "ira": 23,
+          "stocks": 23,
+          "realProperty": 23,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "monthlyIncome": {
+          "socialSecurity": 40,
+          "civilService": 40,
+          "railroad": 40,
+          "blackLung": 30,
+          "serviceRetirement": 30,
+          "ssi": 30,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "expectedIncome": {
+          "salary": 40,
+          "interest": 40,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "view:hasOtherExpenses": true,
+        "otherExpenses": [{
+          "amount": 30,
+          "purpose": "to cover expense",
+          "date": "2017-05-05",
+          "paidTo": "vendor"
+        }]
       },
       {
         "childInHousehold": true,
@@ -216,8 +245,113 @@
           "first": "Emily",
           "last": "Doe"
         },
-        "childDateOfBirth": "1993-03-02"
+        "childDateOfBirth": "1993-03-02",
+        "netWorth": {
+          "bank": 34,
+          "interestBank": 23,
+          "ira": 23,
+          "stocks": 23,
+          "realProperty": 23,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "monthlyIncome": {
+          "socialSecurity": 40,
+          "civilService": 40,
+          "railroad": 40,
+          "blackLung": 30,
+          "serviceRetirement": 30,
+          "ssi": 30,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "expectedIncome": {
+          "salary": 40,
+          "interest": 40,
+          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+        },
+        "view:hasOtherExpenses": true,
+        "otherExpenses": [{
+          "amount": 30,
+          "purpose": "to cover expense",
+          "date": "2017-05-05",
+          "paidTo": "vendor"
+        }]
       }
-    ]
+    ],
+    "netWorth": {
+      "bank": 34,
+      "interestBank": 23,
+      "ira": 23,
+      "stocks": 23,
+      "realProperty": 23,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "monthlyIncome": {
+      "socialSecurity": 40,
+      "civilService": 40,
+      "railroad": 40,
+      "blackLung": 30,
+      "serviceRetirement": 30,
+      "ssi": 30,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "expectedIncome": {
+      "salary": 40,
+      "interest": 40,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "view:hasOtherExpenses": true,
+    "otherExpenses": [{
+      "amount": 30,
+      "purpose": "to cover expense",
+      "date": "2017-05-05",
+      "paidTo": "vendor"
+    }],
+    "spouseNetWorth": {
+      "bank": 34,
+      "interestBank": 23,
+      "ira": 23,
+      "stocks": 23,
+      "realProperty": 23,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "spouseMonthlyIncome": {
+      "socialSecurity": 40,
+      "civilService": 40,
+      "railroad": 40,
+      "blackLung": 30,
+      "serviceRetirement": 30,
+      "ssi": 30,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "spouseExpectedIncome": {
+      "salary": 23,
+      "interest": 34,
+      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+    },
+    "view:spouseHasOtherExpenses": true,
+    "spouseOtherExpenses": [{
+      "amount": 30,
+      "purpose": "to cover expense",
+      "date": "2017-05-05",
+      "paidTo": "vendor"
+    }],
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "Best Bank",
+      "accountNumber": 123123123,
+      "routingNumber": 123123123
+    },
+    "veteranAddress": {
+      "street": "123 8th st",
+      "city": "Hadley",
+      "country": "USA",
+      "state": "ME",
+      "postalCode": "01050",
+      "email": "test@example.com",
+      "altEmail": "test2@example.com",
+      "dayPhone": 1231231231,
+      "nightPhone": 1231231231,
+      "mobilePhone": 1231231231
+    }
   }
 }
