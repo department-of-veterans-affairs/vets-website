@@ -12,7 +12,7 @@ import { isActivePage, focusElement } from '../../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.confirmation-page-title');
   }
   render() {
     let content;
@@ -59,7 +59,7 @@ class ReviewPage extends React.Component {
     }
     return (
       <div>
-        <h4 className="edu-page-title">Review application</h4>
+        <h4 className="confirmation-page-title">Review application</h4>
         <div className="input-section">
           {content}
         </div>
