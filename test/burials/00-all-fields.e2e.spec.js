@@ -114,7 +114,7 @@ const runTest = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client.expect.element('.edu-benefits-submit-success').to.be.visible;
+    client.expect.element('.confirmation-page-title').to.be.visible;
 
     client.axeCheck('.main');
 

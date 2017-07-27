@@ -25,7 +25,7 @@ describe('Edu 5490 <ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('.edu-page-title').text()).to.equal('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
   });
 });

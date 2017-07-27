@@ -32,7 +32,7 @@ describe('<ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('.pensions-page-title').text()).to.equal('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
     expect(tree.everySubTree('li')[2].text()).to.contain('Western Region');
     expect(tree.everySubTree('p')[2].text()).to.contain('VA Regional Office');
