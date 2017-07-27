@@ -44,16 +44,14 @@ After your death, the person planning your burial can also request other honors 
 
 <br>
 
-<<<<<<< HEAD
 ### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
-=======
+
 <dl class="va-address-block">
     <dt></dt>
     <dd>National Cemetery Scheduling Office</dd>
     <dd>P.O. Box 510543</dd>
     <dd>St. Louis, MO 63151</dd>
 </dl>
->>>>>>> master
 
 We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
