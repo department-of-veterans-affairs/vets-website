@@ -621,7 +621,7 @@ const formConfig = {
               'ui:title': 'Veteran gross annual income from employment'
             },
             veteranNetIncome: {
-              'ui:title': 'Veteran Net Income from your farm, ranch, property or business'
+              'ui:title': 'Veteran met income from your farm, ranch, property or business'
             },
             veteranOtherIncome: {
               'ui:title': 'Veteran other income amount'
