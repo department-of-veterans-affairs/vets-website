@@ -34,7 +34,7 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 - A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
-After your death, the person planning your burial can also request other honors and memorials. These may include a:
+In the event of your death, the person planning your burial can also request other honors and memorials. These may include a:
 - [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/honor/flags-and-memorial-certificates/)
 - [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/honor/flags-and-memorial-certificates/)
 - [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/) 
@@ -45,13 +45,6 @@ After your death, the person planning your burial can also request other honors 
 <br>
 
 ### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
-
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>National Cemetery Scheduling Office</dd>
-    <dd>P.O. Box 510543</dd>
-    <dd>St. Louis, MO 63151</dd>
-</dl>
 
 We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the funeral service. [Learn about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
