@@ -15,7 +15,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez' }
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: 4000 } } // eslint-disable-line camelcase
         ],
         prefillsAvailable: []
       },
@@ -41,7 +41,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez' }
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: 4000 } } // eslint-disable-line camelcase
         ],
         prefillsAvailable: ['1010ez']
       },
@@ -63,7 +63,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez' }
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: 4000 } } // eslint-disable-line camelcase
         ],
         prefillsAvailable: []
       },
@@ -109,7 +109,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     const user = {
       profile: {
         savedForms: [
-          { form: '1010ez' }
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: 4000 } } // eslint-disable-line camelcase
         ],
         prefillsAvailable: [],
         loading: true
