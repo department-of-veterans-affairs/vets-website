@@ -52,7 +52,7 @@ export default class SaveInProgressIntro extends React.Component {
   render() {
     const { profile } = this.props.user;
     const savedForm = profile && profile.savedForms
-      .filter(f => f.metadata.expires_at > f.metadata.last_updated)
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
