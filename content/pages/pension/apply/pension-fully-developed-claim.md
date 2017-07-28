@@ -10,7 +10,7 @@ order: 2
 
 The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all the evidence or supporting documents you have when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
 
-If you file a claim in the FDC program and we decide that additional documents exist and are need to decide your claim, VA will remove your claim from the FDC program and process it as a standard claim.
+If you file a claim in the FDC program and we decide that additional documents exist and are needed to decide your claim, VA will remove your claim from the FDC program and process it as a standard claim.
 
 </div>
 
@@ -72,7 +72,7 @@ If you’re claiming non-service-connected pension benefits with Aid and Attenda
 
 To support a claim for increased disability pension benefits based on being housebound, the evidence must show that you:
 
-  - Have a single permanent disability that’s 100% disabling, and you are confined to your home, **or**
+  - Have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
   - Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
 If you’re claiming benefits for a disabled child, the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
@@ -138,9 +138,9 @@ Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/52
 <div class="feature" markdown=“1”>
 
 #### Special Claims
-If any of the below situations apply to you, you'll need to turn in the additional forms at the same time as you file your pension claim.
+If any of the below situations apply to you, you’ll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
-- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)) and a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
+- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). **If you’re in a care facility**, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
 - **Claiming a child in school between the ages of 18 and 23**, fill out a Request for Approval of School Attendance ([VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674)).
 - **Claiming benefits for a seriously disabled child**, turn in all private health records for the child’s disabilities.
 
