@@ -181,16 +181,6 @@ export function parseISODate(dateString) {
 }
 
 /*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
-}
-
-/*
  * Removes 'view:' fields from data object
  */
 export function filterViewFields(data) {
