@@ -1,4 +1,5 @@
 User-Agent: *
 Disallow: /scorecard
+Disallow: /analytics-opt-out.html
 
 Sitemap: https://www.vets.gov/sitemap.xml

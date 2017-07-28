@@ -6,57 +6,46 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
-describe('Pensions document upload', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
+const definitions = formConfig.defaultDefinitions;
 
+describe('Pensions benefitsSelection', () => {
+  const { schema, uiSchema } = formConfig.chapters.benefitsSelection.pages.benefitsSelection;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = getFormDOM(form);
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
-  });
-
-
-  it('should submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
+          data={{}}
+          definitions={definitions}
           uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
+  it('should render warning on Yes', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={definitions}
+          uiSchema={uiSchema}/>
+    );
 
-  it('should submit with valid data', () => {
+    const formDOM = getFormDOM(form);
+    formDOM.fillData('#root_view\\:aidAttendanceYes', 'Y');
+    expect(formDOM.querySelector('.usa-alert-info')).not.to.be.null;
+  });
+  it('should submit', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={{
-            files: [{
-              confirmationCode: 'testing'
-            }, {
-              confirmationCode: 'testing2'
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
+          definitions={definitions}
           onSubmit={onSubmit}
+          data={{}}
           uiSchema={uiSchema}/>
     );
-
     const formDOM = getFormDOM(form);
 
     formDOM.submitForm();

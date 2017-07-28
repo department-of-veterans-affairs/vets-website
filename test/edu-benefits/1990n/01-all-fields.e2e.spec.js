@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
         .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page
-    client.expect.element('.edu-benefits-submit-success').to.be.visible;
+    client.expect.element('.confirmation-page-title').to.be.visible;
     client
       .axeCheck('.main')
       .end();

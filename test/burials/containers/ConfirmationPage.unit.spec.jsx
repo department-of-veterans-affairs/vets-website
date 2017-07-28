@@ -50,7 +50,7 @@ describe('<ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('.burial-page-title').text()).to.equal('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Sally Jane Doe');
     expect(tree.subTree('.claim-list').text()).to.include('Burial allowance');
     expect(tree.subTree('.claim-list').text()).to.include('Plot allowance');

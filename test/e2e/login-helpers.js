@@ -103,7 +103,7 @@ function testUnauthedUserFlow(client, path) {
 
   client
     .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign In to Your Vets.gov Account');
+    .expect.element('h1').text.to.equal('Log In With Your Account for Vets.gov');
 
   logIn(token, client, path, 1)
     .waitForElementVisible('.react-container', Timeouts.normal)
