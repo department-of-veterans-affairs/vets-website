@@ -403,6 +403,13 @@ smith.use(collections({
       name: 'Survivors Pension'
     }
   },
+  pensionApplication: {
+    pattern: 'pension/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
