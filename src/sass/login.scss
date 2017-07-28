@@ -62,6 +62,16 @@
         color: $color-gray-light;
       }
 
+      input {
+        margin-left: -9999rem;
+
+        &[disabled] {
+          & + label {
+            cursor: default;
+          }
+        }
+      }
+
       label {
         max-width: none;
       }
