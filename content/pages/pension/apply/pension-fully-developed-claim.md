@@ -138,7 +138,7 @@ Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/52
 <div class="feature" markdown=“1”>
 
 #### Special Claims
-If any of the below situations apply to you, you'll need to turn the additional forms at the same time as you file your pension claim.
+If any of the below situations apply to you, you'll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
 - **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)) and a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
 - **Claiming a child in school between the ages of 18 and 23**, fill out a Request for Approval of School Attendance ([VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674)).
