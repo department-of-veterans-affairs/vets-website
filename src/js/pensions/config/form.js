@@ -2,6 +2,8 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
+import { DATE_FORMAT } from '../../common/utils/helpers';
+
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../common/utils/validations';
 
@@ -98,16 +100,24 @@ const {
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 function isUnder65(formData) {
-  return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+  const dob = moment(formData.veteranDateOfBirth, DATE_FORMAT);
+  return dob.isValid() && moment().startOf('day').subtract(65, 'years').isBefore(dob);
 }
 
 function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
+  const dob = moment(childDOB, DATE_FORMAT);
+  return dob.isValid() && dob.isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-// Checks to see if they're under 17.75 years old
+/**
+ * Checks to see if the child is eligible for disability support.
+ * @param  {string}  childDOB String of the date in the format MM-DD-YYYY
+ * @return {Boolean}          true if the child is >= 17.75 years old
+ */
 function isEligibleForDisabilitySupport(childDOB) {
-  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
+  const dob = moment(childDOB, DATE_FORMAT);
+  // If they were born after the end of today 17.75 years ago, they're too young
+  return dob.isValid() && !dob.isAfter(moment().endOf('day').subtract(17, 'years').subtract(9, 'months'));
 }
 
 function isCurrentMarriage(form, index) {
@@ -1025,14 +1035,14 @@ const formConfig = {
                   'ui:widget': 'yesNo',
                   'ui:required': (formData, index) => isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   'ui:options': {
-                    hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
+                    hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData))
                   }
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
-                  'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
+                  'ui:required': (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   'ui:options': {
-                    hideIf: (formData, index) => isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
+                    hideIf: (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData))
                   },
                   'ui:widget': 'yesNo',
                 },

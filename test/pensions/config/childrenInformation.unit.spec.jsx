@@ -4,8 +4,14 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
 
+import { DATE_FORMAT } from '../../../src/js/common/utils/helpers';
+
 import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form.js';
+import submittedForm from '../schema/maximal-test.json';
+
+const formData = submittedForm.data;
+
 
 describe('Child information page', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenInformation;
@@ -13,11 +19,8 @@ describe('Child information page', () => {
     'view:hasDependents': true,
     dependents: [
       {
-        fullName: {
-          first: 'Jane',
-          last: 'Doe'
-        },
-        dependentRelationship: 'child',
+        fullName: formData.dependents[0].fullName,
+        childRelationship: formData.dependents[0].childRelationship
       }
     ]
   };
@@ -50,7 +53,8 @@ describe('Child information page', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -68,12 +72,13 @@ describe('Child information page', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:noSSN', true);
+
     formDOM.submitForm(form);
     const errors = formDOM.querySelectorAll('.usa-input-error-label');
 
-    errors.forEach(e => console.log(e.getAttribute('for'))); // eslint-disable-line no-console
+    // errors.forEach(e => console.log(e.getAttribute('for')));
 
-    expect(errors.length).to.equal(3);
+    expect(errors.length).to.equal(2);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -103,7 +108,7 @@ describe('Child information page', () => {
 
   it('should ask if the child is in school', () => {
     const data = Object.assign({}, dependentData);
-    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
+    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').format(DATE_FORMAT);
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -123,7 +128,7 @@ describe('Child information page', () => {
 
   it('should ask if the child is disabled', () => {
     const data = Object.assign({}, dependentData);
-    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
+    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').format(DATE_FORMAT);
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
