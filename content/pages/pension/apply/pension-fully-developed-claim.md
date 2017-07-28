@@ -25,7 +25,7 @@ If you file a claim in the FDC program and we decide that additional documents e
 When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide any information on relevant documents that you don’t have.
 Submit your claim according to FDC Criteria:
 
-1. File your claim by filling out and turning in an [Application for Pension (VA Form 21-527EZ)](/pension/application/527EZ/).
+1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/).
 2. When you file your claim, turn in:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
@@ -72,7 +72,7 @@ If you’re claiming non-service-connected pension benefits with Aid and Attenda
 
 To support a claim for increased disability pension benefits based on being housebound, the evidence must show that you:
 
-  - Have a single permanent disability that’s 100% disabling, and you spend most of your time at home, **or**
+  - Have a single permanent disability that’s 100% disabling, and you are confined to your home, **or**
   - Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
 If you’re claiming benefits for a disabled child, the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
@@ -128,7 +128,7 @@ You’ll need to:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">Where should I send my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
 
-Fill out an Application for Pension ([VA Form 21-527EZ](/pension/application/527EZ)), and attach or upload all the related documents at the end of the form. We’ll send your application to the right Pension Management Center for your state.
+Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/527EZ)), and attach or upload all the related documents at the end of the form. We’ll send your application to the right Pension Management Center for your state.
 
 </div>
 </li>
