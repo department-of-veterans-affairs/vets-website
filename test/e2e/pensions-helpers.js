@@ -138,25 +138,17 @@ function completeDependentInfo(client, data, index) {
     .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
     .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
     .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
-    .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
-
-  if (typeof data.dependents[index].attendingCollege !== 'undefined') {
-    client
-      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege);
-  }
-
-  if (typeof data.dependents[index].disabled !== 'undefined') {
-    client
-      .selectYesNo('root_disabled', data.dependents[index].disabled);
-  }
-
-  client
+    .selectRadio('root_childRelationship', data.dependents[index].childRelationship)
+    .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege)
+    .waitForElementVisible('.usa-alert-warning', Timeouts.normal)
+    .selectYesNo('root_disabled', data.dependents[index].disabled)
     .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried);
 
-  if (data.dependents[index].previouslyMarried) {
-    client
-      .selectYesNo('root_married', data.dependents[index].married);
-  }
+  // if (data.dependents[index].previouslyMarried) {
+  //   client
+  //     .waitForElementVisible('#root_marriedYes', Timeouts.normal)
+  //     .selectYesNo('root_married', data.dependents[index].married);
+  // }
 }
 
 function completeDependentAddressInfo(client, data, index) {
@@ -229,12 +221,18 @@ function completeDirectDepositInfo(client, data) {
 
 function completeContactInfo(client, data) {
   client
-      .fillAddress('root_veteranAddress', data)
+      .fillAddress('root_veteranAddress', data.veteranAddress)
       .fill('input[name$="email"]', data.email)
       .fill('input[name$="altEmail"]', data.altEmail)
       .fill('input[name$="dayPhone"]', data.dayPhone)
       .fill('input[name$="nightPhone"]', data.nightPhone)
       .fill('input[name$="mobilePhone"]', data.mobilePhone);
+}
+
+function completeBenefitsSelection(client, data) {
+  client
+    .selectYesNo('root_view:aidAttendance', data['view:aidAttendance'])
+    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
 }
 
 function initApplicationSubmitMock() {
@@ -290,6 +288,7 @@ module.exports = {
   completeOtherExpensesInfo,
   completeDirectDepositInfo,
   completeContactInfo,
+  completeBenefitsSelection,
   initApplicationSubmitMock,
   initDocumentUploadMock
 };
