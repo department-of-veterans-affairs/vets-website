@@ -22,6 +22,11 @@ export default class AppointmentInfo extends Component {
         );
   }
 
+  hasPrimaryCare(accessAttrs, category) {
+    return (typeof accessAttrs.primaryCare !== 'undefined' &&
+        accessAttrs.primaryCare[category] !== null);
+  }
+
   render() {
     const { facility } = this.props;
 
@@ -113,7 +118,7 @@ export default class AppointmentInfo extends Component {
           <h4>New patient wait times</h4>
           <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
           <ul>
-            {renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
+            {this.hasPrimaryCare(healthAccessAttrs, 'new') && renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
             {renderSpecialtyTimes()}
           </ul>
         </div>}
@@ -121,7 +126,7 @@ export default class AppointmentInfo extends Component {
           <h4>Existing patient wait times</h4>
           <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
           <ul>
-            {renderStat('Primary Care', healthAccessAttrs.primaryCare.established)}
+            {this.hasPrimaryCare(healthAccessAttrs, 'established') && renderStat('Primary Care', healthAccessAttrs.primaryCare.established)}
             {renderSpecialtyTimes(true)}
           </ul>
         </div>}
