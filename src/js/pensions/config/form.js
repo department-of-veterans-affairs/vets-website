@@ -1038,7 +1038,7 @@ const formConfig = {
                 },
                 previouslyMarried: {
                   'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
+                  'ui:widget': 'yesNo'
                 },
                 married: {
                   'ui:title': 'Are they currently married?',
