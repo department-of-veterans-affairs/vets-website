@@ -305,7 +305,7 @@ const runTest = E2eHelpers.createE2eTest(
     // contact information
     client.waitForElementVisible('label[for="root_veteranAddress_country"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeContactInfo(client, testData.data.veteranAddress);
+    PageHelpers.completeContactInfo(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
@@ -319,6 +319,14 @@ const runTest = E2eHelpers.createE2eTest(
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');
+
+    // Document Upload page
+    client.waitForElementVisible('label[for="root_noRapidProcessing"]', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    PageHelpers.completeExpeditedInfo(client, testData.data);
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/fdc');
 
     // Review and Submit page
     client
