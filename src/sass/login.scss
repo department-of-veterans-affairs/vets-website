@@ -61,6 +61,10 @@
       &.disabled {
         color: $color-gray-light;
       }
+
+      label {
+        max-width: none;
+      }
     }
   }
 }
