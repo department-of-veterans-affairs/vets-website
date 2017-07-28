@@ -44,10 +44,10 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <h6 className="usa-alert-heading">Fully Developed Claim program</h6><br/>
-                  <p>The Fully Developed Claim program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. If you want to use the FDC program for an expedited (faster than usual) application review process, you’ll need to fill out and hand in any additional forms before you give us your pension application. You’ll also need to include all the supporting documents you have access to. We won’t need to ask you for more information.</p>
-                  <p><a href="/" target="_blank">Learn more about the FDC program</a></p>
-                  <p>If you’re making a claim for Veterans non-service-connected pension benefits, submit your claim according to FDC Criteria.<br/><br/><a href="/" target="_blank">Find out about FDC Criteria</a></p>
+                  <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
+                  <p>The FDC Program is the fastest way to get your claim processed and there is no risk to participate! If you are including all the supporting documents that you have access to, VA will make a decision on your application without any delay to ask you for more information.</p>
+                  <p><a href="/pension/apply/fully-developed-claims/" target="_blank">Learn more about the FDC Program</a></p>
+                  <p>To participate in the FDC Program, if you are making a claim for Veterans non service-connected pension benefits, simply submit your claim in accordance with the <a href="/">FDC Criteria</a>.</p>
                 </div>
               </div>
               <br/>
