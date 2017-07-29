@@ -54,7 +54,7 @@ export default class SaveInProgressIntro extends React.Component {
     const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
-    if (profile.loading) {
+    if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
           <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>

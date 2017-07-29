@@ -180,7 +180,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
   title: 'Apply for pension',
-  subTitle: 'Form 21-527EZ',
+  subTitle: 'Form 21P-527EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
@@ -425,7 +425,7 @@ const formConfig = {
                 }
               }),
               phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service activation date')
             }
           },
           schema: {
@@ -1655,8 +1655,8 @@ const formConfig = {
               'ui:options': {
                 yesNoReverse: true,
                 labels: {
-                  Y: 'Yes, I have uploaded all my documentation',
-                  N: 'No, I have some extra information that I will submit to the VA later'
+                  Y: 'Yes, I have uploaded all my documentation.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
                 }
               }
             },
