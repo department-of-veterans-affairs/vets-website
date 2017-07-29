@@ -592,6 +592,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
+       '/pension/application/527EZ',
+       '/burials-and-memorials/application/530',
        '/health-care/apply/application',
        '/letters'].join('|'))
   }));

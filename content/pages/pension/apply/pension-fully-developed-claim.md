@@ -25,7 +25,7 @@ If you file a claim in the FDC program and we decide that additional documents e
 When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide any information on relevant documents that you don’t have.
 Submit your claim according to FDC Criteria:
 
-1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/).
+1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ).
 2. When you file your claim, turn in:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
