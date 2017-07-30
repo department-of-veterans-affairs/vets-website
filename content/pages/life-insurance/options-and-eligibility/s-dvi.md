@@ -93,7 +93,7 @@ Your premium rate (the amount you’ll pay each month for your coverage) depends
 - The coverage plan requested
 
 See the premium rates and a description of the plan options. <br>
-[Download our pamplet called Service-Disabled Veterans Insurance RH Information and Premium Rates (VA pamphlet 29-9)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
+[Download Service-Disabled Veterans Insurance RH Information and Premium Rates (VA pamphlet 29-9)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
 <br>
 
