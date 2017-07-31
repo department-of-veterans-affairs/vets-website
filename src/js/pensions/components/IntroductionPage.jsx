@@ -19,7 +19,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for pension benefits"/>
-        <p>Equal to Form 21-527EZ</p>
+        <p>Equal to Form 21P-527EZ</p>
         {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}
             resumeOnly
@@ -44,22 +44,22 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <h6 className="usa-alert-heading">Fully Developed Claim program</h6><br/>
-                  <p>The Fully Developed Claim program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. If you want to use the FDC program for an expedited (faster than usual) application review process, you’ll need to fill out and hand in any additional forms before you give us your pension application. You’ll also need to include all the supporting documents you have access to. We won’t need to ask you for more information.</p>
-                  {/* <p><a href="/">Learn more about the FDC program</a></p> */}
-                  {/* <p>If you’re making a claim for Veterans non-service-connected pension benefits, submit your claim according to FDC Criteria.<br/><a href="/">Find out about FDC Criteria</a></p> */}
+                  <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
+                  <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed and there is no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
+                  <p><a href="/pension/apply/pension-fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
                 </div>
               </div>
               <br/>
               <h6>Aid and Attendance and Housebound benefits</h6>
-              If you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.
+              If you need help with daily activities or you're housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
+              <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about eligibility</a>.<br/><br/>
               <ul>
-                <li>Aid and Attendance benefits. If you live in a nursing home, the nursing home will need to fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a></li>
-                <li>Housebound benefits. If you live at home and have visiting medical care, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a></li>
+                <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
+                <li>In addition to your claim for Aid and Attendance or Housebound benefits, if you live in a nursing home, please have the nursing home fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">Download VA Form 21-0779</a></li>
               </ul>
-              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
+              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp" target="_blank">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about Veterans Pension rates</h6>
-              <a href="/pension/rates">Find out more about how pension rates are decided.</a>
+              <a href="/pension/rates" target="_blank">Find out more about how pension rates are decided.</a>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>

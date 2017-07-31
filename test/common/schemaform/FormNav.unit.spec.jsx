@@ -17,10 +17,18 @@ describe('Schemaform FormNav', () => {
           }
         },
         chapter2: {
-          pages: {}
+          pages: {
+            page2: {
+              path: 'testing'
+            }
+          }
         },
         chapter3: {
-          pages: {}
+          pages: {
+            page3: {
+              path: 'testing'
+            }
+          }
         }
       }
 

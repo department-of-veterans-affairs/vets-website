@@ -352,6 +352,7 @@
       "dayPhone": 1231231231,
       "nightPhone": 1231231231,
       "mobilePhone": 1231231231
-    }
+    },
+    "view:aidAttendance": true
   }
 }

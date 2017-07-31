@@ -11,7 +11,7 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { focusElement, getActivePages } from '../../utils/helpers';
-import { createPageListByChapter, expandArrayPages, getPageKeys } from '../helpers';
+import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
 
 const scroller = Scroll.scroller;
@@ -126,13 +126,15 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { form } = this.props;
-    const formConfig = this.props.route.formConfig;
+    const { route, form } = this.props;
+    const formConfig = route.formConfig;
+    const chapters = getActiveChapters(formConfig, form.data);
+
     return (
       <div>
         <div className="input-section">
           <div>
-            {Object.keys(formConfig.chapters).map(chapter => (
+            {chapters.map(chapter => (
               <ReviewCollapsibleChapter
                   key={chapter}
                   onEdit={this.handleEdit}

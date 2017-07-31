@@ -26,6 +26,7 @@ export default function FieldTemplate(props) {
   const label = uiSchema['ui:title'] || props.label;
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
+  const hideLabelText = uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
@@ -62,7 +63,7 @@ export default function FieldTemplate(props) {
     ? children
     : (<div className={containerClassNames}>
       <div className={errorClass}>
-        <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>
+        {!hideLabelText && <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
         {!textDescription && !DescriptionField && description}
