@@ -51,7 +51,7 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Pension Benefit Claim <span className="additional">(Form 21-527EZ)</span></h4>
+          <h4>Veterans Pension Benefit Claim <span className="additional">(Form 21-527EZ)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
