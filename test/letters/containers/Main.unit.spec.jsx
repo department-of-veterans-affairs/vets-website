@@ -34,4 +34,10 @@ describe('<Main>', () => {
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
+
+  it('should show letters unavailable message when service is unavailable', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: 'unavailable' });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    expect(tree.subTree('#lettersUnavailable')).to.be.ok;
+  });
 });

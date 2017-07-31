@@ -33,7 +33,7 @@ export class Main extends React.Component {
       //   break;
       case 'unavailable':
         appContent = (
-          <div>
+          <div id="lettersUnavailable">
             <div className="usa-alert usa-alert-error" role="alert">
               <div className="usa-alert-body">
                 <h4 className="usa-alert-heading">Letters Unavailable</h4>
@@ -48,7 +48,7 @@ export class Main extends React.Component {
         );
         break;
       default:
-        appContent = 'something';
+        appContent = systemDownMessage();
     }
 
     return (
