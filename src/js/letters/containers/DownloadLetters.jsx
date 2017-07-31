@@ -9,7 +9,7 @@ import StepHeader from '../components/StepHeader';
 class DownloadLetters extends React.Component {
   render() {
     return (
-      <div>
+      <div className="usa-width-three-fourths letters">
         <FormTitle title="Download Your VA Verification Letters"/>
         <div className="va-introtext">
           <p>

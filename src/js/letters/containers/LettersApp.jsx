@@ -36,7 +36,7 @@ class LettersApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div className="usa-width-three-fourths">
+          <div>
             {this.props.children}
           </div>
         </AppContent>
