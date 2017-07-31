@@ -1,4 +1,18 @@
+import Raven from 'raven-js';
+
 import { apiRequest } from '../utils/helpers';
+import {
+  BACKEND_AUTHENTICATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  INVALID_ADDRESS_PROPERTY,
+  GET_LETTERS_FAILURE,
+  GET_LETTERS_SUCCESS,
+  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTER_PDF_FAILURE,
+  GET_LETTER_PDF_SUCCESS,
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
+} from '../utils/constants';
 
 export function getLetterList() {
   return (dispatch) => {
@@ -6,11 +20,29 @@ export function getLetterList() {
       '/v0/letters',
       null,
       response => dispatch({
-        type: 'GET_LETTERS_SUCCESS',
+        type: GET_LETTERS_SUCCESS,
         data: response,
       }),
-      () => dispatch({ type: 'GET_LETTERS_FAILURE' })
-    );
+      (response) => {
+        if (response.status === 503 || response.status === 504) {
+          // Either EVSS or a partner service is down or EVSS times out
+          return dispatch({ type: BACKEND_SERVICE_ERROR });
+        }
+        if (response.status === 403) {
+          // Backend authentication problem
+          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+        }
+        if (response.status === 422) {
+          // Something about the address is invalid, unable to process the request
+          return dispatch({ type: INVALID_ADDRESS_PROPERTY });
+        }
+        return Promise.reject(
+          new Error('letters getLetterList() received unexpected status code: `${response.status}`'));
+      })
+      .catch((error) => {
+        Raven.captureException(error);
+        return dispatch({ type: GET_LETTERS_FAILURE });
+      });
   };
 }
 
@@ -20,10 +52,10 @@ export function getBenefitSummaryOptions() {
       '/v0/letters/beneficiary',
       null,
       response => dispatch({
-        type: 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS',
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       }),
-      () => dispatch({ type: 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE' })
+      () => dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })
     );
   };
 }
@@ -81,9 +113,9 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl); // make sure this doesn't cause problems
-        dispatch({ type: 'GET_LETTER_PDF_SUCCESS' });
+        dispatch({ type: GET_LETTER_PDF_SUCCESS });
       },
-      () => dispatch({ type: 'GET_LETTER_PDF_FAILURE', data: letterType })
+      () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
     );
   };
 }
@@ -91,7 +123,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
 
 export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
-    type: 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION',
+    type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
     value
   };
