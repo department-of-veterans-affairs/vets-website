@@ -176,7 +176,11 @@ export function isValidForm(form, pageListByChapters) {
 
   const v = new Validator();
 
-  return form.data.privacyAgreementAccepted && validPages.every(page => {
+  if (!form.data.privacyAgreementAccepted) {
+    return { isValid: false };
+  }
+
+  return validPages.reduce(({ isValid, errors }, page) => {
     const { uiSchema, schema, showPagePerItem, itemFilter, arrayPath } = form.pages[page];
     let formData = form.data;
 
@@ -195,14 +199,21 @@ export function isValidForm(form, pageListByChapters) {
     );
 
     if (result.valid) {
-      const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      const customErrors = {};
+      uiSchemaValidate(customErrors, uiSchema, schema, formData);
 
-      return errorSchemaIsValid(errors);
+      return {
+        isValid: isValid && errorSchemaIsValid(customErrors),
+        errors: errors.concat(customErrors)
+      };
     }
 
-    return false;
-  });
+    return {
+      isValid: false,
+      // removes PII
+      errors: errors.concat(result.errors.map(_.unset('instance')))
+    };
+  }, { isValid: true, errors: [] });
 }
 
 

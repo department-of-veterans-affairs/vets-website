@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Raven from 'raven-js';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
@@ -10,7 +11,7 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { focusElement, getActivePages } from '../../utils/helpers';
-import { createPageListByChapter, expandArrayPages, getPageKeys } from '../helpers';
+import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
 
 const scroller = Scroll.scroller;
@@ -95,7 +96,8 @@ class ReviewPage extends React.Component {
 
   handleSubmit() {
     const formConfig = this.props.route.formConfig;
-    if (isValidForm(this.props.form, this.pagesByChapter)) {
+    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
+    if (isValid) {
       this.props.submitForm(formConfig, this.props.form);
     } else {
       // validation errors in this situation are not visible, so we'd
@@ -103,6 +105,12 @@ class ReviewPage extends React.Component {
       if (this.props.form.data.privacyAgreementAccepted) {
         window.dataLayer.push({
           event: `${formConfig.trackingPrefix}-validation-failed`,
+        });
+        Raven.captureMessage('Validation issue not displayed', {
+          extra: {
+            errors,
+            prefix: formConfig.trackingPrefix
+          }
         });
       }
       this.props.setSubmission('hasAttemptedSubmit', true);
@@ -118,13 +126,15 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { form } = this.props;
-    const formConfig = this.props.route.formConfig;
+    const { route, form } = this.props;
+    const formConfig = route.formConfig;
+    const chapters = getActiveChapters(formConfig, form.data);
+
     return (
       <div>
         <div className="input-section">
           <div>
-            {Object.keys(formConfig.chapters).map(chapter => (
+            {chapters.map(chapter => (
               <ReviewCollapsibleChapter
                   key={chapter}
                   onEdit={this.handleEdit}

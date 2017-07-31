@@ -19,7 +19,7 @@ export default class SaveInProgressIntro extends React.Component {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
-        const expirationDate = moment(savedAt).add(30, 'days');
+        const expirationDate = moment.unix(savedForm.metadata.expires_at);
 
         alert = (
           <div>
@@ -51,10 +51,12 @@ export default class SaveInProgressIntro extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
+    const savedForm = profile && profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
 
-    if (profile.loading) {
+    if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
           <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>

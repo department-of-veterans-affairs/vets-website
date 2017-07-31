@@ -17,26 +17,10 @@ const initialState = {
 function letters(state = initialState, action) {
   switch (action.type) {
     case 'GET_LETTERS_SUCCESS': {
-      // Hard-code a few extra letters for usability testing purposes. Revert after testing.
-      let letterList = action.data.data.attributes.letters;
-      if (_.findIndex({ letterType: 'medicare_partd' }, letterList) < 0) {
-        letterList = _.concat(letterList, [{
-          name: 'Proof of Creditable Prescription Drug Coverage Letter',
-          letterType: 'medicare_partd'
-        }]
-        );
-      }
-      if (_.findIndex({ letterType: 'minimum_essential_coverage' }, letterList) < 0) {
-        letterList = _.concat(letterList, [{
-          name: 'Proof of Minimum Essential Coverage Letter',
-          letterType: 'minimum_essential_coverage'
-        }]
-        );
-      }
       return {
         ...state,
-        letters: letterList,
-        destination: action.data.meta.address,
+        letters: action.data.data.attributes.letters,
+        destination: action.data.data.attributes.address,
         lettersAvailability: 'available'
       };
     }

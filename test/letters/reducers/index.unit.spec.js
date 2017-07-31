@@ -50,18 +50,16 @@ describe('letters reducer', () => {
         data: {
           data: {
             attributes: {
+              address: {
+                addressLine1: '2476 MAIN STREET',
+                fullName: 'MARK WEBB'
+              },
               letters: [
                 {
                   letterType: 'commissary',
                   name: 'Commissary Letter'
                 }
               ]
-            }
-          },
-          meta: {
-            address: {
-              addressLine1: '2476 MAIN STREET',
-              fullName: 'MARK WEBB'
             }
           }
         }

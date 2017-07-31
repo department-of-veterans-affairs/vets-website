@@ -111,10 +111,10 @@ export const childIncomeUiSchema = {
     'ui:title': 'Gross annual income from employment'
   },
   netIncome: {
-    'ui:title': 'Net Income from Farm, Ranch, Property or Business'
+    'ui:title': 'Net income from farm, ranch, property or business'
   },
   otherIncome: {
-    'ui:title': 'Other Income Amount'
+    'ui:title': 'Other income amount'
   },
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
