@@ -210,7 +210,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won't qualify for the dependent credit unless they are in school or disabled.
+      Your child won't qualify as a dependent unless they're in school or disabled.
     </div>
   </div>
 );
