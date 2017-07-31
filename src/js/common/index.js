@@ -10,7 +10,8 @@ require('./utils/sticky-action-box.js');
 // New navigation menu
 require('../legacy/mega-menu.js');
 
-// Disable scrolling on input[type="number"] because it was changing the value unexpectedly
+// Prevent some browsers from changing the value when scrolling while hovering
+//  over an input[type="number"] with focus.
 document.addEventListener('wheel', (event) => {
   if (event.target.type === 'number' && document.activeElement === event.target) {
     event.preventDefault();
