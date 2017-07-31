@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Raven from 'raven-js';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
@@ -95,7 +96,8 @@ class ReviewPage extends React.Component {
 
   handleSubmit() {
     const formConfig = this.props.route.formConfig;
-    if (isValidForm(this.props.form, this.pagesByChapter)) {
+    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
+    if (isValid) {
       this.props.submitForm(formConfig, this.props.form);
     } else {
       // validation errors in this situation are not visible, so we'd
@@ -103,6 +105,12 @@ class ReviewPage extends React.Component {
       if (this.props.form.data.privacyAgreementAccepted) {
         window.dataLayer.push({
           event: `${formConfig.trackingPrefix}-validation-failed`,
+        });
+        Raven.captureMessage('Validation issue not displayed', {
+          extra: {
+            errors,
+            prefix: formConfig.trackingPrefix
+          }
         });
       }
       this.props.setSubmission('hasAttemptedSubmit', true);
