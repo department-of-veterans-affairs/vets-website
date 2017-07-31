@@ -2,7 +2,6 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Application Process
-children: pensionApplication
 concurrence: "" 
 order: 2
 ---
