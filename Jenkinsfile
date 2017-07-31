@@ -9,7 +9,8 @@ env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production') &&
+    env.BRANCH_NAME == 'production' ||
+    env.BRANCH_NAME == 'jk-build-archive') &&
     !env.CHANGE_TARGET
 }
 
@@ -185,33 +186,26 @@ node('vets-website-linting') {
         return
       }
 
-      def targets = [
-        'master': [
-          [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-          [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
-        ],
-
-        'production': [
-          [ 'build': 'production', 'bucket': 'www.vets.gov' ]
-        ],
-      ][env.BRANCH_NAME]
-
-      def builds = [:]
-
-      for (int i=0; i<targets.size(); i++) {
-        def target = targets.get(i)
-
-        builds[target['bucket']] = {
-          dockerImage.inside(args) {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-s3',
-                                usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-            sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build/${target['build']} s3://${target['bucket']}/"
-            }
-          }
-        }
+      // Create a new GitHub release for this merge to production
+      if (env.BRANCH_NAME == 'production' || env.BRANCH_NAME == 'jk-build-archive') {
+        build job: 'releases/vets-website', parameters: [
+          stringParam(name: 'ref', value: ref),
+        ], wait: true
       }
 
-      parallel builds
+      def targets = [
+        'master': [ 'dev', 'staging' ],
+        'production': [ 'production' ],
+        'jk-build-archive': [ 'dev' ],
+      ][env.BRANCH_NAME]
+
+      // Deploy the ref's corresponding build to dev and staging. If this
+      // is a production merge, we'll deploy the release we just created.
+      // The `ref` param is ignored for the production deployment.
+      for (int i=0; i<targets.size(); i++) {
+        build job: 'deploys/vets-website-${env}', parameters: [
+          stringParam(name: 'ref', value: ref),
+        ], wait: false
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
       throw error
