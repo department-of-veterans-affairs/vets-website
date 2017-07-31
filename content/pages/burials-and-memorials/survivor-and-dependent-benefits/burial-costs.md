@@ -3,7 +3,6 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
-lastupdate: 2017-07-31
 ---
 
 <div class="va-introtext">
