@@ -206,6 +206,7 @@ node('vets-website-linting') {
         build job: 'deploys/vets-website-${env}', parameters: [
           stringParam(name: 'ref', value: ref),
         ], wait: false
+      }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
       throw error
