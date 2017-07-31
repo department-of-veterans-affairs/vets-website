@@ -6,7 +6,7 @@ import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils
 
 import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
     this.props.getBenefitSummaryOptions();
