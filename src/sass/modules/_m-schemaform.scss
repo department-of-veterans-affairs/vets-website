@@ -322,6 +322,12 @@ label {
 
 .schemaform-address-view {
   white-space: pre-wrap;
+  p {
+    margin-bottom: 0;
+  }
+  p:not(:first-child) {
+    margin-top: 0;
+  }
 }
 
 .schemaform-array-readonly-header {
