@@ -32,6 +32,8 @@ Submit your claim according to FDC Criteria:
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
 3. Go to any VA medical appointments required to decide your claim
 
+<br>
+
 #### Standard Claim Process
 
 With a standard claim, you’ll give VA permission to gather evidence or records for you. You’ll need to give VA enough information about the evidence so they can request it from the right person or agency.
@@ -85,13 +87,15 @@ If you’re claiming benefits for a disabled child, the evidence must show that 
 
 #### FDC Program 
 
-VA will:
+We will:
 - Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 
+<br>
+
 #### Standard Claim Process
 
-VA will:
+We will:
 - Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 - Make every reasonable effort to request relevant records that you authorize VA to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
@@ -108,9 +112,11 @@ You’ll need to:
 - Turn in the information and evidence at the same time as you file your claim.
 <div class="usa-alert usa-alert-warning no-background-image">
 
-**Note:** If you turn in additional information or evidence after you send in your fully developed claim, we will remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
+**Note:** If you turn in additional information or evidence after you send in your fully developed claim, we'll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
 
 </div>
+
+<br>
 
 #### Standard Claim Process
 
