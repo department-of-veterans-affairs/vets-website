@@ -59,6 +59,13 @@ class SearchControls extends Component {
     const { onSearch } = this.props;
     e.preventDefault();
 
+    const { facilityType } = this.props.currentQuery;
+    // Report event here to only send analytics event when a user clicks on the button
+    window.dataLayer.push({
+      event: 'fl-search',
+      'fl-search-fac-type': facilityType
+    });
+
     onSearch();
   }
 

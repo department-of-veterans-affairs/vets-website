@@ -73,6 +73,7 @@ export default class AppointmentInfo extends Component {
       }
 
       const onClick = () => {
+        window.dataLayer.push({ event: 'fl-show-waittimes' });
         this.setState({
           [showHideKey]: !this.state[showHideKey],
         });
