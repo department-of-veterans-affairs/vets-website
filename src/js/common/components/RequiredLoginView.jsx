@@ -8,19 +8,6 @@ import VerifyPrompt from './authentication/VerifyPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredLoginView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
-  }
-
   isServiceAvailable() {
     const requiredApp = this.props.serviceRequired;
     const userServices = this.props.userProfile.services;
@@ -46,7 +33,7 @@ class RequiredLoginView extends React.Component {
     const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
     const verifyComponent = <VerifyPrompt verifyUrl={this.props.verifyUrl}/>;
 
-    if (this.state.loading === true) {
+    if (this.props.userProfile.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
       if (this.props.authRequired === 1) {
