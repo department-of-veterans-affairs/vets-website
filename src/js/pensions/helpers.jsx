@@ -189,7 +189,7 @@ export const marriageWarning = (
 
 export const fdcWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application will be submitted as a fully developed claim and will be reviewed faster.
+    Your application will be submitted as a fully developed claim.
   </div>
 );
 
