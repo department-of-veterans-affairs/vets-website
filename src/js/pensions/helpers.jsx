@@ -83,7 +83,7 @@ export function fileHelp({ formData }) {
 
   return (
     <div>
-      <p>Please upload any documentation to support your claim. {hasBullets && 'This includes:'}</p>
+      <p>Please upload all documentation to support your claim. {hasBullets && 'This includes:'}</p>
       <ul>
         {formData['view:aidAttendance'] === true &&
           <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>}
@@ -193,7 +193,7 @@ export const marriageWarning = (
 
 export const fdcWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application will be submitted as a fully developed claim and will be reviewed faster.
+    Your application will be submitted as a fully developed claim.
   </div>
 );
 
