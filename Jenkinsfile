@@ -208,7 +208,7 @@ node('vets-website-linting') {
       // is a production merge, we'll deploy the release we just created.
       // The `ref` param is ignored for the production deployment.
       for (int i=0; i<targets.size(); i++) {
-        build job: "deploys/vets-website-${env}", parameters: [
+        build job: "deploys/vets-website-${targets.get(i)}", parameters: [
           stringParam(name: 'ref', value: ref),
         ], wait: false
       }
