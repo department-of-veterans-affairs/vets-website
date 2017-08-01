@@ -1379,7 +1379,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses,
+              spouseOtherExpenses: _.merge(otherExpenses, { minItems: 1 }),
               'view:spouseOtherExpensesWarning': {
                 type: 'object',
                 properties: {}
@@ -1527,7 +1527,7 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses,
+                    otherExpenses: _.merge(otherExpenses, { minItems: 1 }),
                     'view:otherExpensesWarning': {
                       type: 'object',
                       properties: {}
@@ -1549,6 +1549,20 @@ const formConfig = {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
                   },
+                  items: {
+                    amount: {
+                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
+                    },
+                    purpose: {
+                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
+                    },
+                    date: {
+                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
+                    },
+                    paidTo: {
+                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
+                    }
+                  }
                 }),
                 'view:otherExpensesWarning': {
                   'ui:description': otherExpensesWarning,
