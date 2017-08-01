@@ -20,7 +20,7 @@ If you file a claim in the FDC program and we decide that additional documents e
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="need-to-do">What do I need to do?</button>
 <div id="need-to-do" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program 
 
 When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide information about supporting documents that you don’t have.
 Submit your claim according to FDC Criteria:
@@ -47,7 +47,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 If you’re claiming non-service-connected pension benefits, the evidence must show:
 1. You meet certain minimum requirements for active service during a period of war. Those requirements are:
 
-    - 90 days of consecutive active service, with at least 1 day during wartime, **or**
+    - 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
     - 90 days of combined service, with at least 1 day during wartime
     (**Note:** If your service began after September 7, 1980, additional service requirements may apply, typically 2 years of continuous service or completion of active-duty service), **or**
     - Any length of active-duty service during wartime, with discharge because of a service-connected disability
@@ -83,7 +83,7 @@ If you’re claiming benefits for a disabled child, the evidence must show that 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-will-help">How will VA help me get evidence for my claim?</button>
 <div id="va-will-help" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program 
 
 VA will:
 - Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
@@ -102,7 +102,7 @@ VA will:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="when-to-send">When should I turn in my evidence?</button>
 <div id="when-to-send" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program 
 
 You’ll need to:
 - Turn in the information and evidence at the same time as you file your claim.
@@ -140,7 +140,7 @@ Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/52
 #### Special Situations
 If any of the below situations apply to you, you’ll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
-- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). **If you’re in a care facility**, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
+- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). **Note:** If you’re in a care facility, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
 - **Claiming a child in school between the ages of 18 and 23**, fill out a Request for Approval of School Attendance ([VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674)).
 - **Claiming benefits for a seriously disabled child**, turn in all private medical records for the child’s disabilities.
 
