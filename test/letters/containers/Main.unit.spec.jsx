@@ -17,6 +17,12 @@ describe('<Main>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
+  it.only('should not show loading spinner when letters are available', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: 'available' });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    expect(tree.subTree('LoadingIndicator')).to.be.false;
+  });
+
   it('should show loading spinner when waiting for response', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: 'awaitingResponse' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
