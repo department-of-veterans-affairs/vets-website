@@ -67,11 +67,11 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-The requirements for running this application are:
 
-- Node.js 4.4.7
-- NPM 3.8.9
-- Yarn 0.27.5
+
+The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
+
+Once you have nvm installed you should now install node.js version 6.11.1 by running:
 
 We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with everyone else will reduce errors. To install please visit: https://github.com/creationix/nvm
 
@@ -83,15 +83,17 @@ We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with 
 
 Once you have `nvm` installed, you should install Node.js:
 
+
 ```bash
-nvm install 6.10.3
+nvm install 6.11.1
 ```
 _This will also install `npm`_
 
-Next, set the default version for `node`: 
+
+Once you have node.js 6.11.1 you should set as the default version for nvm, you do that by running:
 
 ```bash
-nvm alias default 6.10.3
+nvm alias default 6.11.1
 ```
 
 Next install Yarn:
@@ -101,7 +103,7 @@ npm i -g yarn@0.27.5
 ### Verify your local requirements are set
 
 ```bash
-node --version // 6.10.3
+node --version // 6.11.1
 yarn --version // 0.27.5
 ```
 

@@ -191,7 +191,7 @@
     "fsevents": "^1.0.7"
   },
   "engines": {
-    "node": "6.10.3",
+    "node": "6.11.1",
     "yarn": "0.21.3"
   },
   "private": true,
