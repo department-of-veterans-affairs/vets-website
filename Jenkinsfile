@@ -157,7 +157,7 @@ node('vets-website-linting') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
           for (int i=0; i<builds.size(); i++) {
-            sh "tar -C /application/build/${builds.get(i)} -f /application/build/${builds.get(i)}.tar.bz2"
+            sh "tar -C /application/build/${builds.get(i)} -cf /application/build/${builds.get(i)}.tar.bz2"
             sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${builds.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${builds.get(i)}.tar.bz2"
           }
         }
