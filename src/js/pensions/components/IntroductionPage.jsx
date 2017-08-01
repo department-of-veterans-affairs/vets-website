@@ -18,7 +18,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for pension benefits"/>
+        <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to Form 21P-527EZ</p>
         {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}

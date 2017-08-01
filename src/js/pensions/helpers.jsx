@@ -166,14 +166,18 @@ export const aidAttendanceEvidence = (
 );
 
 export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning no-background-image">
-    You'll need to provide all private medical records for your child's disability.
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      You'll need to provide all private medical records for your child's disability.
+    </div>
   </div>
 );
 
 export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
-    Since your child is between 18 and 23 years old, you'll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      Since your child is between 18 and 23 years old, you'll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+    </div>
   </div>
 );
 
@@ -210,7 +214,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won't qualify for the dependent credit unless they are in school or disabled.
+      Your child won't qualify as a dependent unless they're in school or disabled.
     </div>
   </div>
 );
