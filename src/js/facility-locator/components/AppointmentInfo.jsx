@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { some, pull, startCase } from 'lodash';
+import { get, some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 
@@ -23,8 +23,7 @@ export default class AppointmentInfo extends Component {
   }
 
   hasPrimaryCare(accessAttrs, category) {
-    return (typeof accessAttrs.primaryCare !== 'undefined' &&
-        accessAttrs.primaryCare[category] !== null);
+    return get(accessAttrs, ['primaryCare', category]);
   }
 
   render() {
