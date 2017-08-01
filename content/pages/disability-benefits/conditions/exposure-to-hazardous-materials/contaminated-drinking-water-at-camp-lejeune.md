@@ -106,7 +106,7 @@ When you apply, please provide:
 
 - Medical records that show you have one of the 15 conditions listed above, **and**
 
-- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
 
 <div class="feature" markdown="1">
 
