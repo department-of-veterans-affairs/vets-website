@@ -46,7 +46,7 @@ Mail the application to the Pension Management Center (PMC) for your state. [Fin
 
 Bring your application to a regional benefits office near you. [Find a regional benefits office](/facilities/).
 
-**Work with a trained professional**
+**With the help of a trained professional**
 
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
 
@@ -55,6 +55,6 @@ You can work with a trained professional called an accredited representative to 
 
 ### How long does it take VA to make a decision?
 
-We process claims in the order we receive them, unless a claim requires priority processing.   
+It depends. We process claims in the order we receive them, unless a claim requires priority processing.   
 
 
