@@ -222,3 +222,16 @@ export const dependentWarning = (
 export const dependentsMinItem = (
   <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
 );
+
+export const expectedIncomeDescription = (
+  <span>Any income you didn't already report in this form that you expect to receive in the next 12 months</span>
+);
+
+export const spouseExpectedIncomeDescription = (
+  <span>Any income you didn't already report in this form that your spouse expects to receive in the next 12 months</span>
+);
+
+export const dependentExpectedIncomeDescription = (
+  <span>Any income you didn't already report in this form that your dependent expects to receive in the next 12 months</span>
+);
+
