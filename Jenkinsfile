@@ -9,8 +9,7 @@ env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production' ||
-    env.BRANCH_NAME == 'jk-build-archive') &&
+    env.BRANCH_NAME == 'production') &&
     !env.CHANGE_TARGET
 }
 
@@ -192,7 +191,7 @@ node('vets-website-linting') {
       }
 
       // Create a new GitHub release for this merge to production
-      if (env.BRANCH_NAME == 'production' || env.BRANCH_NAME == 'jk-build-archive') {
+      if (env.BRANCH_NAME == 'production') {
         build job: 'releases/vets-website', parameters: [
           stringParam(name: 'ref', value: ref),
         ], wait: true
@@ -201,7 +200,6 @@ node('vets-website-linting') {
       def targets = [
         'master': [ 'dev', 'staging' ],
         'production': [ 'production' ],
-        'jk-build-archive': [ 'dev' ],
       ][env.BRANCH_NAME]
 
       // Deploy the ref's corresponding build to dev and staging. If this
