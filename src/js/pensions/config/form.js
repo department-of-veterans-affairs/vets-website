@@ -1274,7 +1274,7 @@ const formConfig = {
               'view:hasOtherExpenses': {
                 type: 'boolean'
               },
-              otherExpenses: _.merge(otherExpenses, { minItems: 1 }),
+              otherExpenses,
               'view:otherExpensesWarning': {
                 type: 'object',
                 properties: {}
@@ -1379,7 +1379,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: _.merge(otherExpenses, { minItems: 1 }),
+              spouseOtherExpenses: otherExpenses,
               'view:spouseOtherExpensesWarning': {
                 type: 'object',
                 properties: {}
@@ -1527,7 +1527,7 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses: _.merge(otherExpenses, { minItems: 1 }),
+                    otherExpenses,
                     'view:otherExpensesWarning': {
                       type: 'object',
                       properties: {}
