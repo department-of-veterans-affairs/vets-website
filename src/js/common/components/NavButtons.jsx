@@ -164,8 +164,8 @@ export default class NavButtons extends React.Component {
       </div>);
     } else if (path.endsWith('submit-message')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="row">
+          <div className="small-12 medium-5 columns">
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
             </a>
@@ -174,8 +174,8 @@ export default class NavButtons extends React.Component {
       );
     } else if (path.endsWith('introduction')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="row">
+          <div className="small-12 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Get Started"
