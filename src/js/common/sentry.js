@@ -15,7 +15,11 @@ if (trackErrors) {
   // it does not work locally with the webpack devtool setting we
   // use but does with the one we use in prod/staging
   window.addEventListener('unhandledrejection', (evt) => {
-    Raven.captureException(evt.reason);
+    Raven.captureException(evt.reason || 'Unhandled promise rejection', {
+      extra: {
+        evt
+      }
+    });
   });
 }
 
