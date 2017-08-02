@@ -104,7 +104,7 @@ export function submitForm(data) {
       extra: {
         clientError,
         statusText: error.statusText,
-        fingerprint: ['edu-', error]
+        fingerprint: ['edu-', error.message]
       }
     });
     window.dataLayer.push({
