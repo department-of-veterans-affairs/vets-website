@@ -7,16 +7,7 @@ import { fileHelp } from '../../src/js/pensions/helpers.jsx';
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
   describe('fileHelp', () => {
-    it('should show no bullets', () => {
-      const tree = SkinDeep.shallowRender(
-        <FileHelp
-            formData={{}}/>
-      );
-
-      expect(tree.text()).to.contain('Please upload all doc');
-      expect(tree.text()).not.to.contain('This includes');
-    });
-    it('should show two aid attendance bullets', () => {
+    it('should render', () => {
       const formData = {
         'view:aidAttendance': true
       };
@@ -25,6 +16,7 @@ describe('Pensions helpers', () => {
             formData={formData}/>
       );
 
+      expect(tree.text()).to.contain('Please upload all doc');
       expect(tree.everySubTree('li').length).to.equal(2);
     });
     it('should show disabled child bullet', () => {
@@ -38,7 +30,7 @@ describe('Pensions helpers', () => {
             formData={formData}/>
       );
 
-      expect(tree.everySubTree('li').length).to.equal(1);
+      expect(tree.everySubTree('li').length).to.equal(3);
     });
     it('should show school child bullet', () => {
       const formData = {
@@ -51,7 +43,7 @@ describe('Pensions helpers', () => {
             formData={formData}/>
       );
 
-      expect(tree.everySubTree('li').length).to.equal(1);
+      expect(tree.everySubTree('li').length).to.equal(3);
     });
   });
 });

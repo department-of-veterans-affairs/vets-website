@@ -79,16 +79,12 @@ export function fileHelp({ formData }) {
 
   const hasDisabledChild = (formData.dependents || []).some(child => child.disabled);
 
-  const hasBullets = formData['view:aidAttendance'] || hasSchoolChild || hasDisabledChild;
-
   return (
     <div>
-      <p>Please upload all documentation to support your claim. {hasBullets && 'This includes:'}</p>
+      <p>Please upload all documentation to support your claim. This includes:</p>
       <ul>
-        {formData['view:aidAttendance'] === true &&
-          <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>}
-        {formData['view:aidAttendance'] === true &&
-          <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>}
+        <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>
+        <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>
         {hasSchoolChild &&
           <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
         {hasDisabledChild &&
