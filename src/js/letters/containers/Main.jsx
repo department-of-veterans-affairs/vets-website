@@ -5,6 +5,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
 import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -28,9 +29,10 @@ export class Main extends React.Component {
       case 'backendAuthenticationError':
         appContent = unableToFindRecordWarning();
         break;
-      // case 'invalidAddressProperty':
-      //   appContent = ;
-      //   break;
+      // Need a permanent UI for this
+      case 'invalidAddressProperty':
+        appContent = invalidAddressProperty();
+        break;
       case 'unavailable':
         appContent = (
           <div id="lettersUnavailable">

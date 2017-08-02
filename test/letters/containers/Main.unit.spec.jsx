@@ -17,7 +17,7 @@ describe('<Main>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it.only('should not show loading spinner when letters are available', () => {
+  it('should not show loading spinner when letters are available', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: 'available' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('LoadingIndicator')).to.be.false;
@@ -39,6 +39,12 @@ describe('<Main>', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: 'backendAuthenticationError' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#recordNotFound')).to.be.ok;
+  });
+
+  it('should show invalid address error', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: 'invalidAddressProperty' });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    expect(tree.subTree('#invalidAddress')).to.be.ok;
   });
 
   it('should show letters unavailable message when service is unavailable', () => {

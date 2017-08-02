@@ -24,20 +24,24 @@ export function getLetterList() {
         data: response,
       }),
       (response) => {
-        if (response.status === 503 || response.status === 504) {
-          // Either EVSS or a partner service is down or EVSS times out
-          return dispatch({ type: BACKEND_SERVICE_ERROR });
-        }
-        if (response.status === 403) {
-          // Backend authentication problem
-          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-        }
-        if (response.status === 422) {
-          // Something about the address is invalid, unable to process the request
-          return dispatch({ type: INVALID_ADDRESS_PROPERTY });
+        const error = response.errors.length > 0 ? response.errors[0] : undefined;
+        if (error) {
+          if (error.status === '503' || error.status === '504') {
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          }
+          if (error.status === '403') {
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          }
+          if (error.status === '422') {
+            // Something about the address is invalid, unable to process the request
+            return dispatch({ type: INVALID_ADDRESS_PROPERTY });
+          }
         }
         return Promise.reject(
-          new Error('letters getLetterList() received unexpected status code: `${response.status}`'));
+          new Error('letters getLetterList() received unexpected status code: `${response.status}`')
+        );
       })
       .catch((error) => {
         Raven.captureException(error);
