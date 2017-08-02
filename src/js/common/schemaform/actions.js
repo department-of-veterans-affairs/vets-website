@@ -58,7 +58,7 @@ export function submitForm(formConfig, form) {
       extra: {
         clientError,
         statusText: error.statusText,
-        fingerprint: [formConfig.trackingPrefix, error]
+        fingerprint: [formConfig.trackingPrefix, error.message]
       }
     });
     window.dataLayer.push({
