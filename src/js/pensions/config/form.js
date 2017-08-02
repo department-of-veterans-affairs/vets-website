@@ -175,7 +175,6 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: __BUILDTYPE__ === 'production',
   formId: '21P-527EZ',
   version: 0,
   savedFormMessages: {
