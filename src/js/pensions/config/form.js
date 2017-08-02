@@ -1591,8 +1591,9 @@ const formConfig = {
         },
         aidAttendance: {
           path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance',
+          title: 'Aid and Attendance and Housebound Benefits',
           uiSchema: {
+            'ui:title': 'Aid and Attendance and Housebound Benefits',
             'view:evidenceInfo': {
               'ui:description': aidAttendanceEvidence
             }
