@@ -111,8 +111,7 @@ class EduBenefitsApp extends React.Component {
 
     let contentClass = classNames(
       'progress-box',
-      'progress-box-schemaform',
-      { 'intro-content': isIntroductionPage }
+      'progress-box-schemaform'
     );
 
     const ombInfo = isIntroductionPage ?

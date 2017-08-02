@@ -29,7 +29,10 @@ import {
   noFDCWarning,
   expeditedProcessDescription,
   aidAttendanceEvidence,
-  dependentWarning
+  dependentWarning,
+  expectedIncomeDescription,
+  spouseExpectedIncomeDescription,
+  dependentExpectedIncomeDescription
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -1260,7 +1263,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Expected income'),
-            'ui:description': 'Any income you expect to receive in the next 12 months',
+            'ui:description': expectedIncomeDescription,
             expectedIncome: expectedIncomeUI
           }
         },
@@ -1350,7 +1353,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
+            'ui:description': spouseExpectedIncomeDescription,
             spouseExpectedIncome: expectedIncomeUI
           }
         },
@@ -1476,7 +1479,7 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
-                'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
+                'ui:description': dependentExpectedIncomeDescription,
                 expectedIncome: expectedIncomeUI
               }
             }

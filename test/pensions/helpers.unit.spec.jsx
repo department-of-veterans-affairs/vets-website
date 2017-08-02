@@ -13,7 +13,7 @@ describe('Pensions helpers', () => {
             formData={{}}/>
       );
 
-      expect(tree.text()).to.contain('Please upload any doc');
+      expect(tree.text()).to.contain('Please upload all doc');
       expect(tree.text()).not.to.contain('This includes');
     });
     it('should show two aid attendance bullets', () => {
