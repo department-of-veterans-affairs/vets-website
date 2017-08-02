@@ -29,7 +29,6 @@ export default class CurrencyWidget extends React.Component {
 
     return (
       <input type="number"
-          step=".01"
           id={this.props.id}
           name={this.props.id}
           disabled={this.props.disabled}

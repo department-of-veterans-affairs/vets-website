@@ -12,9 +12,9 @@ describe('Schemaform <CurrencyWidget>', () => {
           options={{}}
           value={178}/>
     );
-    expect(tree.subTree('input').props.value).to.equal('178.00');
-    expect(tree.subTree('input').props.type).to.equal('number');
-    expect(tree.subTree('input').props.step).to.equal('.01');
+    const input = tree.subTree('input');
+    expect(input.props.value).to.equal('178.00');
+    expect(input.props.type).to.equal('number');
   });
   it('should call onChange with parsed number when 0 filled', () => {
     const onChange = sinon.spy();

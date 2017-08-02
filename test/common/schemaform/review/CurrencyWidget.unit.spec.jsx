@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import CurrencyWidget from '../../../../src/js/common/schemaform/review/CurrencyWidget';
 
 describe('Schemaform review <CurrencyWidget>', () => {
-  it('should format ssn', () => {
+  it('should format currency', () => {
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget value={10}/>
     );
