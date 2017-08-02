@@ -86,7 +86,7 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children } = this.props;
+    const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
@@ -102,7 +102,7 @@ class FormApp extends React.Component {
     } else {
       content = (
         <div>
-          <FormNav formConfig={formConfig} currentPath={trimmedPathname}/>
+          <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>
           <div className="progress-box progress-box-schemaform">
             {children}
           </div>
@@ -139,6 +139,7 @@ const mapStateToProps = (state) => ({
   savedStatus: state.form.savedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
+  formData: state.form.data
 });
 
 const mapDispatchToProps = {

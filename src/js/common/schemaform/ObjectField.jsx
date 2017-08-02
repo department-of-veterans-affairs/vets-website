@@ -207,7 +207,7 @@ class ObjectField extends React.Component {
                     required={required}
                     formContext={formContext}/> : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && <DescriptionField formContext={formContext} options={uiSchema['ui:options']}/>}
+            {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
           {uiOptions.showPrefillMessage && formContext.prefilled && <PrefillMessage/>}

@@ -23,9 +23,10 @@ class Disclaimer extends React.Component {
           className={disclaimerClass}
           aria-expanded={this.props.isOpen}>
         <div className="usa-alert-body va-alert-body">
-          <h5 className="va-alert-title">This list may not include all your medications</h5>
+          <h5 className="va-alert-title">This list includes only your active VA prescriptions</h5>
           <p hidden={!this.props.isOpen}>
-          If you have any questions about your medication list, please contact your health care team.</p>
+            If you're taking a medicine that you don't see on this list — or if you have any questions about your current medicines — please contact your VA health care team.
+          </p>
           <button
               className="va-alert-close usa-button-unstyled"
               onClick={this.props.handleClose}>

@@ -48,12 +48,12 @@ This office serves:
 To submit a pension application to this office, mail it to:
 
 <dl class="va-address-block">
-<dd>Department of Veterans Affairs</dd>
-<dd>Claims Intake Center</dd>
-<dd>Attention:  Philadelphia Pension Center</dd>
-<dd>PO Box 5206</dd>
-<dd>Janesville, WI  53547-5206</dd>
-
+  <dt></dt>
+  <dd>Department of Veterans Affairs</dd>
+  <dd>Claims Intake Center</dd>
+  <dd>Attention:  Philadelphia Pension Center</dd>
+  <dd>PO Box 5206</dd>
+  <dd>Janesville, WI  53547-5206</dd>
 </dl>
 
 Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
@@ -91,12 +91,12 @@ This office serves:
 To submit a pension application to this office, mail it to:
 
 <dl class="va-address-block">
-<dd>Department of Veterans Affairs</dd>
-<dd>Claims Intake Center</dd>
-<dd>Attention:  Milwaukee Pension Center</dd>
-<dd>PO Box 5192</dd>
-<dd>Janesville, WI 53547-5192</dd>
-
+  <dt></dt>
+  <dd>Department of Veterans Affairs</dd>
+  <dd>Claims Intake Center</dd>
+  <dd>Attention:  Milwaukee Pension Center</dd>
+  <dd>PO Box 5192</dd>
+  <dd>Janesville, WI 53547-5192</dd>
 </dl>
 
 Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
@@ -151,12 +151,12 @@ This office serves:
 To submit a pension application to this office, mail it to:
 
 <dl class="va-address-block">
-<dd>Department of Veterans Affairs</dd>
-<dd>Claims Intake Center</dd>
-<dd>Attention:  St. Paul Pension Center</dd>
-<dd>PO BOX 5365</dd>
-<dd>Janesville, WI 53547-5365</dd>
-
+  <dt></dt>
+  <dd>Department of Veterans Affairs</dd>
+  <dd>Claims Intake Center</dd>
+  <dd>Attention:  St. Paul Pension Center</dd>
+  <dd>PO BOX 5365</dd>
+  <dd>Janesville, WI 53547-5365</dd>
 </dl>
 
 Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.

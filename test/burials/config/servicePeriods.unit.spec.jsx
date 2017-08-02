@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
-describe('Burial military historyi service periods', () => {
+describe('Burial military history service periods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -19,6 +19,18 @@ describe('Burial military historyi service periods', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
+  });
+
+  it('should display DD214 notification', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
   });
 
   it('should submit an empty completed form', () => {

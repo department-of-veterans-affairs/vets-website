@@ -23,7 +23,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.burial-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -44,8 +44,8 @@ class ConfirmationPage extends React.Component {
     const { deathCertificate, transportationReceipts } = form.data;
 
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="burial-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -74,7 +74,7 @@ class ConfirmationPage extends React.Component {
             {hasDocuments && <li>
               <strong>Documents uploaded</strong><br/>
               {deathCertificate && <p>Death certificate: 1 file</p>}
-              {transportationReceipts && <p>Transportation receipts: {transportationReceipts.length} {transportationReceipts.length > 1 ? 'files' : 'file'}</p>}
+              {transportationReceipts && <p>Transportation documentation: {transportationReceipts.length} {transportationReceipts.length > 1 ? 'files' : 'file'}</p>}
             </li>}
             <li>
               <strong>Your claim was sent to</strong><br/>

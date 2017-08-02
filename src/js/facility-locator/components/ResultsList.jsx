@@ -57,7 +57,9 @@ class ResultsList extends Component {
 
     if (!facilities || facilities.length < 1) {
       return (
-        <div className="facility-result">No facilities found. Please enter a search term and click search to find facilities.</div>
+        <div className="facility-result">
+          No facilities found. Please try entering a different search term (Street, City, State or Zip) and click search to find facilities.
+        </div>
       );
     }
 

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -16,16 +17,33 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning
+  otherExpensesWarning,
+  uploadMessage,
+  dependentsMinItem,
+  wartimeWarning,
+  servedDuringWartime,
+  disabilityDocs,
+  schoolAttendanceWarning,
+  marriageWarning,
+  fdcWarning,
+  noFDCWarning,
+  expeditedProcessDescription,
+  aidAttendanceEvidence,
+  dependentWarning,
+  expectedIncomeDescription,
+  spouseExpectedIncomeDescription,
+  dependentExpectedIncomeDescription
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
+import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -67,7 +85,9 @@ const {
   mobilePhone,
   veteranFullName,
   veteranDateOfBirth,
-  veteranSocialSecurityNumber
+  veteranSocialSecurityNumber,
+  vamcTreatmentCenters,
+  noRapidProcessing
 } = fullSchemaPensions.properties;
 
 const {
@@ -163,7 +183,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
   title: 'Apply for pension',
-  subTitle: 'Form 21-527EZ',
+  subTitle: 'Form 21P-527EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
@@ -220,6 +240,39 @@ const formConfig = {
         }
       }
     },
+    benefitsSelection: {
+      title: 'Benefits Selection',
+      pages: {
+        benefitsSelection: {
+          path: 'benefits/selection',
+          title: 'Benefits Selection',
+          uiSchema: {
+            'view:aidAttendance': {
+              'ui:title': 'Are you also claiming Aid and Attendance or Housebound Benefits?',
+              'ui:widget': 'yesNo'
+            },
+            'view:evidenceInfo': {
+              'ui:description': aidAttendanceEvidence,
+              'ui:options': {
+                expandUnder: 'view:aidAttendance'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:aidAttendance': {
+                type: 'boolean'
+              },
+              'view:evidenceInfo': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        }
+      }
+    },
     militaryHistory: {
       title: 'Military History',
       pages: {
@@ -243,7 +296,32 @@ const formConfig = {
                   'Date entered service must be before date left service'
                 )
               }
-            }
+            },
+            'view:wartimeWarning': (() => {
+              const hideWartimeWarning = createSelector(
+                form => form.servicePeriods,
+                (periods) => {
+                  const completePeriods = (periods || []).filter(period => {
+                    return period.activeServiceDateRange &&
+                      isFullDate(period.activeServiceDateRange.to) &&
+                      isFullDate(period.activeServiceDateRange.from);
+                  });
+                  if (!completePeriods.length) {
+                    return true;
+                  }
+                  return completePeriods.some(period => {
+                    return servedDuringWartime(period.activeServiceDateRange);
+                  });
+                }
+              );
+
+              return {
+                'ui:description': wartimeWarning,
+                'ui:options': {
+                  hideIf: hideWartimeWarning
+                }
+              };
+            })()
           },
           schema: {
             type: 'object',
@@ -263,6 +341,10 @@ const formConfig = {
                     })
                   }
                 }
+              },
+              'view:wartimeWarning': {
+                type: 'object',
+                properties: {}
               }
             }
           }
@@ -291,10 +373,8 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   return (periods || []).every(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
                     return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !isFullDate(period.activeServiceDateRange.to) ||
                       !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
                   });
                 }
@@ -348,7 +428,7 @@ const formConfig = {
                 }
               }),
               phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service activation date')
             }
           },
           schema: {
@@ -431,11 +511,15 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             disabilities: {
-              'ui:title': 'What Disabilities prevent you from working?',
+              'ui:title': 'What disabilities prevent you from working?',
               'ui:order': ['name', 'disabilityStartDate'],
               'ui:options': {
                 viewField: DisabilityField,
-                reviewTitle: 'Disability history'
+                reviewTitle: 'Disability history',
+                itemName: 'Disability'
+              },
+              'ui:errorMessages': {
+                minItems: 'Please add at least one disability.'
               },
               items: {
                 name: {
@@ -444,14 +528,27 @@ const formConfig = {
                 disabilityStartDate: currentOrPastDateUI('Date disability began')
               }
             },
-            hasVisitedVAMC: {
+            'view:hasVisitedVAMC': {
               'ui:title': 'Have you been treated at a VA medical center for the above disability?',
               'ui:widget': 'yesNo'
+            },
+            vamcTreatmentCenters: {
+              'ui:description': 'Please enter all VA medical centers where you have received treatment',
+              'ui:options': {
+                viewField: MedicalCenterField,
+                itemName: 'Medical Center',
+                expandUnder: 'view:hasVisitedVAMC'
+              },
+              items: {
+                location: {
+                  'ui:title': 'Name and location (city, state) of VA medical center'
+                }
+              }
             }
           },
           schema: {
             type: 'object',
-            required: ['disabilities', 'hasVisitedVAMC'],
+            required: ['disabilities', 'view:hasVisitedVAMC'],
             properties: {
               disabilities: {
                 type: 'array',
@@ -462,9 +559,12 @@ const formConfig = {
                   properties: disabilities.items.properties
                 }
               },
-              hasVisitedVAMC: {
+              'view:hasVisitedVAMC': {
                 type: 'boolean'
-              }
+              },
+              vamcTreatmentCenters: _.assign(vamcTreatmentCenters, {
+                minItems: 1
+              })
             }
           }
         },
@@ -620,6 +720,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['marriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 'view:pastMarriage': {
                   'ui:options': {
                     hideIf: isCurrentMarriage
@@ -659,6 +765,7 @@ const formConfig = {
                     locationOfMarriage: marriageProperties.locationOfMarriage,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
@@ -826,6 +933,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['spouseMarriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 reasonForSeparation: {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
@@ -859,6 +972,7 @@ const formConfig = {
                     spouseFullName: marriageProperties.spouseFullName,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     reasonForSeparation,
                     dateOfSeparation: marriageProperties.dateOfSeparation,
                     locationOfSeparation: marriageProperties.locationOfSeparation
@@ -881,6 +995,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
+              },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
               },
               items: {
                 fullName: fullNameUI,
@@ -929,7 +1046,19 @@ const formConfig = {
                     'view:noSSN': { type: 'boolean' },
                     childRelationship: dependents.items.properties.childRelationship,
                     attendingCollege: dependents.items.properties.attendingCollege,
+                    'view:schoolWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     disabled: dependents.items.properties.disabled,
+                    'view:disabilityDocs': {
+                      type: 'object',
+                      properties: {}
+                    },
+                    'view:dependentWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     previouslyMarried: dependents.items.properties.previouslyMarried,
                     married: dependents.items.properties.married,
                   }
@@ -970,6 +1099,12 @@ const formConfig = {
                     hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   }
                 },
+                'view:schoolWarning': {
+                  'ui:description': schoolAttendanceWarning,
+                  'ui:options': {
+                    expandUnder: 'attendingCollege'
+                  }
+                },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
                   'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
@@ -978,9 +1113,22 @@ const formConfig = {
                   },
                   'ui:widget': 'yesNo',
                 },
+                'view:disabilityDocs': {
+                  'ui:description': disabilityDocs,
+                  'ui:options': {
+                    expandUnder: 'disabled'
+                  }
+                },
+                'view:dependentWarning': {
+                  'ui:description': dependentWarning,
+                  'ui:options': {
+                    hideIf: (formData, index) => _.get(['dependents', index, 'disabled'], formData) !== false
+                      || _.get(['dependents', index, 'attendingCollege'], formData) !== false
+                  }
+                },
                 previouslyMarried: {
                   'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
+                  'ui:widget': 'yesNo'
                 },
                 married: {
                   'ui:title': 'Are they currently married?',
@@ -1065,6 +1213,7 @@ const formConfig = {
     },
     financialDisclosure: {
       title: 'Financial Disclosure',
+      reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
@@ -1114,7 +1263,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Expected income'),
-            'ui:description': 'Any income you expect to receive in the next 12 months',
+            'ui:description': expectedIncomeDescription,
             expectedIncome: expectedIncomeUI
           }
         },
@@ -1204,7 +1353,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
+            'ui:description': spouseExpectedIncomeDescription,
             spouseExpectedIncome: expectedIncomeUI
           }
         },
@@ -1330,7 +1479,7 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
-                'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
+                'ui:description': dependentExpectedIncomeDescription,
                 expectedIncome: expectedIncomeUI
               }
             }
@@ -1393,7 +1542,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+          path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
@@ -1472,24 +1621,75 @@ const formConfig = {
               mobilePhone
             }
           }
-        }
-      }
-    },
-    documentUpload: {
-      title: 'Document Upload',
-      pages: {
+        },
         documentUpload: {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
           uiSchema: {
+            'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim')
+            files: fileUploadUI('', {
+              hideLabelText: true,
+            }),
+            'view:uploadMessage': {
+              'ui:description': uploadMessage
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              'view:uploadMessage': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        expedited: {
+          title: 'Expedited process',
+          path: 'additional-information/fdc',
+          uiSchema: {
+            'ui:description': expeditedProcessDescription,
+            noRapidProcessing: {
+              'ui:title': 'Do you want to use the expedited process?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes, I have uploaded all my documentation.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
+                }
+              }
+            },
+            fdcWarning: {
+              'ui:description': fdcWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: false
+              }
+            },
+            noFDCWarning: {
+              'ui:description': noFDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              noRapidProcessing,
+              fdcWarning: {
+                type: 'object',
+                properties: {}
+              },
+              noFDCWarning: {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

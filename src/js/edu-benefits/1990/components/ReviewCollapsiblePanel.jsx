@@ -169,7 +169,9 @@ export default class ReviewCollapsiblePanel extends React.Component {
                 {this.props.chapter}
               </button>
             </div>
-            {this.state.open && pageContent}
+            <div id={`collapsible-${this.id}`}>
+              {pageContent}
+            </div>
           </li>
         </ul>
       </div>

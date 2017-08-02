@@ -28,7 +28,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNodeVersion = '6.10.3';
+const minimumNodeVersion = '6.11.1';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
@@ -117,7 +117,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('pension/application/527EZ.md');
-  ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
 }
 smith.use(ignore(ignoreList));
@@ -404,6 +403,13 @@ smith.use(collections({
       name: 'Survivors Pension'
     }
   },
+  pensionApplication: {
+    pattern: 'pension/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
@@ -586,6 +592,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
+       '/pension/application/527EZ',
+       '/burials-and-memorials/application/530',
        '/health-care/apply/application',
        '/letters'].join('|'))
   }));

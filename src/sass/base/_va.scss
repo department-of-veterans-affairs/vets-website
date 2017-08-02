@@ -1170,14 +1170,6 @@ li {
   }
 }
 
-// List overrides
-
-ul li p {
-  margin: 0;
-  padding: 0;
-}
-
-
 // vets.gov branded apps
 .vets-app {
   border-left: 3px solid $color-gold;
@@ -1441,7 +1433,11 @@ p.info-message {
   list-style-type: none;
 }
 
-.vertical-list-group .list-group-item{
+.vertical-list-group.more-bottom-cushion {
+  margin-bottom: 2.5em;
+}
+
+.vertical-list-group .list-group-item {
   border: none;
   border-left: 3px solid $color-gray-light;
   box-sizing: border-box;
@@ -1462,7 +1458,7 @@ p.info-message {
 }
 .vertical-list-group .list-group-item::before {
   border-radius: 50%;
-  background-color: #757575;
+  background-color: $color-gray-medium;
   content: "";
   display: inline-block;
   float: left;

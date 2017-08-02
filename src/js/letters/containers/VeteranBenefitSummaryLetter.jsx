@@ -1,55 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-
-import { updateBenefitSummaryOption } from '../actions/letters';
+import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
+  benefitOptionsMap,
   characterOfServiceContent,
-  veteranBenefitSummaryOptionText
+  optionsToAlwaysDisplay,
+  getBenefitOptionText
 } from '../utils/helpers';
 import { formatDateShort } from '../../common/utils/helpers';
 
-class VeteranBenefitSummaryLetter extends React.Component {
+export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(domEvent) {
-    this.props.updateBenefitSummaryOption(domEvent.target.id, domEvent.target.checked);
+    window.dataLayer.push({
+      event: 'letter-benefit-option-clicked',
+      'letter-benefit-option': domEvent.target.id,
+      'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
+    });
+    this.props.updateBenefitSummaryRequestOption(
+      benefitOptionsMap[domEvent.target.id],
+      domEvent.target.checked);
   }
 
   render() {
-    // Hard-coding this for now for the purposes of user testing, revert after user testing
-    // const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
-    const serviceInfo = [
-      {
-        branch: 'AIR FORCE',
-        characterOfService: 'HONORABLE',
-        enteredDate: '2001-01-01T05:00:00.000+00:00',
-        releasedDate: '2001-12-01T04:00:00.000+00:00'
-      },
-      {
-        branch: 'AIR FORCE RESERVE',
-        characterOfService: 'OTHER_THAN_HONORABLE',
-        enteredDate: '1990-01-01T05:00:00.000+00:00',
-        releasedDate: '1990-12-01T04:00:00.000+00:00'
-      },
-      {
-        branch: 'AIR FORCE',
-        characterOfService: 'HONORABLE',
-        enteredDate: '1980-01-01T05:00:00.000+00:00',
-        releasedDate: '1980-12-01T04:00:00.000+00:00'
-      }
-    ];
+    const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
     const militaryServiceRows = serviceInfo.map((service, index) => {
       return (
         <tr key={`service${index}`}>
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
             {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
-            {/* _.get([(service.characterOfService).toLowerCase(), ''], characterOfServiceContent) */}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>
@@ -58,34 +43,40 @@ class VeteranBenefitSummaryLetter extends React.Component {
     });
 
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
-    const optionsToInclude = this.props.optionsToInclude;
+    const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
     let vaBenefitInfoRows = [];
 
-    _.forIn(benefitInfo, (value, key) => {
-      const optionText = veteranBenefitSummaryOptionText(key, value);
-
-      // There are 2 conditions this is checking for
-      // 1. If the current benefit is not in the option text list from helpers,
-      // it means this benefit is not for veterans, and therefore it shouldn't
-      // be displayed.
-      // 2. If the value of the current benefit is false, we don't want to
-      // display it. Values can be either true, false, or some other value,
-      // which is why we're checking that it's not false.
-      if (optionText && value !== false) {
+    Object.keys(benefitInfo).forEach(key => {
+      // Need to verify with EVSS and vets-api: values should be true, false, or
+      // some value other than null or undefined, so this check should not be
+      // necessary, or should log a Sentry error.
+      if (benefitInfo[key] === null) {
+        return;
+      }
+      // For some options, the customization checkbox is only displayed
+      // if the benefit information value is not false. For others, the
+      // customization checkbox is always displayed.
+      const value = benefitInfo[key];
+      const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
+      // TODO: find out if there is anything in the profile or from EVSS that can tell
+      // us whether the user is a veteran or a user. For now we just pass in
+      // true for the isVeteran parameter
+      const optionText = getBenefitOptionText(key, value, true);
+      if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
             <th scope="row">
               <input
                   aria-labelledby={`${key}Label`}
                   autoComplete="false"
-                  checked={optionsToInclude[key]}
+                  checked={requestOptions[benefitOptionsMap[key]]}
                   id={key}
                   name={key}
                   type="checkbox"
                   onChange={this.handleChange}/>
             </th>
-            <td><label id={`${key}Label`}>{veteranBenefitSummaryOptionText(key, value)}</label></td>
+            <td><label id={`${key}Label`}>{optionText}</label></td>
           </tr>
         );
       }
@@ -93,7 +84,7 @@ class VeteranBenefitSummaryLetter extends React.Component {
 
     if (this.props.optionsAvailable) {
       vaBenefitInformation = (
-        <table className="usa-table-borderless">
+        <table className="usa-table-borderless" id="benefitInfoTable">
           <thead>
             <tr>
               <th scope="col">Include</th>
@@ -129,18 +120,19 @@ class VeteranBenefitSummaryLetter extends React.Component {
         <div className="form-checkbox">
           <input
               autoComplete="false"
-              id="serviceInfoCheckboxId"
-              name="serviceInfoCheckbox"
+              checked={requestOptions.militaryService}
+              id="militaryService"
+              name="militaryService"
               type="checkbox"
               onChange={this.handleChange}/>
           <label
               className="schemaform-label"
-              name="serviceInfoCheckbox-label"
-              htmlFor="serviceInfoCheckboxId">
+              name="militaryService-label"
+              htmlFor="militaryService">
             Include all periods of service
           </label>
         </div>
-        <table className="usa-table-borderless">
+        <table className="usa-table-borderless" id="militaryServiceTable">
           <thead>
             <tr>
               <th scope="col">Branch of Service</th>
@@ -176,12 +168,12 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo
     },
     optionsAvailable: letterState.optionsAvailable,
-    optionsToInclude: letterState.optionsToInclude
+    requestOptions: letterState.requestOptions
   };
 }
 
 const mapDispatchToProps = {
-  updateBenefitSummaryOption
+  updateBenefitSummaryRequestOption
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VeteranBenefitSummaryLetter);

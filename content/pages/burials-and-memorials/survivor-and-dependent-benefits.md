@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Survivor and Dependent Benefits
-display_title: Survivors and Dependents
+display_title: Survivor and Dependent Benefits
 collection: burials
 children: burialsSurvivors
 order: 3
@@ -13,7 +13,7 @@ majorlinks:
       title: Compensation for Survivors and Dependents 
       description: Find out if you can get tax-free monetary benefits.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs
-      title: Handling Burial Costs (Allowances)
+      title: Burial Allowance Application Process 
       description: Find out if you can get paid back for funeral and other burial costs.
 ---
 

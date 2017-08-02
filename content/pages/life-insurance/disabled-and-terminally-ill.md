@@ -117,9 +117,10 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
 - If you're a Veteran, have your doctor fill out their part of the form, then send the completed form to:
 
 <dl class="va-address-block">
-<dd>The Prudential Insurance Company of America</dd>
-<dd>PO Box 70173</dd>
-<dd>Philadelphia, PA 19176-0173</dd>
+  <dt></dt>
+  <dd>The Prudential Insurance Company of America</dd>
+  <dd>PO Box 70173</dd>
+  <dd>Philadelphia, PA 19176-0173</dd>
 </dl>
 
 Or, fax the form to 877-832-4943.
@@ -139,6 +140,4 @@ We pay the remaining amount of the face value of the insurance policy to your de
 [Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
 
 [Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
-
-<br>
 

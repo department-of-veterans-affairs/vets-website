@@ -16,6 +16,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
       this.props.fetchLatestTerms(this.props.termsName);
       window.scrollTo(0, 0);
     }
+    window.dataLayer.push({ event: 'terms-shown' });
   }
 
   componentDidUpdate(prevProps) {

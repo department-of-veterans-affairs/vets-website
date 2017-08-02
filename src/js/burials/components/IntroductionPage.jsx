@@ -19,7 +19,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits"/>
-        <p>This application is equivalent to Form 21P-530 (Application for Burial Benefits).</p>
+        <p>Equal to Form 21P-530</p>
         {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
             pageList={this.props.route.pageList}
             resumeOnly
@@ -29,32 +29,40 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>What you need to fill out this application</h6></div>
+              <div><h6>Review <a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">eligibility information</a>.</h6></div>
+              <br/>
+              <div><h6>You’ll need information about the deceased Veteran, including their:</h6></div>
               <ul>
-                <li>Veteran’s Social Security number or VA file number (required)</li>
-                <li>Veteran’s military discharge papers (DD214 or other separation documents)</li>
-                <li>Veteran’s death certificate (if claiming service connected death)</li>
-                <li>Receipts for transportation costs (if claiming transportation costs of the Veteran’s remains)</li>
+                <li>Social Security number or VA file number (required)</li>
+                <li>Date and place of birth (required)</li>
+                <li>Date and place of death (required)</li>
+                <li>Military status and history—information like service dates, branch, and rank that’s commonly found on the DD214 or other separation documents</li>
+              </ul>
+              <div><h6>You may need to upload:</h6></div>
+              <ul>
+                <li>A copy of the deceased Veteran’s DD214 or other separation documents</li>
+                <li>A copy of the Veteran’s death certificate</li>
+                <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran's remains)</li>
               </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
               <ul>
-                <li>If you're the surviving spouse or child of a deceased Veteran, you may be able to get a Survivors Pension. <a href="/pension/survivors-pension/">Learn more about a Survivors Pension benefit</a>.</li>
-                <li>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called Dependency and Indemnity Compensation. <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">See if you can get compensation</a>.</li>
+                <li>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.</li>
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for Benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this burial benefits form.</p>
+              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <div><h6>What if VA needs more information?</h6></div>
-              <ul><li>We will contact you if we need more information.</li></ul>
+              <p>We process claims in the order we receive them.</p>
+              <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>After we process your claim, you’ll get a notice in the mail about the decision.</li></ul>
+              <p>After we process your claim, you’ll get a notice in the mail about the decision.</p>
             </li>
           </ol>
         </div>

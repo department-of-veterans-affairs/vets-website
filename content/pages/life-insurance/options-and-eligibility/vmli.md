@@ -94,14 +94,14 @@ To keep your VMLI coverage, you’ll need to let us know if you:
 Send notice of any changes to:
 
 <dl class="va-address-block">
-<dd>Department of Veterans Affairs</dd>
-<dd>Regional Office and Insurance Center</dd>
-<dd>PO Box 7208 (VMLI)</dd>
-<dd>Philadelphia, PA 19101</dd>
+  <dt></dt>
+  <dd>Department of Veterans Affairs</dd>
+  <dd>Regional Office and Insurance Center</dd>
+  <dd>PO Box 7208 (VMLI)</dd>
+  <dd>Philadelphia, PA 19101</dd>
 </dl>
 
 [Read our life insurance publications for more guidance](http://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
 
-<br>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->
