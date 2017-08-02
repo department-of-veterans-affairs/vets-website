@@ -83,7 +83,7 @@ export const uiSchema = {
     'ui:title': 'If child is between 18 and 23 years of age, did child attend school during the last calendar year?',
     'ui:widget': 'yesNo'
   },
-  childEducationExpenses: currencyUI('Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)?'),
+  childEducationExpenses: currencyUI('Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)'),
   childCohabitedLastYear: {
     'ui:title': 'Did your child live with you last year?',
     'ui:widget': 'yesNo'
