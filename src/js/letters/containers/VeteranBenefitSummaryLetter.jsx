@@ -7,7 +7,7 @@ import {
   characterOfServiceContent,
   optionsToAlwaysDisplay,
   getBenefitOptionText
-} from '../utils/helpers';
+} from '../utils/helpers.jsx';
 import { formatDateShort } from '../../common/utils/helpers';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
