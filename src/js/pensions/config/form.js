@@ -1648,12 +1648,12 @@ const formConfig = {
           }
         },
         expedited: {
-          title: 'Expedited process',
+          title: 'Fully developed claim program',
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,
             noRapidProcessing: {
-              'ui:title': 'Do you want to use the expedited process?',
+              'ui:title': 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
               'ui:options': {
                 yesNoReverse: true,
