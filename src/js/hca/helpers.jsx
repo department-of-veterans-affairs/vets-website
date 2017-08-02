@@ -117,15 +117,15 @@ export const financialDisclosureText = (
     <div className="usa-alert usa-alert-info">
       <div className="usa-alert-body">
         <span>
-          Note: You don't have to provide your financial information. But if you don't have a qualifying
+          <strong>Note:</strong> You don't have to provide your financial information. But if you don't have a qualifying
           eligibility factor, this information is the only other way for us to see if you can get VA
           health care benefits-- including added benefits like waived copays.
         </span>
       </div>
     </div>
-
-    <ul>Qualifying factors:
-      <li>Former prisoner of war</li>
+    <p>Qualifying factors:</p>
+    <ul>
+      <li>Former Prisoner of War</li>
       <li>Received a Purple Heart</li>
       <li>Recently discharged combat Veteran</li>
       <li>Discharged for a disability that resulted from your service or got worse in the line of duty</li>
@@ -158,4 +158,8 @@ export const disclosureWarning = (
       <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
     </div>
   </div>
+);
+
+export const resumeMessage = (
+  <p>To resume the application when you come back, either bookmark this page or come back to the <a href="/health-care/apply/application">health care application page</a>.</p>
 );

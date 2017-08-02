@@ -51,6 +51,7 @@ A Veteran’s next of kin or family member can get a PMC, which is an engraved p
 Send the PMC request form and discharge papers to: 
 
 <dl class="va-address-block">
+    <dt></dt>
     <dd>Memorial Products Service (41B)</dd>
     <dd>Department of Veterans Affairs</dd>
     <dd>5109 Russell Road</dd>

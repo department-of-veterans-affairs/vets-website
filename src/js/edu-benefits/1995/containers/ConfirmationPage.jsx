@@ -23,7 +23,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -52,8 +52,8 @@ class ConfirmationPage extends React.Component {
       : null;
 
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="edu-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           We may contact you for more information or documents.<br/>
@@ -78,7 +78,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{response.regionalOffice}</address>
+              <address className="schemaform-address-view">{response.regionalOffice}</address>
             </li>
           </ul>
         </div>
@@ -94,7 +94,9 @@ class ConfirmationPage extends React.Component {
                   No documents required at this time
                 </button>
               </div>
-              {docExplanation}
+              <div id="collapsible-document-explanation">
+                {docExplanation}
+              </div>
             </li>
           </ul>
         </div>

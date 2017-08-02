@@ -11,7 +11,7 @@ export default class SubmitMessage extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.confirmation-page-title');
   }
   handleClick(e) {
     e.preventDefault();
@@ -42,8 +42,8 @@ export default class SubmitMessage extends React.Component {
       </div>);
     }
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="edu-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           VA may contact you for more information or documents.<br/>
@@ -69,7 +69,7 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{this.props.address}</address>
+              <address className="schemaform-address-view">{this.props.address}</address>
             </li>
           </ul>
         </div>

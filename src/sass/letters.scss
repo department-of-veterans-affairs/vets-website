@@ -1,0 +1,64 @@
+@import "shared-variables";
+@import "modules/m-form-process";
+@import "modules/m-progress-bar";
+@import "modules/m-schemaform";
+
+.letters {
+  h5 {
+    padding-top: 1.5em;
+  }
+
+  .form-process-total {
+    padding-left: 4px;
+  }
+
+  .feature {
+      min-height: 0;
+      margin-top: 1em;
+
+    &.help-desk {
+      margin-top: 2em;
+    }
+  }
+
+  .step-content {
+    margin-left: 2em;
+  }
+
+  .letters-address {
+    text-transform: capitalize;
+  }
+
+  .accordion-header > button {
+    min-height: 6rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .service-info {
+    text-transform: capitalize;
+  }
+
+  table {
+    input[type="checkbox"] {
+      height: inherit;
+      margin: auto;
+      opacity: inherit;
+      position: inherit;
+      width: 50%;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    label {
+      margin: 0;
+    }
+  }
+
+  th[scope="row"] {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

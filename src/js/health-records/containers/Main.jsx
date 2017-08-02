@@ -6,8 +6,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorView from '../components/ErrorView';
 import { reportTypes } from '../config';
 import {
   changeDateOption,
@@ -17,7 +19,7 @@ import {
   resetForm,
 } from '../actions/form';
 import { openModal } from '../actions/modal';
-import { apiRequest } from '../utils/helpers';
+import { initialAppRefresh } from '../actions/refresh';
 import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
@@ -39,7 +41,9 @@ export class Main extends React.Component {
   componentDidMount() {
     this.props.resetForm();
     // kick off initial PHR refresh process
-    apiRequest('/v0/health_records/refresh');
+    if (!this.props.loading) {
+      this.props.initialAppRefresh();
+    }
   }
 
   handleStartDateChange(startDate) {
@@ -278,36 +282,42 @@ export class Main extends React.Component {
     const noValuesChecked = !checkedCount;
     const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
 
+    if (this.props.loading) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
-      <div>
-        <div className="heading-wrapper">
-          <h1>Get Your VA Health Records</h1>
-          <span className="blue-button-logo"></span>
+      <ErrorView errors={this.props.errors}>
+        <div>
+          <div className="heading-wrapper">
+            <h1>Get Your VA Health Records</h1>
+            <span className="blue-button-logo"></span>
+          </div>
+          <form>
+            {this.renderDateOptions()}
+            <div>
+              <h4 className="highlight">Select Types of Information</h4>
+              <ErrorableCheckbox
+                  name="all"
+                  label="All available VA health records"
+                  checked={allValuesChecked}
+                  onValueChange={(checked) => {
+                    this.props.toggleAllReports(checked);
+                  }}/>
+              {this.renderInformationTypes()}
+            </div>
+            <div className="form-actions">
+              <button
+                  onClick={this.handleSubmit}
+                  type="submit"
+                  disabled={noValuesChecked || hasCustomDateErrors}>
+                Submit
+              </button>
+              <a className="usa-button usa-button-outline" href="/health-care" role="button">Cancel</a>
+            </div>
+          </form>
         </div>
-        <form>
-          {this.renderDateOptions()}
-          <div>
-            <h4 className="highlight">Select Types of Information</h4>
-            <ErrorableCheckbox
-                name="all"
-                label="All available VA health records"
-                checked={allValuesChecked}
-                onValueChange={(checked) => {
-                  this.props.toggleAllReports(checked);
-                }}/>
-            {this.renderInformationTypes()}
-          </div>
-          <div className="form-actions">
-            <button
-                onClick={this.handleSubmit}
-                type="submit"
-                disabled={noValuesChecked || hasCustomDateErrors}>
-              Submit
-            </button>
-            <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
-          </div>
-        </form>
-      </div>
+      </ErrorView>
     );
   }
 }
@@ -321,11 +331,14 @@ const mapStateToProps = (state) => {
 
   return {
     form: hrState.form,
+    loading: hrState.refresh.loading,
+    errors: hrState.refresh.errors,
   };
 };
 
 const mapDispatchToProps = {
   changeDateOption,
+  initialAppRefresh,
   openModal,
   setDate,
   toggleAllReports,

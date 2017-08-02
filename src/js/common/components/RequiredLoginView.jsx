@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intersection } from 'lodash';
 
 import SystemDownView from './SystemDownView';
 import LoginPrompt from './authentication/LoginPrompt';
@@ -28,8 +29,15 @@ class RequiredLoginView extends React.Component {
     // 2) the application being loaded (requiredApp) is in the list of
     //    applications/services the user is authorized to use (userServices)
     // TODO: replace indexOf() once NodeJS versions in all environments support includes()
-    return sessionStorage.userToken && userServices &&
-           userServices.indexOf(requiredApp) !== -1;
+
+    if (sessionStorage.userToken && userServices) {
+      if (Array.isArray(requiredApp)) {
+        return intersection(userServices, requiredApp).length > 0;
+      }
+      return userServices.indexOf(requiredApp) !== -1;
+    }
+
+    return false;
   }
 
   render() {
@@ -49,10 +57,23 @@ class RequiredLoginView extends React.Component {
         }
       } else if (this.props.authRequired === 3) {
         if (this.props.userProfile.accountType === 3) {
-          if (this.props.userProfile.status === 'SERVER_ERROR') {
+          // TODO: Delete the logic around attemptingAppealsAccess once we
+          // resolve the MVI/Appeals Users issues.
+          // if app we are trying to access includes appeals,
+          // bypass the checks for userProfile status
+          const requiredApp = this.props.serviceRequired;
+          let attemptingAppealsAccess;
+
+          if (Array.isArray(requiredApp)) {
+            attemptingAppealsAccess = requiredApp.indexOf('appeals-status') !== -1;
+          } else {
+            attemptingAppealsAccess = requiredApp === 'appeals-status';
+          }
+
+          if (this.props.userProfile.status === 'SERVER_ERROR' && !attemptingAppealsAccess) {
             // If va_profile is null, show a system down message.
             view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
-          } else if (this.props.userProfile.status === 'NOT_FOUND') {
+          } else if (this.props.userProfile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
             // If va_profile is "not found", show message that we cannot find the user
             // in our system.
             view = <SystemDownView messageLine1="We couldn't find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
@@ -98,7 +119,10 @@ class RequiredLoginView extends React.Component {
 
 RequiredLoginView.propTypes = {
   authRequired: PropTypes.number.isRequired,
-  serviceRequired: PropTypes.string.isRequired,
+  serviceRequired: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
   userProfile: PropTypes.object.isRequired,
   loginUrl: PropTypes.string,
   verifyUrl: PropTypes.string

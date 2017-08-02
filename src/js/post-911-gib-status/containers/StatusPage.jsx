@@ -5,38 +5,46 @@ import { Link } from 'react-router';
 
 import FormTitle from '../../common/schemaform/FormTitle';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  componentDidMount() {
-    this.props.getEnrollmentData();
-  }
-
   render() {
     const { enrollmentData } = this.props;
-
-    return (
-      <div>
-        <FormTitle title="Post-9/11 GI Bill Enrollment Information"/>
+    let introText;
+    let printButton;
+    if (enrollmentData.veteranIsEligible) {
+      window.dataLayer.push({ event: 'post911-status-info-shown' });
+      introText = (
         <div className="va-introtext">
           <p>
-            View your Post-9/11 GI Bill enrollment information below. This is the same information
-            in your Certificate of Eligibility (COE) letter. In lieu of a COE letter, you can
-            print a copy of this screen for benefit and eligibility verification.
+            The information on this page is the same information that's in your
+            Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
+            (Chapter 33) benefits. You can print this page and use it instead
+            of your COE to show that you qualify for benefits.
           </p>
         </div>
-        <div className="section-line">
-          <Link to="/print" target="_blank" className="usa-button-primary">
-            Print This Page as COE
+      );
+
+      printButton = (
+        <div className="section">
+          <Link to="/print" target="_blank" className="usa-button-primary" id="print-button">
+            Print Statement of Benefits
           </Link>
         </div>
-        <UserInfoSection enrollmentData={enrollmentData} showCurrentAsOfAlert/>
+      );
+    }
+
+    return (
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
+        {introText}
+        {printButton}
+        <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET)</div>
+          <div>Call 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m. (ET)</div>
         </div>
       </div>
     );
@@ -49,8 +57,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);

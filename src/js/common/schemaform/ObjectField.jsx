@@ -12,6 +12,7 @@ import {
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/form-elements/ExpandingGroup';
+import PrefillMessage from './PrefillMessage';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -145,9 +146,10 @@ class ObjectField extends React.Component {
     const formData = Object.keys(this.props.formData || {}).length
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
+    const uiOptions = uiSchema['ui:options'] || {};
 
     // description and title setup
-    const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
+    const showFieldLabel = uiOptions.showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = typeof title === 'function'
       ? title
@@ -205,9 +207,10 @@ class ObjectField extends React.Component {
                     required={required}
                     formContext={formContext}/> : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && <DescriptionField formContext={formContext} options={uiSchema['ui:options']}/>}
+            {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
+          {uiOptions.showPrefillMessage && formContext.prefilled && <PrefillMessage/>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;

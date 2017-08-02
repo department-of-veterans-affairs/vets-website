@@ -94,9 +94,10 @@ class ObjectField extends React.Component {
 
     const showField = (propName) => {
       const hiddenOnSchema = schema.properties[propName]['ui:hidden'];
+      const collapsedOnSchema = schema.properties[propName]['ui:collapsed'];
       const hideOnReviewIfFalse = _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
       const hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
-      return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview && !hiddenOnSchema;
+      return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview && !hiddenOnSchema && !collapsedOnSchema;
     };
 
     const renderedProperties = this.orderAndFilterProperties(properties)

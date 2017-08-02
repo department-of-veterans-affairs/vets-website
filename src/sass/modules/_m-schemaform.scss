@@ -25,11 +25,7 @@ legend {
   }
 }
 
-.form-review-panel-page .va-growable-add-btn {
-  display: none;
-}
-
-.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date {
+.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
   &:focus {
     outline: none;
   }
@@ -288,7 +284,7 @@ label {
   }
   > .schemaform-file-item-edit {
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
   }
 }
 
@@ -322,4 +318,134 @@ label {
 .schemaform-save-error {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+.schemaform-address-view {
+  white-space: pre-wrap;
+  p {
+    margin-bottom: 0;
+  }
+  p:not(:first-child) {
+    margin-top: 0;
+  }
+}
+
+.schemaform-array-readonly-header {
+  padding-bottom: 1.5rem;
+}
+
+.schemaform-prefill-message {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  min-height: auto;
+}
+
+.schemaform-process-sip {
+  padding-bottom: 0;
+}
+
+.schemaform-sip-alert {
+  margin-top: 0;
+}
+
+.schemaform-label-no-top-margin {
+  > .schemaform-label {
+    margin-top: 1rem;
+  }
+}
+
+.schemaform-file-uploading {
+  width: 100%;
+}
+
+.schemaform-review-array-warning {
+  margin: -1em -0.8em 0;
+  border: 2px solid $color-gold-lightest;
+  > .form-review-panel-page-header-row {
+    padding: 1em 0.8em;
+    background-color: $color-gold-lightest;
+  }
+  > .va-growable-review {
+    padding: 0 1em;
+  }
+}
+
+.schemaform-review-array-warning-icon {
+  background-image: url("~uswds/dist/img/alerts/warning.png");
+  background-image: url("~uswds/dist/img/alerts/warning.svg");
+  width: 2em;
+  height: 1.4em;
+  background-size: 2em;
+  margin-right: 1em;
+}
+
+.schemaform-review-page-warning {
+  margin: -1em -1em 5rem;
+  .form-review-panel-page-header-row {
+    padding: 1em 1em;
+    background-color: $color-gold-lightest;
+    &:after {
+      display: block;
+      order: 2;
+      content: " ";
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.3em;
+      background-size: 2em;
+      margin-right: 1em;
+    }
+    .edit-btn {
+      order: 3;
+    }
+  }
+  dl.review {
+    padding: 0 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.schemaform-review-chapter-warning {
+  .schemaform-chapter-accordion-header {
+    position: relative;
+    > .usa-button-unstyled {
+      background-color: $color-gold-lightest;
+    }
+    .schemaform-review-chapter-warning-icon {
+      position: absolute;
+      top: 2.8rem;
+      right: 4rem;
+      display: block;
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.2em;
+      background-size: 1.8em;
+      margin-right: 1em;
+    }
+  }
+  .schemaform-chapter-accordion-content {
+    border-right-color: $color-gold-lightest;
+    border-left-color: $color-gold-lightest;
+    border-bottom-color: $color-gold-lightest;
+  }
+}
+
+.usa-alert-no-color {
+  background-color: transparent;
+}
+.usa-alert-mini {
+  margin-top: 0;
+  margin-bottom: 1em;
+  background-size: 3rem;
+  background-position: 1rem 1.8rem;
+  > .usa-alert-body {
+    padding-left: 3rem;
+  }
+}
+
+.schemaform-sip-expires {
+  color: $color-secondary-dark;
 }

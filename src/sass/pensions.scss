@@ -5,6 +5,7 @@
 @import "modules/m-form-process";
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
+@import "modules/m-modal";
 @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
@@ -34,4 +35,8 @@
 
 p.pension-employment-desc, .pension-dd-warning {
   margin-top: 3rem;
+}
+
+.pensions-disclosure-warning {
+  margin-bottom: 1em;
 }

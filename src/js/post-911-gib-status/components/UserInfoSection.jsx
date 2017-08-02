@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatPercent } from '../utils/helpers';
+import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import {
+  formatPercent,
+  formatVAFileNumber,
+  formatMonthDayFields,
+  benefitEndDateExplanation,
+  notQualifiedWarning
+} from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -13,75 +20,76 @@ class UserInfoSection extends React.Component {
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-    const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     let currentAsOfAlert;
     if (this.props.showCurrentAsOfAlert) {
       currentAsOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h4 className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
+            <h4 id="current-as-of" className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
           </div>
         </div>
       );
     }
 
+    let benefitEndDate;
+    if (enrollmentData.activeDuty) {
+      benefitEndDate = benefitEndDateExplanation('activeDuty', enrollmentData.delimitingDate);
+    } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
+      benefitEndDate = benefitEndDateExplanation('remainingEntitlement', enrollmentData.delimitingDate);
+    }
+
     let entitlementInfo;
-    if (currentlyAllowed) {
+    const originalEntitlement = enrollmentData.originalEntitlement;
+    const usedEntitlement = enrollmentData.usedEntitlement;
+    const remainingEntitlement = enrollmentData.remainingEntitlement;
+
+    if (enrollmentData.veteranIsEligible) {
       entitlementInfo = (
         <div>
-          <div>
-            <h4>When You Can Receive Benefits</h4>
-            <div className="section-line">
-              You are eligible to receive benefits between <strong>{formatDateShort(enrollmentData.eligibilityDate)}</strong> and <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong>.
-            </div>
+          <div className="section">
+            <h4>Your Benefits</h4>
+            <InfoPair label="Total months received" value={formatMonthDayFields(originalEntitlement)}/>
+            <InfoPair label="Months you've used" value={formatMonthDayFields(usedEntitlement)}/>
+            <InfoPair label="Months you have left to use" value={formatMonthDayFields(remainingEntitlement)} displayIfZero/>
+            <p id="benefit-level">
+              Your eligibility percentage is <strong>{percentageBenefit}</strong>.
+              <br/>
+              <a href="/gi-bill-comparison-tool/" target="_blank">
+                Find out how much money you can expect to get based on your eligibility percentage.
+              </a>
+            </p>
           </div>
-          <div>
-            <h4>Your Benefit Level</h4>
-            <div className="section-line">
-              You are eligible to receive benefits at a rate of <strong>{percentageBenefit}</strong>.
-            </div>
-          </div>
-          <InfoPair label="Total months received" value={enrollmentData.originalEntitlement}/>
-          <InfoPair label="Used" value={enrollmentData.usedEntitlement}/>
-          <InfoPair label="Remaining" value={enrollmentData.remainingEntitlement}/>
+          {benefitEndDate}
         </div>
       );
     } else {
-      entitlementInfo = (
-        <div>
-          <h4>When You Can Receive Benefits</h4>
-          <div className="usa-alert usa-alert-warning usa-content">
-            <div className="usa-alert-body">
-              <h2>Currently Not Qualified</h2>
-              We have received your application and have determined that you are not currently eligible
-              for Post-9/11 GI Bill benefits. Additional service time could change this determination.
-            </div>
-          </div>
-        </div>
-      );
+      entitlementInfo = notQualifiedWarning();
     }
 
     return (
       <div>
         {currentAsOfAlert}
-        <InfoPair
-            label="Name"
-            value={fullName}
-            spacingClass="section-line"/>
-        <InfoPair
-            label="Date of Birth"
-            value={formatDateShort(enrollmentData.dateOfBirth)}
-            spacingClass="section-line"/>
-        {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
-        <InfoPair
-            label="VA File Number"
-            value={enrollmentData.vaFileNumber}
-            spacingClass="section-line"/>
-        <InfoPair
-            label="Regional Processing Office"
-            value={enrollmentData.regionalProcessingOffice}
-            spacingClass="section-line"/>
+        <div className="section">
+          <InfoPair
+              label="Name"
+              value={fullName}
+              id="gibs-full-name"
+              additionalClass="section-line"/>
+          <InfoPair
+              label="Date of birth"
+              name="dateOfBirth"
+              value={formatDateLong(enrollmentData.dateOfBirth)}
+              additionalClass="section-line"/>
+          <InfoPair
+              label="VA file number"
+              value={formatVAFileNumber(enrollmentData.vaFileNumber)}
+              additionalClass="section-line"/>
+          <InfoPair
+              label="Regional Processing Office"
+              value={enrollmentData.regionalProcessingOffice}
+              additionalClass="section-line"/>
+        </div>
         {entitlementInfo}
       </div>
     );

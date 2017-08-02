@@ -7,7 +7,7 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions document upload', () => {
-  const { schema, uiSchema } = formConfig.chapters.documentUpload.pages.documentUpload;
+  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(

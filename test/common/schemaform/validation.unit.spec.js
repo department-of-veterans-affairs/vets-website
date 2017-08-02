@@ -11,7 +11,8 @@ import {
   validateMatch,
   validateDateRange,
   validateFileField,
-  validateBooleanGroup
+  validateBooleanGroup,
+  isValidForm
 } from '../../../src/js/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
@@ -373,6 +374,125 @@ describe('Schemaform validations', () => {
       }, null, null, { atLeastOne: 'testing' });
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
+    });
+  });
+  describe('isValidForm', () => {
+    it('should validate pagePerItem schema', () => {
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
+          testArray: ['test', 3]
+        },
+        pages: {
+          testPage: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'array',
+                  items: {
+                    type: 'string'
+                  }
+                }
+              }
+            },
+            uiSchema: {},
+            showPagePerItem: true,
+            arrayPath: 'testArray'
+          }
+        }
+      };
+      const pageListByChapters = {
+        testChapter: [{
+          pageKey: 'testPage',
+          chapterKey: 'testChapter'
+        }]
+      };
+
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.false;
+    });
+    it('should validate only filtered items for pagePerItem schema', () => {
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
+          testArray: ['test', 3]
+        },
+        pages: {
+          testPage: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'array',
+                  items: {
+                    type: 'string'
+                  }
+                }
+              }
+            },
+            uiSchema: {},
+            itemFilter: (item, index) => index < 1,
+            showPagePerItem: true,
+            arrayPath: 'testArray'
+          }
+        }
+      };
+      const pageListByChapters = {
+        testChapter: [{
+          pageKey: 'testPage',
+          chapterKey: 'testChapter'
+        }]
+      };
+
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
+    });
+    it('should not validate pages where depends is false', () => {
+      const form = {
+        data: {
+          privacyAgreementAccepted: true,
+          testArray: ['test']
+        },
+        pages: {
+          testPage2: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'string',
+                }
+              }
+            },
+            uiSchema: {},
+          },
+          testPage: {
+            schema: {
+              type: 'object',
+              properties: {
+                testArray: {
+                  type: 'array',
+                  items: {
+                    type: 'string'
+                  }
+                }
+              }
+            },
+            uiSchema: {},
+          }
+        }
+      };
+      const pageListByChapters = {
+        testChapter: [{
+          pageKey: 'testPage',
+          chapterKey: 'testChapter'
+        }, {
+          pageKey: 'testPage2',
+          chapterKey: 'testChapter',
+          depends: sinon.stub().returns(false)
+        }]
+      };
+
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
+      expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to.be.true;
     });
   });
 });

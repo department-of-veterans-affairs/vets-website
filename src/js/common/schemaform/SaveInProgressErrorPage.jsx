@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { LOAD_STATUSES, fetchInProgressForm, setFetchFormStatus } from './save-load-actions';
+import {
+  LOAD_STATUSES,
+  PREFILL_STATUSES,
+  fetchInProgressForm,
+  setFetchFormStatus,
+  removeInProgressForm
+} from './save-load-actions';
+
 import SignInLink from '../components/SignInLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 
@@ -32,12 +39,20 @@ class SaveInProgressErrorPage extends React.Component {
   reloadForm = () => {
     // formConfig is put in this.props.routes[length - 1]
     const formConfig = this.props.route.formConfig;
-    this.props.fetchInProgressForm(formConfig.formId, formConfig.migrations);
+    if (this.props.isStartingOver) {
+      this.props.removeInProgressForm(formConfig.formId, formConfig.migrations);
+    } else {
+      this.props.fetchInProgressForm(
+        formConfig.formId,
+        formConfig.migrations,
+        this.props.prefillStatus === PREFILL_STATUSES.pending
+      );
+    }
   }
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } = this.props.route.formConfig.savedFormErrorMessages || {};
+    const { noAuth, notFound } = this.props.route.formConfig.savedFormMessages || {};
     let content;
 
     switch (loadedStatus) {
@@ -97,11 +112,12 @@ class SaveInProgressErrorPage extends React.Component {
 
 SaveInProgressErrorPage.propTypes = {
   loadedStatus: PropTypes.string.isRequired,
-  savedFormErrorMessages: PropTypes.shape({
+  savedFormMessages: PropTypes.shape({
     notFound: PropTypes.string,
     noAuth: PropTypes.string
   }),
 
+  isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
   loginUrl: PropTypes.string,
@@ -110,13 +126,16 @@ SaveInProgressErrorPage.propTypes = {
 
 const mapStateToProps = (store) => ({
   loadedStatus: store.form.loadedStatus,
+  prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   loginUrl: store.user.login.loginUrl,
+  isStartingOver: store.form.isStartingOver
 });
 
 const mapDispatchToProps = {
   updateLogInUrl,
   fetchInProgressForm,
+  removeInProgressForm,
   setFetchFormStatus
 };
 

@@ -40,6 +40,7 @@ function initUserMock(token, level) {
             birth_date: '1985-01-01'
           },
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          health_terms_current: true,
           va_profile: {
             status: 'OK',
             birth_date: '19511118',
@@ -102,7 +103,7 @@ function testUnauthedUserFlow(client, path) {
 
   client
     .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign In to Your Vets.gov Account');
+    .expect.element('h1').text.to.equal('Log In With Your Account for Vets.gov');
 
   logIn(token, client, path, 1)
     .waitForElementVisible('.react-container', Timeouts.normal)
@@ -118,4 +119,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
+  setUserToken
 };

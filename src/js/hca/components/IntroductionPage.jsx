@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply online for health care with the 10-10ez"/>
+        <FormTitle title="Apply online for health care with the 10-10EZ"/>
         <p>
           Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
         </p>
@@ -27,13 +27,13 @@ class IntroductionPage extends React.Component {
         </p>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.
+            <strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your service history and finances.
           </div>
         </div>
         <br/>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
           <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/healthcare/apply">
+            <a href="/health-care/apply">
               <button className="usa-button-outline">« Back</button>
             </a>
           </div>

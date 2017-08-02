@@ -63,17 +63,7 @@ describe('Hca child information', () => {
         value: 'Y'
       }
     });
-    // TODO: When we figure out how to not expand the last field by default,
-    //  uncomment the following lines.
-    // expect(formDOM.querySelectorAll('input, select').length).to.equal(21);
-    //
-    // // Open up the last option
-    // ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childCohabitedLastYearNo'), {
-    //   target: {
-    //     value: 'N'
-    //   }
-    // });
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(23);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(21);
 
     submitForm(form);
 

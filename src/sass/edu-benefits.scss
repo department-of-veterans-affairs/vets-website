@@ -9,11 +9,6 @@
 @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
-// Also in 1990 review
-.edu-benefits-pre {
-  white-space: pre-wrap;
-}
-
 // 1990
 .edu-benefits-info-no-icon,
 .usa-alert-info.edu-benefits-info-no-icon {
@@ -46,6 +41,10 @@
   label {
     margin-top: 0;
   }
+}
+
+.form-review-panel-page-edu .va-growable-add-btn {
+  display: none;
 }
 
 .edu-benefits-mil-group.form-expanding-group-inner-enter,
@@ -145,12 +144,6 @@ table.review td {
   }
 }
 
-.edu-page-title {
-  &:focus {
-    outline: none;
-  }
-}
-
 .edu-benefits-dependents-desc {
   margin-top: 5px;
 }
@@ -184,3 +177,5 @@ table.review td {
     }
   }
 }
+
+

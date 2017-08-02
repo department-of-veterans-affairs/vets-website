@@ -4,6 +4,8 @@ import titleReducer from '../../../src/js/gi/reducers/title.js';
 
 describe('title reducer', () => {
   it('should set the page title', () => {
+    window.document = {};
+
     const state = titleReducer(
       'initialTitle',
       {

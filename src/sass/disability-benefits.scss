@@ -216,10 +216,12 @@
   font-weight: bold;
 }
 
-.claim-list-item {
+.claim-list-item-container {
   background-color: $color-gray-lightest;
-  padding: 1em;
+  padding: 2em 1em 1em 1em;
   margin-bottom: 1em;
+  position: relative;
+
   i {
     margin-right: 5px;
   }
@@ -229,15 +231,28 @@
   .communications, p.status {
     margin-bottom: 0.5em;
   }
+
+  .last-changed-label {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    background: $color-link-default;
+    color: $color-white;
+    font-size: 0.8em;
+    padding: 0.5em 0.75em;
+    border-radius: 0 0 0.5em 0.5em;
+  }
 }
 
 a.claim-list-item {
   text-decoration: none;
   display: block;
   color: inherit;
+
   &:visited, &:hover, &:active {
     color: inherit;
     text-decoration: none;
+    background-color: inherit;
   }
 }
 
@@ -249,10 +264,143 @@ a.claim-list-item {
   color: $color-primary-darker;
 }
 
-.your-claims {
-  padding-top: 1em;
+.your-claims, .claims-status {
+  padding: 1em 0 3em 0;
+
   h3 {
     margin-top: 1em;
+  }
+
+  h1:first-child {
+    margin-bottom: 0;
+
+    & + p {
+      margin-top: 0;
+    }
+  }
+}
+
+.claims-status {
+  i.fa {
+    font-size: 24px;
+  }
+
+  .next-action-container {
+    padding-right: 1em;
+  }
+
+  .next-action {
+    padding: 1em;
+    position: relative;
+
+    p {
+      margin-top: 0;
+    }
+
+    &.hearing {
+      background: $color-inset-bg;
+    }
+
+    &.soc, &.ssoc {
+      background: $color-gibill-accent;
+      padding-left: 2.5em;
+
+      &:before {
+        left: 1em;
+        top: 1.5em;
+        position: absolute;
+        font-size: 1.25em;
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        content: "\F071";
+      }
+    }
+  }
+
+  .last-status {
+    margin-top: 1em;
+    padding: 0 1em 1em 0;
+
+    h4:first-of-type {
+      padding: 0;
+    }
+
+    .content {
+      position: relative;
+      padding-left: 3.25rem;
+
+      h5 + p {
+        margin-top: 0;
+      }
+
+      i.fa {
+        color: $color-green;
+        left: 0;
+        position: absolute;
+        top: 0.1em;
+      }
+    }
+  }
+
+  .previous-activity {
+    margin-top: 1em;
+  }
+
+  .events-list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .event-item {
+    list-style: none;
+    border-bottom: solid thin $color-gray-light;
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  .event-date {
+    flex: 0 0 10rem;
+    margin-right: 1rem;
+  }
+
+  .event-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+
+    i.fa {
+      &:first-child {
+        color: $color-gray;
+        flex: 0 0 3.25rem;
+      }
+
+      &:last-child {
+        font-size: 1.75rem;
+        margin-left: 2rem;
+      }
+    }
+  }
+
+  .event-title {
+    flex: 1 1;
+  }
+
+  .event-description {
+    margin-bottom: 1.5rem;
+    margin-left: 3.25rem;
+
+    p {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 }
 
@@ -272,14 +420,9 @@ a.claim-list-item {
 }
 
 .ask-va-questions.claims-sidebar-box {
-  padding: 2em 0;
-  @include media($medium-large-screen) {
-    padding-top: 0.6em;
+  h2 {
+    margin-top: 0;
   }
-}
-
-.claims-sidebar-box {
-  padding-top: 0.3em;
 }
 
 .claim-title {
@@ -541,6 +684,16 @@ p.first-of-type {
 
 .disability-benefits-content {
   margin: 0 5px;
+}
+
+.db-breadcrumbs {
+  padding: 1em 0;
+
+  span {
+    strong {
+      color: $color-link-default;
+    }
+  }
 }
 
 .usa-input-error {

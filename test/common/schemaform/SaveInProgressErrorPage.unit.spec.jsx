@@ -103,7 +103,6 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(router.goBack.called).to.be.true;
     expect(fetchFormStatusSpy.calledWith(LOAD_STATUSES.notAttempted));
   });
-  it.skip('should start over at the beginning of the form with no data', () => {});
   it('should attempt to fetch the form again', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -120,5 +119,26 @@ describe('<SaveInProgressErrorPage>', () => {
     const button = findDOM.querySelector('.usa-button-primary');
     ReactTestUtils.Simulate.click(button);
     expect(fetchSpy.called).to.be.true;
+  });
+  it('should call remove form if user was starting over', () => {
+    const fetchSpy = sinon.spy();
+    const removeSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <SaveInProgressErrorPage
+          updateLogInUrl={f => f}
+          isLoggedIn
+          router={router}
+          loginUrl="login/url"
+          route={route}
+          isStartingOver
+          loadedStatus={LOAD_STATUSES.failure}
+          removeInProgressForm={removeSpy}
+          fetchInProgressForm={fetchSpy}/>
+    );
+    const findDOM = findDOMNode(tree);
+    const button = findDOM.querySelector('.usa-button-primary');
+    ReactTestUtils.Simulate.click(button);
+    expect(fetchSpy.called).to.be.false;
+    expect(removeSpy.called).to.be.true;
   });
 });

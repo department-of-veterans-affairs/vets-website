@@ -43,6 +43,10 @@ class VAMap extends Component {
       return;
     }
 
+    this.props.updateSearchQuery({
+      facilityType: location.query.facilityType,
+      serviceType: location.query.serviceType,
+    });
     if (location.query.address) {
       this.props.updateSearchQuery({
         searchString: location.query.address,
@@ -58,8 +62,6 @@ class VAMap extends Component {
         });
 
         this.reverseGeocode(currentPosition.coords);
-      }, () => {
-        this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
       });
     } else {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
@@ -146,12 +148,13 @@ class VAMap extends Component {
   // TODO (bshyong): try out existing query-string npm library
   updateUrlParams = (params) => {
     const { location, currentQuery } = this.props;
-
     const queryParams = compact(map({
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
@@ -193,13 +196,11 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
-    if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-      this.props.searchWithAddress(currentQuery);
-    }
+    this.props.searchWithAddress(currentQuery);
   }
 
   handleBoundsChanged = () => {

@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
 describe('Burials veteran information', () => {
@@ -17,9 +16,9 @@ describe('Burials veteran information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -32,13 +31,13 @@ describe('Burials veteran information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
+    const formDOM = getFormDOM(form);
+    formDOM.submitForm();
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(5);
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show file number field', () => {
+  it('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -46,28 +45,16 @@ describe('Burials veteran information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    const ssn = Array.from(formDOM.querySelectorAll('input[type="text"]'))
-      .filter(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber')[0];
+    formDOM.submitForm();
 
-    ReactTestUtils.Simulate.change(ssn, {
-      target: {
-        value: '232323232'
-      }
-    });
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    formDOM.fillData('#root_veteranSocialSecurityNumber', '134445555');
 
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(2);
+    formDOM.submitForm();
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="checkbox"]'), {
-      target: {
-        checked: true
-      }
-    });
-
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
 
   it('should submit when all required fields are filled in', () => {
@@ -80,7 +67,7 @@ describe('Burials veteran information', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_veteranFullName_first'), {
       target: {
@@ -93,16 +80,12 @@ describe('Burials veteran information', () => {
       }
     });
 
-    const ssn = Array.from(formDOM.querySelectorAll('input[type="text"]'))
-      .filter(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber')[0];
+    formDOM.fillData('#root_veteranSocialSecurityNumber', '123443344');
+    formDOM.fillData('#root_veteranDateOfBirthMonth', '2');
+    formDOM.fillData('#root_veteranDateOfBirthDay', '2');
+    formDOM.fillData('#root_veteranDateOfBirthYear', '2001');
 
-    ReactTestUtils.Simulate.change(ssn, {
-      target: {
-        value: '232323232'
-      }
-    });
-
-    submitForm(form);
+    formDOM.submitForm();
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });

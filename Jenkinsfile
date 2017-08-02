@@ -2,16 +2,14 @@ def envNames = ['development', 'staging', 'production']
 
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
-    env.BRANCH_NAME != 'master' &&
-    env.BRANCH_NAME != 'kudos-launch'
+    env.BRANCH_NAME != 'master'
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production' ||
-    env.BRANCH_NAME == 'kudos-launch') &&
+    env.BRANCH_NAME == 'production') &&
     !env.CHANGE_TARGET
 }
 
@@ -26,93 +24,128 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
+def notify = { message, color='good' ->
+    if (env.BRANCH_NAME == 'master' ||
+        env.BRANCH_NAME == 'production') {
+        slackSend message: message,
+                  color: color,
+                  failOnError: true
+    }
+}
+
 node('vets-website-linting') {
   def dockerImage, args
 
   // Checkout source, create output directories, build container
 
   stage('Setup') {
-    checkout scm
+    try {
+      checkout scm
 
-    sh "mkdir -p build"
-    sh "mkdir -p logs/selenium"
-    sh "mkdir -p coverage"
+      sh "mkdir -p build"
+      sh "mkdir -p logs/selenium"
+      sh "mkdir -p coverage"
 
-    def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+      def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
-    dockerImage = docker.build("vets-website:${imageTag}")
-    args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+      dockerImage = docker.build("vets-website:${imageTag}")
+      args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
+      throw error
+    }
   }
 
   // Check package.json for known vulnerabilities
 
   stage('Security') {
-
-    dockerImage.inside(args) {
-      sh "cd /application && nsp check"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && nsp check"
+      }
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in security stage!", 'danger')
+      throw error
     }
   }
 
   // Check source for syntax issues
 
   stage('Lint') {
-
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run lint"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && npm --no-color run lint"
+      }
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint stage!", 'danger')
+      throw error
     }
   }
 
   stage('Unit') {
-
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run test:coverage"
-      sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && npm --no-color run test:coverage"
+        sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+      }
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in unit stage!", 'danger')
+      throw error
     }
   }
 
   stage('Review') {
-    if (!isReviewable()) {
-      return
+    try {
+      if (!isReviewable()) {
+        return
+      }
+      build job: 'deploys/vets-review-instance-deploy', parameters: [
+        stringParam(name: 'devops_branch', value: 'master'),
+        stringParam(name: 'api_branch', value: 'master'),
+        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'source_repo', value: 'vets-website'),
+      ], wait: false
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
+      throw error
     }
-
-    build job: 'deploys/vets-review-instance-deploy', parameters: [
-      stringParam(name: 'devops_branch', value: 'master'),
-      stringParam(name: 'api_branch', value: 'master'),
-      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-      stringParam(name: 'source_repo', value: 'vets-website'),
-    ], wait: false
   }
 
   // Perform a build for each required build type
 
   stage('Build') {
-    def buildList = ['production']
+    try {
+      def buildList = ['production']
 
-    if (env.BRANCH_NAME == 'master') {
-      buildList << 'development'
-      buildList << 'staging'
-    }
+      if (env.BRANCH_NAME == 'master') {
+        buildList << 'staging'
+        buildList << 'development'
+      }
 
-    def builds = [:]
+      def builds = [:]
 
-    for (int i=0; i<envNames.size(); i++) {
-      def envName = envNames.get(i)
+      for (int i=0; i<envNames.size(); i++) {
+        def envName = envNames.get(i)
 
-      if (buildList.contains(envName)) {
-        builds[envName] = {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
+        if (buildList.contains(envName)) {
+          builds[envName] = {
+            dockerImage.inside(args) {
+              sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+              sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
+            }
+          }
+        } else {
+          builds[envName] = {
+            println "Build '${envName}' not required, skipped."
           }
         }
-      } else {
-        builds[envName] = {
-          println "Build '${envName}' not required, skipped."
-        }
       }
+  
+      parallel builds
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      throw error
     }
-
-    parallel builds
   }
 
   // Run E2E and accessibility tests
@@ -133,46 +166,50 @@ node('vets-website-linting') {
           }
         }
       )
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
+      throw error
     } finally {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
 
   stage('Deploy') {
+    try {
+      if (!isDeployable()) {
+        return
+      }
 
-    if (!isDeployable()) {
-      return
-    }
+      def targets = [
+        'master': [
+          [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
+          [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
+        ],
 
-    def targets = [
-      'kudos-launch': [
-        [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-      ],
+        'production': [
+          [ 'build': 'production', 'bucket': 'www.vets.gov' ]
+        ],
+      ][env.BRANCH_NAME]
 
-      'master': [
-        [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
-      ],
+      def builds = [:]
 
-      'production': [
-        [ 'build': 'production', 'bucket': 'www.vets.gov' ]
-      ],
-    ][env.BRANCH_NAME]
+      for (int i=0; i<targets.size(); i++) {
+        def target = targets.get(i)
 
-    def builds = [:]
-
-    for (int i=0; i<targets.size(); i++) {
-      def target = targets.get(i)
-
-      builds[target['bucket']] = {
-        dockerImage.inside(args) {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-s3',
-                              usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build/${target['build']} s3://${target['bucket']}/"
+        builds[target['bucket']] = {
+          dockerImage.inside(args) {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-s3',
+                                usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+            sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build/${target['build']} s3://${target['bucket']}/"
+            }
           }
         }
       }
-    }
 
-    parallel builds
+      parallel builds
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
+      throw error
+    }
   }
 }
