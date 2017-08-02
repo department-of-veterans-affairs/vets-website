@@ -32,6 +32,9 @@ module.exports = {
         recordLogs: true,
         captureHtml: true,
         seleniumVersion: '3.4.0'
+      },
+      selenium: {
+        port: process.env.SELENIUM_PORT || 4444
       }
     },
     chrome: {
