@@ -8,13 +8,7 @@
       {% assign current_page = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
         {% if current_page.name == crumb.name %}
-          <li class="active">
-            {% if title %}
-              {{ title }}
-            {% else %}
-              {{ crumb.name | replace: '-', ' ' | capitalize }}
-            {% endif %}
-          </li>
+          <!-- removed to remove 'active' breadcrumb -->
         {% else %}
           {% comment %}
             Each breadcrumb item has a child object. One of the properties of
