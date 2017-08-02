@@ -1290,20 +1290,6 @@ const formConfig = {
             otherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses'
-              },
-              items: {
-                amount: {
-                  'ui:required': (form) => _.get('view:hasOtherExpenses', form)
-                },
-                purpose: {
-                  'ui:required': (form) => _.get('view:hasOtherExpenses', form)
-                },
-                date: {
-                  'ui:required': (form) => _.get('view:hasOtherExpenses', form)
-                },
-                paidTo: {
-                  'ui:required': (form) => _.get('view:hasOtherExpenses', form)
-                }
               }
             }),
             'view:otherExpensesWarning': {
@@ -1395,20 +1381,6 @@ const formConfig = {
             spouseOtherExpenses: _.merge(otherExpensesUI, {
               'ui:options': {
                 expandUnder: 'view:spouseHasOtherExpenses'
-              },
-              items: {
-                amount: {
-                  'ui:required': (form) => _.get('view:spouseHasOtherExpenses', form)
-                },
-                purpose: {
-                  'ui:required': (form) => _.get('view:spouseHasOtherExpenses', form)
-                },
-                date: {
-                  'ui:required': (form) => _.get('view:spouseHasOtherExpenses', form)
-                },
-                paidTo: {
-                  'ui:required': (form) => _.get('view:spouseHasOtherExpenses', form)
-                }
               }
             }),
             'view:spouseOtherExpensesWarning': {
@@ -1548,20 +1520,6 @@ const formConfig = {
                 otherExpenses: _.merge(otherExpensesUI, {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
-                  },
-                  items: {
-                    amount: {
-                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
-                    },
-                    purpose: {
-                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
-                    },
-                    date: {
-                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
-                    },
-                    paidTo: {
-                      'ui:required': (form, index) => _.get(['dependents', index, 'view:hasOtherExpenses'], form)
-                    }
                   }
                 }),
                 'view:otherExpensesWarning': {
