@@ -39,6 +39,7 @@ import { schema as addressSchema, uiSchema as addressUI } from '../../common/sch
 import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childIncomeUiSchema } from '../definitions/child';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 import { validateServiceDates, validateMarriageDate } from '../validation';
 
@@ -617,33 +618,24 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Annual income',
             'ui:description': incomeDescription,
-            veteranGrossIncome: {
-              'ui:title': 'Veteran gross annual income from employment'
-            },
-            veteranNetIncome: {
-              'ui:title': 'Veteran net income from your farm, ranch, property or business'
-            },
-            veteranOtherIncome: {
-              'ui:title': 'Veteran other income amount'
-            },
+            veteranGrossIncome: currencyUI('Veteran gross annual income from employment'),
+            veteranNetIncome: currencyUI('Veteran net income from your farm, ranch, property or business'),
+            veteranOtherIncome: currencyUI('Veteran other income amount'),
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
                 hideIf: (formData) => !formData.maritalStatus ||
                   (formData.maritalStatus.toLowerCase() !== 'married' && formData.maritalStatus.toLowerCase() !== 'separated')
               },
-              spouseGrossIncome: {
-                'ui:title': 'Spouse gross annual income from employment',
+              spouseGrossIncome: _.merge(currencyUI('Spouse gross annual income from employment'), {
                 'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
-              },
-              spouseNetIncome: {
-                'ui:title': 'Spouse net income from your farm, ranch, property or business',
+              }),
+              spouseNetIncome: _.merge(currencyUI('Spouse net income from your farm, ranch, property or business'), {
                 'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
-              },
-              spouseOtherIncome: {
-                'ui:title': 'Spouse other income amount',
+              }),
+              spouseOtherIncome: _.merge(currencyUI('Spouse other income amount'), {
                 'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
-              }
+              })
             },
             children: {
               // 'ui:title': 'Child income',
@@ -686,15 +678,9 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
             'ui:description': 'Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.',
-            deductibleMedicalExpenses: {
-              'ui:title': 'Amount you or your spouse paid in non-reimbursable medical expenses this past year.'
-            },
-            deductibleFuneralExpenses: {
-              'ui:title': 'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'
-            },
-            deductibleEducationExpenses: {
-              'ui:title': 'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'
-            }
+            deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
+            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
+            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.')
           },
           schema: {
             type: 'object',
