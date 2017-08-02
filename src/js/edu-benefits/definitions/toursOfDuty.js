@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import ServicePeriodView from '../components/ServicePeriodView';
+import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 /**
  * Returns schema for toursOfDuty based on the property names passed to it.

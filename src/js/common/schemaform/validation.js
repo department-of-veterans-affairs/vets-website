@@ -172,27 +172,48 @@ export function errorSchemaIsValid(errorSchema) {
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const validPages = Object.keys(form.pages)
-    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
+    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form.data));
 
   const v = new Validator();
 
-  return form.data.privacyAgreementAccepted && validPages.every(page => {
-    const { uiSchema, schema } = form.pages[page];
+  if (!form.data.privacyAgreementAccepted) {
+    return { isValid: false };
+  }
+
+  return validPages.reduce(({ isValid, errors }, page) => {
+    const { uiSchema, schema, showPagePerItem, itemFilter, arrayPath } = form.pages[page];
+    let formData = form.data;
+
+    if (showPagePerItem) {
+      const arrayData = formData[arrayPath];
+      if (arrayData) {
+        formData = _.set(arrayPath, itemFilter ? arrayData.filter(itemFilter) : arrayData, formData);
+      } else {
+        formData = _.unset(arrayPath, formData);
+      }
+    }
 
     const result = v.validate(
-      form.data,
+      formData,
       schema
     );
 
     if (result.valid) {
-      const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, form.data);
+      const customErrors = {};
+      uiSchemaValidate(customErrors, uiSchema, schema, formData);
 
-      return errorSchemaIsValid(errors);
+      return {
+        isValid: isValid && errorSchemaIsValid(customErrors),
+        errors: errors.concat(customErrors)
+      };
     }
 
-    return false;
-  });
+    return {
+      isValid: false,
+      // removes PII
+      errors: errors.concat(result.errors.map(_.unset('instance')))
+    };
+  }, { isValid: true, errors: [] });
 }
 
 
@@ -214,11 +235,12 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+    errors.addError(futureDate);
   }
 }
 
@@ -289,5 +311,47 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
 
   if (!isValidDateRange(fromDate, toDate)) {
     errors.to.addError(errorMessages.pattern || 'To date must be after from date');
+  }
+}
+
+export function validateFileField(errors, fileList) {
+  let hasError = false;
+  fileList.forEach((file, index) => {
+    let error;
+    if (file.errorMessage) {
+      hasError = true;
+      error = `Error: ${file.errorMessage}`;
+    } else if (file.uploading) {
+      error = 'Uploading file...';
+    } else if (!file.confirmationCode) {
+      error = 'Something went wrong...';
+    }
+
+    if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        __errors: [],
+        addError(msg) {
+          this.__errors.push(msg);
+        }
+      };
+      /* eslint-enable no-param-reassign */
+    }
+
+    if (error) {
+      errors[index].addError(error);
+    }
+  });
+
+  if (hasError) {
+    errors.addError('Please address the errors listed below');
+  }
+}
+
+export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  if (!Object.keys(group).filter(item => group[item] === true).length) {
+    errors.addError(atLeastOne);
   }
 }

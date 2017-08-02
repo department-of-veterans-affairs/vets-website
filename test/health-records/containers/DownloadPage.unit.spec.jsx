@@ -38,7 +38,7 @@ describe('<DownloadPage>', () => {
     const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
     const alertBox = tree.subTree('AlertBox');
     expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('error');
+    expect(alertBox.props.status).to.equal('warning');
   });
 
   it('should render report generation error correctly', () => {

@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import GetFormHelp from '../../components/GetFormHelp';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -10,7 +11,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
-import * as personId from '../../definitions/personId';
+import * as personId from '../../../common/schemaform/definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -40,6 +41,9 @@ const formConfig = {
   urlPrefix: '/5495/',
   submitUrl: '/v0/education_benefits_claims/5495',
   trackingPrefix: 'edu-5495-',
+  formId: '5495',
+  version: 0,
+  disableSave: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -51,6 +55,7 @@ const formConfig = {
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

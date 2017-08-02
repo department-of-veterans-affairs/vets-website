@@ -36,10 +36,10 @@ module.exports = {
       }
     ]
   },
+
   errorCodes: {
     acceptTerms: [
       'RX135',
-      'VA900',
     ],
     registration: [
       'RX106',
@@ -55,8 +55,13 @@ module.exports = {
       'RX503',
       'RX117',
       'RX99',
+      'VA900',
+    ],
+    accountcreation: [
+      'MHVAC1',
     ],
   },
+
   rxStatuses: {
     active: 'Active',
     deleted: 'Unknown',
@@ -71,20 +76,5 @@ module.exports = {
     suspended: 'Active - Suspended',
     refillinprocess: 'In process',
     unknown: 'Unknown'
-  },
-
-  sortOptions: [
-    {
-      value: 'prescriptionName',
-      label: 'Prescription name'
-    },
-    {
-      value: 'facilityName',
-      label: 'Facility name'
-    },
-    {
-      value: 'lastSubmitDate',
-      label: 'Last submit date'
-    }
-  ]
+  }
 };

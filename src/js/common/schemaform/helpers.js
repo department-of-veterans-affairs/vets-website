@@ -5,7 +5,10 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../utils/helpers';
+import FormSaved from './FormSaved';
+import SaveInProgressErrorPage from './SaveInProgressErrorPage';
+
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
@@ -56,7 +59,7 @@ export function createPageList(formConfig, formPages) {
       }
     ])
     .map(page => {
-      return _.set('path', `${formConfig.urlPrefix}${page.path}`, page);
+      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
     });
 }
 
@@ -72,9 +75,10 @@ export function createRoutes(formConfig) {
     .map(page => {
       return {
         path: page.path,
-        component: FormPage,
+        component: page.component || FormPage,
         pageConfig: page,
-        pageList
+        pageList,
+        urlPrefix: formConfig.urlPrefix
       };
     });
 
@@ -83,9 +87,28 @@ export function createRoutes(formConfig) {
       {
         path: 'introduction',
         component: formConfig.introduction,
+        formConfig,
         pageList
       }
     ].concat(routes);
+  }
+
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'form-saved',
+      component: FormSaved,
+      pageList,
+      formConfig
+    });
+  }
+
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'error',
+      component: SaveInProgressErrorPage,
+      pageList, // In case we need it for startOver?
+      formConfig
+    });
   }
 
   return routes.concat([
@@ -158,16 +181,6 @@ export function parseISODate(dateString) {
 }
 
 /*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
-}
-
-/*
  * Removes 'view:' fields from data object
  */
 export function filterViewFields(data) {
@@ -204,31 +217,33 @@ export function filterInactivePages(pages, form) {
   }, form.data);
 }
 
+export function stringifyFormReplacer(key, value) {
+  // an object with country is an address
+  if (value && typeof value.country !== 'undefined' &&
+    (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
+    return undefined;
+  }
+
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+      return undefined;
+    }
+  }
+
+  return value;
+}
+
 /*
  * Normal transform for schemaform data
  */
-export function transformForSubmit(formConfig, form) {
+export function transformForSubmit(formConfig, form, replacer = stringifyFormReplacer) {
   const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
   const withoutInactivePages = filterInactivePages(inactivePages, form);
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, (key, value) => {
-    // an object with country is an address
-    if (value && typeof value.country !== 'undefined' &&
-      (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
-      return undefined;
-    }
-
-    // clean up empty objects, which we have no reason to send
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
-      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
-        return undefined;
-      }
-    }
-
-    return value;
-  }) || '{}';
+  return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
 
 function isHiddenField(schema) {
@@ -241,8 +256,8 @@ function isHiddenField(schema) {
  */
 export function getArrayFields(data) {
   const fields = [];
-  const findArrays = (obj, path = []) => {
-    if (obj.type === 'array' && !isHiddenField(obj)) {
+  const findArrays = (obj, ui, path = []) => {
+    if (obj.type === 'array' && !isHiddenField(obj) && !_.get('ui:options.keepInPageOnReview', ui)) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
@@ -252,12 +267,12 @@ export function getArrayFields(data) {
 
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
-        findArrays(obj.properties[prop], path.concat(prop));
+        findArrays(obj.properties[prop], ui[prop], path.concat(prop));
       });
     }
   };
 
-  findArrays(data.schema);
+  findArrays(data.schema, data.uiSchema);
 
   return fields;
 }
@@ -286,14 +301,14 @@ export function hasFieldsOtherThanArray(schema) {
  * then return undefined (because there's no reason to use an object schema with
  * no properties)
  */
-export function getNonArraySchema(schema) {
-  if (schema.type === 'array') {
+export function getNonArraySchema(schema, uiSchema = {}) {
+  if (schema.type === 'array' && !_.get('ui:options.keepInPageOnReview', uiSchema)) {
     return undefined;
   }
 
   if (schema.type === 'object') {
     const newProperties = Object.keys(schema.properties).reduce((current, next) => {
-      const newSchema = getNonArraySchema(schema.properties[next]);
+      const newSchema = getNonArraySchema(schema.properties[next], uiSchema[next]);
 
       if (typeof newSchema === 'undefined') {
         return _.unset(next, current);
@@ -407,4 +422,96 @@ export function createUSAStateLabels(states) {
   return states.USA.reduce((current, { label, value }) => {
     return _.merge(current, { [value]: label });
   }, {});
+}
+
+/*
+ * Take a list of pages and create versions of them
+ * for each item in an array
+ */
+function generateArrayPages(arrayPages, data) {
+  const items = _.get(arrayPages[0].arrayPath, data) || [];
+  return items
+    .reduce((pages, item, index) =>
+      pages.concat(arrayPages.map(page =>
+        _.assign(page, {
+          path: page.path.replace(':index', index),
+          index
+        })
+      )),
+      []
+    )
+    // doing this after the map so that we don't change indexes
+    .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
+}
+
+/*
+ * We want to generate the pages we need for each item in the array
+ * being used by an array page. We also want to group those pages by item.
+ * So, this grabs contiguous sections of array pages and at the end generates
+ * the right number of pages based on the items in the array
+ */
+export function expandArrayPages(pageList, data) {
+  const result = pageList.reduce((acc, nextPage) => {
+    const { lastArrayPath, arrayPages, currentList } = acc;
+    // If we see an array page and we're starting a section or in the middle of one, just add it
+    // to the temporary array
+    if (nextPage.showPagePerItem && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
+      arrayPages.push(nextPage);
+      return acc;
+    // Now we've hit the end of a section of array pages using the same array, so
+    // actually generate the pages now
+    } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
+      const newList = currentList.concat(generateArrayPages(arrayPages, data), nextPage);
+      return _.assign(acc, {
+        lastArrayPath: null,
+        arrayPages: [],
+        currentList: newList
+      });
+    }
+
+    return _.set('currentList', currentList.concat(nextPage), acc);
+  }, { lastArrayPath: null, arrayPages: [], currentList: [] });
+
+  if (!!result.arrayPages.length) {
+    return result.currentList.concat(generateArrayPages(result.arrayPages, data));
+  }
+
+  return result.currentList;
+}
+
+/**
+ * getPageKeys returns a list of keys for the currently active pages
+ *
+ * @param pages {Array<Object>} List of page configs
+ * @param formData {Object} Current form data
+ * @returns {Array<string>} A list of page keys from the page config
+ *   and the index if it's a pagePerItem page
+ */
+export function getPageKeys(pages, formData) {
+  const eligiblePageList = getActivePages(pages, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return expandedPageList.map(page => {
+    let pageKey = page.pageKey;
+    if (typeof page.index !== 'undefined') {
+      pageKey += page.index;
+    }
+    return pageKey;
+  });
+}
+
+/**
+ * getActiveChapters returns the list of chapter keys with active pages
+ *
+ * @param formConfig {Object} The form config object
+ * @param formData {Object} The current form data
+ * @returns {Array<string>} The list of chapter key strings for active chapters
+ */
+export function getActiveChapters(formConfig, formData) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const eligiblePageList = getActivePages(pageList, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }

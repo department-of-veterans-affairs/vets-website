@@ -2,7 +2,8 @@
 layout: page-breadcrumbs.html
 title: Agent Orange-Related Illnesses
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
+order: 8
 ---
 
 <div class="va-introtext">

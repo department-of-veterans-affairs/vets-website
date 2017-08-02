@@ -1,16 +1,20 @@
 ---
 layout: page-breadcrumbs.html
 title: Disability Benefits Eligibility 
+display_title: Eligibility
+order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-relatedlinks:
- - url: /disability-benefits/eligibility/ratings/
-   title: How VA Assigns Disability Ratings
-   description: "Learn how VA assigns severity ratings and how they affect your disability payments."
- - url: /disability-benefits/eligibility/presumed-disability/
-   title: Presumed Disability
-   description: "Find out why some chronic (long-lasting) conditions may qualify you for disability benefits." 
+template: detail-page
+children: disabilityEligibility
+majorlinks:
+  - heading:
+    links:
+    - url: /disability-benefits/eligibility/ratings/
+      title: How VA Assigns Disability Ratings
+      description: Learn how we assign severity ratings and how they affect your disability payments.
+    - url: /disability-benefits/eligibility/presumed-disability/
+      title: Presumed Disability
+      description: Find out why some chronic (long-lasting) illnesses, or illnesses caused by contact with toxic chemicals or other hazardous materials, may qualify you for disability benefits.
 ---
 
 <div class="va-introtext">

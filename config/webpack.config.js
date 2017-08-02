@@ -15,19 +15,24 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
+  burials: './src/js/burials/burials-entry.jsx',
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'hca-rjsf': './src/js/hca-rjsf/hca-rjsf-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
-  'va-letters': './src/js/va-letters/va-letters-entry.jsx',
+  letters: './src/js/letters/letters-entry.jsx',
+  pensions: './src/js/pensions/pensions-entry.jsx',
+  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
+  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
+  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
+  style: './src/sass/style.scss'
 };
 
 const configGenerator = (options) => {
@@ -38,7 +43,6 @@ const configGenerator = (options) => {
   filesToBuild.vendor = [
     './src/js/common/polyfills',
     'history',
-    'jquery',
     'react',
     'react-dom',
     'react-redux',
@@ -166,8 +170,7 @@ const configGenerator = (options) => {
     },
     resolve: {
       alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc'),
-        jquery: 'jquery/src/jquery'
+        modernizr$: path.resolve(__dirname, './modernizrrc')
       },
       extensions: ['*', '.js', '.jsx']
     },
@@ -182,13 +185,6 @@ const configGenerator = (options) => {
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
           BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
         }
-      }),
-
-      // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
       }),
 
       new ExtractTextPlugin({

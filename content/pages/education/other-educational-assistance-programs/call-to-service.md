@@ -1,8 +1,9 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: National Call to Service Program
 concurrence: incomplete
-template: 1-topic-landing
+order: 2
 ---
 
 <div class="va-introtext">

@@ -1,6 +1,6 @@
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField } from '../../user-profile/actions';
+import { updateProfileField, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
   window.dataLayer.push({ event: 'verify-link-clicked' });
@@ -27,6 +27,8 @@ export function getUserData(dispatch) {
       if (userData.first_name) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
+      dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
+      dispatch(updateProfileField('prefillsAvailable', json.data.attributes.prefills_available));
       dispatch(updateProfileField('accountType', userData.loa.current));
       dispatch(updateProfileField('email', userData.email));
       dispatch(updateProfileField('userFullName.first', userData.first_name));
@@ -36,7 +38,10 @@ export function getUserData(dispatch) {
       dispatch(updateProfileField('dob', userData.birth_date));
       dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
       dispatch(updateProfileField('services', json.data.attributes.services));
+      dispatch(updateProfileField('healthTermsCurrent', json.data.attributes.health_terms_current));
       dispatch(updateLoggedInStatus(true));
+    } else {
+      dispatch(profileLoadingFinished());
     }
   });
 }
@@ -47,4 +52,27 @@ export function addEvent(element, eventName, callback) {
   } else if (element.attachEvent) {
     element.attachEvent('on' + eventName, callback); // eslint-disable-line prefer-template
   }
+}
+
+export function getLoginUrl(onUpdateLoginUrl) {
+  const loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+    method: 'GET',
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateLoginUrl(json.authenticate_via_get);
+  });
+
+  return loginUrlRequest;
+}
+
+export function handleLogin(loginUrl, onUpdateLoginUrl) {
+  window.dataLayer.push({ event: 'login-link-clicked' });
+  if (loginUrl) {
+    window.dataLayer.push({ event: 'login-link-opened' });
+    const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+    return getLoginUrl(onUpdateLoginUrl);
+  }
+  return Promise.reject('Could not log in; loginUrl not provided.');
 }

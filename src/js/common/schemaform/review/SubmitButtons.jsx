@@ -29,6 +29,21 @@ export default function SubmitButtons({ submission, onSubmit, onBack, errorMessa
           buttonClass="form-button-green"
           beforeText="&#10003;"/>
     );
+  } else if (submission.status === 'clientError') {
+    submitButton = (
+      <ProgressButton
+          onButtonClick={onSubmit}
+          buttonText="Submit Application"
+          buttonClass="usa-button-primary"/>
+    );
+    submitMessage = (
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+        <div className="usa-alert-body">
+          <p className="schemaform-warning-header"><strong>We're sorry, there was an error connecting to Vets.gov.</strong></p>
+          <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
+        </div>
+      </div>
+    );
   } else {
     submitMessage = errorMessage
       ? <Message/>

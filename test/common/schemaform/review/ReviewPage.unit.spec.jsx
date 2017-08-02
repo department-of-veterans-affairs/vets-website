@@ -22,6 +22,19 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'testing',
+        pageKey: 'testPage'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
     const form = {
       submission: {
         hasAttemptedSubmit: false
@@ -34,7 +47,7 @@ describe('Schemaform review: ReviewPage', () => {
     const tree = SkinDeep.shallowRender(
       <ReviewPage
           form={form}
-          route={{ formConfig }}
+          route={{ formConfig, pageList }}
           setEditMode={f => f}
           setPrivacyAgreement={f => f}/>
     );
@@ -145,6 +158,19 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'testing',
+        pageKey: 'testPage'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
     const submitForm = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -153,7 +179,7 @@ describe('Schemaform review: ReviewPage', () => {
           form={form}
           setEditMode={f => f}
           setPrivacyAgreement={f => f}
-          route={{ formConfig }}/>
+          route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -193,6 +219,19 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'testing',
+        pageKey: 'testPage'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
     const submitForm = sinon.spy();
     const setSubmission = sinon.spy();
 
@@ -203,7 +242,7 @@ describe('Schemaform review: ReviewPage', () => {
           form={form}
           setEditMode={f => f}
           setPrivacyAgreement={f => f}
-          route={{ formConfig }}/>
+          route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -240,6 +279,19 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'testing',
+        pageKey: 'testPage'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
     const submitForm = sinon.spy();
     const setSubmission = sinon.spy();
 
@@ -250,7 +302,7 @@ describe('Schemaform review: ReviewPage', () => {
           form={form}
           setEditMode={f => f}
           setPrivacyAgreement={f => f}
-          route={{ formConfig }}/>
+          route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -287,13 +339,26 @@ describe('Schemaform review: ReviewPage', () => {
       push: sinon.spy()
     };
 
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'testing',
+        pageKey: 'testPage'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
     const tree = SkinDeep.shallowRender(
       <ReviewPage
           router={router}
           form={form}
           setEditMode={f => f}
           setPrivacyAgreement={f => f}
-          route={{ formConfig }}/>
+          route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -311,5 +376,54 @@ describe('Schemaform review: ReviewPage', () => {
     });
 
     expect(router.push.calledWith('confirmation'));
+  });
+  it('should handle editing', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {}
+          }
+        },
+        chapter2: {
+          pages: {
+            page2: {}
+          }
+        }
+      }
+    };
+
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      },
+      data: {
+        privacyAgreementAccepted: false
+      }
+    };
+
+    const setEditMode = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewPage
+          form={form}
+          route={{ formConfig, pageList }}
+          setEditMode={setEditMode}
+          setPrivacyAgreement={f => f}/>
+    );
+
+    expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.false;
+    tree.getMountedInstance().handleEdit('testPage', true);
+    expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.true;
+    expect(setEditMode.calledWith('testPage', true, null));
   });
 });

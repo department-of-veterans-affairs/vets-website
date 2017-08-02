@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
+template: topic-landing
 title: Post a Job
 concurrence: complete
-template: 4-action-page-pending
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 

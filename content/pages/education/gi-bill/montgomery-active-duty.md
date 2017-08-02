@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Montgomery GI Bill Active Duty (MGIB-AD)
-template: 4-action-page-pending
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+order: 5
 ---
 
 <div class="va-introtext">

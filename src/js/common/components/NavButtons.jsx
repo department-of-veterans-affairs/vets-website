@@ -109,6 +109,21 @@ export default class NavButtons extends React.Component {
               buttonClass="form-button-green"
               beforeText="&#10003;"/>
         );
+      } else if (submission.status === 'clientError') {
+        submitButton = (
+          <ProgressButton
+              onButtonClick={this.handleSubmit}
+              buttonText="Submit Application"
+              buttonClass="usa-button-primary"/>
+        );
+        submitMessage = (
+          <div className="usa-alert usa-alert-error schemaform-failure-alert">
+            <div className="usa-alert-body">
+              <p className="schemaform-warning-header"><strong>We're sorry, there was an error connecting to Vets.gov.</strong></p>
+              <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
+            </div>
+          </div>
+        );
       } else {
         submitMessage = (
           <div className="usa-alert usa-alert-error">
@@ -149,8 +164,8 @@ export default class NavButtons extends React.Component {
       </div>);
     } else if (path.endsWith('submit-message')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="row">
+          <div className="small-12 medium-5 columns">
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
             </a>
@@ -159,8 +174,8 @@ export default class NavButtons extends React.Component {
       );
     } else if (path.endsWith('introduction')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="row">
+          <div className="small-12 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Get Started"

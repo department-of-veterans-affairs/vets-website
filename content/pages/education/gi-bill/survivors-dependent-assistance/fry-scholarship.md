@@ -1,9 +1,10 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: Fry Scholarship
 concurrence: incomplete
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+order: 1
 ---
 
 <div class="va-introtext">

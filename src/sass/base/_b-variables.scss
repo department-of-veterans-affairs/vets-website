@@ -19,9 +19,8 @@ $font-serif:          "Roboto Slab", serif;
 // Magic Numbers
 //===================================
 
-// Note: USWDS value is 53rem;
-$text-max-width:      70rem;
-$usa-form-width:      32em;
+$text-max-width:      70rem; // Note: USWDS value is 53rem;
+$site-max-width:      100rem; // Worksout to about 1000px. USWDS value is 1040px
 
 //===================================
 // USWDS variables
@@ -35,6 +34,7 @@ $color-primary-darkest:      #112e51;
 $color-secondary-darkest:    #981b1e;
 $color-focus:                #3e94cf;
 $color-gray-light:           #aeb0b5;
+$color-gray-medium:          #757575;
 $color-gray-dark:            #323a45;
 $color-primary-alt-light:    #9bdaf1;
 $color-white:                #fff;

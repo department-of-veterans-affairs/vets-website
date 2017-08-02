@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Benefits Delivery at Discharge (BDD)
 concurrence: incomplete
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 2
 ---
 
 <div class="va-introtext">
