@@ -25,9 +25,9 @@ very secret.
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
-| run the site so that devices on your local network can access it | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
-| run all tests                            | `npm run test`                           |
-| run only unit tests                      | `npm run test:unit`                      |
+| run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| run all tests | `npm run test` |
+| run only unit tests | `npm run test:unit` |
 | run only unit tests for a subset of tests | `BABEL_ENV=test ./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` <br> or <br> `BABEL_ENV=test ./node_modules/.bin/mocha --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
 | run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
