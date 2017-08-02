@@ -13,7 +13,6 @@ maintenance_line2: In the meantime, you can still call 1-877-222-VETS(8387) and 
       <li><a href="/">Home</a></li>
       <li><a href="/health-care/">Health Care</a></li>
       <li class="parent"><a href="/health-care/apply/">Apply for VA Health Care</a></li>
-      <li class="active">Apply Online</li>
     </ul>
   </nav>
 
