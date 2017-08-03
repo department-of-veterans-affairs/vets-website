@@ -11,7 +11,7 @@ majorlinks:
     links:
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
-      description: If you’d like us to help you gather evidence to support your disability benefits claim, file a standard claim.
+      description: If you’d like us to help you gather evidence to support your disability benefits claim, file a standard claim.
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
       title: Fully Developed Claim 
       description: If you’d like to get a faster decision on your disability benefits claim, use the Fully Developed Claims program and send in all evidence you have when you file your claim.
