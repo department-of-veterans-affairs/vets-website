@@ -146,21 +146,24 @@ export const uploadMessage = (
 );
 
 export const aidAttendanceEvidence = (
-  <div className="usa-alert usa-alert-info no-background-image">
-    <strong>If you’re claiming non-service-connected pension with Aid and Attendance benefits</strong>, your supporting documents must show that you:
-    <ul>
-      <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
-      <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
-      <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
-      <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
-      <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
-    </ul>
-
-    <p>If you're claiming for <strong>increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:</p>
-    <ul>
-      <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
-      <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
-    </ul>
+  <div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+        <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+        <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+        <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+        <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
+      </ul>
+    </div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you're claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
+        <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+      </ul>
+    </div>
   </div>
 );
 
