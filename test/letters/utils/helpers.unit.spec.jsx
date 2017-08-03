@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 
 import {
   getBenefitOptionText
-} from '../../../src/js/letters/utils/helpers';
+} from '../../../src/js/letters/utils/helpers.jsx';
 
 describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {

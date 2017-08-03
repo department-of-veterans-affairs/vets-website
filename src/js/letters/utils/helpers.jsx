@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import includes from 'lodash/fp/includes';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
@@ -153,7 +154,7 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     valueString = value;
   }
 
-  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+  if (!includes(option, ['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'])) {
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
