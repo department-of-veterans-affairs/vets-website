@@ -346,6 +346,4 @@ const runTest = E2eHelpers.createE2eTest(
   }
 );
 
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = runTest;
-}
+module.exports = runTest;
