@@ -89,23 +89,6 @@ node('docker') {
     }
   }
 
-  stage('Review') {
-    try {
-      if (!isReviewable()) {
-        return
-      }
-      build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
-        stringParam(name: 'api_branch', value: 'master'),
-        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-        stringParam(name: 'source_repo', value: 'vets-website'),
-      ], wait: false
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
-      throw error
-    }
-  }
-
   // Perform a build for each required build type
 
   stage('Build') {
