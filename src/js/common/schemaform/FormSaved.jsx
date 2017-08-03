@@ -41,10 +41,10 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>Your application has been saved!</strong><br/>
+            <strong>Your application has been saved.</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
             {success}
-            If you're on a public computer, please sign out before you leave to ensure your data is secure.
+            If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
         </div>
         <br/>

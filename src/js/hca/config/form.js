@@ -134,7 +134,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   errorMessage: ErrorMessage,
   title: 'Apply for health care',
-  subTitle: 'Form 10-10ez',
+  subTitle: 'Form 10-10EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {
     date,

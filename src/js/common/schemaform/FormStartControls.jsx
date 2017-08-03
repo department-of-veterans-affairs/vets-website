@@ -53,7 +53,7 @@ class FormStartControls extends React.Component {
         <div>
           <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText="Resume previous application"
+              buttonText="Continue with application"
               buttonClass="usa-button-primary"/>
           {!this.props.resumeOnly && <ProgressButton
               onButtonClick={this.toggleModal}
