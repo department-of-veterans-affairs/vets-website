@@ -86,6 +86,7 @@
   .your-estimated-benefits {
     background: $color-gray-lightest;
     padding: 1.5rem;
+    overflow-wrap: break-word;
 
     hr {
       border: 1px solid $color-primary-darkest;
