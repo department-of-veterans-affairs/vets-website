@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
       .url(url)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
-      .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
+      .waitForElementVisible('.usa-button-primary', Timeouts.slow);  // First render of React may be slow.
 
     client.axeCheck('.main');
 
