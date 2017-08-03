@@ -47,6 +47,11 @@ class FormSaved extends React.Component {
             If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
         </div>
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            <strong>Please verify your identity.</strong> We want to provide you with the highest level of security to keep your information safe. Please go to your account (link here) and verify your identity.
+          </div>
+        </div>
         <br/>
         <FormStartControls
             startPage={this.props.route.pageList[1].path}
