@@ -57,7 +57,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{moment(form.submission.submittedAt).utcOffset('-0600').format('MMM D, YYYY h:mm A [CT]')}</span>
             </li>
             <li>
               <strong>Confirmation number</strong><br/>
