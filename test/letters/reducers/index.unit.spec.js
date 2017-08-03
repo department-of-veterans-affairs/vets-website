@@ -17,6 +17,7 @@ const benefitSummaryOptionData = {
     attributes: {
       benefitInformation: {
         awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
+        monthlyAwardAmount: 200,
         hasChapter35Eligibility: true
       },
       militaryService: [
