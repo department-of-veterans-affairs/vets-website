@@ -28,14 +28,6 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant-information');
 
-    // Benefits selection page
-    client.waitForElementVisible('label[for="root_view:aidAttendance"]', Timeouts.normal);
-    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    PageHelpers.completeBenefitsSelection(client, testData.data);
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/selection');
-
     // Military History page
     client.waitForElementVisible('input[name="root_servicePeriods_0_serviceBranch"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
@@ -310,6 +302,13 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
 
+    // Benefits selection page
+    client.waitForElementVisible('.usa-alert-info', Timeouts.normal);
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/aid-attendance');
+
     // Document Upload page
     client.waitForElementVisible('label[for="root_files"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
@@ -320,7 +319,7 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
-    // Document Upload page
+    // FDC page
     client.waitForElementVisible('label[for="root_noRapidProcessing"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeExpeditedInfo(client, testData.data);

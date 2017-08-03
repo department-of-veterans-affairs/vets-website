@@ -240,39 +240,6 @@ const formConfig = {
         }
       }
     },
-    benefitsSelection: {
-      title: 'Benefits Selection',
-      pages: {
-        benefitsSelection: {
-          path: 'benefits/selection',
-          title: 'Benefits Selection',
-          uiSchema: {
-            'view:aidAttendance': {
-              'ui:title': 'Are you also claiming Aid and Attendance or Housebound Benefits?',
-              'ui:widget': 'yesNo'
-            },
-            'view:evidenceInfo': {
-              'ui:description': aidAttendanceEvidence,
-              'ui:options': {
-                expandUnder: 'view:aidAttendance'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:aidAttendance': {
-                type: 'boolean'
-              },
-              'view:evidenceInfo': {
-                type: 'object',
-                properties: {}
-              }
-            }
-          }
-        }
-      }
-    },
     militaryHistory: {
       title: 'Military History',
       pages: {
@@ -1619,6 +1586,25 @@ const formConfig = {
               dayPhone,
               nightPhone,
               mobilePhone
+            }
+          }
+        },
+        aidAttendance: {
+          path: 'additional-information/aid-attendance',
+          title: 'Aid and Attendance and Housebound Benefits',
+          uiSchema: {
+            'ui:title': 'Aid and Attendance and Housebound Benefits',
+            'view:evidenceInfo': {
+              'ui:description': aidAttendanceEvidence
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:evidenceInfo': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         },
