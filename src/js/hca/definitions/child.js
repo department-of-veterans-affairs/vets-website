@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import currencyUI from '../../common/schemaform/definitions/currency';
 import { validateDependentDate } from '../validation';
 
 const incomeFields = [
@@ -82,9 +83,7 @@ export const uiSchema = {
     'ui:title': 'If child is between 18 and 23 years of age, did child attend school during the last calendar year?',
     'ui:widget': 'yesNo'
   },
-  childEducationExpenses: {
-    'ui:title': 'Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)?'
-  },
+  childEducationExpenses: currencyUI('Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)'),
   childCohabitedLastYear: {
     'ui:title': 'Did your child live with you last year?',
     'ui:widget': 'yesNo'
@@ -107,15 +106,9 @@ export const uiSchema = {
 };
 
 export const childIncomeUiSchema = {
-  grossIncome: {
-    'ui:title': 'Gross annual income from employment'
-  },
-  netIncome: {
-    'ui:title': 'Net income from farm, ranch, property or business'
-  },
-  otherIncome: {
-    'ui:title': 'Other income amount'
-  },
+  grossIncome: currencyUI('Gross annual income from employment'),
+  netIncome: currencyUI('Net income from farm, ranch, property or business'),
+  otherIncome: currencyUI('Other income amount'),
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
       const name = _.get(`children.[${index}].childFullName`, formData);

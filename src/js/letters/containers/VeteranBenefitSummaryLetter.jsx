@@ -7,7 +7,7 @@ import {
   characterOfServiceContent,
   optionsToAlwaysDisplay,
   getBenefitOptionText
-} from '../utils/helpers';
+} from '../utils/helpers.jsx';
 import { formatDateShort } from '../../common/utils/helpers';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
@@ -62,7 +62,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // TODO: find out if there is anything in the profile or from EVSS that can tell
       // us whether the user is a veteran or a user. For now we just pass in
       // true for the isVeteran parameter
-      const optionText = getBenefitOptionText(key, value, true);
+      const optionText = getBenefitOptionText(key, value, true, benefitInfo.awardEffectiveDate);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>

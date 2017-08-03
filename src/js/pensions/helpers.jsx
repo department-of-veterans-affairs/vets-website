@@ -79,20 +79,19 @@ export function fileHelp({ formData }) {
 
   const hasDisabledChild = (formData.dependents || []).some(child => child.disabled);
 
-  const hasBullets = formData['view:aidAttendance'] || hasSchoolChild || hasDisabledChild;
-
   return (
     <div>
-      <p>Please upload all documentation to support your claim. {hasBullets && 'This includes:'}</p>
+      <p>Please upload all documentation to support your claim. {(hasSchoolChild || hasDisabledChild) && 'This includes:'}</p>
       <ul>
-        {formData['view:aidAttendance'] === true &&
-          <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>}
-        {formData['view:aidAttendance'] === true &&
-          <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>}
         {hasSchoolChild &&
           <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
         {hasDisabledChild &&
           <li>Private medical records documenting your child's disability before the age of 18</li>}
+      </ul>
+      <p>If you're claiming for Aid and Attendance or Housebound benefits, this includes:</p>
+      <ul>
+        <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>
+        <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>
       </ul>
       <p>File types you can upload: PDF, JPG, PNG</p>
     </div>
@@ -147,21 +146,24 @@ export const uploadMessage = (
 );
 
 export const aidAttendanceEvidence = (
-  <div className="usa-alert usa-alert-info no-background-image">
-    <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance</strong>, the evidence must show that you:
-    <ul>
-      <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
-      <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
-      <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
-      <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
-      <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
-    </ul>
-
-    <p>To support a claim for <strong>increased disability pension benefits based on being housebound</strong>, the evidence must show that you:</p>
-    <ul>
-      <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
-      <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
-    </ul>
+  <div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+        <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+        <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+        <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+        <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
+      </ul>
+    </div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you're claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
+        <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+      </ul>
+    </div>
   </div>
 );
 
@@ -205,7 +207,7 @@ export const noFDCWarning = (
 
 export const expeditedProcessDescription = (
   <div>
-    <h5>Optional expedited process</h5>
+    <h5>Fully developed claim program</h5>
     <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
     <a href="/pension/apply/pension-fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
   </div>
