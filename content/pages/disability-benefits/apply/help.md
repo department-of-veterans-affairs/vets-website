@@ -9,7 +9,7 @@ relatedlinks:
   - heading: Get answers to your questions about filing a disability claim
     links:
       - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-        title: What's the fastest way to file a claim?
+        title: What’s the fastest way to file a claim?
         description: ""
       - url: /disability-benefits/apply/
         title: How do I file a claim?
