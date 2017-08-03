@@ -22,7 +22,7 @@ describe('Pensions aidAttendance', () => {
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(0);
-    expect(formDOM.querySelectorAll('.usa-alert-info').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-alert-info').length).to.equal(2);
   });
   it('should submit', () => {
     const onSubmit = sinon.spy();
