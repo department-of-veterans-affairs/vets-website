@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import _ from 'lodash/fp';
+import SkinDeep from 'skin-deep';
 
 import {
   getBenefitOptionText
@@ -69,8 +70,8 @@ describe('Letters helpers: ', () => {
       }, ['monthlyAwardAmount', 'serviceConnectedPercentage']);
     });
     it('should include the awardEffectiveDate in the text for monthlyAward', () => {
-      const tree = getBenefitOptionText('monthlyAwardAmount', 20, true);
-      expect(tree.props.children[1].props.children[0]).to.contain('The effective date');
+      const tree = SkinDeep.shallowRender(getBenefitOptionText('monthlyAwardAmount', 20, true));
+      expect(tree.text()).to.contain('The effective date');
     });
   });
 });
