@@ -77,4 +77,4 @@ RUN yarn install --production=false
 # Copy application source to image
 
 COPY . .
-RUN chmod -R 777 /application
+RUN chmod -R 777 /
