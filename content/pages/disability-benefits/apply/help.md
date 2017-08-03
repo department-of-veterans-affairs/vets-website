@@ -18,7 +18,7 @@ relatedlinks:
         title: How do I file while on active duty?
         description: ""
       - url: /disability-benefits/apply/one-year/
-        title: How do I file for an illness that started after I was discharged from active-duty?
+        title: How do I file for an illness that started after I was discharged from active duty?
         description: ""
       - url: /disability-benefits/after-you-apply/date/
         title: How does VA decide when my disability compensation starts?
