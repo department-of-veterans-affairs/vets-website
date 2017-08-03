@@ -103,7 +103,8 @@ export function submitForm(data) {
     Raven.captureException(error, {
       extra: {
         clientError,
-        statusText: error.statusText
+        statusText: error.statusText,
+        fingerprint: ['edu-', error.message]
       }
     });
     window.dataLayer.push({

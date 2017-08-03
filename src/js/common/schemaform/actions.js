@@ -57,7 +57,8 @@ export function submitForm(formConfig, form) {
     Raven.captureException(error, {
       extra: {
         clientError,
-        statusText: error.statusText
+        statusText: error.statusText,
+        fingerprint: [formConfig.trackingPrefix, error.message]
       }
     });
     window.dataLayer.push({
