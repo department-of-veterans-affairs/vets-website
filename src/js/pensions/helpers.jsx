@@ -205,7 +205,7 @@ export const noFDCWarning = (
 
 export const expeditedProcessDescription = (
   <div>
-    <h5>Optional expedited process</h5>
+    <h5>Fully developed claim program</h5>
     <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
     <a href="/pension/apply/pension-fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
   </div>
