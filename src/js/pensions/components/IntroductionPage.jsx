@@ -45,7 +45,7 @@ class IntroductionPage extends React.Component {
                 <div className="usa-alert-body">
                   <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
                   <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed and there is no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
-                  <p><a href="/pension/apply/pension-fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
+                  <p><a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
                 </div>
               </div>
               <br/>
