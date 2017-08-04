@@ -79,7 +79,8 @@ You can find an accredited representative in 1 of 2 ways:
 You can set up a VSO or other representative to work on your behalf in 1 of 2 ways:
 
 1. [Use eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). Go online through eBenefits to let us know that you'll be using a representative or to change your current representation.
-2. [Complete VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. [Find a VA regional office near you](http://www.benefits.va.gov/benefits/offices.asp).
-
+2. Fill out a form called an Appointment of Veterans Service Organization as Claimant's Representative (VA Form 21-22). [Download VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). 
 <br>
+Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. [Find a VA regional office near you](http://www.benefits.va.gov/benefits/offices.asp).
+
 

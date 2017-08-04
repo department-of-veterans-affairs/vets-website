@@ -66,7 +66,7 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
 <br>
 

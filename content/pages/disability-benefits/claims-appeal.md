@@ -32,7 +32,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (Form 21-0958)</a>
+        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>.
       </p>
       <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
     </div>
@@ -70,7 +70,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
   <li class="list-group-item">
     <h4>(Optional) Hearing</h4>
     <p>
-      If you request a Board hearing, you’ll be sent a letter at least 30 days before it’s scheduled to happen. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings</a>
+      If you request a Board hearing, you’ll be sent a letter at least 30 days before it’s scheduled to happen. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings</a>.
     </p>
   </li>
   <li class="list-group-item">
@@ -102,8 +102,8 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         No. At this time, all forms, evidence, and other paperwork for your appeal have to be sent through the mail. You’ll find the correct mailing address on information sent to you by VA, or you can send it to:<br/>
         <dl class="va-address-block">
           <dd>Chairman (01)</dd>
-          <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>Board of Veterans' Appeals</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
       </div>
@@ -118,23 +118,24 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4">How do I get a representative to help me?</button>
       <div id="dbq4" class="usa-accordion-content">
-        <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a></p>
+        <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a>.</p>
         <p>Once you have a representative, you’ll need to let VA know they have permission to represent you by completing a form.</p>
         <ul>
-          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant's Representative (Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download Form 21-22A</a></li>
-          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant's Representative (Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download Form 21-22</a></li>
+          <li>If your representative is a lawyer or claims agent, fill out an Appointment of Individual as Claimant's Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a>.</li>
+          <li>If your representative is a VSO, fill out an Appointment of Veterans Service Organization as Claimant's Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download VA Form 21-22</a>.</li>
         </ul>
       </div>
     </li>
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq5">What if I decide I don’t want to pursue my appeal anymore?</button>
       <div id="dbq5" class="usa-accordion-content">
-        <p>If at any time you decide you don’t want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you’re withdrawing the appeal.</p>
+        <p>If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p>
+        <br>
         <p>If you request the withdrawal <em>before</em> you get notice that the appeal has been activated at the Board, send your statement to VBA. After the appeal has been transferred to the Board, you should send it directly to the Board at:</p>
         <dl class="va-address-block">
           <dd>Chairman (01)</dd>
-          <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>Board of Veterans' Appeals</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
       </div>
@@ -147,8 +148,8 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         Send your letter to:<br/>
         <dl class="va-address-block">
           <dd>Director, Office of Management, Planning and Analysis (014)</dd>
-          <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>Board of Veterans' Appeals</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
         </p>
@@ -162,7 +163,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
           <li>File a new claim with your RO, <strong>or</strong></li>
           <li>File a motion asking the Board to reconsider your appeal (there’s no time limit to file this motion), <strong>or</strong></li>
           <li>File a motion asking the Board to review your appeal again because there was clear and unmistakable error in its decision (there's no time limit to file this motion), <strong>or</strong></li>
-          <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></li>
+          <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC</a>.</li>
         </ul>
       </div>
     </li>
