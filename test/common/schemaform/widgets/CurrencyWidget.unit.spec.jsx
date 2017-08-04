@@ -29,7 +29,7 @@ describe('Schemaform <CurrencyWidget>', () => {
     });
     expect(onChange.calledWith(10)).to.be.true;
   });
-  it('should call parse numbers with commas', () => {
+  it('should parse numbers with commas', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
@@ -39,6 +39,34 @@ describe('Schemaform <CurrencyWidget>', () => {
     tree.subTree('input').props.onChange({
       target: {
         value: '1,000'
+      }
+    });
+    expect(onChange.calledWith(1000)).to.be.true;
+  });
+  it('should parse numbers with decimals', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <CurrencyWidget
+          options={{}}
+          onChange={onChange}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '1,000.00'
+      }
+    });
+    expect(onChange.calledWith(1000)).to.be.true;
+  });
+  it('should parse numbers with dollar symbol', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <CurrencyWidget
+          options={{}}
+          onChange={onChange}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '$1,000.00'
       }
     });
     expect(onChange.calledWith(1000)).to.be.true;
@@ -56,6 +84,20 @@ describe('Schemaform <CurrencyWidget>', () => {
       }
     });
     expect(onChange.calledWith('abcd')).to.be.true;
+  });
+  it('should call onChange with string value if badly formatted number', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <CurrencyWidget
+          options={{}}
+          onChange={onChange}/>
+    );
+    tree.subTree('input').props.onChange({
+      target: {
+        value: '10.000'
+      }
+    });
+    expect(onChange.calledWith('10.000')).to.be.true;
   });
   it('should call onChange with undefined if the value is blank', () => {
     const onChange = sinon.spy();
