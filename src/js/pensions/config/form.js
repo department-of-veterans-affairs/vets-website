@@ -17,7 +17,6 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning,
   uploadMessage,
   dependentsMinItem,
   wartimeWarning,
@@ -1243,11 +1242,7 @@ const formConfig = {
               'view:hasOtherExpenses': {
                 type: 'boolean'
               },
-              otherExpenses,
-              'view:otherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              otherExpenses
             }
           },
           uiSchema: {
@@ -1260,13 +1255,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses'
               }
-            }),
-            'view:otherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses'
-              }
-            }
+            })
           }
         },
         spouseNetWorth: {
@@ -1334,11 +1323,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses,
-              'view:spouseOtherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              spouseOtherExpenses: otherExpenses
             }
           },
           uiSchema: {
@@ -1351,13 +1336,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:spouseHasOtherExpenses'
               }
-            }),
-            'view:spouseOtherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses'
-              }
-            }
+            })
           }
         },
         dependentsNetWorth: {
@@ -1468,11 +1447,7 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses,
-                    'view:otherExpensesWarning': {
-                      type: 'object',
-                      properties: {}
-                    }
+                    otherExpenses
                   }
                 }
               }
@@ -1490,13 +1465,7 @@ const formConfig = {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
                   }
-                }),
-                'view:otherExpensesWarning': {
-                  'ui:description': otherExpensesWarning,
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses'
-                  }
-                }
+                })
               }
             }
           }
