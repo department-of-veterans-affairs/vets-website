@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-// import sinon from 'sinon';
 import _ from 'lodash/fp';
+import SkinDeep from 'skin-deep';
 
 import {
   getBenefitOptionText
-} from '../../../src/js/letters/utils/helpers';
+} from '../../../src/js/letters/utils/helpers.jsx';
 
 describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
@@ -58,8 +58,8 @@ describe('Letters helpers: ', () => {
       }, ['hasDeathResultOfDisability']);
     });
     // Special cases for non-boolean options
-    it('should only be defined if date is valid', () => {
-      expect(getBenefitOptionText('awardEffectiveDate', '1965-01-01T05:00:00.000+00:00', true)).not.to.be.undefined;
+    it('should never be defined', () => {
+      expect(getBenefitOptionText('awardEffectiveDate', '1965-01-01T05:00:00.000+00:00', true)).to.be.undefined;
       expect(getBenefitOptionText('awardEffectiveDate', undefined, true)).to.be.undefined;
     });
     it('should only be defined if value is valid', () => {
@@ -68,6 +68,10 @@ describe('Letters helpers: ', () => {
         expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
         expect(getBenefitOptionText(option, 'unavailable', true)).to.be.undefined;
       }, ['monthlyAwardAmount', 'serviceConnectedPercentage']);
+    });
+    it('should include the awardEffectiveDate in the text for monthlyAward', () => {
+      const tree = SkinDeep.shallowRender(getBenefitOptionText('monthlyAwardAmount', 20, true));
+      expect(tree.text()).to.contain('The effective date');
     });
   });
 });

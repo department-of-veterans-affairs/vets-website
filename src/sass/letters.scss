@@ -25,6 +25,10 @@
     margin-left: 2em;
   }
 
+  .letters-address {
+    text-transform: capitalize;
+  }
+
   .accordion-header > button {
     min-height: 6rem;
     padding-top: 1.5rem;
@@ -32,11 +36,12 @@
   }
 
   .service-info {
-      text-transform: capitalize;
+    text-transform: capitalize;
   }
 
   table {
     input[type="checkbox"] {
+      height: inherit;
       margin: auto;
       opacity: inherit;
       position: inherit;

@@ -54,6 +54,3 @@ You can bring your information to a Regional Benefits Office near you. [Find a R
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
 
-  
-
-<br>

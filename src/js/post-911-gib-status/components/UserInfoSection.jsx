@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort } from '../../common/utils/helpers';
-import { formatPercent, formatVAFileNumber, formatMonthDayFields } from '../utils/helpers';
+import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import {
+  formatPercent,
+  formatVAFileNumber,
+  formatMonthDayFields,
+  benefitEndDateExplanation,
+  notQualifiedWarning
+} from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
   render() {
@@ -14,7 +20,6 @@ class UserInfoSection extends React.Component {
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
-    const currentlyAllowed = enrollmentData.percentageBenefit !== 0 || enrollmentData.originalEntitlement !== 0;
 
     let currentAsOfAlert;
     if (this.props.showCurrentAsOfAlert) {
@@ -27,12 +32,19 @@ class UserInfoSection extends React.Component {
       );
     }
 
+    let benefitEndDate;
+    if (enrollmentData.activeDuty) {
+      benefitEndDate = benefitEndDateExplanation('activeDuty', enrollmentData.delimitingDate);
+    } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
+      benefitEndDate = benefitEndDateExplanation('remainingEntitlement', enrollmentData.delimitingDate);
+    }
+
     let entitlementInfo;
     const originalEntitlement = enrollmentData.originalEntitlement;
     const usedEntitlement = enrollmentData.usedEntitlement;
     const remainingEntitlement = enrollmentData.remainingEntitlement;
 
-    if (currentlyAllowed) {
+    if (enrollmentData.veteranIsEligible) {
       entitlementInfo = (
         <div>
           <div className="section">
@@ -43,32 +55,16 @@ class UserInfoSection extends React.Component {
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.
               <br/>
-              <a href="http://benefits.va.gov/GIBILL/resources/benefits_resources/rate_tables.asp" target="_blank">
+              <a href="/gi-bill-comparison-tool/" target="_blank">
                 Find out how much money you can expect to get based on your eligibility percentage.
               </a>
             </p>
           </div>
-          <div className="section">
-            <h4>Benefit End Date</h4>
-            <p>
-              You have until <strong>{formatDateShort(enrollmentData.delimitingDate)}</strong> to use these benefits.
-            </p>
-          </div>
+          {benefitEndDate}
         </div>
       );
     } else {
-      entitlementInfo = (
-        <div>
-          <h4>Your Benefits</h4>
-          <div className="usa-alert usa-alert-warning usa-content">
-            <div className="usa-alert-body">
-              <h2>Currently Not Qualified</h2>
-              You can't get Post-9/11 GI Bill benefits right now. If you continue to
-              serve, you may qualify in the future.
-            </div>
-          </div>
-        </div>
-      );
+      entitlementInfo = notQualifiedWarning();
     }
 
     return (
@@ -78,20 +74,21 @@ class UserInfoSection extends React.Component {
           <InfoPair
               label="Name"
               value={fullName}
-              spacingClass="section-line"/>
+              id="gibs-full-name"
+              additionalClass="section-line"/>
           <InfoPair
               label="Date of birth"
-              value={formatDateShort(enrollmentData.dateOfBirth)}
-              spacingClass="section-line"/>
-          {/* TODO: find out whether this should be only partially displayed  xxxx1234 */}
+              name="dateOfBirth"
+              value={formatDateLong(enrollmentData.dateOfBirth)}
+              additionalClass="section-line"/>
           <InfoPair
               label="VA file number"
               value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
           <InfoPair
-              label="Regional processing office"
+              label="Regional Processing Office"
               value={enrollmentData.regionalProcessingOffice}
-              spacingClass="section-line"/>
+              additionalClass="section-line"/>
         </div>
         {entitlementInfo}
       </div>

@@ -409,7 +409,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.false;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.false;
     });
     it('should validate only filtered items for pagePerItem schema', () => {
       const form = {
@@ -444,7 +444,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.true;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
     });
     it('should not validate pages where depends is false', () => {
       const form = {
@@ -491,7 +491,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.true;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
       expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to.be.true;
     });
   });
