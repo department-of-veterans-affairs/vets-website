@@ -57,7 +57,6 @@ class Breadcrumbs extends React.Component {
     } else if (pathname.match(/\/settings\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
     }
-
     return (
       <nav className="va-nav-breadcrumbs">
         <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
