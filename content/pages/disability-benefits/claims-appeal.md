@@ -16,7 +16,7 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 
 ### Have you already filed an appeal?
 
-When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), you'll be able to check the status of your appeal on Vets.gov.
+When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), you’ll be able to check the status of your appeal on Vets.gov.
 
 <a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
 </div>
@@ -32,7 +32,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (Form 21-0958)</a>
+        By filing an NOD, you begin the appeals process. You’ll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (Form 21-0958)</a>
       </p>
       <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
     </div>
@@ -40,7 +40,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
   <li class="list-group-item">
     <h4>RO prepares the Statement of the Case (SOC)</h4>
     <p>
-      After you file your NOD, if the RO can’t grant all or part of your appeal, it will prepare the SOC for the issues in your appeal that were not granted. To do this, they review all the evidence related to your appeal, including any new evidence you submit. You'll receive a copy of it in the mail.
+      After you file your NOD, if the RO can’t grant all or part of your appeal, it will prepare the SOC for the issues in your appeal that were not granted. To do this, they review all the evidence related to your appeal, including any new evidence you submit. You’ll receive a copy of it in the mail.
     </p>
   </li>
   <li class="list-group-item">
@@ -103,7 +103,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         <dl class="va-address-block">
           <dd>Chairman (01)</dd>
           <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
       </div>
@@ -121,8 +121,8 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a></p>
         <p>Once you have a representative, you’ll need to let VA know they have permission to represent you by completing a form.</p>
         <ul>
-          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant's Representative (Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download Form 21-22A</a></li>
-          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant's Representative (Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download Form 21-22</a></li>
+          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download Form 21-22A</a></li>
+          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download Form 21-22</a></li>
         </ul>
       </div>
     </li>
@@ -134,7 +134,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         <dl class="va-address-block">
           <dd>Chairman (01)</dd>
           <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
       </div>
@@ -148,7 +148,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         <dl class="va-address-block">
           <dd>Director, Office of Management, Planning and Analysis (014)</dd>
           <dd>Board of Veterans’ Appeals</dd>
-          <dd>P.O. Box 27063</dd>
+          <dd>PO Box 27063</dd>
           <dd>Washington, DC 20038</dd>
         </dl>
         </p>
