@@ -8,7 +8,7 @@ relatedlinks:
   - heading: Get answers to your questions about filing a disability claim
     links:
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: What's the fastest way to file a claim?
+      title: What’s the fastest way to file a claim?
       description: ""
     - url: /disability-benefits/apply/
       title: How do I file a claim?
@@ -20,7 +20,7 @@ relatedlinks:
       title: How do I file while on active duty?
       description: ""
     - url: /disability-benefits/apply/one-year/
-      title: How do I file for an illness that started after I was discharged from active-duty?
+      title: How do I file for an illness that started after I was discharged from active duty?
       description: ""
 ---
 
