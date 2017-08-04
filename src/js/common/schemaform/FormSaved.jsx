@@ -7,6 +7,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../utils/helpers';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
+import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 import FormStartControls from './FormStartControls';
 
@@ -50,6 +51,11 @@ class FormSaved extends React.Component {
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             <strong>Please verify your identity.</strong> We want to provide you with the highest level of security to keep your information safe. Please go to your account (link here) and verify your identity.
+          </div>
+        </div>
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={() => handleVerify(this.props.user.verifyUrl)}>verify your identity</a>.
           </div>
         </div>
         <br/>
