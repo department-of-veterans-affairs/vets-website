@@ -23,6 +23,7 @@ class DownloadLetters extends React.Component {
           <LetterList
               letters={this.props.letters}
               lettersAvailability={this.props.lettersAvailability}
+              letterDownloadStatus={this.props.letterDownloadStatus}
               benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
@@ -57,7 +58,12 @@ function mapStateToProps(state) {
     profile: userState.profile,
     letters: letterState.letters,
     destination: letterState.destination,
+<<<<<<< HEAD
     lettersAvailability: letterState.lettersAvailability,
+=======
+    lettersAvailable: letterState.lettersAvailable,
+    letterDownloadStatus: letterState.letterDownloadStatus,
+>>>>>>> 43a611b... passing props working
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo

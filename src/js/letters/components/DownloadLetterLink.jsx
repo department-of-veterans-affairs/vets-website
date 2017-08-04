@@ -37,13 +37,15 @@ function mapStateToProps(state, ownProps) {
   return {
     letterType: ownProps.letterType,
     letterName: ownProps.letterName,
+    downloadStatus: ownProps.downloadStatus,
     letterOptions: state.letters.requestOptions
   };
 }
 
 DownloadLetterLink.PropTypes = {
   letterType: PropTypes.string.required,
-  letterName: PropTypes.string.required
+  letterName: PropTypes.string.required,
+  downloadStatus: PropTypes.string
 };
 
 const mapDispatchToProps = {
