@@ -3,6 +3,8 @@
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
 
+$color-gray-lighter: #d6d7d9;
+
 .letters {
   h5 {
     padding-top: 1.5em;
@@ -33,6 +35,15 @@
     min-height: 6rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+  }
+
+  .download-button {
+    margin: 1.5em 0 1em;
+
+    button:disabled {
+      background-color: $color-gray-lighter;
+      color: $color-black;
+    }
   }
 
   .service-info {

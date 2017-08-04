@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import { getLetterPdf } from '../actions/letters';
 
@@ -24,11 +23,39 @@ export class DownloadLetterLink extends React.Component {
   }
 
   render() {
+    let buttonClasses;
+    let buttonText;
+    let buttonDisabled;
+    switch (this.props.downloadStatus) {
+      case 'downloading':
+        buttonClasses = 'usa-button-disabled';
+        buttonText = 'Downloading...';
+        buttonDisabled = true;
+        break;
+      case 'success':
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Downloaded';
+        buttonDisabled = false;
+        break;
+      case 'failure':
+        buttonClasses = 'usa-button-disabled';
+        buttonText = 'Failed to download';
+        buttonDisabled = true;
+        break;
+      default:
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Download Letter';
+        buttonDisabled = false;
+    }
+
     return (
-      <Link onClick={this.downloadLetter} to="/" target="_blank"
-          className="usa-button-primary va-button-primary">
-        Download Letter
-      </Link>
+      <div className="download-button">
+        <button onClick={this.downloadLetter}
+            disabled={buttonDisabled}
+            className={buttonClasses}>
+          {buttonText}
+        </button>
+      </div>
     );
   }
 }
