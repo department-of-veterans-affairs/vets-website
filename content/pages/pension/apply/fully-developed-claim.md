@@ -8,9 +8,9 @@ order: 2
 
 <div class="va-introtext">
 
-The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all the evidence or supporting documents you have when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
+The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all your evidence, or supporting documents, when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
 
-If you file a claim in the FDC program and we decide that additional documents exist and are needed to decide your claim, VA will remove your claim from the FDC program and process it as a standard claim.
+If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, VA will remove your claim from the FDC program and process it as a standard claim.
 
 </div>
 
@@ -20,9 +20,9 @@ If you file a claim in the FDC program and we decide that additional documents e
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="need-to-do">What do I need to do?</button>
 <div id="need-to-do" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program 
 
-When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide any information on relevant documents that you don’t have.
+When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide information about supporting documents that you don’t have.
 Submit your claim according to FDC Criteria:
 
 1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/).
@@ -30,7 +30,9 @@ Submit your claim according to FDC Criteria:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
-3. Go to any VA medical appointments that are necessary to decide your claim
+3. Go to any VA medical appointments required to decide your claim
+
+<br>
 
 #### Standard Claim Process
 
@@ -47,7 +49,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 If you’re claiming non-service-connected pension benefits, the evidence must show:
 1. You meet certain minimum requirements for active service during a period of war. Those requirements are:
 
-    - 90 days of consecutive active service, with at least 1 day during wartime, **or**
+    - 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
     - 90 days of combined service, with at least 1 day during wartime
     (**Note:** If your service began after September 7, 1980, additional service requirements may apply, typically 2 years of continuous service or completion of active-duty service), **or**
     - Any length of active-duty service during wartime, with discharge because of a service-connected disability
@@ -83,15 +85,17 @@ If you’re claiming benefits for a disabled child, the evidence must show that 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-will-help">How will VA help me get evidence for my claim?</button>
 <div id="va-will-help" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program
 
-VA will:
+We will:
 - Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 
+<br>
+
 #### Standard Claim Process
 
-VA will:
+We will:
 - Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 - Make every reasonable effort to request relevant records that you authorize VA to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
@@ -102,15 +106,17 @@ VA will:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="when-to-send">When should I turn in my evidence?</button>
 <div id="when-to-send" class="usa-accordion-content">
 
-#### FDC Program (Optional Faster Process)
+#### FDC Program 
 
 You’ll need to:
 - Turn in the information and evidence at the same time as you file your claim.
 <div class="usa-alert usa-alert-warning no-background-image">
 
-**Note:** If you turn in additional information or evidence after you send in your fully developed claim, VA will remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
+**Note:** If you turn in additional information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
 
 </div>
+
+<br>
 
 #### Standard Claim Process
 
@@ -125,10 +131,10 @@ You’ll need to:
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">Where should I send my information and evidence?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">How do I turn in my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
 
-Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/527EZ/)), and attach or upload all the related documents at the end of the form. We’ll send your application to the right Pension Management Center for your state.
+Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/527EZ/)), and upload or attach to the end of the form all the related documents. We’ll send your application to the right Pension Management Center for your state.
 
 </div>
 </li>
@@ -137,12 +143,12 @@ Fill out an Application for Pension ([VA Form 21P-527EZ](/pension/application/52
 
 <div class="feature" markdown=“1”>
 
-#### Special Claims
+#### Special Situations
 If any of the below situations apply to you, you’ll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
-- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). **If you’re in a care facility**, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
+- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance ([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). **Note:** If you’re in a care facility, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance ([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
 - **Claiming a child in school between the ages of 18 and 23**, fill out a Request for Approval of School Attendance ([VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674)).
-- **Claiming benefits for a seriously disabled child**, turn in all private health records for the child’s disabilities.
+- **Claiming benefits for a seriously disabled child**, turn in all private medical records for the child’s disabilities.
 
 </div>
 
