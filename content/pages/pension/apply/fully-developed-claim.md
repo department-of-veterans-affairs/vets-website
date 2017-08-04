@@ -10,7 +10,7 @@ order: 2
 
 The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all your evidence, or supporting documents, when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
 
-If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, VA will remove your claim from the FDC program and process it as a standard claim.
+If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, we'll remove your claim from the FDC program and process it as a standard claim.
 
 </div>
 
@@ -22,7 +22,7 @@ If you file a claim in the FDC program and we decide that additional documents e
 
 #### FDC Program 
 
-When turning in your claim under the FDC program, you must send VA all the supporting documents you have and provide information about supporting documents that you don’t have.
+When turning in your claim under the FDC program, you must send us all the supporting documents you have and provide information about supporting documents that you don’t have.
 Submit your claim according to FDC Criteria:
 
 1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ/).
@@ -36,9 +36,9 @@ Submit your claim according to FDC Criteria:
 
 #### Standard Claim Process
 
-With a standard claim, you’ll give VA permission to gather evidence or records for you. You’ll need to give VA enough information about the evidence so they can request it from the right person or agency.
+With a standard claim, you’ll give us permission to gather evidence or records for you. You’ll need to give us enough information about the evidence so we can request it from the right person or agency.
 
-If a person or agency refuses to turn over the evidence, asks for money for the evidence, or can’t get the evidence, VA will ask you to try to get the evidence or records. It’s your responsibility to make sure VA receives all requested records that aren’t at a federal agency or office.
+If a person or agency refuses to turn over the evidence, asks for money for the evidence, or can’t get the evidence, we'll ask you to try to get the evidence or records. It’s your responsibility to make sure we receive all requested records that aren’t at a federal agency or office.
 
 </div>
 </li>
@@ -60,7 +60,7 @@ If you’re claiming non-service-connected pension benefits, the evidence must s
     - Receive Social Security disability benefits, **or**
     - Are unemployable because of a disability that doesn’t go away, **or**
     - Have a disability that doesn’t go away and that makes it impossible for you to work, **or**
-    - Have a disease or disorder that VA decides causes your permanent and total disability
+    - Have a disease or disorder that we decide is the cause of your permanent and total disability
 
 3. Your net worth and income are within certain limits.
 
@@ -96,9 +96,9 @@ We will:
 #### Standard Claim Process
 
 We will:
-- Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
+- Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
-- Make every reasonable effort to request relevant records that you authorize VA to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
+- Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
 
 </div>
 </li>
