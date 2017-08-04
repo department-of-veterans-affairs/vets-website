@@ -1357,11 +1357,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses,
-              'view:spouseOtherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              spouseOtherExpenses: otherExpenses
             }
           },
           uiSchema: {
