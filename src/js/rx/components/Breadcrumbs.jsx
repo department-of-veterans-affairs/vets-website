@@ -27,9 +27,12 @@ class Breadcrumbs extends React.Component {
 
     if (pathname.match(/\/\d+$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
     } else if (pathname.match(/\/track\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
-
       if (this.state.prevPath.match(/\/history\/?$/)) {
         crumbs.push(<Link to="/history" key="history">History</Link>);
       }

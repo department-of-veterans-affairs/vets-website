@@ -30,17 +30,9 @@ describe('<Breadcrumbs>', () => {
     expect(tree.props.className).to.equal('va-nav-breadcrumbs');
   });
 
-  it('should render the basecase correctly', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props}/>);
-    const lastSpan = tree.everySubTree('span').pop();
-
-    expect(lastSpan).to.be.ok;
-    expect(lastSpan.text()).to.equal('Health Care');
-  });
-
   it('should render on prescription detail pages correctly', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/123' }}/>);
-    const lastSpan = tree.everySubTree('span').pop();
+    const lastSpan = tree.everySubTree('Link').pop().subTree();
 
     expect(lastSpan).to.be.ok;
     expect(lastSpan.text()).to.equal('Prescription Refills');
@@ -48,8 +40,7 @@ describe('<Breadcrumbs>', () => {
 
   it('should render on glossary page correctly', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
-    const lastSpan = tree.everySubTree('span').pop();
-
+    const lastSpan = tree.everySubTree('Link').pop().subTree();
     expect(lastSpan).to.be.ok;
     expect(lastSpan.text()).to.equal('Prescription Refills');
   });
