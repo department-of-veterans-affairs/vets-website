@@ -174,17 +174,15 @@
 
   .additional-information {
     .historical-information.list {
-      margin: 2rem 0;
+      margin-bottom: 2rem;
 
       @media screen and (min-width: $medium-screen) {
         display: none;
       }
     }
 
-    .institution-codes {
-      @media screen and (min-width: $medium-screen) {
-        margin-top: 2rem;
-      }
+    .institution-summary {
+      margin-bottom: 2rem;
     }
 
     @include media-maxwidth($medium-screen) {
