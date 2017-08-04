@@ -35,7 +35,7 @@ describe('<Breadcrumbs>', () => {
     const lastSpan = tree.everySubTree('span').pop();
 
     expect(lastSpan).to.be.ok;
-    expect(lastSpan.text()).to.equal('Prescription Refills');
+    expect(lastSpan.text()).to.equal('Health Care');
   });
 
   it('should render on prescription detail pages correctly', () => {
@@ -43,7 +43,7 @@ describe('<Breadcrumbs>', () => {
     const lastSpan = tree.everySubTree('span').pop();
 
     expect(lastSpan).to.be.ok;
-    // expect(lastSpan.text()).to.equal('prescriptionName');
+    expect(lastSpan.text()).to.equal('Prescription Refills');
   });
 
   it('should render on glossary page correctly', () => {
@@ -51,6 +51,6 @@ describe('<Breadcrumbs>', () => {
     const lastSpan = tree.everySubTree('span').pop();
 
     expect(lastSpan).to.be.ok;
-    // expect(lastSpan.text()).to.equal('Glossary');
+    expect(lastSpan.text()).to.equal('Prescription Refills');
   });
 });
