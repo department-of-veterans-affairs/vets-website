@@ -43,6 +43,9 @@ class ConfirmationPage extends React.Component {
       pmcName = regionalOffice[0].replace('Attention:', '').trim();
     }
 
+    const submittedAt = moment(form.submission.submittedAt);
+    const offset = submittedAt.isDST() ? '-0500' : '-0600';
+
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
@@ -57,7 +60,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).utcOffset('-0600').format('MMM D, YYYY h:mm A [CT]')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm A [CT]')}</span>
             </li>
             <li>
               <strong>Confirmation number</strong><br/>
