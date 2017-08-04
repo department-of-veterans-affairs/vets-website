@@ -69,7 +69,7 @@ export default class AdditionalSourcesField extends React.Component {
 
   scrollToRow(index) {
     setTimeout(() => {
-      scroller.scrollTo(`additional_${index}`, {
+      scroller.scrollTo(`additional_${index}`, window.VetsGov.scroll || {
         duration: 500,
         delay: 0,
         smooth: true,
