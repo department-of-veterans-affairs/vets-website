@@ -46,18 +46,13 @@ class Breadcrumbs extends React.Component {
         );
 
         crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
-        crumbs.push(<span key="trackPackage"><strong>Track Package</strong></span>);
       }
     } else if (pathname.match(/\/history\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
-      crumbs.push(<span key="history"><strong>History</strong></span>);
     } else if (pathname.match(/\/glossary\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
     } else if (pathname.match(/\/settings\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
-      crumbs.push(<span key="settings"><strong>Settings</strong></span>);
-    } else {
-      crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
     }
 
     return (
