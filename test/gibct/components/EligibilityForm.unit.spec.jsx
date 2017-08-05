@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-import 'babel-polyfill';
 
 import createCommonStore from '../../../src/js/common/store';
 import { EligibilityForm } from '../../../src/js/gi/components/search/EligibilityForm';
