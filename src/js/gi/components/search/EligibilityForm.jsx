@@ -37,7 +37,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.militaryStatus}
             alt="What is your military status?"
-            visible={this.props.eligibility.dropdowns.militaryStatus}
+            visible
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -49,7 +49,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.spouseActiveDuty}
             alt="Is your spouse on active duty?"
-            visible={this.props.eligibility.dropdowns.spouseActiveDuty}
+            visible={this.props.eligibility.militaryStatus === 'spouse'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -68,7 +68,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
-            visible={this.props.eligibility.dropdowns.giBillChapter}
+            visible
             onChange={this.props.eligibilityChange}/>
 
         {
@@ -115,7 +115,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.cumulativeService}
             alt="Cumulative Post-9/11 active duty service"
-            visible={this.props.eligibility.dropdowns.cumulativeService}
+            visible={this.props.eligibility.giBillChapter === '33'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -130,7 +130,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.enlistmentService}
             alt="Completed an enlistment of:"
-            visible={this.props.eligibility.dropdowns.enlistmentService}
+            visible={this.props.eligibility.giBillChapter === '30'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -146,7 +146,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.consecutiveService}
             alt="Length of longest active duty tour:"
-            visible={this.props.eligibility.dropdowns.consecutiveService}
+            visible={this.props.eligibility.giBillChapter === '1607'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -158,7 +158,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.eligForPostGiBill}
             alt="Are you eligible for the Post-9/11 GI Bill?"
-            visible={this.props.eligibility.dropdowns.eligForPostGiBill}
+            visible={this.props.eligibility.giBillChapter === '31'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -174,7 +174,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.numberOfDependents}
             alt="How many dependents do you have?"
-            visible={this.props.eligibility.dropdowns.numberOfDependents}
+            visible={this.props.eligibility.giBillChapter === '31' && this.props.eligibility.eligForPostGiBill === 'no'}
             onChange={this.props.eligibilityChange}/>
 
         <RadioButtons
