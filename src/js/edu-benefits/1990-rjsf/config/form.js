@@ -1,6 +1,8 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -27,17 +29,15 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        veteranInformation: applicantInformation(fullSchema1990, {
+          isVeteran: true,
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+            'gender'
+          ],
+        })
       }
     },
     benefitsEligibility: {
