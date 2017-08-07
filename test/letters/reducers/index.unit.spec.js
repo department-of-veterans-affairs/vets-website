@@ -17,6 +17,7 @@ const benefitSummaryOptionData = {
     attributes: {
       benefitInformation: {
         awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
+        monthlyAwardAmount: 200,
         hasChapter35Eligibility: true
       },
       militaryService: [
@@ -50,18 +51,16 @@ describe('letters reducer', () => {
         data: {
           data: {
             attributes: {
+              address: {
+                addressLine1: '2476 MAIN STREET',
+                fullName: 'MARK WEBB'
+              },
               letters: [
                 {
                   letterType: 'commissary',
                   name: 'Commissary Letter'
                 }
               ]
-            }
-          },
-          meta: {
-            address: {
-              addressLine1: '2476 MAIN STREET',
-              fullName: 'MARK WEBB'
             }
           }
         }

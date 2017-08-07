@@ -96,7 +96,7 @@ If you need help accessing services, call our toll-free hotline at 877-222-VETS 
 
 #### What if I need to update my personal information?
 
-You can update your personal information, such as income, address, and insurance, with VA Form 10-10EZR (Renewal Application for Health Benefits). [Download Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
 
 Mail this form and any supporting materials to:
 

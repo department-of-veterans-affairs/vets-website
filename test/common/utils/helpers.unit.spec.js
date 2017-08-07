@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 
-import { isActivePage, dateToMoment } from '../../../src/js/common/utils/helpers.js';
+import { isActivePage, dateToMoment, dateDiffDesc } from '../../../src/js/common/utils/helpers.js';
 
 describe('Helpers unit tests', () => {
   describe('isActivePage', () => {
@@ -92,6 +93,21 @@ describe('Helpers unit tests', () => {
       expect(date.year()).to.equal(1901);
       expect(date.month()).to.equal(1);
       expect(date.date()).to.equal(1);
+    });
+  });
+  describe('dateDiffDesc', () => {
+    const today = moment();
+    it('should display time in days', () => {
+      expect(dateDiffDesc(moment(today).add(30, 'days'), today)).to.equal('30 days');
+    });
+    it('should display time in hours', () => {
+      expect(dateDiffDesc(moment(today).add(23, 'hours'), today)).to.equal('23 hours');
+    });
+    it('should display time in minutes', () => {
+      expect(dateDiffDesc(moment(today).add(59, 'minutes'), today)).to.equal('59 minutes');
+    });
+    it('should display time as less than a minute', () => {
+      expect(dateDiffDesc(moment(today).add(59, 'seconds'), today)).to.equal('less than a minute');
     });
   });
 });

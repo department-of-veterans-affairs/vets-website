@@ -121,5 +121,31 @@ describe('Schemaform review widgets', () => {
 
       expect(tree.text()).to.be.empty;
     });
+    it('should render labels', () => {
+      const YesNo = yesNo;
+      const tree = SkinDeep.shallowRender(
+        <YesNo
+            value
+            options={{
+              labels: {
+                Y: 'Whatever'
+              }
+            }}/>
+      );
+
+      expect(tree.text()).to.equal('Whatever');
+    });
+    it('should render reversed', () => {
+      const YesNo = yesNo;
+      const tree = SkinDeep.shallowRender(
+        <YesNo
+            value={false}
+            options={{
+              yesNoReverse: true
+            }}/>
+      );
+
+      expect(tree.text()).to.equal('Yes');
+    });
   });
 });

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import includes from 'lodash/fp/includes';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
@@ -142,7 +143,7 @@ const benefitOptionText = {
   }
 };
 
-export function getBenefitOptionText(option, value, isVeteran) {
+export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDate) {
   const personType = isVeteran ? 'veteran' : 'dependent';
   let valueString;
   if (value === false) {
@@ -153,20 +154,22 @@ export function getBenefitOptionText(option, value, isVeteran) {
     valueString = value;
   }
 
-  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+  if (!includes(option, ['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'])) {
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
     case 'awardEffectiveDate': {
-      if (value && value !== 'unavailable') {
-        return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
-      }
       return undefined;
     }
 
     case 'monthlyAwardAmount': {
       if (value && value !== 'unavailable') {
-        return (<div>Your current monthly award amount is <strong>${value}</strong>.</div>);
+        return (
+          <div>
+            <div>Your current monthly award amount is <strong>${value}</strong>.</div>
+            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong></div>
+          </div>
+        );
       }
       return undefined;
     }
@@ -199,7 +202,6 @@ export const benefitOptionsMap = {
   hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
   hasSurvivorsPensionAward: 'survivorsAward',
   monthlyAwardAmount: 'monthlyAward',
-  awardEffectiveDate: 'monthlyAward',
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };

@@ -22,7 +22,11 @@ export function formatVAFileNumber(n) {
 export function formatMonthDayFields(field) {
   let displayValue;
   if (field) {
-    displayValue = `${field.months} months, ${field.days} days`;
+    if (field.days === 1) {
+      displayValue = `${field.months} months, ${field.days} day`;
+    } else {
+      displayValue = `${field.months} months, ${field.days} days`;
+    }
   } else {
     displayValue = 'unavailable';
   }
@@ -76,6 +80,27 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
     default:
       return undefined;
   }
+}
+
+export function notQualifiedWarning() {
+  return (
+    <div className="usa-alert usa-alert-warning usa-content not-qualified">
+      <div className="usa-alert-body">
+        <h2>Currently Not Qualified</h2>
+        <span><strong>Our records show you don't qualify for the Post-9/11 GI Bill because:</strong></span>
+        <ul>
+          <li>You haven't served on active duty for at least 90 days after September 10, 2001, and/or</li>
+          <li>Your service component let us know that you didn't receive an honorable discharge</li>
+          <li>If the information in our records is not accurate, please call us at 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
+        </ul>
+        <h5>Resources</h5>
+        <ul>
+          <li><a target="_blank" href="/education/eligibility">Check Post-9/11 GI Bill benefits eligibility</a></li>
+          <li>If you're enrolled in education benefits through another chapter (Montgomery GI Bill (MGIB) or Reservists Educational Assistance Program (REAP)), check our <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">Web Automated Verification of Enrollment (W.A.V.E)</a></li>
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 export function systemDownMessage() {

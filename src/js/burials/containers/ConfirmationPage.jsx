@@ -23,7 +23,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.burial-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -43,9 +43,12 @@ class ConfirmationPage extends React.Component {
     const hasDocuments = form.data.deathCertificate || form.data.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
 
+    const submittedAt = moment(form.submission.submittedAt);
+    const offset = submittedAt.isDST() ? '-0500' : '-0600';
+
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="burial-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -61,7 +64,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm A [CT]')}</span>
             </li>
             <li>
               <strong>Deceased Veteran</strong><br/>

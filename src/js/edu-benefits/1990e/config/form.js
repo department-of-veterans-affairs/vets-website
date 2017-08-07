@@ -87,7 +87,7 @@ const formConfig = {
             properties: {
               benefit
             }
-          },
+          }
         }
       }
     },

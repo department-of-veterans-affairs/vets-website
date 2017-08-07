@@ -41,7 +41,7 @@ Click on the description that matches you best to find out what information you'
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-veteran">Veteran</button>
 <div id="apply-coe-veteran" class="usa-accordion-content">
 
-If you're a **Veteran**, you'll need your DD214.
+If you're a **Veteran**, you'll need a copy of your discharge or separation papers (DD214).
 
 </div>
 </li>
@@ -65,7 +65,7 @@ If you're an **active-duty Servicemember**, you'll need:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-activated">Current or former activated National Guard or Reserve member</button>
 <div id="apply-coe-activated" class="usa-accordion-content">
 
-If you're a **current or former activated National Guard or Reserve member**, you'll need your DD214.
+If you're a **current or former activated National Guard or Reserve member**, you'll need a copy of your discharge or separation papers (DD214).
 
 </div>
 </li>
@@ -92,8 +92,8 @@ If you're a **current member of the National Guard or Reserves**, and have **nev
 
 If you are a **discharged member of the National Guard** and were **never activated**, you'll need:
 
-- Your NGB Form 22 (Report of Separation and Record of Service) for each period of National Guard service, **or**
-- Your NGB Form 23 (Retirement Points Statement) and proof of the character of service
+- Your Report of Separation and Record of Service (NGB Form 22) for each period of National Guard service, **or**
+- Your Retirement Points Statement (NGB Form 23) and proof of the character of service
 
 </div>
 </li>
@@ -114,13 +114,13 @@ If you are a **discharged member of the Reserves** and were **never activated**,
 
 If you're a **surviving spouse** who qualifies for home loan benefits, you'll need the Veteran’s discharge documents (DD214)—if available—**and:**
 
-- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
-- **If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
+- **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send a Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses (VA Form 26-1817). [Download VA Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
+- **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21-534), **and**
   - A copy of your marriage license, **and**
   - The Veteran's death certificate
   
   <br>
- [Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
+ [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
  
  <br> 
  
@@ -151,7 +151,7 @@ We recommend applying for your COE online.
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
 
 **By mail** <br>
-To apply by mail, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
+To apply by mail, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and mail it to the address listed on the form. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download VA Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
 
 
 <!-- </li>

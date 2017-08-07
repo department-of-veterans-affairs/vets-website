@@ -59,7 +59,7 @@ export function createPageList(formConfig, formPages) {
       }
     ])
     .map(page => {
-      return _.set('path', `${formConfig.urlPrefix}${page.path}`, page);
+      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
     });
 }
 
@@ -178,16 +178,6 @@ export function parseISODate(dateString) {
     day: '',
     year: ''
   };
-}
-
-/*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
 }
 
 /*
@@ -508,4 +498,20 @@ export function getPageKeys(pages, formData) {
     }
     return pageKey;
   });
+}
+
+/**
+ * getActiveChapters returns the list of chapter keys with active pages
+ *
+ * @param formConfig {Object} The form config object
+ * @param formData {Object} The current form data
+ * @returns {Array<string>} The list of chapter key strings for active chapters
+ */
+export function getActiveChapters(formConfig, formData) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const eligiblePageList = getActivePages(pageList, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }

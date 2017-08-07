@@ -191,13 +191,13 @@
     "fsevents": "^1.0.7"
   },
   "engines": {
-    "node": "6.10.3",
+    "node": "6.11.1",
     "yarn": "0.21.3"
   },
   "private": true,
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#45e0292c2e731817288846c9128109bc1a78b379"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#75dc05646af4c553c54d70e9aab1a9639fb28ce7"
   }
 }

@@ -53,7 +53,7 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation. [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
 
 You can apply for this benefit in 1 of 3 ways:
 
@@ -72,7 +72,7 @@ You may be able to get compensation as a surviving parent if:
 
 ### As a surviving parent, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
 You can apply for this benefit in 1 of 3 ways:
 

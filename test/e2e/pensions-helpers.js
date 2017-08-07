@@ -1,4 +1,5 @@
 const mock = require('./mock-helpers');
+const Timeouts = require('../e2e/timeouts');
 
 function completeApplicantInformation(client, data) {
   client
@@ -139,14 +140,18 @@ function completeDependentInfo(client, data, index) {
     .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
     .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
 
+  // These pauses seem to have something to do with the messages that expand underneath
+
   if (typeof data.dependents[index].attendingCollege !== 'undefined') {
     client
-      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege);
+      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege)
+      .pause(1000);
   }
 
   if (typeof data.dependents[index].disabled !== 'undefined') {
     client
-      .selectYesNo('root_disabled', data.dependents[index].disabled);
+      .selectYesNo('root_disabled', data.dependents[index].disabled)
+      .pause(1000);
   }
 
   client
@@ -154,6 +159,7 @@ function completeDependentInfo(client, data, index) {
 
   if (data.dependents[index].previouslyMarried) {
     client
+      .pause(1000)
       .selectYesNo('root_married', data.dependents[index].married);
   }
 }
@@ -172,65 +178,74 @@ function completeDependentAddressInfo(client, data, index) {
 
 function completeNetWorthInfo(client, data) {
   client
-      .fill('input[name$="bank"]', data.bank)
-      .fill('input[name$="interestBank"]', data.interestBank)
-      .fill('input[name$="ira"]', data.ira)
-      .fill('input[name$="stocks"]', data.stocks)
-      .fill('input[name$="realProperty"]', data.realProperty)
-      .click('.pensions-sources-add-btn')
-      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
-      .click('.va-growable-expanded .float-left');
+    .fill('input[name$="bank"]', data.bank)
+    .fill('input[name$="interestBank"]', data.interestBank)
+    .fill('input[name$="ira"]', data.ira)
+    .fill('input[name$="stocks"]', data.stocks)
+    .fill('input[name$="realProperty"]', data.realProperty)
+    .click('.pensions-sources-add-btn')
+    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .click('.va-growable-expanded .float-left');
 }
 
 function completeMonthlyIncomeInfo(client, data) {
   client
-      .fill('input[name$="socialSecurity"]', data.socialSecurity)
-      .fill('input[name$="civilService"]', data.civilService)
-      .fill('input[name$="railroad"]', data.railroad)
-      .fill('input[name$="blackLung"]', data.blackLung)
-      .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
-      .fill('input[name$="ssi"]', data.ssi)
-      .click('.pensions-sources-add-btn')
-      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
-      .click('.va-growable-expanded .float-left');
+    .fill('input[name$="socialSecurity"]', data.socialSecurity)
+    .fill('input[name$="civilService"]', data.civilService)
+    .fill('input[name$="railroad"]', data.railroad)
+    .fill('input[name$="blackLung"]', data.blackLung)
+    .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
+    .fill('input[name$="ssi"]', data.ssi)
+    .click('.pensions-sources-add-btn')
+    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .click('.va-growable-expanded .float-left');
 }
 
 function completeExpectedIncomeInfo(client, data) {
   client
-      .fill('input[name$="salary"]', data.salary)
-      .fill('input[name$="interest"]', data.interest)
-      .click('.pensions-sources-add-btn')
-      .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-      .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
-      .click('.va-growable-expanded .float-left');
+    .fill('input[name$="salary"]', data.salary)
+    .fill('input[name$="interest"]', data.interest)
+    .click('.pensions-sources-add-btn')
+    .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
+    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
+    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .click('.va-growable-expanded .float-left');
 }
 
 function completeOtherExpensesInfo(client, data, prefix = 'other') {
   client
-      .fill('input[name$="amount"]', data.amount)
-      .fill('input[name$="purpose"]', data.purpose)
-      .fillDate(`root_${prefix}Expenses_0_date`, data.date)
-      .fill('input[name$="paidTo"]', data.paidTo);
+    .fill('input[name$="amount"]', data.amount)
+    .fill('input[name$="purpose"]', data.purpose)
+    .fillDate(`root_${prefix}Expenses_0_date`, data.date)
+    .fill('input[name$="paidTo"]', data.paidTo);
 }
 
 function completeDirectDepositInfo(client, data) {
   client
-      .selectRadio('root_bankAccount_accountType', data.accountType)
-      .fill('input[name$="bankName"]', data.bankName)
-      .fill('input[name$="accountNumber"]', data.accountNumber)
-      .fill('input[name$="routingNumber"]', data.routingNumber);
+    .selectRadio('root_bankAccount_accountType', data.accountType)
+    .fill('input[name$="bankName"]', data.bankName)
+    .fill('input[name$="accountNumber"]', data.accountNumber)
+    .fill('input[name$="routingNumber"]', data.routingNumber);
 }
 
 function completeContactInfo(client, data) {
   client
-      .fillAddress('root_veteranAddress', data)
-      .fill('input[name$="email"]', data.email)
-      .fill('input[name$="altEmail"]', data.altEmail)
-      .fill('input[name$="dayPhone"]', data.dayPhone)
-      .fill('input[name$="nightPhone"]', data.nightPhone)
-      .fill('input[name$="mobilePhone"]', data.mobilePhone);
+    .fillAddress('root_veteranAddress', data.veteranAddress)
+    .fill('input[name$="email"]', data.email)
+    .fill('input[name$="altEmail"]', data.altEmail)
+    .fill('input[name$="dayPhone"]', data.dayPhone)
+    .fill('input[name$="nightPhone"]', data.nightPhone)
+    .fill('input[name$="mobilePhone"]', data.mobilePhone);
+}
+
+function completeExpeditedInfo(client, data) {
+  client
+    .selectYesNo('root_noRapidProcessing', data.noRapidProcessing)
+    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
 }
 
 function initApplicationSubmitMock() {
@@ -243,6 +258,22 @@ function initApplicationSubmitMock() {
           regionalOffice: [],
           confirmationNumber: '123fake-submission-id-567',
           submittedAt: '2016-05-16'
+        }
+      }
+    }
+  });
+}
+
+function initDocumentUploadMock() {
+  mock(null, {
+    path: '/v0/claim_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          size: 155993,
+          name: 'test.png',
+          confirmationCode: '871af1d9-ae04-4ed2-99ef-4c11686c53d2',
         }
       }
     }
@@ -270,6 +301,8 @@ module.exports = {
   completeOtherExpensesInfo,
   completeDirectDepositInfo,
   completeContactInfo,
-  initApplicationSubmitMock
+  completeExpeditedInfo,
+  initApplicationSubmitMock,
+  initDocumentUploadMock
 };
 

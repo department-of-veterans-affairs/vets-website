@@ -161,12 +161,6 @@ label {
   margin-bottom: 7rem;
 }
 
-// Align the intro content of the 22-1990 to match the title
-// Necessary for the 22-1990 and HCA since they don't use schemaform
-.intro-content {
-  margin-left: -2rem;
-}
-
 // Align the process ol with the title
 .schemaform-process {
   ol {
@@ -226,7 +220,7 @@ label {
     top: 9px;
     left: 10px;
   }
-  > input[type=number] {
+  > input {
     padding-left: 25px !important;
   }
 }
@@ -322,6 +316,12 @@ label {
 
 .schemaform-address-view {
   white-space: pre-wrap;
+  p {
+    margin-bottom: 0;
+  }
+  p:not(:first-child) {
+    margin-top: 0;
+  }
 }
 
 .schemaform-array-readonly-header {
@@ -438,4 +438,8 @@ label {
   > .usa-alert-body {
     padding-left: 3rem;
   }
+}
+
+.schemaform-sip-expires {
+  color: $color-secondary-dark;
 }

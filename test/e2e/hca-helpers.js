@@ -1,6 +1,7 @@
 const mock = require('./mock-helpers');
 const Timeouts = require('./timeouts.js');
 const LoginHelpers = require('./login-helpers.js');
+const moment = require('moment');
 
 function completePersonalInformation(client, data) {
   client
@@ -236,7 +237,12 @@ function initSaveInProgressMock(url, client) {
             birth_date: '1985-01-01',
           },
           in_progress_forms: [{
-            form: '1010ez'
+            form: '1010ez',
+            last_updated: 1501608808,
+            metadata: {
+              last_updated: 1506792808,
+              expires_at: moment().add(1, 'day').unix(),
+            }
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
@@ -284,7 +290,7 @@ function initSaveInProgressMock(url, client) {
         version: 0,
         returnUrl: '/veteran-information/birth-information',
         savedAt: 1498588443698,
-        expires_at: 1503772443,
+        expires_at: moment().add(1, 'day').unix(),
         last_updated: 1498588443
       }
     }
