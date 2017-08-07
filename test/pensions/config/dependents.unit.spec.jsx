@@ -33,23 +33,7 @@ describe('Pensions dependent list', () => {
 
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
-  });
-
-  it('should render child date of birth', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = getFormDOM(form);
-
-    formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
-    formDOM.fillData('#root_dependents_0_dependentRelationship_0', 'child');
-
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(11);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(9);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -99,9 +83,11 @@ describe('Pensions dependent list', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
-    formDOM.fillData('#root_dependents_0_dependentRelationship_1', 'parent');
     formDOM.fillData('#root_dependents_0_fullName_first', 'Jane');
     formDOM.fillData('#root_dependents_0_fullName_last', 'Doe');
+    formDOM.fillData('#root_dependents_0_childDateOfBirthMonth', '1');
+    formDOM.fillData('#root_dependents_0_childDateOfBirthDay', '1');
+    formDOM.fillData('#root_dependents_0_childDateOfBirthYear', '2003');
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)

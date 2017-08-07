@@ -23,7 +23,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.burial-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -43,10 +43,12 @@ class ConfirmationPage extends React.Component {
     const hasDocuments = form.data.deathCertificate || form.data.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
 
+    const submittedAt = moment(form.submission.submittedAt);
+    const offset = submittedAt.isDST() ? '-0500' : '-0600';
+
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="burial-page-title">Claim received</h3>
-        <p>Normally processed within <strong>30 days</strong></p>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -62,7 +64,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm A [CT]')}</span>
             </li>
             <li>
               <strong>Deceased Veteran</strong><br/>
@@ -75,15 +77,15 @@ class ConfirmationPage extends React.Component {
             {hasDocuments && <li>
               <strong>Documents uploaded</strong><br/>
               {deathCertificate && <p>Death certificate: 1 file</p>}
-              {transportationReceipts && <p>Transportation receipts: {transportationReceipts.length} {transportationReceipts.length > 1 ? 'files' : 'file'}</p>}
+              {transportationReceipts && <p>Transportation documentation: {transportationReceipts.length} {transportationReceipts.length > 1 ? 'files' : 'file'}</p>}
             </li>}
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="schemaform-address-view">{_.map(response.regionalOffice, (line) => <p>{line}</p>)}</address>
+              <address className="schemaform-address-view">{_.map(response.regionalOffice, (line, index) => <p key={index}>{line}</p>)}</address>
             </li>
           </ul>
         </div>
-        <p>Need help? If you have questions, call <a href="tel:800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready.</p>
+        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready. For telecommunication relay services, dial <a href="tel:711">711</a>.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

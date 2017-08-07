@@ -32,6 +32,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={onEdit}
           pages={pages}
           chapterKey={chapterKey}
@@ -70,6 +71,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={onEdit}
           pages={pages}
           chapterKey={chapterKey}
@@ -109,6 +111,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={onEdit}
           pages={pages}
           chapterKey={chapterKey}
@@ -160,6 +163,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={onEdit}
           pages={pages}
           chapterKey={chapterKey}
@@ -216,6 +220,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={() => {}}
           pages={pages}
           chapterKey={chapterKey}
@@ -272,6 +277,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
+          viewedPages={new Set()}
           onEdit={() => {}}
           pages={pages}
           chapterKey={chapterKey}
@@ -282,5 +288,49 @@ describe('<ReviewCollapsibleChapter>', () => {
     tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('.form-review-panel-page')).to.have.length(2);
+  });
+  it('should mark chapter and page as unviewed', () => {
+    const onEdit = sinon.spy();
+    const pages = [{
+      pageKey: 'test',
+      title: '',
+      schema: {
+        properties: {}
+      }
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          editMode: false,
+          schema: {
+            properties: {}
+          }
+        }
+      },
+      data: {}
+    };
+    const setPagesViewed = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          setPagesViewed={setPagesViewed}
+          viewedPages={new Set()}
+          onEdit={onEdit}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          form={form}/>
+    );
+
+    tree.getMountedInstance().toggleChapter();
+    expect(tree.everySubTree('.schemaform-review-chapter-warning').length).to.equal(1);
+    expect(tree.everySubTree('.schemaform-review-page-warning').length).to.equal(1);
+
+    // Closing chapter should mark as viewed
+    tree.getMountedInstance().toggleChapter();
+    expect(setPagesViewed.firstCall.args[0]).to.eql(['test']);
   });
 });

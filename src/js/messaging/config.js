@@ -79,5 +79,11 @@ module.exports = {
       exists: 'The folder name you have chosen already exists. Please try another name.',
       patternMismatch: 'Only the letters A through Z, numbers, and spaces are allowed in folder names.'
     }
+  },
+
+  errorCodes: {
+    accountcreation: [
+      'MHVAC1',
+    ]
   }
 };

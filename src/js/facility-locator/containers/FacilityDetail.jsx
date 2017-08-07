@@ -44,10 +44,10 @@ class FacilityDetail extends Component {
       <div>
         <h1>{name}</h1>
         <div className="p1">
-          <FacilityAddress facility={facility}/>
           <p>
             <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
           </p>
+          <FacilityAddress facility={facility}/>
         </div>
         <div>
           <FacilityPhoneLink facility={facility}/>

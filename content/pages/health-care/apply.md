@@ -18,7 +18,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 ### Prepare
 
 - If you haven't done so already, check to see if you qualify. [Check your eligibility](/health-care/eligibility/).
-- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
+- Gather the documents listed below that you'll need to fill out an Application for Health Benefits (VA Form 10-10EZ). 
 
 <div markdown="0"><br></div>
 
@@ -50,6 +50,16 @@ You can start your online application right now.
 
 <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
+<div class="feature">
+
+#### Are you a caregiver of a post-9/11 Veteran or Servicemember?
+
+You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
+
+[Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
+
+</div>
+
 <div markdown="0"><br></div>
 
 #### Other ways to apply
@@ -60,11 +70,12 @@ Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, M
 
 ##### By mail
 
-[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+[Download an Application for Health Benefits (VA Form 10-10EZ)](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
 <dl class="va-address-block">
+<dt></dt>
 <dd>Health Eligibility Center</dd>
 <dd>2957 Clairmont Rd., Suite 200</dd>
 <dd>Atlanta, GA 30329</dd>
@@ -72,9 +83,9 @@ Print the form, fill it out, and send it to this address:
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br />
+Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
-[Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 <br>
 
@@ -97,6 +108,6 @@ If you've also applied for a VA pension or disability benefits, you can check th
 
 ### How do I update my information if I’m already signed up?
 
-To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR. [Download the 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
 
 <div markdown="0"><br></div>

@@ -65,9 +65,10 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 
 
 ### How do I get these benefits? 
-1. First, contact your school's certifying official to make sure your program is approved for VA benefits.
-2. Then fill out VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf).
-3. Mail the application to the VA regional processing office (RPO) located near your school. [Find an RPO](http://www.benefits.va.gov/benefits/offices.asp#C).
+First, contact your school's certifying official to make sure your program is approved for VA benefits. Then, you can:
+- [Apply online](/education/apply-for-education-benefits/application/5490/introduction), **or**
+- Apply by mail. You’ll need to fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and mail it to the regional processing office for your state. You'll find the address on the last page of the form. [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf). <br>
+
 
 #### If you haven't started school or a training program:
 - Get help from a trained professional trusted to help with VA-related claims. [Learn about accredited representatives](/disability-benefits/apply/help/index.html).
@@ -75,7 +76,7 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 
 #### If you've already started your program:
 - Take your application to your school or employer.
-- Ask your school to fill out VA Form 22-1999 (VA Enrollment Certification) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
+- Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
 
 ### Get more information
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).

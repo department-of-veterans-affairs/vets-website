@@ -66,9 +66,10 @@ Apply in 1 of 3 ways:
 Fax the form to 800-236-6142, or mail it to: 
 
 <dl class="va-address-block">
-<dd>OSGLI</dd>
-<dd>PO Box 41618</dd>
-<dd>Philadelphia, PA 19176-9913</dd>
+  <dt></dt>
+  <dd>OSGLI</dd>
+  <dd>PO Box 41618</dd>
+  <dd>Philadelphia, PA 19176-9913</dd>
 </dl>
 
 <br>
@@ -671,8 +672,6 @@ If you have a severe service-connected disability that we’ve concluded was cau
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-<br>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

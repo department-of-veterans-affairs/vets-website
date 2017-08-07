@@ -85,7 +85,7 @@ If you want to know more about your VA health care benefits, your health care te
 
 If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
 [Refill your prescriptions](/health-care/prescriptions/). <br />
-[Send a message to your VA health care provider](/health-care/messaging/). <br />
+[Send a secure message to your health care team](/health-care/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
 
 If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
@@ -96,11 +96,12 @@ If you need help accessing services, call our toll-free hotline at 877-222-VETS 
 
 #### What if I need to update my personal information?
 
-You can update your personal information, such as income, address, and insurance, with VA Form 10-10EZR (Renewal Application for Health Benefits). [Download Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
 
 Mail this form and any supporting materials to:
 
 <dl class="va-address-block">
+<dt></dt>
 <dd>Health Eligibility Center</dd>
 <dd>2957 Clairmont Road, Suite 200</dd>
 <dd>Atlanta, GA 30329</dd>

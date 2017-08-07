@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: What to Expect at a Funeral
+title: What to Expect at a Memorial Service
 template: detail-page
 collection: burials
 order: 4
@@ -8,7 +8,7 @@ order: 4
 
 <div class="va-introtext">
 
-We carry out burial and memorial services at national cemeteries with dignity and respect. Find out what happens at a burial or memorial service. 
+We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a memorial service. 
 
 </div>
 

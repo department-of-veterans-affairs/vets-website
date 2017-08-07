@@ -5,7 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../utils/helpers';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
@@ -59,7 +59,7 @@ export function createPageList(formConfig, formPages) {
       }
     ])
     .map(page => {
-      return _.set('path', `${formConfig.urlPrefix}${page.path}`, page);
+      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
     });
 }
 
@@ -87,6 +87,7 @@ export function createRoutes(formConfig) {
       {
         path: 'introduction',
         component: formConfig.introduction,
+        formConfig,
         pageList
       }
     ].concat(routes);
@@ -96,7 +97,8 @@ export function createRoutes(formConfig) {
     routes.push({
       path: 'form-saved',
       component: FormSaved,
-      pageList
+      pageList,
+      formConfig
     });
   }
 
@@ -179,16 +181,6 @@ export function parseISODate(dateString) {
 }
 
 /*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
-}
-
-/*
  * Removes 'view:' fields from data object
  */
 export function filterViewFields(data) {
@@ -246,12 +238,12 @@ export function stringifyFormReplacer(key, value) {
 /*
  * Normal transform for schemaform data
  */
-export function transformForSubmit(formConfig, form) {
+export function transformForSubmit(formConfig, form, replacer = stringifyFormReplacer) {
   const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
   const withoutInactivePages = filterInactivePages(inactivePages, form);
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, stringifyFormReplacer) || '{}';
+  return JSON.stringify(withoutViewFields, replacer) || '{}';
 }
 
 function isHiddenField(schema) {
@@ -485,4 +477,41 @@ export function expandArrayPages(pageList, data) {
   }
 
   return result.currentList;
+}
+
+/**
+ * getPageKeys returns a list of keys for the currently active pages
+ *
+ * @param pages {Array<Object>} List of page configs
+ * @param formData {Object} Current form data
+ * @returns {Array<string>} A list of page keys from the page config
+ *   and the index if it's a pagePerItem page
+ */
+export function getPageKeys(pages, formData) {
+  const eligiblePageList = getActivePages(pages, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return expandedPageList.map(page => {
+    let pageKey = page.pageKey;
+    if (typeof page.index !== 'undefined') {
+      pageKey += page.index;
+    }
+    return pageKey;
+  });
+}
+
+/**
+ * getActiveChapters returns the list of chapter keys with active pages
+ *
+ * @param formConfig {Object} The form config object
+ * @param formData {Object} The current form data
+ * @returns {Array<string>} The list of chapter key strings for active chapters
+ */
+export function getActiveChapters(formConfig, formData) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const eligiblePageList = getActivePages(pageList, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }

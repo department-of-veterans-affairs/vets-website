@@ -10,7 +10,10 @@ const props = {
     title: '',
     visible: false
   },
-  closeModal: () => {}
+  closeModal: () => {},
+  profile: {
+    healthTermsCurrent: true
+  }
 };
 
 describe('<HealthRecordsApp>', () => {

@@ -390,13 +390,14 @@ h6 {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
-  margin: 0 0 1.5em 0;
+  margin: 1.5em 0 1.5em 0;
   min-height: 11em;
 
   p {
     color: inherit !important;
     font: inherit !important;
     margin-bottom: 0;
+    margin-top: 0;
     padding-bottom: .5em;
   }
 
@@ -1169,14 +1170,6 @@ li {
   }
 }
 
-// List overrides
-
-ul li p {
-  margin: 0;
-  padding: 0;
-}
-
-
 // vets.gov branded apps
 .vets-app {
   border-left: 3px solid $color-gold;
@@ -1387,6 +1380,10 @@ pre[class*="language-"]  {
   padding: 2em 0;
 }
 
+.react-container {
+  padding: 2em 0;
+}
+
 p.info-message {
   font-size: 1.5em;
 }
@@ -1430,4 +1427,44 @@ p.info-message {
 .usa-sidenav-sub_list {
   padding-left: 0;
   list-style: none;
+}
+
+.vertical-list-group {
+  list-style-type: none;
+}
+
+.vertical-list-group.more-bottom-cushion {
+  margin-bottom: 2.5em;
+}
+
+.vertical-list-group .list-group-item {
+  border: none;
+  border-left: 3px solid $color-gray-light;
+  box-sizing: border-box;
+  border-radius: 0;
+  padding-left: 20px;
+  padding-right: 0px;
+  padding-bottom: 20px;
+  padding-top: 0px;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.vertical-list-group .list-group-item:last-child{
+  border-left: 3px solid transparent;
+  padding-bottom: 0;
+}
+.vertical-list-group .list-group-item::before {
+  border-radius: 50%;
+  background-color: $color-gray-medium;
+  content: "";
+  display: inline-block;
+  float: left;
+  height: 12px;
+  line-height: 12px;
+  margin-left: -28px;
+  text-align: center;
+  width: 12px;
 }

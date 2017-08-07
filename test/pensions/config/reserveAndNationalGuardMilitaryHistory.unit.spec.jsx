@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions Reserve and National Guard', () => {
@@ -16,7 +15,7 @@ describe('Pensions Reserve and National Guard', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
@@ -31,9 +30,9 @@ describe('Pensions Reserve and National Guard', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -49,13 +48,9 @@ describe('Pensions Reserve and National Guard', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    formDOM.fillData('#root_nationalGuardActivationYes', 'Y');
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
   });
@@ -70,15 +65,11 @@ describe('Pensions Reserve and National Guard', () => {
           uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'N'
-      }
-    });
+    formDOM.fillData('#root_nationalGuardActivationNo', 'N');
 
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

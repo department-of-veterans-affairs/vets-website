@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import alert from './alert';
 import compose from './compose';
+import errors from './errors';
 import folders from './folders';
 import loading from './loading';
 import messages from './messages';
@@ -15,6 +16,7 @@ export default {
     msg: combineReducers({
       alert,
       compose,
+      errors,
       folders,
       loading,
       messages,

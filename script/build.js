@@ -28,7 +28,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNodeVersion = '6.10.3';
+const minimumNodeVersion = '6.11.1';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
@@ -111,25 +111,12 @@ smith.destination(`../build/${options.buildtype}`);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
 
-// TODO(awong): Verify that memorial-benefits should still be in the source tree.
-//    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-
-// To use:
-// const ignore = require('metalsmith-ignore');
-// const ignoreList = [];
-// if (options.buildtype === 'production') {
-//   ignoreList.push('track-claims/*');
-// }
-// smith.use(ignore(ignoreList));
-
+// To block an app from production add the following to the below list:
+//  ignoreList.push('<path-to-content-file>');
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('education/gi-bill/post-9-11/status.md');
-  ignoreList.push('pension/application/527EZ.md');
-  ignoreList.push('burials-and-memorials/application/530.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('letters/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -169,6 +156,20 @@ smith.use(collections({
     sortBy: 'title',
     metadata: {
       name: 'Survivor and Dependent Benefits'
+    }
+  },
+  disabilityBeta: {
+    pattern: 'disability-benefits-beta/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Disability Benefits'
+    }
+  },
+  disabilityBetaClaimsAppeal: {
+    pattern: 'disability-benefits-beta/claims-appeal/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Appeals'
     }
   },
   disability: {
@@ -401,6 +402,13 @@ smith.use(collections({
       name: 'Survivors Pension'
     }
   },
+  pensionApplication: {
+    pattern: 'pension/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
@@ -427,7 +435,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
-        { from: '^/education/gi-bill/post-9-11/status(.*)', to: '/education/gi-bill/post-9-11/status/' },
+        { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
         { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
@@ -575,7 +583,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-      ['/education/gi-bill/post-9-11/status',
+      ['/education/gi-bill/post-9-11/ch-33-benefit',
        '/employment/commitments',
        '/employment/employers',
        '/employment/job-seekers/create-resume',
@@ -583,6 +591,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
+       '/pension/application/527EZ',
+       '/burials-and-memorials/application/530',
        '/health-care/apply/application',
        'pension/application/527EZ',
        '/letters'].join('|'))

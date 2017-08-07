@@ -3,23 +3,15 @@
 // over the first 1/4 of urls in the sitemap, while `sitemap-2-4.spec.js`
 // runs over the others. Crude, but this enables nightwatch to parallelize these.
 
-const Timeouts = require('../e2e/timeouts.js');
 const SitemapHelpers = require('../e2e/sitemap-helpers');
 
 module.exports = {
   'sitemap 1/4': (client) => {
     client.timeoutsAsyncScript(1000);
-    SitemapHelpers.sitemapURLs(urls => {
+    SitemapHelpers.sitemapURLs((urls, only508List) => {
       const mark = Math.ceil(urls.length / 4);
       const segment = urls.splice(0, mark);
-
-      segment.forEach(url => {
-        client
-          .url(url)
-          .waitForElementVisible('body', Timeouts.normal)
-          .axeCheck('document', { scope: url });
-      });
-
+      SitemapHelpers.runTests(client, segment, only508List);
       client.end();
     });
   }

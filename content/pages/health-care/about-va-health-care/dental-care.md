@@ -191,7 +191,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 You can apply online by filling out the 10-10EZ health care application.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
 <br>
 
