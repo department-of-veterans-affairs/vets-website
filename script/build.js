@@ -584,6 +584,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
        '/health-care/apply/application',
+       'pension/application/527EZ',
        '/letters'].join('|'))
   }));
 }
