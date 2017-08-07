@@ -1,40 +1,54 @@
 import React from 'react';
 
 export default class CurrencyWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    let value = props.value;
+    if (typeof value === 'number') {
+      value = value.toFixed(2);
+    }
+    this.state = {
+      value
+    };
+  }
+
   onBlur = () => {
     this.props.onBlur(this.props.id);
   }
 
   handleChange = (event) => {
     const val = event.target.value;
-    if (val === '') {
+    if (val === '' || typeof val === 'undefined') {
       this.props.onChange();
     } else {
-      // Sometimes we get a string back (e.g. when you enter 10.00)
-      // so we need to parse it to be sure
-      const parsed = parseFloat(val);
-      if (!isNaN(parsed)) {
-        this.props.onChange(parsed);
-      } else {
+      // Needs to look like a currency
+      if (!val.match(/^\${0,1}[0-9,]*(\.\d{1,2})?$/)) {
         this.props.onChange(val);
+      } else {
+        // Needs to parse as a number
+        const parsed = parseFloat(val.replace(/[^0-9\.]/g, ''));
+        if (!isNaN(parsed)) {
+          this.props.onChange(parsed);
+        } else {
+          this.props.onChange(val);
+        }
       }
     }
+    this.setState({ value: val });
   }
 
   render() {
-    let val = this.props.value;
-    if (typeof val === 'number') {
-      val = val.toFixed(2);
-    }
+    const { id, disabled, options } = this.props;
+    const value = this.state.value;
 
     return (
-      <input type="number"
-          id={this.props.id}
-          name={this.props.id}
-          disabled={this.props.disabled}
-          autoComplete={this.props.options.autocomplete || false}
-          className={this.props.options.widgetClassNames}
-          value={typeof val === 'undefined' ? '' : val}
+      <input type="text"
+          id={id}
+          name={id}
+          disabled={disabled}
+          autoComplete={options.autocomplete || false}
+          className={options.widgetClassNames}
+          value={typeof value === 'undefined' ? '' : value}
           onBlur={this.onBlur}
           onChange={this.handleChange}/>
     );
