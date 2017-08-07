@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Servicemembers’ Group Life Insurance (SGLI)
-display_title: Servicemembers' Group (SGLI)
+display_title: Servicemembers’ Group (SGLI)
 concurrence: 
 order: 1
 relatedlinks:
