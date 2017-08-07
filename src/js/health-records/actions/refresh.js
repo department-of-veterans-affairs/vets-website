@@ -1,8 +1,25 @@
-import { apiRequest } from '../utils/helpers';
+import { apiRequest } from '../../common/helpers/api';
+
+export function initialAppRefresh() {
+  return (dispatch) => {
+    dispatch({ type: 'INITIAL_LOADING' });
+
+    apiRequest(
+      '/health_records/refresh',
+      null,
+      () => dispatch({
+        type: 'INITIAL_REFRESH_SUCCESS'
+      }),
+      (response) => {
+        dispatch({ type: 'INITIAL_REFRESH_FAILURE', errors: response.errors });
+      }
+    );
+  };
+}
 
 export function checkRefreshStatus() {
   return (dispatch) => {
-    apiRequest('/v0/health_records/refresh',
+    apiRequest('/health_records/refresh',
       null,
       (response) => {
         return dispatch({

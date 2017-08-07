@@ -2,6 +2,7 @@ import { UPDATE_ROUTE } from '../utils/constants';
 
 export * from './alert';
 export * from './compose';
+export * from './init';
 export * from './folders';
 export * from './messages';
 export * from './modals';

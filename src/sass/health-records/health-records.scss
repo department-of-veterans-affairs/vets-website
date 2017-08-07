@@ -1,4 +1,4 @@
-@import "../style";
+@import "../shared-variables";
 @import "../modules/m-modal";
 @import "../modules/m-progress-bar";
 @import "partials/bb-breadcrumbs";
@@ -125,6 +125,18 @@
   button, [role="button"] {
     width: 16rem;
   }
+}
+
+.bb-app-error {
+  p {
+    margin: 0;
+    font-size: initial !important;
+  }
+}
+
+.bb-tab-explainer {
+  display: inline-block;
+  margin: 3rem 0;
 }
 
 .custom-date-option {

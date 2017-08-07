@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -18,9 +19,8 @@ function AppContent({ children, isDataAvailable }) {
   if (unregistered) {
     view = (
       <h4>
-        To refill prescriptions at this time, you need to be registered as a VA patient through MyHealtheVet.
-        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
-        If you're registered but you don't see your prescriptions here, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+        Vets.gov health tools are only available for patients who've received care at a VA facility.
+        If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
       </h4>
     );
   } else {
@@ -40,6 +40,8 @@ function AppContent({ children, isDataAvailable }) {
 
 class RxRefillsApp extends React.Component {
   render() {
+    const breadcrumbs = <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>;
+
     return (
       <RequiredLoginView
           authRequired={3}
@@ -47,20 +49,25 @@ class RxRefillsApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-        <AppContent>
-          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-          {this.props.children}
-          <ConfirmRefillModal
-              prescription={this.props.refillModal.prescription}
-              isLoading={this.props.refillModal.loading}
-              isVisible={this.props.refillModal.visible}
-              refillPrescription={this.props.refillPrescription}
-              onCloseModal={this.props.closeRefillModal}/>
-          <GlossaryModal
-              content={this.props.glossaryModal.content}
-              isVisible={this.props.glossaryModal.visible}
-              onCloseModal={this.props.closeGlossaryModal}/>
-        </AppContent>
+        <RequiredTermsAcceptanceView
+            termsName={"mhvac"}
+            cancelPath={"/health-care"}
+            topContent={breadcrumbs}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          <AppContent>
+            {this.props.children}
+            <ConfirmRefillModal
+                prescription={this.props.refillModal.prescription}
+                isLoading={this.props.refillModal.loading}
+                isVisible={this.props.refillModal.visible}
+                refillPrescription={this.props.refillPrescription}
+                onCloseModal={this.props.closeRefillModal}/>
+            <GlossaryModal
+                content={this.props.glossaryModal.content}
+                isVisible={this.props.glossaryModal.visible}
+                onCloseModal={this.props.closeGlossaryModal}/>
+          </AppContent>
+        </RequiredTermsAcceptanceView>
       </RequiredLoginView>
     );
   }

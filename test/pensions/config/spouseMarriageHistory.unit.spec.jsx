@@ -21,7 +21,7 @@ describe('Pensions spouse marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(19);
   });
 
   it('should render labels with spouse name', () => {
@@ -48,10 +48,10 @@ describe('Pensions spouse marriage history', () => {
   describe('page title', () => {
     const pageTitle = marriageHistory.title;
     it('uses word for index', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('First marriage');
+      expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('Spouse’s first marriage');
     });
     it('uses number when at index ten or greater', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Marriage 11');
+      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Spouse marriage 11');
     });
   });
 
@@ -69,7 +69,7 @@ describe('Pensions spouse marriage history', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(8);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -94,6 +94,10 @@ describe('Pensions spouse marriage history', () => {
     formDOM.fillData('#root_marriageType_4', 'Other');
     formDOM.fillData('#root_otherExplanation', 'Something');
     formDOM.fillData('#root_reasonForSeparation_1', 'Divorced');
+    formDOM.fillData('#root_locationOfSeparation', 'A town');
+    formDOM.fillData('#root_dateOfSeparationMonth', '3');
+    formDOM.fillData('#root_dateOfSeparationDay', '3');
+    formDOM.fillData('#root_dateOfSeparationYear', '2001');
 
     submitForm(form);
 

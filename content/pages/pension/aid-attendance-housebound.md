@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Aid and Attendance or Housebound Allowance
-concurrence: "" 
+concurrence: ""
 order: 3
 ---
 
@@ -54,6 +54,3 @@ You can bring your information to a regional benefits office near you. [Find a r
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
 
-  
-
-<br>

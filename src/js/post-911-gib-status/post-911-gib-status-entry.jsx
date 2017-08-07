@@ -17,10 +17,11 @@ require('../common');
 require('../../sass/post-911-gib-status.scss');
 
 const store = createCommonStore(reducer);
+
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/education/gi-bill/post-9-11/status'
+  basename: '/education/gi-bill/post-9-11/ch-33-benefit'
 });
 
 function init() {
@@ -36,4 +37,3 @@ function init() {
 }
 
 initReact(init);
-

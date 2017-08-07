@@ -6,7 +6,9 @@ import moment from 'moment';
 import { updateLogInUrl } from '../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
+import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
+import { dateDiffDesc } from '../utils/helpers';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -17,13 +19,14 @@ export default class SaveInProgressIntro extends React.Component {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
+        const expirationDate = moment.unix(savedForm.metadata.expires_at);
 
         alert = (
           <div>
-            <div className="usa-alert usa-alert-info no-background-image">
+            <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div style={{ paddingBottom: '8px' }}>Application status: <strong>In progress</strong></div>
               <br/>
-              <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}</div>
+              <div>Last saved on {savedAt.format('MM/DD/YYYY [at] h:mma')}. <span className="schemaform-sip-expires">Expires in {dateDiffDesc(expirationDate)}</span>.</div>
               <div>{this.props.children}</div>
             </div>
             <br/>
@@ -33,7 +36,7 @@ export default class SaveInProgressIntro extends React.Component {
     } else {
       alert = (
         <div>
-          <div className="usa-alert usa-alert-info">
+          <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
               <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
             </div>
@@ -48,13 +51,30 @@ export default class SaveInProgressIntro extends React.Component {
 
   render() {
     const { profile } = this.props.user;
-    const savedForm = profile && profile.savedForms.find(f => f.form === this.props.formId);
+    const savedForm = profile && profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+
+    if (profile.loading && !this.props.resumeOnly) {
+      return (
+        <div>
+          <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>
+          <br/>
+        </div>
+      );
+    }
+
+    if (this.props.resumeOnly && !savedForm) {
+      return null;
+    }
 
     return (
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
+            resumeOnly={this.props.resumeOnly}
+            messages={this.props.messages}
             startPage={this.props.pageList[1].path}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}
@@ -71,6 +91,7 @@ export default class SaveInProgressIntro extends React.Component {
 
 SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
+  messages: PropTypes.object,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   lastSavedDate: PropTypes.number,

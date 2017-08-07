@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import ErrorView from '../components/ErrorView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
@@ -12,8 +13,7 @@ import {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  fetchRecipients,
-  fetchFolders,
+  initializeResources,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
@@ -41,8 +41,7 @@ export class Main extends React.Component {
 
   loadApp() {
     const { folders, recipients } = this.props;
-    if (!folders || !folders.length) { this.props.fetchFolders(); }
-    if (!recipients) { this.props.fetchRecipients(); }
+    if (!folders || !folders.length || !recipients) { this.props.initializeResources(); }
   }
 
   handleFolderChange() {
@@ -74,10 +73,12 @@ export class Main extends React.Component {
 
     if (!this.props.folders || !this.props.folders.length || !this.props.recipients) {
       return (
-        <p>
-          The application failed to load.
-          Click <a onClick={this.loadApp}>here</a> to try again.
-        </p>
+        <ErrorView errors={this.props.errors}>
+          <p>
+            The application failed to load.
+            Click <a onClick={this.loadApp}>here</a> to try again.
+          </p>
+        </ErrorView>
       );
     }
 
@@ -106,42 +107,44 @@ export class Main extends React.Component {
     });
 
     return (
-      <div id="messaging-main">
-        <div id="messaging-nav" className={navClass}>
-          <ButtonClose
-              className="messaging-folder-nav-close"
-              onClick={this.props.toggleFolderNav}/>
-          <ComposeButton/>
-          <FolderNav
-              currentFolderId={this.props.currentFolderId}
+      <ErrorView errors={this.props.errors}>
+        <div id="messaging-main">
+          <div id="messaging-nav" className={navClass}>
+            <ButtonClose
+                className="messaging-folder-nav-close"
+                onClick={this.props.toggleFolderNav}/>
+            <ComposeButton/>
+            <FolderNav
+                currentFolderId={this.props.currentFolderId}
+                folders={this.props.folders}
+                isExpanded={this.props.nav.foldersExpanded}
+                onToggleFolders={this.props.toggleManagedFolders}
+                onCreateNewFolder={this.props.openCreateFolderModal}
+                onFolderChange={this.handleFolderChange}
+                toggleFolderNav={this.props.toggleFolderNav}/>
+          </div>
+          <div id="messaging-content" aria-live="assertive">
+            {this.props.children}
+          </div>
+          <ModalAttachments
+              cssClass="messaging-modal"
+              text={this.props.attachmentsModal.message.text}
+              title={this.props.attachmentsModal.message.title}
+              id="messaging-add-attachments"
+              onClose={this.props.closeAttachmentsModal}
+              visible={this.props.attachmentsModal.visible}/>
+          <ModalCreateFolder
+              cssClass="messaging-modal"
               folders={this.props.folders}
-              isExpanded={this.props.nav.foldersExpanded}
-              onToggleFolders={this.props.toggleManagedFolders}
-              onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleFolderChange}
-              toggleFolderNav={this.props.toggleFolderNav}/>
+              id="messaging-create-folder"
+              loading={loading.creatingFolder}
+              onClose={this.props.closeCreateFolderModal}
+              onValueChange={this.handleFolderNameChange}
+              onSubmit={this.handleSubmitCreateNewFolder}
+              visible={this.props.createFolderModal.visible}
+              newFolderName={this.props.createFolderModal.newFolderName}/>
         </div>
-        <div id="messaging-content" aria-live="assertive">
-          {this.props.children}
-        </div>
-        <ModalAttachments
-            cssClass="messaging-modal"
-            text={this.props.attachmentsModal.message.text}
-            title={this.props.attachmentsModal.message.title}
-            id="messaging-add-attachments"
-            onClose={this.props.closeAttachmentsModal}
-            visible={this.props.attachmentsModal.visible}/>
-        <ModalCreateFolder
-            cssClass="messaging-modal"
-            folders={this.props.folders}
-            id="messaging-create-folder"
-            loading={loading.creatingFolder}
-            onClose={this.props.closeCreateFolderModal}
-            onValueChange={this.handleFolderNameChange}
-            onSubmit={this.handleSubmitCreateNewFolder}
-            visible={this.props.createFolderModal.visible}
-            newFolderName={this.props.createFolderModal.newFolderName}/>
-      </div>
+      </ErrorView>
     );
   }
 }
@@ -167,6 +170,7 @@ const mapStateToProps = (state) => {
     folders,
     isVisibleAdvancedSearch: msgState.search.advanced.visible,
     loading: msgState.loading,
+    errors: msgState.errors.errors,
     nav: msgState.folders.ui.nav,
     recipients: msgState.recipients.data,
   };
@@ -178,8 +182,7 @@ const mapDispatchToProps = {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
-  fetchFolders,
-  fetchRecipients,
+  initializeResources,
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,

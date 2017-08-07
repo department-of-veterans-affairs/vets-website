@@ -1,71 +1,88 @@
 @import "shared-variables";
 
-h3 {
-  border-bottom: 1px solid $color-gray-light;
-  margin: 1em 0 .5em 0;
-  padding: 0 0 .25em 0;
-}
+.gib-info {
+  margin-bottom: 5em;
 
-hr {
-  border-style: solid;
-  border-color: $color-gray-light;
-  border-width: 1px 0 0 0;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
+  h3 {
+    border-bottom: 1px solid $color-gray-light;
+    margin: 1em 0 .5em 0;
+    padding: 0 0 .25em 0;
+  }
 
-.section-line {
-  margin-bottom: .85em;
-}
-
-.usa-alert {
-  margin: 1em 0 1em 0;
-}
-
-.feature {
-    min-height: 0;
+  hr {
+    border-style: solid;
+    border-color: $color-gray-light;
+    border-width: 1px 0 0 0;
     margin-top: 1em;
-
-  &.help-desk {
-  	margin-top: 2em;
+    margin-bottom: 1em;
   }
-}
 
-.usa-accordion {
-  margin-top: 16px;
-}
+  .section {
+    margin-bottom: 2em;
+  }
 
-.facility {
-  text-transform: capitalize;
-}
+  .section-line {
+    margin-bottom: .25em;
+  }
 
-.print-status {
-  background-color: $color-white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  z-index: 10;
+  .usa-alert {
+    margin: 1em 0 1em 0;
+  }
 
-  h1 {
+  .feature {
+      min-height: 0;
+      margin-top: 1em;
+
+    &.help-desk {
+      margin-top: 2em;
+    }
+  }
+
+  .not-qualified h5 {
     margin-top: 1em;
-  }
-}
-
-.print-screen {
-  @media (min-width: 950px) {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 50px 300px 30px 0;
+    padding-bottom: 0;
   }
 
-  @media (max-width: 949px) {
-    padding: 20px;
+  .usa-accordion {
+    margin-top: 16px;
   }
 
-  @media print {
-    padding: 0;
+  .facility {
+    text-transform: capitalize;
+  }
+
+  .yellow-ribbon-school {
+    margin-bottom: 0.75em;
+  }
+
+  .print-status {
+    background-color: $color-white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    z-index: 10;
+
+    h1 {
+      margin-top: 1em;
+    }
+  }
+
+  .print-screen {
+    @media (min-width: 950px) {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 50px 300px 30px 0;
+    }
+
+    @media (max-width: 949px) {
+      padding: 20px;
+    }
+
+    @media print {
+      padding: 0;
+    }
   }
 }

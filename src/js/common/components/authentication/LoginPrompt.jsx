@@ -37,18 +37,18 @@ class LoginPrompt extends React.Component {
       <div className="row primary">
         <div className="medium-12 small-12 columns">
           <div className="react-container">
-            <h1>Sign In to Your Vets.gov Account</h1>
-            <p>Vets.gov is a new VA website offering online services for Veterans.</p>
-            <p>Sign in to:</p>
+            <h1>Log In With Your Account for Vets.gov</h1>
+            <p>Log in with your verified ID.me account on Vets.gov to:</p>
             <ul>
-              <li>Refill a prescription.</li>
-              <li>Send a secure message to your health care provider.</li>
-              <li>Check the status of a disability or pension claim.</li>
+              <li>Use health tools, including refilling your VA prescription, sending messages to your healthcare team, and accessing your VA health record</li>
+              <li>Check the status of your claims and appeals</li>
+              <li>View Post-9/11 Bill enrollment information</li>
             </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
               <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create Account</strong></button>
             </p>
+            <p>Even without an account, you can apply for VA benefits.</p>
           </div>
         </div>
       </div>

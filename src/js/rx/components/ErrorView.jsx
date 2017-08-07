@@ -37,10 +37,19 @@ class ErrorView extends React.Component {
       title = "We couldn't retrieve your prescriptions";
       detail = (
         <p>
-          Please <a onClick={window.location.reload(true)}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+        </p>
+      );
+    } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+      alert = true;
+      title = "We couldn't access your health tools";
+      detail = (
+        <p>
+          We're sorry. We can't seem to give you access to this site's tools for managing your health and benefits online right now. Please <a onClick={() => { window.location.reload(true); }}>try again</a> in a few minutes. If it still doesn't work, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
         </p>
       );
     }
+
 
     content = (
       <div>
@@ -73,6 +82,7 @@ class ErrorView extends React.Component {
       errorCodes.acceptTerms,
       errorCodes.registration,
       errorCodes.prescriptions,
+      errorCodes.accountcreation,
     );
 
     // don't block application if no errors, or errors not in the list above

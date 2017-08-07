@@ -52,7 +52,7 @@ class SaveInProgressErrorPage extends React.Component {
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } = this.props.route.formConfig.savedFormErrorMessages || {};
+    const { noAuth, notFound } = this.props.route.formConfig.savedFormMessages || {};
     let content;
 
     switch (loadedStatus) {
@@ -112,7 +112,7 @@ class SaveInProgressErrorPage extends React.Component {
 
 SaveInProgressErrorPage.propTypes = {
   loadedStatus: PropTypes.string.isRequired,
-  savedFormErrorMessages: PropTypes.shape({
+  savedFormMessages: PropTypes.shape({
     notFound: PropTypes.string,
     noAuth: PropTypes.string
   }),

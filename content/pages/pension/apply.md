@@ -55,6 +55,4 @@ You can work with a trained professional called an accredited representative to 
 
 ### How long does it take VA to make a decision?
 
-It depends. We process claims in the order we receive them, unless a claim requires priority processing.   
-
-
+It depends. We process claims in the order we receive them, unless a claim requires priority processing.
