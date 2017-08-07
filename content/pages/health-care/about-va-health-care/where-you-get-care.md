@@ -51,6 +51,10 @@ Care settings may include:
 
 <br>
 
+You can use the VA Appointments mobile app to request an appointment and schedule select appointments at some VA health facilities. [Log into the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). You can also call your VA health facility directly to schedule an appointment. [Find your VA health facility's phone number](/facilities).
+
+<br>
+
 #### What if the nearest VA location can’t provide the services I need?
 
 Your VA provider will work with you to make sure you get the care you need. You may need to go to another VA location or to a local VA community care provider. VA community care providers have contracts with us to provide care to Veterans. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
@@ -67,6 +71,7 @@ Your VA provider will work with you to make sure you get the care you need. You 
 - [Where should I go for care in an emergency?](#care-emergency)
 - [What should I do if I move?](#care-if-moving)
 - [What if I need care while traveling? ](#care-while-traveling)
+- [How do I make an appointment at a VA health facility?](#care-appointment)
 - [Can you help me get to and from appointments?](#care-transportation)
 - [Can you help me cover travel expenses if I need to travel for care?](#care-travel-expenses)
 
@@ -132,6 +137,21 @@ We can also mail prescription refills to you at your temporary address. Just be 
 For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a medical center near you](/facilities/).
 
 **Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
+
+<br>
+
+<span id="care-appointment>
+
+#### How do I make an appointment at a VA health facility?
+
+You can call the VA health facility where you get care. [Find your VA health facility's phone number](/facility).
+
+Or, you can use our VA Appointments scheduling app from your mobile phone to request an appointment and to schedule some appointments. 
+
+But keep in mind that your VA healthcare providers don't monitor this app. So:
+
+- **If you need urgent care**, please call 9-1-1 or call the Veterans Crisis Hotline at 800-273-8255 and press 1.
+- **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facility).
 
 <br>
 
