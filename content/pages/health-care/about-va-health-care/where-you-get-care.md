@@ -71,7 +71,7 @@ Your VA provider will work with you to make sure you get the care you need. You 
 - [Where should I go for care in an emergency?](#care-emergency)
 - [What should I do if I move?](#care-if-moving)
 - [What if I need care while traveling? ](#care-while-traveling)
-- [How do I request an appointment at a VA health facility?](#care-appointment)
+- [How do I schedule an appointment at a VA health facility?](#care-appointment)
 - [Can you help me get to and from appointments?](#care-transportation)
 - [Can you help me cover travel expenses if I need to travel for care?](#care-travel-expenses)
 
@@ -142,7 +142,7 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 
 <span id="care-appointment">
 
-#### How do I make an appointment at a VA health facility?
+#### How do I schedule an appointment at a VA health facility?
 
 You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facility).
 
