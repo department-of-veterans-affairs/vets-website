@@ -20,7 +20,6 @@ class ClaimEstimationPage extends React.Component {
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
-                <li className="active">How We Come Up with Your Estimated Decision Date</li>
               </ul>
             </nav>
           </div>

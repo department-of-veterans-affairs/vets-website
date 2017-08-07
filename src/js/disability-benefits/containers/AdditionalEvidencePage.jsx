@@ -81,7 +81,6 @@ class AdditionalEvidencePage extends React.Component {
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
-                  <li className="active">Additional evidence</li>
                 </ul>
               </nav>
             </div>

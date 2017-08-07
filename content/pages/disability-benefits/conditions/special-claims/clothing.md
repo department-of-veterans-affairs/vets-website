@@ -31,23 +31,23 @@ Veterans
 
 ### What disability benefits can I get?
 
-- A 1-time payment, **or**
+- A one-time payment, **or**
 - A yearly payment
 
 ### How do I get these benefits?
 
 You'll need to apply for benefits.
 
-To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than 1 payment if: 
-- You have more than 1 prosthetic or orthopedic device, **or**
-- You have more than 1 skin medicine, **and/or** 
-- Your device or skin medicine affects more than 1 type of clothing.
+To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than one payment if: 
+- You have more than one prosthetic or orthopedic device, **or**
+- You have more than one skin medicine, **and/or** 
+- Your device or skin medicine affects more than one type of clothing.
 
 [View the rate table](http://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2012.asp). 
 
 **Note:** The 2014 rate table is valid for 2016. 
 
-To apply, fill out VA Form 10-8678: Application for Annual Clothing Allowance, and give it to the prosthetic representative at your local VA medical center. [Download VA Form 10-8678](http://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
+To apply, fill out an Application for Annual Clothing Allowance (VA Form 10-8678), and give it to the prosthetic representative at your local VA medical center. [Download VA Form 10-8678](http://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
 
 Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/). 
 

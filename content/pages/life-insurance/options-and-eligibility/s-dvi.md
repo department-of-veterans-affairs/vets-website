@@ -67,7 +67,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - [Apply for basic S-DVI online](https://www.insurance.va.gov/portal/), **or**
 
- - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
+ - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
  
  Fax it to 888-748-5822, or mail it to: 
 
@@ -79,7 +79,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
   <dd>Philadelphia, PA 19101</dd>
 </dl> 
 
-If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemental Service-Disabled Veterans Insurance [SRH]) or send a letter requesting this insurance over your signature. You must apply for the coverage within 1 year from the date you receive notice of the grant of waiver of premiums.
+If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.
 
 [Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
@@ -92,7 +92,8 @@ Your premium rate (the amount you’ll pay each month for your coverage) depends
 -	The amount of insurance you want, **and**
 - The coverage plan requested
 
-Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
+See the premium rates and a description of the plan options. <br>
+[Download Service-Disabled Veterans Insurance RH Information and Premium Rates (VA pamphlet 29-9)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
 <br>
 
