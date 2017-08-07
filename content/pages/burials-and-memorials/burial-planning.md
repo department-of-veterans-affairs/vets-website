@@ -29,7 +29,7 @@ Yes. You can plan ahead to make the process of applying for a burial in a VA nat
 <dl class="va-address-block">
     <dt></dt>
     <dd>National Cemetery Scheduling Office</dd>
-    <dd>P.O. Box 510543</dd>
+    <dd>PO Box 510543</dd>
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
