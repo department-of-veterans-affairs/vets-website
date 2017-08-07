@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
 import AdditionalSourcesField from '../components/AdditionalSourcesField';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 export function additionalSourcesSchema(schema) {
   return _.set('items.required', ['name', 'amount'], schema.definitions.additionalSources);
@@ -15,11 +16,6 @@ export const additionalSourcesUI = {
     name: {
       'ui:title': 'Source'
     },
-    amount: {
-      'ui:title': 'Amount',
-      'ui:options': {
-        classNames: 'schemaform-currency-input'
-      }
-    }
+    amount: currencyUI('Amount')
   }
 };
