@@ -51,7 +51,7 @@ Care settings may include:
 
 <br>
 
-You can use the VA Appointments mobile app to request an appointment and schedule select appointments at some VA health facilities. [Log into the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). You can also call your VA health facility directly to schedule an appointment. [Find your VA health facility's phone number](/facilities).
+To schedule an appointment at a VA health care facility, you can call the facility where you receive care. [Find your VA health facility's phone number](/facilities). Or, you can use the VA Appointments mobile app to request an appointment and schedule select appointments. [Start using the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
 
 <br>
 
@@ -144,11 +144,11 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 
 #### How do I make an appointment at a VA health facility?
 
-You can call the VA health facility where you get care. [Find your VA health facility's phone number](/facility).
+You can call the VA health facility where you go for care. [Find your VA health facility's phone number](/facility).
 
-Or, you can use our VA Appointments scheduling app from your mobile phone to request an appointment and to schedule some appointments. 
+You can also use our VA Appointments scheduling app to request an appointment and to schedule select appointments. [Start using the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). 
 
-But keep in mind that your VA healthcare providers don't monitor this app. So:
+Just keep in mind that your VA healthcare providers don't monitor this app. So:
 
 - **If you need urgent care**, please call 9-1-1 or call the Veterans Crisis Hotline at 800-273-8255 and press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facility).
