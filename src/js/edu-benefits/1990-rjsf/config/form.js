@@ -26,10 +26,10 @@ const formConfig = {
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: applicantInformation(fullSchema1990, {
+        applicantInformation: applicantInformation(fullSchema1990, {
           isVeteran: true,
           fields: [
             'veteranFullName',
