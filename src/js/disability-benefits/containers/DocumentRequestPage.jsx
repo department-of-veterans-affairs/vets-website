@@ -86,7 +86,6 @@ class DocumentRequestPage extends React.Component {
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
-                  <li className="active">{trackedItem.displayName}</li>
                 </ul>
               </nav>
             </div>
