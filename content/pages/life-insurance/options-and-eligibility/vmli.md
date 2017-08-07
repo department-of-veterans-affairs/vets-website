@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans’ Mortgage Life Insurance (VMLI)
-display_title: Veterans' Mortgage (VMLI)
+display_title: Veterans’ Mortgage (VMLI)
 concurrence:
 order: 6
 relatedlinks:
