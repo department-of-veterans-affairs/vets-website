@@ -2,8 +2,8 @@
 
 FROM buildpack-deps:jessie
 
-RUN groupadd --gid 10000 jenkins \
-&& useradd --uid 10000 --gid jenkins --shell /bin/bash --create-home jenkins
+RUN groupadd --gid 504 jenkins \
+&& useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -81,5 +81,6 @@ RUN yarn install --production=false
 
 COPY . .
 RUN chmod -R 777 /application
+RUN chmod -R 777 /home/jenkins
 USER jenkins
 
