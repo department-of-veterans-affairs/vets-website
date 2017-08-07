@@ -21,7 +21,6 @@ class Breadcrumbs extends React.Component {
       if (true) { // TODO: if got here by searching
         crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
       }
-      crumbs.push(<span key="profile"><strong>{this.props.profileName || 'Profile'}</strong></span>);
     }
 
     return (
