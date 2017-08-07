@@ -27,7 +27,7 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        benefitEligibility: {
+        veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: {
@@ -43,7 +43,7 @@ const formConfig = {
     benefitsEligibility: {
       title: 'Benefits Eligibility',
       pages: {
-        benefitEligibility: {
+        benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
           uiSchema: {
@@ -119,7 +119,7 @@ const formConfig = {
         }
       }
     },
-    educationhistory: {
+    educationHistory: {
       title: 'Education History',
       pages: {
         educationHistory: {
