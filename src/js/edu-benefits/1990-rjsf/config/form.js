@@ -198,6 +198,20 @@ const formConfig = {
             }
           }
         },
+        dependents: {
+          title: 'Dependent information',
+          path: 'personal-information/dependents',
+          depends: {
+            // hasServiceBefore1978
+          },
+          uiSchema: {
+          },
+          schema: {
+            type: 'object',
+            properties: {
+            }
+          }
+        },
         directDeposit: {
           title: 'Direct deposit',
           path: 'personal-information/direct-deposit',
