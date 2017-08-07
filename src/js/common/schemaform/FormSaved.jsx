@@ -21,6 +21,11 @@ const scrollToTop = () => {
 };
 
 class FormSaved extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleVerify = this.handleVerify.bind(this);
+  }
+
   componentDidMount() {
     // if we don't have this then that means we're loading the page
     // without any data and should just go back to the intro
@@ -32,10 +37,15 @@ class FormSaved extends React.Component {
     }
   }
 
+  handleVerify() {
+    handleVerify(this.props.user.login.verifyUrl);
+  }
+
   render() {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const notVerified = profile.accountType !== 3;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
 
     return (
@@ -48,11 +58,11 @@ class FormSaved extends React.Component {
             If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
         </div>
-        <div className="usa-alert usa-alert-warning">
+        {notVerified && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={() => handleVerify(this.props.user.verifyUrl)}>verify your identity</a>.
+            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={this.handleVerify}>verify your identity</a>.
           </div>
-        </div>
+        </div>}
         <br/>
         <FormStartControls
             startPage={this.props.route.pageList[1].path}
