@@ -56,7 +56,7 @@ class FormSaved extends React.Component {
         </div>
         {notVerified && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={this.verifyUser}>verify your identity</a>.
+            We want to keep your information safe with the highest level of security. Please <button className="va-button-link" onClick={this.verifyUser}>verify your identity</button>.
           </div>
         </div>}
         <br/>

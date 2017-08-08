@@ -45,7 +45,7 @@ describe('<AuthApplicationSection>', () => {
     props.userProfile.accountType = 1;
     const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
     ReactTestUtils.Simulate.click(
-      findDOMNode(section).querySelector("a[href='#']"));
+      findDOMNode(section).querySelector('.va-button-link'));
     expect(windowOpen.called).to.be.true;
   });
 });
