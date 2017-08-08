@@ -12,6 +12,8 @@ The Fully Developed Claim (FDC) program is the fastest way to get your claim pro
 
 If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, we'll remove your claim from the FDC program and process it as a standard claim.
 
+Find out how you can participate in the FDC program.
+
 </div>
 
 <div class="usa-accordion">
@@ -46,7 +48,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-If you’re claiming non-service-connected pension benefits, the evidence must show:
+**If you’re claiming non-service-connected pension benefits,** the evidence must show:
 1. You meet certain minimum requirements for active service during a period of war. Those requirements are:
 
     - 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
@@ -64,7 +66,7 @@ If you’re claiming non-service-connected pension benefits, the evidence must s
 
 3. Your net worth and income are within certain limits.
 
-If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits, the evidence must show that you:
+**If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits,** the evidence must show that you:
 
   - Have corrected vision of 5/200 or less in both eyes, **or**
   - Have contraction of the concentric visual field to 5 degrees or less, **or**
@@ -77,7 +79,7 @@ To support a claim for increased disability pension benefits based on being hous
   - Have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
   - Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
-If you’re claiming benefits for a disabled child, the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
+**If you’re claiming benefits for a disabled child,** the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
 
 </div>
 </li>
@@ -87,15 +89,15 @@ If you’re claiming benefits for a disabled child, the evidence must show that 
 
 #### FDC Program
 
-We will:
-- Request relevant records that you identify and authorize VA to get from a federal facility, like a VA medical center
+Under the FDC program, we'll:
+- Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 
 <br>
 
 #### Standard Claim Process
 
-We will:
+With the standard claim process, we'll:
 - Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 - Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
