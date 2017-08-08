@@ -14,6 +14,8 @@ If you file a claim in the FDC program and we decide that additional documents e
 
 Find out how you can participate in the FDC program.
 
+<br>
+
 </div>
 
 <div class="usa-accordion">
@@ -110,8 +112,7 @@ With the standard claim process, we'll:
 
 #### FDC Program 
 
-You’ll need to:
-- Turn in the information and evidence at the same time as you file your claim.
+You’ll need to turn in the information and evidence at the same time as you file your claim.
 <div class="usa-alert usa-alert-warning no-background-image">
 
 **Note:** If you turn in additional information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
@@ -122,8 +123,7 @@ You’ll need to:
 
 #### Standard Claim Process
 
-You’ll need to:
-- Turn in the information and evidence as soon as you can.
+You’ll need to turn in the information and evidence as soon as you can.
 
 <div class="usa-alert usa-alert-warning no-background-image">
 
