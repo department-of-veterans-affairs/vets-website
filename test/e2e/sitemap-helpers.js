@@ -13,9 +13,8 @@ function sitemapURLs(callback) {
       return res.text();
     }).then((body) => {
       const doc = libxmljs.parseXml(body);
-
       // Should only be used for documents not meant for humans
-	  const ignoreList = [ '/googlea8237f98bfe9f1e8.html' ];
+      const ignoreList = ['/googlea8237f98bfe9f1e8.html'];
 
       const urls = doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)
