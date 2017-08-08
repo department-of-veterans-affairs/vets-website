@@ -70,25 +70,40 @@ class UserDataSection extends React.Component {
   }
 
   render() {
-    let content;
-    const name = `${this.props.name.first ? this.props.name.first : ''} ${this.props.name.middle ? this.props.name.middle : ''} ${this.props.name.last ? this.props.name.last : ''}`;
+    const {
+      profile: {
+        accountType,
+        dob,
+        email,
+        gender
+      },
+      name: {
+        first: firstName,
+        middle: middleName,
+        last: lastName
+      }
+    } = this.props;
 
-    if (this.props.profile.accountType === 3) {
+    let content;
+    const name = `${firstName || ''} ${middleName || ''} ${lastName || ''}`;
+
+    if (accountType === 3) {
       content = (
         <span>
           <p><span className="label">Name:</span>{_.startCase(_.toLower(name))}</p>
-          <p><span className="label">Birth sex:</span>{`${this.props.profile.gender === 'F' ? 'Female' : 'Male'}`}</p>
-          <p><span className="label">Date of birth:</span>{moment(`${this.props.profile.dob}`).format('MMM D, YYYY')}</p>
+          <p><span className="label">Birth sex:</span>{`${gender === 'F' ? 'Female' : 'Male'}`}</p>
+          <p><span className="label">Date of birth:</span>{moment(`${dob}`).format('MMM D, YYYY')}</p>
         </span>
       );
     }
+
     return (
       <div className="profile-section">
         <h4 className="section-header">Account information</h4>
         <div className="info-container">
           {content}
-          <p><span className="label">Email address:</span> {this.props.profile.email}</p>
-          <a href="https://wallet.id.me/settings" target="_blank">Manage your account</a>
+          <p><span className="label">Email address:</span> {email}</p>
+          <p><a href="https://wallet.id.me/settings" target="_blank">Manage your account</a></p>
           {this.renderTermsLink()}
         </div>
         <Modal
@@ -96,7 +111,7 @@ class UserDataSection extends React.Component {
             contents={this.renderModalContents()}
             id="mhvac-modal"
             visible={this.state.modalOpen}
-            onClose={() => this.closeModal()}/>
+            onClose={this.closeModal}/>
       </div>
     );
   }

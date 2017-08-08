@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import { formatDateWithoutTimeShort, formatDateWithoutTimeLong } from '../../common/utils/helpers';
 import {
   formatPercent,
   formatVAFileNumber,
@@ -17,7 +17,8 @@ class UserInfoSection extends React.Component {
     const enrollmentData = this.props.enrollmentData || {};
 
     // Get today's date to show information current as of
-    const todayFormatted = formatDateShort(new Date());
+    const today = new Date();
+    const todayFormatted = formatDateWithoutTimeShort(today);
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
@@ -79,7 +80,7 @@ class UserInfoSection extends React.Component {
           <InfoPair
               label="Date of birth"
               name="dateOfBirth"
-              value={formatDateLong(enrollmentData.dateOfBirth)}
+              value={formatDateWithoutTimeLong(enrollmentData.dateOfBirth)}
               additionalClass="section-line"/>
           <InfoPair
               label="VA file number"

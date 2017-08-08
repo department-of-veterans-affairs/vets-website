@@ -14,6 +14,7 @@ const defaultProps = store.getState();
 defaultProps.post911GIBStatus = {
   enrollmentData: {
     veteranIsEligible: true,
+    dateOfBirth: '1995-11-12T06:00:00.000+0000',
     remainingEntitlement: {},
     originalEntitlement: {},
     usedEntitlement: {}
@@ -40,6 +41,7 @@ describe('<StatusPage>', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: false,
+        dateOfBirth: '1995-11-12T06:00:00.000+0000',
         originalEntitlement: {},
         usedEntitlement: {},
         remainingEntitlement: {},
