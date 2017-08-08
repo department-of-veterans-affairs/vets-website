@@ -102,12 +102,12 @@ export function dateToMoment(dateField) {
 }
 
 export function dropTimeAndTimezone(date) {
-  let newDate = moment(date).format();
-  const indexOfTime = newDate.indexOf('T');
+  let formattedDate = moment(date).format();
+  const indexOfTime = formattedDate.indexOf('T');
   if (indexOfTime >= 0) {
-    newDate = newDate.substring(0, indexOfTime);
+    formattedDate = formattedDate.substring(0, indexOfTime);
   }
-  return newDate;
+  return formattedDate;
 }
 
 export function formatDateLong(date) {
@@ -115,8 +115,8 @@ export function formatDateLong(date) {
 }
 
 export function formatDateWithoutTimeLong(date) {
-  const newDate = dropTimeAndTimezone(date);
-  return moment(newDate).format('MMMM DD, YYYY');
+  const formattedDate = dropTimeAndTimezone(date);
+  return moment(formattedDate).format('MMMM DD, YYYY');
 }
 
 export function formatDateShort(date) {
@@ -124,8 +124,8 @@ export function formatDateShort(date) {
 }
 
 export function formatDateWithoutTimeShort(date) {
-  const newDate = dropTimeAndTimezone(date);
-  return moment(newDate).format('MM/DD/YYYY');
+  const formattedDate = dropTimeAndTimezone(date);
+  return moment(formattedDate).format('MM/DD/YYYY');
 }
 
 export function focusElement(selectorOrElement) {
