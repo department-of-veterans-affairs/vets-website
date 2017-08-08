@@ -45,6 +45,6 @@ describe('<AuthApplicationSection>', () => {
     const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
     ReactTestUtils.Simulate.click(
       findDOMNode(section).querySelector("a[href='#']"));
-    expect(global.window.dataLayer).to.nested.include({ '[1].event':'verify-link-opened' });
+    expect(global.window.dataLayer).to.nested.include({ '[1].event': 'verify-link-opened' });
   });
 });
