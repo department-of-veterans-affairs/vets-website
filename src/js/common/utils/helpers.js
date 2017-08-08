@@ -101,16 +101,21 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function formatDateLong(date) {
-  return moment(date).format('MMMM DD, YYYY');
-}
-
-export function formatDateWithoutTimeLong(date) {
+export function dropTimeAndTimezone(date) {
   let newDate = moment(date).format();
   const indexOfTime = newDate.indexOf('T');
   if (indexOfTime >= 0) {
     newDate = newDate.substring(0, indexOfTime);
   }
+  return newDate;
+}
+
+export function formatDateLong(date) {
+  return moment(date).format('MMMM DD, YYYY');
+}
+
+export function formatDateWithoutTimeLong(date) {
+  const newDate = dropTimeAndTimezone(date);
   return moment(newDate).format('MMMM DD, YYYY');
 }
 
@@ -119,11 +124,7 @@ export function formatDateShort(date) {
 }
 
 export function formatDateWithoutTimeShort(date) {
-  let newDate = moment(date).format();
-  const indexOfTime = newDate.indexOf('T');
-  if (indexOfTime >= 0) {
-    newDate = newDate.substring(0, indexOfTime);
-  }
+  const newDate = dropTimeAndTimezone(date);
   return moment(newDate).format('MM/DD/YYYY');
 }
 
