@@ -42,9 +42,10 @@ describe('<AuthApplicationSection>', () => {
     expect(tree.everySubTree('span').length).to.equal(1);
   });
   it('should call handler when verify link is clicked', () => {
+    props.userProfile.accountType = 1;
     const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
     ReactTestUtils.Simulate.click(
       findDOMNode(section).querySelector("a[href='#']"));
-    expect(global.window.dataLayer).to.nested.include({ '[1].event': 'verify-link-opened' });
+    expect(global.window.dataLayer).to.have.lengthOf(2);
   });
 });
