@@ -1,6 +1,9 @@
+import { findDOMNode } from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import AuthApplicationSection from '../../../src/js/user-profile/components/AuthApplicationSection.jsx';
 
@@ -9,6 +12,21 @@ describe('<AuthApplicationSection>', () => {
     userProfile: {},
     verifyUrl: 'http://fake-verify-url'
   };
+  let windowOpen;
+  let oldWindow;
+  const setup = () => {
+    oldWindow = global.window;
+    windowOpen = sinon.stub().returns({ focus: f => f });
+    global.window = {
+      open: windowOpen,
+      dataLayer: []
+    };
+  };
+  const takeDown = () => {
+    global.window = oldWindow;
+  };
+  before(setup);
+  after(takeDown);
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     const vdom = tree.getRenderOutput();
@@ -22,5 +40,11 @@ describe('<AuthApplicationSection>', () => {
     props.userProfile.accountType = 3;
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     expect(tree.everySubTree('span').length).to.equal(1);
+  });
+  it('should call handler when verify link is clicked', () => {
+    const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
+    ReactTestUtils.Simulate.click(
+      findDOMNode(section).querySelector("a[href='#']"));
+    expect(global.window.dataLayer).to.nested.include({ '[1].event':'verify-link-opened' });
   });
 });
