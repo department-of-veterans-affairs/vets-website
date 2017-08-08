@@ -1,13 +1,23 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  transform
+  transform,
+  benefitsEligibilityBox,
+  selectBenefitsDescription,
+  benefitsLabels
 } from '../helpers';
+
+const {
+  chapter33,
+  chapter30,
+  chapter1606,
+  chapter32
+} = fullSchema1990.properties;
 
 const formConfig = {
   urlPrefix: '/1990-rjsf/',
@@ -47,10 +57,37 @@ const formConfig = {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
           uiSchema: {
+            'ui:description': benefitsEligibilityBox,
+            'view:selectedBenefits': {
+              'ui:description': selectBenefitsDescription,
+              chapter33: {
+                'ui:title': benefitsLabels.chapter33
+              },
+              chapter30: {
+                'ui:title': benefitsLabels.chapter30
+              },
+              chapter1606: {
+                'ui:title': benefitsLabels.chapter1606
+              },
+              chapter32: {
+                'ui:title': benefitsLabels.chapter32
+              }
+            }
           },
           schema: {
             type: 'object',
+            // TODO: Make one of these required; this isn't working like this
+            required: ['view:selectedBenefits'],
             properties: {
+              'view:selectedBenefits': {
+                type: 'object',
+                properties: {
+                  chapter33,
+                  chapter30,
+                  chapter1606,
+                  chapter32
+                }
+              }
             }
           }
         },
