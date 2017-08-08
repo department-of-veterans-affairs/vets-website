@@ -67,8 +67,8 @@ Your dependents may still qualify even if a child marries or you and your spouse
 While you're still on active duty, you'll request to transfer, change, or revoke a Transfer of Entitlement (TOE) through milConnect. You can't apply for a TOE through us. [Transfer, change, or revoke a TOE](https://www.dmdc.osd.mil/milconnect/). 
 
 If DOD approves the TOE, family members may apply for benefits. 
-- [Apply online](/education/apply-for-education-benefits/application/1990e/). 
-- Apply by mail. You'll need to fill out and mail VA Form 22-1990E to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
+- [Apply online](/education/apply-for-education-benefits/application/1990e/introduction). 
+- Apply by mail. You'll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
 
 [Find a nearby VA facility](/facilities/).
 

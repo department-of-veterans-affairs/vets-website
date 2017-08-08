@@ -96,16 +96,15 @@ If you need help accessing services, call our toll-free hotline at 877-222-VETS 
 
 #### What if I need to update my personal information?
 
-You can update your personal information, such as income, address, and insurance, with VA Form 10-10EZR (Renewal Application for Health Benefits). [Download Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
 
 Mail this form and any supporting materials to:
 
-<dl class="va-address-block">
-<dt></dt>
-<dd>Health Eligibility Center</dd>
-<dd>2957 Clairmont Road, Suite 200</dd>
-<dd>Atlanta, GA 30329</dd>
-</dl>
+<p class="va-address-block">
+Health Eligibility Center<br>
+2957 Clairmont Road, Suite 200<br>
+Atlanta, GA 30329<br>
+</p>
  
 You can also get help updating your personal information by visiting your local VA facility or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 

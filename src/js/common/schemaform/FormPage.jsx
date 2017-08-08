@@ -160,7 +160,7 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
-          {(!form.disableSave && __BUILDTYPE__ !== 'production') && <div className="row">
+          {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
                   trackingPrefix={form.trackingPrefix}

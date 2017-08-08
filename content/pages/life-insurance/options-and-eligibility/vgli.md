@@ -65,12 +65,11 @@ Apply in 1 of 3 ways:
 
 Fax the form to 800-236-6142, or mail it to: 
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>OSGLI</dd>
-  <dd>PO Box 41618</dd>
-  <dd>Philadelphia, PA 19176-9913</dd>
-</dl>
+<p class="va-address-block">
+  OSGLI<br>
+  PO Box 41618<br>
+  Philadelphia, PA 19176-9913<br>
+</p>
 
 <br>
 
