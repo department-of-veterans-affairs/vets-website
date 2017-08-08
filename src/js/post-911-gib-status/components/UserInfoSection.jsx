@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import InfoPair from './InfoPair';
 
@@ -18,7 +19,7 @@ class UserInfoSection extends React.Component {
 
     // Get today's date to show information current as of
     const today = new Date();
-    const todayFormatted = formatDateWithoutTimeShort(today);
+    const todayFormatted = formatDateWithoutTimeShort(moment(today).format());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
