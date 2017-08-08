@@ -49,14 +49,14 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who's eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
 Send the PMC request form and discharge papers to: 
-
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>Memorial Products Service (41B)</dd>
-    <dd>Department of Veterans Affairs</dd>
-    <dd>5109 Russell Road</dd>
-    <dd>Quantico, VA 22134-3903</dd>
-</dl>
+<br><br>
+<p class="va-address-block">
+    Memorial Products Service (41B)<br>
+    Department of Veterans Affairs<br>
+    5109 Russell Road<br>
+    Quantico, VA 22134-3903<br>
+</p>
+<br>
 
   - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
 </div>

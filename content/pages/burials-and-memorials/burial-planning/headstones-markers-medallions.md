@@ -49,13 +49,12 @@ You can apply for this benefit if you’re:
 
 - Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address: 
 
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>Memorial Products Service (41B)</dd>
-    <dd>Department of Veteran Affairs</dd>
-    <dd>5109 Russell Road</dd>
-    <dd>Quantico, VA 22134-3903</dd>
-</dl>
+<p class="va-address-block">
+    Memorial Products Service (41B)<br>
+    Department of Veteran Affairs<br>
+    5109 Russell Road<br>
+    Quantico, VA 22134-3903<br>
+</p>
 
 
 <div class="feature" markdown="0">
