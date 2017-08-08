@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import UserInfoSection from '../components/UserInfoSection';
 
@@ -9,7 +10,8 @@ class PrintPage extends React.Component {
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 
-    const todayFormatted = formatDateWithoutTimeLong(new Date());
+    const today = new Date();
+    const todayFormatted = formatDateWithoutTimeLong(moment(today).format());
 
     return (
       <div className="usa-width-two-thirds medium-8 columns gib-info">

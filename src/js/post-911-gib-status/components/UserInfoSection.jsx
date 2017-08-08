@@ -17,7 +17,8 @@ class UserInfoSection extends React.Component {
     const enrollmentData = this.props.enrollmentData || {};
 
     // Get today's date to show information current as of
-    const todayFormatted = formatDateWithoutTimeShort(new Date());
+    const today = new Date();
+    const todayFormatted = formatDateWithoutTimeShort(today);
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
