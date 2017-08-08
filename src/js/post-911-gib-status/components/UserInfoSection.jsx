@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import InfoPair from './InfoPair';
 
-import { formatDateWithoutTimeShort, formatDateWithoutTimeLong } from '../../common/utils/helpers';
+import { formatDateShort, formatDateWithoutTimeLong } from '../../common/utils/helpers';
 import {
   formatPercent,
   formatVAFileNumber,
@@ -18,8 +17,7 @@ class UserInfoSection extends React.Component {
     const enrollmentData = this.props.enrollmentData || {};
 
     // Get today's date to show information current as of
-    const today = new Date();
-    const todayFormatted = formatDateWithoutTimeShort(moment(today).format());
+    const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
