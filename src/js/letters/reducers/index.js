@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import {
   benefitOptionsMap,
   optionsToAlwaysDisplay
-} from '../utils/helpers';
+} from '../utils/helpers.jsx';
 
 const initialState = {
   letters: [],

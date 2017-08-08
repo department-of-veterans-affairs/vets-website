@@ -116,7 +116,6 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
 }
 smith.use(ignore(ignoreList));

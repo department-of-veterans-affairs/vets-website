@@ -73,7 +73,7 @@ You may be able to get a COE if you were discharged under conditions other than 
 
 ### Ready to apply?
 
-[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility)
+[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
 
 <br>
 
@@ -123,10 +123,10 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 
 - You’ve sold the home you bought with the prior loan and have paid that loan in full, **or**
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
-- You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
+- You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this one time)
 
-To request an entitlement restoration, fill out VA Form 26-1880 (Request for a Certificate of Eligibility) and send it to the VA regional loan center for your state. <br />
-[Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br />
+To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
+[Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
 [Find your state's VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

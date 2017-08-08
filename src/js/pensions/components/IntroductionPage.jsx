@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
@@ -20,11 +19,11 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to Form 21P-527EZ</p>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
+        <SaveInProgressIntro
             pageList={this.props.route.pageList}
             resumeOnly
             {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>}
+            {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -77,21 +76,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
+        <SaveInProgressIntro
             pageList={this.props.route.pageList}
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}>
           Complete the form before submitting to apply for pension benefits with the 21-527EZ.
-        </SaveInProgressIntro>}
-        {__BUILDTYPE__ === 'production' && <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Get Started"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>}
+        </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>
