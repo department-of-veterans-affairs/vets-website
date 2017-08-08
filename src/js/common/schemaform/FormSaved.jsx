@@ -11,6 +11,15 @@ import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 import FormStartControls from './FormStartControls';
 
+moment.updateLocale('en', {
+  meridiem: (hour) => {
+    if (hour < 12) {
+      return 'a.m.';
+    }
+    return 'p.m.';
+  }
+});
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -53,7 +62,7 @@ class FormSaved extends React.Component {
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your application has been saved.</strong><br/>
-            {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
+            {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}</p>}
             {success}
             If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
