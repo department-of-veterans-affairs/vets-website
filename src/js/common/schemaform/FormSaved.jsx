@@ -11,15 +11,6 @@ import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 import FormStartControls from './FormStartControls';
 
-moment.updateLocale('en', {
-  meridiem: (hour) => {
-    if (hour < 12) {
-      return 'a.m.';
-    }
-    return 'p.m.';
-  }
-});
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
