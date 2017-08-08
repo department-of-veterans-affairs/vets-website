@@ -1,4 +1,5 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
+import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
@@ -29,7 +30,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990, {
+        applicantInformation: _.merge(applicantInformation(fullSchema1990, {
           isVeteran: true,
           fields: [
             'veteranFullName',
@@ -37,6 +38,19 @@ const formConfig = {
             'veteranDateOfBirth',
             'gender'
           ],
+        }), {
+          uiSchema: {
+            veteranDateOfBirth: {
+              'ui:validations': [
+                (errors, dob) => {
+                  // TODO: Use a constant instead of 'YYYY-MM-DD'
+                  if (moment(dob, 'YYYY-MM-DD').isAfter(moment().endOf('day').subtract(17, 'years'))) {
+                    errors.addError('You must be at least 17 to apply');
+                  }
+                }
+              ]
+            }
+          }
         })
       }
     },
