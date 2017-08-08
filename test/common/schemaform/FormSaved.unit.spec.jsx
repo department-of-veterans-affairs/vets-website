@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
@@ -34,8 +35,10 @@ describe('Schemaform <FormSaved>', () => {
     formConfig: {
     }
   };
+  const formId = '1010ez';
   const user = {
     profile: {
+      savedForms: [{ form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } }], // eslint-disable-line camelcase
       prefillsAvailable: []
     },
     login: {
@@ -48,16 +51,16 @@ describe('Schemaform <FormSaved>', () => {
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
+      <FormSaved formId={formId} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
-
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
+    expect(tree.subTree('.usa-alert').text()).to.contain('Expires in');
   });
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
+      <FormSaved formId={formId} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(2);
@@ -65,7 +68,7 @@ describe('Schemaform <FormSaved>', () => {
   it('should not display verify link if user is verified', () => {
     user.profile.accountType = 3;
     const tree = SkinDeep.shallowRender(
-      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
+      <FormSaved formId={formId} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(1);
@@ -73,7 +76,7 @@ describe('Schemaform <FormSaved>', () => {
   it('should call handler when verify link is clicked', () => {
     user.profile.accountType = 1;
     const section = ReactTestUtils.renderIntoDocument(
-      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
+      <FormSaved formId={formId} lastSavedDate={lastSavedDate} route={route} user={user}/>
     );
     ReactTestUtils.Simulate.click(
         findDOMNode(section).querySelector('.va-button-link'));

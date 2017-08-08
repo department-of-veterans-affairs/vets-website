@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../utils/helpers';
+import { dateDiffDesc, focusElement } from '../utils/helpers';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
@@ -43,13 +43,17 @@ class FormSaved extends React.Component {
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
+    const savedForm = profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
+    const expirationDate = moment.unix(savedForm.metadata.expires_at);
 
     return (
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your application has been saved.</strong><br/>
-            {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}</p>}
+            {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')} <span className="schemaform-sip-expires">Expires in {dateDiffDesc(expirationDate)}</span>.</p>}
             {success}
             If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
