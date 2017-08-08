@@ -105,8 +105,26 @@ export function formatDateLong(date) {
   return moment(date).format('MMMM DD, YYYY');
 }
 
+export function formatDateWithoutTimeLong(date) {
+  let newDate = moment(date).format();
+  const indexOfTime = newDate.indexOf('T');
+  if (indexOfTime >= 0) {
+    newDate = newDate.substring(0, indexOfTime);
+  }
+  return moment(newDate).format('MMMM DD, YYYY');
+}
+
 export function formatDateShort(date) {
   return moment(date).format('MM/DD/YYYY');
+}
+
+export function formatDateWithoutTimeShort(date) {
+  let newDate = moment(date).format();
+  const indexOfTime = newDate.indexOf('T');
+  if (indexOfTime >= 0) {
+    newDate = newDate.substring(0, indexOfTime);
+  }
+  return moment(newDate).format('MM/DD/YYYY');
 }
 
 export function focusElement(selectorOrElement) {

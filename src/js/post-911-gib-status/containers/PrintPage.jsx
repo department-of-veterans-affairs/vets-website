@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import UserInfoSection from '../components/UserInfoSection';
 
-import { formatDateLong } from '../../common/utils/helpers';
+import { formatDateWithoutTimeLong } from '../../common/utils/helpers';
 
 class PrintPage extends React.Component {
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 
-    const todayFormatted = formatDateLong(new Date());
+    const todayFormatted = formatDateWithoutTimeLong(new Date());
 
     return (
       <div className="usa-width-two-thirds medium-8 columns gib-info">
