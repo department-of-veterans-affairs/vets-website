@@ -1,10 +1,27 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-
+import sinon from 'sinon';
 import { FormSaved } from '../../../src/js/common/schemaform/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
+  let windowOpen;
+  let oldWindow;
+  const setup = () => {
+    oldWindow = global.window;
+    windowOpen = sinon.stub().returns({ focus: f => f });
+    global.window = {
+      open: windowOpen,
+      dataLayer: [],
+      VetsGov: {
+      }
+    };
+  };
+  const takeDown = () => {
+    global.window = oldWindow;
+  };
   const route = {
     pageList: [
       {
@@ -26,6 +43,8 @@ describe('Schemaform <FormSaved>', () => {
     }
   };
   const lastSavedDate = 1497300513914;
+  before(setup);
+  after(takeDown);
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
@@ -50,5 +69,14 @@ describe('Schemaform <FormSaved>', () => {
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(1);
+  });
+  it('should call handler when verify link is clicked', () => {
+    user.profile.accountType = 1;
+    const section = ReactTestUtils.renderIntoDocument(
+      <FormSaved lastSavedDate={lastSavedDate} route={route} user={user}/>
+    );
+    ReactTestUtils.Simulate.click(
+        findDOMNode(section).querySelector("a[href='#']"));
+    expect(windowOpen.called).to.be.true;
   });
 });

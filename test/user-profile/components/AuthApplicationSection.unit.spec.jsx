@@ -1,6 +1,6 @@
+import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -46,6 +46,6 @@ describe('<AuthApplicationSection>', () => {
     const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
     ReactTestUtils.Simulate.click(
       findDOMNode(section).querySelector("a[href='#']"));
-    expect(global.window.dataLayer).to.have.lengthOf(2);
+    expect(windowOpen.called).to.be.true;
   });
 });
