@@ -100,12 +100,11 @@ To update your personal information, such as income, address, and insurance, fil
 
 Mail this form and any supporting materials to:
 
-<dl class="va-address-block">
-<dt></dt>
-<dd>Health Eligibility Center</dd>
-<dd>2957 Clairmont Road, Suite 200</dd>
-<dd>Atlanta, GA 30329</dd>
-</dl>
+<p class="va-address-block">
+Health Eligibility Center<br>
+2957 Clairmont Road, Suite 200<br>
+Atlanta, GA 30329<br>
+</p>
  
 You can also get help updating your personal information by visiting your local VA facility or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 

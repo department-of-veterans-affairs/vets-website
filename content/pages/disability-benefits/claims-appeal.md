@@ -129,29 +129,26 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq5">What if I decide I don’t want to pursue my appeal anymore?</button>
       <div id="dbq5" class="usa-accordion-content">
-        <p>If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p>
-        <br>
-        <p>If you request the withdrawal <em>before</em> you get notice that the appeal has been activated at the Board, send your statement to VBA. After the appeal has been transferred to the Board, you should send it directly to the Board at:</p>
-        <dl class="va-address-block">
-          <dd>Chairman (01)</dd>
-          <dd>Board of Veterans' Appeals</dd>
-          <dd>PO Box 27063</dd>
-          <dd>Washington, DC 20038</dd>
-        </dl>
+        <p>If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p><br>
+        <p>If you request the withdrawal <em>before</em> you get notice that the appeal has been activated at the Board, send your statement to VBA. After the appeal has been transferred to the Board, you should send it directly to the Board at:</p><br>
+        <p class="va-address-block">
+          Chairman (01)<br>
+          Board of Veterans' Appeals<br>
+          P.O. Box 27063<br>
+          Washington, DC 20038<br>
+        </p>
       </div>
     </li>
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq6">What if I decide I don’t want a Board hearing anymore?</button>
       <div id="dbq6" class="usa-accordion-content">
-        <p>If at any time you decide you don’t want a Board hearing, you or your authorized representative can send in a written statement. Your statement should include your name, the related Department of Veterans Affairs file number, and a statement that you’re withdrawing the appeal.</p>
-        <p>
-        Send your letter to:<br/>
-        <dl class="va-address-block">
-          <dd>Director, Office of Management, Planning and Analysis (014)</dd>
-          <dd>Board of Veterans' Appeals</dd>
-          <dd>PO Box 27063</dd>
-          <dd>Washington, DC 20038</dd>
-        </dl>
+        <p>If at any time you decide you don't want a Board hearing, you or your authorized representative can send in a written statement. Your statement should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.</p><br>
+        <p>Send your letter to:</p><br>
+        <p class="va-address-block">
+          Director, Office of Management, Planning and Analysis (014)<br>
+          Board of Veterans' Appeals<br>
+          P.O. Box 27063<br>
+          Washington, DC 20038<br>
         </p>
       </div>
     </li>

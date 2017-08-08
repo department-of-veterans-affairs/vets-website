@@ -20,6 +20,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
+import currencyUI from '../../common/schemaform/definitions/currency';
 import { validateBurialAndDeathDates } from '../validation';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
@@ -310,14 +311,12 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              amountIncurred: {
-                'ui:title': 'Transportation amount incurred',
+              amountIncurred: _.merge(currencyUI('Transportation amount incurred'), {
                 'ui:required': form => _.get('view:claimedBenefits.transportation', form) === true,
                 'ui:options': {
                   expandUnder: 'transportation',
-                  classNames: 'schemaform-currency-input'
                 }
-              },
+              }),
               'view:transportationWarning': {
                 'ui:description': transportationWarning,
                 'ui:options': {
@@ -392,14 +391,12 @@ const formConfig = {
                 }
               }
             },
-            burialCost: {
-              'ui:title': 'Actual burial cost',
+            burialCost: _.merge(currencyUI('Actual burial cost'), {
               'ui:options': {
                 expandUnder: 'burialAllowanceRequested',
-                expandUnderCondition: 'vaMC',
-                classNames: 'schemaform-currency-input'
+                expandUnderCondition: 'vaMC'
               }
-            },
+            }),
             previouslyReceivedAllowance: {
               'ui:title': 'Did you previously receive a VA burial allowance?',
               'ui:widget': 'yesNo',
@@ -455,13 +452,11 @@ const formConfig = {
               'ui:title': 'Did a federal/state government or the Veteran’s employer contribute to the burial?  (Not including employer life insurance)',
               'ui:widget': 'yesNo'
             },
-            amountGovtContribution: {
-              'ui:title': 'Amount of government or employer contribution:',
+            amountGovtContribution: _.merge(currencyUI('Amount of government or employer contribution:'), {
               'ui:options': {
-                expandUnder: 'govtContributions',
-                classNames: 'schemaform-currency-input'
+                expandUnder: 'govtContributions'
               }
-            }
+            })
           },
           schema: {
             type: 'object',

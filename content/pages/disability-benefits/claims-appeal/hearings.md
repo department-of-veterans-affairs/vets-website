@@ -47,15 +47,13 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p><strong>If your hearing has already been rescheduled before, or you are within 2 weeks of the scheduled hearing date,</strong> you must file a motion requesting that the hearing be rescheduled. You can do this by sending a letter explaining that you have "good cause" to reschedule. "Good cause" includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
 <h5>Rescheduling Travel Board or Videoconference Hearings</h5>
 <p>If you asked for a Travel Board or videoconference hearing with the Board, you must file a motion if you want to request that the hearing be rescheduled. This needs to happen at least 2 weeks before the scheduled hearing date. You can do this by sending a letter that explains you have "good cause" to reschedule. "Good cause" includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy in the mail of the decision about rescheduling your hearing.</p>
-<p>
-<em>Any request to reschedule must be in writing and must be mailed to:</em><br/>
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Director, Office of Management, Planning and Analysis (014)</dd>
-  <dd>Board of Veterans' Appeals</dd>
-  <dd>PO Box 27063</dd>
-  <dd>Washington, DC 20038</dd>
-</dl>
+</p>
+<em>Any request to reschedule must be in writing and be mailed to:</em><br/>
+<p class="va-address-block">
+  Director, Office of Management, Planning and Analysis (014)<br>
+  Board of Veterans' Appeals<br>
+  P.O. Box 27063<br>
+  Washington, DC 20038<br>
 </p>
 <p>If you’re able to reschedule your hearing, you’ll receive a notice at least 30 days before the new hearing date.</p>
 
@@ -63,11 +61,10 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p>If you need to cancel your hearing, please send a letter to the Board at least 2 weeks before your hearing, so the VLJ can hear another appeal at that time. The VLJ will make a decision based on the information you’ve provided in your appeal.</p>
 <p>
 Send the letter to:<br/>
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Director, Office of Management, Planning and Analysis (014)</dd>
-  <dd>Board of Veterans' Appeals</dd>
-  <dd>PO Box 27063</dd>
-  <dd>Washington, DC 20038</dd>
-</dl>
+<p class="va-address-block">
+  Director, Office of Management, Planning and Analysis (014)<br>
+  Board of Veterans' Appeals<br>
+  P.O. Box 27063<br>
+  Washington, DC 20038<br>
+</p>
 </p>

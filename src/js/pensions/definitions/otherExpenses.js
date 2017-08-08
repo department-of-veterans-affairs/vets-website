@@ -1,5 +1,6 @@
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ExpenseField from '../components/ExpenseField';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 export default {
   'ui:options': {
@@ -14,12 +15,7 @@ export default {
       'date',
       'paidTo'
     ],
-    amount: {
-      'ui:title': 'Amount paid',
-      'ui:options': {
-        classNames: 'schemaform-currency-input'
-      }
-    },
+    amount: currencyUI('Amount paid'),
     purpose: {
       'ui:title': 'Purpose (doctor fee, hospital charge, attorney fee, tuition, etc.)',
     },
