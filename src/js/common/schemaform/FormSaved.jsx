@@ -30,11 +30,6 @@ const scrollToTop = () => {
 };
 
 class FormSaved extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleVerify = this.handleVerify.bind(this);
-  }
-
   componentDidMount() {
     // if we don't have this then that means we're loading the page
     // without any data and should just go back to the intro
@@ -46,7 +41,7 @@ class FormSaved extends React.Component {
     }
   }
 
-  handleVerify() {
+  verifyUser = () => {
     handleVerify(this.props.user.login.verifyUrl);
   }
 
@@ -54,7 +49,8 @@ class FormSaved extends React.Component {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    const notVerified = profile.accountType !== 3;
+    const verifiedAccountType = 3;// verified ID.me accounts are type 3
+    const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
 
     return (
@@ -69,7 +65,7 @@ class FormSaved extends React.Component {
         </div>
         {notVerified && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={this.handleVerify}>verify your identity</a>.
+            We want to keep your information safe with the highest level of security. Please <a href="#" onClick={this.verifyUser}>verify your identity</a>.
           </div>
         </div>}
         <br/>

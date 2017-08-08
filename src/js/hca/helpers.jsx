@@ -161,5 +161,5 @@ export const disclosureWarning = (
 );
 
 export const resumeMessage = (
-  <p>To continue with your saved application when you come back, go to <a href="/health-care/apply/application" target="_blank">Health Care Application Process</a> or add this page to your web browser's bookmark list.</p>
+  <p>To continue with your saved application when you come back, go to <a href="/health-care/apply/application">Health Care Application Process</a> or add this page to your web browser's bookmark list.</p>
 );
