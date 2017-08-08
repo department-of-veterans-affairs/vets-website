@@ -2,8 +2,9 @@
 
 FROM buildpack-deps:jessie
 
+# Match the jenkins uid/gid on the host (504)
 RUN groupadd --gid 504 jenkins \
-&& useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
+  && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -80,7 +81,7 @@ RUN yarn install --production=false
 # Copy application source to image
 
 COPY . .
+RUN chown -R jenkins:jenkins /application
 RUN chmod -R 777 /application
 RUN chmod -R 777 /home/jenkins
 USER jenkins
-
