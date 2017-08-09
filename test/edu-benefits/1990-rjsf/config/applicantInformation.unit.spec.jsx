@@ -45,7 +45,6 @@ describe('Edu 1990 applicantInformation', () => {
 
     // 17th birthday is tomorrow
     const dob = moment().subtract(17, 'years').add(1, 'day');
-    // The format it'll actually be in is YYYY-MM-DD, but fillDate() needs to be changed to use that format...
     formDOM.fillDate('root_veteranDateOfBirth', dob.format('YYYY-MM-DD'));
     formDOM.submitForm();
     expect(formDOM.querySelectorAll('.usa-input-error #root_veteranDateOfBirthMonth').length).to.equal(1);
