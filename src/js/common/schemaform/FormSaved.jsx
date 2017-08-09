@@ -43,14 +43,17 @@ class FormSaved extends React.Component {
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const expirationDate = moment.unix(this.props.expirationDate);
+    const savedForm = this.props.savedForms.length > 0 && this.props.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
+    const expirationDate = savedForm && moment.unix(savedForm.metaData.expires_at);
 
     return (
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your application has been saved.</strong><br/>
-            {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')} <span className="schemaform-sip-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}</span>.</p>}
+            {!!lastSavedDate && !!expirationDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')} <span className="schemaform-sip-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}</span>.</p>}
             {success}
             If you're logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
@@ -89,11 +92,11 @@ FormSaved.propTypes = {
 function mapStateToProps(state) {
   return {
     formId: state.form.formId,
-    expirationDate: state.form.loadedData.metadata.expires_at,
     returnUrl: state.form.loadedData.metadata.returnUrl,
     lastSavedDate: state.form.lastSavedDate,
     migrations: state.form.migrations,
-    user: state.user
+    user: state.user,
+    savedForms: state.user.profile.savedForms
   };
 }
 
