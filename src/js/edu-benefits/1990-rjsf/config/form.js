@@ -1,6 +1,9 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
+import moment from 'moment';
 
-// import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -24,20 +27,31 @@ const formConfig = {
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-information',
+        applicantInformation: _.merge(applicantInformation(fullSchema1990, {
+          isVeteran: true,
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+            'gender'
+          ],
+        }), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
+            veteranDateOfBirth: {
+              'ui:validations': [
+                (errors, dob) => {
+                  // If we have a complete date, check to make sure it's a valid dob
+                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && moment(dob).isAfter(moment().endOf('day').subtract(17, 'years'))) {
+                    errors.addError('You must be at least 17 to apply');
+                  }
+                }
+              ]
             }
           }
-        }
+        })
       }
     },
     benefitsEligibility: {

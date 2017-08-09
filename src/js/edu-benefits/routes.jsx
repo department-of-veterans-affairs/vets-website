@@ -119,7 +119,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./1990-rjsf/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./1990-rjsf/reducer').default));
             resolve(require('./1990-rjsf/Form1990App').default);
           }, 'edu-1990');
         });
