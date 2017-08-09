@@ -11,11 +11,11 @@ import CalculatorForm from '../profile/CalculatorForm';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visible ? (
   <div className={classNames('row', 'calculator-result', { bold })}>
-    <div className="small-8 columns">
-      {header ? <h5>{label}:</h5> : <p>{label}:</p>}
+    <div className="small-6 columns">
+      {header ? <h5>{label}:</h5> : <div>{label}:</div>}
     </div>
-    <div className="small-4 columns value">
-      {header ? <h5>{value}</h5> : <p>{value}</p>}
+    <div className="small-6 columns value">
+      {header ? <h5>{value}</h5> : <div>{value}</div>}
     </div>
   </div>
 ) : null);
