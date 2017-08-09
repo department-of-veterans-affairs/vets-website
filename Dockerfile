@@ -82,4 +82,6 @@ RUN yarn install --production=false
 
 COPY . .
 RUN chown -R jenkins:jenkins /application
+RUN chmod -R 777 /application
+RUN chmod -R 777 /home/jenkins
 USER jenkins
