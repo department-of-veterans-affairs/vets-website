@@ -111,10 +111,18 @@ export function dropTimeAndTimezone(date) {
 }
 
 export function formatDateLong(date) {
+  return moment(date).format('MMMM DD, YYYY');
+}
+
+export function formatDateParsedZoneLong(date) {
   return moment.parseZone(date).format('MMMM DD, YYYY');
 }
 
 export function formatDateShort(date) {
+  return moment(date).format('MM/DD/YYYY');
+}
+
+export function formatDateParsedZoneShort(date) {
   return moment.parseZone(date).format('MM/DD/YYYY');
 }
 

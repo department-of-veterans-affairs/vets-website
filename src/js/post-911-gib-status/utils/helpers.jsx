@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDateLong } from '../../common/utils/helpers';
+import { formatDateParsedZoneLong } from '../../common/utils/helpers';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -73,7 +73,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
         <div className="section benefit-end-date">
           <h4>Benefit End Date</h4>
           <div>
-            You have until <strong>{formatDateLong(delimitingDate)}</strong> to use these benefits.
+            You have until <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use these benefits.
           </div>
         </div>
       );

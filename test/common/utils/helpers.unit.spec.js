@@ -7,7 +7,9 @@ import {
   dateToMoment,
   dateDiffDesc,
   formatDateShort,
-  formatDateLong
+  formatDateParsedZoneShort,
+  formatDateLong,
+  formatDateParsedZoneLong
 } from '../../../src/js/common/utils/helpers.js';
 
 describe('Helpers unit tests', () => {
@@ -117,6 +119,13 @@ describe('Helpers unit tests', () => {
     });
   });
   describe('formatDateShort', () => {
+    const noon = '1995-11-12T12:00:00.000+0000';
+
+    it('should display the date in the short format', () => {
+      expect(formatDateShort(noon)).to.equal('11/12/1995');
+    });
+  });
+  describe('formatDateParsedZoneShort', () => {
     const midnight = '1995-11-12T00:00:00.000+0000';
     const midnightOffsetNegative1 = '1995-11-12T00:00:00.000-1000';
     const sixAMOffset0 = '1995-11-12T06:00:00.000+0000';
@@ -125,19 +134,26 @@ describe('Helpers unit tests', () => {
     const almostMidnightOffsetNegative1 = '1995-11-12T23:59:59.999-1000';
 
     it('should display the date in the short format', () => {
-      expect(formatDateShort(midnight)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(midnight)).to.equal('11/12/1995');
     });
 
     it('should display the date string without regard to the timezone or offset', () => {
-      expect(formatDateShort(midnight)).to.equal('11/12/1995');
-      expect(formatDateShort(midnightOffsetNegative1)).to.equal('11/12/1995');
-      expect(formatDateShort(sixAMOffset0)).to.equal('11/12/1995');
-      expect(formatDateShort(eightAMOffset0)).to.equal('11/12/1995');
-      expect(formatDateShort(almostMidnightOffset0)).to.equal('11/12/1995');
-      expect(formatDateShort(almostMidnightOffsetNegative1)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(midnight)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(midnightOffsetNegative1)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(sixAMOffset0)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(eightAMOffset0)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(almostMidnightOffset0)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(almostMidnightOffsetNegative1)).to.equal('11/12/1995');
     });
   });
   describe('formatDateLong', () => {
+    const noon = '1995-11-12T12:00:00.000+0000';
+
+    it('should display the date in the short format', () => {
+      expect(formatDateLong(noon)).to.equal('November 12, 1995');
+    });
+  });
+  describe('formatDateParsedZoneLong', () => {
     const midnight = '1995-11-12T00:00:00.000+0000';
     const midnightOffsetNegative1 = '1995-11-12T00:00:00.000-1000';
     const sixAMOffset0 = '1995-11-12T06:00:00.000+0000';
@@ -146,16 +162,16 @@ describe('Helpers unit tests', () => {
     const almostMidnightOffsetNegative1 = '1995-11-12T23:59:59.999-1000';
 
     it('should display the date in the short format', () => {
-      expect(formatDateLong(midnight)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(midnight)).to.equal('November 12, 1995');
     });
 
     it('should display the date string without regard to the timezone or offset', () => {
-      expect(formatDateLong(midnight)).to.equal('November 12, 1995');
-      expect(formatDateLong(midnightOffsetNegative1)).to.equal('November 12, 1995');
-      expect(formatDateLong(sixAMOffset0)).to.equal('November 12, 1995');
-      expect(formatDateLong(eightAMOffset0)).to.equal('November 12, 1995');
-      expect(formatDateLong(almostMidnightOffset0)).to.equal('November 12, 1995');
-      expect(formatDateLong(almostMidnightOffsetNegative1)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(midnight)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(midnightOffsetNegative1)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(sixAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(eightAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(almostMidnightOffset0)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).to.equal('November 12, 1995');
     });
   });
 });
