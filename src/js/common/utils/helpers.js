@@ -114,18 +114,8 @@ export function formatDateLong(date) {
   return moment.parseZone(date).format('MMMM DD, YYYY');
 }
 
-export function formatDateWithoutTimeLong(date) {
-  const formattedDate = dropTimeAndTimezone(date);
-  return moment(formattedDate).format('MMMM DD, YYYY');
-}
-
 export function formatDateShort(date) {
   return moment.parseZone(date).format('MM/DD/YYYY');
-}
-
-export function formatDateWithoutTimeShort(date) {
-  const formattedDate = dropTimeAndTimezone(date);
-  return moment(formattedDate).format('MM/DD/YYYY');
 }
 
 export function focusElement(selectorOrElement) {
