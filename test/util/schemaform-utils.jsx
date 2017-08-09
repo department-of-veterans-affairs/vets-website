@@ -160,8 +160,8 @@ export function getFormDOM(form) {
     submitForm(form);
   };
 
-  formDOM.setCheckbox = function toggleCheckbox(id, checked) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+  formDOM.setCheckbox = function toggleCheckbox(selector, checked) {
+    ReactTestUtils.Simulate.change(this.querySelector(selector), {
       target: {
         checked
       }
@@ -169,9 +169,9 @@ export function getFormDOM(form) {
   };
 
   // Accepts 'Y', 'N', true, false
-  formDOM.setYesNo = function setYesNo(id, value) {
+  formDOM.setYesNo = function setYesNo(selector, value) {
     const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.querySelector(selector), {
       target: {
         value: isYes ? 'Y' : 'N'
       }
