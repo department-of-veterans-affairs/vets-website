@@ -101,15 +101,6 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function dropTimeAndTimezone(date) {
-  let formattedDate = date.toString();
-  const indexOfTime = formattedDate.indexOf('T');
-  if (indexOfTime >= 0) {
-    formattedDate = formattedDate.substring(0, indexOfTime);
-  }
-  return formattedDate;
-}
-
 export function formatDateLong(date) {
   return moment(date).format('MMMM DD, YYYY');
 }
