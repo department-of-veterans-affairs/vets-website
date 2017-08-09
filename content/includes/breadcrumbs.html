@@ -7,15 +7,9 @@
     <li><a href="/">Home</a></li>
       {% assign current_page = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
-        {% if current_page.name == crumb.name %}
-          <li class="active">
-            {% if title %}
-              {{ title }}
-            {% else %}
-              {{ crumb.name | replace: '-', ' ' | capitalize }}
-            {% endif %}
-          </li>
-        {% else %}
+        {% if current_page.name != crumb.name %}
+          <!-- removed to remove 'active' breadcrumb -->
+        
           {% comment %}
             Each breadcrumb item has a child object. One of the properties of
             that object is `file` which loads the front matter metadata from

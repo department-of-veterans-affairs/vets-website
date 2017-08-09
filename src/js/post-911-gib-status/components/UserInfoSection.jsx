@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import { formatDateShort, formatDateWithoutTimeLong } from '../../common/utils/helpers';
 import {
   formatPercent,
   formatVAFileNumber,
@@ -79,7 +79,7 @@ class UserInfoSection extends React.Component {
           <InfoPair
               label="Date of birth"
               name="dateOfBirth"
-              value={formatDateLong(enrollmentData.dateOfBirth)}
+              value={formatDateWithoutTimeLong(enrollmentData.dateOfBirth)}
               additionalClass="section-line"/>
           <InfoPair
               label="VA file number"
