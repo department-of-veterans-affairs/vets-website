@@ -4,6 +4,7 @@ template: detail-page
 title: Application Process
 concurrence: "" 
 order: 2
+children: pensionApplication
 ---
 
 <div class="va-introtext">
