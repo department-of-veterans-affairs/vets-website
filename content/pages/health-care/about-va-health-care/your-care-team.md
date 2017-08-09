@@ -72,8 +72,6 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
-To schedule an appointment with your VA health care team, you can call the VA health care facility where you receive care. [Find your VA health facility's phone number](/facilities). Or, you can use the VA Appointments mobile app to request an appointment and schedule select appointments. [Start using the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). 
-
 <br>
 
 <span id="choose-primary-care-provider">
@@ -92,9 +90,9 @@ If you decide you want to change to a different primary care doctor, you’ll ne
 
 You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facility).
 
-You can also use our VA Appointments scheduling app to request an appointment and to schedule select appointments. [Start using the VA Appointments app](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). 
+[You can also use your DS Logon to request and schedule non-urgent visits online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). Your DS Logon is the same logon used for eBenefits.
 
-Just keep in mind that your VA healthcare providers don't monitor this app. So:
+Just keep in mind that your VA healthcare providers don't monitor this online tool. So:
 
 - **If you need urgent care**, please call (<a href="tel:+9-1-1">9-1-1</a>) or call the Veterans Crisis Hotline at (<a href="tel:+1-800-273-8255">800-273-8255</a>) and press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facility).
