@@ -304,6 +304,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         });
       } else {
         dispatch(setFetchFormStatus(loadedStatus));
+        Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-load-failed`
         });
