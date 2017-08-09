@@ -94,7 +94,7 @@ You can call the VA health facility where you receive care. [Find your VA health
 
 Just keep in mind that your VA health care providers don't monitor this online tool. So:
 
-- **If you need urgent care**, please call (<a href="tel:+9-1-1">911</a>) or call the Veterans Crisis Hotline at (<a href="tel:+1-800-273-8255">800-273-8255</a>), then press 1.
+- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
 
 <br>
