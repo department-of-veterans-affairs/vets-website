@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, getScrollOptions } from '../../common/utils/helpers';
+import { formatDateWithoutTimeShort, getScrollOptions } from '../../common/utils/helpers';
 
 const scroller = Scroll.scroller;
 
@@ -53,7 +53,7 @@ class EnrollmentPeriod extends React.Component {
               <InfoPair label="Type of Change" value={amendment.type}/>
               <InfoPair
                   label="Change Effective Date"
-                  value={formatDateShort(amendment.changeEffectiveDate)}/>
+                  value={formatDateWithoutTimeShort(amendment.changeEffectiveDate)}/>
             </div>
           );
         })}
@@ -83,7 +83,7 @@ class EnrollmentPeriod extends React.Component {
 
     return (
       <div id={id}>
-        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
+        <h4>{formatDateWithoutTimeShort(enrollment.beginDate)} to {formatDateWithoutTimeShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
         {yellowRibbonStatus}
         <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>
         <InfoPair label="Online Hours" value={enrollment.onlineHours}/>

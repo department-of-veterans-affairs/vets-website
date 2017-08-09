@@ -54,6 +54,17 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.focusOnPage(`${key}${index === null ? '' : index}`);
   }
 
+  handleSubmit = (formData, key, path = null, index = null) => {
+    // This makes sure defaulted data on a page with no changes is saved
+    // Probably safe to do this for regular pages, too, but it hasn't been necessary
+    if (path) {
+      const newData = _.set([path, index], formData, this.props.form.data);
+      this.props.setData(newData);
+    }
+
+    this.handleEdit(key, false, index);
+  }
+
   scrollToTop() {
     scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, {
       duration: 500,
@@ -148,7 +159,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       hideTitle={expandedPages.length === 1}
                       pagePerItemIndex={page.index}
                       onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-                      onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
+                      onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
                       onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                       uploadFile={this.props.uploadFile}
                       reviewMode={!editing}
