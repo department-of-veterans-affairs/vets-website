@@ -43,8 +43,8 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:validations': [
                 (errors, dob) => {
-                  // TODO: Use a constant instead of 'YYYY-MM-DD'
-                  if (moment(dob, 'YYYY-MM-DD').isAfter(moment().endOf('day').subtract(17, 'years'))) {
+                  // If we have a complete date, check to make sure it's a valid dob
+                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && moment(dob).isAfter(moment().endOf('day').subtract(17, 'years'))) {
                     errors.addError('You must be at least 17 to apply');
                   }
                 }
