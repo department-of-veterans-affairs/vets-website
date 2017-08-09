@@ -43,10 +43,7 @@ class FormSaved extends React.Component {
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const savedForm = this.props.savedForms.length > 0 && this.props.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
-      .find(f => f.form === this.props.formId);
-    const expirationDate = savedForm && moment.unix(savedForm.metaData.expires_at);
+    const expirationDate = moment.unix(this.props.expirationDate);
 
     return (
       <div>
@@ -94,9 +91,9 @@ function mapStateToProps(state) {
     formId: state.form.formId,
     returnUrl: state.form.loadedData.metadata.returnUrl,
     lastSavedDate: state.form.lastSavedDate,
+    expirationDate: state.form.expirationDate,
     migrations: state.form.migrations,
-    user: state.user,
-    savedForms: state.user.profile.savedForms
+    user: state.user
   };
 }
 
