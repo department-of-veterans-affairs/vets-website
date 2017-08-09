@@ -70,10 +70,12 @@ export class ProfilePage extends React.Component {
     if (profile.inProgress || _.isEmpty(profile.attributes)) {
       content = <LoadingIndicator message="Loading profile..."/>;
     } else {
+      const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
+
       content = (
         <div>
           <HeadingSummary
-              institution={this.props.profile.attributes}
+              institution={profile.attributes}
               onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
               onViewWarnings={this.handleViewWarnings}/>
           <div className="usa-accordion">
@@ -81,29 +83,35 @@ export class ProfilePage extends React.Component {
               <AccordionItem button="Estimate your benefits">
                 <Calculator/>
               </AccordionItem>
-              <AccordionItem button="Veteran programs">
-                <Programs
-                    institution={this.props.profile.attributes}
-                    onShowModal={this.props.showModal}/>
-              </AccordionItem>
-              <AccordionItem button="Student outcomes">
-                <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
-                  <Outcomes
-                      graphing={outcomes}
+              {
+                !isOJT &&
+                (<AccordionItem button="Veteran programs">
+                  <Programs
+                      institution={profile.attributes}
                       onShowModal={this.props.showModal}/>
-                </If>
-              </AccordionItem>
+                </AccordionItem>)
+              }
+              {
+                !isOJT &&
+                (<AccordionItem button="Student outcomes">
+                  <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
+                    <Outcomes
+                        graphing={outcomes}
+                        onShowModal={this.props.showModal}/>
+                  </If>
+                </AccordionItem>)
+              }
               <AccordionItem
                   button="Cautionary information"
                   ref={c => { this._cautionaryInfo = c; }}>
                 <a name="viewWarnings"></a>
                 <CautionaryInformation
-                    institution={this.props.profile.attributes}
+                    institution={profile.attributes}
                     onShowModal={this.props.showModal}/>
               </AccordionItem>
               <AccordionItem button="Additional information">
                 <AdditionalInformation
-                    institution={this.props.profile.attributes}
+                    institution={profile.attributes}
                     onShowModal={this.props.showModal}/>
               </AccordionItem>
             </ul>

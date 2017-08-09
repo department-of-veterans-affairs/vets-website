@@ -128,8 +128,8 @@ describe('Hca child information', () => {
       }
     });
 
-    fillDate(formDOM, 'root_children_0_childDateOfBirth', '12-12-2012');
-    fillDate(formDOM, 'root_children_0_childBecameDependent', '12-12-2012');
+    fillDate(formDOM, 'root_children_0_childDateOfBirth', '2012-12-12');
+    fillDate(formDOM, 'root_children_0_childBecameDependent', '2012-12-12');
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childEducationExpenses'), {
       target: {

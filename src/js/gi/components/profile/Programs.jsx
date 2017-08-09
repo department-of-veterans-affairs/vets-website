@@ -73,7 +73,7 @@ export class Programs extends React.Component {
         {program.text}
       </a>) : program.text;
 
-    return <p key={programKey}><i className={icon}/> {label} {link}</p>;
+    return <div key={programKey}><i className={icon}/> {label} {link}</div>;
   }
 
   render() {

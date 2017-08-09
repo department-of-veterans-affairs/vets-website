@@ -1,14 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Application Process
+title: Pension Benefits Application Process
 concurrence: "" 
 order: 2
+children: pensionApplication
 ---
 
 <div class="va-introtext">
 
-You can apply in person or by mail for Veterans pension benefits. Follow these steps to apply for this tax-free benefit.
+You can apply online, in person, or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
 
 </div>
 
@@ -21,32 +22,36 @@ You can apply in person or by mail for Veterans pension benefits. Follow these s
 
 #### What information do I need to apply?
 
-- Military history
+- Social Security number or VA file number (required)
+- Military history (required)
 - Your financial information and the financial information of your dependents (required)
-- Work history
-- Direct deposit information
+- Work history 
+- Bank account direct deposit information 
 - Medical information
 
 </div>
 
-### Apply
+### Ready to apply?
 
-You can apply in 1 of 3 ways:
+<a class="usa-button-primary va-button-primary" href="pension/application/527EZ">Apply for a Veterans Pension</a> 
 
-**Apply by mail**
+### Other ways to apply
 
-Fill out an Application for Pension (VA Form 21P-527EZ). [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf). 
+**By mail**
 
-Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
+Apply by mail using an Application for Pension (VA Form 21P-527EZ). [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
-**Work with a trained professional**
+Mail the application to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
 
-You can work with a trained professional called an accredited representative to get help applying for VA pension benefits.  [Find an accredited representative](/disability-benefits/apply/help/).
+**In person**
 
-**Apply in person**
+Bring your application to a regional benefits office near you. [Find a regional benefits office](/facilities/).
 
-Bring your application to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/).
+**With the help of a trained professional**
 
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
+
+ 
 [Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
 
 ### How long does it take VA to make a decision?

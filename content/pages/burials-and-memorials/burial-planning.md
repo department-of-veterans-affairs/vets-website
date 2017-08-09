@@ -25,13 +25,14 @@ Yes. You can plan ahead to make the process of applying for a burial in a VA nat
 
 **Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 
-  
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>National Cemetery Scheduling Office</dd>
-    <dd>P.O. Box 510543</dd>
-    <dd>St. Louis, MO 63151</dd>
-</dl>
+
+<br>
+<p class="va-address-block">
+    National Cemetery Scheduling Office<br>
+    P.O. Box 510543<br>
+    St. Louis, MO 63151<br>
+</p>
+<br>
 
 - Fax it to 855-840-8299
 

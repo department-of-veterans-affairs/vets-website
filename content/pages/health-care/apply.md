@@ -74,12 +74,11 @@ Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, M
 
 Print the form, fill it out, and send it to this address:
 
-<dl class="va-address-block">
-<dt></dt>
-<dd>Health Eligibility Center</dd>
-<dd>2957 Clairmont Rd., Suite 200</dd>
-<dd>Atlanta, GA 30329</dd>
-</dl>
+<p class="va-address-block">
+Health Eligibility Center<br>
+2957 Clairmont Rd., Suite 200<br>
+Atlanta, GA 30329<br>
+</p>
 
 ##### In person
 

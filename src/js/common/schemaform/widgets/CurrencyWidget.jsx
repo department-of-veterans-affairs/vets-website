@@ -22,7 +22,7 @@ export default class CurrencyWidget extends React.Component {
       this.props.onChange();
     } else {
       // Needs to look like a currency
-      if (!val.match(/^\${0,1}[0-9,]*(\.\d{1,2})?$/)) {
+      if (!/^\${0,1}[0-9,]*(\.\d{1,2})?$/.test(val)) {
         this.props.onChange(val);
       } else {
         // Needs to parse as a number
