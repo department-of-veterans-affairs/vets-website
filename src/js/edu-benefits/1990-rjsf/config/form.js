@@ -5,10 +5,11 @@ import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { validateBooleanGroup } from '../../../common/schemaform/validation';
+
 import {
   transform,
   benefitsEligibilityBox,
-  selectBenefitsDescription,
   benefitsLabels
 } from '../helpers';
 
@@ -59,7 +60,16 @@ const formConfig = {
           uiSchema: {
             'ui:description': benefitsEligibilityBox,
             'view:selectedBenefits': {
-              'ui:description': selectBenefitsDescription,
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one benefit'
+              },
+              'ui:options': {
+                showFieldLabel: true
+              },
               chapter33: {
                 'ui:title': benefitsLabels.chapter33
               },

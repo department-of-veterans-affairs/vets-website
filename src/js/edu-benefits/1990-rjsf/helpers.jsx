@@ -23,12 +23,6 @@ export const benefitsEligibilityBox = (
   </div>
 );
 
-export const selectBenefitsDescription = (
-  <div>
-    <p>Select the benefit that is the best match for you.</p>
-  </div>
-);
-
 export const benefitsLabels = {
   chapter33:
     (<p>
