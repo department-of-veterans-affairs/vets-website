@@ -9,41 +9,13 @@ import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
-const EligibilityDetails = ({ expanded, toggle }) => (
-  <div className="eligibility-details">
-    <button onClick={toggle} className="usa-button-outline">
-      {expanded ? 'Hide' : 'Edit'} eligibility details
-    </button>
-    {expanded ?
-      <div className="form-expanding-group-open">
-        <EligibilityForm/>
-      </div> : null}
-  </div>
-);
-
-const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputChange, onShowModal }) => (
-  <div className="calculator-inputs">
-    <button onClick={toggle} className="usa-button-outline">
-      {expanded ? 'Hide' : 'Edit'} calculator fields
-    </button>
-    {expanded ?
-      <div className="form-expanding-group-open">
-        <CalculatorForm
-            inputs={inputs}
-            displayedInputs={displayedInputs}
-            onShowModal={onShowModal}
-            onInputChange={onInputChange}/>
-      </div> : null}
-  </div>
-);
-
 const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visible ? (
   <div className={classNames('row', 'calculator-result', { bold })}>
-    <div className="small-8 columns">
-      {header ? <h5>{label}:</h5> : <p>{label}:</p>}
+    <div className="small-6 columns">
+      {header ? <h5>{label}:</h5> : <div>{label}:</div>}
     </div>
-    <div className="small-4 columns value">
-      {header ? <h5>{value}</h5> : <p>{value}</p>}
+    <div className="small-6 columns value">
+      {header ? <h5>{value}</h5> : <div>{value}</div>}
     </div>
   </div>
 ) : null);
@@ -52,22 +24,66 @@ export class Calculator extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleEligibilityDetails = this.toggleEligibilityDetails.bind(this);
+    this.toggleEligibilityForm = this.toggleEligibilityForm.bind(this);
     this.toggleCalculatorForm = this.toggleCalculatorForm.bind(this);
+    this.renderEligibilityForm = this.renderEligibilityForm.bind(this);
+    this.renderCalculatorForm = this.renderCalculatorForm.bind(this);
     this.renderPerTermSections = this.renderPerTermSections.bind(this);
 
     this.state = {
-      showEligibilityDetails: false,
+      showEligibilityForm: false,
       showCalculatorForm: true,
     };
   }
 
-  toggleEligibilityDetails() {
-    this.setState({ showEligibilityDetails: !this.state.showEligibilityDetails });
+  toggleEligibilityForm() {
+    this.setState({ showEligibilityForm: !this.state.showEligibilityForm });
   }
 
   toggleCalculatorForm() {
     this.setState({ showCalculatorForm: !this.state.showCalculatorForm });
+  }
+
+  renderEligibilityForm() {
+    const expanded = this.state.showEligibilityForm;
+
+    return (
+      <div className="eligibility-details">
+        <button onClick={this.toggleEligibilityForm} className="usa-button-outline">
+          {expanded ? 'Hide' : 'Edit'} eligibility details
+        </button>
+        {expanded ?
+          <div className="form-expanding-group-open">
+            <EligibilityForm/>
+          </div> : null}
+      </div>
+    );
+  }
+
+  renderCalculatorForm() {
+    const {
+      calculator: inputs,
+      calculated: { inputs: displayed }
+    } = this.props;
+    const expanded = this.state.showCalculatorForm;
+
+    return (
+      <div className="calculator-inputs">
+        <button
+            onClick={this.toggleCalculatorForm}
+            className="usa-button-outline">
+          {expanded ? 'Hide' : 'Edit'} calculator fields
+        </button>
+        {expanded ?
+          <div className="form-expanding-group-open">
+            <CalculatorForm
+                inputs={inputs}
+                displayedInputs={displayed}
+                onShowModal={this.props.showModal}
+                onInputChange={this.props.calculatorInputChange}/>
+          </div> : null}
+      </div>
+    );
   }
 
   renderPerTermSections() {
@@ -116,16 +132,8 @@ export class Calculator extends React.Component {
     return (
       <div className="row calculate-your-benefits">
         <div className="usa-width-five-twelfths medium-5 columns">
-          <EligibilityDetails
-              expanded={this.state.showEligibilityDetails}
-              toggle={this.toggleEligibilityDetails}/>
-          <CalculatorInputs
-              inputs={this.props.calculator}
-              displayedInputs={this.props.calculated.inputs}
-              onInputChange={this.props.calculatorInputChange}
-              onShowModal={this.props.showModal}
-              expanded={this.state.showCalculatorForm}
-              toggle={this.toggleCalculatorForm}/>
+          {this.renderEligibilityForm()}
+          {this.renderCalculatorForm()}
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <div className="usa-width-one-half medium-6 columns your-estimated-benefits">

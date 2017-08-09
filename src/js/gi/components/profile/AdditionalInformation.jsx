@@ -2,26 +2,28 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export class AdditionalInformation extends React.Component {
-
-  render() {
+  renderInstitutionSummary() {
     const it = this.props.institution;
+    const isOJT = it.type.toLowerCase() === 'ojt';
+
+    if (isOJT) return null;
 
     const typeOfAccreditation =
       it.accredited &&
       it.accreditationType && (
-        <p>
+        <div>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
               Type of accreditation:
             </a>
           </strong>
           &nbsp;{it.accreditationType.toUpperCase()}
-        </p>
+        </div>
       );
 
     const vetTuitionPolicy =
       it.vetWebsiteLink && (
-        <p>
+        <div>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'tuitionPolicy')}>
               Veterans tuition policy:
@@ -30,8 +32,47 @@ export class AdditionalInformation extends React.Component {
           &nbsp;<a href={it.vetWebsiteLink} target="_blank">
             View policy
           </a>
-        </p>
+        </div>
       );
+
+    return (
+      <div className="institution-summary">
+        <h3>Institution summary</h3>
+        <div>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
+              Accredited:
+            </a>
+          </strong>
+          &nbsp;{it.accredited ?
+            <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
+              See accreditors
+            </a>)</span> : 'No'}
+        </div>
+        {typeOfAccreditation}
+        {vetTuitionPolicy}
+        <div>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
+              Single point of contact for veterans:
+            </a>
+          </strong>
+          &nbsp;{!!it.vetPoc ? 'Yes' : 'No'}
+        </div>
+        <div>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
+              Credit for military training:
+            </a>
+          </strong>
+          &nbsp;{!!it.creditForMilTraining ? 'Yes' : 'No'}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const it = this.props.institution;
 
     // Formats positive and negative currency values in USD
     const formatCurrency = (num) => {
@@ -56,92 +97,61 @@ export class AdditionalInformation extends React.Component {
     return (
       <div className="additional-information row">
         <div className="usa-width-one-half medium-6 columns">
-          <div className="institution-summary">
-            <h3>Institution summary</h3>
-            <p>
-              <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
-                  Accredited:
-                </a>
-              </strong>
-              &nbsp;{it.accredited ?
-                <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
-                  See accreditors
-                </a>)</span> : 'No'}
-            </p>
-            {typeOfAccreditation}
-            {vetTuitionPolicy}
-            <p>
-              <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
-                  Single point of contact for veterans:
-                </a>
-              </strong>
-              &nbsp;{!!it.vetPoc ? 'Yes' : 'No'}
-            </p>
-            <p>
-              <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
-                  Credit for military training:
-                </a>
-              </strong>
-              &nbsp;{!!it.creditForMilTraining ? 'Yes' : 'No'}
-            </p>
-          </div>
+          {this.renderInstitutionSummary()}
           <div className="historical-information list">
             <h3>Historical Information</h3>
             <div>
-              <p>
+              <div>
                 <strong>Benefit:&nbsp;</strong>
                 Post-9/11 GI Bill
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Recipients:&nbsp;</strong>
                 {formatNumber(it.p911Recipients)}
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911TuitionFees)}
-              </p>
+              </div>
             </div>
             <div>
-              <p>
+              <div>
                 <strong>Benefit:&nbsp;</strong>
                 Yellow Ribbon
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Recipients:&nbsp;</strong>
                 {formatNumber(it.p911YrRecipients)}
-              </p>
-              <p>
+              </div>
+              <div>
                 <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911YellowRibbon)}
-              </p>
+              </div>
             </div>
           </div>
           <div className="institution-codes">
             <h3>Institution codes</h3>
-            <p>
+            <div>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>VA facility code:</a>
                 &nbsp;
               </strong>
               {it.facilityCode || 'N/A'}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
                 &nbsp;
               </strong>
               {it.cross || 'N/A'}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
                 &nbsp;
               </strong>
               {it.ope || 'N/A'}
-            </p>
+            </div>
           </div>
         </div>
         <div className="usa-width-one-half medium-6 columns">
