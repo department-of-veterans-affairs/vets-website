@@ -40,7 +40,7 @@ export class Programs extends React.Component {
       },
 
       vetSuccessName: {
-        modal: false,
+        modal: 'vsoc',
         text: 'VetSuccess on Campus',
         link: {
           href: institution.vetSuccessEmail && `mailto:${institution.vetSuccessEmail}`,
