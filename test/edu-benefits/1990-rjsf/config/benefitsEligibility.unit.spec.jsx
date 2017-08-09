@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getFormDOM } from '../../../util/schemaform-utils';
-import moment from 'moment';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';

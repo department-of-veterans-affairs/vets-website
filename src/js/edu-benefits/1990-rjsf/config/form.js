@@ -85,7 +85,16 @@ const formConfig = {
                 showFieldLabel: true
               },
               chapter33: {
-                'ui:title': benefitsLabels.chapter33
+                'ui:title': benefitsLabels.chapter33,
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent',
+                }
+              },
+              'view:chapter33ExpandedContent': {
+                'ui:description': 'When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. You’ll make this decision on the next page.',
+                'ui:options': {
+                  expandUnder: 'chapter33',
+                }
               },
               chapter30: {
                 'ui:title': benefitsLabels.chapter30
@@ -107,6 +116,10 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   chapter33,
+                  'view:chapter33ExpandedContent': {
+                    type: 'object',
+                    properties: {}
+                  },
                   chapter30,
                   chapter1606,
                   chapter32
