@@ -101,31 +101,20 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function dropTimeAndTimezone(date) {
-  let formattedDate = date.toString();
-  const indexOfTime = formattedDate.indexOf('T');
-  if (indexOfTime >= 0) {
-    formattedDate = formattedDate.substring(0, indexOfTime);
-  }
-  return formattedDate;
-}
-
 export function formatDateLong(date) {
   return moment(date).format('MMMM DD, YYYY');
 }
 
-export function formatDateWithoutTimeLong(date) {
-  const formattedDate = dropTimeAndTimezone(date);
-  return moment(formattedDate).format('MMMM DD, YYYY');
+export function formatDateParsedZoneLong(date) {
+  return moment.parseZone(date).format('MMMM DD, YYYY');
 }
 
 export function formatDateShort(date) {
   return moment(date).format('MM/DD/YYYY');
 }
 
-export function formatDateWithoutTimeShort(date) {
-  const formattedDate = dropTimeAndTimezone(date);
-  return moment(formattedDate).format('MM/DD/YYYY');
+export function formatDateParsedZoneShort(date) {
+  return moment.parseZone(date).format('MM/DD/YYYY');
 }
 
 export function focusElement(selectorOrElement) {

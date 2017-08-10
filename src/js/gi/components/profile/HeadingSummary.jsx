@@ -65,8 +65,7 @@ class HeadingSummary extends React.Component {
                 On-the-job training
               </IconWithInfo>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)}&nbsp;
-                {it.type === 'for profit' ? 'school' : 'institution'}
+                {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo icon="map" present={it.localeType && it.type && it.type !== 'ojt'}>
                 {_.capitalize(it.localeType)} locale

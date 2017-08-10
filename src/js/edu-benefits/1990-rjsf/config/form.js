@@ -1,13 +1,27 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
+import moment from 'moment';
 
-// import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
+
+import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import { validateBooleanGroup } from '../../../common/schemaform/validation';
+
 import {
-  transform
+  transform,
+  benefitsEligibilityBox,
+  benefitsLabels
 } from '../helpers';
+
+const {
+  chapter33,
+  chapter30,
+  chapter1606,
+  chapter32
+} = fullSchema1990.properties;
 
 const formConfig = {
   urlPrefix: '/1990-rjsf/',
@@ -24,20 +38,31 @@ const formConfig = {
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-information',
+        applicantInformation: _.merge(applicantInformation(fullSchema1990, {
+          isVeteran: true,
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+            'gender'
+          ],
+        }), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
+            veteranDateOfBirth: {
+              'ui:validations': [
+                (errors, dob) => {
+                  // If we have a complete date, check to make sure it's a valid dob
+                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && moment(dob).isAfter(moment().endOf('day').subtract(17, 'years'))) {
+                    errors.addError('You must be at least 17 to apply');
+                  }
+                }
+              ]
             }
           }
-        }
+        })
       }
     },
     benefitsEligibility: {
@@ -47,10 +72,58 @@ const formConfig = {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
           uiSchema: {
+            'ui:description': benefitsEligibilityBox,
+            'view:selectedBenefits': {
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:validations': [
+                validateBooleanGroup
+              ],
+              'ui:errorMessages': {
+                atLeastOne: 'Please select at least one benefit'
+              },
+              'ui:options': {
+                showFieldLabel: true
+              },
+              chapter33: {
+                'ui:title': benefitsLabels.chapter33,
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent',
+                }
+              },
+              'view:chapter33ExpandedContent': {
+                'ui:description': 'When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. You’ll make this decision on the next page.',
+                'ui:options': {
+                  expandUnder: 'chapter33',
+                }
+              },
+              chapter30: {
+                'ui:title': benefitsLabels.chapter30
+              },
+              chapter1606: {
+                'ui:title': benefitsLabels.chapter1606
+              },
+              chapter32: {
+                'ui:title': benefitsLabels.chapter32
+              }
+            }
           },
           schema: {
             type: 'object',
+            required: ['view:selectedBenefits'],
             properties: {
+              'view:selectedBenefits': {
+                type: 'object',
+                properties: {
+                  chapter33,
+                  'view:chapter33ExpandedContent': {
+                    type: 'object',
+                    properties: {}
+                  },
+                  chapter30,
+                  chapter1606,
+                  chapter32
+                }
+              }
             }
           }
         },

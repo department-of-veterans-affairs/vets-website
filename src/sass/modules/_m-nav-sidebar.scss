@@ -5,6 +5,14 @@
 .va-sidebarnav {
   li {
     border-top-color: $color-gray-lighter;
+   a {
+      &:visited {
+       color: $color-base;
+      }
+      &.usa-current:visited {
+        color: $color-primary;
+      }
+    }
   }
 
   @include media-maxwidth($medium-screen) {

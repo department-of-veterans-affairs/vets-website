@@ -22,8 +22,8 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p>At your hearing, you can bring a representative with you. This person can help you prepare for the hearing and present your information to the VLJ. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a>.</p>
 <p>Once you have a representative, you'll need to let the VA know they have permission to represent you by completing a form.</p>
 <ul>
-<li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant's Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a>.</li>
-<li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant's Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download VA Form 21-22</a>.</li>
+<li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a></li>
+<li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download VA Form 21-22</a></li>
 </ul>
 
 <h3>How do I ask for a hearing?</h3>
@@ -44,27 +44,25 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <h3>What if I have to reschedule my hearing?</h3>
 <h5>Rescheduling In-Person Hearings at the Board in Washington, DC</h5>
 <p>If you asked for an in-person hearing at the Board, you can send a written request to reschedule your hearing at least 2 weeks before the scheduled hearing date.</p>
-<p><strong>If your hearing has already been rescheduled before, or you are within 2 weeks of the scheduled hearing date,</strong> you must file a motion requesting that the hearing be rescheduled. You can do this by sending a letter explaining that you have "good cause" to reschedule. "Good cause" includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
+<p><strong>If your hearing has already been rescheduled before, or you are within 2 weeks of the scheduled hearing date,</strong> you must file a motion requesting that the hearing be rescheduled. You can do this by sending a letter explaining that you have “good cause” to reschedule. “Good cause” includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
 <h5>Rescheduling Travel Board or Videoconference Hearings</h5>
-<p>If you asked for a Travel Board or videoconference hearing with the Board, you must file a motion if you want to request that the hearing be rescheduled. This needs to happen at least 2 weeks before the scheduled hearing date. You can do this by sending a letter that explains you have "good cause" to reschedule. "Good cause" includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy in the mail of the decision about rescheduling your hearing.</p>
-</p>
+<p>If you asked for a Travel Board or videoconference hearing with the Board, you must file a motion if you want to request that the hearing be rescheduled. This needs to happen at least 2 weeks before the scheduled hearing date. You can do this by sending a letter that explains you have “good cause” to reschedule. “Good cause” includes situations in which you, your representative, or a witness are sick, or you have difficulty getting records needed for your appeal. A VLJ will review your motion and decide if the hearing can be rescheduled. You’ll get a copy in the mail of the decision about rescheduling your hearing.</p>
+<p>
 <em>Any request to reschedule must be in writing and be mailed to:</em><br/>
 <p class="va-address-block">
-  Director, Office of Management, Planning and Analysis (014)<br>
-  Board of Veterans' Appeals<br>
-  P.O. Box 27063<br>
-  Washington, DC 20038<br>
+  Director, Office of Management, Planning and Analysis (014)<br/>
+  Board of Veterans’ Appeals<br/>
+  PO Box 27063<br/>
+  Washington, DC 20038<br/>
 </p>
 <p>If you’re able to reschedule your hearing, you’ll receive a notice at least 30 days before the new hearing date.</p>
 
 <h3>What if I have to cancel my hearing?</h3>
 <p>If you need to cancel your hearing, please send a letter to the Board at least 2 weeks before your hearing, so the VLJ can hear another appeal at that time. The VLJ will make a decision based on the information you’ve provided in your appeal.</p>
-<p>
-Send the letter to:<br/>
+<p>Send the letter to:</p><br/>
 <p class="va-address-block">
-  Director, Office of Management, Planning and Analysis (014)<br>
-  Board of Veterans' Appeals<br>
-  P.O. Box 27063<br>
-  Washington, DC 20038<br>
-</p>
+  Director, Office of Management, Planning and Analysis (014)<br/>
+  Board of Veterans’ Appeals<br/>
+  PO Box 27063<br/>
+  Washington, DC 20038<br/>
 </p>
