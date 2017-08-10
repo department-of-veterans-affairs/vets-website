@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Benefits Application Process
-concurrence: "" 
+concurrence: ""
 order: 2
 children: pensionApplication
 ---
@@ -25,15 +25,15 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 - Social Security number or VA file number (required)
 - Military history (required)
 - Your financial information and the financial information of your dependents (required)
-- Work history 
-- Bank account direct deposit information 
+- Work history
+- Bank account direct deposit information
 - Medical information
 
 </div>
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="pension/application/527EZ">Apply for a Veterans Pension</a> 
+<a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/introduction">Apply for a Veterans Pension</a> 
 
 ### Other ways to apply
 
@@ -51,7 +51,7 @@ Bring your application to a regional benefits office near you. [Find a regional 
 
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
 
- 
+
 [Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
 
 ### How long does it take VA to make a decision?

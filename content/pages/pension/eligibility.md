@@ -2,14 +2,14 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Benefits Eligibility
-concurrence: 
+concurrence:
 order: 1
 children: pensionEligibility
 ---
 
 <div class="va-introtext">
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit. 
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit.
 
 </div>
 
@@ -44,8 +44,8 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="pension/application/527EZ">Apply for a Veterans Pension</a>
+<a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/introduction">Apply for a Veterans Pension</a>
 
-[Learn about the application process](/pension/apply/). 
+[Learn about the application process](/pension/apply/).
 
 <div markdown="0"><br></div>
