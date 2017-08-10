@@ -18,6 +18,10 @@ class Breadcrumbs extends React.Component {
       crumbs.push(<Link to={root} key="main">GI Bill® Comparison Tool</Link>);
     }
 
+    if (pathname.match(/search/)) {
+      crumbs.push('Search Results');
+    }
+
     if (pathname.match(/profile/)) {
       if (includeSearch) {
         crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
