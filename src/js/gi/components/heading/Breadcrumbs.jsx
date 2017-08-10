@@ -26,7 +26,9 @@ class Breadcrumbs extends React.Component {
       if (includeSearch) {
         crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
       }
-      crumbs.push(profileName);
+      if (profileName) {
+        crumbs.push(profileName);
+      }
     }
 
     return (
