@@ -166,7 +166,7 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
           <h2>8 Keys to Veteran Success</h2>
           <p>
-            The "8 Keys to Veterans' Success" are steps that postsecondary institutions can take to
+            The “8 Keys to Veterans’ Success” are steps that postsecondary institutions can take to
             assist Veterans and Service members in transitioning to higher education, completing
             their college programs, and obtaining career-ready skills.
           </p>
@@ -179,7 +179,7 @@ export class Modals extends React.Component {
           <p>
             To learn more about accreditation, visit the U.S. Department of Education’s <a
                 href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-                target="_blank">{"8 Keys to Veterans' Success"}</a> page.
+                target="_blank">{"8 Keys to Veterans’ Success"}</a> page.
           </p>
         </Modal>
       </span>
