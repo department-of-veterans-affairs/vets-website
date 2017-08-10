@@ -299,6 +299,17 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'put',
     value: {
+      data: {
+        attributes: {
+          metadata: {
+            version: 0,
+            returnUrl: '/veteran-information/birth-information',
+            savedAt: 1498588443698,
+            expires_at: moment().add(1, 'day').unix(),
+            last_updated: 1498588443
+          }
+        }
+      }
     }
   });
   /* eslint-enable camelcase */

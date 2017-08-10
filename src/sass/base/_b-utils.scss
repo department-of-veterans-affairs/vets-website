@@ -6,6 +6,10 @@
   background-image: none;
 }
 
+.no-text-transform {
+  text-transform: none;
+}
+
 // This is intended to override button styles and make a button
 // look like a link. We have plenty of overspecified button styles, so there are
 // several instances in here of !important.
