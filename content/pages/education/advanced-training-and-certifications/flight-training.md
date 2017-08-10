@@ -24,7 +24,7 @@ You can get benefits for flight training if you:
 ### Who’s covered?
 
 Anyone who qualifies for any of the GI Bill programs. <br />
-**Exception:** You aren't covered if you’re using Survivors’ and Dependents’ Educational Assistance (DEA).  
+**Exception:** You aren’t covered if you’re using Survivors’ and Dependents’ Educational Assistance (DEA).  
 
 </div>
 

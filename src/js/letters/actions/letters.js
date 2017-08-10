@@ -80,7 +80,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
             }
           }
         });
-        window.URL.revokeObjectURL(downloadUrl); // make sure this doesn't cause problems
+        window.URL.revokeObjectURL(downloadUrl); // make sure this doesn’t cause problems
         dispatch({ type: 'GET_LETTER_PDF_SUCCESS' });
       },
       () => dispatch({ type: 'GET_LETTER_PDF_FAILURE', data: letterType })

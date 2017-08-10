@@ -142,7 +142,7 @@ export function getScrollOptions(additionalOptions) {
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
-    // document.body.scrollTop doesn't work with all browsers, so we’ll cover them all like so:
+    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
     Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());

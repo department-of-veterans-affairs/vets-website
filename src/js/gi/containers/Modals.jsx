@@ -74,7 +74,7 @@ export class Modals extends React.Component {
             benefits attending this school in the last calendar year. This includes all chapters of
             the GI Bill program (e.g., Post-9/11, Montgomery GI Bill, Reserve Education Assistance
             Program, and Vocational Rehabilitation). Keep in mind that differences in attendee
-            numbers don't necessarily mean one school is more military friendly than another.
+            numbers don’t necessarily mean one school is more military friendly than another.
             This information will be updated annually.
           </p>
         </Modal>
@@ -118,7 +118,7 @@ export class Modals extends React.Component {
           <p>
             Only Veterans entitled to the maximum benefit rate (based on service requirements) or
             their designated transferees can receive this funding. Active duty Servicemembers and
-            their spouses aren't eligible for this program (child transferees of active duty
+            their spouses aren’t eligible for this program (child transferees of active duty
             Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
             This information will be updated quarterly.
           </p>
@@ -143,7 +143,7 @@ export class Modals extends React.Component {
           </ul>
           <p>
             Foreign schools, high schools, on-the-job training and apprenticeship programs,
-            residency and internship programs, and those who don't charge tuition and fees aren't
+            residency and internship programs, and those who don’t charge tuition and fees aren’t
             asked to comply with the Principles of Excellence.
           </p>
           <p>
@@ -172,8 +172,8 @@ export class Modals extends React.Component {
           </p>
           <p>
             Postsecondary institutions listed here have stated their support for the 8 Keys.
-            However, this isn't an assurance by the U.S. Department of Education that an institution
-            has actually implemented the 8 Keys. It also doesn't mean that these institutions are
+            However, this isn’t an assurance by the U.S. Department of Education that an institution
+            has actually implemented the 8 Keys. It also doesn’t mean that these institutions are
             endorsed by the U.S. Department of Education.
           </p>
           <p>
@@ -331,7 +331,7 @@ export class Modals extends React.Component {
           <p>
             Are you considered a full-time or part-time student by your school? Students attending
             school less than full-time will get a pro-rated monthly housing allowance. Students
-            attending school exactly ½ time or less won't get a monthly housing allowance.
+            attending school exactly ½ time or less won’t get a monthly housing allowance.
           </p>
           <p>
             For more information about MHA increases or decreases,

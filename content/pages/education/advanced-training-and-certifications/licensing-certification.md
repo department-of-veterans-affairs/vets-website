@@ -26,7 +26,7 @@ Veterans
 </div>
 
 ### What kind of benefits can I get?
-If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There’s no limit to the number of tests you can take, or the number of times you take the same test. We’ll pay for tests even when you don’t score high enough to get your license or certification. We won't pay for fees or costs related to getting the actual license or certification document.
+If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There’s no limit to the number of tests you can take, or the number of times you take the same test. We’ll pay for tests even when you don’t score high enough to get your license or certification. We won’t pay for fees or costs related to getting the actual license or certification document.
 
 
 -----

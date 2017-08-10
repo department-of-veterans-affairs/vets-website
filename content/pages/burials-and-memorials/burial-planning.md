@@ -49,7 +49,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). 
 
-#### If you don't have a pre-need decision letter:
+#### If you don’t have a pre-need decision letter:
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
 
@@ -58,7 +58,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 ##### Gather these documents and other information you’ll need to identify the deceased:
 
- - DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
+ - DD214, or similar discharge papers. If you can’t find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  - Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
  - Marital status

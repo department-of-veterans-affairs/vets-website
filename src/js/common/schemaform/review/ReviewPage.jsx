@@ -58,7 +58,7 @@ class ReviewPage extends React.Component {
     const viewedPages = keys.reduce((pages, key) => {
       if (!pages.has(key)) {
         // if we hit a page that we need to add, check to see if
-        // we haven't cloned the set yet; we should only do that once
+        // we haven’t cloned the set yet; we should only do that once
         if (pages === this.state.viewedPages) {
           const newPages = new Set(this.state.viewedPages);
           newPages.add(key);

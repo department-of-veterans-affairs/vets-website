@@ -28,7 +28,7 @@ You can get benefits if you qualify for the GI Bill, and:
 Veterans<br />
 
 **Exception:** 
-You can't get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
+You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
 </div>
 
 ### What benefits can I get?

@@ -22,7 +22,7 @@ You can get this benefit if you’re an active-duty GI Bill recipient, in which 
 <br />
 
 **Exception:** 
-You can't get this benefit under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
+You can’t get this benefit under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
 
 <br/>
 

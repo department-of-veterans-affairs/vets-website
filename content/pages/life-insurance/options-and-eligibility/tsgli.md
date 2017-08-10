@@ -35,7 +35,7 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 
 #### Are any injuries excluded from TSGLI? 
 
-Yes. To qualify for TSGLI, your injury can't:
+Yes. To qualify for TSGLI, your injury can’t:
 
 - Be self-inflicted on purpose or the result of an attempt at self-injury, **or**
 - Involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **or**

@@ -94,7 +94,7 @@ export default function messages(state = initialState, action) {
         subject: makeField(currentMessage.subject)
       };
 
-      // The message is the draft if it hasn't been sent yet.
+      // The message is the draft if it hasn’t been sent yet.
       // Otherwise, the draft is an new, unsaved reply to the message.
       if (!currentMessage.sentDate) {
         draft.attachments = currentMessage.attachments || [];

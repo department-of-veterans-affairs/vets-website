@@ -57,7 +57,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
-- [What services aren't covered under VA health care?](#health-about-not-covered)
+- [What services aren’t covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -139,7 +139,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 <span id="health-about-not-covered">
 
-#### What services aren't covered under VA health care?
+#### What services aren’t covered under VA health care?
 
 These services are **not** included in your VA medical benefits package:
 

@@ -42,7 +42,7 @@ We’ll charge your GI Bill benefit package for testing expenses. [Learn about h
 - You may need to provide your proof of payment.
 - We’ll pay you back only for mandatory test fees.
 
-#### We won't pay you back for:
+#### We won’t pay you back for:
 
 - Pretest costs (such as Kaplan tests)
 - Fees to get scores quickly

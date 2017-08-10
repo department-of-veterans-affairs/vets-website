@@ -44,7 +44,7 @@ export function transform(formConfig, form) {
   }
 
   const formData = JSON.stringify(withoutViewFields, (key, value) => {
-    // Don't let children be removed in the normal empty object clean up
+    // Don’t let children be removed in the normal empty object clean up
     if (key === 'children') {
       return value;
     }
@@ -109,7 +109,7 @@ export const financialDisclosureText = (
     tax year, which we will verify with the IRS. We use this information to figure out if you:</p>
 
     <ol>
-      <li>Are eligible for health care even if you don't have one of the qualifying factors</li>
+      <li>Are eligible for health care even if you don’t have one of the qualifying factors</li>
       <li>Are eligible for added benefits, like reimbusement for travel costs or cost-free medications</li>
       <li>Should be charged for copays or medication</li>
     </ol>
@@ -117,7 +117,7 @@ export const financialDisclosureText = (
     <div className="usa-alert usa-alert-info">
       <div className="usa-alert-body">
         <span>
-          <strong>Note:</strong> You don't have to provide your financial information. But if you don't have a qualifying
+          <strong>Note:</strong> You don’t have to provide your financial information. But if you don’t have a qualifying
           eligibility factor, this information is the only other way for us to see if you can get VA
           health care benefits-- including added benefits like waived copays.
         </span>
@@ -155,7 +155,7 @@ export const incomeDescription = (
 export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
-      <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
+      <span>If you don’t provide your financial information and you don’t have another qualifying eligibility factor, VA can’t enroll you.</span>
     </div>
   </div>
 );

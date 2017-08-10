@@ -64,7 +64,7 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 In some cases, the dependent or surviving spouse and children of a Veteran can get educational assistance through a GI Bill program. [Learn more about Survivors' and Dependents' Assistance](/education/gi-bill/survivors-dependent-assistance/).
 
-Also, if you haven't used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. [Learn more about transferring benefits](/education/gi-bill/transfer/). 
+Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. [Learn more about transferring benefits](/education/gi-bill/transfer/). 
 
 </div>
 

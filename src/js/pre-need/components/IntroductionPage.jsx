@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
               <h5>Gather these documents and other information you’ll need to identify the deceased:</h5>
               <ul>
                 <li>
-                  DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. <a href="http://www.cem.va.gov/CEM/hmm/discharge_documents.asp" target="_blank">Find out which discharge papers we accept along with your application</a>.
+                  DD214, or similar discharge papers. If you can’t find the discharge papers, please ask for our help to get these records. <a href="http://www.cem.va.gov/CEM/hmm/discharge_documents.asp" target="_blank">Find out which discharge papers we accept along with your application</a>.
                 </li>
                 <li>
                   Full name, gender, Social Security number or Veteran ID, date of death, and date of birth

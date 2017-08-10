@@ -31,7 +31,7 @@ Your child may be able to get disability benefits if they were diagnosed with a 
 
 ### For Other Birth Defects
 
-Your child may be able to get disability benefits if they have a covered birth defect that caused a permanent physical or mental disability (a disability that doesn't go away) and:
+Your child may be able to get disability benefits if they have a covered birth defect that caused a permanent physical or mental disability (a disability that doesn’t go away) and:
   - The child’s biological mother served in South Vietnam any time from January 9, 1962, through May 7, 1975, **and**
   - The child was conceived after the mother served in South Vietnam  
 

@@ -81,6 +81,6 @@ describe('<EnrollmentHistory>', () => {
     };
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
-    expect(featureBoxes[0].text()).to.equal('You don\'t have any enrollment history');
+    expect(featureBoxes[0].text()).to.equal('You don’t have any enrollment history');
   });
 });

@@ -36,7 +36,7 @@ You can take classes at more than 1 school under the GI Bill as long as:
 - The classes at both schools count toward your degree, **and**
 - The school granting your degree considers the classes at the second school to be required in order to get your degree
 
-**Note:** The GI Bill won't pay you to take the same class twice unless you get a failing grade in a class that the school requires for graduation.
+**Note:** The GI Bill won’t pay you to take the same class twice unless you get a failing grade in a class that the school requires for graduation.
 
 ### Can I get more than 1 degree under the GI Bill?
 

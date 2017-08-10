@@ -29,7 +29,7 @@ You should know:
   - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
 
-- **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.
+- **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
 
@@ -113,7 +113,7 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
-No. Whether or not you have other health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
 <br>
 

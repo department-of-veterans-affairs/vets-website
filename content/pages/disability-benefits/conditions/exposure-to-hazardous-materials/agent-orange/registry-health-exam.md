@@ -35,7 +35,7 @@ Veterans
 
 ### How do I get these benefits?
 
-To schedule your exam, contact your local VA Environmental Health Coordinator. If you qualify, you won't have to pay anything for this exam. It’s free for qualified Veterans. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
+To schedule your exam, contact your local VA Environmental Health Coordinator. If you qualify, you won’t have to pay anything for this exam. It’s free for qualified Veterans. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
 ### What should I expect at the exam?
 
@@ -52,12 +52,12 @@ A VA health care provider will go over your exam and test results with you. You�
 
 Please note that:
 
-- This exam isn't a VA claim exam (also known as a C&P exam). And you don't need to have this exam to get other VA benefits. To get disability benefits, you’ll need to apply. [Apply for disability benefits now](/disability-benefits/apply/).
-- You don't need to sign up for the VA health care system to get a Registry exam.
+- This exam isn’t a VA claim exam (also known as a C&P exam). And you don’t need to have this exam to get other VA benefits. To get disability benefits, you’ll need to apply. [Apply for disability benefits now](/disability-benefits/apply/).
+- You don’t need to sign up for the VA health care system to get a Registry exam.
 - The exam is based on your memory of service, not on your military records.
 - The exam will not confirm if you had contact with Agent Orange.
 - You can get another free Registry exam if you have a new illness in the future.
-- Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
+- Your family members can’t get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
 
 ### Need help?
 Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)

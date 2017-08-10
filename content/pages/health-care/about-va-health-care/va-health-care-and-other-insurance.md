@@ -35,13 +35,13 @@ If you have other forms of health care coverage (like a private insurance plan, 
 
 We ask for this information because we have to bill your private health insurance provider for any care, supplies, or medicine we provide to treat your non-service-connected conditions (illnesses or injuries that aren’t related to your military service).
 
-We don't bill Medicare or Medicaid, but we may bill Medicare supplemental health insurance for covered services.
+We don’t bill Medicare or Medicaid, but we may bill Medicare supplemental health insurance for covered services.
 
 <br>
 
 ### What if my health insurance provider doesn’t cover all the non-service-connected care that VA bills them for?
 
-You won't have to pay any unpaid balance not covered by your health insurance provider. But, depending on your eligibility priority group, you may have to pay a VA copayment for non-service-connected care. [Learn more about eligibility priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp).
+You won’t have to pay any unpaid balance not covered by your health insurance provider. But, depending on your eligibility priority group, you may have to pay a VA copayment for non-service-connected care. [Learn more about eligibility priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp).
 
 <br>
 
@@ -56,13 +56,13 @@ Yes. Giving us your health insurance information helps you because:
 
 ### Does my current health insurance status affect whether I can get VA health care benefits?
 
-No. Whether or not you have health insurance coverage doesn't affect the VA health care benefits you can get.
+No. Whether or not you have health insurance coverage doesn’t affect the VA health care benefits you can get.
 
 <br>
 
 ### If I'm signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
 
-Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don't need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don’t need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
 
@@ -87,8 +87,8 @@ Yes. Being signed up for VA health care meets your Affordable Care Act health co
 This is your decision. You can save money if you drop your private health insurance, but there are risks. We encourage you to keep your insurance because:
 
 - We don’t normally provide care for Veterans’ family members. So, if you drop your private insurance plan, your family may have no health coverage.
-- We don’t know if Congress will provide enough funding in future years for us to care for all Veterans who are signed up for VA health care. If you’re in one of the lower priority groups, you could lose your VA health care benefits in the future. And, if you don't keep your private insurance, this would leave you with no coverage.
-- If you have Medicare Part B (coverage for doctors and outpatient services) and you cancel it, you won't be able to get it back until January of the following year. And, you may have to pay a penalty to get your coverage back.
+- We don’t know if Congress will provide enough funding in future years for us to care for all Veterans who are signed up for VA health care. If you’re in one of the lower priority groups, you could lose your VA health care benefits in the future. And, if you don’t keep your private insurance, this would leave you with no coverage.
+- If you have Medicare Part B (coverage for doctors and outpatient services) and you cancel it, you won’t be able to get it back until January of the following year. And, you may have to pay a penalty to get your coverage back.
 
 <br>
 

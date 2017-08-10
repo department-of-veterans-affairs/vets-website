@@ -76,7 +76,7 @@ export class Thread extends React.Component {
       !loading.folder &&
       folder.attributes.folderId !== currentFolder.folderId;
 
-    // If the folder hasn't been fetched yet, it should be fetched in order for
+    // If the folder hasn’t been fetched yet, it should be fetched in order for
     // (1) pagination to work properly and display the correct numbers and
     // (2) redirects after certain operations to go to the proper folder.
     if (shouldFetchFolder) {

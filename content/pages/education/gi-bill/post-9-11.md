@@ -21,7 +21,7 @@ You can get education benefits if:
 - You qualify for any GI Bill program, **and** 
 - You’ve served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
-If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can't change your mind. 
+If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can’t change your mind. 
 
 ### Who’s covered?
 

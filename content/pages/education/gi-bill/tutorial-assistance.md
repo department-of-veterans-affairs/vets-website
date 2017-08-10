@@ -31,7 +31,7 @@ Veterans
 Money to pay for a tutor
 
 **Note:** 
-We won't pay more than $100 per month for tutoring, and we won't pay more than $1,200 total.
+We won’t pay more than $100 per month for tutoring, and we won’t pay more than $1,200 total.
 
 -----
 
@@ -43,6 +43,6 @@ We won't pay more than $100 per month for tutoring, and we won't pay more than $
 - The form must be signed and dated on or after the date of the last certified tutoring session (item 12b on the form).
 
 If you’re using the Montgomery GI Bill (MGIB), you can get up to $600 before we charge your benefits. 
-If you’re using the Post-9/11 GI Bill or Dependents’ Educational Assistance (DEA), we won't charge your GI Bill benefits.
+If you’re using the Post-9/11 GI Bill or Dependents’ Educational Assistance (DEA), we won’t charge your GI Bill benefits.
 
-**Note:** Reservists using the Reserve Educational Assistance Program (REAP) benefit can't also get tutorial assistance.
+**Note:** Reservists using the Reserve Educational Assistance Program (REAP) benefit can’t also get tutorial assistance.

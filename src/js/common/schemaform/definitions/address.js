@@ -102,7 +102,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
             schemaUpdate.required = addressSchema.required.concat('state');
           }
         }
-      // We don't have a state list for the current country, but there’s an enum in the schema
+      // We don’t have a state list for the current country, but there’s an enum in the schema
       // so we need to update it
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);

@@ -47,7 +47,7 @@ export const enrollmentHistoryExplanation = {
   ),
   noEnrollmentHistory: (
     <div className="feature">
-      <h4>You don't have any enrollment history</h4>
+      <h4>You don’t have any enrollment history</h4>
       <span>Your enrollment history may not be available if:</span>
       <ul>
         <li>You or your school did not yet make a request to us, <strong>or</strong></li>
@@ -64,7 +64,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
         <div className="section benefit-end-date">
           <h4>Benefit End Date</h4>
           <div>
-            Since you are currently on active duty, your benefits don't yet have an expiration date.
+            Since you are currently on active duty, your benefits don’t yet have an expiration date.
           </div>
         </div>
       );
@@ -87,10 +87,10 @@ export function notQualifiedWarning() {
     <div className="usa-alert usa-alert-warning usa-content not-qualified">
       <div className="usa-alert-body">
         <h2>Currently Not Qualified</h2>
-        <span><strong>Our records show you don't qualify for the Post-9/11 GI Bill because:</strong></span>
+        <span><strong>Our records show you don’t qualify for the Post-9/11 GI Bill because:</strong></span>
         <ul>
-          <li>You haven't served on active duty for at least 90 days after September 10, 2001, and/or</li>
-          <li>Your service component let us know that you didn't receive an honorable discharge</li>
+          <li>You haven’t served on active duty for at least 90 days after September 10, 2001, and/or</li>
+          <li>Your service component let us know that you didn’t receive an honorable discharge</li>
           <li>If the information in our records is not accurate, please call us at 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
         </ul>
         <h5>Resources</h5>
@@ -121,7 +121,7 @@ export function unableToFindRecordWarning() {
     <div id="recordNotFound">
       <div className="small-12 columns">
         <div className="react-container">
-          <h3>We weren't able to find your records.</h3>
+          <h3>We weren’t able to find your records.</h3>
           <h4>Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.</h4>
         </div>
       </div>
@@ -133,10 +133,10 @@ export function noChapter33BenefitsWarning() {
   // TODO: expand vertical spacing
   return (
     <div className="feature" id="noChapter33Benefits">
-      <h4>You don't currently have any Post-9/11 GI Bill Benefits</h4>
+      <h4>You don’t currently have any Post-9/11 GI Bill Benefits</h4>
       We may not have information about your Post-9/11 GI Bill benefit because
       <ul>
-        <li>You haven't applied for Post-9/11 GI Bill benefits, <strong>or</strong></li>
+        <li>You haven’t applied for Post-9/11 GI Bill benefits, <strong>or</strong></li>
         <li>Your application for Post-9/11 GI Bill benefits is still in process, <strong>or</strong></li>
         <li>You have education benefits through a different benefit or chapter.</li>
       </ul>

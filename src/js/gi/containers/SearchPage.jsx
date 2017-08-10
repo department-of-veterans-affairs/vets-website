@@ -105,7 +105,7 @@ export class SearchPage extends React.Component {
     // Translate form selections to query params.
     const query = { ...this.props.location.query, [field]: value };
 
-    // Don't update the route if the query hasn't changed.
+    // Don’t update the route if the query hasn’t changed.
     if (_.isEqual(query, this.props.location.query)) { return; }
 
     // Reset to the first page upon a filter change.

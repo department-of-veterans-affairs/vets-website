@@ -8,7 +8,7 @@ order: 1
 
 <div class="va-introtext">
 
-Lenders offer competitive interest rates on VA-backed purchase loans. This can help you buy a home—especially if you don't want to make a down payment. Find out if you can get this loan—and how to apply. 
+Lenders offer competitive interest rates on VA-backed purchase loans. This can help you buy a home—especially if you don’t want to make a down payment. Find out if you can get this loan—and how to apply. 
 
 </div>
 
@@ -123,7 +123,7 @@ Once you’ve found the house you want to buy:
 
 ##### Work with your agent to put together and sign a purchase agreement.
 
-Be sure the sales contract includes the “VA Escape Clause.” This provides an option to void the contract if the property doesn't appraise for the contract price. 
+Be sure the sales contract includes the “VA Escape Clause.” This provides an option to void the contract if the property doesn’t appraise for the contract price. 
 
 </li>
 
@@ -131,7 +131,7 @@ Be sure the sales contract includes the “VA Escape Clause.” This provides an
 
 ##### Have the house inspected and appraised.
 
-We strongly recommend that you get an inspection to check for any major defects before you purchase your home. A VA-approved appraiser will also appraise the house to make sure it meets basic property condition requirements, and will provide an opinion of value on the house. Please be aware that an appraisal isn't the same as an inspection. 
+We strongly recommend that you get an inspection to check for any major defects before you purchase your home. A VA-approved appraiser will also appraise the house to make sure it meets basic property condition requirements, and will provide an opinion of value on the house. Please be aware that an appraisal isn’t the same as an inspection. 
 
 </li>
 

@@ -210,7 +210,7 @@ export class Folder extends React.Component {
       fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
 
       // Disable sorting by 'Date' for Drafts. There is no
-      // save date available, and drafts don't have sent dates.
+      // save date available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.splice(0, 1);
       }
@@ -276,7 +276,7 @@ export class Folder extends React.Component {
       fields[0] = { label: 'To', value: 'recipientName' };
 
       // Hide 'Date' column for Drafts. There is no save date
-      // available, and drafts don't have sent dates.
+      // available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.pop();
       }

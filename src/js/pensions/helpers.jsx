@@ -28,7 +28,7 @@ export function transform(formConfig, form) {
     pensionClaim: {
       form: formData
     },
-    // can't use toISOString because we need the offset
+    // can’t use toISOString because we need the offset
     localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }
@@ -100,7 +100,7 @@ export function fileHelp({ formData }) {
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
   </div>
 );
 
@@ -195,7 +195,7 @@ export const fdcWarning = (
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application doesn't qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+    Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
   </div>
 );
 
@@ -210,7 +210,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won't qualify as a dependent unless they’re in school or disabled.
+      Your child won’t qualify as a dependent unless they’re in school or disabled.
     </div>
   </div>
 );
@@ -220,13 +220,13 @@ export const dependentsMinItem = (
 );
 
 export const expectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that you expect to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that you expect to receive in the next 12 months</span>
 );
 
 export const spouseExpectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that your spouse expects to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that your spouse expects to receive in the next 12 months</span>
 );
 
 export const dependentExpectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that your dependent expects to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that your dependent expects to receive in the next 12 months</span>
 );

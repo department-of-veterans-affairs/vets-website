@@ -135,7 +135,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### What happens after I apply?
 
 - [Find out what happens after you apply](/education/after-you-apply).
-- You can't make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
+- You can’t make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
 - If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
 
 #### How long does it take us to make a decision?

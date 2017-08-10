@@ -41,7 +41,7 @@ Accredited representatives need to:
   - Pass a background check
   - Take continuing-education courses to make sure they’re providing the most up-to-date information
 
-Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information, but can't be representatives.
+Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information, but can’t be representatives.
 </div>
 
 ### What does an accredited representative do?

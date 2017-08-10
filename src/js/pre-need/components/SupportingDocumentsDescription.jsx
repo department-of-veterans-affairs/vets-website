@@ -45,7 +45,7 @@ export default class SupportingDocumentsDescription extends React.Component {
           Please upload your documents online to help VA process your request quickly.
         </p>
         <p>
-          If you can't upload documents:
+          If you can’t upload documents:
         </p>
         <ol className="mail-or-fax-steps">
           <li>Make copies of the documents.</li>

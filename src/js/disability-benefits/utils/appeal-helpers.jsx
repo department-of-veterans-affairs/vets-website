@@ -102,7 +102,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             </ul>
             <p>Your appeal is now ready for the RO to certify it to the Board. <strong>On average, this step takes 3 months.</strong>
             </p>
-            <p>Note: If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed. There isn't an average time for this step because the complexity of the new evidence can vary.
+            <p>Note: If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed. There isn’t an average time for this step because the complexity of the new evidence can vary.
             </p>
           </div>,
         },
@@ -228,7 +228,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will be reviewed only by the Board and not by the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
             <p>
               <strong>
-                There isn't an average time for this step because the complexity of the new evidence can vary.
+                There isn’t an average time for this step because the complexity of the new evidence can vary.
               </strong>
             </p>
           </div>
@@ -240,7 +240,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You’ll receive a letter from the Board about how to submit new evidence during this time period.</p>
             <p>
               <strong>
-                There isn't an average time for this step, but your appeal has priority status at the Board.
+                There isn’t an average time for this step, but your appeal has priority status at the Board.
               </strong>
             </p>
           </div>

@@ -100,7 +100,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       vaBenefitInformation = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren't able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
+          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
         </div>
       );
     }

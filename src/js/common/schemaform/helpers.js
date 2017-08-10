@@ -279,7 +279,7 @@ export function getArrayFields(data) {
 
 /*
  * Checks to see if there are non array fields in a page schema, so that
- * we don't show a blank page header on the review page if a page is just
+ * we don’t show a blank page header on the review page if a page is just
  * a growable table
  */
 export function hasFieldsOtherThanArray(schema) {
@@ -440,7 +440,7 @@ function generateArrayPages(arrayPages, data) {
       )),
       []
     )
-    // doing this after the map so that we don't change indexes
+    // doing this after the map so that we don’t change indexes
     .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
 }
 

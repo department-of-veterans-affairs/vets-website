@@ -28,7 +28,7 @@ export default class ArrayField extends React.Component {
 
     /*
      * We’re keeping the editing state in local state because it’s easier to manage and
-     * doesn't need to persist from page to page
+     * doesn’t need to persist from page to page
      */
 
     this.state = {
@@ -46,7 +46,7 @@ export default class ArrayField extends React.Component {
 
   // This fills in an empty item in the array if it has minItems set
   // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn't be necessary, but there’s a fix in rjsf
+  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
   // that has not been released yet
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;

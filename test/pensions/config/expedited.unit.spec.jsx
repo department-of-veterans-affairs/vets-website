@@ -47,7 +47,7 @@ describe('Pensions expedited', () => {
 
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_noRapidProcessingNo', 'N');
-    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn\'t qualify');
+    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn’t qualify');
   });
   it('should submit', () => {
     const onSubmit = sinon.spy();

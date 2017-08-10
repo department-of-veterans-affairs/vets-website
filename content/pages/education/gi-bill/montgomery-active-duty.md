@@ -39,7 +39,7 @@ You can get education benefits if you were honorably discharged and:
 
 Both of these are true: 
 
-- You don't qualify for MGIB under categories I or II, **and**
+- You don’t qualify for MGIB under categories I or II, **and**
 - Before separation, you had military pay reduced by $1,200
 
 And 1 of these is true:

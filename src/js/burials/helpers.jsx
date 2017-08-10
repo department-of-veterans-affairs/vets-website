@@ -46,7 +46,7 @@ export function transform(formConfig, form) {
     burialClaim: {
       form: formData
     },
-    // can't use toISOString because we need the offset
+    // can’t use toISOString because we need the offset
     localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }

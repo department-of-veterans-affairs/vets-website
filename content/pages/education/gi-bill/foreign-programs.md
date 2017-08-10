@@ -44,7 +44,7 @@ Yes. The application process is different. Here’s what you’ll need to do:
 - If you still have questions regarding the school or program, you may submit a question to us using the GI Bill website. [Go to the GI Bill website](https://gibill.custhelp.com/app/ask/). 
 - Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We’ll let you know if your program has already been approved. 
 
-If you or your qualified dependent wants to enroll in a program that we haven't approved, you’ll need to ask the school to request approval. We can't take any action until an official from your school (not you) requests approval. If we don't approve your program, you’ll have to pay all costs at the school, including tuition and fees.
+If you or your qualified dependent wants to enroll in a program that we haven’t approved, you’ll need to ask the school to request approval. We can’t take any action until an official from your school (not you) requests approval. If we don’t approve your program, you’ll have to pay all costs at the school, including tuition and fees.
 
 ### Can I attend any foreign school? 
 
@@ -56,7 +56,7 @@ Use the GI Bill Comparison Tool to see what benefits you can get at the school y
 <br>
 <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
-**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
+**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don’t qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don’t qualify as foreign training.
 
 
 ### How do I get these benefits? 
@@ -69,7 +69,7 @@ After we approve the school, you’ll need to apply. [Apply for benefits](/educa
 
 Turn in your application to us at least 90 days before you leave for your new school. We’ll decide what benefits you get based on your school’s location. 
 
-If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with a VA Enrollment Certification (VA Form 22-1999). Please note that you won't get payments until we’ve received and processed your enrollment information.
+If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with a VA Enrollment Certification (VA Form 22-1999). Please note that you won’t get payments until we’ve received and processed your enrollment information.
 
 </li>
 
@@ -81,7 +81,7 @@ Be sure you have enough money to cover all your needs until VA payments begin. A
 
 <li class="process-step list-three">
 
-You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
+You must give written permission for school officials to release information to us as necessary. If you don’t, it could affect when you get benefits. 
 
 Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should let the school know if you plan to re-enroll, and ask the certifying official to submit an enrollment certification for you. You should make sure the school knows your plans for continued enrollment in order to avoid any delay in getting your benefits.
 </li>

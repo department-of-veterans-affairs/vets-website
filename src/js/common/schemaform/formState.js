@@ -157,8 +157,8 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
 
 /*
  * Steps through data and removes any fields that are marked as hidden
- * This is done so that hidden fields don't cause validation errors that
- * a user can't see.
+ * This is done so that hidden fields don’t cause validation errors that
+ * a user can’t see.
  */
 export function removeHiddenData(schema, data) {
   if (isHiddenField(schema) || typeof data === 'undefined') {
@@ -263,12 +263,12 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
-  // this can happen if you import a field that doesn't exist from a schema
+  // this can happen if you import a field that doesn’t exist from a schema
   if (!schema) {
     throw new Error(`Schema is undefined at ${path}`);
   }
   if (schema.$ref) {
-    // There’s a whole spec for JSON pointers, but we don't use anything more complicated
+    // There’s a whole spec for JSON pointers, but we don’t use anything more complicated
     // than this so far
     const refPath = schema.$ref.replace('#/definitions/', '').split('/');
     const definition = get(refPath, definitions);

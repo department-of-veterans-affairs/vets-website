@@ -56,7 +56,7 @@ How much you put in every month will determine how many months of benefits you g
 If you’re currently on active duty and want to use VEAP, you must have at least 3 months of contributions in the fund.
 
 **Withdrawals:**
-You can withdraw the money in your VEAP account if you don't meet basic qualifying requirements or if you formally ask for a refund.
+You can withdraw the money in your VEAP account if you don’t meet basic qualifying requirements or if you formally ask for a refund.
 
 
 ### Get more information
