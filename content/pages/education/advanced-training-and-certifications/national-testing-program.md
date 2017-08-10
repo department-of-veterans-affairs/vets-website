@@ -50,7 +50,7 @@ We’ll charge your GI Bill benefit package for testing expenses. [Learn about h
 
 #### We have approved and will pay you back for these tests:
 
-- SAT (formerly "Scholastic Assessment Test")
+- SAT (formerly “Scholastic Assessment Test”)
 - LSAT (Law School Admission Test)
 - GRE (Graduate Record Examination)
 - GMAT (Graduate Management Admission Test)

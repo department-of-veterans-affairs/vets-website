@@ -61,7 +61,7 @@ You can apply for this benefit if you’re:
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, "Loving Father"), or special unit identification.
+You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
 
 </div>

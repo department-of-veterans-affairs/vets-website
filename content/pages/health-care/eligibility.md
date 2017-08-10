@@ -26,7 +26,7 @@ You should know:
 - **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
 
   - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
-  - Were discharged for a hardship or "early out," **or**
+  - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.

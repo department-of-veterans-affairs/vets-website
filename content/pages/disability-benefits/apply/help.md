@@ -61,7 +61,7 @@ Accredited representatives can also help you gather supporting documents (like a
 
 #### What does it cost to use an accredited representative?
 
-Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the "How to Challenge a Fee" guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
+Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the “How to Challenge a Fee” guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 -----
 

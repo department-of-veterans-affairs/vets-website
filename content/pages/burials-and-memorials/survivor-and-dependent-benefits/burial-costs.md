@@ -36,7 +36,7 @@ VA will also provide an allowance for the cost of transporting a Veteran’s rem
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to "under conditions other than dishonorable," you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?

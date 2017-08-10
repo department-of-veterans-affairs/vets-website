@@ -62,7 +62,7 @@ No. Whether or not you have health insurance coverage doesn't affect the VA heal
 
 ### If I'm signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
 
-Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having "minimum essential health coverage." You don't need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don't need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
 
