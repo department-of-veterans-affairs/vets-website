@@ -4,6 +4,7 @@ import React from 'react';
 
 class Breadcrumbs extends React.Component {
   render() {
+    const { includeSearch, profileName } = this.props;
     const { pathname, query: { version } } = this.props.location;
 
     const crumbs = [
@@ -18,9 +19,10 @@ class Breadcrumbs extends React.Component {
     }
 
     if (pathname.match(/profile/)) {
-      if (true) { // TODO: if got here by searching
+      if (includeSearch) {
         crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
       }
+      crumbs.push(profileName);
     }
 
     return (
@@ -36,6 +38,7 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
+  includeSearch: PropTypes.bool,
   profileName: PropTypes.string
 };
 
