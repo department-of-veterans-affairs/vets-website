@@ -41,7 +41,8 @@ export class Main extends React.Component {
                 <h4 className="usa-alert-heading">Letters Unavailable</h4>
                 <p className="usa-alert-text">
                   We weren't able to retrieve your VA letters. Please call
-                  1-855-574-7286 between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+                  <a href="tel:855-574-7286">855-574-7286</a> between Monday-Friday
+                  8:00 a.m. - 8:00 p.m. (ET).
                 </p>
               </div>
             </div>
