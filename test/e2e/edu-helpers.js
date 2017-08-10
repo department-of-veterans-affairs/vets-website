@@ -25,7 +25,7 @@ function completeVeteranInformation(client, data, root = 'root') {
   if (data['view:veteranId']) {
     client
       .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
-      .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
+      .fillCheckbox(`input[name="${root}_view:veteranId_view:noSSN"]`)
       .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
   } else {
     client.fill(`input[name="${root}_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
@@ -69,11 +69,11 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
   }
   if (data.relativeVaFileNumber) {
     client
-      .click('input[name="root_view:noSSN"]')
+      .fillCheckbox('input[name="root_view:noSSN"]')
       .fill('input[name="root_relativeVaFileNumber"]', data.relativeVaFileNumber);
   } else if (data.vaFileNumber) {
     client
-      .click('input[name="root_view:noSSN"]')
+      .fillCheckbox('input[name="root_view:noSSN"]')
       .fill('input[name="root_vaFileNumber"]', data.vaFileNumber);
   }
 

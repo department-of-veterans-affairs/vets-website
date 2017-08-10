@@ -136,7 +136,7 @@ function completeDependents(client, data) {
 function completeDependentInfo(client, data, index) {
   client
     .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
-    .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
+    .fillCheckboxIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
     .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
     .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
 

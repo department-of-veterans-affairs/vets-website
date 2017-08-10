@@ -4,5 +4,5 @@
 exports.command = function selectDropdown(name, value) {
   this
     .click(`select[name='${name}']`)
-    .click(`select[name='${name}'] option[value='${value}']`);
+    .click(`select[name='${name}'] option[value='${value || ''}']`);
 };
