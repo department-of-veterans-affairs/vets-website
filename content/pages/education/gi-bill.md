@@ -15,7 +15,7 @@ majorlinks:
       description: If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
     - url: /education/gi-bill/higher-learning/
       title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
-      description: If you're looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
+      description: If you’re looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
     - url: /education/gi-bill/post-9-11/
       title: Post-9/11 GI Bill
       description: If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, find out if you can get education benefits through the Post-9/11 GI Bill.
@@ -36,16 +36,16 @@ majorlinks:
       description: Learn more about education benefit rates for tuition and books for qualifying Veterans and their family members. 
     - url: /education/gi-bill/yellow-ribbon/
       title: Yellow Ribbon Program
-      description: Find out if your school participates in the Yellow Ribbon Program, which can help pay tuition costs that the Post-9/11 GI Bill doesn't cover. 
+      description: Find out if your school participates in the Yellow Ribbon Program, which can help pay tuition costs that the Post-9/11 GI Bill doesn’t cover. 
     - url: /education/gi-bill/tuition-assistance/
       title: Tuition Assistance Top-Up
-      description: If your college tuition costs more than what's covered by the Tuition Assistance program, find out if you can get more money to cover tuition costs.
+      description: If your college tuition costs more than what’s covered by the Tuition Assistance program, find out if you can get more money to cover tuition costs.
     - url: /education/gi-bill/buy-up-program/
       title: $600 Buy-Up Program
       description: Find out how you can get more money each month through your GI Bill monthly payments.
     - url: /education/gi-bill/tutorial-assistance/
       title: Tutorial Assistance
-      description: If you're using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
+      description: If you’re using VA educational benefits and you’re struggling with the coursework, find out if you can get help paying for a tutor.
 ---
 
 <div class="va-introtext">
