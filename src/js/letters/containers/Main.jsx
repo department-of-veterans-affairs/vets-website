@@ -24,10 +24,10 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your letters..."/>;
         break;
       case 'backendServiceError':
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
         break;
       case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning();
+        appContent = unableToFindRecordWarning;
         break;
       // Need a permanent UI for this
       case 'invalidAddressProperty':
@@ -50,7 +50,7 @@ export class Main extends React.Component {
         );
         break;
       default:
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
     }
 
     return (

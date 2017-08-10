@@ -22,17 +22,17 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
         break;
       case 'backendServiceError':
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
         break;
       case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning();
+        appContent = unableToFindRecordWarning;
         break;
       case 'noChapter33Record':
         appContent = noChapter33BenefitsWarning();
         break;
       case 'unavailable':
       default:
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
     }
 
     return (
