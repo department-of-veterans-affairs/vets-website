@@ -109,7 +109,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            // TODO: Make one of these required; this isn't working like this
             required: ['view:selectedBenefits'],
             properties: {
               'view:selectedBenefits': {
