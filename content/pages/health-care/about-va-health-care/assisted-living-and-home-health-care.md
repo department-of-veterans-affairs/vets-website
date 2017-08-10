@@ -67,7 +67,7 @@ We may also consider other factors, like your service-connected disability statu
 
 To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
-If you're not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
+If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
 
 <br>
 

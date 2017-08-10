@@ -102,7 +102,7 @@ export function migrateFormData(savedData, savedVersion, migrations) {
   //   ...
   // ]
   // The functions transform the data from version of their index to the next one up.
-  // This works because every time the version is bumped on the form, it's because
+  // This works because every time the version is bumped on the form, it’s because
   //  the saved data needs to be manipulated, so there will be no skipped versions.
 
   // Break out early in case we don't have any migrations for the form yet
@@ -121,8 +121,8 @@ export function migrateFormData(savedData, savedVersion, migrations) {
 
 /**
  * Saves the form data to the back end
- * @param  {String}  formId    The form's formId
- * @param  {Ingeter} version   The form's version
+ * @param  {String}  formId    The form’s formId
+ * @param  {Ingeter} version   The form’s version
  * @param  {String}  returnUrl The last URL the user was at before saving
  * @param  {Object}  formData  The data the user has entered so far
  */
@@ -151,7 +151,7 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       return Promise.resolve();
     }
 
-    // Update UI while we're waiting for the API
+    // Update UI while we’re waiting for the API
     dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
 
     // Query the api
@@ -207,14 +207,14 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
 /**
  * Loads the form data from the back end into the redux store.
  *
- * @param  {Integer} formId      The form's identifier
+ * @param  {Integer} formId      The form’s identifier
  * @param  {Array}   migrations  An array of functions to run the data returned
  *                                from the server through in the event that the
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
 export function fetchInProgressForm(formId, migrations, prefill = false) {
-  // TODO: Migrations currently aren't sent; they're taken from `form` in the
+  // TODO: Migrations currently aren't sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn't exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
@@ -225,7 +225,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       return Promise.resolve();
     }
 
-    // Update UI while we're waiting for the API
+    // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
@@ -262,7 +262,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         return Promise.reject(LOAD_STATUSES.notFound);
       }
 
-      // If we've made it this far, we've got valid form
+      // If we’ve made it this far, we’ve got valid form
 
       let formData;
       try {
@@ -285,11 +285,11 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
-        // if res.json() has a parsing error, it'll reject with a SyntaxError
+        // if res.json() has a parsing error, it’ll reject with a SyntaxError
         Raven.captureException(new Error(`vets_sip_error_server_json: ${status.message}`));
         loadedStatus = LOAD_STATUSES.invalidData;
       } else if (status instanceof Error) {
-        // If we've got an error that isn't a SyntaxError, it's probably a network error
+        // If we’ve got an error that isn't a SyntaxError, it’s probably a network error
         Raven.captureException(status);
         Raven.captureMessage('vets_sip_error_fetch');
         loadedStatus = LOAD_STATUSES.failure;
@@ -318,7 +318,7 @@ export function removeInProgressForm(formId, migrations) {
     const userToken = sessionStorage.userToken;
     const trackingPrefix = getState().form.trackingPrefix;
 
-    // Update UI while we're waiting for the API
+    // Update UI while we’re waiting for the API
     dispatch(setStartOver());
 
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -339,13 +339,13 @@ export function removeInProgressForm(formId, migrations) {
 
       return Promise.resolve(res);
     }).then((res) => {
-      // If there's some error when deleting, there's not much we can
+      // If there’s some error when deleting, there’s not much we can
       // do aside from not stop the user from continuing on
       if (!res || res.status !== 401) {
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-start-over`
         });
-        // after deleting, go fetch prefill info if they've got it
+        // after deleting, go fetch prefill info if they’ve got it
         return dispatch(fetchInProgressForm(formId, migrations, true));
       }
 

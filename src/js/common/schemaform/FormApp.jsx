@@ -118,7 +118,7 @@ class FormApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             {
               formConfig.title &&
-              // If we're on the introduction page, show the title if we're actually on the loading screen
+              // If we’re on the introduction page, show the title if we’re actually on the loading screen
               (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
                 <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
             }

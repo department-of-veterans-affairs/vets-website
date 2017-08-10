@@ -190,7 +190,7 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 
 #### Can I manage my VA health and benefits online?
 
-Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
+Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online:
 
 [Refill your prescriptions](/health-care/prescriptions/). <br> 
 [Send a secure message to your health care team](/health-care/messaging/). 

@@ -149,7 +149,7 @@ class Active extends React.Component {
         prescriptionsView = (
           <PrescriptionList
               items={this.props.prescriptions}
-              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              // If we’re sorting by facility, tell PrescriptionList to group 'em.
               grouped={currentSort.value === 'facilityName'}
               handleSort={this.handleSort}
               currentSort={currentSort}

@@ -36,7 +36,7 @@ You may be able to get disability benefits if you have a disability believed to 
 - Camp Lejeune, NC
 - Charleston, SC
 - Great Lakes Naval Training Center, IL
-- Hart's Island, NY
+- Hart’s Island, NY
 - Naval Training Center, Bainbridge, MD
 - Naval Research Laboratory, VA
 - Naval Research Laboratory, Washington, DC
@@ -67,7 +67,7 @@ Veterans
 
 You’ll need to apply for benefits. 
 
-You have to claim an actual disease or disability. It's not enough to state that you were exposed to mustard gas or lewisite during service. You’ll need to apply based on the illnesses believed to be caused by your contact with 1 of these chemicals. When you send in your claim, be sure to share any military records that show you had contact with blistering agents.
+You have to claim an actual disease or disability. It’s not enough to state that you were exposed to mustard gas or lewisite during service. You’ll need to apply based on the illnesses believed to be caused by your contact with 1 of these chemicals. When you send in your claim, be sure to share any military records that show you had contact with blistering agents.
 
 [Apply for benefits](/disability-benefits/apply/).
 

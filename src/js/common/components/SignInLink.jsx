@@ -60,7 +60,7 @@ SignInLink.propTypes = {
   className: PropTypes.string,
   onLogin: PropTypes.func,
 
-  // I'd prefer to connect() the component rather than threading these props,
+  // I’d prefer to connect() the component rather than threading these props,
   //  but testing is a pain.
   isLoggedIn: PropTypes.bool.isRequired,
   loginUrl: PropTypes.string,

@@ -86,7 +86,7 @@ Please let us know if you have any questions or concerns regarding our privacy p
 
 Your inquiry will be treated confidentially and will not be shared with third parties, except as necessary to respond to your inquiry and for other purposes as authorized by the Privacy Act and other relevant legal authority.
 
-The VA Privacy Service works to minimize the impact on veteran's privacy, particularly veteran's personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
+The VA Privacy Service works to minimize the impact on veteran’s privacy, particularly veteran’s personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
 
 _Reviewed/Updated December 14, 2016_
 </div>

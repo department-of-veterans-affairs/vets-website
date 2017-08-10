@@ -25,7 +25,7 @@ class DownloadLetters extends React.Component {
               benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
-        <h4>Can't find what you're looking for?</h4>
+        <h4>Can't find what you’re looking for?</h4>
         <p>This system doesn't include everything VA could send you. Here are some other documents you might be looking for.</p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefit details to verify eligibility</strong></a></li>

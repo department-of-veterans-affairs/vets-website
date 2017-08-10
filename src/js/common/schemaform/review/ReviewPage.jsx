@@ -33,7 +33,7 @@ class ReviewPage extends React.Component {
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
 
     this.state = {
-      // we're going to shallow clone this set at times later, but that does not appear
+      // we’re going to shallow clone this set at times later, but that does not appear
       // to be slower than shallow cloning objects
       viewedPages: new Set(
         getPageKeys(props.route.pageList, props.form.data)
@@ -100,8 +100,8 @@ class ReviewPage extends React.Component {
     if (isValid) {
       this.props.submitForm(formConfig, this.props.form);
     } else {
-      // validation errors in this situation are not visible, so we'd
-      // like to know if they're common
+      // validation errors in this situation are not visible, so we’d
+      // like to know if they’re common
       if (this.props.form.data.privacyAgreementAccepted) {
         window.dataLayer.push({
           event: `${formConfig.trackingPrefix}-validation-failed`,

@@ -17,7 +17,7 @@ Servicemembers, Veterans, and family members may be eligible for burial in a VA 
 
 ### Who can get VA burial and memorial benefits? 
 
-Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they're:
+Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they’re:
 
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**

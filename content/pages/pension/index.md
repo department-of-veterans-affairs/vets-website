@@ -28,6 +28,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you're a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit. 
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit. 
 
 </div>

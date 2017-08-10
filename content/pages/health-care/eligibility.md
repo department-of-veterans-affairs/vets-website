@@ -29,7 +29,7 @@ You should know:
   - Were discharged for a hardship or "early out," **or**
   - Served prior to September 7, 1980
 
-- **If you're a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.
+- **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
 
@@ -40,7 +40,7 @@ You should know:
 
 #### Enhanced Eligibility Status
 
-You may qualify for enhanced eligibility status (meaning you'll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty

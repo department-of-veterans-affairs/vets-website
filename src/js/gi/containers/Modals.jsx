@@ -40,7 +40,7 @@ export class Modals extends React.Component {
             enrolled for the first time.
           </p>
           <p>
-            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student's
+            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student’s
             graduation reported within the VA system while the student is using benefits.
           </p>
         </Modal>
@@ -89,7 +89,7 @@ export class Modals extends React.Component {
           <h2>Student Veterans Group</h2>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
-            If a school has a student Veterans group that's not represented here,
+            If a school has a student Veterans group that’s not represented here,
             please email <a title="224A.VBAVACO@va.gov"
                 href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
             We make quarterly updates to this tool.
@@ -177,7 +177,7 @@ export class Modals extends React.Component {
             endorsed by the U.S. Department of Education.
           </p>
           <p>
-            To learn more about accreditation, visit the U.S. Department of Education's <a
+            To learn more about accreditation, visit the U.S. Department of Education’s <a
                 href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
                 target="_blank">{"8 Keys to Veterans' Success"}</a> page.
           </p>
@@ -236,7 +236,7 @@ export class Modals extends React.Component {
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('opeCode')}>
           <h2>ED OPE Code</h2>
-          <p>Identification number used by the U.S. Department of {'Education\'s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
+          <p>Identification number used by the U.S. Department of {'Education’s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
         </Modal>
       </span>
     );
@@ -373,7 +373,7 @@ export class Modals extends React.Component {
           <h3>Which GI Bill benefit do you want to use?</h3>
           <p>
             You may be eligible for multiple types of education and training programs. Different
-            programs offer different benefits, so it's important to choose the program that will
+            programs offer different benefits, so it’s important to choose the program that will
             best meet your needs. Use this tool to compare programs and schools.
           </p>
           <p>

@@ -124,7 +124,7 @@ const accountTypes = [
 
 const relinquishableBenefits = [
   { label: 'I’m only eligible for the Post-9/11 GI Bill', value: 'unknown' },
-  { label: 'Montgomery GI Bill (MGIB-AD, Chapter 30)', additional: 'If you choose to give up MGIB-AD, you\'ll get benefits only for the number of months you had left under MGIB-AD.', value: 'chapter30' },
+  { label: 'Montgomery GI Bill (MGIB-AD, Chapter 30)', additional: 'If you choose to give up MGIB-AD, you’ll get benefits only for the number of months you had left under MGIB-AD.', value: 'chapter30' },
   { label: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)', value: 'chapter1606' },
   { label: 'Reserve Educational Assistance Program (REAP, Chapter 1607)', additional: 'You can only give up REAP benefits if you had them for the last semester, quarter, or term that ended on or before November 24, 2015.', value: 'chapter1607' }
 ];

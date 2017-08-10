@@ -108,7 +108,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows the benefits you're receiving from VA,
+          This letter shows the benefits you’re receiving from VA,
           your military service history, and statements regarding your disability status. You can choose
           what information you want to include in your letter.
         </p>
@@ -152,7 +152,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         {vaBenefitInformation}
         <p>
           If you see incorrect information for service periods or disability status,
-          please send a question using VA's <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
+          please send a question using VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
           System (IRIS)</a>. You should expect a response from VA in 5 business days.
         </p>
       </div>

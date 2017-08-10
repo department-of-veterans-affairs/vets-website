@@ -179,7 +179,7 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_IN_PROGRESS_FORM: {
         let newState;
 
-        // if we're prefilling, we want to use whatever initial data the form has
+        // if we’re prefilling, we want to use whatever initial data the form has
         if (state.prefillStatus === PREFILL_STATUSES.pending) {
           const formData = _.merge(state.data, action.data.formData);
           const loadedData = _.set('formData', formData, action.data);

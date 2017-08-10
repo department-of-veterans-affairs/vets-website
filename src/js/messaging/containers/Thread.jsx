@@ -179,7 +179,7 @@ export class Thread extends React.Component {
 
     const folderMessages = folder.messages;
 
-    // Find the current message's position
+    // Find the current message’s position
     // among the messages in the current folder.
     const currentIndex = folderMessages.findIndex((folderMessage) => {
       return folderMessage.messageId === message.messageId;

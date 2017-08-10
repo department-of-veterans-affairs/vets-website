@@ -45,7 +45,7 @@ export default class ClaimDetailLayout extends React.Component {
             <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 <div className="claim-contentions">
-                  <h6>What you've claimed:</h6>
+                  <h6>What you’ve claimed:</h6>
                   <p className="list">
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
                         ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')

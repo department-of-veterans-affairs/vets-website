@@ -39,8 +39,8 @@ export const enrollmentHistoryExplanation = {
       <h4>Does something look wrong in your enrollment history?</h4>
       <span>Certain enrollments may not be displayed in this history if:</span>
       <ul>
-        <li>Your school made a request to us that's still in process, <strong>or</strong></li>
-        <li>You made a request to us that's still in process, <strong>or</strong></li>
+        <li>Your school made a request to us that’s still in process, <strong>or</strong></li>
+        <li>You made a request to us that’s still in process, <strong>or</strong></li>
         <li>You used or are using your benefit for flight, on-the-job, apprenticeship, or correspondence training</li>
       </ul>
     </div>
@@ -51,7 +51,7 @@ export const enrollmentHistoryExplanation = {
       <span>Your enrollment history may not be available if:</span>
       <ul>
         <li>You or your school did not yet make a request to us, <strong>or</strong></li>
-        <li>You or your school made a request that's still in process</li>
+        <li>You or your school made a request that’s still in process</li>
       </ul>
     </div>
   )
@@ -96,7 +96,7 @@ export function notQualifiedWarning() {
         <h5>Resources</h5>
         <ul>
           <li><a target="_blank" href="/education/eligibility">Check Post-9/11 GI Bill benefits eligibility</a></li>
-          <li>If you're enrolled in education benefits through another chapter (Montgomery GI Bill (MGIB) or Reservists Educational Assistance Program (REAP)), check our <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">Web Automated Verification of Enrollment (W.A.V.E)</a></li>
+          <li>If you’re enrolled in education benefits through another chapter (Montgomery GI Bill (MGIB) or Reservists Educational Assistance Program (REAP)), check our <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">Web Automated Verification of Enrollment (W.A.V.E)</a></li>
         </ul>
       </div>
     </div>

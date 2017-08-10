@@ -41,7 +41,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents

@@ -10,7 +10,7 @@ order: 1
 
 <div class="va-introtext">
 
-If you're an active-duty Servicemember or Veteran, a member of the National Guard or Reserves, or a qualified survivor or dependent, you may be able to get help from VA to pay your tuition, pick out a school, choose a career, and more. Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
+If you’re an active-duty Servicemember or Veteran, a member of the National Guard or Reserves, or a qualified survivor or dependent, you may be able to get help from VA to pay your tuition, pick out a school, choose a career, and more. Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
 
 </div>
 
@@ -18,7 +18,7 @@ If you're an active-duty Servicemember or Veteran, a member of the National Guar
 
 ### Can I get VA education benefits through the Post-9/11 GI Bill?
 
-You may be able to get benefits through the Post-9/11 GI Bill if you've served on active duty for at least 90 days, whether continuous (all at once) or interrupted (for shorter periods over time), after September 10, 2001.
+You may be able to get benefits through the Post-9/11 GI Bill if you’ve served on active duty for at least 90 days, whether continuous (all at once) or interrupted (for shorter periods over time), after September 10, 2001.
 
 [Learn more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
@@ -37,7 +37,7 @@ You can get benefits through MGIB-AD if you served at least 2 years on active du
 
 [Learn more about MGIB-AD](/education/gi-bill/montgomery-active-duty/).
 
-You can get benefits through MGIB-SR if you're a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you:
+You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you:
 - Have either a 6-year service obligation (you agreed to serve 6 years) in the Selected Service, **or**
 - Are an officer in the Selected Reserve who agreed to serve 6 years in addition to your initial service obligation, **and**
 - Meet other requirements

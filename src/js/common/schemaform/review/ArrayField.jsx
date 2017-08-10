@@ -114,8 +114,8 @@ class ArrayField extends React.Component {
   /*
    * Called on any form data change.
    *
-   * When data is changed, since we're only editing one array item at a time,
-   * we need to update the full page's form data and call the Redux setData action
+   * When data is changed, since we’re only editing one array item at a time,
+   * we need to update the full page’s form data and call the Redux setData action
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
@@ -159,7 +159,7 @@ class ArrayField extends React.Component {
       pageKey: fieldName
     };
 
-    // TODO: Make this better; it's super hacky for now.
+    // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
     const items = itemCountLocked ? this.props.arrayData : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;

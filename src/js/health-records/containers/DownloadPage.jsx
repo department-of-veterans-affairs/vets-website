@@ -53,7 +53,7 @@ export class DownloadPage extends React.Component {
         <div>
           <h4>Your records are ready to download</h4>
           <p>
-            For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you'll have to start a new request to get your records.
+            For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.
           </p>
         </div>
       );

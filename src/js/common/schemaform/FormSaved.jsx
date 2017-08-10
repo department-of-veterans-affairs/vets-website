@@ -21,7 +21,7 @@ const scrollToTop = () => {
 
 class FormSaved extends React.Component {
   componentDidMount() {
-    // if we don't have this then that means we're loading the page
+    // if we don't have this then that means we’re loading the page
     // without any data and should just go back to the intro
     if (!this.props.lastSavedDate) {
       this.props.router.replace(this.props.route.pageList[0].path);
@@ -44,7 +44,7 @@ class FormSaved extends React.Component {
             <strong>Your application has been saved!</strong><br/>
             {!!lastSavedDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mma')}.</p>}
             {success}
-            If you're on a public computer, please sign out before you leave to ensure your data is secure.
+            If you’re on a public computer, please sign out before you leave to ensure your data is secure.
           </div>
         </div>
         <br/>

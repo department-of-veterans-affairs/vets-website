@@ -52,7 +52,7 @@ export const uiSchema = {
     'childFullName',
     'childRelation',
     'childSocialSecurityNumber',
-    // Put the birth date before dependent date; it's opposite in the schema
+    // Put the birth date before dependent date; it’s opposite in the schema
     'childDateOfBirth',
     'childBecameDependent',
     'childDisabledBefore18',

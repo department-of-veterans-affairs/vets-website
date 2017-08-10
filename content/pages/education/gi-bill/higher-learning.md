@@ -28,7 +28,7 @@ We decide your payment amounts based on the number of classes you go to and the 
 
 ### How much does VA cover for graduate-level programs?
 
-The school decides how to rate each hour. For example, if a graduate program at your school considers a 2-hour class full time, we'll pay you the full-time rate.
+The school decides how to rate each hour. For example, if a graduate program at your school considers a 2-hour class full time, we’ll pay you the full-time rate.
 
 ### Can I take classes at more than 1 school at a time?
 
@@ -44,7 +44,7 @@ The GI Bill will pay you for the classes you need to get more than 1 degree. Onc
 
 ### How does VA make the payments?
 
-We issue payments after each month’s classes. For example, you'll get the payment for November classes in December.
+We issue payments after each month’s classes. For example, you’ll get the payment for November classes in December.
 
 For the Post-9/11 GI Bill, we pay:
 - Tuition and fees directly to the school
