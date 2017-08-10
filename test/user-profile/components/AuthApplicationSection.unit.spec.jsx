@@ -41,7 +41,7 @@ describe('<AuthApplicationSection>', () => {
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     expect(tree.everySubTree('span').length).to.equal(1);
   });
-  it('should call handler when verify link is clicked', () => {
+  it('should call handler when verify link if clicked', () => {
     props.userProfile.accountType = 1;
     const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
     ReactTestUtils.Simulate.click(
