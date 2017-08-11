@@ -37,3 +37,10 @@ export const benefitsRelinquishmentWarning = (
     <br/>
   </div>
 );
+
+export const benefitsRelinquishedDescription = (
+  <span>
+    <br/>
+    If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+  </span>
+);

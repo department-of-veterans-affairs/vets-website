@@ -13,8 +13,9 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 import {
   transform,
   benefitsEligibilityBox,
+  benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
-  benefitsRelinquishmentWarning
+  benefitsRelinquishedDescription
 } from '../helpers';
 
 import {
@@ -143,11 +144,16 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'I choose to give up:',
               'ui:options': {
-                labels: benefitsRelinquishmentLabels
+                labels: benefitsRelinquishmentLabels,
+                nestedContent: {
+                  chapter30: 'Montgomery GI Bill (MGIB-AD, Chapter 30)',
+                  chapter1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+                  chapter1607: 'Reserve Educational Assistance Program (REAP, Chapter 1607)'
+                }
               }
             },
             'view:questionText': {
-              'ui:description': 'If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.'
+              'ui:description': benefitsRelinquishedDescription
             }
           },
           schema: {
