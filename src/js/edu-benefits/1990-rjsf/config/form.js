@@ -13,14 +13,20 @@ import { validateBooleanGroup } from '../../../common/schemaform/validation';
 import {
   transform,
   benefitsEligibilityBox,
-  benefitsLabels
+  benefitsRelinquishmentLabels,
+  benefitsRelinquishmentWarning
 } from '../helpers';
+
+import {
+  benefitsLabels
+} from '../../utils/labels';
 
 const {
   chapter33,
   chapter30,
   chapter1606,
-  chapter32
+  chapter32,
+  benefitsRelinquished
 } = fullSchema1990.properties;
 
 const formConfig = {
@@ -130,14 +136,29 @@ const formConfig = {
         benefitRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
-          depends: {
-            chapter33: true
-          },
+          depends: (formData) => formData['view:selectedBenefits'].chapter33,
           uiSchema: {
+            'ui:description': benefitsRelinquishmentWarning,
+            benefitsRelinquished: {
+              'ui:widget': 'radio',
+              'ui:title': 'I choose to give up:',
+              'ui:options': {
+                labels: benefitsRelinquishmentLabels
+              }
+            },
+            'view:questionText': {
+              'ui:description': 'If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.'
+            }
           },
           schema: {
             type: 'object',
+            required: ['benefitsRelinquished'],
             properties: {
+              benefitsRelinquished,
+              'view:questionText': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
