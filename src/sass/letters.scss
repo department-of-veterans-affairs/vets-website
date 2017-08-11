@@ -3,8 +3,6 @@
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
 
-$color-gray-lighter: #d6d7d9;
-
 .letters {
   h5 {
     padding-top: 1.5em;
@@ -40,7 +38,7 @@ $color-gray-lighter: #d6d7d9;
   .download-button {
     margin: 1.5em 0 1em;
 
-    button:disabled {
+    > button:disabled {
       background-color: $color-gray-lighter;
       color: $color-black;
     }
@@ -71,6 +69,10 @@ $color-gray-lighter: #d6d7d9;
   th[scope="row"] {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .form-expanding-group {
+    margin-top: 1.5em;
   }
 }
 

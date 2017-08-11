@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { getLetterPdf } from '../actions/letters';
 
@@ -26,6 +27,7 @@ export class DownloadLetterLink extends React.Component {
     let buttonClasses;
     let buttonText;
     let buttonDisabled;
+    let unavailableMessage;
     switch (this.props.downloadStatus) {
       case 'downloading':
         buttonClasses = 'usa-button-disabled';
@@ -34,13 +36,25 @@ export class DownloadLetterLink extends React.Component {
         break;
       case 'success':
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Downloaded';
+        buttonText = 'Download Again';
         buttonDisabled = false;
         break;
       case 'failure':
-        buttonClasses = 'usa-button-disabled';
-        buttonText = 'Failed to download';
-        buttonDisabled = true;
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Retry Download';
+        buttonDisabled = false;
+        unavailableMessage = (
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter failed to download</h2>
+              <p className="usa-alert-text">
+                Your letter may be unavailable at this time. If you would like
+                assistance downloading your letter, please call <a href="tel: 855-574-7286">
+                855-574-7286</a> between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+              </p>
+            </div>
+          </div>
+        );
         break;
       default:
         buttonClasses = 'usa-button-primary va-button-primary';
@@ -49,12 +63,24 @@ export class DownloadLetterLink extends React.Component {
     }
 
     return (
-      <div className="download-button">
-        <button onClick={this.downloadLetter}
-            disabled={buttonDisabled}
-            className={buttonClasses}>
-          {buttonText}
-        </button>
+      <div>
+        <div className="form-expanding-group form-expanding-group-open">
+          <ReactCSSTransitionGroup
+              transitionName="form-expanding-group-inner"
+              transitionAppear
+              transitionAppearTimeout={700}
+              transitionEnterTimeout={700}
+              transitionLeave={false}>
+            {unavailableMessage}
+          </ReactCSSTransitionGroup>
+        </div>
+        <div className="download-button">
+          <button onClick={this.downloadLetter}
+              disabled={buttonDisabled}
+              className={buttonClasses}>
+            {buttonText}
+          </button>
+        </div>
       </div>
     );
   }
