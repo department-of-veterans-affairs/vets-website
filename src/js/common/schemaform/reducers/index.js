@@ -109,6 +109,7 @@ export default function createSchemaFormReducer(formConfig) {
       version: formConfig.version,
       formId: formConfig.formId,
       lastSavedDate: null,
+      expirationDate: null,
       disableSave: formConfig.disableSave,
       loadedData: {
         formData: {},
@@ -160,6 +161,7 @@ export default function createSchemaFormReducer(formConfig) {
         // This is the only time we have a saved datetime
         if (action.status === SAVE_STATUSES.success) {
           newState.lastSavedDate = action.lastSavedDate;
+          newState.expirationDate = action.expirationDate;
         }
 
         return newState;

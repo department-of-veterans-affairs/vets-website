@@ -144,7 +144,20 @@ describe('Schemaform save / load actions:', () => {
       const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
-        ok: true
+        ok: true,
+        json: () => ({
+          data: {
+            attributes: {
+              metadata: {
+                expiresAt: 1507504729,
+                lastUpdated: 1502320729,
+                returnUrl: '/veteran-information/personal-information',
+                savedAt: 1502320728979,
+                version: 0
+              }
+            }
+          }
+        })
       }));
 
       thunk(dispatch, getState).then(() => {
