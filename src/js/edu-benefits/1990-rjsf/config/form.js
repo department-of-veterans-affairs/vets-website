@@ -24,11 +24,11 @@ const {
   chapter30,
   chapter1606,
   chapter32,
-  serviceAcademyGraduationYear
+  serviceAcademyGraduationYear,
+  currentlyActiveDuty
 } = fullSchema1990.properties;
 
 const {
-  currentlyActiveDuty,
   date,
   year
 } = fullSchema1990.definitions;
@@ -44,7 +44,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    currentlyActiveDuty,
     date,
     year
   },
@@ -198,17 +197,7 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceAcademyGraduationYear,
-              currentlyActiveDuty: {
-                type: 'object',
-                properties: {
-                  yes: {
-                    type: 'boolean'
-                  },
-                  onTerminalLeave: {
-                    type: 'boolean'
-                  }
-                }
-              }
+              currentlyActiveDuty
             }
           }
         },
