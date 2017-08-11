@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect.element('.claim-types h6').text.to.equal('Claim Type');
     client
-      .expect.element('.claim-contentions-list h6').text.to.equal("What you've claimed");
+      .expect.element('.claim-contentions-list h6').text.to.equal('What you’ve claimed');
     client
       .expect.element('.claim-date-recieved h6').text.to.equal('Date Received');
     client
