@@ -255,6 +255,12 @@ export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   }
 }
 
+export function validateYear(errors, year) {
+  if (year < 1900 || year > new Date.getFullYear) { // eslint-disable-line new-cap
+    errors.addError('Please provide a valid date');
+  }
+}
+
 export function validateAddress(errors, address, formData, schema) {
   let isValidPostalCode = true;
 

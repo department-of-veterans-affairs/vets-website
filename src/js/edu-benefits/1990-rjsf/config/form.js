@@ -4,6 +4,9 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import yearUI from '../../../common/schemaform/definitions/year';
+
+import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -20,8 +23,15 @@ const {
   chapter33,
   chapter30,
   chapter1606,
-  chapter32
+  chapter32,
+  serviceAcademyGraduationYear
 } = fullSchema1990.properties;
+
+const {
+  currentlyActiveDuty,
+  date,
+  year
+} = fullSchema1990.definitions;
 
 const formConfig = {
   urlPrefix: '/1990-rjsf/',
@@ -34,6 +44,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    currentlyActiveDuty,
+    date,
+    year
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -150,10 +163,12 @@ const formConfig = {
           title: 'Service periods',
           path: 'military-history/service-periods',
           uiSchema: {
+            toursOfDuty: toursOfDuty.uiSchema
           },
           schema: {
             type: 'object',
             properties: {
+              toursOfDuty: toursOfDuty.schema(fullSchema1990)
             }
           }
         },
@@ -161,10 +176,39 @@ const formConfig = {
           title: 'Military service',
           path: 'military-history/military-service',
           uiSchema: {
+            serviceAcademyGraduationYear: {
+              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?',
+              'ui:widget': yearUI('')
+            },
+            currentlyActiveDuty: {
+              yes: {
+                'ui:title': 'Are you on active duty now?',
+                'ui:widget': 'yesNo'
+              },
+              onTerminalLeave: {
+                'ui:title': 'Are you on terminal leave now?',
+                'ui:widget': 'yesNo',
+                'ui:options': {
+                  expandUnder: 'yes'
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              serviceAcademyGraduationYear,
+              currentlyActiveDuty: {
+                type: 'object',
+                properties: {
+                  yes: {
+                    type: 'boolean'
+                  },
+                  onTerminalLeave: {
+                    type: 'boolean'
+                  }
+                }
+              }
             }
           }
         },
