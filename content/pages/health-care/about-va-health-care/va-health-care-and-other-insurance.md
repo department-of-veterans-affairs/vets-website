@@ -5,7 +5,7 @@ title: VA Health Care and Other Insurance
 display_title: 
 concurrence: complete
 lastupdate: 2017-06-28
-order: 10
+order: 3
 relatedlinks: 
   - heading: More information about your benefits
     links:

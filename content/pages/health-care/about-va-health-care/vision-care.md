@@ -6,7 +6,7 @@ display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 children: healthCareCoverageVision
-order: 5
+order: 6
 relatedlinks:
   - heading: More information about your benefits
     links:
