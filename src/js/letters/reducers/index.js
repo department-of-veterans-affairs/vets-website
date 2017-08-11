@@ -11,6 +11,7 @@ import {
   GET_LETTERS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
 } from '../utils/constants';
 
@@ -42,6 +43,8 @@ function letters(state = initialState, action) {
       return _.set('lettersAvailability', 'invalidAddressProperty', state);
     case GET_LETTERS_FAILURE:
       return _.set('lettersAvailability', 'unavailable', state);
+    case LETTER_ELIGIBILITY_ERROR:
+      return _.set('lettersAvailability', 'letterEligibilityError', state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
       // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;

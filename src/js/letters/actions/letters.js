@@ -11,6 +11,7 @@ import {
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_LETTER_PDF_FAILURE,
   GET_LETTER_PDF_SUCCESS,
+  LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
 } from '../utils/constants';
 
@@ -37,6 +38,11 @@ export function getLetterList() {
           if (error.status === '422') {
             // Something about the address is invalid, unable to process the request
             return dispatch({ type: INVALID_ADDRESS_PROPERTY });
+          }
+          if (error.status === '502') {
+            // Some of the partner services are down, so we cannot verify the eligibility
+            // of some letters
+            return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
           }
         }
         return Promise.reject(
