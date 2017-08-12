@@ -162,12 +162,19 @@ const formConfig = {
           title: 'Service periods',
           path: 'military-history/service-periods',
           uiSchema: {
-            toursOfDuty: toursOfDuty.uiSchema
+            'ui:title': 'Service periods',
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+              'ui:title': null,
+              'ui:description': 'Please record all your periods of service.'
+            })
           },
           schema: {
             type: 'object',
             properties: {
-              toursOfDuty: toursOfDuty.schema(fullSchema1990)
+              toursOfDuty: toursOfDuty.schema(fullSchema1990, {
+                required: ['serviceBranch', 'dateRange.from'],
+                fields: ['serviceBranch', 'serviceStatus', 'dateRange', 'applyPeriodToSelected', 'benefitsToApplyTo', 'view:disclaimer']
+              })
             }
           }
         },
