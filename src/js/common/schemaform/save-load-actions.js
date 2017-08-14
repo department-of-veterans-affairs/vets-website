@@ -305,6 +305,9 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
           event: `${trackingPrefix}sip-form-prefill-failed`
         });
       } else {
+        // If we're in a noAuth status, users are sent to the error page
+        // where they can sign in again. This isn't an error, it's expected
+        // when a session expires
         if (loadedStatus === LOAD_STATUSES.noAuth) {
           window.dataLayer.push({
             event: `${trackingPrefix}sip-form-load-signed-out`
