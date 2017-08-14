@@ -15,7 +15,7 @@ class VerifyPrompt extends React.Component {
           <div className="react-container">
             <h1>Verify your Identity with ID.me</h1>
             <p>You need to verify your identity to access this part of Vets.gov.</p>
-            <p>To access Vets.gov services, you’ll need to verify your identity through ID.me, a third party service that provides strong identity verification. We have added this protection to increase security for your information. Here’s what you’ll need:
+            <p>To access Vets.gov services, you’ll need to verify your identity through ID.me, a third-party service that provides strong identity verification. We have added this protection to increase security for your information. Here’s what you’ll need:
               <ul>
                 <li>Your passport or driver’s license</li>
                 <li>A phone that can receive texts or calls</li>
