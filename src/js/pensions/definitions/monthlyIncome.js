@@ -1,4 +1,5 @@
 import { additionalSourcesUI } from './additionalSources';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 export default {
   'ui:order': [
@@ -10,41 +11,11 @@ export default {
     'ssi',
     'additionalSources'
   ],
-  socialSecurity: {
-    'ui:title': 'Social Security',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  civilService: {
-    'ui:title': 'US Civil Service',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  railroad: {
-    'ui:title': 'US Railroad Retirement',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  blackLung: {
-    'ui:title': 'Black Lung Benefits',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  serviceRetirement: {
-    'ui:title': 'Service Retirement',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  ssi: {
-    'ui:title': 'Supplemental Security Income (SSI) or Public Assistance',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
+  socialSecurity: currencyUI('Social Security'),
+  civilService: currencyUI('US Civil Service'),
+  railroad: currencyUI('US Railroad Retirement'),
+  blackLung: currencyUI('Black Lung Benefits'),
+  serviceRetirement: currencyUI('Service Retirement'),
+  ssi: currencyUI('Supplemental Security Income (SSI) or Public Assistance'),
   additionalSources: additionalSourcesUI
 };

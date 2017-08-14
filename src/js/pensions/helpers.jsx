@@ -203,7 +203,7 @@ export const expeditedProcessDescription = (
   <div>
     <h5>Fully developed claim program</h5>
     <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
-    <a href="/pension/apply/pension-fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
+    <a href="/pension/apply/fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
   </div>
 );
 
@@ -230,4 +230,3 @@ export const spouseExpectedIncomeDescription = (
 export const dependentExpectedIncomeDescription = (
   <span>Any income you didn't already report in this form that your dependent expects to receive in the next 12 months</span>
 );
-

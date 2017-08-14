@@ -333,4 +333,50 @@ describe('<ReviewCollapsibleChapter>', () => {
     tree.getMountedInstance().toggleChapter();
     expect(setPagesViewed.firstCall.args[0]).to.eql(['test']);
   });
+  it('should handle submitting array page', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const pages = [{
+      title: '',
+      pageKey: 'test'
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          title: '',
+          schema: {
+            properties: {}
+          },
+          editMode: [false],
+        }
+      },
+      data: {
+        testing: [{}]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={onEdit}
+          setData={setData}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          form={form}/>
+    );
+
+    tree.getMountedInstance().handleSubmit({ test: 2 }, 'test', 'testing', 0);
+
+    expect(onEdit.calledWith('test', false, 0)).to.be.true;
+    expect(setData.firstCall.args[0]).to.eql({
+      testing: [{
+        test: 2
+      }]
+    });
+  });
 });

@@ -18,7 +18,7 @@ class Breadcrumbs extends React.Component {
     }
 
     if (pathname.match(/profile/)) {
-      if (true) { // TODO: if got here by searching
+      if (this.props.includeSearch) {
         crumbs.push(<a onClick={browserHistory.goBack} key="search-results">Search Results</a>);
       }
     }
@@ -36,7 +36,7 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  profileName: PropTypes.string
+  includeSearch: PropTypes.bool,
 };
 
 export default Breadcrumbs;

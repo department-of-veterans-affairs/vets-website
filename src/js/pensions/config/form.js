@@ -57,6 +57,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
@@ -432,12 +433,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:receivedSeverancePay'
               },
-              amount: {
-                'ui:title': 'Amount',
-                'ui:options': {
-                  classNames: 'schemaform-currency-input'
-                }
-              },
+              amount: currencyUI('Amount'),
               type: {
                 'ui:title': 'Pay Type',
                 'ui:widget': 'radio',
@@ -563,12 +559,7 @@ const formConfig = {
                   daysMissed: {
                     'ui:title': 'How many days lost to disability'
                   },
-                  annualEarnings: {
-                    'ui:title': 'Total annual earnings',
-                    'ui:options': {
-                      classNames: 'schemaform-currency-input'
-                    }
-                  }
+                  annualEarnings: currencyUI('Total annual earnings')
                 }
               }
             }
@@ -803,15 +794,13 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            monthlySpousePayment: {
-              'ui:title': spouseContribution,
+            monthlySpousePayment: _.merge(currencyUI(spouseContribution), {
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
-                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
-            },
+            }),
             spouseMarriages: {
               'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
@@ -1161,15 +1150,13 @@ const formConfig = {
                     }
                   }
                 ),
-                monthlyPayment: {
-                  'ui:title': 'How much do you contribute per month to their support?',
+                monthlyPayment: _.merge(currencyUI('How much do you contribute per month to their support?'), {
                   'ui:required': (form, index) => !_.get(['dependents', index, 'childInHousehold'], form),
                   'ui:options': {
-                    classNames: 'schemaform-currency-input',
                     expandUnder: 'childInHousehold',
                     expandUnderCondition: false
                   }
-                }
+                })
               }
             }
           }

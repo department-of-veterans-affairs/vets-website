@@ -64,7 +64,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm A [CT]')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
               <strong>Deceased Veteran</strong><br/>

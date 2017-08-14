@@ -38,11 +38,12 @@ export const PREFILL_STATUSES = Object.freeze({
   unfilled: 'unfilled'
 });
 
-export function setSaveFormStatus(status, lastSavedDate = null) {
+export function setSaveFormStatus(status, lastSavedDate = null, expirationDate = null) {
   return {
     type: SET_SAVE_FORM_STATUS,
     status,
-    lastSavedDate
+    lastSavedDate,
+    expirationDate
   };
 }
 
@@ -166,14 +167,16 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       body
     }).then((res) => {
       if (res.ok) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt));
-        window.dataLayer.push({
-          event: `${trackingPrefix}sip-form-saved`
-        });
-        return Promise.resolve();
+        return res.json();
       }
 
       return Promise.reject(res);
+    }).then((json) => {
+      dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-saved`
+      });
+      return Promise.resolve();
     })
     .catch((resOrError) => {
       if (resOrError instanceof Response) {
@@ -304,6 +307,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         });
       } else {
         dispatch(setFetchFormStatus(loadedStatus));
+        Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-load-failed`
         });

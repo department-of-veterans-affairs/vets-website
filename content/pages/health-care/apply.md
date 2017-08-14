@@ -48,7 +48,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 You can start your online application right now.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 
 <div class="feature">
 
@@ -74,12 +74,11 @@ Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, M
 
 Print the form, fill it out, and send it to this address:
 
-<dl class="va-address-block">
-<dt></dt>
-<dd>Health Eligibility Center</dd>
-<dd>2957 Clairmont Rd., Suite 200</dd>
-<dd>Atlanta, GA 30329</dd>
-</dl>
+<p class="va-address-block">
+Health Eligibility Center<br>
+2957 Clairmont Rd., Suite 200<br>
+Atlanta, GA 30329<br>
+</p>
 
 ##### In person
 

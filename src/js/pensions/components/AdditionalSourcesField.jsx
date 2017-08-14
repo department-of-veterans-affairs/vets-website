@@ -4,6 +4,7 @@ import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
 import { setItemTouched } from '../../common/schemaform/helpers';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 import {
   toIdSchema,
@@ -187,12 +188,7 @@ export default class AdditionalSourcesField extends React.Component {
                 <SchemaField
                     name="amount"
                     schema={itemSchema.properties.amount}
-                    uiSchema={{
-                      'ui:title': itemData.name,
-                      'ui:options': {
-                        classNames: 'schemaform-currency-input'
-                      }
-                    }}
+                    uiSchema={currencyUI(itemData.name)}
                     errorSchema={_.get([index, 'amount'], errorSchema) || {}}
                     idSchema={itemIdSchema.amount}
                     formData={itemData.amount}

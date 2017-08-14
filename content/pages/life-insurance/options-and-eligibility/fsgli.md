@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Family Servicemembers’ Group Life Insurance (FSGLI)
-display_title: Family Servicemembers' Group (FSGLI)
+display_title: Family Servicemembers’ Group (FSGLI)
 concurrence: 
 order: 2
 relatedlinks:

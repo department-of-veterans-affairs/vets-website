@@ -71,13 +71,12 @@ You’ll need to apply for benefits in 1 of 2 ways:
  
  Fax it to 888-748-5822, or mail it to: 
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Department of Veterans Affairs</dd>
-  <dd>Regional Office and Insurance Center (RH)</dd>
-  <dd>PO Box 7208</dd>
-  <dd>Philadelphia, PA 19101</dd>
-</dl> 
+<p class="va-address-block">
+  Department of Veterans Affairs<br>
+  Regional Office and Insurance Center (RH)<br>
+  PO Box 7208<br>
+  Philadelphia, PA 19101<br>
+</p> 
 
 If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.
 
