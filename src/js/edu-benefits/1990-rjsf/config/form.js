@@ -184,7 +184,10 @@ const formConfig = {
           uiSchema: {
             serviceAcademyGraduationYear: {
               'ui:title': 'If you received a commission from a military service academy, what year did you graduate?',
-              'ui:widget': yearUI('')
+              'ui:widget': yearUI,
+              'ui:options': {
+                widgetClassNames: 'usa-input-medium'
+              }
             },
             currentlyActiveDuty: {
               yes: {
