@@ -2,11 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Health Care and Other Insurance
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 order: 10
-relatedlinks: 
+relatedlinks:
   - heading: More information about your benefits
     links:
     - url: /health-care/eligibility/
@@ -60,7 +60,7 @@ No. Whether or not you have health insurance coverage doesn’t affect the VA he
 
 <br>
 
-### If I'm signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
+### If I’m signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
 
 Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having “minimum essential health coverage.” You don’t need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
@@ -73,16 +73,16 @@ Yes. Being signed up for VA health care meets your Affordable Care Act health co
 ### More about how VA health care works with Medicare and other insurance
 
 **Jump to a section:**
-- [Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program?](#give-up-private-insurance)
+- [Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I’m accepted into the VA health care program?](#give-up-private-insurance)
 - [If I already have VA health care benefits, should I still sign up for Medicare when I turn 65?](#sign-up-for-medicare)
-- [If I'm signed up for VA health care, and I also have Medicare, what’s covered by each?](#va-vs-medicare-coverage)
+- [If I’m signed up for VA health care, and I also have Medicare, what’s covered by each?](#va-vs-medicare-coverage)
 - [Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions?](#health-savings-account)
 
 <br>
 
 <span id="give-up-private-insurance">
 
-#### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
+#### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I’m accepted into the VA health care program?
 
 This is your decision. You can save money if you drop your private health insurance, but there are risks. We encourage you to keep your insurance because:
 
@@ -94,7 +94,7 @@ This is your decision. You can save money if you drop your private health insura
 
 <span id="sign-up-for-medicare">
 
-#### If I already have VA health care benefits, should I still sign up for Medicare when I turn 65? 
+#### If I already have VA health care benefits, should I still sign up for Medicare when I turn 65?
 
 Yes. We encourage you to sign up for Medicare as soon as you can. This is because:
 
@@ -107,7 +107,7 @@ Yes. We encourage you to sign up for Medicare as soon as you can. This is becaus
 
 <span id="va-vs-medicare-coverage">
 
-#### If I'm signed up for VA health care, and I also have Medicare, what’s covered by each?
+#### If I’m signed up for VA health care, and I also have Medicare, what’s covered by each?
 
 You’ll need to choose which benefits to use each time you receive care.
 
@@ -119,7 +119,7 @@ If you go to a non-VA care setting, Medicare may pay for your care. Or, if we on
 
 <span id="health-savings-account">
 
-#### Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions? 
+#### Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions?
 
 Yes. We may bill and accept reimbursement from High Deductible Health Plans (HDHPs) for medical care and services to treat your non-service-connected conditions. If you have an HDHP linked to an HSA, you can use your HSA to pay your VA copayments for non-service-connected care.
 

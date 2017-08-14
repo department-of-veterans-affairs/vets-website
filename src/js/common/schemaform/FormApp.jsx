@@ -73,7 +73,7 @@ class FormApp extends React.Component {
     }
   }
 
-  // I'm not convinced this is ever executed
+  // I’m not convinced this is ever executed
   componentWillUnmount() {
     this.removeOnbeforeunload();
   }
