@@ -257,7 +257,7 @@ export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
 
 export function validateYear(errors, year) {
   if (year < 1900 || year > new Date.getFullYear) { // eslint-disable-line new-cap
-    errors.addError('Please provide a valid date');
+    errors.addError('Please provide a valid year');
   }
 }
 
