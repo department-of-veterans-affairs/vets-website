@@ -16,7 +16,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 }
 
 export const invalidAddressProperty = (
-  <div id="invalidAddress" className="usa-width-three-fourths">
+  <div id="invalidAddress">
     <div className="usa-alert usa-alert-error">
       <div className="usa-alert-body">
         <h2 className="usa-alert-heading">Address unavailable</h2>

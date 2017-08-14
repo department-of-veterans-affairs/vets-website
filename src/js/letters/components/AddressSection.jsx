@@ -15,7 +15,11 @@ class AddressSection extends React.Component {
 
     let addressContent;
     if (isEmpty(destination)) {
-      addressContent = invalidAddressProperty;
+      addressContent = (
+        <div className="step-content">
+          {invalidAddressProperty}
+        </div>
+      );
     } else {
       addressContent = (
         <div className="step-content">
