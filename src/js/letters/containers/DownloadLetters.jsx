@@ -58,12 +58,8 @@ function mapStateToProps(state) {
     profile: userState.profile,
     letters: letterState.letters,
     destination: letterState.destination,
-<<<<<<< HEAD
     lettersAvailability: letterState.lettersAvailability,
-=======
-    lettersAvailable: letterState.lettersAvailable,
     letterDownloadStatus: letterState.letterDownloadStatus,
->>>>>>> 43a611b... passing props working
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
