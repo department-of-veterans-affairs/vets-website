@@ -67,7 +67,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-[Apply online with an Application for VA Education Benefits (VA Form 22-1990)](/education/apply-for-education-benefits/application/1990/introduction). 
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction). 
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
