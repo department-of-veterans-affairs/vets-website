@@ -242,12 +242,6 @@ function completeContactInfo(client, data) {
     .fill('input[name$="mobilePhone"]', data.mobilePhone);
 }
 
-function completeBenefitsSelection(client, data) {
-  client
-    .selectYesNo('root_view:aidAttendance', data['view:aidAttendance'])
-    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
-}
-
 function completeExpeditedInfo(client, data) {
   client
     .selectYesNo('root_noRapidProcessing', data.noRapidProcessing)
@@ -307,7 +301,6 @@ module.exports = {
   completeOtherExpensesInfo,
   completeDirectDepositInfo,
   completeContactInfo,
-  completeBenefitsSelection,
   completeExpeditedInfo,
   initApplicationSubmitMock,
   initDocumentUploadMock

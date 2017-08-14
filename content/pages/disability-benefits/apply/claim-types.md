@@ -11,13 +11,13 @@ majorlinks:
     links:
     - url: /disability-benefits/apply/claim-types/standard-claim/
       title: Standard Claim 
-      description: If you'd like us to help you gather evidence to support your disability benefits claim, file a standard claim.
+      description: If you’d like us to help you gather evidence to support your disability benefits claim, file a standard claim.
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
       title: Fully Developed Claim 
-      description: If you'd like to get a faster decision on your disability benefits claim, use the Fully Developed Claims program and send in all evidence you have when you file your claim.
+      description: If you’d like to get a faster decision on your disability benefits claim, use the Fully Developed Claims program and send in all evidence you have when you file your claim.
     - url: /disability-benefits/apply/claim-types/original-claim/
       title: Original Claim 
-      description: If you have a disability and you're within 180 days of ending military service, you can file your first claim—known as the original claim. 
+      description: If you have a disability and you’re within 180 days of ending military service, you can file your first claim—known as the original claim. 
     - url: /disability-benefits/apply/claim-types/reopened-claim/
       title: Reopened Claim
       description: If you had a disability claim that was denied in the past, file a reopened claim to get a new decision. 
@@ -35,7 +35,7 @@ majorlinks:
       description: If your disability was caused by an injury or illness you got while in the line of duty, file an in-service claim.
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
-      description: If you have a disability and you're currently in predischarge status, file a predischarge disability claim up to 180 days before you leave the military.
+      description: If you have a disability and you’re currently in predischarge status, file a predischarge disability claim up to 180 days before you leave the military.
     - url: /disability-benefits/apply/claim-types/post-service/
       title: Postservice Claim
       description: If you have a disability related to military service that didn't appear until after you ended your service, file a postservice claim.

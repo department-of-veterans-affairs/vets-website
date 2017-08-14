@@ -2,11 +2,7 @@ import { createSelector } from 'reselect';
 
 const getConstants = (state) => state.constants.constants;
 
-const getEligibilityDetails = (state) => {
-  const details = Object.assign({}, state.eligibility);
-  delete details.dropdowns;
-  return details;
-};
+const getEligibilityDetails = (state) => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
   const { type, bah, country } = props;

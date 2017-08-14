@@ -69,7 +69,7 @@ After we approve the school, you'll need to apply. [Apply for benefits](/educati
 
 Turn in your application to us at least 90 days before you leave for your new school. We'll decide what benefits you get based on your school’s location. 
 
-If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with VA Form 22-1999. Please note that you won't get payments until we've received and processed your enrollment information.
+If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with a VA Enrollment Certification (VA Form 22-1999). Please note that you won't get payments until we've received and processed your enrollment information.
 
 </li>
 

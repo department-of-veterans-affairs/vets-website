@@ -9,6 +9,8 @@ class CalculatorForm extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.resetBuyUp = this.resetBuyUp.bind(this);
     this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
     this.renderInState = this.renderInState.bind(this);
     this.renderTuition = this.renderTuition.bind(this);
@@ -19,7 +21,23 @@ class CalculatorForm extends React.Component {
     this.renderEnrolled = this.renderEnrolled.bind(this);
     this.renderCalendar = this.renderCalendar.bind(this);
     this.renderKicker = this.renderKicker.bind(this);
+    this.renderBuyUp = this.renderBuyUp.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
+  }
+
+  handleInputChange(event) {
+    const { name: field, value } = event.target;
+    this.props.onInputChange({ field, value });
+  }
+
+  resetBuyUp(event) {
+    event.preventDefault();
+    if (this.props.inputs.buyUpAmount > 600) {
+      this.props.onInputChange({
+        field: 'buyUpAmount',
+        value: 600
+      });
+    }
   }
 
   renderLearnMoreLabel({ text, modal }) {
@@ -41,7 +59,7 @@ class CalculatorForm extends React.Component {
             { value: 'no', label: 'No' }
           ]}
           value={this.props.inputs.inState}
-          onChange={this.props.onInputChange}/>
+          onChange={this.handleInputChange}/>
     );
   }
 
@@ -61,7 +79,7 @@ class CalculatorForm extends React.Component {
               type="text"
               name="inStateTuitionFees"
               value={formatCurrency(this.props.inputs.inStateTuitionFees)}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}/>
         </div>
       );
 
@@ -77,7 +95,7 @@ class CalculatorForm extends React.Component {
             type="text"
             name="tuitionFees"
             value={formatCurrency(this.props.inputs.tuitionFees)}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
         {inStateTuitionInput}
       </div>
     );
@@ -92,7 +110,7 @@ class CalculatorForm extends React.Component {
             type="text"
             name="books"
             value={formatCurrency(this.props.inputs.books)}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
       </div>
     );
   }
@@ -112,7 +130,7 @@ class CalculatorForm extends React.Component {
               type="text"
               name="yellowRibbonAmount"
               value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}/>
         </div>
       );
     }
@@ -130,7 +148,7 @@ class CalculatorForm extends React.Component {
               { value: 'no', label: 'No' }
             ]}
             value={this.props.inputs.yellowRibbonRecipient}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
         {amountInput}
       </div>
     );
@@ -150,7 +168,7 @@ class CalculatorForm extends React.Component {
             type="text"
             name="scholarships"
             value={formatCurrency(this.props.inputs.scholarships)}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
       </div>
     );
   }
@@ -169,7 +187,7 @@ class CalculatorForm extends React.Component {
             type="text"
             name="tuitionAssist"
             value={formatCurrency(this.props.inputs.tuitionAssist)}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
       </div>
     );
   }
@@ -217,7 +235,7 @@ class CalculatorForm extends React.Component {
             options={options}
             visible
             value={value}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
       </div>
     );
   }
@@ -241,7 +259,7 @@ class CalculatorForm extends React.Component {
               ]}
               visible
               value={this.props.inputs.numberNontradTerms}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}/>
           <Dropdown
               label="How long is each term?"
               name="lengthNontradTerms"
@@ -262,7 +280,7 @@ class CalculatorForm extends React.Component {
               ]}
               visible
               value={this.props.inputs.lengthNontradTerms}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}/>
         </div>
       );
     }
@@ -283,7 +301,7 @@ class CalculatorForm extends React.Component {
             ]}
             visible
             value={this.props.inputs.calendar}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
         {dependentDropdowns}
       </div>
     );
@@ -302,7 +320,7 @@ class CalculatorForm extends React.Component {
               type="text"
               name="kickerAmount"
               value={formatCurrency(this.props.inputs.kickerAmount)}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}/>
         </div>
       );
     }
@@ -320,7 +338,7 @@ class CalculatorForm extends React.Component {
               { value: 'no', label: 'No' }
             ]}
             value={this.props.inputs.kickerEligible}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
         {amountInput}
       </div>
     );
@@ -339,7 +357,8 @@ class CalculatorForm extends React.Component {
               type="text"
               name="buyUpAmount"
               value={formatCurrency(this.props.inputs.buyUpAmount)}
-              onChange={this.props.onInputChange}/>
+              onChange={this.handleInputChange}
+              onBlur={this.resetBuyUp}/>
         </div>
       );
     }
@@ -354,7 +373,7 @@ class CalculatorForm extends React.Component {
               { value: 'no', label: 'No' }
             ]}
             value={this.props.inputs.buyUp}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
         {amountInput}
       </div>
     );
@@ -390,7 +409,7 @@ class CalculatorForm extends React.Component {
             ]}
             visible
             value={this.props.inputs.working}
-            onChange={this.props.onInputChange}/>
+            onChange={this.handleInputChange}/>
       </div>
     );
   }

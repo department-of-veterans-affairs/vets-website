@@ -30,7 +30,7 @@ class ConfirmationPage extends React.Component {
           <i className="fa fa-check-circle hca-success-icon"></i>
         </div>
         <div className="usa-width-five-sixths medium-10 columns">
-          <h4 className="success-copy">You have successfully submitted your application for health care!</h4>
+          <h4 className="success-copy">You have successfully submitted your application for health care.</h4>
         </div>
         <div>
           <p>We are processing your application. The Department of Veterans Affairs will contact you when we finish our review.</p>

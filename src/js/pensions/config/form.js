@@ -17,7 +17,6 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning,
   uploadMessage,
   dependentsMinItem,
   wartimeWarning,
@@ -58,6 +57,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
@@ -175,7 +175,6 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: __BUILDTYPE__ === 'production',
   formId: '21P-527EZ',
   version: 0,
   savedFormMessages: {
@@ -235,39 +234,6 @@ const formConfig = {
               veteranSocialSecurityNumber,
               vaFileNumber,
               veteranDateOfBirth
-            }
-          }
-        }
-      }
-    },
-    benefitsSelection: {
-      title: 'Benefits Selection',
-      pages: {
-        benefitsSelection: {
-          path: 'benefits/selection',
-          title: 'Benefits Selection',
-          uiSchema: {
-            'view:aidAttendance': {
-              'ui:title': 'Are you also claiming Aid and Attendance or Housebound Benefits?',
-              'ui:widget': 'yesNo'
-            },
-            'view:evidenceInfo': {
-              'ui:description': aidAttendanceEvidence,
-              'ui:options': {
-                expandUnder: 'view:aidAttendance'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:aidAttendance': {
-                type: 'boolean'
-              },
-              'view:evidenceInfo': {
-                type: 'object',
-                properties: {}
-              }
             }
           }
         }
@@ -467,12 +433,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:receivedSeverancePay'
               },
-              amount: {
-                'ui:title': 'Amount',
-                'ui:options': {
-                  classNames: 'schemaform-currency-input'
-                }
-              },
+              amount: currencyUI('Amount'),
               type: {
                 'ui:title': 'Pay Type',
                 'ui:widget': 'radio',
@@ -598,12 +559,7 @@ const formConfig = {
                   daysMissed: {
                     'ui:title': 'How many days lost to disability'
                   },
-                  annualEarnings: {
-                    'ui:title': 'Total annual earnings',
-                    'ui:options': {
-                      classNames: 'schemaform-currency-input'
-                    }
-                  }
+                  annualEarnings: currencyUI('Total annual earnings')
                 }
               }
             }
@@ -838,15 +794,13 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            monthlySpousePayment: {
-              'ui:title': spouseContribution,
+            monthlySpousePayment: _.merge(currencyUI(spouseContribution), {
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
-                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
-            },
+            }),
             spouseMarriages: {
               'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
@@ -1196,15 +1150,13 @@ const formConfig = {
                     }
                   }
                 ),
-                monthlyPayment: {
-                  'ui:title': 'How much do you contribute per month to their support?',
+                monthlyPayment: _.merge(currencyUI('How much do you contribute per month to their support?'), {
                   'ui:required': (form, index) => !_.get(['dependents', index, 'childInHousehold'], form),
                   'ui:options': {
-                    classNames: 'schemaform-currency-input',
                     expandUnder: 'childInHousehold',
                     expandUnderCondition: false
                   }
-                }
+                })
               }
             }
           }
@@ -1277,11 +1229,7 @@ const formConfig = {
               'view:hasOtherExpenses': {
                 type: 'boolean'
               },
-              otherExpenses,
-              'view:otherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              otherExpenses
             }
           },
           uiSchema: {
@@ -1294,13 +1242,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses'
               }
-            }),
-            'view:otherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses'
-              }
-            }
+            })
           }
         },
         spouseNetWorth: {
@@ -1368,11 +1310,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses,
-              'view:spouseOtherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              spouseOtherExpenses: otherExpenses
             }
           },
           uiSchema: {
@@ -1385,13 +1323,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:spouseHasOtherExpenses'
               }
-            }),
-            'view:spouseOtherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses'
-              }
-            }
+            })
           }
         },
         dependentsNetWorth: {
@@ -1502,11 +1434,7 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses,
-                    'view:otherExpensesWarning': {
-                      type: 'object',
-                      properties: {}
-                    }
+                    otherExpenses
                   }
                 }
               }
@@ -1524,13 +1452,7 @@ const formConfig = {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
                   }
-                }),
-                'view:otherExpensesWarning': {
-                  'ui:description': otherExpensesWarning,
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses'
-                  }
-                }
+                })
               }
             }
           }
@@ -1622,6 +1544,25 @@ const formConfig = {
             }
           }
         },
+        aidAttendance: {
+          path: 'additional-information/aid-attendance',
+          title: 'Aid and Attendance and Housebound Benefits',
+          uiSchema: {
+            'ui:title': 'Aid and Attendance and Housebound Benefits',
+            'view:evidenceInfo': {
+              'ui:description': aidAttendanceEvidence
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:evidenceInfo': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
         documentUpload: {
           title: 'Document upload',
           path: 'documents',
@@ -1648,12 +1589,12 @@ const formConfig = {
           }
         },
         expedited: {
-          title: 'Expedited process',
+          title: 'Fully developed claim program',
           path: 'additional-information/fdc',
           uiSchema: {
             'ui:description': expeditedProcessDescription,
             noRapidProcessing: {
-              'ui:title': 'Do you want to use the expedited process?',
+              'ui:title': 'Do you want to apply using the Fully Developed Claim program?',
               'ui:widget': 'yesNo',
               'ui:options': {
                 yesNoReverse: true,

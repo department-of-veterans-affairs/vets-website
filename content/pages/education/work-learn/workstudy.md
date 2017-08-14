@@ -45,9 +45,9 @@ You can get a paid for a part-time job while you study.
 
 ### How do I get these benefits? 
 
-You'll need to apply for the work-study program with VA Form 22-8691 (Application for Work-Study Allowance). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
+You'll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
 
-Get in touch with the Regional Processing Office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What kind of job can I get?
 Under VA's work-study program, you can:

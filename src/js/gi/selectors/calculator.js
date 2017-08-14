@@ -5,11 +5,7 @@ import { formatCurrency } from '../utils/helpers';
 
 const getConstants = (state) => state.constants.constants;
 
-const getEligibilityDetails = (state) => {
-  const details = Object.assign({}, state.eligibility);
-  delete details.dropdowns;
-  return details;
-};
+const getEligibilityDetails = (state) => state.eligibility;
 
 const getInstitution = (state) => state.profile.attributes;
 

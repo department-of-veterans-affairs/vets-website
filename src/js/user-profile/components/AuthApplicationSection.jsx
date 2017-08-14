@@ -4,10 +4,15 @@ import React from 'react';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 class AuthApplicationSection extends React.Component {
+  verifyUser = () => {
+    handleVerify(this.props.verifyUrl);
+  }
+
   render() {
     let content;
-
-    if (this.props.userProfile.accountType === 3) {
+    const verifiedAccountType = 3;// verified ID.me accounts are type 3
+    const isVerifiedUser = this.props.userProfile.accountType === verifiedAccountType;
+    if (isVerifiedUser) {
       content = (
         <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
@@ -26,7 +31,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/health-care/apply">Apply for health care</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><span className="label">You need to <a href="#" onClick={() => handleVerify(this.props.verifyUrl)}>verify your account</a> in order to:</span></p>
+          <p><span className="label">You need to <button className="va-button-link" onClick={this.verifyUser}>verify your account</button> in order to:</span></p>
           <p>Refill your prescription</p>
           <p>Message your health care team</p>
           <p>Check your claim status</p>
