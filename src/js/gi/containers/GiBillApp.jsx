@@ -59,7 +59,7 @@ export class GiBillApp extends React.Component {
   }
 
   render() {
-    const { preview, profile, constants } = this.props;
+    const { constants, preview, search } = this.props;
     let content;
 
     if (constants.inProgress) {
@@ -80,7 +80,7 @@ export class GiBillApp extends React.Component {
             }
             <Breadcrumbs
                 location={this.props.location}
-                profileName={profile.attributes.name}/>
+                includeSearch={search.count !== null}/>
             {content}
             <AboutThisTool/>
             <Disclaimer/>
@@ -97,8 +97,8 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { preview, profile, constants } = state;
-  return { preview, profile, constants };
+  const { constants, preview, search } = state;
+  return { constants, preview, search };
 };
 
 const mapDispatchToProps = {
