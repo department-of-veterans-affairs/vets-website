@@ -27,7 +27,7 @@ export class DownloadLetterLink extends React.Component {
     let buttonClasses;
     let buttonText;
     let buttonDisabled;
-    let unavailableMessage;
+    let message;
     switch (this.props.downloadStatus) {
       case 'downloading':
         buttonClasses = 'usa-button-disabled';
@@ -36,14 +36,24 @@ export class DownloadLetterLink extends React.Component {
         break;
       case 'success':
         buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Again';
+        buttonText = 'Download Letter';
         buttonDisabled = false;
+        message = (
+          <div className="usa-alert usa-alert-success" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
+              <p className="usa-alert-text">
+                If you want to download your letter again, please press the button below.
+              </p>
+            </div>
+          </div>
+        );
         break;
       case 'failure':
         buttonClasses = 'usa-button-primary va-button-primary';
         buttonText = 'Retry Download';
         buttonDisabled = false;
-        unavailableMessage = (
+        message = (
           <div className="usa-alert usa-alert-error" role="alert">
             <div className="usa-alert-body">
               <h2 className="usa-alert-heading">Your letter didn't download.</h2>
@@ -71,7 +81,7 @@ export class DownloadLetterLink extends React.Component {
               transitionAppearTimeout={700}
               transitionEnterTimeout={700}
               transitionLeave={false}>
-            {unavailableMessage}
+            {message}
           </ReactCSSTransitionGroup>
         </div>
         <div className="download-button">
