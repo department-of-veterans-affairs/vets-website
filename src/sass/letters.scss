@@ -72,7 +72,13 @@
   }
 
   .form-expanding-group {
+    margin-left: initial;
     margin-top: 1.5em;
+  }
+
+  .form-expanding-group-open {
+    border-left: 0;
+    padding-left: initial;
   }
 }
 
