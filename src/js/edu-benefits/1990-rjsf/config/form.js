@@ -4,6 +4,8 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -20,8 +22,16 @@ const {
   chapter33,
   chapter30,
   chapter1606,
-  chapter32
+  chapter32,
+  faaFlightCertificatesInformation,
+  highSchoolOrGedCompletionDate
 } = fullSchema1990.properties;
+
+const {
+  postHighSchoolTrainings,
+  dateRange,
+  date
+} = fullSchema1990.definitions;
 
 const formConfig = {
   urlPrefix: '/1990-rjsf/',
@@ -34,6 +44,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    date,
+    dateRange
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -201,10 +213,19 @@ const formConfig = {
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {
+            highSchoolOrGedCompletionDate: currentOrPastDateUI('When did you earn your high school diploma or equivalency certificate?'),
+            postHighSchoolTrainings: postHighSchoolTrainingsUI,
+            faaFlightCertificatesInformation: {
+              'ui:title': 'If you have any FAA flight certificates, please list them here.',
+              'ui:widget': 'textarea'
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              highSchoolOrGedCompletionDate,
+              postHighSchoolTrainings,
+              faaFlightCertificatesInformation
             }
           }
         }
