@@ -7,8 +7,9 @@ import applicantInformation from '../../../common/schemaform/pages/applicantInfo
 import yearUI from '../../../common/schemaform/definitions/year';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import seniorRotcUI from '../../definitions/seniorRotc';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -26,7 +27,6 @@ const {
   chapter1606,
   chapter32,
   serviceAcademyGraduationYear,
-  currentlyActiveDuty,
   seniorRotcScholarshipProgram,
   // seniorRotcCommissioned,
   seniorRotc,
@@ -40,7 +40,8 @@ const {
 const {
   date,
   year,
-  dateRange
+  dateRange,
+  currentlyActiveDuty
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -194,10 +195,7 @@ const formConfig = {
           path: 'military-history/military-service',
           uiSchema: {
             serviceAcademyGraduationYear: _.assign(yearUI, {
-              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?',
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium'
-              }
+              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?'
             }),
             currentlyActiveDuty: {
               yes: {
@@ -217,7 +215,13 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceAcademyGraduationYear,
-              currentlyActiveDuty
+              currentlyActiveDuty: {
+                type: 'object',
+                properties: {
+                  yes: currentlyActiveDuty.properties.yes,
+                  onTerminalLeave: currentlyActiveDuty.properties.onTerminalLeave
+                }
+              }
             }
           }
         },

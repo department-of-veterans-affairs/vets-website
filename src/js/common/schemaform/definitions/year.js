@@ -1,16 +1,17 @@
-import { validateYear } from '../validation';
-import TextWidget from '../widgets/TextWidget.jsx';
+import { validateCurrentOrPastYear } from '../validation';
 import * as ReviewWidget from '../review/widgets.jsx';
 
 const uiSchema = {
   'ui:title': 'Year',
-  'ui:widget': TextWidget,
   'ui:reviewWidget': ReviewWidget.TextWidget,
   'ui:validations': [
-    validateYear
+    validateCurrentOrPastYear
   ],
   'ui:errorMessages': {
-    pattern: 'Please provide a valid year'
+    type: 'Please provide a valid year'
+  },
+  'ui:options': {
+    widgetClassNames: 'usa-input-medium'
   }
 };
 

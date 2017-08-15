@@ -5,6 +5,7 @@ import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
+  isValidCurrentOrPastYear,
   isValidFutureDate,
   isValidDateRange,
   isValidRoutingNumber,
@@ -255,8 +256,11 @@ export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   }
 }
 
-export function validateYear(errors, year) {
-  if (year < 1900 || year > new Date.getFullYear) { // eslint-disable-line new-cap
+/**
+ * Adds an error message to errors if an integer year value is not between 1900 and the current year.
+ */
+export function validateCurrentOrPastYear(errors, year) {
+  if (!isValidCurrentOrPastYear(year)) {
     errors.addError('Please provide a valid year');
   }
 }
