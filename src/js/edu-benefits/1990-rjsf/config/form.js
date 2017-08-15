@@ -6,7 +6,7 @@ import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import yearUI from '../../../common/schemaform/definitions/year';
 
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -182,13 +182,9 @@ const formConfig = {
           title: 'Military service',
           path: 'military-history/military-service',
           uiSchema: {
-            serviceAcademyGraduationYear: {
-              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?',
-              'ui:widget': yearUI,
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium'
-              }
-            },
+            serviceAcademyGraduationYear: _.assign(yearUI, {
+              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?'
+            }),
             currentlyActiveDuty: {
               yes: {
                 'ui:title': 'Are you on active duty now?',

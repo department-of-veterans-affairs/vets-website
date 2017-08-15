@@ -34,7 +34,7 @@ export function schema(currentSchema, userOptions) {
     },
     applyPeriodToSelected: {
       type: 'boolean',
-      default: true // eslint-disable-line quote-props
+      'default': true
     },
     benefitsToApplyTo: {
       type: 'string'

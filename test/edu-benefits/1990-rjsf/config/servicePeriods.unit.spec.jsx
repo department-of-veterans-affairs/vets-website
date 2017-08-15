@@ -1,27 +1,14 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
 
 describe('Edu 1995 servicePeriods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
-    );
-
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
-  });
   it('should render service fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -30,7 +17,10 @@ describe('Edu 1995 servicePeriods', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length).to.equal(5);
+
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
   it('should render service period view', () => {
     const onSubmit = sinon.spy();
@@ -52,7 +42,9 @@ describe('Edu 1995 servicePeriods', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    const formDOM = findDOMNode(form);
+
+    const formDOM = getFormDOM(form);
+
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -67,9 +59,10 @@ describe('Edu 1995 servicePeriods', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
 
+    const formDOM = getFormDOM(form);
+
+    submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
