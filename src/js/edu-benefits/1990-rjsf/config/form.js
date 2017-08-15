@@ -8,6 +8,8 @@ import applicantInformation from '../../../common/schemaform/pages/applicantInfo
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
+
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
 
 import {
@@ -27,8 +29,13 @@ const {
   chapter30,
   chapter1606,
   chapter32,
-  benefitsRelinquished
+  benefitsRelinquished,
+  benefitsRelinquishedDate
 } = fullSchema1990.properties;
+
+const {
+  date
+} = fullSchema1990.definitions;
 
 const formConfig = {
   urlPrefix: '/1990-rjsf/',
@@ -41,6 +48,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    date
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -140,16 +148,21 @@ const formConfig = {
           depends: (formData) => formData['view:selectedBenefits'].chapter33,
           uiSchema: {
             'ui:description': benefitsRelinquishmentWarning,
-            benefitsRelinquished: {
-              'ui:widget': 'radio',
+            'view:benefitsRelinquishedContainer': {
+              'ui:field': BenefitsRelinquishmentField,
               'ui:title': 'I choose to give up:',
+              'ui:required': () => true,
               'ui:options': {
                 labels: benefitsRelinquishmentLabels,
-                nestedContent: {
-                  chapter30: 'Montgomery GI Bill (MGIB-AD, Chapter 30)',
-                  chapter1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
-                  chapter1607: 'Reserve Educational Assistance Program (REAP, Chapter 1607)'
-                }
+                showFieldLabel: true
+              },
+              benefitsRelinquished: {
+                'ui:required': () => true
+              },
+              benefitsRelinquishedDate: {
+                'ui:title': 'Effective date',
+                'ui:widget': 'date',
+                'ui:required': (formData) => _.get('view:benefitsRelinquishedContainer.benefitsRelinquished', formData) !== 'unknown'
               }
             },
             'view:questionText': {
@@ -158,9 +171,14 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['benefitsRelinquished'],
             properties: {
-              benefitsRelinquished,
+              'view:benefitsRelinquishedContainer': {
+                type: 'object',
+                properties: {
+                  benefitsRelinquished,
+                  benefitsRelinquishedDate
+                }
+              },
               'view:questionText': {
                 type: 'object',
                 properties: {}
