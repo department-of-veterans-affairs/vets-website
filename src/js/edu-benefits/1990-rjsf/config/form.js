@@ -153,6 +153,7 @@ const formConfig = {
             }
           },
           uiSchema: {
+            'ui:title': 'Benefits relinquishment',
             'ui:description': benefitsRelinquishmentWarning,
             'view:benefitsRelinquishedContainer': {
               'ui:field': BenefitsRelinquishmentField,
