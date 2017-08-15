@@ -62,7 +62,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 
 [Learn about the application process](/health-care/apply/).
 

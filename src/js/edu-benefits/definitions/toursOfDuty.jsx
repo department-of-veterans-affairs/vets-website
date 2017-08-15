@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -32,10 +33,15 @@ export function schema(currentSchema, userOptions) {
       type: 'string'
     },
     applyPeriodToSelected: {
-      type: 'boolean'
+      type: 'boolean',
+      'default': true
     },
     benefitsToApplyTo: {
       type: 'string'
+    },
+    'view:disclaimer': {
+      type: 'object',
+      properties: {}
     }
   };
 
@@ -71,6 +77,26 @@ export const uiSchema = {
     },
     applyPeriodToSelected: {
       'ui:title': 'Apply this service period to the benefit I’m applying for.'
+    },
+    benefitsToApplyTo: {
+      'ui:title': 'Please explain how you’d like this service period applied.',
+      'ui:widget': 'textarea',
+      'ui:options': {
+        expandUnder: 'applyPeriodToSelected',
+        expandUnderCondition: false
+      }
+    },
+    'view:disclaimer': {
+      'ui:description': (
+        <div>
+          <p>A single period of service may not be applied toward more than one benefit.</p>
+          <p>There is one exception: If your period of service began before August 1, 2011, you may use it to establish eligibility to Chapter 33 even if it has already been used to establish eligibility to a different benefit.</p>
+        </div>
+      ),
+      'ui:options': {
+        expandUnder: 'applyPeriodToSelected',
+        expandUnderCondition: false
+      }
     }
   }
 };

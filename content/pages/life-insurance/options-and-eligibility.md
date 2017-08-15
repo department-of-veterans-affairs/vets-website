@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Options and Eligibility
-display_title: Options
+display_title: Options & Eligibility
 concurrence: 
 template: detail-page
 children: lifeInsuranceOptions

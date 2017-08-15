@@ -28,18 +28,20 @@ export class LandingPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.search();
+    this.handleFilterChange('name', this.props.autocomplete.searchTerm);
   }
 
-  handleFilterChange() {
+  handleFilterChange(field, value) {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    if (this.props.autocomplete.searchTerm) { this.search(); }
+    if (value) {
+      this.search(value);
+    }
   }
 
-  search() {
+  search(value) {
     const query = {
-      name: this.props.autocomplete.searchTerm,
+      name: value,
       version: this.props.location.query.version
     };
 

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import * as toursOfDuty from '../definitions/toursOfDuty';
+import * as toursOfDuty from '../definitions/toursOfDuty.jsx';
 
 /**
  * Returns the applicantService page. This is for dependent applicants.

@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
 display_title: Conditions
-order: 5
+order: 4
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page

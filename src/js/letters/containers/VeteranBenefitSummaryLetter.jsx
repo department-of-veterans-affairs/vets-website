@@ -34,7 +34,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         <tr key={`service${index}`}>
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
-            {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
+            {characterOfServiceContent[(service.characterOfService || '').toLowerCase()]}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>

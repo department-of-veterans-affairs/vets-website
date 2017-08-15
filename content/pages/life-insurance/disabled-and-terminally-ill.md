@@ -4,7 +4,7 @@ template: detail-page
 title: Claims for Disabled and Terminally Ill Policyholders
 display_title: Disabled & Terminally Ill Policyholders
 concurrence: 
-order: 3
+order: 2
 relatedlinks:
   - heading: More information about your benefits
     links:

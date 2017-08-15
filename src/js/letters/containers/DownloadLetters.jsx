@@ -9,7 +9,7 @@ import StepHeader from '../components/StepHeader';
 class DownloadLetters extends React.Component {
   render() {
     return (
-      <div>
+      <div className="usa-width-three-fourths letters">
         <FormTitle title="Download Your VA Verification Letters"/>
         <div className="va-introtext">
           <p>
@@ -22,6 +22,7 @@ class DownloadLetters extends React.Component {
         <StepHeader name="Select and Download Letters" current="2" steps="2">
           <LetterList
               letters={this.props.letters}
+              lettersAvailability={this.props.lettersAvailability}
               benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
@@ -56,7 +57,7 @@ function mapStateToProps(state) {
     profile: userState.profile,
     letters: letterState.letters,
     destination: letterState.destination,
-    lettersAvailable: letterState.lettersAvailable,
+    lettersAvailability: letterState.lettersAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
