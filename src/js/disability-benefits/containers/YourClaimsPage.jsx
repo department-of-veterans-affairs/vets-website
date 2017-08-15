@@ -88,7 +88,11 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { loading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     if (canAccessAppeals && canAccessClaims) {
       if (!claimsAvailable && !appealsAvailable) {

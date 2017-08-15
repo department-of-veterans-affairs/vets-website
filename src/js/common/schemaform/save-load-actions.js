@@ -184,7 +184,6 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
           // This likely means their session expired, so mark them as logged out
           dispatch(logOut());
           dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
-          Raven.captureException(new Error(`vets_sip_error_server_unauthorized: ${resOrError.statusText}`));
           window.dataLayer.push({
             event: `${trackingPrefix}sip-form-save-signed-out`
           });
@@ -306,11 +305,20 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
           event: `${trackingPrefix}sip-form-prefill-failed`
         });
       } else {
+        // If we're in a noAuth status, users are sent to the error page
+        // where they can sign in again. This isn't an error, it's expected
+        // when a session expires
+        if (loadedStatus === LOAD_STATUSES.noAuth) {
+          window.dataLayer.push({
+            event: `${trackingPrefix}sip-form-load-signed-out`
+          });
+        } else {
+          Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
+          window.dataLayer.push({
+            event: `${trackingPrefix}sip-form-load-failed`
+          });
+        }
         dispatch(setFetchFormStatus(loadedStatus));
-        Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
-        window.dataLayer.push({
-          event: `${trackingPrefix}sip-form-load-failed`
-        });
       }
     });
   };

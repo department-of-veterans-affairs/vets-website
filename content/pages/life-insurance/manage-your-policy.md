@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Managing Your Policy
 concurrence: 
-order: 2
+order: 3
 ---
 
 <div class="va-introtext">

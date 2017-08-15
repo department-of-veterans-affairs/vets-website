@@ -30,6 +30,27 @@ class LetterList extends React.Component {
         </CollapsiblePanel>
       );
     });
+
+    let eligibilityMessage;
+    if (this.props.lettersAvailability === 'letterEligibilityError') {
+      eligibilityMessage = (
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            <h2 className="usa-alert-heading">Letters may be unavailable</h2>
+            <p className="usa-alert-text">
+              Our system is temporarily down. If you believe you're missing
+              a letter or document from this list, please try again later,
+              or call:
+            </p>
+            <ul>
+              <li><a href="tel:888-888-8888">888-888-8888</a> for health-related documents</li>
+              <li><a href="tel:888-888-8888">888-888-8888</a> for benefits-related documents</li>
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="step-content">
         <p>
@@ -37,6 +58,7 @@ class LetterList extends React.Component {
           using the (+). Then, download the letter.
         </p>
         {letterItems}
+        {eligibilityMessage}
       </div>
     );
   }
@@ -44,6 +66,7 @@ class LetterList extends React.Component {
 
 LetterList.PropTypes = {
   letters: PropTypes.array,
+  lettersAvailability: PropTypes.string,
   benefitSummaryOptions: PropTypes.object
 };
 

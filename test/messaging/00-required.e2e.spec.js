@@ -17,7 +17,6 @@ module.exports = E2eHelpers.createE2eTest(
     // Ensure main page (inbox) renders.
     LoginHelpers.logIn(token, client, '/health-care/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck('.main')
       .assert.title('Send a Secure Message to Your Health Care Team: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);
 
@@ -26,6 +25,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#messaging-content-header', Timeouts.slow)
       .waitForElementPresent('#messaging-folder-controls', Timeouts.normal)
       // Expect messages to show up.
+      .axeCheck('.main')
       .expect.element('.msg-table-list td:nth-of-type(1) a:nth-of-type(1)').text.to.equal('Clinician');
 
     client.click('.msg-table-list td:nth-of-type(1) a:nth-of-type(1)');
