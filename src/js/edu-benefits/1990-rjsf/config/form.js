@@ -5,6 +5,7 @@ import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import yearUI from '../../../common/schemaform/definitions/year';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import seniorRotcUI from '../../definitions/seniorRotc';
@@ -27,13 +28,19 @@ const {
   serviceAcademyGraduationYear,
   currentlyActiveDuty,
   seniorRotcScholarshipProgram,
- // seniorRotcCommissioned,
-  seniorRotc
+  // seniorRotcCommissioned,
+  seniorRotc,
+  civilianBenefitsAssistance,
+  additionalContributions,
+  activeDutyKicker,
+  reserveKicker,
+  // activeDutyRepayingPeriod
 } = fullSchema1990.properties;
 
 const {
   date,
-  year
+  year,
+  dateRange
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -48,7 +55,8 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
-    year
+    year,
+    dateRange
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -226,12 +234,11 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             seniorRotc: {
-              commissionYear: {
-                'ui:widget': yearUI,
+              commissionYear: _.merge(yearUI, {
                 'ui:options': {
                   widgetClassNames: 'usa-input-medium'
                 }
-              },
+              }),
               rotcScholarshipAmounts: seniorRotcUI,
               'ui:options': {
                 expandUnder: 'seniorRotcCommissioned'
@@ -253,10 +260,51 @@ const formConfig = {
           title: 'Contributions',
           path: 'military-history/contributions',
           uiSchema: {
+            civilianBenefitsAssistance: {
+              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+            },
+            additionalContributions: {
+              'ui:title': 'I made contributions (up to $600) to increase the amount of my monthly benefits.'
+            },
+            activeDutyKicker: {
+              'ui:title': 'I qualify for an Active Duty Kicker (sometimes called a college fund).'
+            },
+            reserveKicker: {
+              'ui:title': 'I qualify for a Reserve Kicker (sometimes called a college fund).'
+            },
+            'view:activeDutyRepayingPeriod': {
+              'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.'
+            },
+            activeDutyRepayingPeriod: _.merge({
+              'ui:options': {
+                expandUnder: 'view:activeDutyRepayingPeriod'
+              }
+            }, dateRangeUI('Start date', 'End date'))
           },
           schema: {
             type: 'object',
             properties: {
+              civilianBenefitsAssistance,
+              additionalContributions,
+              activeDutyKicker,
+              reserveKicker,
+              'view:activeDutyRepayingPeriod': {
+                type: 'boolean',
+              },
+              activeDutyRepayingPeriod: {
+                type: 'object',
+                required: ['from', 'to'],
+                properties: {
+                  from: {
+                    type: 'string',
+                    pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
+                  },
+                  to: {
+                    type: 'string',
+                    pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
+                  }
+                }
+              }
             }
           }
         }
