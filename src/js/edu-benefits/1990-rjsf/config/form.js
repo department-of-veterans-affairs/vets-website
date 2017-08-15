@@ -203,7 +203,13 @@ const formConfig = {
             type: 'object',
             properties: {
               serviceAcademyGraduationYear,
-              currentlyActiveDuty
+              currentlyActiveDuty: {
+                type: 'object',
+                properties: {
+                  yes: currentlyActiveDuty.properties.yes,
+                  onTerminalLeave: currentlyActiveDuty.properties.onTerminalLeave
+                }
+              }
             }
           }
         },
