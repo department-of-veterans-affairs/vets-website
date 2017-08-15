@@ -2,7 +2,7 @@ import yearUI from '../../common/schemaform/definitions/year';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import ScholarshipPeriodField from '../components/ScholarshipPeriodField';
 
-export const uiSchema = {
+export default {
   'ui:title': 'ROTC scholarships',
   'ui:options': {
     itemName: 'Scholarship Period',
