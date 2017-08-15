@@ -7,7 +7,7 @@ import applicantInformation from '../../../common/schemaform/pages/applicantInfo
 import yearUI from '../../../common/schemaform/definitions/year';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-
+import seniorRotcUI from '../../definitions/seniorRotc';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -25,7 +25,10 @@ const {
   chapter1606,
   chapter32,
   serviceAcademyGraduationYear,
-  currentlyActiveDuty
+  currentlyActiveDuty,
+  seniorRotcScholarshipProgram,
+ // seniorRotcCommissioned,
+  seniorRotc
 } = fullSchema1990.properties;
 
 const {
@@ -215,10 +218,35 @@ const formConfig = {
           title: 'ROTC history',
           path: 'military-history/rotc-history',
           uiSchema: {
+            seniorRotcScholarshipProgram: {
+              'ui:title': 'Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)',
+              'ui:widget': 'yesNo'
+            },
+            seniorRotcCommissioned: {
+              'ui:title': 'Were you commissioned as a result of senior ROTC?',
+              'ui:widget': 'yesNo'
+            },
+            seniorRotc: {
+              commissionYear: {
+                'ui:widget': yearUI,
+                'ui:options': {
+                  widgetClassNames: 'usa-input-medium'
+                }
+              },
+              rotcScholarshipAmounts: seniorRotcUI,
+              'ui:options': {
+                expandUnder: 'seniorRotcCommissioned'
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              seniorRotcScholarshipProgram,
+              seniorRotcCommissioned: {
+                type: 'boolean'
+              },
+              seniorRotc
             }
           }
         },
