@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -13,6 +14,15 @@ class AcceptTermsPrompt extends React.Component {
 
   componentWillMount() {
     this.setState({ scrolledToBottom: false, yesSelected: false });
+  }
+
+  onCancel(e) {
+    e.preventDefault();
+    if (document.referrer !== '') {
+      browserHistory.goBack();
+    } else {
+      browserHistory.push(this.props.cancelPath);
+    }
   }
 
   handleSubmit() {
@@ -91,7 +101,7 @@ class AcceptTermsPrompt extends React.Component {
           </div>
           <div>
             {submitButton}
-            <a href={this.props.cancelPath} className="usa-button usa-button-outline">
+            <a href="#" onClick={this.onCancel} className="usa-button usa-button-outline">
               Cancel
             </a>
           </div>
