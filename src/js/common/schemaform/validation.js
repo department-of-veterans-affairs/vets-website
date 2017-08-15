@@ -9,9 +9,7 @@ import {
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
-  isValidCanPostalCode,
-  isValidPartialMonthYear,
-  isValidPartialMonthYearInPast
+  isValidCanPostalCode
 } from '../utils/validations';
 
 import { parseISODate } from './helpers';
@@ -232,13 +230,6 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateMonthYear(errors, dateString) {
-  const { month, year } = parseISODate(dateString);
-  if (!isValidPartialMonthYear(month, year)) {
-    errors.addError('Please provide a valid date');
-  }
-}
-
 /**
  * Adds an error message to errors if a date is an invalid date or in the future.
  *
@@ -249,15 +240,6 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError(futureDate);
-  }
-}
-
-export function validateCurrentOrPastMonthYear(errors, dateString, formData, schema, errorMessages = {}) {
-  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
-  validateMonthYear(errors, dateString);
-  const { month, year } = parseISODate(dateString);
-  if (!isValidPartialMonthYearInPast(month, year)) {
     errors.addError(futureDate);
   }
 }
