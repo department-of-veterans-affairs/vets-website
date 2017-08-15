@@ -143,7 +143,7 @@ const formConfig = {
             }
           }
         },
-        benefitRelinquishment: {
+        benefitsRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
           depends: (formData) => formData['view:selectedBenefits'].chapter33,
