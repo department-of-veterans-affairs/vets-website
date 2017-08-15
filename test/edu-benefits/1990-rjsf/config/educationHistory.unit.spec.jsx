@@ -36,7 +36,7 @@ describe('Edu 1990 educationHistory', () => {
 
     formDOM.submitForm();
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
 });
