@@ -24,13 +24,13 @@ const {
   chapter30,
   chapter1606,
   chapter32,
-  serviceAcademyGraduationYear,
-  currentlyActiveDuty
+  serviceAcademyGraduationYear
 } = fullSchema1990.properties;
 
 const {
   date,
-  year
+  year,
+  currentlyActiveDuty
 } = fullSchema1990.definitions;
 
 const formConfig = {
