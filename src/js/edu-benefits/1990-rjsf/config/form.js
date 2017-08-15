@@ -4,8 +4,12 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import yearUI from '../../../common/schemaform/definitions/year';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
+
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -29,8 +33,11 @@ const {
 
 const {
   postHighSchoolTrainings,
+  serviceAcademyGraduationYear,
+  date,
   dateRange,
-  date
+  year,
+  currentlyActiveDuty
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -45,7 +52,8 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
-    dateRange
+    dateRange,
+    year
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -162,10 +170,19 @@ const formConfig = {
           title: 'Service periods',
           path: 'military-history/service-periods',
           uiSchema: {
+            'ui:title': 'Service periods',
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+              'ui:title': null,
+              'ui:description': 'Please record all your periods of service.'
+            })
           },
           schema: {
             type: 'object',
             properties: {
+              toursOfDuty: toursOfDuty.schema(fullSchema1990, {
+                required: ['serviceBranch', 'dateRange.from'],
+                fields: ['serviceBranch', 'serviceStatus', 'dateRange', 'applyPeriodToSelected', 'benefitsToApplyTo', 'view:disclaimer']
+              })
             }
           }
         },
@@ -173,10 +190,34 @@ const formConfig = {
           title: 'Military service',
           path: 'military-history/military-service',
           uiSchema: {
+            serviceAcademyGraduationYear: _.assign(yearUI, {
+              'ui:title': 'If you received a commission from a military service academy, what year did you graduate?'
+            }),
+            currentlyActiveDuty: {
+              yes: {
+                'ui:title': 'Are you on active duty now?',
+                'ui:widget': 'yesNo'
+              },
+              onTerminalLeave: {
+                'ui:title': 'Are you on terminal leave now?',
+                'ui:widget': 'yesNo',
+                'ui:options': {
+                  expandUnder: 'yes'
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              serviceAcademyGraduationYear,
+              currentlyActiveDuty: {
+                type: 'object',
+                properties: {
+                  yes: currentlyActiveDuty.properties.yes,
+                  onTerminalLeave: currentlyActiveDuty.properties.onTerminalLeave
+                }
+              }
             }
           }
         },

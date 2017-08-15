@@ -5,6 +5,7 @@ import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
+  isValidCurrentOrPastYear,
   isValidFutureDate,
   isValidDateRange,
   isValidRoutingNumber,
@@ -252,6 +253,15 @@ export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   const { day, month, year } = parseISODate(dateString);
   if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
     errors.addError('Please provide a valid future date');
+  }
+}
+
+/**
+ * Adds an error message to errors if an integer year value is not between 1900 and the current year.
+ */
+export function validateCurrentOrPastYear(errors, year) {
+  if (!isValidCurrentOrPastYear(year)) {
+    errors.addError('Please provide a valid year');
   }
 }
 
