@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import _ from 'lodash/fp';
-
-import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
-
 
 /**
  * Field for selecting the benefitsRelinquished and corresponding date as necessary.
@@ -25,8 +21,7 @@ export default class BenefitsRelinquishmentField extends React.Component {
     };
   }
 
-  getNestedContent = (option) => {
-    const SchemaField = this.props.registry.fields.SchemaField;
+  getNestedContent = () => {
     const {
       schema,
       uiSchema,
@@ -36,16 +31,17 @@ export default class BenefitsRelinquishmentField extends React.Component {
       onBlur,
       registry
     } = this.props;
+    const SchemaField = registry.fields.SchemaField;
     const effectiveDateContent = (
       <div>
         <SchemaField
-            name={'benefitsRelinquishedDate'}
+            name="benefitsRelinquishedDate"
             required
             schema={schema.properties.benefitsRelinquishedDate}
             uiSchema={uiSchema.benefitsRelinquishedDate}
             errorSchema={errorSchema.benefitsRelinquishedDate}
             idSchema={idSchema.benefitsRelinquishedDate}
-            formData={formData.benefitsRelinquishedDate || moment().format('YYYY-MM-DD')}
+            formData={formData.benefitsRelinquishedDate}
             onChange={this.onPropertyChange('benefitsRelinquishedDate')}
             onBlur={onBlur}
             registry={registry}/>
@@ -57,7 +53,7 @@ export default class BenefitsRelinquishmentField extends React.Component {
       </div>
     );
 
-    const nestedContent = {
+    return {
       chapter30: (
         <div>
           <div>
@@ -86,47 +82,35 @@ export default class BenefitsRelinquishmentField extends React.Component {
         </div>
       )
     };
-
-    return nestedContent[option];
   }
 
   render() {
-    const { schema, uiSchema, formData } = this.props;
-    const id = this.props.idSchema.$id;
+    const {
+      schema,
+      uiSchema,
+      formData,
+      errorSchema,
+      idSchema,
+      onBlur,
+      registry
+    } = this.props;
+    const SchemaField = registry.fields.SchemaField;
     return (
-      <div>{
-        schema.properties.benefitsRelinquished.enum.map((option, i) => {
-          const checked = option === formData.benefitsRelinquished;
-          const radioButton = (
-            <div className="form-radio-buttons" key={option}>
-              <input type="radio"
-                  autoComplete="false"
-                  checked={checked}
-                  id={`${id}_${i}`}
-                  name={`${id}_${i}`}
-                  value={option}
-                  onChange={__ => this.onPropertyChange('benefitsRelinquished')(option)}/>
-              <label htmlFor={`${id}_${i}`}>
-                {uiSchema['ui:options'].labels[option]}
-              </label>
-            </div>
-          );
-
-          const nestedContent = this.getNestedContent(option);
-          if (!!nestedContent) {
-            return (
-              <ExpandingGroup open={checked} key={option}>
-                {radioButton}
-                <div className="schemaform-radio-indent">
-                  {nestedContent}
-                </div>
-              </ExpandingGroup>
-            );
-          }
-
-          return radioButton;
-        })
-      }</div>
+      <SchemaField
+          name="benefitsRelinquished"
+          required
+          schema={schema.properties.benefitsRelinquished}
+          uiSchema={_.merge(uiSchema.benefitsRelinquished, {
+            'ui:options': {
+              nestedContent: this.getNestedContent()
+            }
+          })}
+          errorSchema={errorSchema.benefitsRelinquished}
+          idSchema={idSchema.benefitsRelinquished}
+          formData={formData.benefitsRelinquished}
+          onChange={this.onPropertyChange('benefitsRelinquished')}
+          onBlur={onBlur}
+          registry={registry}/>
     );
   }
 }

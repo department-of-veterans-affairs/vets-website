@@ -11,6 +11,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
 
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import dateUI from '../../../common/schemaform/definitions/date';
 
 import {
   transform,
@@ -146,24 +147,26 @@ const formConfig = {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
           depends: (formData) => formData['view:selectedBenefits'].chapter33,
+          initialData: {
+            'view:benefitsRelinquishedContainer': {
+              benefitsRelinquishedDate: moment().format('YYYY-MM-DD')
+            }
+          },
           uiSchema: {
             'ui:description': benefitsRelinquishmentWarning,
             'view:benefitsRelinquishedContainer': {
               'ui:field': BenefitsRelinquishmentField,
-              'ui:title': 'I choose to give up:',
-              'ui:required': () => true,
-              'ui:options': {
-                labels: benefitsRelinquishmentLabels,
-                showFieldLabel: true
-              },
               benefitsRelinquished: {
-                'ui:required': () => true
+                'ui:title': 'I choose to give up:',
+                'ui:widget': 'radio',
+                'ui:required': () => true,
+                'ui:options': {
+                  labels: benefitsRelinquishmentLabels,
+                }
               },
-              benefitsRelinquishedDate: {
-                'ui:title': 'Effective date',
-                'ui:widget': 'date',
+              benefitsRelinquishedDate: _.merge(dateUI('Effective date'), {
                 'ui:required': (formData) => _.get('view:benefitsRelinquishedContainer.benefitsRelinquished', formData) !== 'unknown'
-              }
+              })
             },
             'view:questionText': {
               'ui:description': benefitsRelinquishedDescription
