@@ -11,6 +11,6 @@ export default {
   },
   items: {
     year: yearUI,
-    amount: currencyUI
+    amount: currencyUI('Scholarship amount')
   }
 };

@@ -28,7 +28,6 @@ const {
   chapter32,
   serviceAcademyGraduationYear,
   seniorRotcScholarshipProgram,
-  // seniorRotcCommissioned,
   seniorRotc,
   civilianBenefitsAssistance,
   additionalContributions,
@@ -229,23 +228,22 @@ const formConfig = {
           title: 'ROTC history',
           path: 'military-history/rotc-history',
           uiSchema: {
+            'ui:title': 'ROTC history',
             seniorRotcScholarshipProgram: {
               'ui:title': 'Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)',
               'ui:widget': 'yesNo'
             },
-            seniorRotcCommissioned: {
+            'view:seniorRotc': {
               'ui:title': 'Were you commissioned as a result of senior ROTC?',
               'ui:widget': 'yesNo'
             },
             seniorRotc: {
               commissionYear: _.merge(yearUI, {
-                'ui:options': {
-                  widgetClassNames: 'usa-input-medium'
-                }
+                'ui:title': 'Year of commission:'
               }),
               rotcScholarshipAmounts: seniorRotcUI,
               'ui:options': {
-                expandUnder: 'seniorRotcCommissioned'
+                expandUnder: 'view:seniorRotc'
               }
             }
           },
@@ -253,10 +251,12 @@ const formConfig = {
             type: 'object',
             properties: {
               seniorRotcScholarshipProgram,
-              seniorRotcCommissioned: {
+              'view:seniorRotc': {
                 type: 'boolean'
               },
-              seniorRotc
+              seniorRotc: _.merge(seniorRotc, {
+                required: null
+              })
             }
           }
         },
@@ -281,7 +281,16 @@ const formConfig = {
             },
             activeDutyRepayingPeriod: _.merge({
               'ui:options': {
-                expandUnder: 'view:activeDutyRepayingPeriod'
+                expandUnder: 'view:activeDutyRepayingPeriod',
+                updateSchema: (formData, schema) => {
+                  let requiredProperties = [];
+                  if (formData['view:activeDutyRepayingPeriod']) {
+                    requiredProperties = ['from', 'to'];
+                  }
+                  return _.assign(schema, {
+                    required: requiredProperties
+                  });
+                }
               }
             }, dateRangeUI('Start date', 'End date'))
           },
@@ -295,20 +304,7 @@ const formConfig = {
               'view:activeDutyRepayingPeriod': {
                 type: 'boolean',
               },
-              activeDutyRepayingPeriod: {
-                type: 'object',
-                required: ['from', 'to'],
-                properties: {
-                  from: {
-                    type: 'string',
-                    pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
-                  },
-                  to: {
-                    type: 'string',
-                    pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
-                  }
-                }
-              }
+              activeDutyRepayingPeriod: dateRange
             }
           }
         }
