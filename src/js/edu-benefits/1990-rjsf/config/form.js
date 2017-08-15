@@ -185,13 +185,12 @@ const formConfig = {
           title: 'Military service',
           path: 'military-history/military-service',
           uiSchema: {
-            serviceAcademyGraduationYear: {
+            serviceAcademyGraduationYear: _.assign(yearUI, {
               'ui:title': 'If you received a commission from a military service academy, what year did you graduate?',
-              'ui:widget': yearUI,
               'ui:options': {
                 widgetClassNames: 'usa-input-medium'
               }
-            },
+            }),
             currentlyActiveDuty: {
               yes: {
                 'ui:title': 'Are you on active duty now?',
