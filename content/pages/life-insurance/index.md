@@ -7,7 +7,7 @@ majorlinks:
   - heading:
     links:
     - url: /life-insurance/options-and-eligibility/
-      title: Life Insurance Options 
+      title: Life Insurance Options and Eligibility
       description: Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.
     - url: /life-insurance/disabled-and-terminally-ill/
       title: Claims for Disabled and Terminally Ill Policyholders
