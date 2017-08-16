@@ -8,7 +8,7 @@ import applicantInformation from '../../../common/schemaform/pages/applicantInfo
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import yearUI from '../../../common/schemaform/definitions/year';
-import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
+import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -28,12 +28,12 @@ const {
   chapter1606,
   chapter32,
   faaFlightCertificatesInformation,
-  highSchoolOrGedCompletionDate
+  highSchoolOrGedCompletionDate,
+  serviceAcademyGraduationYear
 } = fullSchema1990.properties;
 
 const {
   postHighSchoolTrainings,
-  serviceAcademyGraduationYear,
   date,
   dateRange,
   year,
