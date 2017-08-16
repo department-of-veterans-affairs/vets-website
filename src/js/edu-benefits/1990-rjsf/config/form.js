@@ -5,12 +5,12 @@ import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -276,19 +276,9 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          // There's only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'employment-history/employment-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        employmentHistory: _.merge(employmentHistoryPage(fullSchema1990), {
+          path: 'employment-history/employment-information'
+        })
       }
     },
     schoolSelection: {
