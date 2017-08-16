@@ -358,7 +358,7 @@ const formConfig = {
               activeDutyKicker,
               reserveKicker,
               'view:activeDutyRepayingPeriod': {
-                type: 'boolean',
+                type: 'boolean'
               },
               activeDutyRepayingPeriod: dateRange
             }
