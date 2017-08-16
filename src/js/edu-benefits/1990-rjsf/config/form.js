@@ -33,7 +33,6 @@ const {
   additionalContributions,
   activeDutyKicker,
   reserveKicker,
-  // activeDutyRepayingPeriod
 } = fullSchema1990.properties;
 
 const {

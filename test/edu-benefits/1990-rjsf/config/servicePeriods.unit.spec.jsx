@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM, submitForm } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
 
 describe('Edu 1995 servicePeriods', () => {
@@ -45,7 +45,7 @@ describe('Edu 1995 servicePeriods', () => {
 
     const formDOM = getFormDOM(form);
 
-    submitForm(form);
+    formDOM.submitForm();
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
@@ -62,7 +62,7 @@ describe('Edu 1995 servicePeriods', () => {
 
     const formDOM = getFormDOM(form);
 
-    submitForm(form);
+    formDOM.submitForm();
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
