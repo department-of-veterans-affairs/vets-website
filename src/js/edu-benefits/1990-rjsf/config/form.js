@@ -14,23 +14,35 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
+
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import dateUI from '../../../common/schemaform/definitions/date';
 
 import {
   transform,
   benefitsEligibilityBox,
-  benefitsLabels
+  benefitsRelinquishmentWarning,
+  benefitsRelinquishmentLabels,
+  benefitsRelinquishedDescription
 } from '../helpers';
+
+import {
+  benefitsLabels
+} from '../../utils/labels';
 
 const {
   chapter33,
   chapter30,
   chapter1606,
   chapter32,
+  benefitsRelinquished,
+  benefitsRelinquishedDate,
   faaFlightCertificatesInformation,
   highSchoolOrGedCompletionDate,
   serviceAcademyGraduationYear
 } = fullSchema1990.properties;
+
 
 const {
   postHighSchoolTrainings,
@@ -69,6 +81,11 @@ const formConfig = {
             'veteranDateOfBirth',
             'gender'
           ],
+          required: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+          ]
         }), {
           uiSchema: {
             veteranDateOfBirth: {
@@ -147,17 +164,50 @@ const formConfig = {
             }
           }
         },
-        benefitRelinquishment: {
+        benefitsRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
-          depends: {
-            chapter33: true
+          depends: (formData) => formData['view:selectedBenefits'].chapter33,
+          initialData: {
+            'view:benefitsRelinquishedContainer': {
+              benefitsRelinquishedDate: moment().format('YYYY-MM-DD')
+            }
           },
           uiSchema: {
+            'ui:title': 'Benefits relinquishment',
+            'ui:description': benefitsRelinquishmentWarning,
+            'view:benefitsRelinquishedContainer': {
+              'ui:field': BenefitsRelinquishmentField,
+              benefitsRelinquished: {
+                'ui:title': 'I choose to give up:',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: benefitsRelinquishmentLabels,
+                }
+              },
+              benefitsRelinquishedDate: _.merge(dateUI('Effective date'), {
+                'ui:required': (formData) => _.get('view:benefitsRelinquishedContainer.benefitsRelinquished', formData) !== 'unknown'
+              })
+            },
+            'view:questionText': {
+              'ui:description': benefitsRelinquishedDescription
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              'view:benefitsRelinquishedContainer': {
+                type: 'object',
+                required: ['benefitsRelinquished'],
+                properties: {
+                  benefitsRelinquished,
+                  benefitsRelinquishedDate
+                }
+              },
+              'view:questionText': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
