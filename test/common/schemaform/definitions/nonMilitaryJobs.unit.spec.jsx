@@ -19,7 +19,7 @@ describe('Schemaform definition nonMilitaryJobs', () => {
 
     const inputs = formDOM.querySelectorAll('input');
 
-    expect(inputs.length).to.equal(4);
+    expect(inputs.length).to.equal(5);
   });
 
   it('should add another', () => {

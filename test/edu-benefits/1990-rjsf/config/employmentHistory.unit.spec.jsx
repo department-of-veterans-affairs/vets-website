@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
+import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
 describe('Edu 1990 employmentHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
@@ -34,6 +34,6 @@ describe('Edu 1990 employmentHistory', () => {
 
     formDOM.setYesNo('#root_view\\:hasNonMilitaryJobsYes', 'Y');
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 });
