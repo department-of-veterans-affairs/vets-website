@@ -9,7 +9,7 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
 
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

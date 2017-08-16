@@ -4,6 +4,7 @@
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
     "build": "node script/build.js",
+    "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
     "heroku-postbuild": "node script/build.js --entry no-react,style",
     "lint": "npm run lint:js && npm run lint:sass",
@@ -198,6 +199,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0e5db3eaa46d9a666ce96fe35ee7d6b71ff77b8b"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#91379d76189f605d53b9ec810da1171aa4975ea4"
   }
 }
