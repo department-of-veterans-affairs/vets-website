@@ -263,6 +263,8 @@ const formConfig = {
           title: 'Contributions',
           path: 'military-history/contributions',
           uiSchema: {
+            'ui:title': 'Contributions',
+            'ui:description': 'Select all that apply:',
             civilianBenefitsAssistance: {
               'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
             },
