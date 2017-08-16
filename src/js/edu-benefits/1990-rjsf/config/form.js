@@ -4,9 +4,12 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
-import yearUI from '../../../common/schemaform/definitions/year';
 
-import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
+import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import yearUI from '../../../common/schemaform/definitions/year';
+import * as toursOfDuty from '../../definitions/toursOfDuty';
+
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -35,12 +38,16 @@ const {
   chapter32,
   benefitsRelinquished,
   benefitsRelinquishedDate,
+  faaFlightCertificatesInformation,
+  highSchoolOrGedCompletionDate,
   serviceAcademyGraduationYear
 } = fullSchema1990.properties;
 
 
 const {
+  postHighSchoolTrainings,
   date,
+  dateRange,
   year,
   currentlyActiveDuty
 } = fullSchema1990.definitions;
@@ -57,6 +64,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
+    dateRange,
     year
   },
   title: 'Apply for education benefits',
@@ -296,10 +304,19 @@ const formConfig = {
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {
+            highSchoolOrGedCompletionDate: currentOrPastDateUI('When did you earn your high school diploma or equivalency certificate?'),
+            postHighSchoolTrainings: postHighSchoolTrainingsUI,
+            faaFlightCertificatesInformation: {
+              'ui:title': 'If you have any FAA flight certificates, please list them here.',
+              'ui:widget': 'textarea'
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              highSchoolOrGedCompletionDate,
+              postHighSchoolTrainings,
+              faaFlightCertificatesInformation
             }
           }
         }

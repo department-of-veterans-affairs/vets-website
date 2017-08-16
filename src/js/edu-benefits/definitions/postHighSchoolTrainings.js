@@ -36,6 +36,7 @@ const uiSchema = {
     },
     hoursType: {
       'ui:title': 'Type of hours',
+      'ui:widget': 'radio',
       'ui:options': {
         labels: hoursTypeLabels
       }
