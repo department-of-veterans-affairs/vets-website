@@ -125,6 +125,6 @@ BenefitsRelinquishmentField.propTypes = {
     ])).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired
   })
 };
