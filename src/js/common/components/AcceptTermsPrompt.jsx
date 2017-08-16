@@ -18,7 +18,7 @@ class AcceptTermsPrompt extends React.Component {
 
   onCancel(e) {
     e.preventDefault();
-    if (document.referrer !== '') {
+    if (document.referrer !== '' && !this.props.isInModal) {
       browserHistory.goBack();
     } else {
       browserHistory.push(this.props.cancelPath);
