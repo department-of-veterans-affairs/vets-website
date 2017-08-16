@@ -6,8 +6,7 @@ export default {
   'ui:title': 'ROTC scholarships',
   'ui:options': {
     itemName: 'Scholarship Period',
-    viewField: ScholarshipPeriodField,
-    keepInPageOnReview: true
+    viewField: ScholarshipPeriodField
   },
   items: {
     year: yearUI,

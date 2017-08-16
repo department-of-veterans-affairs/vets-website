@@ -253,9 +253,7 @@ const formConfig = {
               'view:seniorRotc': {
                 type: 'boolean'
               },
-              seniorRotc: _.merge(seniorRotc, {
-                required: null
-              })
+              seniorRotc: _.unset('required', seniorRotc)
             }
           }
         },
@@ -283,15 +281,13 @@ const formConfig = {
             activeDutyRepayingPeriod: _.merge({
               'ui:options': {
                 expandUnder: 'view:activeDutyRepayingPeriod',
-                updateSchema: (formData, schema) => {
-                  let requiredProperties = [];
-                  if (formData['view:activeDutyRepayingPeriod']) {
-                    requiredProperties = ['from', 'to'];
-                  }
-                  return _.assign(schema, {
-                    required: requiredProperties
-                  });
-                }
+                expandUnderClassNames: 'schemaform-expandUnder-indent'
+              },
+              to: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
+              },
+              from: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
               }
             }, dateRangeUI('Start date', 'End date'))
           },

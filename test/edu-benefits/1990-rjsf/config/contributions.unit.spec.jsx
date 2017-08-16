@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
 
 describe('Edu 1990 contributions', () => {
@@ -19,7 +18,7 @@ describe('Edu 1990 contributions', () => {
           definitions={definitions}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
@@ -33,10 +32,25 @@ describe('Edu 1990 contributions', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
+  });
+  it('should reveal date fields', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}
+          definitions={definitions}/>
+    );
+    const formDOM = getFormDOM(form);
+    formDOM.setCheckbox('#root_view\\:activeDutyRepayingPeriod', true);
+
+    expect(formDOM.querySelectorAll('input').length).to.equal(7);
   });
 });

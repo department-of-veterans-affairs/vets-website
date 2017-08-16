@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
 
-describe('Edu 1990-rjsf servicePeriods', () => {
+describe('Edu 1990 servicePeriods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   const definitions = formConfig.defaultDefinitions;
   it('should render service fields', () => {
