@@ -104,7 +104,7 @@
     "imports-loader": "^0.6.5",
     "ismobilejs": "^0.4.0",
     "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",
-    "jsdom": "^9.4.2",
+    "jsdom": "^11.1.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",
