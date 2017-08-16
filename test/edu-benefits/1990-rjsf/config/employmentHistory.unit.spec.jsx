@@ -5,7 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
-describe('Edu 1990e employmentHistory', () => {
+describe('Edu 1990 employmentHistory', () => {
   const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
