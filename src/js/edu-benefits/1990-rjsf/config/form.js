@@ -173,7 +173,6 @@ const formConfig = {
               benefitsRelinquished: {
                 'ui:title': 'I choose to give up:',
                 'ui:widget': 'radio',
-                'ui:required': () => true,
                 'ui:options': {
                   labels: benefitsRelinquishmentLabels,
                 }
@@ -191,6 +190,7 @@ const formConfig = {
             properties: {
               'view:benefitsRelinquishedContainer': {
                 type: 'object',
+                required: ['benefitsRelinquished'],
                 properties: {
                   benefitsRelinquished,
                   benefitsRelinquishedDate

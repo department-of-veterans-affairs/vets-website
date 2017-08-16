@@ -9,15 +9,7 @@ import _ from 'lodash/fp';
 export default class BenefitsRelinquishmentField extends React.Component {
   onPropertyChange(name) {
     return (value) => {
-      const formData = Object.keys(this.props.formData || {}).length
-        ? this.props.formData
-        : {
-          benefitsRelinquished: undefined,
-          benefitsRelinquishedDate: undefined
-        };
-      const newData = _.set(name, value, formData);
-      this.props.onChange(newData);
-      this.setState({ [name]: value });
+      this.props.onChange(_.set(name, value, this.props.formData));
     };
   }
 
