@@ -276,12 +276,14 @@ const formConfig = {
               'ui:title': 'I qualify for a Reserve Kicker (sometimes called a college fund).'
             },
             'view:activeDutyRepayingPeriod': {
-              'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.'
+              'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.',
+              'ui:options': {
+                expandUnderClassNames: 'schemaform-expandUnder-indent'
+              }
             },
             activeDutyRepayingPeriod: _.merge({
               'ui:options': {
-                expandUnder: 'view:activeDutyRepayingPeriod',
-                expandUnderClassNames: 'schemaform-expandUnder-indent'
+                expandUnder: 'view:activeDutyRepayingPeriod'
               },
               to: {
                 'ui:required': formData => formData['view:activeDutyRepayingPeriod']
