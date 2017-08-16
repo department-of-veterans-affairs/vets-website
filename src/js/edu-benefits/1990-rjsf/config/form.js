@@ -73,6 +73,11 @@ const formConfig = {
             'veteranDateOfBirth',
             'gender'
           ],
+          required: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+          ]
         }), {
           uiSchema: {
             veteranDateOfBirth: {
