@@ -4,6 +4,7 @@
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
     "build": "node script/build.js",
+    "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
     "heroku-postbuild": "node script/build.js --entry no-react,style",
     "lint": "npm run lint:js && npm run lint:sass",

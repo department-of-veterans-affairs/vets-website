@@ -1,13 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
-describe('Edu 1990e educationHistory', () => {
-  const { schema, uiSchema } = formConfig.chapters.educationHistory.pages.educationHistory;
+describe('Edu 1990 employmentHistory', () => {
+  const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -17,24 +16,24 @@ describe('Edu 1990e educationHistory', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
+
     const formDOM = getFormDOM(form);
 
-    const fields = formDOM.querySelectorAll('input');
-    expect(fields.length).to.equal(11);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
-  it('should have no required inputs', () => {
-    const onSubmit = sinon.spy();
+  it('should show history fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          onSubmit={onSubmit}
           data={{}}
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
+
     const formDOM = getFormDOM(form);
-    formDOM.submitForm();
-    expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
-    expect(onSubmit.called).to.be.true;
+
+    formDOM.setYesNo('#root_view\\:hasNonMilitaryJobsYes', 'Y');
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 });

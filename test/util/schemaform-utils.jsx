@@ -140,8 +140,24 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
 export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
+  /**
+   * Returns the element or throws a nicer error.
+   *
+   * @param  {string} selector The css selector
+   * @return {element}         The element returned from querySelctor()
+   */
+  formDOM.getElement = function getElement(selector) {
+    const element = this.querySelector(selector);
+
+    if (!element) {
+      throw new Error(`Could not find element at ${selector}`);
+    }
+
+    return element;
+  };
+
   formDOM.fillData = function fillData(id, value) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         value
       }
@@ -149,7 +165,7 @@ export function getFormDOM(form) {
   };
 
   formDOM.files = function fillFiles(id, files) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         files
       }
@@ -161,7 +177,7 @@ export function getFormDOM(form) {
   };
 
   formDOM.setCheckbox = function toggleCheckbox(selector, checked) {
-    ReactTestUtils.Simulate.change(this.querySelector(selector), {
+    ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
         checked
       }
@@ -171,7 +187,7 @@ export function getFormDOM(form) {
   // Accepts 'Y', 'N', true, false
   formDOM.setYesNo = function setYesNo(selector, value) {
     const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
-    ReactTestUtils.Simulate.change(this.querySelector(selector), {
+    ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
         value: isYes ? 'Y' : 'N'
       }
@@ -179,13 +195,13 @@ export function getFormDOM(form) {
   };
 
   formDOM.selectRadio = function selectRadio(fieldName, value) {
-    ReactTestUtils.Simulate.change(this.querySelector(`input[name^="${fieldName}"][value="${value}"]`), {
+    ReactTestUtils.Simulate.change(this.getElement(`input[name*="${fieldName}"][value="${value}"]`), {
       target: { value }
     });
   };
 
   formDOM.click = function click(selector) {
-    ReactTestUtils.Simulate.click(this.querySelector(selector));
+    ReactTestUtils.Simulate.click(this.getElement(selector));
   };
 
   // TODO: Remove fillDate from unit-helpers and prefer this one
