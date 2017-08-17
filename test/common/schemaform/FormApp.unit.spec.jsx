@@ -10,12 +10,17 @@ describe('Schemaform <FormApp>', () => {
   it('should render children', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'introduction'
+      pathname: 'introduction',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
@@ -29,12 +34,17 @@ describe('Schemaform <FormApp>', () => {
   it('should render nav and children', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
@@ -49,12 +59,17 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
@@ -68,12 +83,17 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
           isLoggedIn
@@ -84,12 +104,13 @@ describe('Schemaform <FormApp>', () => {
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
-  it('should route when prefill unfilled', () => {
+  it.only('should route when prefill unfilled', () => {
     const formConfig = {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
     const routes = [{
       pageList: [{}, {
@@ -103,6 +124,7 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
           prefillStatus={PREFILL_STATUSES.pending}
@@ -125,8 +147,12 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
     const router = {
       push: sinon.spy()
     };
@@ -136,6 +162,7 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
           isLoggedIn
@@ -159,8 +186,12 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
     const router = {
       push: sinon.spy()
     };
@@ -168,6 +199,7 @@ describe('Schemaform <FormApp>', () => {
     const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
+          routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
           isLoggedIn
