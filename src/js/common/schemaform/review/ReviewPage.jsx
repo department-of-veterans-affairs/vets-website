@@ -37,8 +37,7 @@ class ReviewPage extends React.Component {
       // to be slower than shallow cloning objects
       viewedPages: new Set(
         getPageKeys(props.route.pageList, props.form.data)
-      ),
-      showValidationWarning: false
+      )
     };
   }
 
@@ -100,7 +99,6 @@ class ReviewPage extends React.Component {
     const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
     if (isValid) {
       this.props.submitForm(formConfig, this.props.form);
-      this.setState({ showValidationWarning: false });
     } else {
       // validation errors in this situation are not visible, so we'd
       // like to know if they're common
@@ -114,7 +112,7 @@ class ReviewPage extends React.Component {
             prefix: formConfig.trackingPrefix
           }
         });
-        this.setState({ showValidationWarning: true });
+        this.props.setSubmission('status', 'validationError');
       }
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
@@ -163,14 +161,6 @@ class ReviewPage extends React.Component {
             onBack={this.goBack}
             onSubmit={this.handleSubmit}
             submission={form.submission}/>
-        {this.state.showValidationWarning && <div className="usa-error-alert">
-          <div className="usa-alert usa-alert-error" role="alert">
-            <div className="usa-alert-body">
-              <p><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
-              <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
-            </div>
-          </div>
-        </div>}
       </div>
     );
   }
