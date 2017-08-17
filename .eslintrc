@@ -33,7 +33,6 @@
 
     'react/jsx-closing-bracket-location': [2, 'after-props'],
     'react/jsx-equals-spacing': 2,
-    // 'react/jsx-indent': [2, 2],
     'react/jsx-key': 2,
     'react/jsx-no-bind': [0, {'ignoreRefs': true}],  // TODO: Enable after fixing.
     'react/jsx-pascal-case': 2,
