@@ -153,14 +153,6 @@ class ReviewPage extends React.Component {
             ))}
           </div>
         </div>
-        {this.state.showValidationWarning && <div className="usa-error-alert">
-          <div className="usa-alert usa-alert-error" role="alert">
-            <div className="usa-alert-body">
-              <p><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
-              <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
-            </div>
-          </div>
-        </div>}
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
             onChange={this.props.setPrivacyAgreement}
@@ -171,6 +163,14 @@ class ReviewPage extends React.Component {
             onBack={this.goBack}
             onSubmit={this.handleSubmit}
             submission={form.submission}/>
+        {this.state.showValidationWarning && <div className="usa-error-alert">
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <p><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
+              <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
+            </div>
+          </div>
+        </div>}
       </div>
     );
   }

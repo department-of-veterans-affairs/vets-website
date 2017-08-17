@@ -42,12 +42,13 @@ class FormApp extends React.Component {
     }
 
     // If we start in the middle of a form, redirect to the beginning
-    const currentPath = this.props.location.pathname;
+    const currentPath = this.props.currentLocation.pathname;
     const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
     // If we're in production, we'll redirect if we start in the middle of a form
     // In development, we won't redirect unless we append the URL with `?redirect` ()
-    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.location.search.includes('redirect');
+    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
     if (currentPath !== firstPagePath && devRedirect) {
+      // If the first page is not the intro and uses `depends`, this will probably break
       this.props.router.push(firstPagePath);
     }
   }
