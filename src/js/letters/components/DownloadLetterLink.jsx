@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { getLetterPdf } from '../actions/letters';
 
@@ -24,11 +24,74 @@ export class DownloadLetterLink extends React.Component {
   }
 
   render() {
+    let buttonClasses;
+    let buttonText;
+    let buttonDisabled;
+    let message;
+    switch (this.props.downloadStatus) {
+      case 'downloading':
+        buttonClasses = 'usa-button-disabled';
+        buttonText = 'Downloading...';
+        buttonDisabled = true;
+        break;
+      case 'success':
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Download Letter';
+        buttonDisabled = false;
+        message = (
+          <div className="usa-alert usa-alert-success" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
+              <p className="usa-alert-text">
+                If you want to download your letter again, please press the button below.
+              </p>
+            </div>
+          </div>
+        );
+        break;
+      case 'failure':
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Retry Download';
+        buttonDisabled = false;
+        message = (
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter didn't download.</h2>
+              <p className="usa-alert-text">
+                Your letter isn't available at this time. If you need help with
+                accessing your letter, please call <a href="tel: 855-574-7286">
+                855-574-7286</a>, Monday-Friday, 8 a.m. - 8 p.m. (ET).
+              </p>
+            </div>
+          </div>
+        );
+        break;
+      default:
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Download Letter';
+        buttonDisabled = false;
+    }
+
     return (
-      <Link onClick={this.downloadLetter} to="/" target="_blank"
-          className="usa-button-primary va-button-primary">
-        Download Letter
-      </Link>
+      <div>
+        <div className="form-expanding-group form-expanding-group-open">
+          <ReactCSSTransitionGroup
+              transitionName="form-expanding-group-inner"
+              transitionAppear
+              transitionAppearTimeout={700}
+              transitionEnterTimeout={700}
+              transitionLeave={false}>
+            {message}
+          </ReactCSSTransitionGroup>
+        </div>
+        <div className="download-button">
+          <button onClick={this.downloadLetter}
+              disabled={buttonDisabled}
+              className={buttonClasses}>
+            {buttonText}
+          </button>
+        </div>
+      </div>
     );
   }
 }
@@ -37,13 +100,15 @@ function mapStateToProps(state, ownProps) {
   return {
     letterType: ownProps.letterType,
     letterName: ownProps.letterName,
+    downloadStatus: ownProps.downloadStatus,
     letterOptions: state.letters.requestOptions
   };
 }
 
 DownloadLetterLink.PropTypes = {
   letterType: PropTypes.string.required,
-  letterName: PropTypes.string.required
+  letterName: PropTypes.string.required,
+  downloadStatus: PropTypes.string
 };
 
 const mapDispatchToProps = {

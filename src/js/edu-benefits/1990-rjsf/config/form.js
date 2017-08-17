@@ -4,33 +4,54 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import seniorRotcUI from '../../definitions/seniorRotc';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
-
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
+
 import { validateBooleanGroup } from '../../../common/schemaform/validation';
+import dateUI from '../../../common/schemaform/definitions/date';
 
 import {
   transform,
   benefitsEligibilityBox,
-  benefitsLabels
+  benefitsRelinquishmentWarning,
+  benefitsRelinquishmentLabels,
+  benefitsRelinquishedDescription
 } from '../helpers';
+
+import {
+  benefitsLabels
+} from '../../utils/labels';
 
 const {
   chapter33,
   chapter30,
   chapter1606,
   chapter32,
+  seniorRotcScholarshipProgram,
+  seniorRotc,
+  civilianBenefitsAssistance,
+  additionalContributions,
+  activeDutyKicker,
+  reserveKicker,
+  benefitsRelinquished,
+  benefitsRelinquishedDate,
   faaFlightCertificatesInformation,
   highSchoolOrGedCompletionDate,
   serviceAcademyGraduationYear
 } = fullSchema1990.properties;
+
 
 const {
   postHighSchoolTrainings,
@@ -69,6 +90,11 @@ const formConfig = {
             'veteranDateOfBirth',
             'gender'
           ],
+          required: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'veteranDateOfBirth',
+          ]
         }), {
           uiSchema: {
             veteranDateOfBirth: {
@@ -147,17 +173,50 @@ const formConfig = {
             }
           }
         },
-        benefitRelinquishment: {
+        benefitsRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
-          depends: {
-            chapter33: true
+          depends: (formData) => formData['view:selectedBenefits'].chapter33,
+          initialData: {
+            'view:benefitsRelinquishedContainer': {
+              benefitsRelinquishedDate: moment().format('YYYY-MM-DD')
+            }
           },
           uiSchema: {
+            'ui:title': 'Benefits relinquishment',
+            'ui:description': benefitsRelinquishmentWarning,
+            'view:benefitsRelinquishedContainer': {
+              'ui:field': BenefitsRelinquishmentField,
+              benefitsRelinquished: {
+                'ui:title': 'I choose to give up:',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: benefitsRelinquishmentLabels,
+                }
+              },
+              benefitsRelinquishedDate: _.merge(dateUI('Effective date'), {
+                'ui:required': (formData) => _.get('view:benefitsRelinquishedContainer.benefitsRelinquished', formData) !== 'unknown'
+              })
+            },
+            'view:questionText': {
+              'ui:description': benefitsRelinquishedDescription
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              'view:benefitsRelinquishedContainer': {
+                type: 'object',
+                required: ['benefitsRelinquished'],
+                properties: {
+                  benefitsRelinquished,
+                  benefitsRelinquishedDate
+                }
+              },
+              'view:questionText': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -225,10 +284,33 @@ const formConfig = {
           title: 'ROTC history',
           path: 'military-history/rotc-history',
           uiSchema: {
+            'ui:title': 'ROTC history',
+            seniorRotcScholarshipProgram: {
+              'ui:title': 'Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)',
+              'ui:widget': 'yesNo'
+            },
+            'view:seniorRotc': {
+              'ui:title': 'Were you commissioned as a result of senior ROTC?',
+              'ui:widget': 'yesNo'
+            },
+            seniorRotc: {
+              commissionYear: _.merge(yearUI, {
+                'ui:title': 'Year of commission:'
+              }),
+              rotcScholarshipAmounts: seniorRotcUI,
+              'ui:options': {
+                expandUnder: 'view:seniorRotc'
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              seniorRotcScholarshipProgram,
+              'view:seniorRotc': {
+                type: 'boolean'
+              },
+              seniorRotc: _.unset('required', seniorRotc)
             }
           }
         },
@@ -236,10 +318,49 @@ const formConfig = {
           title: 'Contributions',
           path: 'military-history/contributions',
           uiSchema: {
+            'ui:title': 'Contributions',
+            'ui:description': 'Select all that apply:',
+            civilianBenefitsAssistance: {
+              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+            },
+            additionalContributions: {
+              'ui:title': 'I made contributions (up to $600) to increase the amount of my monthly benefits.'
+            },
+            activeDutyKicker: {
+              'ui:title': 'I qualify for an Active Duty Kicker (sometimes called a college fund).'
+            },
+            reserveKicker: {
+              'ui:title': 'I qualify for a Reserve Kicker (sometimes called a college fund).'
+            },
+            'view:activeDutyRepayingPeriod': {
+              'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.',
+              'ui:options': {
+                expandUnderClassNames: 'schemaform-expandUnder-indent'
+              }
+            },
+            activeDutyRepayingPeriod: _.merge({
+              'ui:options': {
+                expandUnder: 'view:activeDutyRepayingPeriod'
+              },
+              to: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
+              },
+              from: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
+              }
+            }, dateRangeUI('Start date', 'End date'))
           },
           schema: {
             type: 'object',
             properties: {
+              civilianBenefitsAssistance,
+              additionalContributions,
+              activeDutyKicker,
+              reserveKicker,
+              'view:activeDutyRepayingPeriod': {
+                type: 'boolean'
+              },
+              activeDutyRepayingPeriod: dateRange
             }
           }
         }
@@ -275,19 +396,9 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          // There's only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'employment-history/employment-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        employmentHistory: _.merge(employmentHistoryPage(fullSchema1990), {
+          path: 'employment-history/employment-information'
+        })
       }
     },
     schoolSelection: {
