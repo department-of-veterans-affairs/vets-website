@@ -4,6 +4,7 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
@@ -404,19 +405,16 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          // There's only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'school-selection/school-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema1990, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate'
+          ],
+          required: ['educationType']
+        }), {
+          path: 'school-selection/school-information'
+        })
       }
     },
     personalInformation: {
