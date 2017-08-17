@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const minimumNodeVersion = '6.11.1';
 
+console.log("In Prebuild")
+
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
   ['pre-commit'].forEach(hook => {
