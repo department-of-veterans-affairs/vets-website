@@ -104,9 +104,9 @@ class FormApp extends React.Component {
     let content;
 
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+      content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we save your form."/>;
+      content = <LoadingIndicator message="Saving your form..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
