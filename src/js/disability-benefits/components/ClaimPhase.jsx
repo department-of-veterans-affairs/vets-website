@@ -111,11 +111,11 @@ export default class ClaimPhase extends React.Component {
         ? activityList
         : _.take(INITIAL_ACTIVITY_ROWS, activityList);
 
-      const activityListContent = limitedList.map((activity, index) =>
+      const activityListContent = limitedList.map((activity, index) => (
         <div key={index} className="claims-evidence row small-collapse">
           <div className="claims-evidence-date columns usa-width-one-fourth medium-3">{moment(activity.date).format('MMM D, YYYY')}</div>
           {this.getEventDescription(activity)}
-        </div>);
+        </div>));
 
       if (!this.state.showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (<div>
