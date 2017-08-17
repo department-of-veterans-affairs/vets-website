@@ -244,9 +244,7 @@ describe('Schemaform <FormApp>', () => {
           routes={routes}
           router={router}
           currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+          loadedStatus={LOAD_STATUSES.pending}>
         <div className="child"/>
       </FormApp>
     );
