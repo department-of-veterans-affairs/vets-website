@@ -49,12 +49,27 @@
     'react/jsx-tag-spacing': [2, { 'beforeSelfClosing': 'never' }],
     'import/no-extraneous-dependencies': 0,
 
+    // this is the airbnb default, minus for..of
+    'no-restricted-syntax': [2, 'error',
+      {
+        selector: 'ForInStatement',
+        message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
+      },
+      {
+        selector: 'LabeledStatement',
+        message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+      },
+      {
+        selector: 'WithStatement',
+        message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      }],
+    'no-plusplus': 0,
+
     // TODO: evaluate and potentially turn these rules back on
     'indent': 0, // on before
     'import/extensions': 0,
     'react/jsx-filename-extension': 0,
     'import/first': 0,
-    'no-plusplus': 0,
     'react/jsx-curly-spacing': 0, // on before
     'import/newline-after-import': 0,
     'react/jsx-no-target-blank': 0,
@@ -78,20 +93,6 @@
     'import/prefer-default-export': 0,
     'global-require': 0,
     'no-lonely-if': 0,
-    // this is the airbnb default, minus for..of
-    'no-restricted-syntax': [2, 'error',
-      {
-        selector: 'ForInStatement',
-        message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
-      },
-      {
-        selector: 'LabeledStatement',
-        message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
-      },
-      {
-        selector: 'WithStatement',
-        message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
-      }],
 		'lines-around-directive': 0,
     'jsx-a11y/href-no-hash': 0,
   },
