@@ -9,6 +9,7 @@ import { letterContent } from '../utils/helpers.jsx';
 
 class LetterList extends React.Component {
   render() {
+    const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
 
@@ -26,6 +27,7 @@ class LetterList extends React.Component {
           <DownloadLetterLink
               letterType={letter.letterType}
               letterName={letter.name}
+              downloadStatus={downloadStatus[letter.letterType]}
               key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
@@ -67,7 +69,8 @@ class LetterList extends React.Component {
 LetterList.PropTypes = {
   letters: PropTypes.array,
   lettersAvailability: PropTypes.string,
-  benefitSummaryOptions: PropTypes.object
+  benefitSummaryOptions: PropTypes.object,
+  letterDownloadStatus: PropTypes.object
 };
 
 export default LetterList;
