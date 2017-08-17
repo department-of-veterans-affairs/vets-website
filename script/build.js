@@ -443,6 +443,7 @@ if (options.watch) {
   // Useful for local development.
   try {
     // Check to see if we have a proxy config file
+    // eslint-disable-next-line import/no-unresolved
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
       '/api/v0/*': {
