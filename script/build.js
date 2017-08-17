@@ -455,7 +455,6 @@ if (options.watch) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
-          return;
         }
       }
     };
@@ -535,7 +534,9 @@ smith.use(navigation({
     breadcrumbProperty: 'breadcrumb_path',
     pathProperty: 'nav_path',
     includeDirs: true
-  }, navSettings: {} }));
+  },
+  navSettings: {}
+}));
 
 // Note that there is no default layout specified.
 // All pages must explicitly declare a layout or else it will be rendered as raw html.

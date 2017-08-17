@@ -3,7 +3,7 @@ import React from 'react';
 export default class ArrayCountWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userCount: !!props.value
+    this.state = { userCount: props.value
       ? props.value.length - (this.props.options.countOffset || 0)
       : undefined };
   }

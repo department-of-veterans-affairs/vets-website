@@ -60,13 +60,13 @@ class MessagingApp extends React.Component {
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"messaging"}
+          serviceRequired="messaging"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName={"mhvac"}
-            cancelPath={"/health-care"}
+            termsName="mhvac"
+            cancelPath="/health-care"
             termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div id="messaging-app-header">

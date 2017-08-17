@@ -38,7 +38,7 @@ class Post911GIBStatusApp extends React.Component {
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"evss-claims"}
+          serviceRequired="evss-claims"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>

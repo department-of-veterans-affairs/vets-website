@@ -472,7 +472,7 @@ export function expandArrayPages(pageList, data) {
     return _.set('currentList', currentList.concat(nextPage), acc);
   }, { lastArrayPath: null, arrayPages: [], currentList: [] });
 
-  if (!!result.arrayPages.length) {
+  if (result.arrayPages.length > 0) {
     return result.currentList.concat(generateArrayPages(result.arrayPages, data));
   }
 

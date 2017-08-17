@@ -45,13 +45,13 @@ class RxRefillsApp extends React.Component {
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"rx"}
+          serviceRequired="rx"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName={"mhvac"}
-            cancelPath={"/health-care"}
+            termsName="mhvac"
+            cancelPath="/health-care"
             topContent={breadcrumbs}
             termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>

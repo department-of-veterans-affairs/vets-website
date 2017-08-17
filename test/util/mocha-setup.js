@@ -33,12 +33,14 @@ function setupJSDom() {
 
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
   function propagateToGlobal(window) {
+    /* eslint-disable */
     for (const key in window) {
       if (!window.hasOwnProperty(key)) continue;
       if (key in global) continue;
 
       global[key] = window[key];
     }
+    /* eslint-enable */
   }
 
   propagateToGlobal(win);

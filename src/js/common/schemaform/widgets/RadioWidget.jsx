@@ -38,7 +38,7 @@ export default function RadioWidget({
           </div>
         );
 
-        if (!!nestedContent[option.value]) {
+        if (nestedContent[option.value]) {
           return (
             <ExpandingGroup open={checked} key={option.value}>
               {radioButton}

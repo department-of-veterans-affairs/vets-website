@@ -8,9 +8,7 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class UserProfileApp extends React.Component {
   render() {
-    let view;
-
-    view = (
+    const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Account</h1>
@@ -28,7 +26,7 @@ class UserProfileApp extends React.Component {
       <div>
         <RequiredLoginView
             authRequired={1}
-            serviceRequired={"user-profile"}
+            serviceRequired="user-profile"
             userProfile={this.props.profile}
             loginUrl={this.props.loginUrl}
             verifyUrl={this.props.verifyUrl}>

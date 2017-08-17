@@ -14,7 +14,6 @@ class ErrorView extends React.Component {
     };
     let title;
     let detail;
-    let content;
     let alert;
 
     if (some(errors, errorCodeIncludes(errorCodes.acceptTerms))) {
@@ -51,7 +50,7 @@ class ErrorView extends React.Component {
     }
 
 
-    content = (
+    const content = (
       <div>
         <h4>{title}</h4>
         <div>

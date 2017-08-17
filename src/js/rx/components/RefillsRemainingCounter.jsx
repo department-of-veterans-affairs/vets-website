@@ -14,7 +14,7 @@ class RefillsRemainingCounter extends React.Component {
   }
 
   render() {
-    let countClass = classNames({
+    const countClass = classNames({
       'rx-prescription-count': true,
       'rx-prescription-count-zero': this.props.remaining === 0
     });

@@ -97,7 +97,7 @@ class MessageDetails extends React.Component {
         </button>
         <div className="messaging-compact-details-control">
           {compactSentDate}
-          <a role="button" onClick={this.toggleCompactDetails}>
+          <a tabIndex="0" role="button" onClick={this.toggleCompactDetails}>
             {this.state.expandedCompact ? 'Hide details' : 'Details'}
           </a>
         </div>

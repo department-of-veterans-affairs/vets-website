@@ -8,7 +8,6 @@ export default function CheckboxWidget({
   required,
   disabled,
   label,
-  autofocus,
   onChange,
   options
 }) {
@@ -22,7 +21,6 @@ export default function CheckboxWidget({
           checked={typeof value === 'undefined' ? false : value}
           required={required}
           disabled={disabled}
-          autoFocus={autofocus}
           onChange={(event) => onChange(event.target.checked)}/>
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}{requiredSpan}
@@ -39,7 +37,6 @@ CheckboxWidget.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.bool,
   required: PropTypes.bool,
-  autofocus: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   options: PropTypes.object,
