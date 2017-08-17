@@ -21,9 +21,7 @@ export const invalidAddressProperty = (
       <div className="usa-alert-body">
         <h2 className="usa-alert-heading">Address unavailable</h2>
         <p className="usa-alert-text">
-          We're encountering an error with your address information. This is not
-          required for your letters, but if you'd like to see the address we have
-          on file, or to update it, please visit <a href="/" target="_blank">this link</a>.
+          We’re encountering an error with your address information. This is not required for your letters, but if you’d like to see the address we have on file, or to update it, please visit <a href="/" target="_blank">this link</a>.
         </p>
       </div>
     </div>
@@ -43,14 +41,14 @@ export const characterOfServiceContent = {
 
 // Map values returned by vets-api to display text.
 export const letterContent = {
-  commissary: 'If you\'re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
+  commissary: 'If you’re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
   proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
   minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
   service_verification: 'This letter shows your branch of service, date entered on active duty, and date discharged from active duty.',
   civil_service: 'You will need this letter to prove you are a disabled Veteran who can get preference for civil service jobs.',
-  benefit_summary: 'This letter shows what benefits you\'re receiving from the VA, military service, and disability status. Below, you can choose if you want military service and disability status to be included.',
-  benefit_verification: 'This letter shows what benefits you\'re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
+  benefit_summary: 'This letter shows what benefits you’re receiving from the VA, military service, and disability status. Below, you can choose if you want military service and disability status to be included.',
+  benefit_verification: 'This letter shows what benefits you’re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
 };
 
 // Options returned by the benefit summary letter request that should be offered in
@@ -72,7 +70,7 @@ const benefitOptionText = {
       dependent: undefined
     },
     'false': {
-      veteran: undefined,
+      veteran: <div>You are receiving a service-connected pension.</div>,
       dependent: undefined
     }
   },
@@ -108,7 +106,7 @@ const benefitOptionText = {
   },
   hasAdaptedHousing: {
     'true': {
-      veteran: <div>You <strong>have been found entitled</strong> to a Specially Adapted Housing (SAH) and/or Special Home Adaptation (SHA) grant.</div>,
+      veteran: <div>You <strong>qualify</strong> for a Specially Adapted Housing (SAH) and/or a Special Home Adaption (SHA) grant.</div>,
       dependent: undefined
     },
     'false': {
@@ -138,7 +136,7 @@ const benefitOptionText = {
   },
   hasIndividualUnemployabilityGranted: {
     'true': {
-      veteran: <div>You <strong>are</strong> being paid at the 100 percent rate because you are unemployable due to your service-connected disabilities.</div>,
+      veteran: <div>You <strong>are</strong> being paid at 100% because you’re unemployable due to your service-connected disabilities.</div>,
       dependent: undefined
     },
     'false': {
@@ -148,7 +146,7 @@ const benefitOptionText = {
   },
   hasSpecialMonthlyCompensation: {
     'true': {
-      veteran: <div>You <strong>are</strong> service-connected for loss of or loss of use of a limb, or you are totally blind in or missing at least one eye.</div>,
+      veteran: <div>Your service-connected disability includes a loss, or loss of use, of a limb, or you’re totally blind or missing an eye.</div>,
       dependent: undefined
     },
     'false': {
@@ -181,8 +179,8 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
       if (value && value !== 'unavailable') {
         return (
           <div>
-            <div>Your current monthly award amount is <strong>${value}</strong>.</div>
-            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong></div>
+            <div>Your current monthly award is <strong>${value}</strong>.</div>
+            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
           </div>
         );
       }
@@ -191,7 +189,7 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
 
     case 'serviceConnectedPercentage': {
       if (value && value !== 'unavailable' && isVeteran) {
-        return (<div>Your combined service-connected evaluation is <strong>{value}%</strong>.</div>);
+        return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
       }
       return undefined;
     }
