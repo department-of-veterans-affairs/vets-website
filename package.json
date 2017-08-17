@@ -6,7 +6,7 @@
     "build": "node script/build.js",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "node script/build.js --entry no-react,style",
+    "heroku-postbuild": "npm run build --  --entry no-react,style",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
