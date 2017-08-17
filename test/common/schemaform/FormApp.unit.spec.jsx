@@ -104,7 +104,7 @@ describe('Schemaform <FormApp>', () => {
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
-  it.only('should route when prefill unfilled', () => {
+  it('should route when prefill unfilled', () => {
     const formConfig = {
       title: 'Testing'
     };
@@ -215,5 +215,43 @@ describe('Schemaform <FormApp>', () => {
     });
 
     expect(router.push.calledWith('/error')).to.be.true;
+  });
+  it('should route to the first page if started in the middle', () => {
+    const formConfig = {
+      title: 'Testing'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      push: sinon.spy()
+    };
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    SkinDeep.shallowRender(
+      <FormApp
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          loadedStatus={LOAD_STATUSES.pending}
+          isLoggedIn
+          updateLogInUrl={() => {}}>
+        <div className="child"/>
+      </FormApp>
+    );
+    __BUILDTYPE__ = buildType;
+
+    expect(router.push.calledWith('/introduction')).to.be.true;
   });
 });
