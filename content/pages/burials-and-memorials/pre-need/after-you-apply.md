@@ -28,7 +28,7 @@ Find out what happens after you apply for a pre-need eligibility determination f
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">If more than 90 days have passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than 90 days have passed since you sent us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">1-877-222-8387</a>.</span>
 </div>
 
 The amount of time it takes to review your application depends on:
@@ -62,7 +62,7 @@ Keep your pre-need decision letter and folder in a safe place. Talk to your fami
 
 #### What do my family members need to do to request my burial when I die?
 
-When you die, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
+When you die, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">1-800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
 
 We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
@@ -87,7 +87,7 @@ If you're a Veteran, your surviving spouse or other family members may also qual
 
 #### What if I need to update my information in the future?
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 <br>
 
