@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-You can apply online to find out in advance if you can be buried in a VA national cemetery. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members in the event of your death. Follow the steps below to apply. 
+You can apply to find out in advance if you can be buried in a VA national cemetery. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members in the event of your death. Follow the steps below to apply. 
 
 </div>
 
@@ -51,7 +51,7 @@ You can apply online to find out in advance if you can be buried in a VA nationa
 
 - **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
 
-- **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">877-907-8585</a>.
+- **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">1-877-907-8585</a>.
 
 - **Getting a pre-need determination of eligibility doesn’t guarantee you’ll be buried in a specific VA national cemetery.** We ask you where you'd preferred to be buried so we can try to help fulfill your final wishes. But, after your death, when we receive a request for burial from the person handling your burial arrangements, we'll assign a gravesite in a cemetery with available space.
 
@@ -67,7 +67,7 @@ Please see the list below. If you don’t have everything on the list, you can s
 
 <li class="process-step list-four">
 
-#### Be ready to fill out an application for each person requesting a pre-need eligibility determination.
+#### Be sure to fill out an application for each person requesting a pre-need eligibility determination.
 
 If both you and your spouse are applying, you’ll each need to fill out your own application.
 
@@ -101,7 +101,7 @@ To apply, you’ll need your (or your sponsor's):
 
 ### What if I need help filling out my application forms?
 
-Call our toll-free hotline at 877-222-VETS ( <a href="tel:+18772228387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS ( <a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
@@ -111,19 +111,11 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### Ready to apply?
 
-You can start your application right now.
+Fill out the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/">Apply for pre-need eligibility determination</a>
+Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
 
-<div markdown="0"><br></div>
-
-#### Other ways to apply
-
-##### By mail
-
-Apply by mail using the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
-
-Print the form, fill it out, and send it along with copies of your supporting documents to this address:
+#### By mail to:
 
 <dl class="va-address-block">
 <dd>National Cemetery Scheduling Office</dd>
@@ -135,11 +127,7 @@ Print the form, fill it out, and send it along with copies of your supporting do
 
 <br>
 
-##### By fax 
-
-Apply by fax using the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
-
-Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-8299</a>.
+#### By fax to <a href="tel:+18558408299">1-855-840-8299</a>.
 
 <br>
 
@@ -153,7 +141,7 @@ Print the form, fill it out, and fax it to <a href="tel:+18558408299">855-840-82
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">If more than 90 days has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than 90 days has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">1-877-222-8387</a>.</span>
 </div>
 
 <div markdown="0"><br></div>
