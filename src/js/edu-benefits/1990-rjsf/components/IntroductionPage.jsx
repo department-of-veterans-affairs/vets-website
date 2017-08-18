@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits"/>
-        <p>This application is equivalent to Form 22-1990 (Application for VA Education Benefits).</p>
+        <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -41,8 +41,9 @@ class IntroductionPage extends React.Component {
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for Benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this education benefits form.</p>
+               <p>After submitting the form, you’ll get a confirmation message that you can print.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
