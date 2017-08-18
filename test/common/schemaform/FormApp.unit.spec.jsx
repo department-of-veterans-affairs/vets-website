@@ -96,7 +96,6 @@ describe('Schemaform <FormApp>', () => {
           routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
           updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
@@ -128,7 +127,6 @@ describe('Schemaform <FormApp>', () => {
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
           prefillStatus={PREFILL_STATUSES.pending}
-          isLoggedIn
           updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
@@ -165,7 +163,6 @@ describe('Schemaform <FormApp>', () => {
           routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
           updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
@@ -202,7 +199,6 @@ describe('Schemaform <FormApp>', () => {
           routes={routes}
           currentLocation={currentLocation}
           loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
           updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
