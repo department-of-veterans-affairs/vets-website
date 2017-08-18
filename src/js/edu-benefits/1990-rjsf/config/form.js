@@ -1,19 +1,22 @@
+import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
-
+import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -27,7 +30,8 @@ import {
   benefitsEligibilityBox,
   benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
-  benefitsRelinquishedDescription
+  benefitsRelinquishedDescription,
+  hasServiceBefore1977
 } from '../helpers';
 
 import {
@@ -49,7 +53,8 @@ const {
   benefitsRelinquishedDate,
   faaFlightCertificatesInformation,
   highSchoolOrGedCompletionDate,
-  serviceAcademyGraduationYear
+  serviceAcademyGraduationYear,
+  secondaryContact
 } = fullSchema1990.properties;
 
 
@@ -58,7 +63,10 @@ const {
   date,
   dateRange,
   year,
-  currentlyActiveDuty
+  currentlyActiveDuty,
+  address,
+  phone,
+  serviceBefore1977
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -74,7 +82,10 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    year
+    year,
+    address,
+    phone,
+    serviceBefore1977
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -228,6 +239,15 @@ const formConfig = {
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
+          initialData: {
+            toursOfDuty: [{
+              serviceBranch: 'Army',
+              dateRange: {
+                from: '12-12-1970',
+                to: '12-12-1990'
+              }
+            }]
+          },
           uiSchema: {
             'ui:title': 'Service periods',
             toursOfDuty: _.merge(toursOfDuty.uiSchema, {
@@ -422,53 +442,96 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: {
-          title: 'Contact information',
-          path: 'personal-information/contact-information',
+        contactInformation: _.merge(contactInformationPage(fullSchema1990), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
+            'ui:title': 'Contact information'
           }
-        },
+        }),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
+          initialData: {},
           uiSchema: {
+            'ui:title': 'Secondary contact',
+            'ui:description': 'This person should know where you can be reached at all times.',
+            secondaryContact: {
+              fullName: {
+                'ui:title': 'Name'
+              },
+              phone: phoneUI('Telephone number'),
+              'view:address': {
+                'ui:title': 'Address'
+              },
+              sameAddress: {
+                'ui:title': 'Address for secondary contact is the same as mine'
+              },
+              address: _.merge(addressUI('', false), {
+                'ui:options': {
+                  hideIf: formData => formData.secondaryContact.sameAddress
+                }
+              })
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              secondaryContact: {
+                type: 'object',
+                properties: {
+                  fullName: secondaryContact.properties.fullName,
+                  phone,
+                  'view:address': {
+                    type: 'object',
+                    properties: {}
+                  },
+                  sameAddress: secondaryContact.properties.sameAddress,
+                  address: addressSchema(fullSchema1990)
+                }
+              }
             }
           }
         },
         dependents: {
           title: 'Dependent information',
           path: 'personal-information/dependents',
-          depends: {
-            // hasServiceBefore1978
-          },
+          depends: hasServiceBefore1977,
           uiSchema: {
+            'ui:title': 'Dependents',
+            serviceBefore1977: {
+              married: {
+                'ui:title': 'Are you married?',
+                'ui:widget': 'yesNo'
+              },
+              haveDependents: {
+                'ui:title': 'Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?',
+                'ui:widget': 'yesNo'
+              },
+              parentDependent: {
+                'ui:title': 'Do you have a parent who is dependent on your financial support?',
+                'ui:widget': 'yesNo'
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              serviceBefore1977: _.unset('required', serviceBefore1977)
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+        directDeposit: _.merge(createDirectDepositPage(fullSchema1990), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
+            'ui:description': () => {
+              return (
+                <div>
+                  <p>VA makes payments only through direct deposit, also called electronic funds transfer (EFT). The only exception is for participants in the Post-Vietnam Era Veterans' Educational Assistance Program (VEAP).</p>
+
+                  <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/" target="_blank">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
+                </div>
+                );
             }
           }
-        }
+        })
       }
     }
   }
