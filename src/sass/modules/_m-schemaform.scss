@@ -25,7 +25,7 @@ legend {
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
+.va-nav-breadcrumbs-list, legend, .nav-header > h4, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
   &:focus {
     outline: none;
   }
