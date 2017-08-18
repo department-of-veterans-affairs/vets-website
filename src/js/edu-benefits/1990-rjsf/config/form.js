@@ -4,6 +4,10 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
@@ -36,6 +40,12 @@ const {
   chapter30,
   chapter1606,
   chapter32,
+  seniorRotcScholarshipProgram,
+  seniorRotc,
+  civilianBenefitsAssistance,
+  additionalContributions,
+  activeDutyKicker,
+  reserveKicker,
   benefitsRelinquished,
   benefitsRelinquishedDate,
   faaFlightCertificatesInformation,
@@ -275,10 +285,33 @@ const formConfig = {
           title: 'ROTC history',
           path: 'military-history/rotc-history',
           uiSchema: {
+            'ui:title': 'ROTC history',
+            seniorRotcScholarshipProgram: {
+              'ui:title': 'Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)',
+              'ui:widget': 'yesNo'
+            },
+            'view:seniorRotc': {
+              'ui:title': 'Were you commissioned as a result of senior ROTC?',
+              'ui:widget': 'yesNo'
+            },
+            seniorRotc: {
+              commissionYear: _.merge(yearUI, {
+                'ui:title': 'Year of commission:'
+              }),
+              rotcScholarshipAmounts: seniorRotcUI,
+              'ui:options': {
+                expandUnder: 'view:seniorRotc'
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              seniorRotcScholarshipProgram,
+              'view:seniorRotc': {
+                type: 'boolean'
+              },
+              seniorRotc: _.unset('required', seniorRotc)
             }
           }
         },
@@ -286,10 +319,49 @@ const formConfig = {
           title: 'Contributions',
           path: 'military-history/contributions',
           uiSchema: {
+            'ui:title': 'Contributions',
+            'ui:description': 'Select all that apply:',
+            civilianBenefitsAssistance: {
+              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+            },
+            additionalContributions: {
+              'ui:title': 'I made contributions (up to $600) to increase the amount of my monthly benefits.'
+            },
+            activeDutyKicker: {
+              'ui:title': 'I qualify for an Active Duty Kicker (sometimes called a college fund).'
+            },
+            reserveKicker: {
+              'ui:title': 'I qualify for a Reserve Kicker (sometimes called a college fund).'
+            },
+            'view:activeDutyRepayingPeriod': {
+              'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.',
+              'ui:options': {
+                expandUnderClassNames: 'schemaform-expandUnder-indent'
+              }
+            },
+            activeDutyRepayingPeriod: _.merge({
+              'ui:options': {
+                expandUnder: 'view:activeDutyRepayingPeriod'
+              },
+              to: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
+              },
+              from: {
+                'ui:required': formData => formData['view:activeDutyRepayingPeriod']
+              }
+            }, dateRangeUI('Start date', 'End date'))
           },
           schema: {
             type: 'object',
             properties: {
+              civilianBenefitsAssistance,
+              additionalContributions,
+              activeDutyKicker,
+              reserveKicker,
+              'view:activeDutyRepayingPeriod': {
+                type: 'boolean'
+              },
+              activeDutyRepayingPeriod: dateRange
             }
           }
         }
@@ -333,19 +405,16 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          // There's only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'school-selection/school-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema1990, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate'
+          ],
+          required: ['educationType']
+        }), {
+          path: 'school-selection/school-information'
+        })
       }
     },
     personalInformation: {

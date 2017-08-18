@@ -39,9 +39,9 @@ class UserDataSection extends React.Component {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
       }, 100);
-      return <LoadingIndicator setFocus message="Loading your information"/>;
+      return <LoadingIndicator setFocus message="Loading your information..."/>;
     } else if (!termsAccepted && this.state.modalOpen && terms.loading === true) {
-      return <LoadingIndicator setFocus message="Loading your information"/>;
+      return <LoadingIndicator setFocus message="Loading your information..."/>;
     } else if (termsAccepted) {
       return (
         <div>
