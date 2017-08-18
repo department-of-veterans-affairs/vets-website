@@ -38,7 +38,7 @@ class DownloadLetters extends React.Component {
           <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Request a copy of your discharge or separation papers (DD214).</strong></a></li>
         </ul>
         <p>
-          Please visit <a href="https://www.ebenefits.va.gov/">eBenefits</a> for any document or letter not listed here.
+          Please visit <a href="https://www.ebenefits.va.gov/" target="_blank">eBenefits</a> for any document or letter not listed here.
         </p>
         <div className="feature help-desk">
           <h2>Need help?</h2>
