@@ -53,7 +53,6 @@ describe('schemaform createSchemaFormReducer', () => {
     expect(state.submission).not.to.be.undefined;
     expect(state.data.privacyAgreementAccepted).to.be.false;
     expect(state.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
-    expect(state.page2).to.be.undefined;
     expect(state.isStartingOver).to.be.false;
     expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     expect(state.initialData).to.equal(state.data);
