@@ -21,6 +21,7 @@ def buildDetails = { vars ->
     CHANGE_TARGET=${env.CHANGE_TARGET}
     BUILD_ID=${env.BUILD_ID}
     BUILD_NUMBER=${env.BUILD_NUMBER}
+    REF=${vars['ref']}
   """.stripIndent()
 }
 
@@ -34,13 +35,15 @@ def notify = { message, color='good' ->
 }
 
 node('vets-website-linting') {
-  def dockerImage, args
+  def dockerImage, args, ref
 
   // Checkout source, create output directories, build container
 
   stage('Setup') {
     try {
       checkout scm
+
+      ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
       sh "mkdir -p build"
       sh "mkdir -p logs/selenium"
@@ -94,53 +97,23 @@ node('vets-website-linting') {
     }
   }
 
-  stage('Review') {
-    try {
-      if (!isReviewable()) {
-        return
-      }
-      build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
-        stringParam(name: 'api_branch', value: 'master'),
-        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-        stringParam(name: 'source_repo', value: 'vets-website'),
-      ], wait: false
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
-      throw error
-    }
-  }
-
-  // Perform a build for each required build type
+  // Perform a build for each build type
 
   stage('Build') {
     try {
-      def buildList = ['production']
-
-      if (env.BRANCH_NAME == 'master') {
-        buildList << 'staging'
-        buildList << 'development'
-      }
-
       def builds = [:]
 
       for (int i=0; i<envNames.size(); i++) {
         def envName = envNames.get(i)
 
-        if (buildList.contains(envName)) {
-          builds[envName] = {
-            dockerImage.inside(args) {
-              sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-              sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
-            }
-          }
-        } else {
-          builds[envName] = {
-            println "Build '${envName}' not required, skipped."
+        builds[envName] = {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+            sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
       }
-  
+
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
@@ -151,7 +124,6 @@ node('vets-website-linting') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
-
     try {
       parallel (
         e2e: {
@@ -171,6 +143,42 @@ node('vets-website-linting') {
       throw error
     } finally {
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
+  }
+
+  stage('Archive') {
+    try {
+      def builds = [ 'development', 'staging', 'production' ]
+
+      dockerImage.inside(args) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
+                          usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
+          for (int i=0; i<builds.size(); i++) {
+            sh "tar -C /application/build/${builds.get(i)} -cf /application/build/${builds.get(i)}.tar.bz2 ."
+            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${builds.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${builds.get(i)}.tar.bz2"
+          }
+        }
+      }
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
+      throw error
+    }
+  }
+
+  stage('Review') {
+    try {
+      if (!isReviewable()) {
+        return
+      }
+      build job: 'deploys/vets-review-instance-deploy', parameters: [
+        stringParam(name: 'devops_branch', value: 'master'),
+        stringParam(name: 'api_branch', value: 'master'),
+        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'source_repo', value: 'vets-website'),
+      ], wait: false
+    } catch (error) {
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
+      throw error
     }
   }
 
