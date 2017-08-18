@@ -92,7 +92,7 @@
     'import/prefer-default-export': 0,
     'global-require': 0,
     'no-lonely-if': 0,
-		'lines-around-directive': 0,
+    'lines-around-directive': 0,
     'jsx-a11y/href-no-hash': 0,
   },
   'parserOptions': {
