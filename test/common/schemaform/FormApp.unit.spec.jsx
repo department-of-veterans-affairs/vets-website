@@ -212,7 +212,7 @@ describe('Schemaform <FormApp>', () => {
 
     expect(router.push.calledWith('/error')).to.be.true;
   });
-  it('should route to the first page if started in the middle', () => {
+  it('should route to the first page if started in the middle and not logged in', () => {
     const formConfig = {
       title: 'Testing'
     };
@@ -234,7 +234,7 @@ describe('Schemaform <FormApp>', () => {
     // Only redirects in production or if ?redirect is in the URL
     const buildType = __BUILDTYPE__;
     __BUILDTYPE__ = 'production';
-    SkinDeep.shallowRender(
+    const tree = SkinDeep.shallowRender(
       <FormApp
           formConfig={formConfig}
           routes={routes}
@@ -244,8 +244,116 @@ describe('Schemaform <FormApp>', () => {
         <div className="child"/>
       </FormApp>
     );
-    __BUILDTYPE__ = buildType;
+
+    tree.getMountedInstance().componentDidMount();
 
     expect(router.push.calledWith('/introduction')).to.be.true;
+    __BUILDTYPE__ = buildType;
+  });
+  it('should load a saved form when starting in the middle of a form and logged in', () => {
+    const formConfig = {
+      title: 'Testing',
+      formId: 'testForm'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      push: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          profileIsLoading
+          loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    // When logged in, the component gets mounted before the profile is finished
+    //  loading, so the logic is in componentWillReceiveProps()
+    tree.getMountedInstance().componentWillReceiveProps({
+      profileIsLoading: false,
+      isLoggedIn: true,
+      savedForms: [formConfig.formId],
+      prefillsAvailable: [],
+      formConfig,
+      router,
+      routes,
+      fetchInProgressForm
+    });
+
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+      .to.be.true;
+    __BUILDTYPE__ = buildType;
+  });
+  it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
+    const formConfig = {
+      title: 'Testing',
+      formId: 'testForm'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      push: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+          formConfig={formConfig}
+          routes={routes}
+          router={router}
+          currentLocation={currentLocation}
+          profileIsLoading
+          loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    // When logged in, the component gets mounted before the profile is finished
+    //  loading, so the logic is in componentWillReceiveProps()
+    tree.getMountedInstance().componentWillReceiveProps({
+      profileIsLoading: false,
+      isLoggedIn: true,
+      savedForms: [],
+      prefillsAvailable: [formConfig.formId],
+      formConfig,
+      router,
+      routes,
+      fetchInProgressForm
+    });
+
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true))
+      .to.be.true;
+    __BUILDTYPE__ = buildType;
   });
 });

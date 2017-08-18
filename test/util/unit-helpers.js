@@ -5,10 +5,12 @@ import polyfillDataset from 'element-dataset';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
+const originalFetch = global.fetch;
 
 function setupJSDom() {
   // setup the simplest document possible
@@ -77,5 +79,12 @@ function fillDate(formDOM, partialId, dateString) {
   });
 }
 
+export function mockFetch(returnVal) {
+  global.fetch = sinon.stub().returns(returnVal);
+}
+
+export function resetFetch() {
+  global.fetch = originalFetch();
+}
 
 export { chai, expect, setupJSDom, wrapWithContext, wrapWithRouterContext, fillDate };
