@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits"/>
-        <p>This application is equivalent to Form 22-1990E (Application for Family Member to Use Transferred Benefits).</p>
+        <p>Equal to VA Form 22-1990E (Application for Family Member to Use Transferred Benefits).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -35,15 +35,16 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p>We encourage you to work with a trained professional, such as <a href="/disability-benefits/apply/help/index.html">an accredited representative with a Veterans Service Organization (VSO),</a> to pick the right program.</p>
+              <p><a href="/disability-benefits/apply/help/index.html">An accredited representative with a Veterans Service Organization (VSO)</a> can help you pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for Benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this education benefits form.</p>
+              <p>After submitting the form, you’ll get a confirmation message that you can print.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
