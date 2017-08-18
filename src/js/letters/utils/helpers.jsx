@@ -70,7 +70,7 @@ const benefitOptionText = {
       dependent: undefined
     },
     'false': {
-      veteran: <div>You are receiving a service-connected pension.</div>,
+      veteran: undefined,
       dependent: undefined
     }
   },
