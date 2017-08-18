@@ -14,8 +14,6 @@ def isDeployable = {
 }
 
 def buildDetails = { vars ->
-  def ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-
   """
     BUILDTYPE=${vars['buildtype']}
     NODE_ENV=production
