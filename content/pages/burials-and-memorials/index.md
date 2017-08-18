@@ -39,6 +39,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-We can help Veterans and family members plan a burial or memorial service. Find out how to get burial benefits. 
+We can help you plan a burial or memorial service for a Servicemember, Veteran, or qualified family member. Find out how to get burial benefits. 
 
 </div>
