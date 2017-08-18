@@ -4,8 +4,8 @@ const timeouts = {
 };
 
 if (process.env.SAUCE_ACCESS_KEY) {
-  timeouts.normal = 60000;
-  timeouts.slow = 150000;
+  timeouts.normal = 240000;
+  timeouts.slow = 480000;
 }
 
 module.exports = timeouts;

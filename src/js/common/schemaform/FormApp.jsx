@@ -40,6 +40,17 @@ class FormApp extends React.Component {
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
+
+    // If we start in the middle of a form, redirect to the beginning
+    const currentPath = this.props.currentLocation.pathname;
+    const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
+    // If we're in production, we'll redirect if we start in the middle of a form
+    // In development, we won't redirect unless we append the URL with `?redirect` ()
+    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
+    if (currentPath !== firstPagePath && devRedirect) {
+      // If the first page is not the intro and uses `depends`, this will probably break
+      this.props.router.push(firstPagePath);
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -104,9 +115,9 @@ class FormApp extends React.Component {
     let content;
 
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+      content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we save your form."/>;
+      content = <LoadingIndicator message="Saving your form..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {

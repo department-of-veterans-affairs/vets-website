@@ -44,6 +44,21 @@ export default function SubmitButtons({ submission, onSubmit, onBack, errorMessa
         </div>
       </div>
     );
+  } else if (submission.status === 'validationError') {
+    submitButton = (
+      <ProgressButton
+          onButtonClick={onSubmit}
+          buttonText="Submit Application"
+          buttonClass="usa-button-primary"/>
+    );
+    submitMessage = (
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+        <div className="usa-alert-body">
+          <p className="schemaform-warning-header"><strong>We’re sorry. Some information in your application is missing or not valid.</strong></p>
+          <p>Please check each section of your application to make sure you’ve filled out all the information that is required.</p>
+        </div>
+      </div>
+    );
   } else {
     submitMessage = errorMessage
       ? <Message/>
