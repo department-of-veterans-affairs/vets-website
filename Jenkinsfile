@@ -148,10 +148,15 @@ node('vets-website-linting') {
 
   stage('Archive') {
     try {
+      def builds = [ 'development', 'staging', 'production' ]
+
       dockerImage.inside(args) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                           usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build s3://vetsgov-website-builds-s3-upload/${ref}"
+          for (int i=0; i<builds.size(); i++) {
+            sh "tar -C /application/build/${builds.get(i)} -cf /application/build/${builds.get(i)}.tar.bz2 ."
+            sh "s3-cli put --acl-public --region us-gov-west-1 /application/build/${builds.get(i)}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${builds.get(i)}.tar.bz2"
+          }
         }
       }
     } catch (error) {
