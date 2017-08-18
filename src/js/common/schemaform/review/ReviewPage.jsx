@@ -112,6 +112,7 @@ class ReviewPage extends React.Component {
             prefix: formConfig.trackingPrefix
           }
         });
+        this.props.setSubmission('status', 'validationError');
       }
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
