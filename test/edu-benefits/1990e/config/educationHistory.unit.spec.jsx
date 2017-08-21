@@ -1,10 +1,9 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
 describe('Edu 1990e educationHistory', () => {
@@ -18,8 +17,10 @@ describe('Edu 1990e educationHistory', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-    expect(fields.length).to.equal(8);
+    const formDOM = getFormDOM(form);
+
+    const fields = formDOM.querySelectorAll('input');
+    expect(fields.length).to.equal(11);
   });
   it('should have no required inputs', () => {
     const onSubmit = sinon.spy();
@@ -31,9 +32,9 @@ describe('Edu 1990e educationHistory', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    const formDOM = getFormDOM(form);
+    formDOM.submitForm();
+    expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
 });

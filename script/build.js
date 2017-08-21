@@ -1,5 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
-
+const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
@@ -22,33 +22,8 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
-const semver = require('semver');
-
-const fs = require('fs');
-const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNodeVersion = '6.10.3';
-
-if (!(process.env.INSTALL_HOOKS === 'no')) {
-  // Make sure git pre-commit hooks are installed
-  ['pre-commit'].forEach(hook => {
-    const src = path.join(__dirname, `../hooks/${hook}`);
-    const dest = path.join(__dirname, `../.git/hooks/${hook}`);
-    if (fs.existsSync(src)) {
-      if (!fs.existsSync(dest)) {
-        // Install hooks
-        fs.linkSync(src, dest);
-      }
-    }
-  });
-}
-
-if (semver.compare(process.version, minimumNodeVersion) === -1) {
-  process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
-  process.stdout.write(`Node.js version (installed): ${process.version}\n`);
-  process.exit(1);
-}
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -116,7 +91,6 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('pension/application/527EZ.md');
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
 }
 smith.use(ignore(ignoreList));
@@ -403,6 +377,13 @@ smith.use(collections({
       name: 'Survivors Pension'
     }
   },
+  pensionApplication: {
+    pattern: 'pension/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
@@ -585,6 +566,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
        '/employment/job-seekers/skills-translator',
        '/gi-bill-comparison-tool/',
        '/education/apply-for-education-benefits/application',
+       '/pension/application/527EZ',
+       '/burials-and-memorials/application/530',
        '/health-care/apply/application',
        '/letters'].join('|'))
   }));

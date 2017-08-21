@@ -39,7 +39,7 @@ You can get education benefits if you were honorably discharged and:
 
 Both of these are true: 
 
-- You don't qualify for MGIB under categories I or II, **and**
+- You don’t qualify for MGIB under categories I or II, **and**
 - Before separation, you had military pay reduced by $1,200
 
 And 1 of these is true:
@@ -55,7 +55,7 @@ You had military pay reduced by $100 a month for 12 months or made a $1,200 lump
 - You were on active duty on October 9, 1996, had money left in a VEAP account on that date, and chose MGIB before October 9, 1997, **or**
 - You entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you chose MGIB between October 9, 1996, and July 9, 1997
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>
@@ -67,7 +67,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction). 
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 

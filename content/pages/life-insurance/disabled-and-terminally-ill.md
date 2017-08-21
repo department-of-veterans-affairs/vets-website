@@ -4,7 +4,7 @@ template: detail-page
 title: Claims for Disabled and Terminally Ill Policyholders
 display_title: Disabled & Terminally Ill Policyholders
 concurrence: 
-order: 3
+order: 2
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -66,7 +66,7 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
 <br>
 
@@ -116,12 +116,11 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
 
 - If you're a Veteran, have your doctor fill out their part of the form, then send the completed form to:
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>The Prudential Insurance Company of America</dd>
-  <dd>PO Box 70173</dd>
-  <dd>Philadelphia, PA 19176-0173</dd>
-</dl>
+<p class="va-address-block">
+  The Prudential Insurance Company of America<br>
+  PO Box 70173<br>
+  Philadelphia, PA 19176-0173<br>
+</p>
 
 Or, fax the form to 877-832-4943.
 
@@ -140,6 +139,4 @@ We pay the remaining amount of the face value of the insurance policy to your de
 [Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
 
 [Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
-
-<br>
 

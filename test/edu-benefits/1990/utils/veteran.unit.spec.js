@@ -154,7 +154,7 @@ describe('veteranToApplication', () => {
     formData.seniorRotcCommissioned.value = 'Y';
     applicationData = JSON.parse(veteranToApplication(formData));
 
-    expect(applicationData.seniorRotc).to.be.defined;
+    expect(applicationData.seniorRotc).not.to.be.undefined;
   });
   it('converts number fields to numbers', () => {
     const formData = createVeteran();

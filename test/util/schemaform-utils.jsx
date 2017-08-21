@@ -43,13 +43,21 @@ export class DefinitionTester extends React.Component {
   handleChange = (data) => {
     const {
       schema,
-      uiSchema
+      uiSchema,
+      formData
     } = this.state;
+    const { pagePerItemIndex, arrayPath } = this.props;
+
+    let fullData = data;
+
+    if (arrayPath) {
+      fullData = _.set([arrayPath, pagePerItemIndex], data, formData);
+    }
 
     const {
       data: newData,
       schema: newSchema
-    } = updateSchemaAndData(schema, uiSchema, data);
+    } = updateSchemaAndData(schema, uiSchema, fullData);
 
     this.setState({
       formData: newData,
@@ -58,7 +66,14 @@ export class DefinitionTester extends React.Component {
     });
   }
   render() {
-    const { schema, uiSchema, formData } = this.state;
+    let { schema, uiSchema, formData } = this.state;
+    const { pagePerItemIndex, arrayPath } = this.props;
+
+    if (arrayPath) {
+      schema = schema.properties[arrayPath].items[pagePerItemIndex];
+      uiSchema = uiSchema[arrayPath].items;
+      formData = formData ? formData[arrayPath][pagePerItemIndex] : formData;
+    }
 
     return (
       <SchemaForm
@@ -83,11 +98,66 @@ export function submitForm(form) {
   });
 }
 
+function getIdentifier(node) {
+  const tagName = node.tagName.toLowerCase();
+  if (node.id) {
+    return `${tagName}#${node.id}`;
+  }
+
+  if (node.name) {
+    return `${tagName}[name='${node.name}']`;
+  }
+
+  const classes = node.getAttribute('class');
+  if (classes) {
+    // Make a dot-separated list of class names
+    const classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
+    return `${tagName}${classList}`;
+  }
+
+  return tagName;
+}
+
+const bar = '\u2551';
+const elbow = '\u2559';
+const tee = '\u255F';
+
+function printTree(node, level = 0, isLastChild = true, padding = '') {
+  const nextLevel = level + 1; // For tail call optimization...theoretically...
+  const lastPipe = isLastChild ? `${elbow} ` : `${tee} `;
+
+  console.log(`${padding}${lastPipe}${getIdentifier(node)}`); // eslint-disable-line no-console
+
+  // Recurse for each child
+  const newPadding = padding + (isLastChild ? '  ' : `${bar} `);
+  const children = Array.from(node.children);
+  children.forEach((child, index) => {
+    const isLast = index === children.length - 1;
+    return printTree(child, nextLevel, isLast, newPadding);
+  });
+}
+
 export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
+  /**
+   * Returns the element or throws a nicer error.
+   *
+   * @param  {string} selector The css selector
+   * @return {element}         The element returned from querySelctor()
+   */
+  formDOM.getElement = function getElement(selector) {
+    const element = this.querySelector(selector);
+
+    if (!element) {
+      throw new Error(`Could not find element at ${selector}`);
+    }
+
+    return element;
+  };
+
   formDOM.fillData = function fillData(id, value) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         value
       }
@@ -95,7 +165,7 @@ export function getFormDOM(form) {
   };
 
   formDOM.files = function fillFiles(id, files) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         files
       }
@@ -106,8 +176,8 @@ export function getFormDOM(form) {
     submitForm(form);
   };
 
-  formDOM.setCheckbox = function toggleCheckbox(id, checked) {
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+  formDOM.setCheckbox = function toggleCheckbox(selector, checked) {
+    ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
         checked
       }
@@ -115,9 +185,9 @@ export function getFormDOM(form) {
   };
 
   // Accepts 'Y', 'N', true, false
-  formDOM.setYesNo = function setYesNo(id, value) {
+  formDOM.setYesNo = function setYesNo(selector, value) {
     const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
-    ReactTestUtils.Simulate.change(this.querySelector(id), {
+    ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
         value: isYes ? 'Y' : 'N'
       }
@@ -125,18 +195,26 @@ export function getFormDOM(form) {
   };
 
   formDOM.selectRadio = function selectRadio(fieldName, value) {
-    ReactTestUtils.Simulate.change(this.querySelector(`input[name^="${fieldName}"][value="${value}"]`), {
+    ReactTestUtils.Simulate.change(this.getElement(`input[name*="${fieldName}"][value="${value}"]`), {
       target: { value }
     });
   };
 
   formDOM.click = function click(selector) {
-    ReactTestUtils.Simulate.click(this.querySelector(selector));
+    ReactTestUtils.Simulate.click(this.getElement(selector));
   };
 
   // TODO: Remove fillDate from unit-helpers and prefer this one
   formDOM.fillDate = function populateDate(partialId, dateString) {
     fillDate(this, partialId, dateString);
+  };
+
+  /**
+   * Prints the formDOM as a tree in the console for debugging purposes
+   * @return {void}
+   */
+  formDOM.printTree = function print() {
+    printTree(this);
   };
 
   return formDOM;

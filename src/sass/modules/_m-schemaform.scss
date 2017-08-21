@@ -161,12 +161,6 @@ label {
   margin-bottom: 7rem;
 }
 
-// Align the intro content of the 22-1990 to match the title
-// Necessary for the 22-1990 and HCA since they don't use schemaform
-.intro-content {
-  margin-left: -2rem;
-}
-
 // Align the process ol with the title
 .schemaform-process {
   ol {
@@ -226,7 +220,7 @@ label {
     top: 9px;
     left: 10px;
   }
-  > input[type=number] {
+  > input {
     padding-left: 25px !important;
   }
 }
@@ -322,6 +316,12 @@ label {
 
 .schemaform-address-view {
   white-space: pre-wrap;
+  p {
+    margin-bottom: 0;
+  }
+  p:not(:first-child) {
+    margin-top: 0;
+  }
 }
 
 .schemaform-array-readonly-header {
@@ -350,4 +350,96 @@ label {
 
 .schemaform-file-uploading {
   width: 100%;
+}
+
+.schemaform-review-array-warning {
+  margin: -1em -0.8em 0;
+  border: 2px solid $color-gold-lightest;
+  > .form-review-panel-page-header-row {
+    padding: 1em 0.8em;
+    background-color: $color-gold-lightest;
+  }
+  > .va-growable-review {
+    padding: 0 1em;
+  }
+}
+
+.schemaform-review-array-warning-icon {
+  background-image: url("~uswds/dist/img/alerts/warning.png");
+  background-image: url("~uswds/dist/img/alerts/warning.svg");
+  width: 2em;
+  height: 1.4em;
+  background-size: 2em;
+  margin-right: 1em;
+}
+
+.schemaform-review-page-warning {
+  margin: -1em -1em 5rem;
+  .form-review-panel-page-header-row {
+    padding: 1em 1em;
+    background-color: $color-gold-lightest;
+    &:after {
+      display: block;
+      order: 2;
+      content: " ";
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.3em;
+      background-size: 2em;
+      margin-right: 1em;
+    }
+    .edit-btn {
+      order: 3;
+    }
+  }
+  dl.review {
+    padding: 0 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.schemaform-review-chapter-warning {
+  .schemaform-chapter-accordion-header {
+    position: relative;
+    > .usa-button-unstyled {
+      background-color: $color-gold-lightest;
+    }
+    .schemaform-review-chapter-warning-icon {
+      position: absolute;
+      top: 2.8rem;
+      right: 4rem;
+      display: block;
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.2em;
+      background-size: 1.8em;
+      margin-right: 1em;
+    }
+  }
+  .schemaform-chapter-accordion-content {
+    border-right-color: $color-gold-lightest;
+    border-left-color: $color-gold-lightest;
+    border-bottom-color: $color-gold-lightest;
+  }
+}
+
+.usa-alert-no-color {
+  background-color: transparent;
+}
+.usa-alert-mini {
+  margin-top: 0;
+  margin-bottom: 1em;
+  background-size: 3rem;
+  background-position: 1rem 1.8rem;
+  > .usa-alert-body {
+    padding-left: 3rem;
+  }
+}
+
+.schemaform-sip-expires {
+  color: $color-secondary-dark;
 }

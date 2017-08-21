@@ -592,7 +592,9 @@ ul, ol {
       display: inline-block;
       padding: 0 .35em;
     }
-
+    &:last-child:after {
+      content: "";
+    }
     &.active {
       font-weight: bold;
       padding: .3em 0;
@@ -1169,14 +1171,6 @@ li {
     margin: 0;
   }
 }
-
-// List overrides
-
-ul li p {
-  margin: 0;
-  padding: 0;
-}
-
 
 // vets.gov branded apps
 .vets-app {

@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import includes from 'lodash/fp/includes';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
@@ -13,6 +14,21 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
+
+export const invalidAddressProperty = (
+  <div id="invalidAddress">
+    <div className="usa-alert usa-alert-error">
+      <div className="usa-alert-body">
+        <h2 className="usa-alert-heading">Address unavailable</h2>
+        <p className="usa-alert-text">
+          We're encountering an error with your address information. This is not
+          required for your letters, but if you'd like to see the address we have
+          on file, or to update it, please visit <a href="/" target="_blank">this link</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+);
 
 // Map values returned by vets-api to display text.
 export const characterOfServiceContent = {
@@ -142,7 +158,7 @@ const benefitOptionText = {
   }
 };
 
-export function getBenefitOptionText(option, value, isVeteran) {
+export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDate) {
   const personType = isVeteran ? 'veteran' : 'dependent';
   let valueString;
   if (value === false) {
@@ -153,20 +169,22 @@ export function getBenefitOptionText(option, value, isVeteran) {
     valueString = value;
   }
 
-  if (!['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'].includes(option)) {
+  if (!includes(option, ['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'])) {
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
     case 'awardEffectiveDate': {
-      if (value && value !== 'unavailable') {
-        return (<div>The effective date of the last change to your current award was <strong>{formatDateShort(value)}</strong></div>);
-      }
       return undefined;
     }
 
     case 'monthlyAwardAmount': {
       if (value && value !== 'unavailable') {
-        return (<div>Your current monthly award amount is <strong>${value}</strong>.</div>);
+        return (
+          <div>
+            <div>Your current monthly award amount is <strong>${value}</strong>.</div>
+            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong></div>
+          </div>
+        );
       }
       return undefined;
     }
@@ -199,7 +217,6 @@ export const benefitOptionsMap = {
   hasSurvivorsIndemnityCompensationAward: 'survivorsAward',
   hasSurvivorsPensionAward: 'survivorsAward',
   monthlyAwardAmount: 'monthlyAward',
-  awardEffectiveDate: 'monthlyAward',
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };

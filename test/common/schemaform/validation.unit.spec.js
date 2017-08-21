@@ -103,8 +103,6 @@ describe('Schemaform validations', () => {
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(errors.__errors).to.be.defined;
-      expect(errors.addError).to.be.function;
       expect(validator.calledWith(errors, formData, formData)).to.be.true;
     });
     it('should use custom validation with object validator', () => {
@@ -409,7 +407,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.false;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.false;
     });
     it('should validate only filtered items for pagePerItem schema', () => {
       const form = {
@@ -444,7 +442,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.true;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
     });
     it('should not validate pages where depends is false', () => {
       const form = {
@@ -491,7 +489,7 @@ describe('Schemaform validations', () => {
         }]
       };
 
-      expect(isValidForm(form, pageListByChapters)).to.be.true;
+      expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
       expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to.be.true;
     });
   });

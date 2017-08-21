@@ -9,7 +9,6 @@ layout: page-react.html
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
       <li class="parent"><a href="/education/apply-for-education-benefits/">Apply for Education Benefits</a></li>
-      <li class="active">Apply Online</li>
     </ul>
   </nav>
   <div class="section">

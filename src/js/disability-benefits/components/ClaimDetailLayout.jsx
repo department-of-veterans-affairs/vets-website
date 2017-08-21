@@ -30,7 +30,6 @@ export default class ClaimDetailLayout extends React.Component {
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
-                  <li className="active">Your {getClaimType(claim)} Claim</li>
                 </ul>
               </nav>
             </div>
@@ -80,7 +79,7 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <LoadingIndicator setFocus message="Loading claim information"/>;
+      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
     }
 
     return (

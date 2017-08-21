@@ -1,6 +1,8 @@
 import createCommonStore from './common/store';
 import createLoginWidget from './login/login-entry';
 
+const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
+
 // No-react styles.
 require('../sass/no-react.scss');
 
@@ -16,7 +18,7 @@ require('./legacy/mega-menu.js');
 // New sidebar menu
 require('./legacy/sidebar-navigation.js');
 
-if (location.href.indexOf('education/apply') >= 0) {
+if (wizardPages.has(location.pathname)) {
   require('./edu-benefits/education-wizard.js');
 }
 

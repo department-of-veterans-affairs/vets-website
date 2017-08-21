@@ -11,9 +11,9 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
-      .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+      .waitForElementVisible('.usa-button-primary', Timeouts.slow)
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+      .click('.usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
@@ -141,13 +141,13 @@ module.exports = E2eHelpers.createE2eTest(
     }, ['label[name="privacyAgreement-label"]']);
     client
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary')
+      .click('.usa-button-primary')
       .expect.element('.js-test-location').attribute('data-location')
         .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client
-      .expect.element('.edu-benefits-submit-success').to.be.visible;
+      .expect.element('.confirmation-page-title').to.be.visible;
     client
       .axeCheck('.main')
       .end();

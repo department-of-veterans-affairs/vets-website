@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply online for health care with the 10-10ez"/>
+        <FormTitle title="Apply online for health care with the 10-10EZ"/>
         <p>
           Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
         </p>
@@ -32,7 +32,7 @@ class IntroductionPage extends React.Component {
             messages={this.props.route.formConfig.savedFormMessages}
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}>
-          Complete the form before submitting to apply for health care with the 10-10EZ.
+          Please complete the 10-10EZ form to apply for health care benefits.
         </SaveInProgressIntro>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

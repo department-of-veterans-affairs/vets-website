@@ -103,7 +103,7 @@ describe('Schemaform <FormPage>', () => {
       expect(setData.calledWith('testPage', newData));
     });
     it('submit', () => {
-      tree.getMountedInstance().onSubmit();
+      tree.getMountedInstance().onSubmit({});
 
       expect(router.push.calledWith('next-page'));
     });
@@ -318,5 +318,68 @@ describe('Schemaform <FormPage>', () => {
     const { pageIndex } = tree.getMountedInstance().getEligiblePages();
 
     expect(pageIndex).to.equal(1);
+  });
+  it('should update data when submitting on array page', () => {
+    const setData = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+          setData={setData}
+          router={router}
+          form={form}
+          route={route}
+          location={{
+            pathname: '/testing/0'
+          }}
+          params={{ index: 0 }}/>
+    );
+
+    tree.getMountedInstance().onSubmit({ formData: { test: 2 } });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [
+        {
+          test: 2
+        }
+      ]
+    });
   });
 });

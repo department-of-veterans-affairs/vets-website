@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import 'babel-polyfill';
 
 import calculatorReducer from '../../../src/js/gi/reducers/calculator.js';
 

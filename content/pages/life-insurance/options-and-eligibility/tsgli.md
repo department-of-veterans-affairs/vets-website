@@ -101,5 +101,3 @@ If you have SGLI coverage, your SGLI premium (which is automatically deducted fr
 
 [Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
 
-<br>
-

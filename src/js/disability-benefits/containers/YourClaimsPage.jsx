@@ -88,7 +88,11 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { loading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     if (canAccessAppeals && canAccessClaims) {
       if (!claimsAvailable && !appealsAvailable) {
@@ -121,7 +125,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator message="Loading claims and appeals list" setFocus/>;
+      content = <LoadingIndicator message="Loading claims and appeals list..." setFocus/>;
     } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}

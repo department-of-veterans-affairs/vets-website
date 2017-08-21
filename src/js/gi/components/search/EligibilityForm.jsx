@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { showModal, hideModal, eligibilityChange } from '../../actions';
+
+import {
+  showModal,
+  hideModal,
+  eligibilityChange
+} from '../../actions';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -35,9 +40,9 @@ export class EligibilityForm extends React.Component {
               { value: 'spouse', label: 'Spouse' },
               { value: 'child', label: 'Child' }
             ]}
-            value={this.props.eligibility.militaryStatus}
+            value={this.props.militaryStatus}
             alt="What is your military status?"
-            visible={this.props.eligibility.dropdowns.militaryStatus}
+            visible
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -47,9 +52,9 @@ export class EligibilityForm extends React.Component {
               { value: 'yes', label: 'Yes' },
               { value: 'no', label: 'No' }
             ]}
-            value={this.props.eligibility.spouseActiveDuty}
+            value={this.props.spouseActiveDuty}
             alt="Is your spouse on active duty?"
-            visible={this.props.eligibility.dropdowns.spouseActiveDuty}
+            visible={this.props.militaryStatus === 'spouse'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -66,14 +71,14 @@ export class EligibilityForm extends React.Component {
               { value: '31', label: 'Vocational Rehabilitation & Employment (VR & E)' },
               { value: '35', label: 'Dependents Educational Assistance (DEA)' },
             ]}
-            value={this.props.eligibility.giBillChapter}
+            value={this.props.giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
-            visible={this.props.eligibility.dropdowns.giBillChapter}
+            visible
             onChange={this.props.eligibilityChange}/>
 
         {
-          this.props.eligibility.militaryStatus === 'active duty' &&
-          this.props.eligibility.giBillChapter === '33' &&
+          this.props.militaryStatus === 'active duty' &&
+          this.props.giBillChapter === '33' &&
           (<div className="military-status-info warning form-group">
             <i className="fa fa-warning"></i>
             <a title="Post 9/11 GI Bill"
@@ -86,7 +91,7 @@ export class EligibilityForm extends React.Component {
         }
 
         {
-          this.props.eligibility.giBillChapter === '31' &&
+          this.props.giBillChapter === '31' &&
           (<div className="military-status-info info form-group">
             <i className="fa fa-info-circle"></i>
             To apply for VR&E benefits, please <a
@@ -113,9 +118,9 @@ export class EligibilityForm extends React.Component {
               { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' },  // notice not 1.0
               { value: 'service discharge', label: 'Service-Connected Discharge: 100%' }
             ]}
-            value={this.props.eligibility.cumulativeService}
+            value={this.props.cumulativeService}
             alt="Cumulative Post-9/11 active duty service"
-            visible={this.props.eligibility.dropdowns.cumulativeService}
+            visible={this.props.giBillChapter === '33'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -128,9 +133,9 @@ export class EligibilityForm extends React.Component {
               { value: '3', label: '3 or more years' },
               { value: '2', label: '2 or more years' }
             ]}
-            value={this.props.eligibility.enlistmentService}
+            value={this.props.enlistmentService}
             alt="Completed an enlistment of:"
-            visible={this.props.eligibility.dropdowns.enlistmentService}
+            visible={this.props.giBillChapter === '30'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -144,9 +149,9 @@ export class EligibilityForm extends React.Component {
               { value: '0.6', label: '1+ year of consecutive service: 60%' },
               { value: '0.4', label: '90+ days of consecutive service: 40%' }
             ]}
-            value={this.props.eligibility.consecutiveService}
+            value={this.props.consecutiveService}
             alt="Length of longest active duty tour:"
-            visible={this.props.eligibility.dropdowns.consecutiveService}
+            visible={this.props.giBillChapter === '1607'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -156,9 +161,9 @@ export class EligibilityForm extends React.Component {
               { value: 'yes', label: 'Yes' },
               { value: 'no', label: 'No' }
             ]}
-            value={this.props.eligibility.eligForPostGiBill}
+            value={this.props.eligForPostGiBill}
             alt="Are you eligible for the Post-9/11 GI Bill?"
-            visible={this.props.eligibility.dropdowns.eligForPostGiBill}
+            visible={this.props.giBillChapter === '31'}
             onChange={this.props.eligibilityChange}/>
 
         <Dropdown
@@ -172,9 +177,9 @@ export class EligibilityForm extends React.Component {
               { value: '4', label: '4 Dependents' },
               { value: '5', label: '5 Dependents' }
             ]}
-            value={this.props.eligibility.numberOfDependents}
+            value={this.props.numberOfDependents}
             alt="How many dependents do you have?"
-            visible={this.props.eligibility.dropdowns.numberOfDependents}
+            visible={this.props.giBillChapter === '31' && this.props.eligForPostGiBill === 'no'}
             onChange={this.props.eligibilityChange}/>
 
         <RadioButtons
@@ -185,7 +190,7 @@ export class EligibilityForm extends React.Component {
             { value: 'no', label: 'In person only' },
             { value: 'both', label: 'In person and online' }
             ]}
-            value={this.props.eligibility.onlineClasses}
+            value={this.props.onlineClasses}
             onChange={this.props.eligibilityChange}/>
 
       </div>
@@ -193,12 +198,12 @@ export class EligibilityForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => state.eligibility;
 
 const mapDispatchToProps = {
   showModal,
   hideModal,
-  eligibilityChange,
+  eligibilityChange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EligibilityForm);

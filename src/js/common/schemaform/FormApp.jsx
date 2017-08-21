@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -21,6 +22,15 @@ const scrollToTop = () => {
   });
 };
 
+moment.updateLocale('en', {
+  meridiem: (hour) => {
+    if (hour < 12) {
+      return 'a.m.';
+    }
+    return 'p.m.';
+  }
+});
+
 /*
  * Primary component for a schema generated form app.
  */
@@ -29,6 +39,17 @@ class FormApp extends React.Component {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
+    }
+
+    // If we start in the middle of a form, redirect to the beginning
+    const currentPath = this.props.currentLocation.pathname;
+    const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
+    // If we're in production, we'll redirect if we start in the middle of a form
+    // In development, we won't redirect unless we append the URL with `?redirect` ()
+    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
+    if (currentPath !== firstPagePath && devRedirect) {
+      // If the first page is not the intro and uses `depends`, this will probably break
+      this.props.router.push(firstPagePath);
     }
   }
 
@@ -86,7 +107,7 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children } = this.props;
+    const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
@@ -94,15 +115,15 @@ class FormApp extends React.Component {
     let content;
 
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+      content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we save your form."/>;
+      content = <LoadingIndicator message="Saving your form..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
       content = (
         <div>
-          <FormNav formConfig={formConfig} currentPath={trimmedPathname}/>
+          <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>
           <div className="progress-box progress-box-schemaform">
             {children}
           </div>
@@ -139,6 +160,7 @@ const mapStateToProps = (state) => ({
   savedStatus: state.form.savedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
+  formData: state.form.data
 });
 
 const mapDispatchToProps = {

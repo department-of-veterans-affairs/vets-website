@@ -109,7 +109,10 @@ describe('Pensions', () => {
 
       formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
 
-      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, 12);
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, '12');
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_purpose`, 'procedure');
+      formDOM.fillDate(`root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_date`, '2001-12-11');
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_paidTo`, 'doctor');
 
       formDOM.click('.va-growable-add-btn');
 

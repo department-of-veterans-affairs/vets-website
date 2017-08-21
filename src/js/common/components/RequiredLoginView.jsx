@@ -47,7 +47,7 @@ class RequiredLoginView extends React.Component {
     const verifyComponent = <VerifyPrompt verifyUrl={this.props.verifyUrl}/>;
 
     if (this.state.loading === true) {
-      view = <LoadingIndicator setFocus message="Loading your information"/>;
+      view = <LoadingIndicator setFocus message="Loading your information..."/>;
     } else {
       if (this.props.authRequired === 1) {
         if (this.props.userProfile.accountType >= 1) {

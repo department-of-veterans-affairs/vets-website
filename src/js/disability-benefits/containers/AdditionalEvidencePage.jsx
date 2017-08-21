@@ -66,7 +66,7 @@ class AdditionalEvidencePage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator setFocus message="Loading claim information"/>;
+      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
     } else {
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
@@ -81,7 +81,6 @@ class AdditionalEvidencePage extends React.Component {
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
-                  <li className="active">Additional evidence</li>
                 </ul>
               </nav>
             </div>

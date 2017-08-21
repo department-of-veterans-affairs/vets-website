@@ -15,7 +15,7 @@ relatedlinks:
       description: Use this tool to build a civilian or federal résumé.
     - url: /employment/commitments
       title: Commitments
-      description: Learn about employers who've committed to hiring Veterans and military family members.
+      description: Learn about employers who’ve committed to hiring Veterans and military family members.
     - url: /employment/job-seekers/search-jobs
       title: Job Search
       description: Search the Veterans Job Bank to find the right position for you.   

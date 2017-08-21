@@ -14,6 +14,7 @@ const defaultProps = store.getState();
 defaultProps.post911GIBStatus = {
   enrollmentData: {
     veteranIsEligible: true,
+    dateOfBirth: '1995-11-12T06:00:00.000+0000',
     remainingEntitlement: {},
     originalEntitlement: {},
     usedEntitlement: {}
@@ -28,6 +29,7 @@ describe('<StatusPage>', () => {
   });
 
   it('should show title and print button', () => {
+    window.dataLayer = [];
     const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
     expect(node.querySelector('.schemaform-title').textContent)
       .to.contain('Post-9/11 GI Bill Statement of Benefits');
@@ -39,6 +41,7 @@ describe('<StatusPage>', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: false,
+        dateOfBirth: '1995-11-12T06:00:00.000+0000',
         originalEntitlement: {},
         usedEntitlement: {},
         remainingEntitlement: {},
@@ -50,4 +53,3 @@ describe('<StatusPage>', () => {
     expect(tree.subTree('.usa-button-primary')).to.be.false;
   });
 });
-

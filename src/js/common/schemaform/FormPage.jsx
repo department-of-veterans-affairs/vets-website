@@ -72,7 +72,16 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
-  onSubmit() {
+  onSubmit({ formData }) {
+    const { route, params, form } = this.props;
+
+    // This makes sure defaulted data on a page with no changes is saved
+    // Probably safe to do this for regular pages, too, but it hasn't been necessary
+    if (route.pageConfig.showPagePerItem) {
+      const newData = _.set([route.pageConfig.arrayPath, params.index], formData, form.data);
+      this.props.setData(newData);
+    }
+
     const { pages, pageIndex } = this.getEligiblePages();
     this.props.router.push(pages[pageIndex + 1].path);
   }
@@ -160,7 +169,7 @@ class FormPage extends React.Component {
                   afterText="»"/>
             </div>
           </div>
-          {(!form.disableSave && __BUILDTYPE__ !== 'production') && <div className="row">
+          {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
                   trackingPrefix={form.trackingPrefix}

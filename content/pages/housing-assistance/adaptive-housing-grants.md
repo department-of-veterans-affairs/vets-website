@@ -68,7 +68,7 @@ Apply through eBenefits. [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefi
 
 #### Apply by mail
 
-Fill out and submit VA Form 26-4555 (Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant). [Download Form 26-4555](http://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf). 
+Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). [Download VA Form 26-4555](http://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf). 
 
 Mail it to your nearest regional loan center. [Find a regional loan center near you](http://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
 

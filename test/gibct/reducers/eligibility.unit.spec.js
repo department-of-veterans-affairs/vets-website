@@ -3,16 +3,6 @@ import { expect } from 'chai';
 import eligibilityReducer from '../../../src/js/gi/reducers/eligibility.js';
 
 const initialState = {
-  dropdowns: {
-    militaryStatus: true,
-    spouseActiveDuty: false,
-    giBillChapter: true,
-    cumulativeService: true,
-    enlistmentService: false,
-    consecutiveService: false,
-    eligForPostGiBill: false,
-    numberOfDependents: false
-  },
   militaryStatus: 'veteran',
   giBillChapter: '33',
   cumulativeService: '1.0',
@@ -25,34 +15,33 @@ const initialState = {
 };
 
 describe('eligibility reducer', () => {
-  it('should update eligibility for militaryStatus field', () => {
-    const state = eligibilityReducer(
-      initialState,
-      {
-        type: 'ELIGIBILITY_CHANGED',
-        field: 'militaryStatus',
-        value: 'spouse'
-      }
-    );
+  it('should reset spouse active duty field after choosing military status', () => {
+    const state = eligibilityReducer({
+      ...initialState,
+      militaryStatus: 'spouse',
+      spouseActiveDuty: 'yes'
+    }, {
+      type: 'ELIGIBILITY_CHANGED',
+      field: 'militaryStatus',
+      value: 'veteran'
+    });
 
-    expect(state.militaryStatus).to.eql('spouse');
-    expect(state.dropdowns.spouseActiveDuty).to.eql(true);
+    expect(state.militaryStatus).to.eql('veteran');
+    expect(state.spouseActiveDuty).to.eql('no');
   });
 
-  it('should update eligibility for giBillChapter field', () => {
-    const state = eligibilityReducer(
-      initialState,
-      {
-        type: 'ELIGIBILITY_CHANGED',
-        field: 'giBillChapter',
-        value: '30'
-      }
-    );
+  it('should reset fields after choosing GI Bill', () => {
+    const state = eligibilityReducer({
+      ...initialState,
+      giBillChapter: '31',
+      eligForPostGiBill: 'yes'
+    }, {
+      type: 'ELIGIBILITY_CHANGED',
+      field: 'giBillChapter',
+      value: '30'
+    });
 
-    expect(state.giBillChapter).to.eql('30');
-    expect(state.dropdowns.enlistmentService).to.eql(true);
-    expect(state.dropdowns.cumulativeService).to.eql(false);
-    expect(state.dropdowns.consecutiveService).to.eql(false);
+    expect(state).to.eql({ ...initialState, giBillChapter: '30' });
   });
 
   it('should update eligibility for general field', () => {

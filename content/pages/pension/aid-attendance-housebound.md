@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Aid and Attendance or Housebound Allowance
-concurrence: "" 
+concurrence: ""
 order: 3
 ---
 
@@ -42,18 +42,15 @@ There are 2 ways you can get this benefit:
 You can write to the PMC for your state. [Find your PMC](/pension/pension-management-center/). 
 
 Include this information: 
-- Evidence, like a doctor’s report, that shows you need A&A or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which you can have your doctor complete 
+- Evidence, like a doctor’s report, that shows you need A&A or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
 - Details about what you normally do during the day and how you get places
 - Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
 
 #### Apply in person
 
-You can bring your information to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/). 
+You can bring your information to a regional benefits office near you. [Find a regional benefits office](/facilities/). 
 
 ### How long does it take VA to make a decision?
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
 
-  
-
-<br>

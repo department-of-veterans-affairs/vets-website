@@ -18,7 +18,8 @@ const defaultProps = {
       name: 'Benefit Verification Letter',
       letterType: 'benefit_verification'
     }
-  ]
+  ],
+  letterDownloadStatus: {}
 };
 
 describe('<LetterList>', () => {

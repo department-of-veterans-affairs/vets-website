@@ -182,6 +182,23 @@ export class Modals extends React.Component {
                 target="_blank">{"8 Keys to Veterans' Success"}</a> page.
           </p>
         </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vsoc')}>
+          <h2>VetSuccess on Campus (VSOC)</h2>
+          <p>
+            This program supports Servicemembers, Veterans, and qualified dependents through on-campus counseling and help overcoming barriers—like accommodating disabilities or getting referrals to health services. It's designed to help you succeed at school and get ready to enter the job market in a promising career field.
+          </p>
+          <p>
+            <a href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp" target="_blank">
+              Download the VSOC fact sheet.
+            </a>
+          </p>
+          <p>
+            <a href="http://www.benefits.va.gov/vocrehab/vsoc.asp" target="_blank">
+              Learn more about the VSOC program.
+            </a>
+          </p>
+        </Modal>
       </span>
     );
   }

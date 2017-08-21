@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDateLong } from '../../common/utils/helpers';
+import { formatDateParsedZoneLong } from '../../common/utils/helpers';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -22,7 +22,11 @@ export function formatVAFileNumber(n) {
 export function formatMonthDayFields(field) {
   let displayValue;
   if (field) {
-    displayValue = `${field.months} months, ${field.days} days`;
+    if (field.days === 1) {
+      displayValue = `${field.months} months, ${field.days} day`;
+    } else {
+      displayValue = `${field.months} months, ${field.days} days`;
+    }
   } else {
     displayValue = 'unavailable';
   }
@@ -69,7 +73,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
         <div className="section benefit-end-date">
           <h4>Benefit End Date</h4>
           <div>
-            You have until <strong>{formatDateLong(delimitingDate)}</strong> to use these benefits.
+            You have until <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use these benefits.
           </div>
         </div>
       );
@@ -78,27 +82,22 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
   }
 }
 
-export function systemDownMessage() {
+export function notQualifiedWarning() {
   return (
-    <div className="row" id="systemDownMessage">
-      <div className="small-12 columns">
-        <div className="react-container">
-          <h3>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h3>
-          <a href="/"><button>Go Back to Vets.gov</button></a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function unableToFindRecordWarning() {
-  return (
-    <div id="recordNotFound">
-      <div className="small-12 columns">
-        <div className="react-container">
-          <h3>We weren't able to find your records.</h3>
-          <h4>Please call 855-574-7286 between Monday - Friday, 8:00 a.m. - 8:00 p.m. ET.</h4>
-        </div>
+    <div className="usa-alert usa-alert-warning usa-content not-qualified">
+      <div className="usa-alert-body">
+        <h2>Currently Not Qualified</h2>
+        <span><strong>Our records show you don't qualify for the Post-9/11 GI Bill because:</strong></span>
+        <ul>
+          <li>You haven't served on active duty for at least 90 days after September 10, 2001, and/or</li>
+          <li>Your service component let us know that you didn't receive an honorable discharge</li>
+          <li>If the information in our records is not accurate, please call us at 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
+        </ul>
+        <h5>Resources</h5>
+        <ul>
+          <li><a target="_blank" href="/education/eligibility">Check Post-9/11 GI Bill benefits eligibility</a></li>
+          <li>If you're enrolled in education benefits through another chapter (Montgomery GI Bill (MGIB) or Reservists Educational Assistance Program (REAP)), check our <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">Web Automated Verification of Enrollment (W.A.V.E)</a></li>
+        </ul>
       </div>
     </div>
   );
@@ -108,7 +107,7 @@ export function noChapter33BenefitsWarning() {
   // TODO: expand vertical spacing
   return (
     <div className="feature" id="noChapter33Benefits">
-      <h4>You don't have any Post-9/11 GI Bill Benefits</h4>
+      <h4>You don't currently have any Post-9/11 GI Bill Benefits</h4>
       We may not have information about your Post-9/11 GI Bill benefit because
       <ul>
         <li>You haven't applied for Post-9/11 GI Bill benefits, <strong>or</strong></li>

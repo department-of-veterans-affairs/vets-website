@@ -55,7 +55,7 @@ button.form-button-disabled {
     display: block;
     float: left;
     margin-left: -1.7em;
-    margin-top: 0.14em;
+    margin-top: 0.25em;
     margin-right: 0;
     pointer-events: none;
   }
@@ -141,10 +141,16 @@ button.form-button-disabled {
   margin-top: 0 !important;
 }
 
-.form-expanding-group {
+.form-expanding-group > span {
   .usa-input-error {
     padding-left: calc(1.5rem - 6px);
     right: calc(1.9rem - 6px);
+  }
+  .schemaform-expandUnder-indent {
+    .usa-input-error {
+      padding-left: 1.5rem;
+      right: 1.9rem;
+    }
   }
 }
 
