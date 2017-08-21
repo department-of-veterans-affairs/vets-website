@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits as an eligible dependent"/>
-        <p>This application is equivalent to Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
+        <p>Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -35,15 +35,15 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
+              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply for Benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this education benefits form.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
