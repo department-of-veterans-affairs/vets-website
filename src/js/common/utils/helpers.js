@@ -2,6 +2,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import Scroll from 'react-scroll';
 
+export const DATE_FORMAT = 'YYYY-MM-DD';
+
 export function getPageList(routes, prefix = '') {
   return routes.map(route => {
     const obj = {
