@@ -45,7 +45,7 @@ You can apply for this benefit if you’re:
 
 **For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 
-- Make a copy of the Veteran's discharge documents. Don’t send the originals, because we can’t return them.
+- Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
 - Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address: 
 
@@ -61,7 +61,7 @@ You can apply for this benefit if you’re:
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, "Loving Father"), or special unit identification.
+You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
 
 </div>

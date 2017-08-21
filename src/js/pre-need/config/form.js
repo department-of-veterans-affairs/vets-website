@@ -254,7 +254,7 @@ const formConfig = {
                       labels: {
                         yes: 'Yes',
                         no: 'No',
-                        unsure: 'I don\'t know'
+                        unsure: 'I don’t know'
                       }
                     }
                   },
@@ -424,7 +424,7 @@ const formConfig = {
                     labels: {
                       1: 'Yes',
                       2: 'No',
-                      3: 'I don\'t know',
+                      3: 'I don’t know',
                     }
                   }
                 },

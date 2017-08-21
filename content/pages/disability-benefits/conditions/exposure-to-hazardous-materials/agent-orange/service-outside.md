@@ -27,7 +27,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified survivors
@@ -43,10 +43,10 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 **Exception:**<br>
-If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don't need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don’t need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
 ### Need help?
 Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).

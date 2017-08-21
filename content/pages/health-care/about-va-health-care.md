@@ -41,7 +41,7 @@ All Veterans receive coverage for most care and services, but only some will qua
 
 [Learn more about priority groups](/health-care/eligibility#priority-groups).
 
-You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having "minimum essential health coverage." We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
 
@@ -57,7 +57,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
-- [What services aren't covered under VA health care?](#health-about-not-covered)
+- [What services aren’t covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -139,7 +139,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 <span id="health-about-not-covered">
 
-#### What services aren't covered under VA health care?
+#### What services aren’t covered under VA health care?
 
 These services are **not** included in your VA medical benefits package:
 
@@ -190,7 +190,7 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 
 #### Can I manage my VA health and benefits online?
 
-Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
+Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online:
 
 [Refill your prescriptions](/health-care/prescriptions/). <br> 
 [Send a secure message to your health care team](/health-care/messaging/). 

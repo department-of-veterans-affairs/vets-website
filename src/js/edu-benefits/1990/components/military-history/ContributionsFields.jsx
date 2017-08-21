@@ -34,7 +34,7 @@ export default class ContributionsFields extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
           <div className="usa-alert usa-alert-warning usa-content secondary">
             <div className="usa-alert-body">
-              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won't get your Active Duty kicker.</span>
+              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won’t get your Active Duty kicker.</span>
             </div>
           </div>
         </ExpandingGroup>
@@ -48,7 +48,7 @@ export default class ContributionsFields extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
           <div className="usa-alert usa-alert-warning usa-content secondary">
             <div className="usa-alert-body">
-              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-AD</strong> so you won't get your Active Duty kicker.</span>
+              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-AD</strong> so you won’t get your Active Duty kicker.</span>
             </div>
           </div>
         </ExpandingGroup>

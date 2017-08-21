@@ -102,7 +102,7 @@ class Main extends React.Component {
     if (sessionStorage.userToken) {
       if (moment() > moment(sessionStorage.entryTime).add(45, 'm')) {
         // TODO(crew): make more customized prompt.
-        if (confirm("For security, you'll be automatically signed out in 2 minutes. To stay signed in, click OK. ")) {
+        if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
           this.handleLogin();
         } else {
           this.handleLogout();

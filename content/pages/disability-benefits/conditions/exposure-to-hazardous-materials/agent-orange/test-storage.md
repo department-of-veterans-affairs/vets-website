@@ -23,7 +23,7 @@ You may be able to get disability benefits if:
 
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified survivors

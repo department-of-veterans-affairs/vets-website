@@ -117,7 +117,7 @@ function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-// Checks to see if they're under 17.75 years old
+// Checks to see if they’re under 17.75 years old
 function isEligibleForDisabilitySupport(childDOB) {
   return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
 }

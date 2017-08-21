@@ -10,7 +10,7 @@ This frontend pairs with the [prescriptions API](https://github.com/department-o
 
 ## Mocks
 
-We're working from these terrific mock-ups courtesy of @goldenmeanie and @angel:
+We’re working from these terrific mock-ups courtesy of @goldenmeanie and @angel:
  * [Mobile](https://marvelapp.com/iaa9b9)
  * [Desktop](https://marvelapp.com/1h10heg)
 

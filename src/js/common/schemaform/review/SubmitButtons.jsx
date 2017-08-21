@@ -39,7 +39,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack, errorMessa
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We're sorry, there was an error connecting to Vets.gov.</strong></p>
+          <p className="schemaform-warning-header"><strong>We’re sorry, there was an error connecting to Vets.gov.</strong></p>
           <p>Please check your Internet connection and try again. If the problem persists, please contact the Vets.gov Help Desk.</p>
         </div>
       </div>
@@ -64,8 +64,8 @@ export default function SubmitButtons({ submission, onSubmit, onBack, errorMessa
       ? <Message/>
       : (<div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We're sorry, the application didn't go through.</strong></p>
-          <p>You'll have to start over. We suggest you wait 1 day while we fix this problem.</p>
+          <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
+          <p>You’ll have to start over. We suggest you wait 1 day while we fix this problem.</p>
         </div>
       </div>);
 
