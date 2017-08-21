@@ -30,7 +30,7 @@ describe('Letters helpers: ', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, false, true)).to.be.undefined;
-      }, ['hasAdaptedHousing', 'hasIndividualUnemployabilityGranted', 'hasSpecialMonthlyCompensation']);
+      }, ['hasNonServiceConnectedPension', 'hasAdaptedHousing', 'hasIndividualUnemployabilityGranted', 'hasSpecialMonthlyCompensation']);
     });
     it('should only be defined for dependents if value is true', () => {
       _.forEach(option => {
@@ -50,7 +50,7 @@ describe('Letters helpers: ', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
-      }, ['hasNonServiceConnectedPension', 'hasServiceConnectedDisabilities']);
+      }, ['hasServiceConnectedDisabilities']);
       // For dependents only
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
