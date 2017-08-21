@@ -20,11 +20,11 @@ You can get this benefit if:
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
 - Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
 
-You may be able to get this benefit if you're the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
+You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
 [See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents 
@@ -42,7 +42,7 @@ Money for tuition
 
 ##### Apply for benefits
 
-[Apply for for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). If you qualify for benefits, you'll get a Certificate of Eligibility (COE).
+[Apply for for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
 
 </li>
 
@@ -50,7 +50,7 @@ Money for tuition
 
 ##### Turn in your COE
 
-Bring your COE to your school's certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
+Bring your COE to your school’s certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 
 </li>
 
@@ -69,7 +69,7 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 
 ##### Follow up
 
-You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
+You’ll get a notice from your school about whether it has accepted you into the program and how much money you’ll get for tuition.
 
 </li>
 

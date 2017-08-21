@@ -175,7 +175,7 @@ export function saveDraft(message) {
   }
 
   // Update the draft if it already has an id.
-  // Save a new draft if it doesn't have an id yet.
+  // Save a new draft if it doesn’t have an id yet.
   if (isSavedDraft) {
     url = `${url}/${message.messageId}`;
     method = 'PUT';

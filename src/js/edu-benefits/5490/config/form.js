@@ -344,7 +344,7 @@ const formConfig = {
                 'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
-                'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
+                'ui:title': 'If you’re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
               remarriageDate: _.assign(dateUI('Date you got remarried'), {
@@ -467,7 +467,7 @@ const formConfig = {
           uiSchema: {
             highSchool: {
               status: {
-                'ui:title': 'What\'s your current high school status?',
+                'ui:title': 'What’s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels,
                   expandUnderClassNames: 'schemaform-expandUnder-indent'

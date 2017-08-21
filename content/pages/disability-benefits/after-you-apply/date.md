@@ -99,11 +99,11 @@ If the death happened after service and we get the claim more than 1 year after 
 
 #### Error in a Previous Decision
 
-If we find a clear and unmistakable error in a prior decision, the effective date of the new decision will be the date from which benefits would've been paid if there hadn't been an error in the prior decision.
+If we find a clear and unmistakable error in a prior decision, the effective date of the new decision will be the date from which benefits would’ve been paid if there hadn’t been an error in the prior decision.
 
 #### Difference of Opinion
 
-A decision that's based on a difference of opinion will have an effective date of the original decision, had it been favorable.
+A decision that’s based on a difference of opinion will have an effective date of the original decision, had it been favorable.
 
 #### Increases in the Disability
 

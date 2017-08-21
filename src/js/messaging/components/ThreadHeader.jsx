@@ -48,9 +48,9 @@ class ThreadHeader extends React.Component {
 
     // Hide the 'Delete' button for drafts and sent messages,
     // since drafts should only be deletable from the form,
-    // and sent messages can't be deleted.
+    // and sent messages can’t be deleted.
     // Also hide the 'Move' button for drafts and sent messages,
-    // since they can't be moved to other folders.
+    // since they can’t be moved to other folders.
     if (folderName !== 'Sent' && folderName !== 'Drafts') {
       deleteButton =
         <ButtonDelete onClick={this.props.onDeleteMessage}/>;

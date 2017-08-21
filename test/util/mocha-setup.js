@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import jsdom from 'jsdom';
+import { JSDOM } from 'jsdom';
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
@@ -15,12 +15,12 @@ function setupJSDom() {
   }
 
   // setup the simplest document possible
-  const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
 
   // get the window object out of the document
-  const win = doc.defaultView;
+  const win = dom.window;
 
-  global.document = doc;
+  global.document = win.document;
   global.window = win;
 
   win.VetsGov = {

@@ -83,7 +83,7 @@ class AuthApp extends React.Component {
       view = (
         <div>
           <h3>We are sorry that we could not successfully log you in.</h3>
-          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
+          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
           <button onClick={window.close}>Close</button>
         </div>
       );

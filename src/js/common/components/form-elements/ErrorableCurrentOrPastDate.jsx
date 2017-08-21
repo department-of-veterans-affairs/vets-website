@@ -11,7 +11,7 @@ export default function ErrorableCurrentOrPastDate(props) {
     message: null
   };
 
-  // we're assuming any custom validation goes after
+  // we’re assuming any custom validation goes after
   // the past date check, because if you want to override that check
   // you should just be using ErrorableDate
   if (isDirtyDate(props.date)) {
