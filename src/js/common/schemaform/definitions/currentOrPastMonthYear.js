@@ -1,15 +1,14 @@
+import _ from 'lodash/fp';
 import { validateCurrentOrPastMonthYear } from '../validation';
-import MonthYearWidget from '../widgets/MonthYearWidget';
+import monthYearUI from './monthYear';
 
 export default function uiSchema(title = 'Date') {
-  return {
-    'ui:title': title,
-    'ui:widget': MonthYearWidget,
+  return _.assign(monthYearUI(title), {
     'ui:validations': [
       validateCurrentOrPastMonthYear
     ],
     'ui:errorMessages': {
       pattern: 'Please provide a valid current or past date'
     }
-  };
+  });
 }

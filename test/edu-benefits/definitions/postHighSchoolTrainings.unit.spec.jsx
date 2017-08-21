@@ -19,7 +19,7 @@ describe('Edu postHighSchoolTrainings', () => {
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
-    expect(fields.length).to.equal(15);
+    expect(fields.length).to.equal(13);
   });
 
   it('should add another', () => {

@@ -20,7 +20,7 @@ describe('Edu 1990 educationHistory', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(19);
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(16);
   });
   it('should have no required inputs', () => {
     const onSubmit = sinon.spy();
