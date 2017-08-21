@@ -95,7 +95,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
   });
 
   it('should render diploma date and not post high school trainings', () => {

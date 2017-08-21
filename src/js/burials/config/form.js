@@ -181,7 +181,6 @@ const formConfig = {
               placeOfBirth
             }
           }
-
         },
         burialInformation: {
           title: 'Burial information',

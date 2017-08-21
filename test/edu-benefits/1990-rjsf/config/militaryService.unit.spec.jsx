@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
 
-describe('Edu 1995 militaryHistory', () => {
+describe('Edu 1990 militaryService', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.militaryService;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {

@@ -59,7 +59,7 @@ export default class SaveInProgressIntro extends React.Component {
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>
+          <LoadingIndicator message="Checking to see if you have a saved version of this application..."/>
           <br/>
         </div>
       );

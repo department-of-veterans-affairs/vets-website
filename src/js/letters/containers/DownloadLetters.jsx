@@ -23,6 +23,7 @@ class DownloadLetters extends React.Component {
           <LetterList
               letters={this.props.letters}
               lettersAvailability={this.props.lettersAvailability}
+              letterDownloadStatus={this.props.letterDownloadStatus}
               benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
@@ -58,6 +59,7 @@ function mapStateToProps(state) {
     letters: letterState.letters,
     destination: letterState.destination,
     lettersAvailability: letterState.lettersAvailability,
+    letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo

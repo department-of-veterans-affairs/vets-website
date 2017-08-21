@@ -17,7 +17,7 @@ function setUserToken(token, client) {
 }
 
 function getLogoutUrl() {
-  return 'http://fake_logout_url';
+  return 'http://example.com/fake_logout_url';
 }
 
 /* eslint-disable camelcase */

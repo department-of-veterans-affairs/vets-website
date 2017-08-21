@@ -31,7 +31,6 @@ import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
-import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
@@ -41,6 +40,7 @@ import applicantInformationPage from '../../../common/schemaform/pages/applicant
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -61,7 +61,6 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  nonMilitaryJobs,
   secondaryContact,
   date,
   dateRange,
@@ -562,26 +561,7 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
-          uiSchema: {
-            'view:hasNonMilitaryJobs': {
-              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
-              'ui:widget': 'yesNo'
-            },
-            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:hasNonMilitaryJobs': {
-                type: 'boolean'
-              },
-              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
-            }
-          }
-        }
+        employmentHistory: employmentHistoryPage(fullSchema5490, false)
       }
     },
     schoolSelection: {

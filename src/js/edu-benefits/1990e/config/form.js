@@ -8,11 +8,11 @@ import GetFormHelp from '../../components/GetFormHelp';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
 import dateUi from '../../../common/schemaform/definitions/date';
-import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -36,7 +36,6 @@ const {
   dateRange,
   educationType,
   fullName,
-  nonMilitaryJobs,
   postHighSchoolTrainings
 } = fullSchema1990e.definitions;
 
@@ -171,26 +170,7 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
-          uiSchema: {
-            'view:hasNonMilitaryJobs': {
-              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
-              'ui:widget': 'yesNo'
-            },
-            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:hasNonMilitaryJobs': {
-                type: 'boolean'
-              },
-              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
-            }
-          }
-        }
+        employmentHistory: employmentHistoryPage(fullSchema1990e, false)
       }
     },
     schoolSelection: {

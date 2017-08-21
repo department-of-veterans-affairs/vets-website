@@ -39,6 +39,20 @@ class ArrayField extends React.Component {
     this.isLocked = this.isLocked.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.arrayData !== this.props.arrayData) {
+      const arrayData = Array.isArray(newProps.arrayData) ? newProps.arrayData : [];
+      const newState = {
+        items: arrayData
+      };
+      if (arrayData.length !== this.state.items.length) {
+        newState.editing = arrayData.map(() => false);
+      }
+
+      this.setState(newState);
+    }
+  }
+
   getItemSchema(index) {
     const schema = this.props.schema;
     if (schema.items.length > index) {

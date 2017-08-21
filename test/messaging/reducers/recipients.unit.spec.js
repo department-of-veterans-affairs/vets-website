@@ -25,7 +25,7 @@ describe('recipients reducer', () => {
     });
 
     recipients.data.forEach((recipient) => {
-      expect(state.data).to.contain({
+      expect(state.data).to.deep.contain({
         label: recipient.attributes.name,
         value: recipient.attributes.triageTeamId
       });
