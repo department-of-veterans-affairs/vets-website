@@ -2,6 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DownloadLetterLink from '../components/DownloadLetterLink';
+
 import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
   benefitOptionsMap,
@@ -149,10 +151,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           Please choose what information you want to include in your letter.
         </p>
         {vaBenefitInformation}
+        <DownloadLetterLink
+            letterType="benefit_summary"
+            letterName="Benefit Summary Letter"
+            downloadStatus={this.props.letterDownloadStatus.benefit_summary}
+            key="download-link-bsl"/>
         <p>
-          If your service period or disability status information is incorrect, please send us a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+          If your service period or disability status information is incorrect, please send us
+          a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+          Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
         </p>
-
       </div>
     );
   }
@@ -166,7 +174,8 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo
     },
     optionsAvailable: letterState.optionsAvailable,
-    requestOptions: letterState.requestOptions
+    requestOptions: letterState.requestOptions,
+    letterDownloadStatus: letterState.letterDownloadStatus
   };
 }
 
