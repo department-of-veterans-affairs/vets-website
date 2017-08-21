@@ -13,7 +13,7 @@ If you need help paying for school or job training and you’ve served on active
 
 </div>
 
-<div class="call-out usa-content" markdown="1">
+<div class="feature" markdown="0"> 
 
 ### Can I get education benefits?
 
@@ -30,11 +30,16 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 
 </div>
 
+
 ### What benefits can I get? 
 
 - Tuition and fees
 - Money for housing (if you're in school more than half time)
 - Money for books and supplies (up to $1,000 per school year)
+
+
+### Do I have Post-9/11 GI Bill benefits?
+You can check to see if you have Post-9/11 GI Bill benefits. [View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
 
 -------
 
