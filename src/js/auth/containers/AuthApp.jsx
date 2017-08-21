@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField } from '../../user-profile/actions';
+import { updateProfileFields } from '../../user-profile/actions';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -112,8 +112,9 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
+    // Is this ever used?
     onUpdateProfile: (field, update) => {
-      dispatch(updateProfileField(field, update));
+      dispatch(updateProfileFields({ [field]: update }));
     }
   };
 };
