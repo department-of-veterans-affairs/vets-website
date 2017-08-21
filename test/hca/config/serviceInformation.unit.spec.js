@@ -53,12 +53,8 @@ describe('Hca serviceInformation', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_lastServiceBranch', 'army');
-    formDOM.fillData('#root_lastEntryDateMonth', 1);
-    formDOM.fillData('#root_lastEntryDateDay', 1);
-    formDOM.fillData('#root_lastEntryDateYear', '2010');
-    formDOM.fillData('#root_lastDischargeDateMonth', 1);
-    formDOM.fillData('#root_lastDischargeDateDay', 1);
-    formDOM.fillData('#root_lastDischargeDateYear', '2011');
+    formDOM.fillDate('root_lastEntryDate', '2010-1-1');
+    formDOM.fillDate('root_lastDischargeDate', '2011-1-1');
     formDOM.fillData('#root_dischargeType', 'honorable');
 
     formDOM.submitForm();
