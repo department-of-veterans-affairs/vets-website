@@ -100,7 +100,7 @@ export const uiSchema = {
     'ui:options': {
       // Not being invoked until the data is changed...which means this is open
       //  by default
-      hideIf: (formData, index) => formData.children[index].childCohabitedLastYear !== false
+      hideIf: (formData, index) => _.get(`children[${index}].childCohabitedLastYear`, formData) !== false
     }
   },
 };
