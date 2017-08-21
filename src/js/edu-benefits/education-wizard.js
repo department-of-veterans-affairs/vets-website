@@ -25,10 +25,6 @@ function closeStateAndCheckChild(alternateQuestion, container) {
   return closeState(alternateQuestion);
 }
 function reInitWidget() {
-  const link = document.querySelector('link[rel=import]');
-  const importContent = link.import.querySelector('.wizard-container');
-  const anchor = document.querySelector('.wizard-anchor');
-  anchor.appendChild(document.importNode(importContent, true));
   const container = document.querySelector('.wizard-container');
   const button = container.querySelector('.wizard-button');
   const content = container.querySelector('.wizard-content');
@@ -93,4 +89,14 @@ function reInitWidget() {
   resetForm();
 }
 
-document.addEventListener('DOMContentLoaded', reInitWidget);
+function loadImports() {
+  const link = document.querySelector('link[rel=import]');
+  const importContent = link.import.querySelector('.wizard-container');
+  const anchor = document.querySelector('.wizard-anchor');
+  anchor.appendChild(document.importNode(importContent, true));
+}
+
+window.addEventListener('WebComponentsReady', () => {
+  loadImports();
+  reInitWidget();
+});
