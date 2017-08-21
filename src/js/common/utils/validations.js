@@ -188,6 +188,11 @@ function isValidFutureDate(day, month, year) {
   return momentDate.isAfter(moment().endOf('day'), 'day');
 }
 
+function isValidCurrentOrFutureMonthYear(month, year) {
+  const momentDate = moment({ month: parseInt(month, 10) - 1, year });
+  return momentDate.isSameOrAfter(moment().endOf('month'), 'month');
+}
+
 function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
 }
@@ -339,6 +344,7 @@ export {
   isValidCanPostalCode,
   isValidCurrentOrPastYear,
   isValidCurrentOrPastDate,
+  isValidCurrentOrFutureMonthYear,
   isValidFutureDate,
   isValidDate,
   isValidDateField,

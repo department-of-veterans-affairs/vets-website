@@ -19,7 +19,7 @@ import {
 } from '../../utils/labels';
 
 import {
-  validateDate,
+  validateMonthYear,
   validateFutureDateIfExpectedGrad
 } from '../../../common/schemaform/validation';
 
@@ -477,6 +477,7 @@ const formConfig = {
               highSchoolOrGedCompletionDate: _.assign(
                 monthYearUI(null), {
                   'ui:options': {
+                    monthYear: true,
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
@@ -490,7 +491,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [
-                    validateDate,
+                    validateMonthYear,
                     validateFutureDateIfExpectedGrad
                   ]
                 },

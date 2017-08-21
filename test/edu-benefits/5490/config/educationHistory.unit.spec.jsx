@@ -39,7 +39,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 
   it('should render high school questions', () => {
@@ -114,6 +114,6 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(3);
   });
 });
