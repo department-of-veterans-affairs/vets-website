@@ -29,8 +29,8 @@ const defaultProps = {
     ]
   },
   optionsAvailable: true,
-  requestOptions: {
-  }
+  requestOptions: {},
+  letterDownloadStatus: {}
 };
 
 describe('<VeteranBenefitSummaryLetter>', () => {
