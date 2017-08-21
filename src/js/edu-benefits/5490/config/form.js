@@ -26,6 +26,7 @@ import {
 import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -474,7 +475,7 @@ const formConfig = {
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                dateUI(null), {
+                monthYearUI(null), {
                   'ui:options': {
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
