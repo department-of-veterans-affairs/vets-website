@@ -125,23 +125,27 @@ class FormApp extends React.Component {
   }
 
   redirectOrLoad(props) {
+    // Stop a user that's been redirected to be redirected again after logging in
+    this.shouldRedirectOrLoad = false;
+
     const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
 
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
+      const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const isPrefill = props.prefillsAvailable.includes(currentForm);
-      if (props.savedForms.includes(currentForm) || isPrefill) {
+      if (isSaved || isPrefill) {
         props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
-        props.router.push(firstPagePath);
+        props.router.replace(firstPagePath);
       }
     } else {
       // Can't load a form; go to the beginning
       // If the first page is not the intro and uses `depends`, this will probably break
-      props.router.push(firstPagePath);
+      props.router.replace(firstPagePath);
     }
   }
 
