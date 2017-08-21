@@ -467,7 +467,7 @@ const formConfig = {
               },
               address: _.merge(addressUI('', false), {
                 'ui:options': {
-                  hideIf: formData => formData.secondaryContact.sameAddress
+                  hideIf: formData => formData.secondaryContact && formData.secondaryContact.sameAddress
                 }
               })
             }
