@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Manage your education benefits"/>
-        <p>This application is equivalent to Form 22-5495 (Dependents’ Request for Change of Program or Place of Training).</p>
+        <p>Equal to VA Form 22-5495 (Dependents’ Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -40,8 +40,8 @@ class IntroductionPage extends React.Component {
               </ul>
             </li>
             <li className="process-step list-two">
-              <div><h5>Apply to manage your benefits</h5></div>
-              <p>Complete this form.</p>
+              <div><h5>Apply</h5></div>
+              <p>Complete this education benefits form.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -55,8 +55,8 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
-              <ul><li>You’ll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA-certifying official at your school.</li></ul>
-              <ul><li>If your application was not approved, you’ll get a denial letter in the mail.</li></ul>
+              <ul><li>You’ll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
         </div>
