@@ -228,7 +228,7 @@ describe('Schemaform <FormApp>', () => {
       ]
     }];
     const router = {
-      push: sinon.spy()
+      replace: sinon.spy()
     };
 
     // Only redirects in production or if ?redirect is in the URL
@@ -247,7 +247,7 @@ describe('Schemaform <FormApp>', () => {
 
     tree.getMountedInstance().componentDidMount();
 
-    expect(router.push.calledWith('/introduction')).to.be.true;
+    expect(router.replace.calledWith('/introduction')).to.be.true;
     __BUILDTYPE__ = buildType;
   });
   it('should load a saved form when starting in the middle of a form and logged in', () => {
@@ -267,7 +267,8 @@ describe('Schemaform <FormApp>', () => {
       ]
     }];
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
+      replace: sinon.spy()
     };
     const fetchInProgressForm = sinon.spy();
 
@@ -291,7 +292,7 @@ describe('Schemaform <FormApp>', () => {
     tree.getMountedInstance().componentWillReceiveProps({
       profileIsLoading: false,
       isLoggedIn: true,
-      savedForms: [formConfig.formId],
+      savedForms: [{ form: formConfig.formId }],
       prefillsAvailable: [],
       formConfig,
       router,
@@ -320,6 +321,7 @@ describe('Schemaform <FormApp>', () => {
       ]
     }];
     const router = {
+      replace: sinon.spy(),
       push: sinon.spy()
     };
     const fetchInProgressForm = sinon.spy();
