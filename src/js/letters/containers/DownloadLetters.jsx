@@ -13,7 +13,7 @@ class DownloadLetters extends React.Component {
         <FormTitle title="VA Letters and Documents"/>
         <div className="va-introtext">
           <p>
-            To receive some benefits, Veterans and their surviving spouse or family members need a letter proving their Veteran or survivor status. You can download these benefit letters and documents online.
+            To receive some benefits, Veterans need a letter proving their status. You can download some of these benefit letters and documents online.
           </p>
         </div>
         <StepHeader name="Review your address" current="1" steps="2">
@@ -32,14 +32,10 @@ class DownloadLetters extends React.Component {
           This system doesn’t include every VA letter. Learn more about how to access other VA letters and documents you might need.
         </p>
         <ul>
-          <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefits summary and eligibility.</strong></a></li>
-          <li><a href="https://gibill.custhelp.com/app/ask" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your Post-9/11 GI Bill benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Request a copy of your discharge or separation papers (DD214).</strong></a></li>
+          <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill statement of benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Log into eBenefits to request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Log into eBenefits to request a copy of your discharge or separation papers (DD 214).</strong></a></li>
         </ul>
-        <p>
-          Please visit <a href="https://www.ebenefits.va.gov/" target="_blank">eBenefits</a> for any document or letter not listed here.
-        </p>
         <div className="feature help-desk">
           <h2>Need help?</h2>
           <div>If you have any questions, please call the Vets.gov Help Desk:</div>
