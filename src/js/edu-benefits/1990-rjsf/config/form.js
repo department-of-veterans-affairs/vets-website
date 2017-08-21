@@ -239,15 +239,6 @@ const formConfig = {
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
-          initialData: {
-            toursOfDuty: [{
-              serviceBranch: 'Army',
-              dateRange: {
-                from: '12-12-1970',
-                to: '12-12-1990'
-              }
-            }]
-          },
           uiSchema: {
             'ui:title': 'Service periods',
             toursOfDuty: _.merge(toursOfDuty.uiSchema, {
@@ -450,7 +441,6 @@ const formConfig = {
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
-          initialData: {},
           uiSchema: {
             'ui:title': 'Secondary contact',
             'ui:description': 'This person should know where you can be reached at all times.',
