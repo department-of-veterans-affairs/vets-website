@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
 
