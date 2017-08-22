@@ -87,7 +87,6 @@ function reInitWidget() {
 
   // Ensure form is reset on page load to prevent unexpected behavior
   resetForm();
-  console.log('stuff is happening');
 }
 
 function loadImports() {
