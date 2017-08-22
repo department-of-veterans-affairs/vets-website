@@ -1,4 +1,5 @@
 exports.command = function removeText(selector) {
+  if (this.options.desiredCapabilities.browserName === 'internet explorer') {
   this
     .getValue(selector, (result) => {
       if (result.value) {
@@ -7,6 +8,8 @@ exports.command = function removeText(selector) {
         });
       }
     });
-
+  } else {
+    this.clearValue(selector);
+  }
   return this;
 };
