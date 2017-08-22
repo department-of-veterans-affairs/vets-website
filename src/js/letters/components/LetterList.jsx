@@ -9,6 +9,7 @@ import { letterContent } from '../utils/helpers.jsx';
 
 class LetterList extends React.Component {
   render() {
+    const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
 
@@ -26,17 +27,42 @@ class LetterList extends React.Component {
           <DownloadLetterLink
               letterType={letter.letterType}
               letterName={letter.name}
+              downloadStatus={downloadStatus[letter.letterType]}
               key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
     });
+
+    let eligibilityMessage;
+    if (this.props.lettersAvailability === 'letterEligibilityError') {
+      eligibilityMessage = (
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            <h2 className="usa-alert-heading">Letters may be unavailable</h2>
+            <p className="usa-alert-text">
+              Our system is temporarily down. If you believe you're missing
+              a letter or document from this list, please try again later,
+              or call:
+            </p>
+            <ul>
+              <li><a href="tel:888-888-8888">888-888-8888</a> for health-related documents</li>
+              <li><a href="tel:888-888-8888">888-888-8888</a> for benefits-related documents</li>
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="step-content">
         <p>
-          To see what is included in each letter and how it can be used, expand the box
-          using the (+). Then, download the letter.
+          To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
+        </p>
+        <p>
+          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/">Get Adobe Reader</a>
         </p>
         {letterItems}
+        {eligibilityMessage}
       </div>
     );
   }
@@ -44,7 +70,9 @@ class LetterList extends React.Component {
 
 LetterList.PropTypes = {
   letters: PropTypes.array,
-  benefitSummaryOptions: PropTypes.object
+  lettersAvailability: PropTypes.string,
+  benefitSummaryOptions: PropTypes.object,
+  letterDownloadStatus: PropTypes.object
 };
 
 export default LetterList;

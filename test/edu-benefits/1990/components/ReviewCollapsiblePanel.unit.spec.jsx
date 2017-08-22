@@ -10,7 +10,7 @@ describe('<ReviewCollapsiblePanel>', () => {
   function renderCollapsiblePanel(uiData, path = 'personal-information/contact-information') {
     function FakeFields() {}
     function FakeReview() {}
-    let data = createVeteran();
+    const data = createVeteran();
     const onFieldsInitialized = sinon.spy();
     const onUpdateSaveStatus = sinon.spy();
     const onUpdateVerifiedStatus = sinon.spy();

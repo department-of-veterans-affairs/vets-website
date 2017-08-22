@@ -36,7 +36,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 export function formatFileSize(bytes, decimalplaces = 2) {
   const kilo = 1000;
   const mega = 1000000;
-  const multiplier = Math.pow(10, decimalplaces);
+  const multiplier = 10 ** decimalplaces;
   let size;
 
   if (bytes < kilo) {

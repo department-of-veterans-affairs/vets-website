@@ -79,20 +79,20 @@ class Address extends React.Component {
     }
 
     const stateProvince = _.hasIn(states, this.props.value.country.value)
-      ? <ErrorableSelect errorMessage={this.validateAddressField(this.props.value.state) ? undefined : 'Please enter a valid state/province'}
+      ? (<ErrorableSelect errorMessage={this.validateAddressField(this.props.value.state) ? undefined : 'Please enter a valid state/province'}
           label={this.props.value.country.value === 'CAN' ? 'Province' : 'State'}
           name="state"
           autocomplete="address-level1"
           options={stateList}
           value={this.props.value.state}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('state', update);}}/>
-      : <ErrorableTextInput label="State/province"
+          onValueChange={(update) => {this.handleChange('state', update);}}/>)
+      : (<ErrorableTextInput label="State/province"
           name="province"
           autocomplete="address-level1"
           field={this.props.value.state}
           required={false}
-          onValueChange={(update) => {this.handleChange('state', update);}}/>;
+          onValueChange={(update) => {this.handleChange('state', update);}}/>);
 
     return (
       <div>

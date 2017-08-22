@@ -342,7 +342,7 @@ class VAMap extends Component {
             </TabList>
             <TabPanel>
               <div className="facility-search-results">
-                <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
+                <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
                 <ResultsList facilities={facilities} pagination={pagination} isMobile currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>

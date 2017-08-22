@@ -45,7 +45,7 @@ export default function alert(state = initialState, action) {
         content: (
           <div>
             <h5 className="va-alert-title">Prescription refill unsuccessful</h5>
-            <p>We couldn't process this request. Please try again or <a href="/health-care/messaging">message your provider</a>.</p>
+            <p>We couldn’t process this request. Please try again or <a href="/health-care/messaging">message your provider</a>.</p>
           </div>
         ),
         status: 'error',

@@ -103,7 +103,7 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Maximum file size:</p>
           <p className="file-requirement-text">25MB</p>
         </div>
-        {this.props.files.map(({ file, docType }, index) =>
+        {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">
             <Element name={`documentScroll${index}`}/>
             <div className="document-title-size">
@@ -131,7 +131,8 @@ class AddFilesForm extends React.Component {
                   emptyDescription="Select a description"
                   onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
-          </div>)}
+          </div>
+        ))}
         <div className="button-container file-review">
           <button
               className="usa-button"

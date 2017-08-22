@@ -42,7 +42,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents
@@ -59,9 +59,9 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we'll conclude that your illness is likely caused by contact with Agent Orange.
+If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we’ll conclude that your illness is likely caused by contact with Agent Orange.
 
 If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 

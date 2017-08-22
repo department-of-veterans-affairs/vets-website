@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -149,7 +150,7 @@ class Active extends React.Component {
         prescriptionsView = (
           <PrescriptionList
               items={this.props.prescriptions}
-              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              // If we’re sorting by facility, tell PrescriptionList to group 'em.
               grouped={currentSort.value === 'facilityName'}
               handleSort={this.handleSort}
               currentSort={currentSort}
@@ -168,7 +169,7 @@ class Active extends React.Component {
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
-          We couldn't retrieve your prescriptions.
+          We couldn’t retrieve your prescriptions.
           Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>

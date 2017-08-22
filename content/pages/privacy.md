@@ -15,7 +15,7 @@ Thank you for visiting Vets.gov and reviewing our Privacy Policy.  The Departmen
 This policy describes how VA applies these principles to the handling of personal information you provide to us via Vets.gov Web pages and forms.  Personal information may include your name; email, home, and/or business address; phone numbers; Social Security Number; or other information that identifies you personally.
 
 Key features of our privacy policy include:
--	This General Web Page Privacy Policy ("General Policy") applies to all Vets.gov  Web pages. Some Vets.gov Web pages may provide additional policy guidance on privacy practices that is compatible with this General Policy. These additional policy guidance documents are called "Limited Privacy Policies." Please review any appropriate Limited Privacy Policy which may be presented to you prior to submitting your information on any Vets.gov Web page.
+-	This General Web Page Privacy Policy (“General Policy”) applies to all Vets.gov  Web pages. Some Vets.gov Web pages may provide additional policy guidance on privacy practices that is compatible with this General Policy. These additional policy guidance documents are called “Limited Privacy Policies.” Please review any appropriate Limited Privacy Policy which may be presented to you prior to submitting your information on any Vets.gov Web page.
 -	We will not require you to register or provide personal information in order to visit the Vets.gov Web site.  However, certain areas of our site may require you to register or provide personal information before you will be granted access.
 -	Vets.gov  does not collect personal information from Web users unless the personal information is provided by you.  A Limited Privacy Policy will apply in each case where you may provide personal information to VA through our Web site.
 -	Vets.gov  will never sell or rent your personal information to outside parties.
@@ -37,7 +37,7 @@ Vets.gov  will use your information to process requests for VA services or infor
 Vets.gov  automatically collects certain information about your visit to Vets.gov  Web pages.  We limit the data collected to meet specific business needs and to protect your privacy.  We may know what path(s) you took on our Web sites, but we don’t know who you are.  We do not use this information to identify you personally without your express consent and an authorized purpose.
 
 We automatically collect and store the following information about your visit to the Vets.gov Web site :
--	General log information—Examples of general log information include, but are not limited to: Internet domain (for example, "xcompany.com" or "yourschool.edu"); Internet Protocol (IP) address; operating system; the browser used to access our Web site; the date and time you accessed our site; and the pages that you visited.
+-	General log information—Examples of general log information include, but are not limited to: Internet domain (for example, “xcompany.com” or “yourschool.edu”); Internet Protocol (IP) address; operating system; the browser used to access our Web site; the date and time you accessed our site; and the pages that you visited.
 -	Referral and statistical information where we have links to or from the site you visited.  Such data may include aggregate data such as the number of offsite links occurring during a visit to a Vets.gov  Web page.   It may also include specific data, such as the identity of the site which you visited immediately before or after our site.  We do not use such data to identify you personally.
 
 We use the general log information to help us make Vets.gov  sites more useful to visitors.  We use it to learn about how locations on our site are being used, what information is of most and least interest, and how we can enhance ease of use by ensuring our sites can interface with the types of technology our visitors use.   We also use such statistics to tell us of any possible site performance problems.  Except for oversight, law enforcement investigations, or protection of the VA information technology infrastructure as authorized by law, no other attempts are made to identify you or your usage habits.
@@ -64,7 +64,7 @@ When you register for a Vets.gov account, access to your personal information wi
 Many Internet browsers allow users to save user information, including passwords. When prompted by a browser to save your Vets.gov authentication credentials such as your email address and password, you should decline this option. Saving this information could potentially allow persons who gain access to a shared workstation to access your personal information, although you are protected to some extent in this case by the Vets.gov requirement for multifactor authentication before accessing your personal information.
 
 #### Logging Out
-Please remember to log out when you are finished using personalized Vets.gov services. Logging out prevents someone else from accessing your personal information if you leave, share, or use a public computer (i.e., like a library, or Internet café) and your session hasn't automatically "timed out" or shut down. You should remember to log out. If you forget to log out or 30 minutes of non-activity pass, the session will time out.
+Please remember to log out when you are finished using personalized Vets.gov services. Logging out prevents someone else from accessing your personal information if you leave, share, or use a public computer (i.e., like a library, or Internet café) and your session hasn’t automatically “timed out” or shut down. You should remember to log out. If you forget to log out or 30 minutes of non-activity pass, the session will time out.
 
 #### Information Sharing
 We do not sell, rent, or otherwise provide your personal information to outside marketers.  Information collected via Vets.gov  may be shared with employees, contractors, and other service providers as necessary to respond to a request, provide a service, or as otherwise authorized by law.  If appropriate, additional information regarding the use and disclosure of information collected on specific Web pages will be posted in the appropriate Limited Privacy Policy for that Web page.
@@ -86,7 +86,7 @@ Please let us know if you have any questions or concerns regarding our privacy p
 
 Your inquiry will be treated confidentially and will not be shared with third parties, except as necessary to respond to your inquiry and for other purposes as authorized by the Privacy Act and other relevant legal authority.
 
-The VA Privacy Service works to minimize the impact on veteran's privacy, particularly veteran's personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
+The VA Privacy Service works to minimize the impact on veteran’s privacy, particularly veteran’s personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
 
 _Reviewed/Updated December 14, 2016_
 </div>

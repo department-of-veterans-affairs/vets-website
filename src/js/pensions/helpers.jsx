@@ -4,7 +4,7 @@ import moment from 'moment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
-  // if the containing object has a name, we're in the national guard object
+  // if the containing object has a name, we’re in the national guard object
   // and we want to keep addresses no matter what
   if (!this.name && typeof value !== 'undefined' && typeof value.country !== 'undefined' &&
     (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
@@ -28,7 +28,7 @@ export function transform(formConfig, form) {
     pensionClaim: {
       form: formData
     },
-    // can't use toISOString because we need the offset
+    // can’t use toISOString because we need the offset
     localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }
@@ -86,9 +86,9 @@ export function fileHelp({ formData }) {
         {hasSchoolChild &&
           <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
         {hasDisabledChild &&
-          <li>Private medical records documenting your child's disability before the age of 18</li>}
+          <li>Private medical records documenting your child’s disability before the age of 18</li>}
       </ul>
-      <p>If you're claiming for Aid and Attendance or Housebound benefits, this includes:</p>
+      <p>If you’re claiming for Aid and Attendance or Housebound benefits, this includes:</p>
       <ul>
         <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>
         <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>
@@ -100,7 +100,7 @@ export function fileHelp({ formData }) {
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
   </div>
 );
 
@@ -152,7 +152,7 @@ export const aidAttendanceEvidence = (
       </ul>
     </div>
     <div className="usa-alert usa-alert-info no-background-image">
-      <strong>If you're claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
+      <strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
       <ul>
         <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
         <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
@@ -164,7 +164,7 @@ export const aidAttendanceEvidence = (
 export const disabilityDocs = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      You'll need to provide all private medical records for your child's disability.
+      You’ll need to provide all private medical records for your child’s disability.
     </div>
   </div>
 );
@@ -172,7 +172,7 @@ export const disabilityDocs = (
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Since your child is between 18 and 23 years old, you'll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
     </div>
   </div>
 );
@@ -181,7 +181,7 @@ export const marriageWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
       <h5 className="usa-alert-heading">Recognition of marriages</h5>
-      If you're certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
+      If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
       <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
     </div>
   </div>
@@ -195,7 +195,7 @@ export const fdcWarning = (
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application doesn't qualify for the Fully Developed Claim (FDC) program. We'll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+    Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
   </div>
 );
 
@@ -210,7 +210,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won't qualify as a dependent unless they're in school or disabled.
+      Your child won’t qualify as a dependent unless they’re in school or disabled.
     </div>
   </div>
 );
@@ -220,13 +220,13 @@ export const dependentsMinItem = (
 );
 
 export const expectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that you expect to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that you expect to receive in the next 12 months</span>
 );
 
 export const spouseExpectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that your spouse expects to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that your spouse expects to receive in the next 12 months</span>
 );
 
 export const dependentExpectedIncomeDescription = (
-  <span>Any income you didn't already report in this form that your dependent expects to receive in the next 12 months</span>
+  <span>Any income you didn’t already report in this form that your dependent expects to receive in the next 12 months</span>
 );

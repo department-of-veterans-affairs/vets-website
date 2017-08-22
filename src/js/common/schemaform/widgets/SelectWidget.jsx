@@ -2,7 +2,7 @@ import React from 'react';
 import { asNumber } from 'react-jsonschema-form/lib/utils';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
-function processValue({ type, items }, value) {
+function processValue({ type }, value) {
   if (type === 'boolean') {
     return value === 'true';
   } else if (type === 'number') {
@@ -24,7 +24,6 @@ function SelectWidget({
   disabled,
   readonly,
   multiple,
-  autofocus,
   onChange,
   onBlur,
   placeholder
@@ -40,7 +39,6 @@ function SelectWidget({
         required={required}
         disabled={disabled}
         readOnly={readonly}
-        autoFocus={autofocus || false}
         onBlur={(event) => {
           const newValue = getValue(event, multiple);
           onBlur(id, processValue(schema, newValue));

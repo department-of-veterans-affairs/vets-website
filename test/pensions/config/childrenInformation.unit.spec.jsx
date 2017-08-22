@@ -9,7 +9,7 @@ import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child information page', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenInformation;
-  let dependentData = {
+  const dependentData = {
     'view:hasDependents': true,
     dependents: [
       {

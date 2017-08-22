@@ -72,7 +72,7 @@ export default function applicantInformation(schema, options) {
       },
       relationship: {
         'ui:widget': 'radio',
-        'ui:title': 'What\'s your relationship to the Servicemember whose benefit is being transferred to you?',
+        'ui:title': 'What’s your relationship to the Servicemember whose benefit is being transferred to you?',
         'ui:options': {
           labels: labels.relationship || relationshipLabels
         }

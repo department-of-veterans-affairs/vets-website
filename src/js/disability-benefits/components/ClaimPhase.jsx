@@ -95,7 +95,7 @@ export default class ClaimPhase extends React.Component {
       case 'other_documents_list':
         return (
           <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
-            You or others submitted {event.fileType}. We will notify you when we've reviewed it.
+            You or others submitted {event.fileType}. We will notify you when we’ve reviewed it.
           </div>
         );
 
@@ -111,11 +111,11 @@ export default class ClaimPhase extends React.Component {
         ? activityList
         : _.take(INITIAL_ACTIVITY_ROWS, activityList);
 
-      const activityListContent = limitedList.map((activity, index) =>
+      const activityListContent = limitedList.map((activity, index) => (
         <div key={index} className="claims-evidence row small-collapse">
           <div className="claims-evidence-date columns usa-width-one-fourth medium-3">{moment(activity.date).format('MMM D, YYYY')}</div>
           {this.getEventDescription(activity)}
-        </div>);
+        </div>));
 
       if (!this.state.showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (<div>

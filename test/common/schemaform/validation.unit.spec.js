@@ -103,8 +103,6 @@ describe('Schemaform validations', () => {
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(errors.__errors).to.be.defined;
-      expect(errors.addError).to.be.function;
       expect(validator.calledWith(errors, formData, formData)).to.be.true;
     });
     it('should use custom validation with object validator', () => {

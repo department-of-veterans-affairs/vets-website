@@ -221,7 +221,7 @@ export function submitFiles(claimId, trackedItem, files) {
               });
               dispatch(setNotification({
                 title: 'We have your evidence',
-                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.`
               }));
             } else {
               window.dataLayer.push({

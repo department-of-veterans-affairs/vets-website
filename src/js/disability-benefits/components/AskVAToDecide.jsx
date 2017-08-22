@@ -18,7 +18,7 @@ export default class AskVAToDecide extends React.Component {
         </Link>
         <div className="clearfix"></div>
         <p>
-          You can ask us to start evaluating your claim if you don't have any more documents or evidence to file.
+          You can ask us to start evaluating your claim if you don’t have any more documents or evidence to file.
         </p>
       </div>
     );

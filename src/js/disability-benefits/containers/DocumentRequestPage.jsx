@@ -71,7 +71,7 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator setFocus message="Loading claim information"/>;
+      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
     } else {
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
@@ -102,7 +102,7 @@ class DocumentRequestPage extends React.Component {
                 {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
                 {trackedItem.type.endsWith('others_list')
                   ? <div className="optional-upload">
-                    <p><strong>Optional</strong> - We've asked others to send this to us, but you may upload it if you have it.</p>
+                    <p><strong>Optional</strong> - We’ve asked others to send this to us, but you may upload it if you have it.</p>
                   </div>
                   : null}
                 <p>{trackedItem.description}</p>

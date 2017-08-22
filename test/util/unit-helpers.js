@@ -1,7 +1,5 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import jsdom from 'jsdom';
-import polyfillDataset from 'element-dataset';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -9,20 +7,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-
-function setupJSDom() {
-  // setup the simplest document possible
-  const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
-
-  // get the window object out of the document
-  const win = doc.defaultView;
-
-  global.document = doc;
-  global.window = win;
-  global.navigator = win.navigator;
-
-  polyfillDataset();
-}
 
 function wrapWithContext(context, contextTypes, children) {
   class WrapperWithContext extends React.Component {
@@ -78,4 +62,4 @@ function fillDate(formDOM, partialId, dateString) {
 }
 
 
-export { chai, expect, setupJSDom, wrapWithContext, wrapWithRouterContext, fillDate };
+export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };

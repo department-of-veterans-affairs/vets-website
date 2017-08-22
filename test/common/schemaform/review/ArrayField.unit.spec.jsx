@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -229,5 +230,54 @@ describe('Schemaform review <ArrayField>', () => {
       tree.subTree('SchemaForm').props.onChange({ test: 1 });
       expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
     });
+  });
+  it('should update state when props change', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+      },
+      'ui:options': {
+        viewField: f => f
+      }
+    };
+    const arrayData = [{
+      testing: 1
+    }];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+          pageKey="page1"
+          arrayData={arrayData}
+          path={['thingList']}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          formContext={formContext}
+          pageTitle=""
+          requiredSchema={requiredSchema}/>
+    );
+
+    const instance = tree.getMountedInstance();
+
+    const newProps = _.assign(instance.props, {
+      arrayData: []
+    });
+
+    instance.componentWillReceiveProps(newProps);
+
+    expect(instance.state.items).to.eql(newProps.arrayData);
+    expect(instance.state.editing).to.eql([]);
   });
 });

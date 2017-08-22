@@ -22,8 +22,8 @@ class ModalConfirmSave extends React.Component {
         </h3>
         <p>
           Drafts cannot be saved with attachments.
-          You'll have to reattach attachments when
-          you're ready to send your message.
+          You’ll have to reattach attachments when
+          you’re ready to send your message.
           Would you like to save your message anyway?
         </p>
         <div className="va-modal-button-group">
