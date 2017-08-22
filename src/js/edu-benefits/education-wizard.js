@@ -98,6 +98,5 @@ function loadImports() {
 
 window.addEventListener('HTMLImportsLoaded', () => {
   loadImports();
-  const container = document.querySelectorAll('.wizard-container');
   reInitWidget();
 });
