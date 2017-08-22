@@ -59,7 +59,7 @@ Your VA provider will work with you to make sure you get the care you need. You 
 
 <br>
 
-### More about where you'll get care
+### More about where you’ll get care
 
 **Jump to a section:**
 

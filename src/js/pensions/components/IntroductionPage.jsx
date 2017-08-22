@@ -50,7 +50,7 @@ class IntroductionPage extends React.Component {
               </div>
               <br/>
               <h6>Aid and Attendance and Housebound benefits</h6>
-              If you need help with daily activities or you're housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
+              If you need help with daily activities or you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
               <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about eligibility</a>.<br/><br/>
               <ul>
                 <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
@@ -63,7 +63,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you’ll get a confirmation message that you can print.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>

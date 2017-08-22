@@ -8,7 +8,7 @@ import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child address page', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenAddress;
-  let nameData = {
+  const nameData = {
     'view:hasDependents': true,
     dependents: [
       {

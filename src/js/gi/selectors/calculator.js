@@ -231,6 +231,7 @@ const getDerivedValues = createSelector(
     // Calculate the rate of pursuit for Old GI Bill - getCalcRopOld
     // and Calculate the rate of pursuit for OJT - getRopOjt
     if (isOJT) {
+      // eslint-disable-next-line no-multi-assign
       ropOjt = ropOld = +inputs.working / 30;
     } else {
       ropOld = ({

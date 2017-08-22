@@ -15,17 +15,18 @@ relatedlinks:
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
-
+<div itemscope itemtype="http://schema.org/FAQPage">
 <div class="va-introtext">
 
 If you qualify for VA health care, you’ll receive coverage for the services you need to help you get—and stay—healthy. Learn more about your health care benefits.
 
 </div>
 
-<div class="feature" markdown=“1”>
+<div class="feature" markdown=“1” itemscope itemtype="http://schema.org/Question">
 
-### What care and services does VA health care cover?
-
+<h3 itemprop="name">What care and services does VA health care cover?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 Each Veteran’s medical benefits package is unique. Yours will include care and services to help:
 
 - Treat illnesses and injuries
@@ -41,11 +42,12 @@ All Veterans receive coverage for most care and services, but only some will qua
 
 [Learn more about priority groups](/health-care/eligibility#priority-groups).
 
-You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having "minimum essential health coverage." We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
-
+You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+</div>
+</div>
 </div>
 
-<br>
+<br />
 
 ### More about your medical benefits package
 
@@ -57,18 +59,19 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
-- [What services aren't covered under VA health care?](#health-about-not-covered)
+- [What services aren’t covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
 - [What if I need help accessing services?](#health-accessing-services)
 - [Can I manage my VA health and benefits online?](#health-manage-online)
 
-<br>
+<br />
 
-<span id="health-about-basic">
-
-#### What basic health care services does VA cover?
+<div id="health-about-basic" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">What basic health care services does VA cover?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - Preventive care services, like:
   - Health exams (including gender-specific exams)
@@ -87,11 +90,15 @@ You should also know that being signed up for VA health care meets your Affordab
 - Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 - Prescriptions written by a VA doctor. [Refill your prescriptions](/health-care/prescriptions/). 
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-other-services">
-
-#### What other medical services will VA cover to support my treatment?
+<div id="health-about-other-services" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">What other medical services will VA cover to support my treatment?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 We may cover services that your VA primary care provider concludes you need to support your treatment (called ancillary services), like:
 
@@ -99,11 +106,15 @@ We may cover services that your VA primary care provider concludes you need to s
 - Therapy and rehabilitation services, including physical therapy, vision rehab, and therapy for traumatic brain injury
 - Additional services, including prosthetic items, audiology (care for hearing loss), and radiation oncology (cancer care)
  
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-non-medical">
-
-#### Will VA cover any non-medical services to support my treatment?
+<div id="health-about-non-medical" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name"> Will VA cover any non-medical services to support my treatment?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You may be able to get help with some non-medical services, like:
 
@@ -111,35 +122,51 @@ You may be able to get help with some non-medical services, like:
 - [Caregiver support (help for the person who cares for you)](http://www.caregiver.va.gov/)
 - [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp) 
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-vision">
-
-#### Will VA cover my vision care?
+<div id="health-about-vision" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA cover my vision care?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-dental">
-
-#### Will VA cover my dental care?
+<div id="health-about-dental" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA cover my dental care?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-assisted-living">
-
-#### Will VA cover my assisted living and home health care?
+<div id="health-about-assisted-living" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA cover my assisted living and home health care?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. [Find out how to access these long-term care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-not-covered">
-
-#### What services aren't covered under VA health care?
+<div id="health-about-not-covered" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">What services aren’t covered under VA health care?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 These services are **not** included in your VA medical benefits package:
 
@@ -152,48 +179,72 @@ These services are **not** included in your VA medical benefits package:
   - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
  
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-care-team">
- 
-#### Who will care for me at VA?
+<div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Who will care for me at VA?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 At VA, we take a team approach to health care—with you at the center. Research shows this kind of approach leads to better quality care, more satisfied patients, and fewer hospital visits. [Find out who will care for you when you become part of the VA health care program](/health-care/about-va-health-care/your-care-team/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-care-locations">
-
-#### Where will I go to get care?
+<div id="health-about-care-locations" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Where will I go to get care?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. [Learn more about where you’ll get care](/health-care/about-va-health-care/where-you-get-care/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-about-other-insurance">
-
-#### How will VA health care work if I also have Medicare, Medicaid, or private insurance?
+<div id="health-about-other-insurance" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">How will VA health care work if I also have Medicare, Medicaid, or private insurance?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-accessing-services">
-
-#### What if I need help accessing services?
+<div id="health-accessing-services" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">What if I need help accessing services?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
-<br>
+</div>
+</div>
+</div>
+<br />
 
-<span id="health-manage-online">
+<div id="health-manage-online" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Can I manage my VA health and benefits online?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
-#### Can I manage my VA health and benefits online?
+Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online:
 
-Yes. If you're signed up for the VA health care program, you can manage your VA health and benefits online:
-
-[Refill your prescriptions](/health-care/prescriptions/). <br> 
+[Refill your prescriptions](/health-care/prescriptions/). <br /> 
 [Send a secure message to your health care team](/health-care/messaging/). 
 
 You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).
 
+</div>
+</div>
+</div>
+</div>

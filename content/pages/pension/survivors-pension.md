@@ -17,7 +17,7 @@ Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if you haven't remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and:
+You may be able to get this benefit if you haven’t remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and:
 
 - Entered active duty on or before September 7, 1980, and served at least 90 days on active military service, with at least 1 day during a wartime period, **or**
 

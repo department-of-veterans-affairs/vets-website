@@ -24,5 +24,5 @@ People attending the ceremony may:
 
 Funerals at Arlington National Cemetery are different. [Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals). 
 
-**Note:** If you requested a headstone, marker, or medallion, we'll arrange for it to be delivered within 60 days. [Learn about headstones, markers, and medallions](/burials-and-memorials/burial-planning/headstones-markers-medallions/).
+**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. [Learn about headstones, markers, and medallions](/burials-and-memorials/burial-planning/headstones-markers-medallions/).
 

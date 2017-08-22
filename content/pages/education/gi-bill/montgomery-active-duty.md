@@ -33,11 +33,11 @@ You can get education benefits if you were honorably discharged and:
 
 - You entered active duty before January 1, 1977, or you entered active duty before January 2, 1978, under a delayed enlistment program contracted before January 1, 1977, **and**
 - You served at least 1 day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within 1 year of leaving active duty and served 4 years), **and**
-- You had at least 1 day remaining of chapter 34 entitlement as of December 31, 1989. 
+- You had at least 1 day remaining of chapter 34 entitlement as of December 31, 1989.
 
 **CATEGORY III**
 
-Both of these are true: 
+Both of these are true:
 
 - You don’t qualify for MGIB under categories I or II, **and**
 - Before separation, you had military pay reduced by $1,200
@@ -67,7 +67,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction). 
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
@@ -98,4 +98,3 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 [Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” [Read our Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
-

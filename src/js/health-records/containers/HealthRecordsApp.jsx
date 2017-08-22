@@ -19,8 +19,8 @@ function AppContent({ children, isDataAvailable }) {
       <div className="row">
         <div className="columns">
           <h4>
-            Vets.gov health tools are only available for patients who've received care at a VA facility.
-            If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+            Vets.gov health tools are only available for patients who’ve received care at a VA facility.
+            If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
           </h4>
         </div>
       </div>
@@ -37,13 +37,13 @@ export class HealthRecordsApp extends React.Component {
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"health-records"}
+          serviceRequired="health-records"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName={"mhvac"}
-            cancelPath={"/health-care"}
+            termsName="mhvac"
+            cancelPath="/health-care"
             termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div>

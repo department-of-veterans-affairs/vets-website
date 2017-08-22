@@ -53,7 +53,7 @@ export class Folder extends React.Component {
     const redirect = this.props.redirect;
 
     // In the typical case of redirects, we go to the most recent folder
-    // and proceed with fetching its data. If that's not the case,
+    // and proceed with fetching its data. If that’s not the case,
     // go ahead to the URL specified in the redirect.
     if (redirect && redirect.url !== this.props.location.pathname) {
       this.context.router.push({
@@ -70,7 +70,7 @@ export class Folder extends React.Component {
 
       // Only proceed with fetching the requested folder
       // if a redirect has been set (as after moving a message)
-      // or if it's not the same as the most recent request.
+      // or if it’s not the same as the most recent request.
       const shouldFetchFolder =
         redirect ||
         !lastRequest ||
@@ -210,7 +210,7 @@ export class Folder extends React.Component {
       fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
 
       // Disable sorting by 'Date' for Drafts. There is no
-      // save date available, and drafts don't have sent dates.
+      // save date available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.splice(0, 1);
       }
@@ -276,7 +276,7 @@ export class Folder extends React.Component {
       fields[0] = { label: 'To', value: 'recipientName' };
 
       // Hide 'Date' column for Drafts. There is no save date
-      // available, and drafts don't have sent dates.
+      // available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.pop();
       }

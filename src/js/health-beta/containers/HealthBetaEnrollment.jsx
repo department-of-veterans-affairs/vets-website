@@ -10,7 +10,7 @@ class HealthBetaEnrollment extends React.Component {
       <div>
         <RequiredLoginView
             authRequired={1}
-            serviceRequired={"user-profile"}
+            serviceRequired="user-profile"
             userProfile={this.props.profile}
             loginUrl={this.props.loginUrl}
             verifyUrl={this.props.verifyUrl}>

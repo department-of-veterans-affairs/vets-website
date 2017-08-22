@@ -1,11 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getFormDOM } from '../../../util/schemaform-utils';
 import sinon from 'sinon';
 import _ from 'lodash/fp';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';
 
 describe('Edu 1990 benefitsRelinquishment', () => {

@@ -159,7 +159,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
         <ul>
           <li>File a new claim with your RO, <strong>or</strong></li>
           <li>File a motion asking the Board to reconsider your appeal (there’s no time limit to file this motion), <strong>or</strong></li>
-          <li>File a motion asking the Board to review your appeal again because there was clear and unmistakable error in its decision (there's no time limit to file this motion), <strong>or</strong></li>
+          <li>File a motion asking the Board to review your appeal again because there was clear and unmistakable error in its decision (there’s no time limit to file this motion), <strong>or</strong></li>
           <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC</a>.</li>
         </ul>
       </div>

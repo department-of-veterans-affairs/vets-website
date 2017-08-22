@@ -132,9 +132,10 @@ export class CautionaryInformation extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {complaints.map((c) =>
+                {complaints.map((c) => (
                   <TableRow key={c.description} description={c.description}
-                      thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
+                      thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>
+                ))}
               </tbody>
             </table>
           </div>

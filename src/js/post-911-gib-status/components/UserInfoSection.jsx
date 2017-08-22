@@ -16,7 +16,7 @@ class UserInfoSection extends React.Component {
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 
-    // Get today's date to show information current as of
+    // Get today’s date to show information current as of
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
@@ -50,7 +50,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Your Benefits</h4>
             <InfoPair label="Total months received" value={formatMonthDayFields(originalEntitlement)}/>
-            <InfoPair label="Months you've used" value={formatMonthDayFields(usedEntitlement)}/>
+            <InfoPair label="Months you’ve used" value={formatMonthDayFields(usedEntitlement)}/>
             <InfoPair label="Months you have left to use" value={formatMonthDayFields(remainingEntitlement)} displayIfZero/>
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.

@@ -8,7 +8,7 @@ import { createTour } from '../../../../src/js/edu-benefits/1990/utils/veteran';
 
 describe('<MilitaryServiceTour>', () => {
   it('should render active duty section', () => {
-    let tour = createTour();
+    const tour = createTour();
     tour.applyPeriodToSelected = false;
     const onStateChange = sinon.spy();
 

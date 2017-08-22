@@ -54,7 +54,7 @@ export function getEnrollmentData() {
             return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
           }
           return Promise.reject(
-            new Error('post-911-gib-status getEnrollmentData() received unexpected error: `${error.status}: ${error.title}: ${error.detail}`'));
+            new Error(`post-911-gib-status getEnrollmentData() received unexpected error: ${error.status}: ${error.title}: ${error.detail}`));
         }
         return Promise.reject(
           new Error('post-911-gib-status getEnrollmentData() received unexpected error (no status code available)'));

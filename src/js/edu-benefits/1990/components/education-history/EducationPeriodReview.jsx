@@ -20,28 +20,28 @@ export default class EducationPeriodReview extends React.Component {
           </tbody>
           <tbody className="edu-growable-expanded">
             <tr>
-              <td scope="col">City</td>
-              <td scope="col">{period.city.value}</td>
+              <td>City</td>
+              <td>{period.city.value}</td>
             </tr>
             <tr>
-              <td scope="col">State</td>
-              <td scope="col">{period.state.value}</td>
+              <td>State</td>
+              <td>{period.state.value}</td>
             </tr>
             <tr>
-              <td scope="col">Hours completed</td>
-              <td scope="col">{period.hours.value}</td>
+              <td>Hours completed</td>
+              <td>{period.hours.value}</td>
             </tr>
             <tr>
-              <td scope="col">Type of hours</td>
-              <td scope="col">{period.hoursType.value}</td>
+              <td>Type of hours</td>
+              <td>{period.hoursType.value}</td>
             </tr>
             <tr>
-              <td scope="col">Name of degree, diploma, or certificate</td>
-              <td scope="col">{period.degreeReceived.value}</td>
+              <td>Name of degree, diploma, or certificate</td>
+              <td>{period.degreeReceived.value}</td>
             </tr>
             <tr>
-              <td scope="col">Major or course of study</td>
-              <td scope="col">{period.major.value}</td>
+              <td>Major or course of study</td>
+              <td>{period.major.value}</td>
             </tr>
           </tbody>
         </table>

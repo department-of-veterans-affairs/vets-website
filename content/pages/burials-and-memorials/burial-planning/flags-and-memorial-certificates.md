@@ -16,7 +16,7 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 ### Can I get a burial flag?
 
-You can get a burial flag if you're the next of kin or a close friend of the deceased, and that person: 
+You can get a burial flag if you’re the next of kin or a close friend of the deceased, and that person: 
 - Served in wartime, **or**
 - Died while on active duty after May 27, 1941, **or**
 - Served after January 31, 1955, **or**
@@ -46,7 +46,7 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 ### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who's eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
+A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
 Send the PMC request form and discharge papers to: 
 <br><br>

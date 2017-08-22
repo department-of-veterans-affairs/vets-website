@@ -1,9 +1,6 @@
-const chai = require('chai');
-const expect = chai.expect;
+import { expect } from 'chai';
 
-const fields = require('../../src/common/fields');
-const dirtyAllFields = fields.dirtyAllFields;
-const makeField = fields.makeField;
+import { dirtyAllFields, makeField } from '../../../src/js/common/model/fields';
 
 describe('fields model', () => {
   it('field creation method defaults to clean', () => {

@@ -15,7 +15,7 @@ export default class SaveInProgressIntro extends React.Component {
     let alert;
 
     if (this.props.user.login.currentlyLoggedIn) {
-      if (!!savedForm) {
+      if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
