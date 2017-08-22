@@ -200,11 +200,10 @@ node('vets-website-linting') {
         'production': [ 'production' ],
       ][env.BRANCH_NAME]
 
-      // Deploy the ref's corresponding build to dev and staging. If this
-      // is a production merge, we'll deploy the release we just created.
-      // The `ref` param is ignored for the production deployment.
+      // Deploy the build associated with this ref. To deploy from a release use 
+      // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
       for (int i=0; i<targets.size(); i++) {
-        build job: "deploys/vets-website-${targets.get(i)}", parameters: [
+        build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [
           stringParam(name: 'ref', value: ref),
         ], wait: false
       }
