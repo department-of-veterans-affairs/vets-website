@@ -66,6 +66,56 @@ display_title: Sign up
                 <p><a href="#">Sign up with Vets.gov and verify your identity.</a></p>
               </div>
             </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4">
+                What if I can’t verify my identity online?
+              </button>
+              <div id="dbq4" class="usa-accordion-content">
+                <p>If you’re still unable to verify your identity through ID.me, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday – Friday, 8 am – 8 pm (ET) and the team will help you directly.</p>
+                <p>If you received an error code from ID.me, please write it down and repeat it to the Help Desk.</p>
+                <p>Currently, you can only verify your identity online, but in the near-future VA will have in-person identity proofing at VA facilities and other locations.</p>
+              </div>
+            </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq5">
+                What if I already have an ID.me account?
+              </button>
+              <div id="dbq5" class="usa-accordion-content">
+                <p><a href="#">Log in</a> and enter your ID.me username and password. You will then be asked for a 6-digit verification code that will be sent to your mobile or home phone.</p>
+              </div>
+            </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq6">
+                What if I already have a DS Logon Premium account?
+              </button>
+              <div id="dbq6" class="usa-accordion-content">
+                <p><a href="#">Log in</a> and select the DS Logon link on the ID.me screen. Use your DS Logon information to login, and ID.me will receive your verified information. You may have to fill in some additional information.</p>
+              </div>
+            </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7">
+                What if I already have a My Healthevet account?
+              </button>
+              <div id="dbq7" class="usa-accordion-content">
+                <p>You will need to create a new account with ID.me. You can do this by signing up with your email address, DS Logon, Facebook, LinkedIn, Google, or PayPal.</p>
+              </div>
+            </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq8">
+                What I already have an eBenefits account?
+              </button>
+              <div id="dbq8" class="usa-accordion-content">
+                <p>You will need to create a new account with ID.me. You can do this by signing up with your email address, DS Logon, Facebook, LinkedIn, Google, or PayPal.</p>
+              </div>
+            </li>
+            <li>
+              <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq9">
+                Need help?
+              </button>
+              <div id="dbq9" class="usa-accordion-content">
+                <p>Please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday – Friday, 8 am – 8 pm (ET)—they’ll be help you directly.</p>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
