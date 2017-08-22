@@ -148,7 +148,7 @@ function completeVeteranAddress(client, data) {
     .clearValue('input[name="root_veteranAddress_city"]')
     .setValue('input[name="root_veteranAddress_city"]', data.veteranAddress.city)
     .clearValue('select[name="root_veteranAddress_state"]')
-    .setValue('select[name="root_veteranAddress_state"]', data.veteranAddress.state)
+    .selectDropdown('root_veteranAddress_state', data.veteranAddress.state)
     .clearValue('input[name="root_veteranAddress_postalCode"]')
     .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode);
 }
@@ -162,7 +162,7 @@ function completeRelativeAddress(client, data) {
     .clearValue('input[name="root_relativeAddress_city"]')
     .setValue('input[name="root_relativeAddress_city"]', data.relativeAddress.city)
     .clearValue('select[name="root_relativeAddress_state"]')
-    .setValue('select[name="root_relativeAddress_state"]', data.relativeAddress.state)
+    .selectDropdown('root_relativeAddress_state', data.relativeAddress.state)
     .clearValue('input[name="root_relativeAddress_postalCode"]')
     .setValue('input[name="root_relativeAddress_postalCode"]', data.relativeAddress.postalCode);
 }
