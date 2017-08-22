@@ -7,6 +7,7 @@ import { expect } from 'chai';
 import _ from 'lodash/fp';
 
 import { VeteranBenefitSummaryLetter } from '../../../src/js/letters/containers/VeteranBenefitSummaryLetter';
+import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink';
 
 import reducer from '../../../src/js/letters/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
@@ -55,11 +56,19 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.dive(['div', 'div', '#militaryService'])).not.to.be.empty;
   });
 
-  it('should update request option when checked', () => {
+  it.only('should update request option when checked', () => {
     const updateOption = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
-      <VeteranBenefitSummaryLetter store={store} {...props}/>);
+      <VeteranBenefitSummaryLetter store={store} {...props}>
+        <DownloadLetterLink
+            letterType="benefit_summary"
+            letterName="Benefit Summary Letter"
+            downloadStatus="pending"
+            store={store}/>
+      </VeteranBenefitSummaryLetter>
+    );
+
     const formDOM = findDOMNode(component);
     const inputs = formDOM.querySelectorAll('input');
     expect(inputs.length).to.equal(3);
