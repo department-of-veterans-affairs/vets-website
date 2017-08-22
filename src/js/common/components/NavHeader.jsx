@@ -12,12 +12,12 @@ export default class NavHeader extends React.Component {
 
     return step
       ? <div
-          role="progressbar"
-          aria-valuenow={step}
-          aria-valuemin="1"
-          aria-valuetext={`Step ${step} of ${total}: ${name}`}
-          aria-valuemax={total}
-          className={`nav-header ${className}`}>
+        role="progressbar"
+        aria-valuenow={step}
+        aria-valuemin="1"
+        aria-valuetext={`Step ${step} of ${total}: ${name}`}
+        aria-valuemax={total}
+        className={`nav-header ${className}`}>
         <h4><span className="form-process-step current">{step}</span> of {total} {name}</h4>
       </div>
       : null;

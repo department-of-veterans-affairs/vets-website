@@ -94,40 +94,40 @@ ui.pages = Object.keys(ui.pages).reduce((current, next) => {
 
 function uiState(state = ui, action) {
   switch (action.type) {
-    case UPDATE_COMPLETED_STATUS:
-      return _.set(['pages', action.path, 'complete'], true, state);
+  case UPDATE_COMPLETED_STATUS:
+    return _.set(['pages', action.path, 'complete'], true, state);
 
-    case UPDATE_INCOMPLETE_STATUS:
-      return _.set(['pages', action.path, 'complete'], false, state);
+  case UPDATE_INCOMPLETE_STATUS:
+    return _.set(['pages', action.path, 'complete'], false, state);
 
-    case UPDATE_EDIT_STATUS:
-      return _.set(['pages', action.path, 'editOnReview'], action.value, state);
+  case UPDATE_EDIT_STATUS:
+    return _.set(['pages', action.path, 'editOnReview'], action.value, state);
 
-    case UPDATE_SUBMISSION_STATUS:
-      return _.set('submission.status', action.value, state);
+  case UPDATE_SUBMISSION_STATUS:
+    return _.set('submission.status', action.value, state);
 
-    case UPDATE_SUBMISSION_ID:
-      return _.set('submission.id', action.value, state);
+  case UPDATE_SUBMISSION_ID:
+    return _.set('submission.id', action.value, state);
 
-    case UPDATE_SUBMISSION_TIMESTAMP:
-      return _.set('submission.timestamp', action.value, state);
+  case UPDATE_SUBMISSION_TIMESTAMP:
+    return _.set('submission.timestamp', action.value, state);
 
-    case UPDATE_SUBMISSION_DETAILS: {
-      const submission = _.merge(state.submission, {
-        id: action.attributes.confirmationNumber,
-        regionalAddress: action.attributes.regionalOffice,
-        timestamp: action.attributes.submittedAt,
-        status: 'applicationSubmitted'
-      });
+  case UPDATE_SUBMISSION_DETAILS: {
+    const submission = _.merge(state.submission, {
+      id: action.attributes.confirmationNumber,
+      regionalAddress: action.attributes.regionalOffice,
+      timestamp: action.attributes.submittedAt,
+      status: 'applicationSubmitted'
+    });
 
-      return _.set('submission', submission, state);
-    }
+    return _.set('submission', submission, state);
+  }
 
-    case SET_ATTEMPTED_SUBMIT:
-      return _.set('submission.hasAttemptedSubmit', true, state);
+  case SET_ATTEMPTED_SUBMIT:
+    return _.set('submission.hasAttemptedSubmit', true, state);
 
-    default:
-      return state;
+  default:
+    return state;
   }
 }
 

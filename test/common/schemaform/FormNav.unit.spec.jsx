@@ -37,8 +37,8 @@ describe('Schemaform FormNav', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormNav
-          formConfig={formConfig}
-          currentPath={currentPath}/>
+        formConfig={formConfig}
+        currentPath={currentPath}/>
     );
 
     expect(tree.subTree('SegmentedProgressBar').props.total).to.equal(4);

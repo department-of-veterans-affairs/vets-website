@@ -14,30 +14,30 @@ const initialState = {
 
 export default function preferences(state = initialState, action) {
   switch (action.type) {
-    case SM_FETCH_PREFERENCES_SUCCESS: {
-      const { emailAddress, frequency } = action.preferences;
-      return {
-        ...state,
-        emailAddress: makeField(emailAddress),
-        frequency: makeField(frequency)
-      };
-    }
+  case SM_FETCH_PREFERENCES_SUCCESS: {
+    const { emailAddress, frequency } = action.preferences;
+    return {
+      ...state,
+      emailAddress: makeField(emailAddress),
+      frequency: makeField(frequency)
+    };
+  }
 
-    case SM_SAVE_PREFERENCES_SUCCESS: {
-      const { emailAddress, frequency } = action.preferences;
-      return {
-        emailAddress: makeField(emailAddress),
-        frequency: makeField(frequency)
-      };
-    }
+  case SM_SAVE_PREFERENCES_SUCCESS: {
+    const { emailAddress, frequency } = action.preferences;
+    return {
+      emailAddress: makeField(emailAddress),
+      frequency: makeField(frequency)
+    };
+  }
 
-    case SM_SET_NOTIFICATION_EMAIL:
-      return { ...state, emailAddress: action.email };
+  case SM_SET_NOTIFICATION_EMAIL:
+    return { ...state, emailAddress: action.email };
 
-    case SM_SET_NOTIFICATION_FREQUENCY:
-      return { ...state, frequency: action.frequency };
+  case SM_SET_NOTIFICATION_FREQUENCY:
+    return { ...state, frequency: action.frequency };
 
-    default:
-      return state;
+  default:
+    return state;
   }
 }

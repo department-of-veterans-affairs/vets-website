@@ -29,65 +29,65 @@ export class DownloadLetterLink extends React.Component {
     let buttonDisabled;
     let message;
     switch (this.props.downloadStatus) {
-      case 'downloading':
-        buttonClasses = 'usa-button-disabled';
-        buttonText = 'Downloading...';
-        buttonDisabled = true;
-        break;
-      case 'success':
-        buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
-        buttonDisabled = false;
-        message = (
-          <div className="usa-alert usa-alert-success" role="alert">
-            <div className="usa-alert-body">
-              <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
-              <p className="usa-alert-text">
+    case 'downloading':
+      buttonClasses = 'usa-button-disabled';
+      buttonText = 'Downloading...';
+      buttonDisabled = true;
+      break;
+    case 'success':
+      buttonClasses = 'usa-button-primary va-button-primary';
+      buttonText = 'Download Letter';
+      buttonDisabled = false;
+      message = (
+        <div className="usa-alert usa-alert-success" role="alert">
+          <div className="usa-alert-body">
+            <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
+            <p className="usa-alert-text">
                 If you want to download your letter again, please press the button below.
-              </p>
-            </div>
+            </p>
           </div>
-        );
-        break;
-      case 'failure':
-        buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Retry Download';
-        buttonDisabled = false;
-        message = (
-          <div className="usa-alert usa-alert-error" role="alert">
-            <div className="usa-alert-body">
-              <h2 className="usa-alert-heading">Your letter didn't download.</h2>
-              <p className="usa-alert-text">
+        </div>
+      );
+      break;
+    case 'failure':
+      buttonClasses = 'usa-button-primary va-button-primary';
+      buttonText = 'Retry Download';
+      buttonDisabled = false;
+      message = (
+        <div className="usa-alert usa-alert-error" role="alert">
+          <div className="usa-alert-body">
+            <h2 className="usa-alert-heading">Your letter didn't download.</h2>
+            <p className="usa-alert-text">
                 Your letter isn't available at this time. If you need help with
                 accessing your letter, please call <a href="tel: 855-574-7286">
                 855-574-7286</a>, Monday-Friday, 8 a.m. - 8 p.m. (ET).
-              </p>
-            </div>
+            </p>
           </div>
-        );
-        break;
-      default:
-        buttonClasses = 'usa-button-primary va-button-primary';
-        buttonText = 'Download Letter';
-        buttonDisabled = false;
+        </div>
+      );
+      break;
+    default:
+      buttonClasses = 'usa-button-primary va-button-primary';
+      buttonText = 'Download Letter';
+      buttonDisabled = false;
     }
 
     return (
       <div>
         <div className="form-expanding-group form-expanding-group-open">
           <ReactCSSTransitionGroup
-              transitionName="form-expanding-group-inner"
-              transitionAppear
-              transitionAppearTimeout={700}
-              transitionEnterTimeout={700}
-              transitionLeave={false}>
+            transitionName="form-expanding-group-inner"
+            transitionAppear
+            transitionAppearTimeout={700}
+            transitionEnterTimeout={700}
+            transitionLeave={false}>
             {message}
           </ReactCSSTransitionGroup>
         </div>
         <div className="download-button">
           <button onClick={this.downloadLetter}
-              disabled={buttonDisabled}
-              className={buttonClasses}>
+            disabled={buttonDisabled}
+            className={buttonClasses}>
             {buttonText}
           </button>
         </div>

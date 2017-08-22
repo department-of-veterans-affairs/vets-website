@@ -8,16 +8,16 @@ export default function ClaimantView({ formData }) {
   let relationship;
 
   switch (relationshipToVet.type) {
-    case 1:
-      relationship = 'Servicemember';
-      break;
-    case 2:
-      relationship = 'Spouse';
-      break;
-    case 3:
-      relationship = 'Child';
-      break;
-    default:
+  case 1:
+    relationship = 'Servicemember';
+    break;
+  case 2:
+    relationship = 'Spouse';
+    break;
+  case 3:
+    relationship = 'Child';
+    break;
+  default:
       // Invalid case; show nothing for relationship.
   }
 

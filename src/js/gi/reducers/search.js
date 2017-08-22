@@ -69,32 +69,32 @@ function derivePaging(links) {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case FILTER_TOGGLED:
-      return { ...state, filterOpened: !state.filterOpened };
-    case SEARCH_STARTED:
-      return { ...state, inProgress: true };
-    case SEARCH_FAILED:
-      return {
-        ...state,
-        ...action.err,
-        inProgress: false
-      };
-    case SEARCH_SUCCEEDED:
-      const camelPayload = camelCaseKeysRecursive(action.payload);
-      const results = camelPayload.data.reduce((acc, result) => {
-        const attributes = normalizedAttributes(result.attributes);
-        return [...acc, attributes];
-      }, []);
-      return {
-        ...state,
-        results,
-        pagination: derivePaging(camelPayload.links),
-        facets: normalizedFacets(camelPayload.meta.facets),
-        count: camelPayload.meta.count,
-        version: camelPayload.meta.version,
-        inProgress: false
-      };
-    default:
-      return state;
+  case FILTER_TOGGLED:
+    return { ...state, filterOpened: !state.filterOpened };
+  case SEARCH_STARTED:
+    return { ...state, inProgress: true };
+  case SEARCH_FAILED:
+    return {
+      ...state,
+      ...action.err,
+      inProgress: false
+    };
+  case SEARCH_SUCCEEDED:
+    const camelPayload = camelCaseKeysRecursive(action.payload);
+    const results = camelPayload.data.reduce((acc, result) => {
+      const attributes = normalizedAttributes(result.attributes);
+      return [...acc, attributes];
+    }, []);
+    return {
+      ...state,
+      results,
+      pagination: derivePaging(camelPayload.links),
+      facets: normalizedFacets(camelPayload.meta.facets),
+      count: camelPayload.meta.count,
+      version: camelPayload.meta.version,
+      inProgress: false
+    };
+  default:
+    return state;
   }
 }

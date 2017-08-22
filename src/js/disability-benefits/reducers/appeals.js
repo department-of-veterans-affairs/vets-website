@@ -11,11 +11,11 @@ const initialState = {
 
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_APPEALS:
-      return _.set('available', true, state);
-    case SET_APPEALS_UNAVAILABLE:
-      return _.set('available', false, state);
-    default:
-      return state;
+  case SET_APPEALS:
+    return _.set('available', true, state);
+  case SET_APPEALS_UNAVAILABLE:
+    return _.set('available', false, state);
+  default:
+    return state;
   }
 }

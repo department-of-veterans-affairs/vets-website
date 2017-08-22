@@ -22,7 +22,7 @@ function init() {
     <Provider store={store}>
       <Router history={history} routes={routes}/>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 // Start react.

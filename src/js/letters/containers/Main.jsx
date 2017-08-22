@@ -17,44 +17,44 @@ export class Main extends React.Component {
     let appContent;
 
     switch (this.props.lettersAvailability) {
-      case 'available':
-        appContent = this.props.children;
-        break;
-      case 'awaitingResponse':
-        appContent = <LoadingIndicator message="Loading your letters..."/>;
-        break;
-      case 'backendServiceError':
-        appContent = systemDownMessage;
-        break;
-      case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning;
-        break;
+    case 'available':
+      appContent = this.props.children;
+      break;
+    case 'awaitingResponse':
+      appContent = <LoadingIndicator message="Loading your letters..."/>;
+      break;
+    case 'backendServiceError':
+      appContent = systemDownMessage;
+      break;
+    case 'backendAuthenticationError':
+      appContent = unableToFindRecordWarning;
+      break;
       // Need a permanent UI for this
-      case 'invalidAddressProperty':
-        appContent = invalidAddressProperty;
-        break;
-      case 'letterEligibilityError':
-        appContent = this.props.children;
-        break;
-      case 'unavailable':
-        appContent = (
-          <div id="lettersUnavailable">
-            <div className="usa-alert usa-alert-error" role="alert">
-              <div className="usa-alert-body">
-                <h4 className="usa-alert-heading">Letters Unavailable</h4>
-                <p className="usa-alert-text">
+    case 'invalidAddressProperty':
+      appContent = invalidAddressProperty;
+      break;
+    case 'letterEligibilityError':
+      appContent = this.props.children;
+      break;
+    case 'unavailable':
+      appContent = (
+        <div id="lettersUnavailable">
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <h4 className="usa-alert-heading">Letters Unavailable</h4>
+              <p className="usa-alert-text">
                   We weren't able to retrieve your VA letters. Please call
-                  <a href="tel:855-574-7286">855-574-7286</a> between Monday-Friday
+                <a href="tel:855-574-7286">855-574-7286</a> between Monday-Friday
                   8:00 a.m. - 8:00 p.m. (ET).
-                </p>
-              </div>
+              </p>
             </div>
-            <br/>
           </div>
-        );
-        break;
-      default:
-        appContent = systemDownMessage;
+          <br/>
+        </div>
+      );
+      break;
+    default:
+      appContent = systemDownMessage;
     }
 
     return (

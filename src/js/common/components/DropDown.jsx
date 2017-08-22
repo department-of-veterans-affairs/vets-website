@@ -22,9 +22,9 @@ class DropDown extends React.Component {
     return (
       <div className="va-dropdown">
         <button className={buttonClasses}
-            aria-controls={this.props.id}
-            aria-expanded={this.props.isOpen}
-            onClick={this.toggleDropDown}>
+          aria-controls={this.props.id}
+          aria-expanded={this.props.isOpen}
+          onClick={this.toggleDropDown}>
           <span>
             {this.props.icon}
             {this.props.buttonText}

@@ -113,47 +113,47 @@ const getDerivedValues = createSelector(
 
     // The monthly benefit rate for non-chapter 33 benefits
     switch (giBillChapter) {
-      case 30: {
-        monthlyRate =
+    case 30: {
+      monthlyRate =
           (enlistmentService === '3' ?
-           constant.MGIB3YRRATE :
-           constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
-        break;
-      }
-      case 1607: {
-        monthlyRate =
+            constant.MGIB3YRRATE :
+            constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
+      break;
+    }
+    case 1607: {
+      monthlyRate =
           constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
-        break;
+      break;
+    }
+    case 1606: {
+      monthlyRate = constant.SRRATE * (isOJT ? 0.75 : 1);
+      break;
+    }
+    case 35: {
+      if (isOJT) {
+        monthlyRate = constant.DEARATEOJT;
+      } else if (isFlight) {
+        monthlyRate = 0;
+      } else {
+        monthlyRate = constant.DEARATE;
       }
-      case 1606: {
-        monthlyRate = constant.SRRATE * (isOJT ? 0.75 : 1);
-        break;
-      }
-      case 35: {
-        if (isOJT) {
-          monthlyRate = constant.DEARATEOJT;
-        } else if (isFlight) {
-          monthlyRate = 0;
-        } else {
-          monthlyRate = constant.DEARATE;
-        }
-        break;
-      }
-      case 31: {
-        const OJT = isOJT ? 'OJT' : '';
-        if (numberOfDependents <= 2) {
-          monthlyRate =
+      break;
+    }
+    case 31: {
+      const OJT = isOJT ? 'OJT' : '';
+      if (numberOfDependents <= 2) {
+        monthlyRate =
             constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
-        } else {
-          monthlyRate =
+      } else {
+        monthlyRate =
             constant[`VRE2DEPRATE${OJT}`] +
             ((numberOfDependents - 2) *
             constant[`VREINCRATE${OJT}`]);
-        }
-        break;
       }
-      default:
-        monthlyRate = 0;
+      break;
+    }
+    default:
+      monthlyRate = 0;
     }
 
     // Calculate the total number of academic terms - getNumberOfTerms
@@ -179,8 +179,8 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.CORRESPONDTFCAP;
     } else if (isPublic && institutionCountry === 'usa') {
       tuitionFeesCap = inputs.inState === 'yes'
-                     ? +inputs.tuitionFees
-                     : +inputs.inStateTuitionFees;
+        ? +inputs.tuitionFees
+        : +inputs.inStateTuitionFees;
     } else {
       // Default cap for private, foreign, and for-profit institutions.
       tuitionFeesCap = constant.TFCAP;
@@ -197,17 +197,17 @@ const getDerivedValues = createSelector(
       termLength = 6;
     } else {
       switch (inputs.calendar) {
-        case 'semesters':
-          termLength = 4.5;
-          break;
-        case 'quarters':
-          termLength = 3;
-          break;
-        case 'nontraditional':
-          termLength = +inputs.lengthNontradTerms;
-          acadYearLength = (+inputs.numberNontradTerms) * (+inputs.lengthNontradTerms);
-          break;
-        default:
+      case 'semesters':
+        termLength = 4.5;
+        break;
+      case 'quarters':
+        termLength = 3;
+        break;
+      case 'nontraditional':
+        termLength = +inputs.lengthNontradTerms;
+        acadYearLength = (+inputs.numberNontradTerms) * (+inputs.lengthNontradTerms);
+        break;
+      default:
           // noop
       }
     }
@@ -278,22 +278,22 @@ const getDerivedValues = createSelector(
       nameOfTerm4 = 'Months 19-24';
     } else {
       switch (inputs.calendar) {
-        case 'semesters':
-          nameOfTerm1 = 'Fall';
-          nameOfTerm2 = 'Spring';
-          nameOfTerm3 = '';
-          break;
-        case 'quarters':
-          nameOfTerm1 = 'Fall';
-          nameOfTerm2 = 'Winter';
-          nameOfTerm3 = 'Spring';
-          break;
-        case 'nontraditional':
-          nameOfTerm1 = 'Term 1';
-          nameOfTerm2 = 'Term 2';
-          nameOfTerm3 = 'Term 3';
-          break;
-        default:
+      case 'semesters':
+        nameOfTerm1 = 'Fall';
+        nameOfTerm2 = 'Spring';
+        nameOfTerm3 = '';
+        break;
+      case 'quarters':
+        nameOfTerm1 = 'Fall';
+        nameOfTerm2 = 'Winter';
+        nameOfTerm3 = 'Spring';
+        break;
+      case 'nontraditional':
+        nameOfTerm1 = 'Term 1';
+        nameOfTerm2 = 'Term 2';
+        nameOfTerm3 = 'Term 3';
+        break;
+      default:
           // noop
       }
 
@@ -509,9 +509,9 @@ const getDerivedValues = createSelector(
       ));
     } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
       housingAllowTerm2 = Math.max(0, Math.min(
-          totalHousingAllowance,
-          tuitionFeesPerTerm * (consecutiveService * 0.6)
-        ));
+        totalHousingAllowance,
+        tuitionFeesPerTerm * (consecutiveService * 0.6)
+      ));
     } else if (onlyTuitionFees) {
       housingAllowTerm2 = Math.max(0, Math.min(
         totalHousingAllowance,
@@ -690,25 +690,25 @@ const getDerivedValues = createSelector(
 
     // Calculate Text for Total Benefits Row - getTotalText
     switch (giBillChapter) {
-      case 30:
-        giBillTotalText = 'Total Montgomery GI Bill Benefits';
-        break;
-      case 31:
-        giBillTotalText = 'Total Voc Rehab Benefits';
-        break;
-      case 33:
-        giBillTotalText = 'Total Post-9/11 GI Bill Benefits';
-        break;
-      case 35:
-        giBillTotalText = 'Total DEA GI Bill Benefits';
-        break;
-      case 1606:
-        giBillTotalText = 'Total Select Reserve GI Bill Benefits';
-        break;
-      case 1607:
-        giBillTotalText = 'Total REAP GI Bill Benefits';
-        break;
-      default:
+    case 30:
+      giBillTotalText = 'Total Montgomery GI Bill Benefits';
+      break;
+    case 31:
+      giBillTotalText = 'Total Voc Rehab Benefits';
+      break;
+    case 33:
+      giBillTotalText = 'Total Post-9/11 GI Bill Benefits';
+      break;
+    case 35:
+      giBillTotalText = 'Total DEA GI Bill Benefits';
+      break;
+    case 1606:
+      giBillTotalText = 'Total Select Reserve GI Bill Benefits';
+      break;
+    case 1607:
+      giBillTotalText = 'Total REAP GI Bill Benefits';
+      break;
+    default:
         // noop
     }
 

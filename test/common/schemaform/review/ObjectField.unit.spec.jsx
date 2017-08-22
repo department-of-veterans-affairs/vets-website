@@ -18,11 +18,11 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          idSchema={{}}
-          requiredSchema={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        idSchema={{}}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
@@ -40,12 +40,12 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          idSchema={{}}
-          formData={{}}
-          requiredSchema={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        idSchema={{}}
+        formData={{}}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -62,14 +62,14 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={{}}
-          schema={schema}
-          formContext={{ pageTitle: 'Blah' }}
-          requiredSchema={{}}
-          idSchema={{ $id: 'root' }}
-          formData={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: 'Blah' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
@@ -85,14 +85,14 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={{}}
-          schema={schema}
-          formContext={{ pageTitle: () => 'A function title' }}
-          requiredSchema={{}}
-          idSchema={{ $id: 'root' }}
-          formData={{}}
-          onChange={f => f}
-          onBlur={f => f}/>
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: () => 'A function title' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={f => f}
+        onBlur={f => f}/>
     );
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
@@ -110,14 +110,14 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={{}}
-          schema={schema}
-          requiredSchema={{}}
-          formContext={{ hideTitle: true, pageTitle: 'Blah' }}
-          idSchema={{ $id: 'root' }}
-          formData={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        uiSchema={{}}
+        schema={schema}
+        requiredSchema={{}}
+        formContext={{ hideTitle: true, pageTitle: 'Blah' }}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
@@ -149,12 +149,12 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={{}}
-          formData={formData}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
@@ -182,12 +182,12 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={{}}
-          formData={formData}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -215,12 +215,12 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={{}}
-          formData={formData}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
@@ -247,13 +247,13 @@ describe('Schemaform review: ObjectField', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          schema={schema}
-          idSchema={{}}
-          uiSchema={uiSchema}
-          formData={{ test: 'thing', test2: 'Stuff' }}
-          requiredSchema={{}}
-          onChange={onChange}
-          onBlur={onBlur}/>
+        schema={schema}
+        idSchema={{}}
+        uiSchema={uiSchema}
+        formData={{ test: 'thing', test2: 'Stuff' }}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(2);

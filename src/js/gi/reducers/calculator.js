@@ -31,69 +31,69 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case CALCULATOR_INPUTS_CHANGED: {
-      const { field, value } = action;
-      let convertedValue = value;
+  case CALCULATOR_INPUTS_CHANGED: {
+    const { field, value } = action;
+    let convertedValue = value;
 
-      const isDollarAmount = [
-        'tuitionFees',
-        'inStateTuitionFees',
-        'books',
-        'yellowRibbonAmount',
-        'scholarships',
-        'tuitionAssist',
-        'kickerAmount',
-        'buyUpAmount'
-      ].includes(field);
+    const isDollarAmount = [
+      'tuitionFees',
+      'inStateTuitionFees',
+      'books',
+      'yellowRibbonAmount',
+      'scholarships',
+      'tuitionAssist',
+      'kickerAmount',
+      'buyUpAmount'
+    ].includes(field);
 
-      if (isDollarAmount && !isFinite(value)) {
-        // Strip all non-numeric characters.
-        convertedValue = +value.replace(/[^0-9.]+/g, '');
-      }
+    if (isDollarAmount && !isFinite(value)) {
+      // Strip all non-numeric characters.
+      convertedValue = +value.replace(/[^0-9.]+/g, '');
+    }
 
-      const newState = {
-        [field]: convertedValue,
-      };
+    const newState = {
+      [field]: convertedValue,
+    };
 
-      if (field === 'inState') {
-        newState.tuitionFees =
+    if (field === 'inState') {
+      newState.tuitionFees =
           value === 'yes' ?
-          state.tuitionInState :
-          state.tuitionOutOfState;
+            state.tuitionInState :
+            state.tuitionOutOfState;
 
-        newState.inStateTuitionFees = state.tuitionInState;
-      }
-
-      return {
-        ...state,
-        ...newState
-      };
+      newState.inStateTuitionFees = state.tuitionInState;
     }
 
-    case FETCH_PROFILE_SUCCEEDED: {
-      const camelPayload = camelCaseKeysRecursive(action.payload);
+    return {
+      ...state,
+      ...newState
+    };
+  }
 
-      const {
-        tuitionInState,
-        tuitionOutOfState,
-        books,
-        calendar,
-        type,
-      } = camelPayload.data.attributes;
+  case FETCH_PROFILE_SUCCEEDED: {
+    const camelPayload = camelCaseKeysRecursive(action.payload);
 
-      return {
-        ...INITIAL_STATE,
-        type,
-        tuitionInState: tuitionInState || 0,
-        tuitionOutOfState: tuitionOutOfState || 0,
-        tuitionFees: tuitionInState || 0,
-        inStateTuitionFees: tuitionInState || 0,
-        books: books || 0,
-        calendar: calendar || 'semesters'
-      };
-    }
+    const {
+      tuitionInState,
+      tuitionOutOfState,
+      books,
+      calendar,
+      type,
+    } = camelPayload.data.attributes;
 
-    default:
-      return state;
+    return {
+      ...INITIAL_STATE,
+      type,
+      tuitionInState: tuitionInState || 0,
+      tuitionOutOfState: tuitionOutOfState || 0,
+      tuitionFees: tuitionInState || 0,
+      inStateTuitionFees: tuitionInState || 0,
+      books: books || 0,
+      calendar: calendar || 'semesters'
+    };
+  }
+
+  default:
+    return state;
   }
 }

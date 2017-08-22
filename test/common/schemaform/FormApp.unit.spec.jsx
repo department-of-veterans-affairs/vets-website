@@ -19,10 +19,10 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -43,10 +43,10 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -68,10 +68,10 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -92,12 +92,12 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        isLoggedIn
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -123,13 +123,13 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          prefillStatus={PREFILL_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        prefillStatus={PREFILL_STATUSES.pending}
+        isLoggedIn
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -161,12 +161,12 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        isLoggedIn
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -198,12 +198,12 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        isLoggedIn
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -240,11 +240,11 @@ describe('Schemaform <FormApp>', () => {
     __BUILDTYPE__ = 'production';
     SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          routes={routes}
-          router={router}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}>
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}>
         <div className="child"/>
       </FormApp>
     );

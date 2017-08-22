@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
-FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
+  FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -68,12 +68,12 @@ function sortList(list, sortProperty) {
       const firstEvent = events[events.length - 1];
 
       switch (sortProperty) {
-        case 'phaseChangeDate':
-          return moment(lastEvent.date).unix();
-        case 'dateFiled':
-          return moment(firstEvent.date).unix();
-        default:
-          break;
+      case 'phaseChangeDate':
+        return moment(lastEvent.date).unix();
+      case 'dateFiled':
+        return moment(firstEvent.date).unix();
+      default:
+        break;
       }
     }
     return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
@@ -93,69 +93,69 @@ function getTotalPages(list) {
 
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CLAIMS: {
-      const visibleList = sortList(filterList(state.appeals.concat(action.claims), action.filter), state.sortProperty);
-      return _.assign(state, {
-        claims: action.claims,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, state.page),
-        pages: getTotalPages(visibleList),
-        loading: false,
-      });
-    }
-    case SET_APPEALS: {
-      const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
-      const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);
-      return _.assign(state, {
-        appeals: action.appeals,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, state.page),
-        pages: getTotalPages(visibleList),
-        loading: false,
-      });
-    }
-    case FILTER_CLAIMS: {
-      const visibleList = sortList(filterList(state.appeals.concat(state.claims), action.filter), state.sortProperty);
-      return _.assign(state, {
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, 1),
-        page: 1,
-        pages: getTotalPages(visibleList)
-      });
-    }
-    case SORT_CLAIMS: {
-      const visibleList = sortList(state.visibleList, action.sortProperty);
-      return _.assign(state, {
-        sortProperty: action.sortProperty,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, 1),
-        page: 1,
-        pages: getTotalPages(visibleList)
-      });
-    }
-    case CHANGE_CLAIMS_PAGE: {
-      return _.assign(state, {
-        page: action.page,
-        visibleRows: getVisibleRows(state.visibleList, action.page)
-      });
-    }
-    case SHOW_CONSOLIDATED_MODAL: {
-      return _.set('consolidatedModal', action.visible, state);
-    }
-    case HIDE_30_DAY_NOTICE: {
-      return _.set('show30DayNotice', false, state);
-    }
-    case FETCH_APPEALS: {
-      return _.set('loading', true, state);
-    }
-    case FETCH_CLAIMS: {
-      return _.set('loading', true, state);
-    }
-    case SET_CLAIMS_UNAVAILABLE:
-      return _.set('loading', false, state);
-    case SET_APPEALS_UNAVAILABLE:
-      return _.set('loading', false, state);
-    default:
-      return state;
+  case SET_CLAIMS: {
+    const visibleList = sortList(filterList(state.appeals.concat(action.claims), action.filter), state.sortProperty);
+    return _.assign(state, {
+      claims: action.claims,
+      visibleList,
+      visibleRows: getVisibleRows(visibleList, state.page),
+      pages: getTotalPages(visibleList),
+      loading: false,
+    });
+  }
+  case SET_APPEALS: {
+    const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
+    const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);
+    return _.assign(state, {
+      appeals: action.appeals,
+      visibleList,
+      visibleRows: getVisibleRows(visibleList, state.page),
+      pages: getTotalPages(visibleList),
+      loading: false,
+    });
+  }
+  case FILTER_CLAIMS: {
+    const visibleList = sortList(filterList(state.appeals.concat(state.claims), action.filter), state.sortProperty);
+    return _.assign(state, {
+      visibleList,
+      visibleRows: getVisibleRows(visibleList, 1),
+      page: 1,
+      pages: getTotalPages(visibleList)
+    });
+  }
+  case SORT_CLAIMS: {
+    const visibleList = sortList(state.visibleList, action.sortProperty);
+    return _.assign(state, {
+      sortProperty: action.sortProperty,
+      visibleList,
+      visibleRows: getVisibleRows(visibleList, 1),
+      page: 1,
+      pages: getTotalPages(visibleList)
+    });
+  }
+  case CHANGE_CLAIMS_PAGE: {
+    return _.assign(state, {
+      page: action.page,
+      visibleRows: getVisibleRows(state.visibleList, action.page)
+    });
+  }
+  case SHOW_CONSOLIDATED_MODAL: {
+    return _.set('consolidatedModal', action.visible, state);
+  }
+  case HIDE_30_DAY_NOTICE: {
+    return _.set('show30DayNotice', false, state);
+  }
+  case FETCH_APPEALS: {
+    return _.set('loading', true, state);
+  }
+  case FETCH_CLAIMS: {
+    return _.set('loading', true, state);
+  }
+  case SET_CLAIMS_UNAVAILABLE:
+    return _.set('loading', false, state);
+  case SET_APPEALS_UNAVAILABLE:
+    return _.set('loading', false, state);
+  default:
+    return state;
   }
 }

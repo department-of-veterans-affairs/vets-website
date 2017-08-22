@@ -52,23 +52,23 @@ if (options.buildtype === undefined) {
 }
 
 switch (options.buildtype) {
-  case 'development':
-    // No extra checks needed in dev.
-    break;
+case 'development':
+  // No extra checks needed in dev.
+  break;
 
-  case 'staging':
-    break;
+case 'staging':
+  break;
 
-  case 'production':
-    if (options['no-sanity-check-node-env'] === false) {
-      if (env !== 'prod') {
-        throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
-      }
+case 'production':
+  if (options['no-sanity-check-node-env'] === false) {
+    if (env !== 'prod') {
+      throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
     }
-    break;
+  }
+  break;
 
-  default:
-    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+default:
+  throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
 
 const webpackConfig = webpackConfigGenerator(options);
@@ -561,17 +561,17 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
       ['/education/gi-bill/post-9-11/ch-33-benefit',
-       '/employment/commitments',
-       '/employment/employers',
-       '/employment/job-seekers/create-resume',
-       '/employment/job-seekers/search-jobs',
-       '/employment/job-seekers/skills-translator',
-       '/gi-bill-comparison-tool/',
-       '/education/apply-for-education-benefits/application',
-       '/pension/application/527EZ',
-       '/burials-and-memorials/application/530',
-       '/health-care/apply/application',
-       '/letters'].join('|'))
+        '/employment/commitments',
+        '/employment/employers',
+        '/employment/job-seekers/create-resume',
+        '/employment/job-seekers/search-jobs',
+        '/employment/job-seekers/skills-translator',
+        '/gi-bill-comparison-tool/',
+        '/education/apply-for-education-benefits/application',
+        '/pension/application/527EZ',
+        '/burials-and-memorials/application/530',
+        '/health-care/apply/application',
+        '/letters'].join('|'))
   }));
 }
 

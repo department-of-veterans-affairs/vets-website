@@ -151,18 +151,18 @@ export default class AdditionalSourcesField extends React.Component {
                       <h5 className={`pensions-heading pensions-heading-${index}`}>Additional source</h5>
                       <div className="input-section">
                         <SchemaField
-                            name="additionalSources"
-                            required
-                            schema={itemSchema}
-                            uiSchema={uiSchema.items}
-                            errorSchema={_.get([index], errorSchema) || {}}
-                            idSchema={itemIdSchema}
-                            formData={itemData}
-                            onChange={(value) => this.onItemChange(index, value, true)}
-                            onBlur={onBlur}
-                            registry={this.props.registry}
-                            disabled={disabled}
-                            readonly={readonly}/>
+                          name="additionalSources"
+                          required
+                          schema={itemSchema}
+                          uiSchema={uiSchema.items}
+                          errorSchema={_.get([index], errorSchema) || {}}
+                          idSchema={itemIdSchema}
+                          formData={itemData}
+                          onChange={(value) => this.onItemChange(index, value, true)}
+                          onBlur={onBlur}
+                          registry={this.props.registry}
+                          disabled={disabled}
+                          readonly={readonly}/>
                       </div>
                       <div className="row small-collapse">
                         <div className="small-6 left columns">
@@ -170,9 +170,9 @@ export default class AdditionalSourcesField extends React.Component {
                         </div>
                         <div className="small-6 right columns">
                           <button
-                              className="usa-button-outline float-right"
-                              type="button"
-                              onClick={() => this.handleRemove(index)}>
+                            className="usa-button-outline float-right"
+                            type="button"
+                            onClick={() => this.handleRemove(index)}>
                             Cancel
                           </button>
                         </div>
@@ -186,24 +186,24 @@ export default class AdditionalSourcesField extends React.Component {
               <div key={index}>
                 <Element name={`additional_${index}`}/>
                 <SchemaField
-                    name="amount"
-                    schema={itemSchema.properties.amount}
-                    uiSchema={currencyUI(itemData.name)}
-                    errorSchema={_.get([index, 'amount'], errorSchema) || {}}
-                    idSchema={itemIdSchema.amount}
-                    formData={itemData.amount}
-                    onChange={(value) => this.onItemChange(index, value)}
-                    onBlur={onBlur}
-                    registry={this.props.registry}
-                    disabled={disabled}
-                    readonly={readonly}/>
+                  name="amount"
+                  schema={itemSchema.properties.amount}
+                  uiSchema={currencyUI(itemData.name)}
+                  errorSchema={_.get([index, 'amount'], errorSchema) || {}}
+                  idSchema={itemIdSchema.amount}
+                  formData={itemData.amount}
+                  onChange={(value) => this.onItemChange(index, value)}
+                  onBlur={onBlur}
+                  registry={this.props.registry}
+                  disabled={disabled}
+                  readonly={readonly}/>
               </div>
             );
           })}
           {!hasItemsBeingEdited && <button
-              type="button"
-              className="usa-button-outline pensions-sources-add-btn"
-              onClick={this.handleAdd}>
+            type="button"
+            className="usa-button-outline pensions-sources-add-btn"
+            onClick={this.handleAdd}>
             Add Another Source
           </button>}
         </div>

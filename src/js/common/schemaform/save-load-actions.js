@@ -178,31 +178,31 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
       });
       return Promise.resolve();
     })
-    .catch((resOrError) => {
-      if (resOrError instanceof Response) {
-        if (resOrError.status === 401) {
+      .catch((resOrError) => {
+        if (resOrError instanceof Response) {
+          if (resOrError.status === 401) {
           // This likely means their session expired, so mark them as logged out
-          dispatch(logOut());
-          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
-          window.dataLayer.push({
-            event: `${trackingPrefix}sip-form-save-signed-out`
-          });
+            dispatch(logOut());
+            dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+            window.dataLayer.push({
+              event: `${trackingPrefix}sip-form-save-signed-out`
+            });
+          } else {
+            dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+            Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+            window.dataLayer.push({
+              event: `${trackingPrefix}sip-form-save-failed`
+            });
+          }
         } else {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-          Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+          dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
+          Raven.captureException(resOrError);
+          Raven.captureMessage('vets_sip_error_save');
           window.dataLayer.push({
-            event: `${trackingPrefix}sip-form-save-failed`
+            event: `${trackingPrefix}sip-form-save-failed-client`
           });
         }
-      } else {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
-        Raven.captureException(resOrError);
-        Raven.captureMessage('vets_sip_error_save');
-        window.dataLayer.push({
-          event: `${trackingPrefix}sip-form-save-failed-client`
-        });
-      }
-    });
+      });
   };
 }
 

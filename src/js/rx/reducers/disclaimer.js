@@ -6,9 +6,9 @@ const initialState = {
 
 export default function disclaimer(state = initialState, action) {
   switch (action.type) {
-    case 'CLOSE_DISCLAIMER':
-      return set('open', !state.open, state);
-    default:
-      return state;
+  case 'CLOSE_DISCLAIMER':
+    return set('open', !state.open, state);
+  default:
+    return state;
   }
 }

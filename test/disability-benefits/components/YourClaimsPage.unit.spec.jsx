@@ -13,8 +13,8 @@ describe('<YourClaimsPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          route={routeParams}
-          list={claims}/>
+        route={routeParams}
+        list={claims}/>
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });
@@ -25,8 +25,8 @@ describe('<YourClaimsPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          route={routeParams}
-          list={claims}/>
+        route={routeParams}
+        list={claims}/>
     );
     const sortDiv = tree.subTree('claims-list-sort');
     expect(sortDiv).to.exist;
@@ -40,12 +40,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          loading
-          claims={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          changePage={changePage}/>
+        loading
+        claims={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
   });
@@ -58,13 +58,13 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
@@ -77,12 +77,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('NoClaims').length).to.equal(1);
   });
@@ -96,12 +96,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClaimsListItem').length).to.equal(2);
     expect(tree.subTree('Pagination').props.page).to.equal(page);
@@ -116,15 +116,15 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          unfilteredClaims={claims}
-          unfilteredAppeals={claims}
-          list={claims}
-          page={page}
-          pages={pages}
-          show30DayNotice
-          getClaims={getClaims}
-          route={{}}
-          changePage={changePage}/>
+        unfilteredClaims={claims}
+        unfilteredAppeals={claims}
+        list={claims}
+        page={page}
+        pages={pages}
+        show30DayNotice
+        getClaims={getClaims}
+        route={{}}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).not.to.be.empty;
   });
@@ -137,12 +137,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{}}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{}}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
   });
@@ -155,12 +155,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: true }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: true }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
   });

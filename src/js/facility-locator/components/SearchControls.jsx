@@ -118,14 +118,14 @@ class SearchControls extends Component {
     let services;
 
     switch (facilityType) {
-      case 'benefits':
-        services = Object.keys(benefitsServices);
-        break;
-      case 'vet_center':
-        services = ['All', ...vetCenterServices];
-        break;
-      default:
-        return null;
+    case 'benefits':
+      services = Object.keys(benefitsServices);
+      break;
+    case 'vet_center':
+      services = ['All', ...vetCenterServices];
+      break;
+    default:
+      return null;
     }
 
     return (

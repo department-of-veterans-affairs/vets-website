@@ -77,8 +77,8 @@ class ErrorableMonthYear extends React.Component {
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -93,23 +93,23 @@ class ErrorableMonthYear extends React.Component {
           <div className="usa-date-of-birth row">
             <div className="form-datefield-month">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
-                  autocomplete="false"
-                  label="Month"
-                  name={`${this.props.name}Month`}
-                  options={months}
-                  value={month}
-                  onValueChange={(update) => {this.handleChange('month', update);}}/>
+                autocomplete="false"
+                label="Month"
+                name={`${this.props.name}Month`}
+                options={months}
+                value={month}
+                onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
-                  autocomplete="false"
-                  label="Year"
-                  name={`${this.props.name}Year`}
-                  max={moment().add(100, 'year').year()}
-                  min="1900"
-                  pattern="[0-9]{4}"
-                  field={year}
-                  onValueChange={(update) => {this.handleChange('year', update);}}/>
+                autocomplete="false"
+                label="Year"
+                name={`${this.props.name}Year`}
+                max={moment().add(100, 'year').year()}
+                min="1900"
+                pattern="[0-9]{4}"
+                field={year}
+                onValueChange={(update) => {this.handleChange('year', update);}}/>
             </div>
           </div>
           {toolTip}

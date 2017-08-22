@@ -77,8 +77,8 @@ function isValidPersonalInfoPage(data) {
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
       isValidDateField(data.veteranDateOfBirth) &&
       isValidDateOver17(data.veteranDateOfBirth.day.value,
-                        data.veteranDateOfBirth.month.value,
-                        data.veteranDateOfBirth.year.value);
+        data.veteranDateOfBirth.month.value,
+        data.veteranDateOfBirth.year.value);
 }
 
 function isValidBenefitsInformationPage(data) {
@@ -213,34 +213,34 @@ function isValidForm(data) {
 function isValidPage(path, pageData) {
   const completePath = path.replace('/1990', '');
   switch (completePath) {
-    case '/veteran-information':
-      return isValidPersonalInfoPage(pageData);
-    case '/personal-information/contact-information':
-      return isValidContactInformationPage(pageData);
-    case '/benefits-eligibility/benefits-selection':
-      return isValidBenefitsInformationPage(pageData);
-    case '/benefits-eligibility/benefits-relinquishment':
-      return isValidBenefitsRelinquishmentPage(pageData);
-    case '/military-history/service-periods':
-      return isValidServicePeriodsPage(pageData);
-    case '/military-history/military-service':
-      return isValidMilitaryServicePage(pageData);
-    case '/military-history/contributions':
-      return isValidContributionsPage(pageData);
-    case '/school-selection/school-information':
-      return isValidSchoolSelectionPage(pageData);
-    case '/employment-history/employment-information':
-      return isValidEmploymentHistoryPage(pageData);
-    case '/education-history/education-information':
-      return isValidEducationHistoryPage(pageData);
-    case '/personal-information/secondary-contact':
-      return isValidSecondaryContactPage(pageData);
-    case '/personal-information/direct-deposit':
-      return isValidDirectDepositPage(pageData);
-    case '/military-history/rotc-history':
-      return isValidRotcHistoryPage(pageData);
-    default:
-      return true;
+  case '/veteran-information':
+    return isValidPersonalInfoPage(pageData);
+  case '/personal-information/contact-information':
+    return isValidContactInformationPage(pageData);
+  case '/benefits-eligibility/benefits-selection':
+    return isValidBenefitsInformationPage(pageData);
+  case '/benefits-eligibility/benefits-relinquishment':
+    return isValidBenefitsRelinquishmentPage(pageData);
+  case '/military-history/service-periods':
+    return isValidServicePeriodsPage(pageData);
+  case '/military-history/military-service':
+    return isValidMilitaryServicePage(pageData);
+  case '/military-history/contributions':
+    return isValidContributionsPage(pageData);
+  case '/school-selection/school-information':
+    return isValidSchoolSelectionPage(pageData);
+  case '/employment-history/employment-information':
+    return isValidEmploymentHistoryPage(pageData);
+  case '/education-history/education-information':
+    return isValidEducationHistoryPage(pageData);
+  case '/personal-information/secondary-contact':
+    return isValidSecondaryContactPage(pageData);
+  case '/personal-information/direct-deposit':
+    return isValidDirectDepositPage(pageData);
+  case '/military-history/rotc-history':
+    return isValidRotcHistoryPage(pageData);
+  default:
+    return true;
   }
 }
 

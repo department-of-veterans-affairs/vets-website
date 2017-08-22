@@ -43,8 +43,8 @@ class MoveTo extends React.Component {
       return (
         <li key={folder.folderId}>
           <MoveToOption
-              folderName={`${folder.name.replace(/\s+/g, '-')}-${this.props.messageId}`}
-              folderId={folder.folderId}/>
+            folderName={`${folder.name.replace(/\s+/g, '-')}-${this.props.messageId}`}
+            folderId={folder.folderId}/>
         </li>
       );
     });
@@ -53,8 +53,8 @@ class MoveTo extends React.Component {
       <div className="msg-move-to">
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
-            hidden={!this.props.isOpen}
-            onChange={this.handleChooseFolder}>
+          hidden={!this.props.isOpen}
+          onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
               Move this message to
@@ -63,7 +63,7 @@ class MoveTo extends React.Component {
               {folderOptions}
               <li>
                 <ButtonCreateFolder
-                    onClick={this.openCreateFolderModal}/>
+                  onClick={this.openCreateFolderModal}/>
               </li>
             </ul>
           </fieldset>

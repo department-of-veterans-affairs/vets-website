@@ -16,7 +16,7 @@ export function formatVAFileNumber(n) {
   const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
 
   return number.replace(number.substring(0, lengthOfXString),
-                        `${'x'.repeat(lengthOfXString)}-`);
+    `${'x'.repeat(lengthOfXString)}-`);
 }
 
 export function formatMonthDayFields(field) {
@@ -59,26 +59,26 @@ export const enrollmentHistoryExplanation = {
 
 export function benefitEndDateExplanation(condition, delimitingDate) {
   switch (condition) {
-    case 'activeDuty':
-      return (
-        <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
-          <div>
+  case 'activeDuty':
+    return (
+      <div className="section benefit-end-date">
+        <h4>Benefit End Date</h4>
+        <div>
             Since you are currently on active duty, your benefits don’t yet have an expiration date.
-          </div>
         </div>
-      );
-    case 'remainingEntitlement':
-      return (
-        <div className="section benefit-end-date">
-          <h4>Benefit End Date</h4>
-          <div>
+      </div>
+    );
+  case 'remainingEntitlement':
+    return (
+      <div className="section benefit-end-date">
+        <h4>Benefit End Date</h4>
+        <div>
             You have until <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use these benefits.
-          </div>
         </div>
-      );
-    default:
-      return undefined;
+      </div>
+    );
+  default:
+    return undefined;
   }
 }
 

@@ -13,26 +13,26 @@ const initialState = {
 
 function beta(state = initialState, action) {
   switch (action.type) {
-    case BETA_REGISTERING:
-      return {
-        ...state,
-        loading: true
-      };
-    case BETA_REGISTER_SUCCESS:
-      return {
-        ...state,
-        username: action.username,
-        stats: action.stats,
-        loading: false
-      };
-    case BETA_REGISTER_FAILURE:
-      return {
-        ...state,
-        stats: action.stats,
-        loading: false
-      };
-    default:
-      return state;
+  case BETA_REGISTERING:
+    return {
+      ...state,
+      loading: true
+    };
+  case BETA_REGISTER_SUCCESS:
+    return {
+      ...state,
+      username: action.username,
+      stats: action.stats,
+      loading: false
+    };
+  case BETA_REGISTER_FAILURE:
+    return {
+      ...state,
+      stats: action.stats,
+      loading: false
+    };
+  default:
+    return state;
   }
 }
 

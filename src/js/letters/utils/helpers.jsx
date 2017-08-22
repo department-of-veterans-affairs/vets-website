@@ -9,8 +9,8 @@ import { formatDateShort } from '../../common/utils/helpers';
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
   const requestUrl = resource[0] === '/'
-            ? [baseUrl, resource].join('')
-            : resource;
+    ? [baseUrl, resource].join('')
+    : resource;
 
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
@@ -171,31 +171,31 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
-    case 'awardEffectiveDate': {
-      return undefined;
-    }
+  case 'awardEffectiveDate': {
+    return undefined;
+  }
 
-    case 'monthlyAwardAmount': {
-      if (value && value !== 'unavailable') {
-        return (
-          <div>
-            <div>Your current monthly award is <strong>${value}</strong>.</div>
-            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
-          </div>
-        );
-      }
-      return undefined;
+  case 'monthlyAwardAmount': {
+    if (value && value !== 'unavailable') {
+      return (
+        <div>
+          <div>Your current monthly award is <strong>${value}</strong>.</div>
+          <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
+        </div>
+      );
     }
+    return undefined;
+  }
 
-    case 'serviceConnectedPercentage': {
-      if (value && value !== 'unavailable' && isVeteran) {
-        return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
-      }
-      return undefined;
+  case 'serviceConnectedPercentage': {
+    if (value && value !== 'unavailable' && isVeteran) {
+      return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
     }
+    return undefined;
+  }
 
-    default:
-      return undefined;
+  default:
+    return undefined;
   }
 }
 
