@@ -6,5 +6,5 @@
  * @param {bool} condition Determines whether to select Yes or No
  */
 exports.command = function selectYesNo(fieldName, condition) {
-  this.click(`input[name="${fieldName}${!!condition ? 'Yes' : 'No'}"]`);
+  this.click(`input[name="${fieldName}${condition ? 'Yes' : 'No'}"]`);
 };

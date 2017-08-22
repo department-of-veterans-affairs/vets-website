@@ -8,7 +8,7 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<EmploymentHistoryFields>', () => {
   it('should render question', () => {
-    let veteran = createVeteran();
+    const veteran = createVeteran();
     const onStateChange = sinon.spy();
     const initializeFields = sinon.spy();
 
@@ -22,7 +22,7 @@ describe('<EmploymentHistoryFields>', () => {
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'hasNonMilitaryJobs')).to.be.true;
   });
   it('should render GrowableTable', () => {
-    let veteran = createVeteran();
+    const veteran = createVeteran();
     veteran.hasNonMilitaryJobs.value = 'Y';
     const onStateChange = sinon.spy();
     const initializeFields = sinon.spy();

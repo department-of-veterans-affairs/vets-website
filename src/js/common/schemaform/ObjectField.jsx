@@ -164,7 +164,7 @@ class ObjectField extends React.Component {
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
 
-    let containerClassNames = classNames({
+    const containerClassNames = classNames({
       'input-section': isRoot,
       'schemaform-field-container': true,
       'schemaform-block': title && !isRoot

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -45,7 +46,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
-    let vaBenefitInfoRows = [];
+    const vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or

@@ -109,7 +109,7 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
-    let contentClass = classNames(
+    const contentClass = classNames(
       'progress-box',
       'progress-box-schemaform'
     );

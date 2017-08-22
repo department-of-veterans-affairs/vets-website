@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';

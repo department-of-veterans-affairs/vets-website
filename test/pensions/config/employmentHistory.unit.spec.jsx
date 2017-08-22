@@ -1,11 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { getFormDOM } from '../../util/schemaform-utils';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions employment history', () => {

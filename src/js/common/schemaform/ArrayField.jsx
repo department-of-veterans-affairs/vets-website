@@ -198,7 +198,7 @@ export default class ArrayField extends React.Component {
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
 
-    let containerClassNames = classNames({
+    const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription
     });

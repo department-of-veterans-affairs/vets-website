@@ -23,13 +23,10 @@ const initialState = {
 
 function closeAllMenus(menuState) {
   const menus = menuState.utilitiesMenuIsOpen;
-  let menu;
 
-  for (menu in menus) {
-    if (menus.hasOwnProperty(menu)) {
-      menus[menu] = false;
-    }
-  }
+  Object.keys(menus).forEach(menu => {
+    menus[menu] = false;
+  });
 }
 
 function loginStuff(state = initialState, action) {

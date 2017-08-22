@@ -179,7 +179,7 @@ export class Modals extends React.Component {
           <p>
             To learn more about accreditation, visit the U.S. Department of Education’s <a
                 href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-                target="_blank">{"8 Keys to Veterans’ Success"}</a> page.
+                target="_blank">8 Keys to Veterans’ Success</a> page.
           </p>
         </Modal>
 

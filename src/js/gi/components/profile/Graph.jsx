@@ -15,14 +15,14 @@ class Graph extends React.Component {
     }
     val = val.toFixed(this.props.decimals);
     while (/(\d+)(\d{3})/.test(val.toString())) {
-      val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1,$2');
     }
     val = typeof d.percent !== 'undefined' ? `$${val.replace('.0', '')}` : `${val}%`;
     return val;
   }
 
   render() {
-    if (!!this.props.error) {
+    if (this.props.error) {
       return (
         <div className="graph-component">
           <p>{this.props.error}</p>
@@ -39,7 +39,7 @@ class Graph extends React.Component {
     const HollowUnderbar = ({ top }) => <path d={`M80.544 28.8h128.912V3.2H80.544v25.6zM78 ${top || '0'}h134v32H78V0z`} fill="#F1F1F1" fillRule="nonzero"/>;
     const SolidUnderbar = ({ top }) => <path fill="#F1F1F1" d={`M78 ${top || 0}h134v32H78z`}/>;
     const Underbar = ({ top, value, children }) => {
-      return !!value ? <g><SolidUnderbar top={top}/>{children}</g> : <HollowUnderbar top={top}/>;
+      return value ? <g><SolidUnderbar top={top}/>{children}</g> : <HollowUnderbar top={top}/>;
     };
     const ValueBar = ({ top, color, percent }) => {
       if (isNaN(percent)) { return null; }
@@ -72,11 +72,11 @@ class Graph extends React.Component {
     ];
     // handle non-percentage data
     if (this.props.max !== 100) {
-      for (const i in bars) {
+      Object.keys(bars).forEach(i => {
         if (typeof (bars[i]) === 'object') {
           bars[i].percent = (bars[i].value / this.props.max) * 100;
         }
-      }
+      });
       // handle non-percentage average line
       averagePercent = (this.props.average / this.props.max) * 100;
       averageObject = { value: this.props.average, percent: true };
