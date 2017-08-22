@@ -45,7 +45,7 @@ class ErrorableNumberInput extends React.Component {
     let errorSpanId = undefined;
 
     // TODO: Look into an alternate way of adding error styling not based on presence of errorMessage:
-    // There could be cases where there is an error but we don't want a message to appear, and this
+    // There could be cases where there is an error but we don’t want a message to appear, and this
     // is not clear right now
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;

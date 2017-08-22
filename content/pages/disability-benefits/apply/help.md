@@ -27,7 +27,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you need help filing a disability claim, you may want to work with an accredited representative. We trust these professionals because they're trained in the claims process and can help you with VA-related needs.
+If you need help filing a disability claim, you may want to work with an accredited representative. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
 
 Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
 
@@ -39,9 +39,9 @@ Most accredited representatives work for Veterans Service Organizations (VSOs). 
 Accredited representatives need to:
   - Pass an exam
   - Pass a background check
-  - Take continuing-education courses to make sure they're providing the most up-to-date information
+  - Take continuing-education courses to make sure they’re providing the most up-to-date information
 
-Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information, but can't be representatives.
+Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information, but can’t be representatives.
 </div>
 
 ### What does an accredited representative do?
@@ -61,7 +61,7 @@ Accredited representatives can also help you gather supporting documents (like a
 
 #### What does it cost to use an accredited representative?
 
-Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you'll be charged. If you believe you were charged a fee that's too high by a claims agent or attorney, you can challenge it. [Find out more in the "How to Challenge a Fee" guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
+Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the “How to Challenge a Fee” guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 -----
 
@@ -70,7 +70,7 @@ Many VSOs provide their services free of charge, but they may ask you to pay the
 You can find an accredited representative in 1 of 2 ways:
 
 1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
-2. Use the VA Office of General Counsel's list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](http://www.va.gov/ogc/accreditation.asp).
+2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](http://www.va.gov/ogc/accreditation.asp).
 
 <br>
 
@@ -78,8 +78,8 @@ You can find an accredited representative in 1 of 2 ways:
 
 You can set up a VSO or other representative to work on your behalf in 1 of 2 ways:
 
-1. [Use eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). Go online through eBenefits to let us know that you'll be using a representative or to change your current representation.
-2. Fill out a form called an Appointment of Veterans Service Organization as Claimant's Representative (VA Form 21-22). [Download VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). 
+1. [Use eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). Go online through eBenefits to let us know that you’ll be using a representative or to change your current representation.
+2. Fill out a form called an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). [Download VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). 
 <br>
 Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. [Find a VA regional office near you](http://www.benefits.va.gov/benefits/offices.asp).
 

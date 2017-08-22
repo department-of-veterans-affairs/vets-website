@@ -22,10 +22,10 @@ class IntroductionPage extends React.Component {
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Gather these documents and other information you'll need to identify the deceased:</h5>
+              <h5>Gather these documents and other information you’ll need to identify the deceased:</h5>
               <ul>
                 <li>
-                  DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. <a href="http://www.cem.va.gov/CEM/hmm/discharge_documents.asp" target="_blank">Find out which discharge papers we accept along with your application</a>.
+                  DD214, or similar discharge papers. If you can’t find the discharge papers, please ask for our help to get these records. <a href="http://www.cem.va.gov/CEM/hmm/discharge_documents.asp" target="_blank">Find out which discharge papers we accept along with your application</a>.
                 </li>
                 <li>
                   Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
@@ -100,7 +100,7 @@ class IntroductionPage extends React.Component {
                   We usually process claims within 30 days.
                 </li>
                 <li>
-                  You'll get a letter in the mail if your application was approved.
+                  You’ll get a letter in the mail if your application was approved.
                 </li>
               </ul>
             </li>

@@ -24,7 +24,7 @@ const scroller = Scroll.scroller;
 class ArrayField extends React.Component {
   constructor(props) {
     super(props);
-    // In contrast to the normal array field, we don't want to add an empty item
+    // In contrast to the normal array field, we don’t want to add an empty item
     // and always show at least one item on the review page
     const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
     this.state = {
@@ -64,7 +64,7 @@ class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      // Hacky; won't work if the array field is used in two pages and one isn't
+      // Hacky; won’t work if the array field is used in two pages and one isn’t
       //  a BasicArrayField nor if the array field is used in three pages.
       scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, {
         duration: 500,
@@ -128,8 +128,8 @@ class ArrayField extends React.Component {
   /*
    * Called on any form data change.
    *
-   * When data is changed, since we're only editing one array item at a time,
-   * we need to update the full page's form data and call the Redux setData action
+   * When data is changed, since we’re only editing one array item at a time,
+   * we need to update the full page’s form data and call the Redux setData action
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
@@ -173,7 +173,7 @@ class ArrayField extends React.Component {
       pageKey: fieldName
     };
 
-    // TODO: Make this better; it's super hacky for now.
+    // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
     const items = itemCountLocked ? this.props.arrayData : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;

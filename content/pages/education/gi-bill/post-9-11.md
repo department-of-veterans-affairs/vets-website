@@ -19,11 +19,11 @@ If you need help paying for school or job training and you’ve served on active
 
 You can get education benefits if: 
 - You qualify for any GI Bill program, **and** 
-- You've served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
+- You’ve served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
-If you qualify for more than one VA education benefit, you'll have to pick which one you want to use. This is an irrevocable decision, meaning you can't change your mind. 
+If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can’t change your mind. 
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents
@@ -34,7 +34,7 @@ If you qualify for more than one VA education benefit, you'll have to pick which
 ### What benefits can I get? 
 
 - Tuition and fees
-- Money for housing (if you're in school more than half time)
+- Money for housing (if you’re in school more than half time)
 - Money for books and supplies (up to $1,000 per school year)
 
 
@@ -45,23 +45,23 @@ You can check to see if you have Post-9/11 GI Bill benefits. [View and print you
 
 ### How do I get these benefits?
 
-You'll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). 
+You’ll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). 
 
-The benefit amount depends on which school you go to, how much active-duty service you've had since September 10, 2001, and how many credits or training hours you're taking.
+The benefit amount depends on which school you go to, how much active-duty service you’ve had since September 10, 2001, and how many credits or training hours you’re taking.
 
 #### What benefits does the Post-9/11 GI Bill include? 
 
 - The full tuition amount for in-state schools up to the maximum national average of $22,805.34
 - A Basic Allowance for Housing (BAH) based on the cost of living where your school is located
 - Up to 36 months of education benefits, in most cases payable for 15 years after your release from active duty
-- A percentage-of-maximum-benefit scale based on how much active service you've had since September 10, 2001
+- A percentage-of-maximum-benefit scale based on how much active service you’ve had since September 10, 2001
 
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
 
 #### Other possible benefits
 
 - You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. [Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
-- If you're a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. [Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+- If you’re a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. [Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 - The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. [Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
 

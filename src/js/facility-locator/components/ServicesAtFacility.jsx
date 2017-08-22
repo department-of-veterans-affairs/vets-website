@@ -106,7 +106,7 @@ class ServicesAtFacility extends Component {
     }
 
     const alertContent = (<span>
-      <strong>This list may not include all of the services available at this location.</strong><p>Please check on the facility's website or call them for this information.</p>
+      <strong>This list may not include all of the services available at this location.</strong><p>Please check on the facility’s website or call them for this information.</p>
     </span>);
 
     return (

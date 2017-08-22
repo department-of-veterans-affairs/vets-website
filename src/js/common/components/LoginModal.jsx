@@ -12,8 +12,8 @@ class LoginModal extends React.Component {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
 
-    // I don't like this, but we need to make sure componentWillReceiveProps
-    //  doesn't call onLogin() when a page with a LoginModal is refreshed and
+    // I don’t like this, but we need to make sure componentWillReceiveProps
+    //  doesn’t call onLogin() when a page with a LoginModal is refreshed and
     //  a user is logged in.
     this.loginButtonClicked = false;
   }
@@ -58,7 +58,7 @@ class LoginModal extends React.Component {
       </div>
     </div>);
 
-    // Shouldn't in get here, but just in case
+    // Shouldn’t in get here, but just in case
     if (user.login.currentlyLoggedIn) {
       contents = (<div>
         You are signed in as {user.profile.userFullName.first} {user.profile.userFullName.last}!
@@ -69,7 +69,7 @@ class LoginModal extends React.Component {
   }
 
   handleLogin(e) {
-    e.preventDefault(); // Don't try to submit the page
+    e.preventDefault(); // Don’t try to submit the page
     this.loginButtonClicked = true;
     const loginUrl = this.props.user.login.loginUrl;
     const onUpdateLoginUrl = this.props.onUpdateLoginUrl;

@@ -40,7 +40,7 @@ export class Modals extends React.Component {
             enrolled for the first time.
           </p>
           <p>
-            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student's
+            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student’s
             graduation reported within the VA system while the student is using benefits.
           </p>
         </Modal>
@@ -74,7 +74,7 @@ export class Modals extends React.Component {
             benefits attending this school in the last calendar year. This includes all chapters of
             the GI Bill program (e.g., Post-9/11, Montgomery GI Bill, Reserve Education Assistance
             Program, and Vocational Rehabilitation). Keep in mind that differences in attendee
-            numbers don't necessarily mean one school is more military friendly than another.
+            numbers don’t necessarily mean one school is more military friendly than another.
             This information will be updated annually.
           </p>
         </Modal>
@@ -89,7 +89,7 @@ export class Modals extends React.Component {
           <h2>Student Veterans Group</h2>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
-            If a school has a student Veterans group that's not represented here,
+            If a school has a student Veterans group that’s not represented here,
             please email <a title="224A.VBAVACO@va.gov"
                 href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
             We make quarterly updates to this tool.
@@ -118,7 +118,7 @@ export class Modals extends React.Component {
           <p>
             Only Veterans entitled to the maximum benefit rate (based on service requirements) or
             their designated transferees can receive this funding. Active duty Servicemembers and
-            their spouses aren't eligible for this program (child transferees of active duty
+            their spouses aren’t eligible for this program (child transferees of active duty
             Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
             This information will be updated quarterly.
           </p>
@@ -143,7 +143,7 @@ export class Modals extends React.Component {
           </ul>
           <p>
             Foreign schools, high schools, on-the-job training and apprenticeship programs,
-            residency and internship programs, and those who don't charge tuition and fees aren't
+            residency and internship programs, and those who don’t charge tuition and fees aren’t
             asked to comply with the Principles of Excellence.
           </p>
           <p>
@@ -166,20 +166,20 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
           <h2>8 Keys to Veteran Success</h2>
           <p>
-            The "8 Keys to Veterans' Success" are steps that postsecondary institutions can take to
+            The “8 Keys to Veterans’ Success” are steps that postsecondary institutions can take to
             assist Veterans and Service members in transitioning to higher education, completing
             their college programs, and obtaining career-ready skills.
           </p>
           <p>
             Postsecondary institutions listed here have stated their support for the 8 Keys.
-            However, this isn't an assurance by the U.S. Department of Education that an institution
-            has actually implemented the 8 Keys. It also doesn't mean that these institutions are
+            However, this isn’t an assurance by the U.S. Department of Education that an institution
+            has actually implemented the 8 Keys. It also doesn’t mean that these institutions are
             endorsed by the U.S. Department of Education.
           </p>
           <p>
-            To learn more about accreditation, visit the U.S. Department of Education's <a
+            To learn more about accreditation, visit the U.S. Department of Education’s <a
                 href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-                target="_blank">{"8 Keys to Veterans' Success"}</a> page.
+                target="_blank">{"8 Keys to Veterans’ Success"}</a> page.
           </p>
         </Modal>
 
@@ -253,7 +253,7 @@ export class Modals extends React.Component {
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('opeCode')}>
           <h2>ED OPE Code</h2>
-          <p>Identification number used by the U.S. Department of {'Education\'s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
+          <p>Identification number used by the U.S. Department of {'Education’s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
         </Modal>
       </span>
     );
@@ -348,7 +348,7 @@ export class Modals extends React.Component {
           <p>
             Are you considered a full-time or part-time student by your school? Students attending
             school less than full-time will get a pro-rated monthly housing allowance. Students
-            attending school exactly ½ time or less won't get a monthly housing allowance.
+            attending school exactly ½ time or less won’t get a monthly housing allowance.
           </p>
           <p>
             For more information about MHA increases or decreases,
@@ -390,7 +390,7 @@ export class Modals extends React.Component {
           <h3>Which GI Bill benefit do you want to use?</h3>
           <p>
             You may be eligible for multiple types of education and training programs. Different
-            programs offer different benefits, so it's important to choose the program that will
+            programs offer different benefits, so it’s important to choose the program that will
             best meet your needs. Use this tool to compare programs and schools.
           </p>
           <p>

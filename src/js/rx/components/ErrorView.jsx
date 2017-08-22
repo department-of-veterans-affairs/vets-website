@@ -26,15 +26,15 @@ class ErrorView extends React.Component {
       );
     } else if (some(errors, errorCodeIncludes(errorCodes.registration))) {
       alert = true;
-      title = "We're not able to locate your records";
+      title = 'We’re not able to locate your records';
       detail = (
         <p>
-          Please call support at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>
+          Please call support at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>
         </p>
       );
     } else if (some(errors, errorCodeIncludes(errorCodes.prescriptions))) {
       alert = true;
-      title = "We couldn't retrieve your prescriptions";
+      title = 'We couldn’t retrieve your prescriptions';
       detail = (
         <p>
           Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
@@ -42,10 +42,10 @@ class ErrorView extends React.Component {
       );
     } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
       alert = true;
-      title = "We couldn't access your health tools";
+      title = 'We couldn’t access your health tools';
       detail = (
         <p>
-          We're sorry. We can't seem to give you access to this site's tools for managing your health and benefits online right now. Please <a onClick={() => { window.location.reload(true); }}>try again</a> in a few minutes. If it still doesn't work, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          We’re sorry. We can’t seem to give you access to this site’s tools for managing your health and benefits online right now. Please <a onClick={() => { window.location.reload(true); }}>try again</a> in a few minutes. If it still doesn’t work, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
         </p>
       );
     }
@@ -85,7 +85,7 @@ class ErrorView extends React.Component {
       errorCodes.accountcreation,
     );
 
-    // don't block application if no errors, or errors not in the list above
+    // don’t block application if no errors, or errors not in the list above
     if (isEmpty(errors) || intersection(errors.map(e => e.code), blockingErrors).length === 0) {
       return (
         <div>
