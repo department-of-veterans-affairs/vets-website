@@ -31,8 +31,12 @@ import {
   benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
-  hasServiceBefore1977
+  directDepositDescription,
 } from '../helpers';
+
+import {
+  hasServiceBefore1977
+} from '../../utils/helpers.jsx';
 
 import {
   benefitsLabels
@@ -450,16 +454,16 @@ const formConfig = {
               },
               phone: phoneUI('Telephone number'),
               'view:address': {
-                'ui:title': 'Address'
-              },
-              sameAddress: {
-                'ui:title': 'Address for secondary contact is the same as mine'
-              },
-              address: _.merge(addressUI('', false), {
-                'ui:options': {
-                  hideIf: formData => formData.secondaryContact && formData.secondaryContact.sameAddress
-                }
-              })
+                'ui:title': 'Address',
+                sameAddress: {
+                  'ui:title': 'Address for secondary contact is the same as mine'
+                },
+                address: _.merge(addressUI('', false), {
+                  'ui:options': {
+                    hideIf: formData => formData.secondaryContact && formData.secondaryContact['view:address'].sameAddress
+                  }
+                })
+              }
             }
           },
           schema: {
@@ -472,10 +476,11 @@ const formConfig = {
                   phone,
                   'view:address': {
                     type: 'object',
-                    properties: {}
-                  },
-                  sameAddress: secondaryContact.properties.sameAddress,
-                  address: addressSchema(fullSchema1990)
+                    properties: {
+                      sameAddress: secondaryContact.properties.sameAddress,
+                      address: addressSchema(fullSchema1990)
+                    }
+                  }
                 }
               }
             }
@@ -511,15 +516,7 @@ const formConfig = {
         },
         directDeposit: _.merge(createDirectDepositPage(fullSchema1990), {
           uiSchema: {
-            'ui:description': () => {
-              return (
-                <div>
-                  <p>VA makes payments only through direct deposit, also called electronic funds transfer (EFT). The only exception is for participants in the Post-Vietnam Era Veterans' Educational Assistance Program (VEAP).</p>
-
-                  <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/" target="_blank">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
-                </div>
-                );
-            }
+            'ui:description': directDepositDescription
           }
         })
       }

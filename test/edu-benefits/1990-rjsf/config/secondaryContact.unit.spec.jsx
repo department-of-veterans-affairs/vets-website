@@ -27,7 +27,7 @@ describe('Edu 1990 secondaryContact', () => {
           uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_secondaryContact_sameAddress', true);
+    formDOM.setCheckbox('#root_secondaryContact_view\\:address_sameAddress', true);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
