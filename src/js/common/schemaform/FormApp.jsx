@@ -135,7 +135,8 @@ class FormApp extends React.Component {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
       const isPrefill = props.prefillsAvailable.includes(currentForm);
-      if (isSaved || isPrefill) {
+      const saveEnabled = !this.props.formConfig.disableSave;
+      if (saveEnabled && (isSaved || isPrefill)) {
         props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
       } else {
         // No forms to load; go to the beginning
