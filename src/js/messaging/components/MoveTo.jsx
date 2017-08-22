@@ -18,7 +18,7 @@ class MoveTo extends React.Component {
 
   handleChooseFolder(domEvent) {
     // domEvent will bubble up from the radio button
-    // to the form, which is why we're using currentTarget.
+    // to the form, which is why we’re using currentTarget.
     // instead of target.
     const folderId = +domEvent.currentTarget.messagingMoveToFolder.value;
     const moveToFolder = this.props.folders.find((folder) => {

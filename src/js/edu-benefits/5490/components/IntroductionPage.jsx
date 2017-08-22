@@ -52,7 +52,7 @@ class IntroductionPage extends React.Component {
               <div><h6>What should I do while I wait?</h6></div>
               <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
               <div><h6>What if VA needs more information?</h6></div>
-              <ul><li>We'll contact you if we need more information.</li></ul>
+              <ul><li>We’ll contact you if we need more information.</li></ul>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>

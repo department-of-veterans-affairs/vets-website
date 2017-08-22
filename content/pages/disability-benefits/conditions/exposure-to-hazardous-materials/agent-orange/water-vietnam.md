@@ -26,7 +26,7 @@ Yes, if you have 1 or more illnesses believed to be caused by Agent Orange and e
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/). <br>
 [Learn more about U.S. Navy and Coast Guard ships in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified survivors
@@ -42,7 +42,7 @@ Yes, if you have 1 or more illnesses believed to be caused by Agent Orange and e
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you'll have to show that you went ashore. If you didn’t go ashore or serve aboard a ship that entered the inland waterways of Vietnam, you’ll have to show that you had contact with Agent Orange in another way while serving in the military. We decide these claims on a case-by-case basis. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you’ll have to show that you went ashore. If you didn’t go ashore or serve aboard a ship that entered the inland waterways of Vietnam, you’ll have to show that you had contact with Agent Orange in another way while serving in the military. We decide these claims on a case-by-case basis. [Apply for benefits](/disability-benefits/apply/).
 
 **Exception:** If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma (a type of cancer), you don’t need to show where you came into contact with Agent Orange. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange through service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 

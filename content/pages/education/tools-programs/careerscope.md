@@ -13,6 +13,6 @@ Besides getting career counseling, you can use CareerScope, a tool that measures
 
 </div>
 
-CareerScope recommends careers you may enjoy and jobs in which you're likely to do well. The tool also recommends courses or training programs that can help you go after those careers.
+CareerScope recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers.
 
 The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).

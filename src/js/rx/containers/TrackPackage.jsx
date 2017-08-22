@@ -109,7 +109,7 @@ export class TrackPackage extends React.Component {
     } else if (isPending) {
       content = (
         <p className="rx-tab-explainer">
-          You recently submitted a refill, and the tracking information isn't available yet.
+          You recently submitted a refill, and the tracking information isn’t available yet.
         </p>
       );
     } else {

@@ -95,7 +95,7 @@ export default class ClaimPhase extends React.Component {
       case 'other_documents_list':
         return (
           <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
-            You or others submitted {event.fileType}. We will notify you when we've reviewed it.
+            You or others submitted {event.fileType}. We will notify you when we’ve reviewed it.
           </div>
         );
 

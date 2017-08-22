@@ -15,18 +15,18 @@ If you paid for one or more tests to become a licensed or certified professional
 <div class="feature" markdown="1">
 
 ### Can I get paid back for licensing and certification test fees?
-We'll pay you back if:
+We’ll pay you back if:
 
   -	You qualify for the GI Bill, **and** 
-  -	You're taking a test or an exam that costs less than $2,000.
+  -	You’re taking a test or an exam that costs less than $2,000.
 
-### Who's covered?
+### Who’s covered?
 Veterans
 
 </div>
 
 ### What kind of benefits can I get?
-If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We'll pay for tests even when you don’t score high enough to get your license or certification. We won't pay for fees or costs related to getting the actual license or certification document.
+If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There’s no limit to the number of tests you can take, or the number of times you take the same test. We’ll pay for tests even when you don’t score high enough to get your license or certification. We won’t pay for fees or costs related to getting the actual license or certification document.
 
 
 -----
@@ -38,4 +38,4 @@ Then, either upload the form to the GI Bill site or mail it to your nearest VA r
 [Upload VA Form 22-0803 to the GI Bill website](https://gibill.custhelp.com/app/utils/login_form/).<br>
 [Find the address of the nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-[Find out how we'll use your remaining GI Bill benefit toward licensing or certification](https://gibill.custhelp.com/app/answers/detail/a_id/29).
+[Find out how we’ll use your remaining GI Bill benefit toward licensing or certification](https://gibill.custhelp.com/app/answers/detail/a_id/29).

@@ -21,14 +21,14 @@ const scroller = Scroll.scroller;
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
-    // Throw an error if there's no viewField (should be React component)
+    // Throw an error if there’s no viewField (should be React component)
     if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
       throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
     }
 
     /*
-     * We're keeping the editing state in local state because it's easier to manage and
-     * doesn't need to persist from page to page
+     * We’re keeping the editing state in local state because it’s easier to manage and
+     * doesn’t need to persist from page to page
      */
 
     this.state = {
@@ -46,7 +46,7 @@ export default class ArrayField extends React.Component {
 
   // This fills in an empty item in the array if it has minItems set
   // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
   // that has not been released yet
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
@@ -98,7 +98,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking edit on an item that's not last and so is in view mode
+   * Clicking edit on an item that’s not last and so is in view mode
    */
   handleEdit(index, status = true) {
     this.setState(_.set(['editing', index], status, this.state), () => {
@@ -107,7 +107,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Update on an item that's not last and is in edit mode
+   * Clicking Update on an item that’s not last and is in edit mode
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {

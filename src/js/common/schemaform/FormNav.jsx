@@ -27,9 +27,9 @@ export default class FormNav extends React.Component {
     );
 
     let page = expandedPageList.filter(p => p.path === currentPath)[0];
-    // If the page isn't active, it won't be in the expandedPageList
+    // If the page isn’t active, it won’t be in the expandedPageList
     // This is a fallback to still find the chapter name if you open the page directly
-    // (the chapter index will probably be wrong, but this isn't a scenario that happens in normal use)
+    // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
     if (!page) {
       page = formPages.find(p => `${formConfig.urlPrefix}${p.path}` === currentPath);
     }
@@ -38,7 +38,7 @@ export default class FormNav extends React.Component {
     let chapterName;
     if (page) {
       current = chapters.indexOf(page.chapterKey) + 1;
-      // The review page is always part of our forms, but isn't listed in chapter list
+      // The review page is always part of our forms, but isn’t listed in chapter list
       chapterName = page.chapterKey === 'review'
         ? 'Review Application'
         : formConfig.chapters[page.chapterKey].title;

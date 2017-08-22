@@ -279,7 +279,7 @@ export function getArrayFields(data) {
 
 /*
  * Checks to see if there are non array fields in a page schema, so that
- * we don't show a blank page header on the review page if a page is just
+ * we don’t show a blank page header on the review page if a page is just
  * a growable table
  */
 export function hasFieldsOtherThanArray(schema) {
@@ -298,7 +298,7 @@ export function hasFieldsOtherThanArray(schema) {
 
 /*
  * Return a schema without array fields. If the schema has only array fields,
- * then return undefined (because there's no reason to use an object schema with
+ * then return undefined (because there’s no reason to use an object schema with
  * no properties)
  */
 export function getNonArraySchema(schema, uiSchema = {}) {
@@ -396,7 +396,7 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
     }
   }
 
-  // We've recursed all the way back down to ['root']; throw an error containing
+  // We’ve recursed all the way back down to ['root']; throw an error containing
   //  all the error messages.
   if (path.length === 1 && errors.length > 0) {
     // console.log(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')} -- ${path.join('.')}`);
@@ -440,7 +440,7 @@ function generateArrayPages(arrayPages, data) {
       )),
       []
     )
-    // doing this after the map so that we don't change indexes
+    // doing this after the map so that we don’t change indexes
     .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
 }
 
@@ -453,12 +453,12 @@ function generateArrayPages(arrayPages, data) {
 export function expandArrayPages(pageList, data) {
   const result = pageList.reduce((acc, nextPage) => {
     const { lastArrayPath, arrayPages, currentList } = acc;
-    // If we see an array page and we're starting a section or in the middle of one, just add it
+    // If we see an array page and we’re starting a section or in the middle of one, just add it
     // to the temporary array
     if (nextPage.showPagePerItem && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
       arrayPages.push(nextPage);
       return acc;
-    // Now we've hit the end of a section of array pages using the same array, so
+    // Now we’ve hit the end of a section of array pages using the same array, so
     // actually generate the pages now
     } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
       const newList = currentList.concat(generateArrayPages(arrayPages, data), nextPage);
@@ -485,7 +485,7 @@ export function expandArrayPages(pageList, data) {
  * @param pages {Array<Object>} List of page configs
  * @param formData {Object} Current form data
  * @returns {Array<string>} A list of page keys from the page config
- *   and the index if it's a pagePerItem page
+ *   and the index if it’s a pagePerItem page
  */
 export function getPageKeys(pages, formData) {
   const eligiblePageList = getActivePages(pages, formData);

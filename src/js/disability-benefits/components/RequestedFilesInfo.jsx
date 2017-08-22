@@ -15,7 +15,7 @@ export default class RequestedFilesInfo extends React.Component {
           <h2 className="hightlight claim-file-border claim-h2">File requests</h2>
 
           {filesNeeded.length + optionalFiles.length === 0
-            ? <div className="no-documents"><p>You don't need to turn in any documents to VA.</p></div>
+            ? <div className="no-documents"><p>You don’t need to turn in any documents to VA.</p></div>
             : null}
 
           {filesNeeded.map(item => (

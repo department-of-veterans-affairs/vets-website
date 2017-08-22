@@ -24,7 +24,7 @@ function init() {
    */
 
   const handleChangedURL = (event) => {
-    // Here so eslint doesn't tell us about an unused variable.
+    // Here so eslint doesn’t tell us about an unused variable.
     return event;
   };
   browserHistory.listen(handleChangedURL);

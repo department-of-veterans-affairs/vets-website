@@ -77,7 +77,7 @@ export class AdditionalInformation extends React.Component {
     // Formats positive and negative currency values in USD
     const formatCurrency = (num) => {
       const str = Number(num).toFixed(2).toString().split('.');
-      // Match a digit if it's followed by 3 other digits,
+      // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
       return [
@@ -88,7 +88,7 @@ export class AdditionalInformation extends React.Component {
 
     const formatNumber = (num) => {
       const str = Math.round(Number(num)).toString();
-      // Match a digit if it's followed by 3 other digits,
+      // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
       return str.replace(regex, '$&,');

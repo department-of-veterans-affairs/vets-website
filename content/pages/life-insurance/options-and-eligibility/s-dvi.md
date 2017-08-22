@@ -27,7 +27,7 @@ You can apply for S-DVI if you meet these 4 criteria:
 
 - You were released from active duty under other than dishonorable conditions on or after April 25, 1951
 - You were rated for a service-connected disability (even if only 0%)
-- You're in good health except for any service-connected conditions
+- You’re in good health except for any service-connected conditions
 - You apply within 2 years from the date we grant your new service-connected disability
 
 **Note:** An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.

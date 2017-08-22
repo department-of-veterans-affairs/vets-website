@@ -76,7 +76,7 @@ class FormPage extends React.Component {
     const { route, params, form } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn't been necessary
+    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (route.pageConfig.showPagePerItem) {
       const newData = _.set([route.pageConfig.arrayPath, params.index], formData, form.data);
       this.props.setData(newData);
@@ -96,7 +96,7 @@ class FormPage extends React.Component {
     // Any `showPagePerItem` pages are expanded to create items for each array item.
     // We update the `path` for each of those pages to replace `:index` with the current item index.
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    // We can't check the pageKey for showPagePerItem pages, because multiple pages will match
+    // We can’t check the pageKey for showPagePerItem pages, because multiple pages will match
     const pageIndex = pageConfig.showPagePerItem
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
@@ -106,7 +106,7 @@ class FormPage extends React.Component {
   goBack() {
     const { pages, pageIndex } = this.getEligiblePages();
     // if we found the current page, go to previous one
-    // if not, go back to the beginning because they shouldn't be here
+    // if not, go back to the beginning because they shouldn’t be here
     const page = pageIndex >= 0 ? pageIndex - 1 : 0;
     this.props.router.push(pages[page].path);
   }
