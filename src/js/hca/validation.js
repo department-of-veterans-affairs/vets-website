@@ -10,7 +10,7 @@ export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate 
 
   // TODO: Use a constant instead of a magic string
   if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-D').isAfter(endDate)) {
-    errors.lastDischargeDate.addError(`Discharge date must be after service period start date and before ${endDate.format('MMMM D, YYYY')} (120 days from today)`);
+    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (120 days from today)`);
   }
 
   if (veteranDateOfBirth) {
