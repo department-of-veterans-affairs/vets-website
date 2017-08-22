@@ -6281,7 +6281,25 @@ node-pre-gyp@^0.6.29, node-pre-gyp@~0.6.32:
     tar "^2.2.1"
     tar-pack "^3.4.0"
 
-node-sass@^3.10.1, node-sass@^3.4:
+node-sass@3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-3.4.2.tgz#ef61069927f1578ae51408ed60298449c4cdd294"
+  dependencies:
+    async-foreach "^0.1.3"
+    chalk "^1.1.1"
+    cross-spawn "^2.0.0"
+    gaze "^0.5.1"
+    get-stdin "^4.0.1"
+    glob "^5.0.14"
+    meow "^3.3.0"
+    mkdirp "^0.5.1"
+    nan "^2.0.8"
+    node-gyp "^3.0.1"
+    npmconf "^2.1.2"
+    request "^2.61.0"
+    sass-graph "^2.0.1"
+
+node-sass@^3.4:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-3.13.1.tgz#7240fbbff2396304b4223527ed3020589c004fc2"
   dependencies:

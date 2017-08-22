@@ -139,7 +139,7 @@
     "morgan": "^1.7.0",
     "nightwatch": "^0.9.16",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
-    "node-sass": "^3.10.1",
+    "node-sass": "3.4.2",
     "null-loader": "^0.1.1",
     "polyfill-function-prototype-bind": "0.0.1",
     "quick_check": "^0.7.0",
