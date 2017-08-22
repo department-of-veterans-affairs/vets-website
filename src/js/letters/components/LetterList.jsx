@@ -14,7 +14,21 @@ class LetterList extends React.Component {
       let content;
 
       if (letter.letterType === 'benefit_summary') {
-        content = (<VeteranBenefitSummaryLetter/>);
+        content = (
+          <div>
+            <VeteranBenefitSummaryLetter/>
+            <DownloadLetterLink
+                letterType={letter.letterType}
+                letterName={letter.name}
+                downloadStatus={downloadStatus[letter.letterType]}
+                key={`download-link-${index}`}/>
+            <p>
+              If your service period or disability status information is incorrect, please send us
+              a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+              Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+            </p>
+          </div>
+        );
       } else {
         content = (
           <div>
