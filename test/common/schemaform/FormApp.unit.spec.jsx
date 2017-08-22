@@ -14,9 +14,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
 
     const tree = SkinDeep.shallowRender(
@@ -40,9 +38,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
 
     const tree = SkinDeep.shallowRender(
@@ -67,9 +63,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
 
     const tree = SkinDeep.shallowRender(
@@ -93,9 +87,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
 
     const tree = SkinDeep.shallowRender(
@@ -121,10 +113,8 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{
-          path: 'test-path'
-        }]
+      pageList: [{
+        path: 'test-path'
       }]
     }];
     const router = {
@@ -161,9 +151,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
     const router = {
       push: sinon.spy()
@@ -202,9 +190,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [{ path: currentLocation.pathname }]
-      }]
+      pageList: [{ path: currentLocation.pathname }]
     }];
     const router = {
       push: sinon.spy()
@@ -239,13 +225,11 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      childRoutes: [{
-        pageList: [
-          { path: '/introduction' },
-          { path: currentLocation.pathname }, // You are here
-          { path: '/lastPage' }
-        ]
-      }]
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
     }];
     const router = {
       push: sinon.spy()
