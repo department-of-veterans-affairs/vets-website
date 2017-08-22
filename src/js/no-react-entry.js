@@ -1,5 +1,6 @@
 import createCommonStore from './common/store';
 import createLoginWidget from './login/login-entry';
+import createLoginButtons from './login/login-buttons-entry';
 
 const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
 
@@ -23,3 +24,4 @@ if (wizardPages.has(location.pathname)) {
 }
 
 createLoginWidget(createCommonStore());
+createLoginButtons(createCommonStore());
