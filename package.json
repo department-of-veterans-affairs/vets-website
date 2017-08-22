@@ -195,7 +195,6 @@
   },
   "private": true,
   "dependencies": {
-    "@webcomponents/html-imports": "^1.0.1",
     "camelcase-keys-recursive": "^0.8.2",
     "reselect": "^2.5.4",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#badd13aa3a754917901d131c6783e61794cbc9e7"

@@ -90,13 +90,12 @@ function reInitWidget() {
 }
 
 function loadImports() {
-  const link = document.querySelector('link[rel=import]');
-  const importContent = link.import.querySelector('.wizard-container');
+  const importContent = document.getElementById('wizard-template').innerHTML;
   const anchor = document.querySelector('.wizard-anchor');
-  anchor.appendChild(document.importNode(importContent, true));
+  anchor.innerHTML = importContent;
 }
 
-window.addEventListener('HTMLImportsLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   loadImports();
   reInitWidget();
 });

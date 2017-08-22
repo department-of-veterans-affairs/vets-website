@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Education Benefits Application Process
-includes_wizard: true
+includes_edu_wizard: true
 display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education

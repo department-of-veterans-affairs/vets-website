@@ -34,8 +34,8 @@
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
-{% if includes_wizard %}
-<link rel="import" href="/education/wizard/index.html">
+{% if includes_edu_wizard %}
+{% include "content/pages/education/wizard.html" %}
 {% endif %}
 {% if title === 'Home' %}
 <title>Vets.gov</title>

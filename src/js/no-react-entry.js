@@ -19,8 +19,6 @@ require('./legacy/mega-menu.js');
 require('./legacy/sidebar-navigation.js');
 
 if (wizardPages.has(location.pathname)) {
-  // HTML import polyfill
-  require('@webcomponents/html-imports/html-imports.min.js');
   require('./edu-benefits/education-wizard.js');
 }
 
