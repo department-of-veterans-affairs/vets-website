@@ -11,7 +11,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import { PREFILL_STATUSES, saveErrors, saveInProgressForm, saveFormInline } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -121,6 +121,15 @@ class FormPage extends React.Component {
     this.props.saveInProgressForm(formId, version, returnUrl, data);
   }
 
+  handleSaveInline = () => {
+    const {
+      formId,
+      version,
+      data
+    } = this.props.form;
+    const returnUrl = this.props.location.pathname;
+    this.props.saveFormInline(formId, version, returnUrl, data);
+  }
   render() {
     const { route, params, form } = this.props;
     let {
@@ -172,6 +181,9 @@ class FormPage extends React.Component {
           {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
+                  lastSavedDate={this.props.form.lastSavedDate}
+                  saveInlineInProgress={this.props.form.saveInlineInProgress}
+                  saveFormInline={this.handleSaveInline}
                   trackingPrefix={form.trackingPrefix}
                   saveForm={this.handleSave}
                   savedStatus={form.savedStatus}
@@ -196,7 +208,8 @@ const mapDispatchToProps = {
   setData,
   saveInProgressForm,
   updateLogInUrl,
-  uploadFile
+  uploadFile,
+  saveFormInline
 };
 
 FormPage.propTypes = {

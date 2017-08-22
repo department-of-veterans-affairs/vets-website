@@ -28,7 +28,9 @@ import {
   SET_PREFILL_UNFILLED,
   SAVE_STATUSES,
   LOAD_STATUSES,
-  PREFILL_STATUSES
+  PREFILL_STATUSES,
+  SET_SAVE_INLINE_COMPLETE,
+  SET_SAVE_INLINE_INPROGRESS
 } from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -210,6 +212,16 @@ export default function createSchemaFormReducer(formConfig) {
           data: state.initialData,
           loadedStatus: LOAD_STATUSES.notAttempted
         });
+      }
+      case SET_SAVE_INLINE_INPROGRESS: {
+        return _.set('inlineSaveInProgress', true, state);
+      }
+      case SET_SAVE_INLINE_COMPLETE: {
+        const newState = _.set('inlineSaveInProgress', false, state);
+        if (action.savedAt) {
+          newState.lastSavedDate = action.savedAt;
+        }
+        return newState;
       }
       default:
         return state;

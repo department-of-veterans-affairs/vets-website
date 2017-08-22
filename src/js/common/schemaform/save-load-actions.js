@@ -9,6 +9,8 @@ export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
+export const SET_SAVE_INLINE_INPROGRESS = 'SET_SAVE_INLINE_INPROGRESS';
+export const SET_SAVE_INLINE_COMPLETE = 'SET_SAVE_INLINE_COMPLETE';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -364,6 +366,66 @@ export function removeInProgressForm(formId, migrations) {
       dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
 
       return Promise.resolve();
+    });
+  };
+}
+
+/**
+ * Saves the form data to the back end
+ * @param  {String}  formId    The form’s formId
+ * @param  {Ingeter} version   The form’s version
+ * @param  {String}  returnUrl The last URL the user was at before saving
+ * @param  {Object}  formData  The data the user has entered so far
+ */
+export function saveFormInline(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
+  // Double stringify because of api reasons. Olive Branch issues, methinks.
+  // TODO: Stop double stringifying
+  const body = JSON.stringify({
+    metadata: JSON.stringify({
+      version,
+      returnUrl,
+      savedAt
+    }),
+    formData: JSON.stringify(formData)
+  });
+  return (dispatch) => {
+    const userToken = sessionStorage.userToken;
+    // If we don’t have a userToken, fail safely
+    if (!userToken) {
+      return Promise.resolve();
+    }
+
+    // Update UI while we’re waiting for the API
+    dispatch({
+      type: SET_SAVE_INLINE_INPROGRESS
+    });
+
+    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`
+      },
+      body
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).then(() => {
+      dispatch({
+        type: SET_SAVE_INLINE_COMPLETE,
+        savedAt
+      });
+      return Promise.resolve();
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_SAVE_INLINE_COMPLETE
+      });
     });
   };
 }

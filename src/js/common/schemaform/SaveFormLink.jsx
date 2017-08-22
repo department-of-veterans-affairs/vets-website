@@ -1,6 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import LoginModal from '../components/LoginModal';
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
@@ -30,6 +31,11 @@ class SaveFormLink extends React.Component {
       scrollToTop();
       focusElement('.schemaform-save-error');
     }
+    this.timer = setInterval(() => this.props.saveFormInline(), 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   openLoginModal = () => {
@@ -57,7 +63,9 @@ class SaveFormLink extends React.Component {
   }
   render() {
     const {
-      savedStatus
+      savedStatus,
+      lastSavedDate,
+      saveInlineInProgress
     } = this.props;
 
     // TODO: Remove LoginModal from here
@@ -82,8 +90,11 @@ class SaveFormLink extends React.Component {
               <span>Sorry, you’re signed out. Please <button className="va-button-link" onClick={this.openLoginModal}>sign in</button> again to save your application.</span>}
           </div>
         }
+        {!!lastSavedDate && !saveInlineInProgress &&
+            <p className="schemaform-save-notice">Application has been saved. Last saved at {moment(lastSavedDate).format('MM/DD/YY h:mm a')}</p>}
+        {saveInlineInProgress && <p className="schemaform-save-notice">Loading...</p>}
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>Save and finish later</button>}
+          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>Finish this application later</button>}
       </div>
     );
   }
