@@ -19,7 +19,7 @@ If you’re a member of the Army, Navy, Air Force, Marine Corps or Coast Guard R
 ### Can I get education benefits under this program?
 You can get education benefits if:
 - You have a 6-year service obligation (you agreed to serve 6 years) in the Selected Reserve **or**
-- You're an officer in the Selected Reserve and you agreed to serve 6 years in addition to your initial service obligation
+- You’re an officer in the Selected Reserve and you agreed to serve 6 years in addition to your initial service obligation
 
 And you:
 - Finish your initial active duty for training (IADT), **and**
@@ -27,7 +27,7 @@ And you:
 - Stay in good standing while serving in an active Selected Reserve unit.
 </div>
 
-### What benefits can I get? 
+### What benefits can I get?
 
 We’ll give you up to $368 per month in compensation (payments) for these types of training:
 
@@ -53,12 +53,12 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 ------
 
 
-### How do I get these benefits? 
+### How do I get these benefits?
 
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 ### Get more information
-- [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions. 
+- [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
 - Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
 - For TDD/TYY, use <span class="tel">800-829-4833</span>.
 

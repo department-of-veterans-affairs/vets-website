@@ -62,9 +62,9 @@ class SchemaForm extends React.Component {
   }
 
   /*
-   * If we're in review mode, we can short circuit updating
+   * If we’re in review mode, we can short circuit updating
    * by making sure the schemas are the same and the data
-   * displayed on this particular page hasn't changed
+   * displayed on this particular page hasn’t changed
    */
   shouldComponentUpdate(nextProps, nextState) {
     if ((nextProps.reviewMode && !nextProps.editModeOnReviewPage)

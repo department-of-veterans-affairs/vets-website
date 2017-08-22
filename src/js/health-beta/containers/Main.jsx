@@ -19,9 +19,8 @@ class Main extends React.Component {
     } else {
       message = 'Beta features activated for user '.concat(this.props.username).concat('. Thank you.');
     }
-    let view;
 
-    view = (
+    const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Health Beta Registration</h1>

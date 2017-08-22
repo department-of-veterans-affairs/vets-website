@@ -3,7 +3,7 @@ import React from 'react';
 export default class ArrayCountWidget extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userCount: !!props.value
+    this.state = { userCount: props.value
       ? props.value.length - (this.props.options.countOffset || 0)
       : undefined };
   }
@@ -15,7 +15,7 @@ export default class ArrayCountWidget extends React.Component {
         count = 0;
       }
 
-      // Too high of a count can crash the browser. We've been using
+      // Too high of a count can crash the browser. We’ve been using
       // this for marriage counts and 29 is the record, so 29 seems like
       // a good upper limit. Filling out more than 29 pages is probably
       // not reasonable in a form anyway
@@ -26,7 +26,7 @@ export default class ArrayCountWidget extends React.Component {
       this.props.onChange(this.getValue(count, this.props.value));
     }
   }
-  // We're expanding or contracting the array based on the count
+  // We’re expanding or contracting the array based on the count
   // and returning undefined if the array should be empty
   getValue = (count, value = []) => {
     if (count === 0) {

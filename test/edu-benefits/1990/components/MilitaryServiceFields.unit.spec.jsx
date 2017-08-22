@@ -8,7 +8,7 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<MilitaryServiceFields>', () => {
   it('should render active duty section', () => {
-    let veteran = createVeteran();
+    const veteran = createVeteran();
     veteran.currentlyActiveDuty.yes.value = 'Y';
     const onStateChange = sinon.spy();
     const initializeFields = sinon.spy();

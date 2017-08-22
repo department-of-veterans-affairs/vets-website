@@ -27,7 +27,7 @@ export default function fileUiSchema(label, userOptions = {}) {
   };
 }
 
-// An example schema so we don't forget it for now
+// An example schema so we don’t forget it for now
 export const fileSchema = {
   type: 'array',
   minItems: 1,

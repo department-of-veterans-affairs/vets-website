@@ -146,8 +146,7 @@ module.exports = E2eHelpers.createE2eTest(
         .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client
-      .expect.element('.confirmation-page-title').to.be.visible;
+    client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
     client
       .axeCheck('.main')
       .end();

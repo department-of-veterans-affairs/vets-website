@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';

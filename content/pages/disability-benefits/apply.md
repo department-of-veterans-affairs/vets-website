@@ -25,14 +25,14 @@ majorlinks:
 
 <div class="va-introtext">
 
-You can apply for disability benefits online. We've listed all the steps below so when you're ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
 
 </div>
 
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility).
-- Gather the supporting documents listed below that you'll need to file a disability claim.
+- Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
@@ -74,7 +74,7 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 [Find out what happens after you apply](/disability-benefits/after-you-apply).
 
-You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
+You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
 <a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 

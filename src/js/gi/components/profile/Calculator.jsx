@@ -21,7 +21,6 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visibl
 ) : null);
 
 export class Calculator extends React.Component {
-
   constructor(props) {
     super(props);
     this.toggleEligibilityForm = this.toggleEligibilityForm.bind(this);
@@ -103,13 +102,14 @@ export class Calculator extends React.Component {
               Learn more
             </a>)
           </div>
-          {terms.map(term =>
+          {terms.map(term => (
             <CalculatorResultRow
                 key={`${section}${term.label}`}
                 label={term.label}
                 value={term.value}
                 bold={term.label === 'Total per year'}
-                visible={term.visible}/>)}
+                visible={term.visible}/>
+          ))}
         </div>
       );
     });

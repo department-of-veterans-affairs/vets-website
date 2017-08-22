@@ -116,7 +116,7 @@ export default class AppointmentInfo extends Component {
         <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM YYYY')}</strong></p>
         {this.anyWaitTimes(healthAccessAttrs, 'new') && <div className="mb2">
           <h4>New patient wait times</h4>
-          <p>The average number of days a Veteran who hasn't been to this location has to wait for a non-urgent appointment</p>
+          <p>The average number of days a Veteran who hasn’t been to this location has to wait for a non-urgent appointment</p>
           <ul>
             {this.hasPrimaryCare(healthAccessAttrs, 'new') && renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
             {renderSpecialtyTimes()}

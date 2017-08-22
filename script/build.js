@@ -443,6 +443,7 @@ if (options.watch) {
   // Useful for local development.
   try {
     // Check to see if we have a proxy config file
+    // eslint-disable-next-line import/no-unresolved
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
       '/api/v0/*': {
@@ -455,7 +456,6 @@ if (options.watch) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
-          return;
         }
       }
     };
@@ -535,7 +535,9 @@ smith.use(navigation({
     breadcrumbProperty: 'breadcrumb_path',
     pathProperty: 'nav_path',
     includeDirs: true
-  }, navSettings: {} }));
+  },
+  navSettings: {}
+}));
 
 // Note that there is no default layout specified.
 // All pages must explicitly declare a layout or else it will be rendered as raw html.
