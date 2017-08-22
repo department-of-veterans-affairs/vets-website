@@ -36,7 +36,7 @@ const initialState = {
 function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
-      return _.merge(state, action.newState);
+      return _.assign(state, action.newState);
     }
     case PROFILE_LOADING_FINISHED: {
       return _.set('loading', false, state);
