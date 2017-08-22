@@ -26,7 +26,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified survivors

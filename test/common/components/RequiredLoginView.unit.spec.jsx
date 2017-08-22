@@ -161,7 +161,7 @@ describe('<RequiredLoginView>', () => {
       it('should display not found message', () => {
         const notFoundProfile = _.merge({}, loa3User, { status: 'NOT_FOUND' });
         const { tree } = setup({ userProfile: notFoundProfile });
-        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn\'t find your records with that information.');
+        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn’t find your records with that information.');
       });
     });
   });

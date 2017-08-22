@@ -26,7 +26,7 @@ export default class CurrencyWidget extends React.Component {
         this.props.onChange(val);
       } else {
         // Needs to parse as a number
-        const parsed = parseFloat(val.replace(/[^0-9\.]/g, ''));
+        const parsed = parseFloat(val.replace(/[^0-9.]/g, ''));
         if (!isNaN(parsed)) {
           this.props.onChange(parsed);
         } else {

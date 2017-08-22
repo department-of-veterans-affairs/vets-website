@@ -101,7 +101,7 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:validations': [
                 (errors, dob) => {
-                  // If we have a complete date, check to make sure it's a valid dob
+                  // If we have a complete date, check to make sure it’s a valid dob
                   if (/\d{4}-\d{2}-\d{2}/.test(dob) && moment(dob).isAfter(moment().endOf('day').subtract(17, 'years'))) {
                     errors.addError('You must be at least 17 to apply');
                   }
@@ -372,7 +372,7 @@ const formConfig = {
       pages: {
         educationHistory: {
           title: 'Education history',
-          // There's only one page in this chapter (right?), so this url seems a
+          // There’s only one page in this chapter (right?), so this url seems a
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {

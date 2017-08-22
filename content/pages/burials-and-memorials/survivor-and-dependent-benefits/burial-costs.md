@@ -32,18 +32,18 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
 
-VA will also provide an allowance for the cost of transporting a Veteran's remains for burial in a national cemetery.
+VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to "under conditions other than dishonorable," you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?
 
 - An allowance for burial and funeral costs
 - An allowance for the plot or interment
-- An allowance for transporting the Veteran's remains for burial in a national cemetery
+- An allowance for transporting the Veteran’s remains for burial in a national cemetery
 
 <div class="feature" markdown="1">
 
@@ -52,7 +52,7 @@ You must file a claim for a non-service-connected burial allowance within 2 year
 You may need a copy of:
 - The Veteran’s military discharge papers (DD214 or other separation documents)
 - The Veteran’s death certificate
-- Any documents you have for the cost of transporting the Veteran's remains
+- Any documents you have for the cost of transporting the Veteran’s remains
 
 </div>
 

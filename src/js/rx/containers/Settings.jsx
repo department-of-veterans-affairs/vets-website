@@ -60,7 +60,7 @@ export class Settings extends React.Component {
     let message;
 
     if (isSaveable) {
-      message = 'You haven\'t saved your changes. Are you sure you want to leave this page without saving?';
+      message = 'You haven’t saved your changes. Are you sure you want to leave this page without saving?';
       event.returnValue = message; // eslint-disable-line no-param-reassign
     }
 

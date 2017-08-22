@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -45,7 +46,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
-    let vaBenefitInfoRows = [];
+    const vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
@@ -100,7 +101,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       vaBenefitInformation = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren't able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
+          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
         </div>
       );
     }
@@ -108,15 +109,13 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows the benefits you're receiving from VA,
-          your military service history, and statements regarding your disability status. You can choose
-          what information you want to include in your letter.
+          This letter is for disabled Veterans. It gives a summary of VA benefits that are available to them, such as housing assistance, civil service preference, and state or local property or car tax relief.
         </p>
         <h2>Choose the information you want to include.</h2>
         <p>
-          The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
+          Our records show the 3 most recent service periods. There may be additional service periods not shown here.
         </p>
-        <h2>Military Service Information</h2>
+        <h2>Military service information</h2>
         <div className="form-checkbox">
           <input
               autoComplete="false"
@@ -135,26 +134,25 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         <table className="usa-table-borderless" id="militaryServiceTable">
           <thead>
             <tr>
-              <th scope="col">Branch of Service</th>
-              <th scope="col">Discharge Type</th>
-              <th scope="col">Began Active Duty</th>
-              <th scope="col">Separated</th>
+              <th scope="col">Branch of service</th>
+              <th scope="col">Discharge type</th>
+              <th scope="col">Active duty start</th>
+              <th scope="col">Separation date</th>
             </tr>
           </thead>
           <tbody>
             {militaryServiceRows}
           </tbody>
         </table>
-        <h2>VA Benefit Information</h2>
+        <h2>VA benefit and disability information</h2>
         <p>
-          Select which statements you want to include in your letter.
+          Please choose what information you want to include in your letter.
         </p>
         {vaBenefitInformation}
         <p>
-          If you see incorrect information for service periods or disability status,
-          please send a question using VA's <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
-          System (IRIS)</a>. You should expect a response from VA in 5 business days.
+          If your service period or disability status information is incorrect, please send us a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
         </p>
+
       </div>
     );
   }

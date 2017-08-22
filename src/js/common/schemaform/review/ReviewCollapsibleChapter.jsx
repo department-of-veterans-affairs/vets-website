@@ -56,7 +56,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   handleSubmit = (formData, key, path = null, index = null) => {
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn't been necessary
+    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (path) {
       const newData = _.set([path, index], formData, this.props.form.data);
       this.props.setData(newData);
@@ -134,7 +134,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               // ObjectField will hide them in the main section.
               arrayFields = getArrayFields(pageState, page);
               // This will be undefined if there are no fields other than an array
-              // in a page, in which case we won't render the form, just the array
+              // in a page, in which case we won’t render the form, just the array
               pageSchema = getNonArraySchema(pageState.schema, pageState.uiSchema);
               pageUiSchema = pageState.uiSchema;
               pageData = form.data;
@@ -169,7 +169,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         buttonText="Update page"
                         buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
-                {arrayFields.map(arrayField =>
+                {arrayFields.map(arrayField => (
                   <div key={arrayField.path} className="form-review-array">
                     <ArrayField
                         pageKey={page.pageKey}
@@ -182,7 +182,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         setData={this.props.setData}
                         path={arrayField.path}/>
                   </div>
-                )}
+                ))}
               </div>
             );
           })}

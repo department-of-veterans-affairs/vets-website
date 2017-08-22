@@ -8,7 +8,7 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<SchoolSelectionFields>', () => {
   xit('should not render school address for empty education type', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -22,7 +22,7 @@ describe('<SchoolSelectionFields>', () => {
   });
 
   it('should render school address for college education type', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     data.educationType.value = 'college';
     const onStateChange = sinon.spy();
 
