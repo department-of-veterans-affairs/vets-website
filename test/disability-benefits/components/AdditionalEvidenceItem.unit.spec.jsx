@@ -15,7 +15,7 @@ describe('<AdditionalEvidenceItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidenceItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.subTree('.additional-evidence').text()).to.equal('Additional evidence');
@@ -34,7 +34,7 @@ describe('<AdditionalEvidenceItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidenceItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.everySubTree('.submission-date')).to.be.empty;

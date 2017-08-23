@@ -71,16 +71,16 @@ export class EmailNotifications extends React.Component {
     return (
       <div className="msg-notifications-save">
         <button
-            className={saveButtonClass}
-            disabled={!isSaveable}>
+          className={saveButtonClass}
+          disabled={!isSaveable}>
           Save changes
         </button>
         {
           isSaveable &&
           (<button
-              className="usa-button-outline"
-              type="button"
-              onClick={() => this.setState({ discardChanges: true })}>
+            className="usa-button-outline"
+            type="button"
+            onClick={() => this.setState({ discardChanges: true })}>
             Cancel
           </button>)
         }
@@ -120,56 +120,56 @@ export class EmailNotifications extends React.Component {
           <div className="msg-notifications-inputs">
             <div>
               <input
-                  id="notifications-on"
-                  type="radio"
-                  value="on"
-                  checked={isNotified}
-                  onChange={() => this.props.setNotificationFrequency(
-                    makeField('each_message', true)
-                  )}/>
+                id="notifications-on"
+                type="radio"
+                value="on"
+                checked={isNotified}
+                onChange={() => this.props.setNotificationFrequency(
+                  makeField('each_message', true)
+                )}/>
               <label htmlFor="notifications-on">On</label>
               {
                 isNotified && <div className="form-expanding-group-open">
                   <ErrorableRadioButtons
-                      name="frequency"
-                      label=""
-                      options={[
-                        { label: 'Each message', value: 'each_message' },
-                        { label: 'Once a day', value: 'daily' }
-                      ]}
-                      onValueChange={v => this.props.setNotificationFrequency(v)}
-                      value={frequency}/>
+                    name="frequency"
+                    label=""
+                    options={[
+                      { label: 'Each message', value: 'each_message' },
+                      { label: 'Once a day', value: 'daily' }
+                    ]}
+                    onValueChange={v => this.props.setNotificationFrequency(v)}
+                    value={frequency}/>
                 </div>
               }
             </div>
             <div>
               <input
-                  id="notifications-off"
-                  type="radio"
-                  value="off"
-                  checked={!isNotified}
-                  onChange={() => this.props.setNotificationFrequency(
-                    makeField('none', true)
-                  )}/>
+                id="notifications-off"
+                type="radio"
+                value="off"
+                checked={!isNotified}
+                onChange={() => this.props.setNotificationFrequency(
+                  makeField('none', true)
+                )}/>
               <label htmlFor="notifications-off">Off</label>
             </div>
           </div>
           {
             frequency.value !== 'none' &&
             (<ErrorableTextInput
-                name="emailAddress"
-                label="Send email notifications to:"
-                onValueChange={({ value }) =>
-                  this.props.setNotificationEmail({ value, dirty: true })
-                }
-                field={emailAddress}/>)
+              name="emailAddress"
+              label="Send email notifications to:"
+              onValueChange={({ value }) =>
+                this.props.setNotificationEmail({ value, dirty: true })
+              }
+              field={emailAddress}/>)
           }
           {this.renderSaveButtons()}
         </form>
         <ModalDiscardChanges
-            onClose={() => this.setState({ discardChanges: false })}
-            onSubmit={this.props.fetchPreferences}
-            visible={this.state.discardChanges}/>
+          onClose={() => this.setState({ discardChanges: false })}
+          onSubmit={this.props.fetchPreferences}
+          visible={this.state.discardChanges}/>
       </div>
     );
   }

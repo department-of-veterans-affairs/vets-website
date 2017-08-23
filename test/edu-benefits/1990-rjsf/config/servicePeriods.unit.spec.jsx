@@ -12,10 +12,10 @@ describe('Edu 1990 servicePeriods', () => {
   it('should render service fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -26,21 +26,21 @@ describe('Edu 1990 servicePeriods', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            toursOfDuty: [
-              {
-                serviceBranch: 'Army',
-                dateRange: {
-                  to: '2010-01-01',
-                  from: '2008-01-03'
-                }
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          toursOfDuty: [
+            {
+              serviceBranch: 'Army',
+              dateRange: {
+                to: '2010-01-01',
+                from: '2008-01-03'
               }
-            ]
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+            }
+          ]
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -53,11 +53,11 @@ describe('Edu 1990 servicePeriods', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);

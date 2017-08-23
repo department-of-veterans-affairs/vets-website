@@ -89,13 +89,13 @@ class AddFilesForm extends React.Component {
         <Element name="filesList"/>
         <div className="button-container">
           <ErrorableFileInput
-              errorMessage={this.getErrorMessage()}
-              label={<h5>Select files to upload</h5>}
-              accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-              onChange={this.add}
-              buttonText="Add Files"
-              name="fileUpload"
-              additionalClass="claims-upload-input"/>
+            errorMessage={this.getErrorMessage()}
+            label={<h5>Select files to upload</h5>}
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onChange={this.add}
+            buttonText="Add Files"
+            name="fileUpload"
+            additionalClass="claims-upload-input"/>
         </div>
         <div className="file-requirements">
           <p className="file-requirement-header">Accepted file types:</p>
@@ -122,42 +122,42 @@ class AddFilesForm extends React.Component {
               </div>
               <div className="clearfix"></div>
               <ErrorableSelect
-                  required
-                  errorMessage={validateIfDirty(docType, isNotBlank) ? undefined : 'Please provide a response'}
-                  name="docType"
-                  label="What type of document is this?"
-                  options={DOC_TYPES}
-                  value={docType}
-                  emptyDescription="Select a description"
-                  onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
+                required
+                errorMessage={validateIfDirty(docType, isNotBlank) ? undefined : 'Please provide a response'}
+                name="docType"
+                label="What type of document is this?"
+                options={DOC_TYPES}
+                value={docType}
+                emptyDescription="Select a description"
+                onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
           </div>
         ))}
         <div className="button-container file-review">
           <button
-              className="usa-button"
-              onClick={this.submit}>
+            className="usa-button"
+            onClick={this.submit}>
             Submit Files for Review
           </button>
           <Link to={this.props.backUrl} className="claims-files-cancel">Cancel</Link>
         </div>
         <Modal
-            onClose={() => true}
-            visible={this.props.uploading}
-            hideCloseButton
-            cssClass="claims-upload-modal"
-            id="upload-status"
-            contents={<UploadStatus
-                progress={this.props.progress}
-                files={this.props.files.length}
-                onCancel={this.props.onCancel}/>}/>
+          onClose={() => true}
+          visible={this.props.uploading}
+          hideCloseButton
+          cssClass="claims-upload-modal"
+          id="upload-status"
+          contents={<UploadStatus
+            progress={this.props.progress}
+            files={this.props.files.length}
+            onCancel={this.props.onCancel}/>}/>
         <Modal
-            onClose={() => true}
-            visible={this.props.showMailOrFax}
-            hideCloseButton
-            focusSelector="button"
-            cssClass="claims-upload-modal"
-            contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
+          onClose={() => true}
+          visible={this.props.showMailOrFax}
+          hideCloseButton
+          focusSelector="button"
+          cssClass="claims-upload-modal"
+          contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
       </div>
     );
   }

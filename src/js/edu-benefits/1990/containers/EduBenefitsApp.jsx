@@ -136,18 +136,18 @@ class EduBenefitsApp extends React.Component {
           <div className={contentClass}>
             {this.props.children}
             <NavButtons
-                data={data}
-                submission={submission}
-                pages={pages}
-                path={trimmedPathname}
-                isValid={isValidPage(currentLocation.pathname, data)}
-                canSubmit={isValidForm(data)}
-                dirtyPage={dirtyPage}
-                onNavigate={navigateTo}
-                onComplete={setComplete}
-                onSubmit={onSubmit}
-                onStateChange={onStateChange}
-                onAttemptedSubmit={onAttemptedSubmit}/>
+              data={data}
+              submission={submission}
+              pages={pages}
+              path={trimmedPathname}
+              isValid={isValidPage(currentLocation.pathname, data)}
+              canSubmit={isValidForm(data)}
+              dirtyPage={dirtyPage}
+              onNavigate={navigateTo}
+              onComplete={setComplete}
+              onSubmit={onSubmit}
+              onStateChange={onStateChange}
+              onAttemptedSubmit={onAttemptedSubmit}/>
             {ombInfo}
           </div>
         </div>

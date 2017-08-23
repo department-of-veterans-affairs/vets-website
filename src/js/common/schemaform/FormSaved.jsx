@@ -62,15 +62,15 @@ class FormSaved extends React.Component {
         </div>}
         <br/>
         <FormStartControls
-            startPage={this.props.route.pageList[1].path}
-            router={this.props.router}
-            formId={this.props.formId}
-            returnUrl={this.props.returnUrl}
-            migrations={this.props.migrations}
-            fetchInProgressForm={this.props.fetchInProgressForm}
-            removeInProgressForm={this.props.removeInProgressForm}
-            prefillAvailable={prefillAvailable}
-            formSaved/>
+          startPage={this.props.route.pageList[1].path}
+          router={this.props.router}
+          formId={this.props.formId}
+          returnUrl={this.props.returnUrl}
+          migrations={this.props.migrations}
+          fetchInProgressForm={this.props.fetchInProgressForm}
+          removeInProgressForm={this.props.removeInProgressForm}
+          prefillAvailable={prefillAvailable}
+          formSaved/>
       </div>
     );
   }

@@ -66,18 +66,18 @@ export default class NavButtons extends React.Component {
 
     const backButton = (
       <ProgressButton
-          onButtonClick={this.goBack}
-          buttonText="Back"
-          buttonClass="usa-button-outline"
-          beforeText="«"/>
+        onButtonClick={this.goBack}
+        buttonText="Back"
+        buttonClass="usa-button-outline"
+        beforeText="«"/>
     );
 
     const nextButton = (
       <ProgressButton
-          onButtonClick={this.goForward}
-          buttonText="Continue"
-          buttonClass="usa-button-primary"
-          afterText="»"/>
+        onButtonClick={this.goForward}
+        buttonText="Continue"
+        buttonClass="usa-button-primary"
+        afterText="»"/>
     );
 
     let buttons;
@@ -88,33 +88,33 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
-              onButtonClick={this.handleSubmit}
-              buttonText="Submit Application"
-              buttonClass="usa-button-primary"/>
+            onButtonClick={this.handleSubmit}
+            buttonText="Submit Application"
+            buttonClass="usa-button-primary"/>
         );
       } else if (submission.status === 'submitPending') {
         submitButton = (
           <ProgressButton
-              onButtonClick={this.handleSubmit}
-              buttonText="Sending..."
-              disabled
-              buttonClass="usa-button-disabled"/>
+            onButtonClick={this.handleSubmit}
+            buttonText="Sending..."
+            disabled
+            buttonClass="usa-button-disabled"/>
         );
       } else if (submission.status === 'applicationSubmitted') {
         submitButton = (
           <ProgressButton
-              onButtonClick={this.handleSubmit}
-              buttonText="Submitted"
-              disabled
-              buttonClass="form-button-green"
-              beforeText="&#10003;"/>
+            onButtonClick={this.handleSubmit}
+            buttonText="Submitted"
+            disabled
+            buttonClass="form-button-green"
+            beforeText="&#10003;"/>
         );
       } else if (submission.status === 'clientError') {
         submitButton = (
           <ProgressButton
-              onButtonClick={this.handleSubmit}
-              buttonText="Submit Application"
-              buttonClass="usa-button-primary"/>
+            onButtonClick={this.handleSubmit}
+            buttonText="Submit Application"
+            buttonClass="usa-button-primary"/>
         );
         submitMessage = (
           <div className="usa-alert usa-alert-error schemaform-failure-alert">
@@ -136,11 +136,11 @@ export default class NavButtons extends React.Component {
         );
         submitButton = (
           <ProgressButton
-              onButtonClick={this.handleSubmit}
-              buttonText="Send Failed"
-              disabled
-              buttonClass="usa-button-secondary form-button-disabled"
-              beforeText="x"/>
+            onButtonClick={this.handleSubmit}
+            buttonText="Send Failed"
+            disabled
+            buttonClass="usa-button-secondary form-button-disabled"
+            beforeText="x"/>
         );
       }
 
@@ -158,7 +158,7 @@ export default class NavButtons extends React.Component {
         </div>
         <div className="row">
           <div className="columns">
-          {submitMessage}
+            {submitMessage}
           </div>
         </div>
       </div>);
@@ -177,10 +177,10 @@ export default class NavButtons extends React.Component {
         <div className="row">
           <div className="small-12 medium-5 columns">
             <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Get Started"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
+              onButtonClick={this.goForward}
+              buttonText="Get Started"
+              buttonClass="usa-button-primary"
+              afterText="»"/>
           </div>
         </div>
       );

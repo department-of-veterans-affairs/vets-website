@@ -39,48 +39,48 @@ describe('fields model', () => {
     it('handles nested objects', () => {
       const result = dirtyAllFields(
         { a: { foo: makeField('1'),
-               bar: makeField(''),
-               baz: makeField(3),
-               qux: 5,
-               quux: false,
-               corge: null,
-               grault: undefined,
-             },
-          b: { foo: makeField(1) }  // Ensure multiple objects get processed.
+          bar: makeField(''),
+          baz: makeField(3),
+          qux: 5,
+          quux: false,
+          corge: null,
+          grault: undefined,
+        },
+        b: { foo: makeField(1) }  // Ensure multiple objects get processed.
         });
       expect(result).to.eql(
         { a: { foo: makeField('1', true),
-               bar: makeField('', true),
-               baz: makeField(3, true),
-               qux: 5,
-               quux: false,
-               corge: null,
-               grault: undefined,
-              },
-          b: { foo: makeField(1, true) }
+          bar: makeField('', true),
+          baz: makeField(3, true),
+          qux: 5,
+          quux: false,
+          corge: null,
+          grault: undefined,
+        },
+        b: { foo: makeField(1, true) }
         });
     });
 
     it('handles arrays', () => {
       const result = dirtyAllFields(
         { a: [{ foo: makeField('1') },
-              { bar: makeField('') },
-              { baz: makeField(3) },
-              { qux: 5 },
-              { quux: false },
-              { corge: null },
-              { grault: undefined }],
-          b: [{ foo: makeField(1) }]  // ensure multiple arrays get processed.
+          { bar: makeField('') },
+          { baz: makeField(3) },
+          { qux: 5 },
+          { quux: false },
+          { corge: null },
+          { grault: undefined }],
+        b: [{ foo: makeField(1) }]  // ensure multiple arrays get processed.
         });
       expect(result).to.eql(
         { a: [{ foo: makeField('1', true) },
-              { bar: makeField('', true) },
-              { baz: makeField(3, true) },
-              { qux: 5 },
-              { quux: false },
-              { corge: null },
-              { grault: undefined }],
-          b: [{ foo: makeField(1, true) }]
+          { bar: makeField('', true) },
+          { baz: makeField(3, true) },
+          { qux: 5 },
+          { quux: false },
+          { corge: null },
+          { grault: undefined }],
+        b: [{ foo: makeField(1, true) }]
         });
     });
   });

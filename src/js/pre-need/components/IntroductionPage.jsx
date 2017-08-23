@@ -109,10 +109,10 @@ class IntroductionPage extends React.Component {
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
           <div className="end columns">
             <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Get Started"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
+              onButtonClick={this.goForward}
+              buttonText="Get Started"
+              buttonClass="usa-button-primary"
+              afterText="»"/>
           </div>
         </div>
         <div className="omb-info--container">

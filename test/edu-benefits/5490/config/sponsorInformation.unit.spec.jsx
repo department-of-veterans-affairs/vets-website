@@ -13,10 +13,10 @@ describe('Edu 5490 sponsorInformation', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -27,10 +27,10 @@ describe('Edu 5490 sponsorInformation', () => {
   it('should conditionally show spouseInfo options', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          data={{ relationship: 'spouse' }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        data={{ relationship: 'spouse' }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

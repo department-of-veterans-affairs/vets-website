@@ -7,12 +7,12 @@ class StepHeader extends React.Component {
     return (
       <div className="schemaform-chapter-progress">
         <div
-            role="progressbar"
-            aria-valuenow={this.props.current}
-            aria-valuemin="1"
-            aria-valuetext={`Step ${current} of ${steps}: ${name}`}
-            aria-valuemax={steps}
-            className="nav-header nav-header-schemaform">
+          role="progressbar"
+          aria-valuenow={this.props.current}
+          aria-valuemin="1"
+          aria-valuetext={`Step ${current} of ${steps}: ${name}`}
+          aria-valuemax={steps}
+          className="nav-header nav-header-schemaform">
           <h4>
             <span className="form-process-step current">{current}</span>
             <span className="form-process-total">of {steps}</span>

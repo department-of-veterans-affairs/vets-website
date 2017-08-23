@@ -419,9 +419,9 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
-                  'Start of confinement',
-                  'End of confinement',
-                  'Confinement start date must be before end date'
+              'Start of confinement',
+              'End of confinement',
+              'Confinement start date must be before end date'
             )),
             'view:receivedSeverancePay': {
               'ui:title': 'Have you received any type of severance or separation pay?',

@@ -314,7 +314,7 @@ const formConfig = {
                   'properties.veteranFullName',
                   'properties.veteranSocialSecurityNumber',
                   'properties.vaFileNumber'],
-                  previousBenefits),
+                previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },

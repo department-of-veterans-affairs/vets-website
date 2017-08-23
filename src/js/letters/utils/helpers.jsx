@@ -9,8 +9,8 @@ import { formatDateShort } from '../../common/utils/helpers';
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
   const requestUrl = resource[0] === '/'
-            ? [baseUrl, resource].join('')
-            : resource;
+    ? [baseUrl, resource].join('')
+    : resource;
 
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }

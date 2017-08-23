@@ -110,7 +110,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary')
       .expect.element('.js-test-location').attribute('data-location')
-        .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page.
     client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
