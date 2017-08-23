@@ -92,10 +92,10 @@ describe('Schemaform: DateWidget', () => {
       const onBlur = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <DateWidget
-            options={{ monthYear: true }}
-            id="test"
-            onChange={onChange}
-            onBlur={onBlur}/>
+          options={{ monthYear: true }}
+          id="test"
+          onChange={onChange}
+          onBlur={onBlur}/>
       );
 
       expect(tree.everySubTree('select').length).to.equal(1);
@@ -106,11 +106,11 @@ describe('Schemaform: DateWidget', () => {
       const onBlur = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <DateWidget
-            options={{ monthYear: true }}
-            id="test"
-            value="2010-01-XX"
-            onChange={onChange}
-            onBlur={onBlur}/>
+          options={{ monthYear: true }}
+          id="test"
+          value="2010-01-XX"
+          onChange={onChange}
+          onBlur={onBlur}/>
       );
 
       expect(tree.everySubTree('select')[0].props.value).to.equal('1');
@@ -121,10 +121,10 @@ describe('Schemaform: DateWidget', () => {
       const onBlur = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <DateWidget
-            options={{ monthYear: true }}
-            id="test"
-            onChange={onChange}
-            onBlur={onBlur}/>
+          options={{ monthYear: true }}
+          id="test"
+          onChange={onChange}
+          onBlur={onBlur}/>
       );
 
       const instance = tree.getMountedInstance();
@@ -137,11 +137,11 @@ describe('Schemaform: DateWidget', () => {
       const onBlur = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <DateWidget
-            options={{ monthYear: true }}
-            id="test"
-            required
-            onChange={onChange}
-            onBlur={onBlur}/>
+          options={{ monthYear: true }}
+          id="test"
+          required
+          onChange={onChange}
+          onBlur={onBlur}/>
       );
 
       const instance = tree.getMountedInstance();
@@ -156,10 +156,10 @@ describe('Schemaform: DateWidget', () => {
       const onBlur = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <DateWidget
-            options={{ monthYear: true }}
-            id="test"
-            onChange={onChange}
-            onBlur={onBlur}/>
+          options={{ monthYear: true }}
+          id="test"
+          onChange={onChange}
+          onBlur={onBlur}/>
       );
 
       const instance = tree.getMountedInstance();
