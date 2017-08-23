@@ -1,27 +1,20 @@
 ---
-layout: page-react.html
-permalink: /signup.html
-display_title: Sign up
-entryname: no-react
+layout: page.html
+permalink: /faq.html
+title: Frequently Asked Questions
+display_title: Frequently Asked Questions
 ---
 <main>
   <div class="row">
-    <article class="usa-content columns">
-      <h1>Sign up for Vets.gov</h1>
+    <article class="usa-content columns faq-page">
+      <h1>Frequently Asked Questions (FAQ)</h1>
       <div class="main home signup" role="main">
         <div class="section main-menu">
           <div class="row">
             <div class="small-12 columns">
-              <img src="//placehold.it/300x100"></img>
               <p>
                 Vets.gov partners with ID.me, a third-party Veteran-owned business, to provide the strongest possible identity verification system to prevent fraud and identity theft. When you begin the sign up process, an ID.me window will open on your screen.
               </p>
-              <div id="login-buttons-root">
-                <div class="loading-message">
-                  <h3>Please wait while we load the application for you.</h3>
-                  <img src="/img/preloader-primary-darkest.gif" alt="Loading">
-                </div>
-              </div>
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
@@ -38,7 +31,7 @@ entryname: no-react
                   <li>
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq1">How do I sign up for Vets.gov?</button>
                     <div id="dbq1" class="usa-accordion-content">
-                      <p>To sign up for Vets.gov online, you only need an email address. Additional security is needed to use advanced features of the website (like refilling a VA prescription). To access those, you’ll need to take extra steps to verify your identity. <a href="#">Sign up for Vets.gov now.</a></p>
+                      <p>To sign up for Vets.gov online, you only need an email address. Additional security is needed to use advanced features of the website (like refilling a VA prescription). To access those, you’ll need to take extra steps to verify your identity.</p>
                       <p>Even if you don't sign up with Vets.gov, you can still apply for the benefits you've earned.</p>
                     </div>
                   </li>
@@ -58,7 +51,6 @@ entryname: no-react
                       <p>
                         Because this type of information is personal and private, we work with our partners at ID.me to ensure Veterans are able to achieve the highest level of security that meets current industry standards for protecting data. This keeps your private information private by confirming that you are you — and not someone pretending to be you.
                       </p>
-                      <p><a href="#">Register with Vets.gov and verify your identity</a></p>
                     </div>
                   </li>
                   <li>
@@ -67,11 +59,10 @@ entryname: no-react
                     </button>
                     <div id="dbq3" class="usa-accordion-content">
                       <p>Vets.gov confirms your identity using ID.me, which is a third-party Veteran-owned business that has partnered with VA to provide the strongest possible identity verification system to prevent fraud and identity theft. At this time, no government solution can provide this level of security, so a third-party product is required.</p>
-                      <p>To go through the ID.me identity proofing process, you’ll need a smartphone and a driver’s license or passport. <a href="#">Follow these step-by-step instructions.</a></p>
+                      <p>To go through the ID.me identity proofing process, you’ll need a smartphone and a driver’s license or passport. <a href="https://vetsgov.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Follow these step-by-step instructions.</a></p>
                       <p>
-                        If you don’t have a smartphone, you can still confirm your identity using ID.me. To do so, you’ll need access to a computer with an internet connection and a landline or mobile phone. <a href="#">Use these step-by-step instructions to verify your identity without a smartphone.</a>
+                        If you don’t have a smartphone, you can still confirm your identity using ID.me. To do so, you’ll need access to a computer with an internet connection and a landline or mobile phone. <a href="https://vetsgov.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Use these step-by-step instructions to verify your identity without a smartphone.</a>
                       </p>
-                      <p><a href="#">Sign up with Vets.gov and verify your identity.</a></p>
                     </div>
                   </li>
                   <li>
@@ -89,7 +80,7 @@ entryname: no-react
                       What if I already have an ID.me account?
                     </button>
                     <div id="dbq5" class="usa-accordion-content">
-                      <p><a href="#">Log in</a> and enter your ID.me username and password. You will then be asked for a 6-digit verification code that will be sent to your mobile or home phone.</p>
+                      <p>Log in and enter your ID.me username and password. You will then be asked for a 6-digit verification code that will be sent to your mobile or home phone.</p>
                     </div>
                   </li>
                   <li>
@@ -97,7 +88,7 @@ entryname: no-react
                       What if I already have a DS Logon Premium account?
                     </button>
                     <div id="dbq6" class="usa-accordion-content">
-                      <p><a href="#">Log in</a> and select the DS Logon link on the ID.me screen. Use your DS Logon information to login, and ID.me will receive your verified information. You may have to fill in some additional information.</p>
+                      <p>Log in and select the DS Logon link on the ID.me screen. Use your DS Logon information to login, and ID.me will receive your verified information. You may have to fill in some additional information.</p>
                     </div>
                   </li>
                   <li>

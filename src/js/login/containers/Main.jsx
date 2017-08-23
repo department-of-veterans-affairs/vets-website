@@ -118,19 +118,6 @@ class Main extends React.Component {
   }
 
   render() {
-    if (this.props.children) {
-      const childrenWithProps = React.Children.map(this.props.children,
-       (child) => React.cloneElement(child, {
-         login: this.props.login,
-         onUserLogin: this.handleLogin,
-         onUserSignup: this.handleSignup,
-         onUserLogout: this.handleLogout
-       })
-      );
-
-      return <div>{childrenWithProps}</div>;
-    }
-
     return (
       <SearchHelpSignIn
           onUserLogin={this.handleLogin}
