@@ -190,7 +190,7 @@ function isValidFutureDate(day, month, year) {
 
 function isValidCurrentOrFutureMonthYear(month, year) {
   const momentDate = moment({ month: parseInt(month, 10) - 1, year });
-  return momentDate.isSameOrAfter(moment().endOf('month'), 'month');
+  return momentDate.isSameOrAfter(moment(), 'month');
 }
 
 function isBlankMonthYear(field) {
