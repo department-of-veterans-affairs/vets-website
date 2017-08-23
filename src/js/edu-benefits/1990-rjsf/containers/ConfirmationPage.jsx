@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -5,6 +6,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 import { getListOfBenefits } from '../../utils/helpers';
+import { benefitsRelinquishmentLabels } from '../helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -53,9 +55,10 @@ class ConfirmationPage extends React.Component {
       : {};
     const name = form.data.veteranFullName;
     const benefits = form.data['view:selectedBenefits'];
+    const benefitsRelinquished = _.get('data.view:benefitsRelinquishedContainer.benefitsRelinquished', form);
 
     const docExplanation = this.state.isExpanded
-      ? (<div>
+      ? (<div className="usa-accordion-content">
         <p>In the future, you might need:</p>
         <ul>
           <li>Your reserve kicker</li>
@@ -69,7 +72,7 @@ class ConfirmationPage extends React.Component {
     if (benefits.chapter33) {
       relinquished = (<div className="claim-relinquished">
         <span><i>Relinquished:</i></span>
-        {this.makeList([form.data.relinquishedBenefits])}
+        {this.makeList([benefitsRelinquishmentLabels[benefitsRelinquished]])}
       </div>);
     }
 
@@ -117,7 +120,9 @@ class ConfirmationPage extends React.Component {
                   No documents required at this time
                 </button>
               </div>
-              {docExplanation}
+              <div id="collapsible-document-explanation">
+                {docExplanation}
+              </div>
             </li>
           </ul>
         </div>
