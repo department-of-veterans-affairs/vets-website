@@ -122,33 +122,33 @@ export default class FileField extends React.Component {
                   {!file.uploading && !editingOrErrors &&
                     <div className="schemaform-file-list-buttons">
                       <button
-                          onClick={() => this.editFile(index)}
-                          className="usa-button usa-button-outline schemaform-file-remove-button"
-                          type="button">
+                        onClick={() => this.editFile(index)}
+                        className="usa-button usa-button-outline schemaform-file-remove-button"
+                        type="button">
                         Edit
                       </button>
                     </div>
                   }
                   {editingOrErrors && <div className="schemaform-file-list-buttons-editing">
                     <label
-                        role="button"
-                        tabIndex="0"
-                        htmlFor={idSchema.$id}
-                        className="usa-button schemaform-upload-label">
+                      role="button"
+                      tabIndex="0"
+                      htmlFor={idSchema.$id}
+                      className="usa-button schemaform-upload-label">
                       Replace
                     </label>
                     <input
-                        type="file"
-                        accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                        style={{ display: 'none' }}
-                        id={idSchema.$id}
-                        name={idSchema.$id}
-                        onChange={(e) => this.onAddFile(e, index)}/>
+                      type="file"
+                      accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+                      style={{ display: 'none' }}
+                      id={idSchema.$id}
+                      name={idSchema.$id}
+                      onChange={(e) => this.onAddFile(e, index)}/>
                     {errors.length === 0 &&
                       <button
-                          onClick={() => this.editFile(index, false)}
-                          className="usa-button usa-button-outline schemaform-file-remove-button"
-                          type="button">
+                        onClick={() => this.editFile(index, false)}
+                        className="usa-button usa-button-outline schemaform-file-remove-button"
+                        type="button">
                         Cancel
                       </button>
                     }
@@ -167,20 +167,20 @@ export default class FileField extends React.Component {
         {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
           <div>
             <label
-                role="button"
-                tabIndex="0"
-                id={`${idSchema.$id}_add_label`}
-                htmlFor={idSchema.$id}
-                className="usa-button usa-button-outline">
-                {files.length > 0 ? uiOptions.addAnotherLabel : 'Upload'}
+              role="button"
+              tabIndex="0"
+              id={`${idSchema.$id}_add_label`}
+              htmlFor={idSchema.$id}
+              className="usa-button usa-button-outline">
+              {files.length > 0 ? uiOptions.addAnotherLabel : 'Upload'}
             </label>
             <input
-                type="file"
-                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                style={{ display: 'none' }}
-                id={idSchema.$id}
-                name={idSchema.$id}
-                onChange={this.onAddFile}/>
+              type="file"
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              style={{ display: 'none' }}
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={this.onAddFile}/>
           </div>
         }
       </div>

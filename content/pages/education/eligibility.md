@@ -15,7 +15,7 @@ If you’re an active-duty Servicemember or Veteran, a member of the National Gu
 </div>
 
 
-<div class="feature" markdown="1" itemprop="step" itemscope itemtype ="http://schema.org/HowToSection">
+<div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">Can I get VA education benefits through the Post-9/11 GI Bill?</h3>
 <div itemprop="itemListElement">
 
@@ -30,7 +30,7 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemprop="step" itemscope itemtype ="http://schema.org/HowToSection">
+<div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">Can I get VA education benefits through the Montgomery GI Bill?</h3>
 <div itemprop="itemListElement">
 You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) or the Montgomery GI Bill Selected Reserve (MGIB-SR).
@@ -52,7 +52,7 @@ You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air
 </div><div markdown="0"><br></div>
 
 
-<div class="feature" markdown="1" itemprop="step" itemscope itemtype ="http://schema.org/HowToSection">
+<div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name"> Can I get VA education benefits through other programs?</h3>
 <div itemprop="itemListElement">
 You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business. 
@@ -64,7 +64,7 @@ You may be able to get help paying for school tuition, testing fees, and advance
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemprop ="step" itemscope itemtype ="http://schema.org/HowToSection">
+<div class="feature" markdown="1" itemprop ="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name"> Can my spouse or dependent children get VA education benefits?</h3>
 <div itemprop="itemListElement">
 

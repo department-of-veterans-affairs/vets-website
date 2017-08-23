@@ -7,14 +7,14 @@ class MoveToOption extends React.Component {
     return (
       <div>
         <input
-            className="msg-hidden-radio"
-            name="messagingMoveToFolder"
-            type="radio"
-            id={folderHtmlId}
-            value={this.props.folderId}/>
+          className="msg-hidden-radio"
+          name="messagingMoveToFolder"
+          type="radio"
+          id={folderHtmlId}
+          value={this.props.folderId}/>
         <label
-            className="msg-move-to-label"
-            htmlFor={folderHtmlId}>{this.props.folderName}</label>
+          className="msg-move-to-label"
+          htmlFor={folderHtmlId}>{this.props.folderName}</label>
       </div>
     );
   }

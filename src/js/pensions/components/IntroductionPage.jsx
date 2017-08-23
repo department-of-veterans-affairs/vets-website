@@ -20,10 +20,10 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to Form 21P-527EZ</p>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            resumeOnly
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -77,9 +77,9 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
           Complete the form before submitting to apply for pension benefits with the 21-527EZ.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

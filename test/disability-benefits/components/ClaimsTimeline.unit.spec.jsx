@@ -10,8 +10,8 @@ describe('<ClaimsTimeline>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsTimeline
-          events={events}
-          phase={6}/>
+        events={events}
+        phase={6}/>
     );
 
     expect(tree.everySubTree('ClaimPhase').length).to.equal(5);
@@ -21,9 +21,9 @@ describe('<ClaimsTimeline>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsTimeline
-          events={events}
-          everPhaseBack
-          phase={6}/>
+        events={events}
+        everPhaseBack
+        phase={6}/>
     );
 
     expect(tree.everySubTree('ClaimPhase')[2].props.children[0].props.children[1]).to.contain('may be times when a claim moves forward');
@@ -33,10 +33,10 @@ describe('<ClaimsTimeline>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsTimeline
-          events={events}
-          everPhaseBack
-          currentPhaseBack
-          phase={6}/>
+        events={events}
+        everPhaseBack
+        currentPhaseBack
+        phase={6}/>
     );
 
     expect(tree.subTree('PhaseBackWarning')).not.to.be.false;
@@ -46,10 +46,10 @@ describe('<ClaimsTimeline>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsTimeline
-          events={events}
-          everPhaseBack
-          currentPhaseBack
-          phase={4}/>
+        events={events}
+        everPhaseBack
+        currentPhaseBack
+        phase={4}/>
     );
 
     expect(tree.subTree('PhaseBackWarning')).to.be.false;

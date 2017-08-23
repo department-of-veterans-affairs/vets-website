@@ -77,17 +77,17 @@ export class DefinitionTester extends React.Component {
 
     return (
       <SchemaForm
-          safeRenderCompletion
-          reviewMode={this.props.reviewMode}
-          name="test"
-          title={this.props.title || 'test'}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData}
-          pagePerItemIndex={this.props.pagePerItemIndex}
-          onChange={this.handleChange}
-          uploadFile={this.props.uploadFile}
-          onSubmit={this.props.onSubmit}/>
+        safeRenderCompletion
+        reviewMode={this.props.reviewMode}
+        name="test"
+        title={this.props.title || 'test'}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        pagePerItemIndex={this.props.pagePerItemIndex}
+        onChange={this.handleChange}
+        uploadFile={this.props.uploadFile}
+        onSubmit={this.props.onSubmit}/>
     );
   }
 }

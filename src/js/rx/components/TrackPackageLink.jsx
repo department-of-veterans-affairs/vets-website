@@ -15,18 +15,18 @@ class TrackPackageLink extends React.Component {
     if (this.props.external) {
       link = (
         <a
-            className={linkClass}
-            href={this.props.url}
-            rel="external noopener noreferrer"
-            target="_blank">
+          className={linkClass}
+          href={this.props.url}
+          rel="external noopener noreferrer"
+          target="_blank">
           {this.props.text}
         </a>
       );
     } else {
       link = (
         <Link
-            className={linkClass}
-            to={this.props.url}>
+          className={linkClass}
+          to={this.props.url}>
           {this.props.text}
         </Link>
       );

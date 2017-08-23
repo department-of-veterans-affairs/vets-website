@@ -46,10 +46,10 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          form={form}
-          route={{ formConfig, pageList }}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}/>
+        form={form}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}/>
     );
 
     expect(tree.everySubTree('ReviewCollapsibleChapter').length).to.equal(2);
@@ -109,13 +109,13 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          router={router}
-          setData={setData}
-          form={form}
-          onSubmit={onSubmit}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={route}/>
+        router={router}
+        setData={setData}
+        form={form}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={route}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -175,11 +175,11 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -237,12 +237,12 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          setSubmission={setSubmission}
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        setSubmission={setSubmission}
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -297,12 +297,12 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          setSubmission={setSubmission}
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        setSubmission={setSubmission}
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -354,11 +354,11 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          router={router}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        router={router}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}/>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -415,10 +415,10 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          form={form}
-          route={{ formConfig, pageList }}
-          setEditMode={setEditMode}
-          setPrivacyAgreement={f => f}/>
+        form={form}
+        route={{ formConfig, pageList }}
+        setEditMode={setEditMode}
+        setPrivacyAgreement={f => f}/>
     );
 
     expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.false;

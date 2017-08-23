@@ -18,14 +18,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     expect(tree.everySubTree('ErrorableFileInput')).not.to.be.empty;
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.undefined;
@@ -44,15 +44,15 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          uploading
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        uploading
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.true;
   });
@@ -69,15 +69,15 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          showMailOrFax
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        showMailOrFax
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     expect(tree.everySubTree('Modal')[1].props.visible).to.be.true;
   });
@@ -94,14 +94,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     tree.getMountedInstance().submit();
     expect(onSubmit.called).to.be.false;
@@ -126,14 +126,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     tree.getMountedInstance().submit();
     expect(onSubmit.called).to.be.true;
@@ -152,14 +152,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     tree.getMountedInstance().add([{
       name: 'something.exe',
@@ -181,14 +181,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     tree.getMountedInstance().add([{
       name: 'something.exe',
@@ -210,14 +210,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     tree.getMountedInstance().add([{
       name: 'something.jpg',
@@ -239,14 +239,14 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-          files={files}
-          field={field}
-          onSubmit={onSubmit}
-          onAddFile={onAddFile}
-          onRemoveFile={onRemoveFile}
-          onFieldChange={onFieldChange}
-          onCancel={onCancel}
-          onDirtyFields={onDirtyFields}/>
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}/>
     );
     let message = tree.getMountedInstance().getErrorMessage();
     expect(message).to.equal('Please select a file first');

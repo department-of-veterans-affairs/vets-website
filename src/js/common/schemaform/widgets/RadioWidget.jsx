@@ -25,13 +25,13 @@ export default function RadioWidget({
         const radioButton = (
           <div className="form-radio-buttons" key={option.value}>
             <input type="radio"
-                autoComplete="false"
-                checked={checked}
-                id={`${id}_${i}`}
-                name={`${id}_${i}`}
-                value={option.value}
-                disabled={disabled}
-                onChange={_ => onChange(option.value)}/>
+              autoComplete="false"
+              checked={checked}
+              id={`${id}_${i}`}
+              name={`${id}_${i}`}
+              value={option.value}
+              disabled={disabled}
+              onChange={_ => onChange(option.value)}/>
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}
             </label>

@@ -116,8 +116,8 @@ const getDerivedValues = createSelector(
       case 30: {
         monthlyRate =
           (enlistmentService === '3' ?
-           constant.MGIB3YRRATE :
-           constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
+            constant.MGIB3YRRATE :
+            constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
@@ -179,8 +179,8 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.CORRESPONDTFCAP;
     } else if (isPublic && institutionCountry === 'usa') {
       tuitionFeesCap = inputs.inState === 'yes'
-                     ? +inputs.tuitionFees
-                     : +inputs.inStateTuitionFees;
+        ? +inputs.tuitionFees
+        : +inputs.inStateTuitionFees;
     } else {
       // Default cap for private, foreign, and for-profit institutions.
       tuitionFeesCap = constant.TFCAP;
@@ -509,9 +509,9 @@ const getDerivedValues = createSelector(
       ));
     } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
       housingAllowTerm2 = Math.max(0, Math.min(
-          totalHousingAllowance,
-          tuitionFeesPerTerm * (consecutiveService * 0.6)
-        ));
+        totalHousingAllowance,
+        tuitionFeesPerTerm * (consecutiveService * 0.6)
+      ));
     } else if (onlyTuitionFees) {
       housingAllowTerm2 = Math.max(0, Math.min(
         totalHousingAllowance,

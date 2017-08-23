@@ -71,7 +71,7 @@ export default function messages(state = initialState, action) {
     }
 
     case FETCH_THREAD_SUCCESS: {
-      // Consolidate message attributes and attachments
+    // Consolidate message attributes and attachments
       const currentMessage = {
         ...action.message.data.attributes,
         attachments: action.message.included
@@ -102,8 +102,8 @@ export default function messages(state = initialState, action) {
         draft.messageId = currentMessage.messageId;
         draft.recipient = makeField(currentMessage.recipientId.toString());
         draft.replyMessageId = thread.length === 0
-                             ? undefined
-                             : thread[thread.length - 1].messageId;
+          ? undefined
+          : thread[thread.length - 1].messageId;
       } else {
         draft.recipient = makeField(currentMessage.senderId.toString());
         draft.replyMessageId = currentMessage.messageId;
@@ -143,9 +143,9 @@ export default function messages(state = initialState, action) {
       return set('ui.formVisible', !state.ui.formVisible, state);
 
     case TOGGLE_MESSAGES_COLLAPSED: {
-      // If any messages are collapsed at all, toggling
-      // this option should expand all messages.
-      // Only collapse all if everything has been expanded.
+    // If any messages are collapsed at all, toggling
+    // this option should expand all messages.
+    // Only collapse all if everything has been expanded.
       const currentCollapsed = state.ui.messagesCollapsed;
       let newMessagesCollapsed = new Set();
 

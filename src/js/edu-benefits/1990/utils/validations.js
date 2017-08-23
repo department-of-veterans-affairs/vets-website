@@ -77,8 +77,8 @@ function isValidPersonalInfoPage(data) {
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
       isValidDateField(data.veteranDateOfBirth) &&
       isValidDateOver17(data.veteranDateOfBirth.day.value,
-                        data.veteranDateOfBirth.month.value,
-                        data.veteranDateOfBirth.year.value);
+        data.veteranDateOfBirth.month.value,
+        data.veteranDateOfBirth.year.value);
 }
 
 function isValidBenefitsInformationPage(data) {

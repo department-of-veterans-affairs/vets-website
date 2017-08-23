@@ -11,14 +11,14 @@ class ToggleThread extends React.Component {
     });
 
     const buttonText = this.props.messagesCollapsed
-                     ? 'Expand all'
-                     : 'Collapse all';
+      ? 'Expand all'
+      : 'Collapse all';
 
     return (
       <button
-          className="messaging-toggle-thread"
-          type="button"
-          onClick={this.props.onClick}>
+        className="messaging-toggle-thread"
+        type="button"
+        onClick={this.props.onClick}>
         <i className={iconClass}></i>
         <span>{buttonText}</span>
       </button>

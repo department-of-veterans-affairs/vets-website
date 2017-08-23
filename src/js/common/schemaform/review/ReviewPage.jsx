@@ -137,30 +137,30 @@ class ReviewPage extends React.Component {
           <div>
             {chapters.map(chapter => (
               <ReviewCollapsibleChapter
-                  key={chapter}
-                  onEdit={this.handleEdit}
-                  pages={this.pagesByChapter[chapter]}
-                  chapterKey={chapter}
-                  setData={this.props.setData}
-                  setValid={this.props.setValid}
-                  uploadFile={this.props.uploadFile}
-                  chapter={formConfig.chapters[chapter]}
-                  viewedPages={this.state.viewedPages}
-                  setPagesViewed={this.setPagesViewed}
-                  form={form}/>
+                key={chapter}
+                onEdit={this.handleEdit}
+                pages={this.pagesByChapter[chapter]}
+                chapterKey={chapter}
+                setData={this.props.setData}
+                setValid={this.props.setValid}
+                uploadFile={this.props.uploadFile}
+                chapter={formConfig.chapters[chapter]}
+                viewedPages={this.state.viewedPages}
+                setPagesViewed={this.setPagesViewed}
+                form={form}/>
             ))}
           </div>
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
-            onChange={this.props.setPrivacyAgreement}
-            checked={form.data.privacyAgreementAccepted}
-            showError={form.submission.hasAttemptedSubmit}/>
+          onChange={this.props.setPrivacyAgreement}
+          checked={form.data.privacyAgreementAccepted}
+          showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
-            errorMessage={formConfig.errorMessage}
-            onBack={this.goBack}
-            onSubmit={this.handleSubmit}
-            submission={form.submission}/>
+          errorMessage={formConfig.errorMessage}
+          onBack={this.goBack}
+          onSubmit={this.handleSubmit}
+          submission={form.submission}/>
       </div>
     );
   }

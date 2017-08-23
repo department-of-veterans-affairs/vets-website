@@ -14,11 +14,11 @@ describe('Schemaform <SchemaForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchemaForm
-          name={name}
-          title={name}
-          schema={schema}
-          uiSchema={uiSchema}
-          pageData={data}/>
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}/>
     );
 
     expect(tree.everySubTree('Form')).not.to.be.empty;
@@ -31,11 +31,11 @@ describe('Schemaform <SchemaForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchemaForm
-          name={name}
-          title={name}
-          schema={schema}
-          uiSchema={uiSchema}
-          pageData={data}/>
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}/>
     );
 
     const errors = tree.getMountedInstance().transformErrors([
@@ -60,11 +60,11 @@ describe('Schemaform <SchemaForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchemaForm
-          name={name}
-          title={name}
-          schema={schema}
-          uiSchema={uiSchema}
-          pageData={data}/>
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}/>
     );
 
     const errors = tree.getMountedInstance().validate(data, {
@@ -92,13 +92,13 @@ describe('Schemaform <SchemaForm>', () => {
 
       tree = SkinDeep.shallowRender(
         <SchemaForm
-            name={name}
-            title={name}
-            schema={schema}
-            uiSchema={uiSchema}
-            onChange={onChange}
-            onSubmit={onSubmit}
-            pageData={data}/>
+          name={name}
+          title={name}
+          schema={schema}
+          uiSchema={uiSchema}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          pageData={data}/>
       );
     });
     it('change', () => {
@@ -126,11 +126,11 @@ describe('Schemaform <SchemaForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchemaForm
-          name={name}
-          title={name}
-          schema={schema}
-          uiSchema={uiSchema}
-          pageData={data}/>
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}/>
     );
 
     const instance = tree.getMountedInstance();

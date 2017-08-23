@@ -120,10 +120,10 @@ export class Main extends React.Component {
             return (
               <div key={c.value}>
                 <ErrorableCheckbox
-                    name={c.value}
-                    label={this.renderReportCheckBoxLabel(c)}
-                    checked={this.props.form.reportTypes[c.value]}
-                    onValueChange={reportTypeOnChange}/>
+                  name={c.value}
+                  label={this.renderReportCheckBoxLabel(c)}
+                  checked={this.props.form.reportTypes[c.value]}
+                  onValueChange={reportTypeOnChange}/>
               </div>
             );
           })}
@@ -159,8 +159,8 @@ export class Main extends React.Component {
 
         if (momentDate.isValid()) {
           const isValidRange = start
-                             ? isValidDateRange(momentDate, endDate)
-                             : isValidDateRange(startDate, momentDate);
+            ? isValidDateRange(momentDate, endDate)
+            : isValidDateRange(startDate, momentDate);
           if (isValidRange) {
             handleDateChange(momentDate);
           } else {
@@ -208,44 +208,44 @@ export class Main extends React.Component {
             <div aria-live="assertive" className={customDateOptionClass}>
               {
                 invalidFormatError && <p className="date-range-error">
-                {validationErrorMessages.invalidFormatError}</p>
+                  {validationErrorMessages.invalidFormatError}</p>
               }
               {
                 startDateError && <p className="date-range-error">
-                {validationErrorMessages.startDateError}</p>
+                  {validationErrorMessages.startDateError}</p>
               }
               {
                 !datePickerDisabled && !invalidFormatError && missingDateError && <p className="date-range-error">
-                {validationErrorMessages.missingDateError}</p>
+                  {validationErrorMessages.missingDateError}</p>
               }
               <span>Custom date range</span>
               <div className="date-range-fields">
                 <DatePicker
-                    aria-label="Custom date range: start date"
-                    id="custom-date-start"
-                    onBlur={handleFormattedDate()}
-                    onChange={this.handleStartDateChange}
-                    onFocus={() => this.setState({ startDateError: null })}
-                    placeholderText="MM/DD/YYYY"
-                    selected={startDate}
-                    disabled={datePickerDisabled}
-                    maxDate={endDate}
-                    tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                    className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
+                  aria-label="Custom date range: start date"
+                  id="custom-date-start"
+                  onBlur={handleFormattedDate()}
+                  onChange={this.handleStartDateChange}
+                  onFocus={() => this.setState({ startDateError: null })}
+                  placeholderText="MM/DD/YYYY"
+                  selected={startDate}
+                  disabled={datePickerDisabled}
+                  maxDate={endDate}
+                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                  className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
-                    aria-label="Custom date range: end date"
-                    id="custom-date-end"
-                    onBlur={handleFormattedDate(false)}
-                    onChange={this.handleEndDateChange}
-                    onFocus={() => this.setState({ endDateError: null })}
-                    placeholderText="MM/DD/YYYY"
-                    selected={endDate}
-                    disabled={datePickerDisabled}
-                    minDate={startDate}
-                    maxDate={moment()}
-                    tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                    className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
+                  aria-label="Custom date range: end date"
+                  id="custom-date-end"
+                  onBlur={handleFormattedDate(false)}
+                  onChange={this.handleEndDateChange}
+                  onFocus={() => this.setState({ endDateError: null })}
+                  placeholderText="MM/DD/YYYY"
+                  selected={endDate}
+                  disabled={datePickerDisabled}
+                  minDate={startDate}
+                  maxDate={moment()}
+                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                  className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
@@ -298,19 +298,19 @@ export class Main extends React.Component {
             <div>
               <h4 className="highlight">Select Types of Information</h4>
               <ErrorableCheckbox
-                  name="all"
-                  label="All available VA health records"
-                  checked={allValuesChecked}
-                  onValueChange={(checked) => {
-                    this.props.toggleAllReports(checked);
-                  }}/>
+                name="all"
+                label="All available VA health records"
+                checked={allValuesChecked}
+                onValueChange={(checked) => {
+                  this.props.toggleAllReports(checked);
+                }}/>
               {this.renderInformationTypes()}
             </div>
             <div className="form-actions">
               <button
-                  onClick={this.handleSubmit}
-                  type="submit"
-                  disabled={noValuesChecked || hasCustomDateErrors}>
+                onClick={this.handleSubmit}
+                type="submit"
+                disabled={noValuesChecked || hasCustomDateErrors}>
                 Submit
               </button>
               <a className="usa-button usa-button-outline" href="/health-care" role="button">Cancel</a>
