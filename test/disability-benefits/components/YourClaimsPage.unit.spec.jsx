@@ -77,14 +77,14 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          loading
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        loading
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
 
     expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
@@ -102,17 +102,17 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          canAccessAppeals
-          canAccessClaims
-          appealsAvailable={false}
-          claimsAvailable={false}
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        canAccessAppeals
+        canAccessClaims
+        appealsAvailable={false}
+        claimsAvailable={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
 
     expect(tree.everySubTree('ClaimsAppealsUnavailable')).not.to.be.empty;
@@ -130,15 +130,15 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          canAccessClaims
-          claimsAvailable={false}
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        canAccessClaims
+        claimsAvailable={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
 
     expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
@@ -156,16 +156,16 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          canAccessClaims
-          claimsAvailable
-          claimsAuthorized={false}
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        canAccessClaims
+        claimsAvailable
+        claimsAuthorized={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
 
     expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
