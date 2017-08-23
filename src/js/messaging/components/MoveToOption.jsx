@@ -3,7 +3,8 @@ import React from 'react';
 
 class MoveToOption extends React.Component {
   render() {
-    const folderHtmlId = `msg-move-${this.props.messageId}-${this.props.folderId}`;
+    const { folderName, folderId, messageId } = this.props;
+    const folderHtmlId = `msg-move-${messageId}-${folderId}`;
 
     return (
       <div>
@@ -12,10 +13,10 @@ class MoveToOption extends React.Component {
           name="messagingMoveToFolder"
           type="radio"
           id={folderHtmlId}
-          value={this.props.folderId}/>
+          value={folderId}/>
         <label
           className="msg-move-to-label"
-          htmlFor={folderHtmlId}>{this.props.folderName}</label>
+          htmlFor={folderHtmlId}>{folderName}</label>
       </div>
     );
   }
