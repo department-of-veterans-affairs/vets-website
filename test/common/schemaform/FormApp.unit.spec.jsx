@@ -113,7 +113,7 @@ describe('Schemaform <FormApp>', () => {
       search: ''
     };
     const routes = [{
-      pageList: [{}, {
+      pageList: [{
         path: 'test-path'
       }]
     }];

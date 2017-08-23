@@ -42,7 +42,8 @@ export function groupPagesIntoChapters(routes, prefix = '') {
   });
 }
 
-export function isInProgress(trimmedPathname) {
+export function isInProgress(pathName) {
+  const trimmedPathname = pathName.replace(/\/$/, '');
   return !(
     trimmedPathname.endsWith('introduction')
     || trimmedPathname.endsWith('confirmation')
