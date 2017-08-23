@@ -17,10 +17,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={1}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={1}
+        activity={activity}/>
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(1);
   });
@@ -36,10 +36,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={3}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={3}
+        activity={activity}/>
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(0);
   });
@@ -55,10 +55,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={1}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={1}
+        activity={activity}/>
     );
     expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('Thank you. VA received your claim');
   });
@@ -75,10 +75,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={1}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={1}
+        activity={activity}/>
     );
     expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('We added a notice for: <Link />');
   });
@@ -120,10 +120,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={1}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={1}
+        activity={activity}/>
     );
     expect(tree.everySubTree('button').length).to.equal(1);
   });
@@ -140,10 +140,10 @@ describe('<ClaimPhase>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimPhase
-          id="2"
-          current={1}
-          phase={1}
-          activity={activity}/>
+        id="2"
+        current={1}
+        phase={1}
+        activity={activity}/>
     );
     const instance = tree.getMountedInstance();
 

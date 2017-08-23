@@ -44,7 +44,7 @@ export function transform(formConfig, form) {
   }
 
   const formData = JSON.stringify(withoutViewFields, (key, value) => {
-    // Don't let children be removed in the normal empty object clean up
+    // Don’t let children be removed in the normal empty object clean up
     if (key === 'children') {
       return value;
     }
@@ -105,11 +105,11 @@ export const lastServiceBranchLabels = {
 
 export const financialDisclosureText = (
   <div>
-    <p>Next, we'll ask you to provide your financial information from the most recent
-    tax year, which we will verify with the IRS. We use this information to figure out if you:</p>
+    <p>Next, we’ll ask you to provide your financial information from the most recent
+    tax year, which we’ll verify with the IRS. We use this information to figure out if you:</p>
 
     <ol>
-      <li>Are eligible for health care even if you don't have one of the qualifying factors</li>
+      <li>Are eligible for health care even if you don’t have one of the qualifying factors</li>
       <li>Are eligible for added benefits, like reimbusement for travel costs or cost-free medications</li>
       <li>Should be charged for copays or medication</li>
     </ol>
@@ -117,9 +117,9 @@ export const financialDisclosureText = (
     <div className="usa-alert usa-alert-info">
       <div className="usa-alert-body">
         <span>
-          <strong>Note:</strong> You don't have to provide your financial information. But if you don't have a qualifying
+          <strong>Note:</strong> You don’t have to provide your financial information. But if you don’t have a qualifying
           eligibility factor, this information is the only other way for us to see if you can get VA
-          health care benefits-- including added benefits like waived copays.
+          health care benefits--including added benefits like waived copays.
         </span>
       </div>
     </div>
@@ -146,7 +146,7 @@ export const financialDisclosureText = (
 export const incomeDescription = (
   <div>
     <p>Please fill this out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependent children.</p>
-    <p><strong>Gross annual income:</strong> This is from employment only, and does not include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your child's income information if it could have been used to pay your household expenses.</p>
+    <p><strong>Gross annual income:</strong> This is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your child’s income information if it could have been used to pay your household expenses.</p>
     <p><strong>Net income:</strong> This is the income from your farm, ranch, property, or business.</p>
     <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
   </div>
@@ -155,7 +155,7 @@ export const incomeDescription = (
 export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
-      <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
+      <span>If you don’t provide your financial information and you don’t have another qualifying eligibility factor, VA can’t enroll you.</span>
     </div>
   </div>
 );

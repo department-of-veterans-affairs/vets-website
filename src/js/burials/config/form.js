@@ -192,7 +192,7 @@ const formConfig = {
               'ui:description': burialDateWarning,
               'ui:options': {
                 hideIf: formData => {
-                  // If they haven't entered a complete year, don't jump the gun and show the warning
+                  // If they haven’t entered a complete year, don’t jump the gun and show the warning
                   if (formData.burialDate && !isFullDate(formData.burialDate)) {
                     return true;
                   }

@@ -26,8 +26,8 @@ export class ManageFolders extends React.Component {
           </td>
           <td>
             <ButtonDelete
-                className="va-icon-link"
-                onClick={() => this.props.deleteFolder(folder)}/>
+              className="va-icon-link"
+              onClick={() => this.props.deleteFolder(folder)}/>
           </td>
         </tr>
       );

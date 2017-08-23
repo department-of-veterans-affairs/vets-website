@@ -29,8 +29,8 @@ describe('<ModalConfirmSave>', () => {
     const onSave = sinon.spy();
     const modalConfirmDelete = ReactTestUtils.renderIntoDocument(
       <ModalConfirmSave
-          {...props }
-          onSave={onSave}/>
+        {...props }
+        onSave={onSave}/>
     );
 
     modalConfirmDelete.saveDraft({ preventDefault: () => {} });

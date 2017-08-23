@@ -18,12 +18,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved={false}
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved={false}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -35,12 +35,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved={false}
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved={false}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
@@ -52,12 +52,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(4);
@@ -70,12 +70,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -90,12 +90,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-outline').click();
@@ -110,12 +110,12 @@ describe('Schemaform <FormStartControls>', () => {
     fetchSpy.returns(Promise.resolve('return/url'));
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          formSaved
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}/>
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -130,12 +130,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          startPage={startPage}
-          router={routerSpy}
-          fetchInProgressForm={fetchSpy}
-          prefillAvailable/>
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        prefillAvailable/>
     );
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
@@ -150,12 +150,12 @@ describe('Schemaform <FormStartControls>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
-          formId="1010ez"
-          migrations={[]}
-          router={routerSpy}
-          formSaved
-          removeInProgressForm={fetchSpy}
-          prefillAvailable/>
+        formId="1010ez"
+        migrations={[]}
+        router={routerSpy}
+        formSaved
+        removeInProgressForm={fetchSpy}
+        prefillAvailable/>
     );
     const formDOM = getFormDOM(tree);
     document.body.appendChild(formDOM);

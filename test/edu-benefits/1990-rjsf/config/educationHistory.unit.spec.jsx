@@ -12,10 +12,10 @@ describe('Edu 1990 educationHistory', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -26,11 +26,11 @@ describe('Edu 1990 educationHistory', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
     const formDOM = getFormDOM(form);
 

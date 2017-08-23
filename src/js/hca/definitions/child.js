@@ -52,7 +52,7 @@ export const uiSchema = {
     'childFullName',
     'childRelation',
     'childSocialSecurityNumber',
-    // Put the birth date before dependent date; it's opposite in the schema
+    // Put the birth date before dependent date; it’s opposite in the schema
     'childDateOfBirth',
     'childBecameDependent',
     'childDisabledBefore18',
@@ -100,7 +100,7 @@ export const uiSchema = {
     'ui:options': {
       // Not being invoked until the data is changed...which means this is open
       //  by default
-      hideIf: (formData, index) => formData.children[index].childCohabitedLastYear !== false
+      hideIf: (formData, index) => _.get(`children[${index}].childCohabitedLastYear`, formData) !== false
     }
   },
 };

@@ -6,9 +6,9 @@ class ButtonManageFolders extends React.Component {
   render() {
     return (
       <Link
-          className="va-icon-link msg-btn-managefolders"
-          to="/settings"
-          onClick={this.props.onClick}>
+        className="va-icon-link msg-btn-managefolders"
+        to="/settings"
+        onClick={this.props.onClick}>
         <i className="fa fa-folder"></i>
         <span>Manage folders</span>
       </Link>

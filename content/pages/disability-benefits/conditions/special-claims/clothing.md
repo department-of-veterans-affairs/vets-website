@@ -24,7 +24,7 @@ You may be able to get disability benefits if:
 
 
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>
@@ -36,9 +36,9 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits.
+You’ll need to apply for benefits.
 
-To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than one payment if: 
+To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if: 
 - You have more than one prosthetic or orthopedic device, **or**
 - You have more than one skin medicine, **and/or** 
 - Your device or skin medicine affects more than one type of clothing.

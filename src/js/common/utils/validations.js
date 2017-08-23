@@ -214,7 +214,7 @@ function isValidDateOver17(day, month, year) {
  * Field Validations *
 */
 function isValidName(value) {
-  return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
+  return /^[a-zA-Z][a-zA-Z '-]*$/.test(value);
 }
 
 function isValidFullNameField(field) {
@@ -279,6 +279,7 @@ function isValidPhone(value) {
 
 function isValidEmail(value) {
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+  // eslint-disable-next-line no-useless-escape
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
 }
 

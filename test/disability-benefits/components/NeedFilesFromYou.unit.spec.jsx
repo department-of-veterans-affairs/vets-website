@@ -8,8 +8,8 @@ describe('<NeedFilesFromYou>', () => {
   it('should render single file needed', () => {
     const tree = SkinDeep.shallowRender(
       <NeedFilesFromYou
-          files={1}
-          claimId={2}/>
+        files={1}
+        claimId={2}/>
     );
 
     expect(tree.text()).to.contain('item needs');
@@ -18,8 +18,8 @@ describe('<NeedFilesFromYou>', () => {
   it('should render multiple files needed', () => {
     const tree = SkinDeep.shallowRender(
       <NeedFilesFromYou
-          files={2}
-          claimId={2}/>
+        files={2}
+        claimId={2}/>
     );
 
     expect(tree.text()).to.contain('items need');

@@ -48,8 +48,8 @@ class Checkbox extends React.Component {
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -67,19 +67,19 @@ class Checkbox extends React.Component {
     return (
       <div className={className}>
         <input
-            autoComplete="false"
-            aria-describedby={errorSpanId}
-            checked={this.props.checked}
-            id={this.inputId}
-            name={this.props.name}
-            type="checkbox"
-            onChange={this.handleChange}/>
+          autoComplete="false"
+          aria-describedby={errorSpanId}
+          checked={this.props.checked}
+          id={this.inputId}
+          name={this.props.name}
+          type="checkbox"
+          onChange={this.handleChange}/>
         <label
-            className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
-            name={`${this.props.name}-label`}
-            htmlFor={this.inputId}>
-              {this.props.label}
-              {requiredSpan}
+          className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+          name={`${this.props.name}-label`}
+          htmlFor={this.inputId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         {toolTip}

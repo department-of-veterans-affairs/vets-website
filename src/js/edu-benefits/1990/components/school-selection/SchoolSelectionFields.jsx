@@ -21,51 +21,51 @@ export default class SchoolSelectionFields extends React.Component {
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <p>In what type of education or training do you plan to enroll?</p>
       <ExpandingGroup
-          additionalClass="edu-benefits-active-group"
-          open={showSchoolAddress(this.props.data.educationType.value)}>
+        additionalClass="edu-benefits-active-group"
+        open={showSchoolAddress(this.props.data.educationType.value)}>
         <div className="input-section">
           <ErrorableSelect
-              label="Type of education or training:"
-              name="educationType"
-              options={schoolTypesList}
-              value={this.props.data.educationType}
-              onValueChange={(update) => {this.props.onStateChange('educationType', update);}}/>
+            label="Type of education or training:"
+            name="educationType"
+            options={schoolTypesList}
+            value={this.props.data.educationType}
+            onValueChange={(update) => {this.props.onStateChange('educationType', update);}}/>
         </div>
         <div className="input-section">
           <div className="input-section">
             <p>Enter the name of the school you plan to attend. It’s okay if you don’t have a school picked out yet.</p>
             <ErrorableTextInput
-                label="Name of school, university, or training facility:"
-                name="schoolName"
-                field={this.props.data.school.name}
-                onValueChange={(update) => {this.props.onStateChange('school.name', update);}}/>
+              label="Name of school, university, or training facility:"
+              name="schoolName"
+              field={this.props.data.school.name}
+              onValueChange={(update) => {this.props.onStateChange('school.name', update);}}/>
           </div>
           <div className="input-section">
             <h4>Address</h4>
             <Address
-                value={this.props.data.school.address}
-                onUserInput={(update) => {this.props.onStateChange('school.address', update);}}/>
+              value={this.props.data.school.address}
+              onUserInput={(update) => {this.props.onStateChange('school.address', update);}}/>
           </div>
         </div>
       </ExpandingGroup>
       <div className="input-section">
         <ErrorableTextInput
-            label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
-            name="educationObjective"
-            field={this.props.data.educationObjective}
-            onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
+          label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
+          name="educationObjective"
+          field={this.props.data.educationObjective}
+          onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
         <ErrorableDate
-            label="The date your training began or will begin:"
-            name="educationStartDate"
-            date={this.props.data.educationStartDate}
-            onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
+          label="The date your training began or will begin:"
+          name="educationStartDate"
+          date={this.props.data.educationStartDate}
+          onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
         {this.props.data.currentlyActiveDuty.yes.value === 'Y'
           ? <ErrorableRadioButtons
-              label="Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?"
-              name="nonVaAssistance"
-              options={yesNo}
-              value={this.props.data.currentlyActiveDuty.nonVaAssistance}
-              onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.nonVaAssistance', update);}}/>
+            label="Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?"
+            name="nonVaAssistance"
+            options={yesNo}
+            value={this.props.data.currentlyActiveDuty.nonVaAssistance}
+            onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.nonVaAssistance', update);}}/>
           : null}
       </div>
     </fieldset>

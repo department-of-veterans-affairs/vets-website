@@ -17,8 +17,8 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### Prepare
 
 - [Check your eligibility](/education/eligibility/).
-- Gather the documents and information listed below that you'll need to apply for education benefits.
-- See what benefits you'll get at the school you want to attend. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+- Gather the documents and information listed below that you’ll need to apply for education benefits.
+- See what benefits you’ll get at the school you want to attend. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 - Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 <div markdown="0"><br></div>
@@ -135,8 +135,8 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### What happens after I apply?
 
 - [Find out what happens after you apply](/education/after-you-apply).
-- You can't make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
-- If we've asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
+- You can’t make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
+- If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
 
 #### How long does it take us to make a decision?
 

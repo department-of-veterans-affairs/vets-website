@@ -8,8 +8,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
   it('should render review row', () => {
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate
-          schema={{ type: 'string' }}
-          uiSchema={{ 'ui:title': 'Label' }}/>
+        schema={{ type: 'string' }}
+        uiSchema={{ 'ui:title': 'Label' }}/>
     );
 
     expect(tree.everySubTree('.review-row')).to.not.be.empty;
@@ -23,8 +23,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate
-          schema={{ type: 'string' }}
-          uiSchema={uiSchema}/>
+        schema={{ type: 'string' }}
+        uiSchema={uiSchema}/>
     );
 
     expect(tree.subTree('dt').text()).to.contain('Label');
@@ -37,8 +37,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate
-          schema={{ type: 'string' }}
-          uiSchema={uiSchema}/>
+        schema={{ type: 'string' }}
+        uiSchema={uiSchema}/>
     );
 
     expect(tree.subTree('dt').text()).to.contain('Label');
@@ -51,8 +51,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate
-          schema={{ type: 'string' }}
-          uiSchema={uiSchema}/>
+        schema={{ type: 'string' }}
+        uiSchema={uiSchema}/>
     );
 
     expect(tree.subTree('dt').text()).to.contain('Label');
@@ -61,8 +61,8 @@ describe('Schemaform ReviewFieldTemplate', () => {
   it('should render just children for object type', () => {
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate
-          schema={{ type: 'object' }}
-          uiSchema={{ 'ui:title': 'Label' }}>
+        schema={{ type: 'object' }}
+        uiSchema={{ 'ui:title': 'Label' }}>
         <div className="test-child"/>
       </ReviewFieldTemplate>
     );

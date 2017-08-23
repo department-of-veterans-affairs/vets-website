@@ -21,7 +21,7 @@ function init() {
     <Provider store={commonStore}>
       <Router history={browserHistory} routes={routes}/>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 initReact(init);
