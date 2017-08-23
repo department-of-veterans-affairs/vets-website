@@ -16,7 +16,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div class="va-introtext">
+<div itemprop="description" class="va-introtext">
 
 If you qualify for VA health care, you’ll receive coverage for the services you need to help you get—and stay—healthy. Learn more about your health care benefits.
 
