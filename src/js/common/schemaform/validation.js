@@ -6,11 +6,13 @@ import {
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
-  isValidFutureDate,
+  isValidCurrentOrFutureMonthYear,
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
-  isValidCanPostalCode
+  isValidCanPostalCode,
+  isValidPartialMonthYear,
+  isValidPartialMonthYearInPast
 } from '../utils/validations';
 
 import { parseISODate } from './helpers';
@@ -231,6 +233,13 @@ export function validateDate(errors, dateString) {
   }
 }
 
+export function validateMonthYear(errors, dateString) {
+  const { month, year } = parseISODate(dateString);
+  if (!isValidPartialMonthYear(month, year)) {
+    errors.addError('Please provide a valid date');
+  }
+}
+
 /**
  * Adds an error message to errors if a date is an invalid date or in the future.
  *
@@ -245,13 +254,22 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
   }
 }
 
+export function validateCurrentOrPastMonthYear(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
+  validateMonthYear(errors, dateString);
+  const { month, year } = parseISODate(dateString);
+  if (!isValidPartialMonthYearInPast(month, year)) {
+    errors.addError(futureDate);
+  }
+}
+
 /**
  * Adds an error message to errors if a date is an invalid date or in the past.
  */
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);
-  const { day, month, year } = parseISODate(dateString);
-  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
+  const { month, year } = parseISODate(dateString);
+  if (formData.highSchool.status === 'graduationExpected' && !isValidCurrentOrFutureMonthYear(month, year)) {
     errors.addError('Please provide a valid future date');
   }
 }

@@ -19,13 +19,14 @@ import {
 } from '../../utils/labels';
 
 import {
-  validateDate,
+  validateMonthYear,
   validateFutureDateIfExpectedGrad
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -474,8 +475,9 @@ const formConfig = {
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                dateUI(null), {
+                monthYearUI(null), {
                   'ui:options': {
+                    monthYear: true,
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
@@ -489,7 +491,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [
-                    validateDate,
+                    validateMonthYear,
                     validateFutureDateIfExpectedGrad
                   ]
                 },
