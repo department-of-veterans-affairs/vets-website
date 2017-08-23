@@ -46,8 +46,7 @@ class LoginModal extends React.Component {
   }
 
   getModalContents = (user) => {
-    let contents = (<div>
-      <div className="usa-grid">
+    let contents = (<div className="usa-grid">
         <h3>{this.props.title || 'Sign in'}</h3>
         <div className="usa-width-one-fourth">
           <button className="usa-button-primary full-width" onClick={this.handleLogin}>Sign in</button>
@@ -55,7 +54,6 @@ class LoginModal extends React.Component {
         <div className="usa-width-one-fourth">
           <button className="usa-button-outline full-width" onClick={this.props.onClose}>Cancel</button>
         </div>
-      </div>
     </div>);
 
     // Shouldn’t in get here, but just in case
