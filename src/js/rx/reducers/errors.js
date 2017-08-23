@@ -4,18 +4,18 @@ const initialState = {
 
 export default function errors(state, action) {
   switch (action.type) {
-  case 'REFILL_FAILURE': {
-    return {
-      errors: action.errors,
-    };
-  }
-  case 'LOAD_PRESCRIPTIONS_FAILURE': {
-    return {
-      errors: action.errors,
-    };
-  }
+    case 'REFILL_FAILURE': {
+      return {
+        errors: action.errors,
+      };
+    }
+    case 'LOAD_PRESCRIPTIONS_FAILURE': {
+      return {
+        errors: action.errors,
+      };
+    }
 
-  default:
-    return initialState;
+    default:
+      return initialState;
   }
 }

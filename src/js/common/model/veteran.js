@@ -724,76 +724,76 @@ function veteranToApplication(veteran) {
   return JSON.stringify(veteran, (key, value) => {
     // Remove properties that are not interesting to the API.
     switch (key) {
-    case 'emailConfirmation':
-    case 'hasChildrenToReport':
-      return undefined;
+      case 'emailConfirmation':
+      case 'hasChildrenToReport':
+        return undefined;
 
-    default:
+      default:
         // fall through.
     }
 
     switch (key) {
     // Convert radio buttons into booleans.
-    case 'isVaServiceConnected':
-    case 'compensableVaServiceConnected':
-    case 'provideSupportLastYear':
-    case 'receivesVaPension':
-    case 'sameAddress':
-    case 'cohabitedLastYear':
-    case 'isCoveredByHealthInsurance':
-    case 'isMedicaidEligible':
-    case 'isEnrolledMedicarePartA':
-    case 'wantsInitialVaContact':
-    case 'childDisabledBefore18':
-    case 'childAttendedSchoolLastYear':
-    case 'childCohabitedLastYear':
-    case 'childReceivedSupportLastYear':
-    case 'discloseFinancialInformation':
-      return value.value === 'Y';
+      case 'isVaServiceConnected':
+      case 'compensableVaServiceConnected':
+      case 'provideSupportLastYear':
+      case 'receivesVaPension':
+      case 'sameAddress':
+      case 'cohabitedLastYear':
+      case 'isCoveredByHealthInsurance':
+      case 'isMedicaidEligible':
+      case 'isEnrolledMedicarePartA':
+      case 'wantsInitialVaContact':
+      case 'childDisabledBefore18':
+      case 'childAttendedSchoolLastYear':
+      case 'childCohabitedLastYear':
+      case 'childReceivedSupportLastYear':
+      case 'discloseFinancialInformation':
+        return value.value === 'Y';
 
-    case 'childEducationExpenses':
-    case 'deductibleEducationExpenses':
-    case 'deductibleFuneralExpenses':
-    case 'deductibleMedicalExpenses':
-    case 'grossIncome':
-    case 'netIncome':
-    case 'otherIncome':
-    case 'spouseGrossIncome':
-    case 'spouseNetIncome':
-    case 'spouseOtherIncome':
-    case 'veteranGrossIncome':
-    case 'veteranNetIncome':
-    case 'veteranOtherIncome':
-      return Number(value.value);
+      case 'childEducationExpenses':
+      case 'deductibleEducationExpenses':
+      case 'deductibleFuneralExpenses':
+      case 'deductibleMedicalExpenses':
+      case 'grossIncome':
+      case 'netIncome':
+      case 'otherIncome':
+      case 'spouseGrossIncome':
+      case 'spouseNetIncome':
+      case 'spouseOtherIncome':
+      case 'veteranGrossIncome':
+      case 'veteranNetIncome':
+      case 'veteranOtherIncome':
+        return Number(value.value);
 
       // Optional Date fields
-    case 'spouseDateOfBirth':
-    case 'dateOfMarriage':
-    case 'medicarePartAEffectiveDate':
-      if (value.day.value === '' && value.month.value === '' && value.year.value === '') {
-        return undefined;
-      }
-      break;
+      case 'spouseDateOfBirth':
+      case 'dateOfMarriage':
+      case 'medicarePartAEffectiveDate':
+        if (value.day.value === '' && value.month.value === '' && value.year.value === '') {
+          return undefined;
+        }
+        break;
 
       // Optional String fields
-    case 'spouseSocialSecurityNumber':
-    case 'cityOfBirth':
-    case 'stateOfBirth':
-    case 'email':
-      if (value.value === '') {
-        return undefined;
-      }
-      break;
+      case 'spouseSocialSecurityNumber':
+      case 'cityOfBirth':
+      case 'stateOfBirth':
+      case 'email':
+        if (value.value === '') {
+          return undefined;
+        }
+        break;
 
-    case 'homePhone':
-    case 'mobilePhone':
-    case 'spousePhone':
-      if (value.value === '') {
-        return undefined;
-      }
-      return value.value.replace(/[^\d]/g, '');
+      case 'homePhone':
+      case 'mobilePhone':
+      case 'spousePhone':
+        if (value.value === '') {
+          return undefined;
+        }
+        return value.value.replace(/[^\d]/g, '');
 
-    default:
+      default:
         // fall through.
     }
 

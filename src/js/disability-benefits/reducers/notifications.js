@@ -8,11 +8,11 @@ const initialState = {
 
 export default function notificationsReducer(state = initialState, action) {
   switch (action.type) {
-  case SET_NOTIFICATION:
-    return _.set('message', action.message, state);
-  case CLEAR_NOTIFICATION:
-    return _.set('message', null, state);
-  default:
-    return state;
+    case SET_NOTIFICATION:
+      return _.set('message', action.message, state);
+    case CLEAR_NOTIFICATION:
+      return _.set('message', null, state);
+    default:
+      return state;
   }
 }

@@ -7,24 +7,24 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-  case ENTER_PREVIEW_MODE: {
-    const { version } = action;
-    const newState = { ...state, display: true };
+    case ENTER_PREVIEW_MODE: {
+      const { version } = action;
+      const newState = { ...state, display: true };
 
-    if (version) {
-      newState.version = version;
+      if (version) {
+        newState.version = version;
+      }
+
+      return newState;
     }
-
-    return newState;
-  }
-  case EXIT_PREVIEW_MODE:
-    return INITIAL_STATE;
-  case SET_VERSION:
-    return {
-      ...state,
-      version: action.version
-    };
-  default:
-    return state;
+    case EXIT_PREVIEW_MODE:
+      return INITIAL_STATE;
+    case SET_VERSION:
+      return {
+        ...state,
+        version: action.version
+      };
+    default:
+      return state;
   }
 }

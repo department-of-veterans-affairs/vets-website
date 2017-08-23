@@ -22,32 +22,32 @@ function normalizedAttributes(attributes) {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-  case FETCH_PROFILE_STARTED:
-    return {
-      ...state,
-      inProgress: true
-    };
-  case FETCH_PROFILE_FAILED:
-    return {
-      ...state,
-      ...action.err,
-      inProgress: false
-    };
-  case FETCH_PROFILE_SUCCEEDED:
-    const camelPayload = camelCaseKeysRecursive(action.payload);
-    const attributes = normalizedAttributes({
-      ...camelPayload.data.attributes,
-      ...camelPayload.data.links
-    });
+    case FETCH_PROFILE_STARTED:
+      return {
+        ...state,
+        inProgress: true
+      };
+    case FETCH_PROFILE_FAILED:
+      return {
+        ...state,
+        ...action.err,
+        inProgress: false
+      };
+    case FETCH_PROFILE_SUCCEEDED:
+      const camelPayload = camelCaseKeysRecursive(action.payload);
+      const attributes = normalizedAttributes({
+        ...camelPayload.data.attributes,
+        ...camelPayload.data.links
+      });
       // delete attributes.self;
-    const version = camelPayload.meta.version;
-    return {
-      ...state,
-      attributes,
-      version,
-      inProgress: false
-    };
-  default:
-    return state;
+      const version = camelPayload.meta.version;
+      return {
+        ...state,
+        attributes,
+        version,
+        inProgress: false
+      };
+    default:
+      return state;
   }
 }

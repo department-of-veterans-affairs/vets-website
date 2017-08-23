@@ -52,43 +52,43 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const n = Number(your.numberOfDependents);
   const OJT = isOJT ? 'OJT' : '';
   switch (Number(your.giBillChapter)) {
-  case 30:
-    if (your.enlistmentService === '3') {
-      monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
-    } else if (your.enlistmentService === '2') {
-      monthlyRate = isOJT ? constant.MGIB2YRRATE * 0.75 : constant.MGIB2YRRATE;
-    }
-    break;
-  case 1607:
-    monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
-    if (isOJT) {
-      monthlyRate *= 0.75;
-    }
-    break;
-  case 1606:
-    monthlyRate = constant.SRRATE;
-    if (isOJT) {
-      monthlyRate *= 0.75;
-    }
-    break;
-  case 35:
-    if (isOJT) {
-      monthlyRate = constant.DEARATEOJT;
-    } else if (isFlight) {
-      monthlyRate = 0;
-    } else {
-      monthlyRate = constant.DEARATE;
-    }
-    break;
-  case 31:
-    if (n <= 2) {
-      monthlyRate = constant[`VRE${n}DEPRATE${OJT}`];
-    } else {
-      monthlyRate = constant[`VRE2DEPRATE${OJT}`] + ((n - 2) * constant[`VREINCRATE${OJT}`]);
-    }
-    break;
-  default:
-    monthlyRate = null;
+    case 30:
+      if (your.enlistmentService === '3') {
+        monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
+      } else if (your.enlistmentService === '2') {
+        monthlyRate = isOJT ? constant.MGIB2YRRATE * 0.75 : constant.MGIB2YRRATE;
+      }
+      break;
+    case 1607:
+      monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
+      if (isOJT) {
+        monthlyRate *= 0.75;
+      }
+      break;
+    case 1606:
+      monthlyRate = constant.SRRATE;
+      if (isOJT) {
+        monthlyRate *= 0.75;
+      }
+      break;
+    case 35:
+      if (isOJT) {
+        monthlyRate = constant.DEARATEOJT;
+      } else if (isFlight) {
+        monthlyRate = 0;
+      } else {
+        monthlyRate = constant.DEARATE;
+      }
+      break;
+    case 31:
+      if (n <= 2) {
+        monthlyRate = constant[`VRE${n}DEPRATE${OJT}`];
+      } else {
+        monthlyRate = constant[`VRE2DEPRATE${OJT}`] + ((n - 2) * constant[`VREINCRATE${OJT}`]);
+      }
+      break;
+    default:
+      monthlyRate = null;
   }
 
   return {

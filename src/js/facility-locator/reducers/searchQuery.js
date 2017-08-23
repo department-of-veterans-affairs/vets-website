@@ -21,39 +21,39 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'SEARCH_STARTED':
-    return {
-      ...state,
-      ...action.payload,
-      error: false,
-      inProgress: true,
-    };
-  case 'FETCH_VA_FACILITIES':
-    return {
-      ...state,
-      error: false,
-      inProgress: false,
-      searchBoundsInProgress: false,
-    };
-  case 'FETCH_VA_FACILITY':
-    return {
-      ...state,
-      error: false,
-      inProgress: false,
-    };
-  case 'SEARCH_FAILED':
-    return {
-      ...state,
-      error: true,
-      inProgress: false,
-    };
-  case 'SEARCH_QUERY_UPDATED':
-    return {
-      ...state,
-      ...action.payload,
-      error: false,
-    };
-  default:
-    return state;
+    case 'SEARCH_STARTED':
+      return {
+        ...state,
+        ...action.payload,
+        error: false,
+        inProgress: true,
+      };
+    case 'FETCH_VA_FACILITIES':
+      return {
+        ...state,
+        error: false,
+        inProgress: false,
+        searchBoundsInProgress: false,
+      };
+    case 'FETCH_VA_FACILITY':
+      return {
+        ...state,
+        error: false,
+        inProgress: false,
+      };
+    case 'SEARCH_FAILED':
+      return {
+        ...state,
+        error: true,
+        inProgress: false,
+      };
+    case 'SEARCH_QUERY_UPDATED':
+      return {
+        ...state,
+        ...action.payload,
+        error: false,
+      };
+    default:
+      return state;
   }
 }

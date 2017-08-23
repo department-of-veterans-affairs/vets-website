@@ -283,31 +283,31 @@ class VAMap extends Component {
       );
 
       switch (f.attributes.facilityType) {
-      case 'va_health_facility':
-        return (
-          <HealthMarker {...iconProps}>
-            {popupContent}
-          </HealthMarker>
-        );
-      case 'va_cemetery':
-        return (
-          <CemeteryMarker {...iconProps}>
-            {popupContent}
-          </CemeteryMarker>
-        );
-      case 'va_benefits_facility':
-        return (
-          <BenefitsMarker {...iconProps}>
-            {popupContent}
-          </BenefitsMarker>
-        );
-      case 'vet_center':
-        return (
-          <VetCenterMarker {...iconProps}>
-            {popupContent}
-          </VetCenterMarker>
-        );
-      default: return null;
+        case 'va_health_facility':
+          return (
+            <HealthMarker {...iconProps}>
+              {popupContent}
+            </HealthMarker>
+          );
+        case 'va_cemetery':
+          return (
+            <CemeteryMarker {...iconProps}>
+              {popupContent}
+            </CemeteryMarker>
+          );
+        case 'va_benefits_facility':
+          return (
+            <BenefitsMarker {...iconProps}>
+              {popupContent}
+            </BenefitsMarker>
+          );
+        case 'vet_center':
+          return (
+            <VetCenterMarker {...iconProps}>
+              {popupContent}
+            </VetCenterMarker>
+          );
+        default: return null;
       }
     });
   }

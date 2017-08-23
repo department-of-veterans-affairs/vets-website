@@ -59,26 +59,26 @@ export const enrollmentHistoryExplanation = {
 
 export function benefitEndDateExplanation(condition, delimitingDate) {
   switch (condition) {
-  case 'activeDuty':
-    return (
-      <div className="section benefit-end-date">
-        <h4>Benefit End Date</h4>
-        <div>
+    case 'activeDuty':
+      return (
+        <div className="section benefit-end-date">
+          <h4>Benefit End Date</h4>
+          <div>
             Since you are currently on active duty, your benefits don’t yet have an expiration date.
+          </div>
         </div>
-      </div>
-    );
-  case 'remainingEntitlement':
-    return (
-      <div className="section benefit-end-date">
-        <h4>Benefit End Date</h4>
-        <div>
+      );
+    case 'remainingEntitlement':
+      return (
+        <div className="section benefit-end-date">
+          <h4>Benefit End Date</h4>
+          <div>
             You have until <strong>{formatDateParsedZoneLong(delimitingDate)}</strong> to use these benefits.
+          </div>
         </div>
-      </div>
-    );
-  default:
-    return undefined;
+      );
+    default:
+      return undefined;
   }
 }
 

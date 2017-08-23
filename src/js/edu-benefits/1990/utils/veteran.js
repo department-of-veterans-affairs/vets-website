@@ -195,88 +195,88 @@ export function veteranToApplication(veteran) {
 
   return JSON.stringify(data, (key, value) => {
     switch (key) {
-    case 'seniorRotcCommissioned':
-    case 'activeDutyRepaying':
-    case 'hasNonMilitaryJobs':
-    case 'emailConfirmation':
-    case 'checkedBenefit':
-      return undefined;
-
-    case 'serviceAcademyGraduationYear':
-    case 'commissionYear':
-    case 'year':
-    case 'months':
-    case 'hours': {
-      if (value.value === '') {
+      case 'seniorRotcCommissioned':
+      case 'activeDutyRepaying':
+      case 'hasNonMilitaryJobs':
+      case 'emailConfirmation':
+      case 'checkedBenefit':
         return undefined;
-      }
 
-      const val = Number(value.value);
-      if (isNaN(val)) {
+      case 'serviceAcademyGraduationYear':
+      case 'commissionYear':
+      case 'year':
+      case 'months':
+      case 'hours': {
+        if (value.value === '') {
+          return undefined;
+        }
+
+        const val = Number(value.value);
+        if (isNaN(val)) {
+          return undefined;
+        }
+
+        return val;
+      }
+      case 'yes':
+      case 'onTerminalLeave':
+      case 'nonVaAssistance':
+      case 'seniorRotcScholarshipProgram':
+      case 'married':
+      case 'haveDependents':
+      case 'parentDependent':
+      case 'previouslyAppliedWithSomeoneElsesService':
+        return value.value === 'Y';
+
+      case 'postMilitaryJob':
+        return value.value === 'after';
+
+      case 'veteranSocialSecurityNumber':
+        if (value.value) {
+          return value.value.replace(/\D/g, '');
+        }
         return undefined;
+
+      case 'applyingUsingOwnBenefits':
+        if (value.value === 'ownBenefits') {
+          return true;
+        } else if (value.value === '') {
+          return undefined;
+        }
+
+        return false;
+
+      case 'veteranAddress':
+      case 'address':
+        if (!isValidAddressField(value)) {
+          return undefined;
+        }
+
+        return value;
+
+      case 'amount':
+        if (value.value === '') {
+          return undefined;
+        }
+
+        return Number(value.value.replace('$', ''));
+
+      case 'activeDutyRepayingPeriod':
+      case 'dateRange': {
+        const from = formatPartialDate(value.from);
+        const to = formatPartialDate(value.to);
+
+        if (from === undefined && to === undefined) {
+          return undefined;
+        }
+
+        return {
+          from,
+          to
+        };
       }
 
-      return val;
-    }
-    case 'yes':
-    case 'onTerminalLeave':
-    case 'nonVaAssistance':
-    case 'seniorRotcScholarshipProgram':
-    case 'married':
-    case 'haveDependents':
-    case 'parentDependent':
-    case 'previouslyAppliedWithSomeoneElsesService':
-      return value.value === 'Y';
-
-    case 'postMilitaryJob':
-      return value.value === 'after';
-
-    case 'veteranSocialSecurityNumber':
-      if (value.value) {
-        return value.value.replace(/\D/g, '');
-      }
-      return undefined;
-
-    case 'applyingUsingOwnBenefits':
-      if (value.value === 'ownBenefits') {
-        return true;
-      } else if (value.value === '') {
-        return undefined;
-      }
-
-      return false;
-
-    case 'veteranAddress':
-    case 'address':
-      if (!isValidAddressField(value)) {
-        return undefined;
-      }
-
-      return value;
-
-    case 'amount':
-      if (value.value === '') {
-        return undefined;
-      }
-
-      return Number(value.value.replace('$', ''));
-
-    case 'activeDutyRepayingPeriod':
-    case 'dateRange': {
-      const from = formatPartialDate(value.from);
-      const to = formatPartialDate(value.to);
-
-      if (from === undefined && to === undefined) {
-        return undefined;
-      }
-
-      return {
-        from,
-        to
-      };
-    }
-
-    default:
+      default:
         // fall through.
     }
 

@@ -9,10 +9,10 @@ const initialState = {
 
 export default function loading(state = initialState, action) {
   switch (action.type) {
-  case FETCH_FOLDERS_FAILURE:
-  case FETCH_RECIPIENTS_FAILURE:
-    return { ...state, errors: action.errors };
-  default:
-    return state;
+    case FETCH_FOLDERS_FAILURE:
+    case FETCH_RECIPIENTS_FAILURE:
+      return { ...state, errors: action.errors };
+    default:
+      return state;
   }
 }

@@ -42,65 +42,65 @@ export default class ClaimPhase extends React.Component {
     const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
 
     switch (event.type) {
-    case 'phase_entered':
-      return (
-        <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+      case 'phase_entered':
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             Your claim moved to {getUserPhaseDescription(this.props.phase)}
-        </div>
-      );
-
-    case 'filed':
-      return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Thank you. VA received your claim</div>;
-
-    case 'completed':
-      return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Your claim is closed</div>;
-
-    case 'still_need_from_you_list':
-    case 'still_need_from_others_list':
-      if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
-        return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
-              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
           </div>
         );
-      }
-      return (
-        <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+
+      case 'filed':
+        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Thank you. VA received your claim</div>;
+
+      case 'completed':
+        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Your claim is closed</div>;
+
+      case 'still_need_from_you_list':
+      case 'still_need_from_others_list':
+        if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
+          return (
+            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
+            </div>
+          );
+        }
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
-        </div>
-      );
-
-    case 'received_from_you_list':
-    case 'received_from_others_list':
-      if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
-        return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
-              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
           </div>
         );
-      }
-      return (
-        <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+
+      case 'received_from_you_list':
+      case 'received_from_others_list':
+        if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
+          return (
+            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
+            </div>
+          );
+        }
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
-        </div>
-      );
-    case 'never_received_from_you_list':
-    case 'never_received_from_others_list':
-      return (
-        <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          </div>
+        );
+      case 'never_received_from_you_list':
+      case 'never_received_from_others_list':
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             We closed the notice for {event.displayName}
-        </div>
-      );
+          </div>
+        );
 
-    case 'other_documents_list':
-      return (
-        <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+      case 'other_documents_list':
+        return (
+          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
             You or others submitted {event.fileType}. We will notify you when we’ve reviewed it.
-        </div>
-      );
+          </div>
+        );
 
-    default:
-      return null;
+      default:
+        return null;
     }
   }
   displayActivity() {

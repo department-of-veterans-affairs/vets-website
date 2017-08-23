@@ -57,14 +57,14 @@ class ServicesAtFacility extends Component {
     const { facility } = this.props;
 
     switch (facility.attributes.facilityType) {
-    case 'va_health_facility':
-      return this.renderHealthServices();
-    case 'va_benefits_facility':
-      return this.renderBenefitsServices();
-    case 'vet_center':
-      return this.renderVetCenterServices();
-    default:
-      return null;
+      case 'va_health_facility':
+        return this.renderHealthServices();
+      case 'va_benefits_facility':
+        return this.renderBenefitsServices();
+      case 'vet_center':
+        return this.renderVetCenterServices();
+      default:
+        return null;
     }
   }
 

@@ -15,10 +15,10 @@ class Row extends React.Component {
 
 function isValidPage(completePath) {
   switch (completePath) {
-  case '':
-    return true;
-  default:
-    return true;
+    case '':
+      return true;
+    default:
+      return true;
   }
 }
 

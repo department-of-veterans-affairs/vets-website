@@ -52,23 +52,23 @@ if (options.buildtype === undefined) {
 }
 
 switch (options.buildtype) {
-case 'development':
+  case 'development':
   // No extra checks needed in dev.
-  break;
+    break;
 
-case 'staging':
-  break;
+  case 'staging':
+    break;
 
-case 'production':
-  if (options['no-sanity-check-node-env'] === false) {
-    if (env !== 'prod') {
-      throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
+  case 'production':
+    if (options['no-sanity-check-node-env'] === false) {
+      if (env !== 'prod') {
+        throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
+      }
     }
-  }
-  break;
+    break;
 
-default:
-  throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+  default:
+    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
 
 const webpackConfig = webpackConfigGenerator(options);

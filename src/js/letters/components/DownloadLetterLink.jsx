@@ -29,47 +29,47 @@ export class DownloadLetterLink extends React.Component {
     let buttonDisabled;
     let message;
     switch (this.props.downloadStatus) {
-    case 'downloading':
-      buttonClasses = 'usa-button-disabled';
-      buttonText = 'Downloading...';
-      buttonDisabled = true;
-      break;
-    case 'success':
-      buttonClasses = 'usa-button-primary va-button-primary';
-      buttonText = 'Download Letter';
-      buttonDisabled = false;
-      message = (
-        <div className="usa-alert usa-alert-success" role="alert">
-          <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
-            <p className="usa-alert-text">
+      case 'downloading':
+        buttonClasses = 'usa-button-disabled';
+        buttonText = 'Downloading...';
+        buttonDisabled = true;
+        break;
+      case 'success':
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Download Letter';
+        buttonDisabled = false;
+        message = (
+          <div className="usa-alert usa-alert-success" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter has successfully downloaded.</h2>
+              <p className="usa-alert-text">
                 If you want to download your letter again, please press the button below.
-            </p>
+              </p>
+            </div>
           </div>
-        </div>
-      );
-      break;
-    case 'failure':
-      buttonClasses = 'usa-button-primary va-button-primary';
-      buttonText = 'Retry Download';
-      buttonDisabled = false;
-      message = (
-        <div className="usa-alert usa-alert-error" role="alert">
-          <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Your letter didn't download.</h2>
-            <p className="usa-alert-text">
+        );
+        break;
+      case 'failure':
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Retry Download';
+        buttonDisabled = false;
+        message = (
+          <div className="usa-alert usa-alert-error" role="alert">
+            <div className="usa-alert-body">
+              <h2 className="usa-alert-heading">Your letter didn't download.</h2>
+              <p className="usa-alert-text">
                 Your letter isn't available at this time. If you need help with
                 accessing your letter, please call <a href="tel: 855-574-7286">
                 855-574-7286</a>, Monday-Friday, 8 a.m. - 8 p.m. (ET).
-            </p>
+              </p>
+            </div>
           </div>
-        </div>
-      );
-      break;
-    default:
-      buttonClasses = 'usa-button-primary va-button-primary';
-      buttonText = 'Download Letter';
-      buttonDisabled = false;
+        );
+        break;
+      default:
+        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonText = 'Download Letter';
+        buttonDisabled = false;
     }
 
     return (

@@ -31,27 +31,27 @@ function closeAllMenus(menuState) {
 
 function loginStuff(state = initialState, action) {
   switch (action.type) {
-  case UPDATE_LOGGEDIN_STATUS:
-    return _.set('currentlyLoggedIn', action.value, state);
+    case UPDATE_LOGGEDIN_STATUS:
+      return _.set('currentlyLoggedIn', action.value, state);
 
-  case UPDATE_LOGIN_URL:
-    return _.set('loginUrl', action.value, state);
+    case UPDATE_LOGIN_URL:
+      return _.set('loginUrl', action.value, state);
 
-  case UPDATE_VERIFY_URL:
-    return _.set('verifyUrl', action.value, state);
+    case UPDATE_VERIFY_URL:
+      return _.set('verifyUrl', action.value, state);
 
-  case UPDATE_LOGOUT_URL:
-    return _.set('logoutUrl', action.value, state);
+    case UPDATE_LOGOUT_URL:
+      return _.set('logoutUrl', action.value, state);
 
-  case LOG_OUT:
-    return _.set('currentlyLoggedIn', false, state);
+    case LOG_OUT:
+      return _.set('currentlyLoggedIn', false, state);
 
-  case UPDATE_SEARCH_HELP_USER_MENU:
-    closeAllMenus(state);
-    return _.set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
+    case UPDATE_SEARCH_HELP_USER_MENU:
+      closeAllMenus(state);
+      return _.set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 

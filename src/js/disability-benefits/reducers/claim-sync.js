@@ -15,23 +15,23 @@ const initialState = {
 
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
-  case SET_CLAIM_DETAIL:
-    return _.assign(state, {
-      synced: action.meta.successfulSync,
-      available: true,
-      authorized: true
-    });
-  case SET_CLAIMS:
-    return _.assign(state, {
-      synced: action.meta.successfulSync,
-      available: true,
-      authorized: true
-    });
-  case SET_CLAIMS_UNAVAILABLE:
-    return _.set('available', false, state);
-  case SET_UNAUTHORIZED:
-    return _.set('authorized', false, state);
-  default:
-    return state;
+    case SET_CLAIM_DETAIL:
+      return _.assign(state, {
+        synced: action.meta.successfulSync,
+        available: true,
+        authorized: true
+      });
+    case SET_CLAIMS:
+      return _.assign(state, {
+        synced: action.meta.successfulSync,
+        available: true,
+        authorized: true
+      });
+    case SET_CLAIMS_UNAVAILABLE:
+      return _.set('available', false, state);
+    case SET_UNAUTHORIZED:
+      return _.set('authorized', false, state);
+    default:
+      return state;
   }
 }

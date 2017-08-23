@@ -171,31 +171,31 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     return benefitOptionText[option][valueString][personType];
   }
   switch (option) {
-  case 'awardEffectiveDate': {
-    return undefined;
-  }
-
-  case 'monthlyAwardAmount': {
-    if (value && value !== 'unavailable') {
-      return (
-        <div>
-          <div>Your current monthly award is <strong>${value}</strong>.</div>
-          <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
-        </div>
-      );
+    case 'awardEffectiveDate': {
+      return undefined;
     }
-    return undefined;
-  }
 
-  case 'serviceConnectedPercentage': {
-    if (value && value !== 'unavailable' && isVeteran) {
-      return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
+    case 'monthlyAwardAmount': {
+      if (value && value !== 'unavailable') {
+        return (
+          <div>
+            <div>Your current monthly award is <strong>${value}</strong>.</div>
+            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
+          </div>
+        );
+      }
+      return undefined;
     }
-    return undefined;
-  }
 
-  default:
-    return undefined;
+    case 'serviceConnectedPercentage': {
+      if (value && value !== 'unavailable' && isVeteran) {
+        return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
+      }
+      return undefined;
+    }
+
+    default:
+      return undefined;
   }
 }
 

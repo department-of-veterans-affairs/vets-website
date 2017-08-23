@@ -263,22 +263,22 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
   }
 
   switch (lastEvent.type) {
-  case 'ssoc':
-    prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'soc';
+    case 'ssoc':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'soc';
 
-    return {
-      ...eventContent,
-      status: eventContent.status[prevType || 'soc'],
-    };
-  case 'activated':
-    prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'defaultStatus';
+      return {
+        ...eventContent,
+        status: eventContent.status[prevType || 'soc'],
+      };
+    case 'activated':
+      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'defaultStatus';
 
-    return {
-      ...eventContent,
-      status: eventContent.status[prevType || 'defaultStatus'],
-    };
-  default:
-    break;
+      return {
+        ...eventContent,
+        status: eventContent.status[prevType || 'defaultStatus'],
+      };
+    default:
+      break;
   }
 
   return eventContent || emptyResponse;

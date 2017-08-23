@@ -15,24 +15,24 @@ export class Main extends React.Component {
   render() {
     let appContent;
     switch (this.props.availability) {
-    case 'available':
-      appContent = this.props.children;
-      break;
-    case 'awaitingResponse':
-      appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
-      break;
-    case 'backendServiceError':
-      appContent = systemDownMessage;
-      break;
-    case 'backendAuthenticationError':
-      appContent = unableToFindRecordWarning;
-      break;
-    case 'noChapter33Record':
-      appContent = noChapter33BenefitsWarning();
-      break;
-    case 'unavailable':
-    default:
-      appContent = systemDownMessage;
+      case 'available':
+        appContent = this.props.children;
+        break;
+      case 'awaitingResponse':
+        appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
+        break;
+      case 'backendServiceError':
+        appContent = systemDownMessage;
+        break;
+      case 'backendAuthenticationError':
+        appContent = unableToFindRecordWarning;
+        break;
+      case 'noChapter33Record':
+        appContent = noChapter33BenefitsWarning();
+        break;
+      case 'unavailable':
+      default:
+        appContent = systemDownMessage;
     }
 
     return (

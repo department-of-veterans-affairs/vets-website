@@ -56,50 +56,50 @@ class SaveInProgressErrorPage extends React.Component {
     let content;
 
     switch (loadedStatus) {
-    case LOAD_STATUSES.noAuth:
-      content = (
-        <div>
-          <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
+      case LOAD_STATUSES.noAuth:
+        content = (
           <div>
-            <div style={{ marginTop: '30px' }}>
-              {this.getBackButton()}
-              <SignInLink
-                type="button"
-                className="usa-button-primary"
-                onLogin={this.reloadForm}
-                isLoggedIn={this.props.isLoggedIn}
-                loginUrl={this.props.loginUrl}
-                onUpdateLoginUrl={this.props.updateLogInUrl}>Sign in</SignInLink>
+            <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
+            <div>
+              <div style={{ marginTop: '30px' }}>
+                {this.getBackButton()}
+                <SignInLink
+                  type="button"
+                  className="usa-button-primary"
+                  onLogin={this.reloadForm}
+                  isLoggedIn={this.props.isLoggedIn}
+                  loginUrl={this.props.loginUrl}
+                  onUpdateLoginUrl={this.props.updateLogInUrl}>Sign in</SignInLink>
+              </div>
             </div>
           </div>
-        </div>
-      );
-      break;
-    case LOAD_STATUSES.failure:
-      content = (
-        <div>
-          <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. Please try applying again in a few moments.</div>
-          <div style={{ marginTop: '30px' }}>
-            {this.getBackButton()}
-            <button className="usa-button-primary" onClick={this.reloadForm}>Resume previous application</button>
+        );
+        break;
+      case LOAD_STATUSES.failure:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. Please try applying again in a few moments.</div>
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton()}
+              <button className="usa-button-primary" onClick={this.reloadForm}>Resume previous application</button>
+            </div>
           </div>
-        </div>
-      );
-      break;
-    case LOAD_STATUSES.notFound:
-      content = (
-        <div>
-          <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. We can’t find your application. {notFound}</div>
-          <div style={{ marginTop: '30px' }}>
-            {this.getBackButton(true)}
+        );
+        break;
+      case LOAD_STATUSES.notFound:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. We can’t find your application. {notFound}</div>
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton(true)}
+            </div>
           </div>
-        </div>
         // <button className="usa-button-primary" onClick={this.startOver}>Start over</button>
-      );
-      break;
-    default: // Shouldn’t get here...
-      content = null;
-      break;
+        );
+        break;
+      default: // Shouldn’t get here...
+        content = null;
+        break;
     }
 
     return (

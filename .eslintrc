@@ -62,7 +62,7 @@
         message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
       }],
     'no-plusplus': 0,
-    'indent': [2, 2],
+    'indent': [2, 2, { 'SwitchCase': 1 }],
     'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': 0,
 

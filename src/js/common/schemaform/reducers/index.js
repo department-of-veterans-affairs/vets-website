@@ -128,91 +128,91 @@ export default function createSchemaFormReducer(formConfig) {
 
   return (state = initialState, action) => {
     switch (action.type) {
-    case SET_DATA: {
-      const newState = _.set('data', action.data, state);
+      case SET_DATA: {
+        const newState = _.set('data', action.data, state);
 
-      return recalculateSchemaAndData(newState);
-    }
-    case SET_EDIT_MODE: {
-      if (state.pages[action.page].showPagePerItem) {
-        return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
+        return recalculateSchemaAndData(newState);
       }
-      return _.set(['pages', action.page, 'editMode'], action.edit, state);
-    }
-    case SET_PRIVACY_AGREEMENT: {
-      return _.set('data.privacyAgreementAccepted', action.privacyAgreementAccepted, state);
-    }
-    case SET_SUBMISSION: {
-      return _.set(['submission', action.field], action.value, state);
-    }
-    case SET_SUBMITTED: {
-      const submission = _.assign(state.submission, {
-        response: action.response,
-        status: 'applicationSubmitted'
-      });
-
-      return _.set('submission', submission, state);
-    }
-    case SET_SAVE_FORM_STATUS: {
-      const newState = _.set('savedStatus', action.status, state);
-      newState.startingOver = false;
-      newState.prefillStatus = PREFILL_STATUSES.notAttempted;
-
-      // This is the only time we have a saved datetime
-      if (action.status === SAVE_STATUSES.success) {
-        newState.lastSavedDate = action.lastSavedDate;
-        newState.expirationDate = action.expirationDate;
+      case SET_EDIT_MODE: {
+        if (state.pages[action.page].showPagePerItem) {
+          return _.set(['pages', action.page, 'editMode', action.index], action.edit, state);
+        }
+        return _.set(['pages', action.page, 'editMode'], action.edit, state);
       }
-
-      return newState;
-    }
-    case SET_FETCH_FORM_STATUS: {
-      return _.set('loadedStatus', action.status, state);
-    }
-    case SET_FETCH_FORM_PENDING: {
-      const newState = _.set('loadedStatus', LOAD_STATUSES.pending, state);
-
-      if (action.prefill) {
-        newState.prefillStatus = PREFILL_STATUSES.pending;
+      case SET_PRIVACY_AGREEMENT: {
+        return _.set('data.privacyAgreementAccepted', action.privacyAgreementAccepted, state);
       }
+      case SET_SUBMISSION: {
+        return _.set(['submission', action.field], action.value, state);
+      }
+      case SET_SUBMITTED: {
+        const submission = _.assign(state.submission, {
+          response: action.response,
+          status: 'applicationSubmitted'
+        });
 
-      return newState;
-    }
-    case SET_IN_PROGRESS_FORM: {
-      let newState;
-
-      // if we’re prefilling, we want to use whatever initial data the form has
-      if (state.prefillStatus === PREFILL_STATUSES.pending) {
-        const formData = _.merge(state.data, action.data.formData);
-        const loadedData = _.set('formData', formData, action.data);
-        newState = _.set('loadedData', loadedData, state);
-        newState.prefillStatus = PREFILL_STATUSES.success;
-      } else {
-        newState = _.set('loadedData', action.data, state);
+        return _.set('submission', submission, state);
+      }
+      case SET_SAVE_FORM_STATUS: {
+        const newState = _.set('savedStatus', action.status, state);
+        newState.startingOver = false;
         newState.prefillStatus = PREFILL_STATUSES.notAttempted;
+
+        // This is the only time we have a saved datetime
+        if (action.status === SAVE_STATUSES.success) {
+          newState.lastSavedDate = action.lastSavedDate;
+          newState.expirationDate = action.expirationDate;
+        }
+
+        return newState;
       }
+      case SET_FETCH_FORM_STATUS: {
+        return _.set('loadedStatus', action.status, state);
+      }
+      case SET_FETCH_FORM_PENDING: {
+        const newState = _.set('loadedStatus', LOAD_STATUSES.pending, state);
 
-      newState.loadedStatus = LOAD_STATUSES.success;
-      newState.data = newState.loadedData.formData;
+        if (action.prefill) {
+          newState.prefillStatus = PREFILL_STATUSES.pending;
+        }
 
-      return recalculateSchemaAndData(newState);
-    }
-    case SET_START_OVER: {
-      return _.assign(state, {
-        isStartingOver: true,
-        data: state.initialData,
-        loadedStatus: LOAD_STATUSES.pending
-      });
-    }
-    case SET_PREFILL_UNFILLED: {
-      return _.assign(state, {
-        prefillStatus: PREFILL_STATUSES.unfilled,
-        data: state.initialData,
-        loadedStatus: LOAD_STATUSES.notAttempted
-      });
-    }
-    default:
-      return state;
+        return newState;
+      }
+      case SET_IN_PROGRESS_FORM: {
+        let newState;
+
+        // if we’re prefilling, we want to use whatever initial data the form has
+        if (state.prefillStatus === PREFILL_STATUSES.pending) {
+          const formData = _.merge(state.data, action.data.formData);
+          const loadedData = _.set('formData', formData, action.data);
+          newState = _.set('loadedData', loadedData, state);
+          newState.prefillStatus = PREFILL_STATUSES.success;
+        } else {
+          newState = _.set('loadedData', action.data, state);
+          newState.prefillStatus = PREFILL_STATUSES.notAttempted;
+        }
+
+        newState.loadedStatus = LOAD_STATUSES.success;
+        newState.data = newState.loadedData.formData;
+
+        return recalculateSchemaAndData(newState);
+      }
+      case SET_START_OVER: {
+        return _.assign(state, {
+          isStartingOver: true,
+          data: state.initialData,
+          loadedStatus: LOAD_STATUSES.pending
+        });
+      }
+      case SET_PREFILL_UNFILLED: {
+        return _.assign(state, {
+          prefillStatus: PREFILL_STATUSES.unfilled,
+          data: state.initialData,
+          loadedStatus: LOAD_STATUSES.notAttempted
+        });
+      }
+      default:
+        return state;
     }
   };
 }
