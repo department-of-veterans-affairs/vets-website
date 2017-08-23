@@ -43,8 +43,9 @@ class MoveTo extends React.Component {
       return (
         <li key={folder.folderId}>
           <MoveToOption
-            folderName={`${folder.name.replace(/\s+/g, '-')}-${this.props.messageId}`}
-            folderId={folder.folderId}/>
+            folderName={folder.name}
+            folderId={folder.folderId}
+            messageId={this.props.messageId}/>
         </li>
       );
     });

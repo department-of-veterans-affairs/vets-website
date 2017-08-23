@@ -3,7 +3,8 @@ import React from 'react';
 
 class MoveToOption extends React.Component {
   render() {
-    const folderHtmlId = `msg-move-to-${this.props.folderName}`;
+    const folderHtmlId = `msg-move-${this.props.messageId}-${this.props.folderId}`;
+
     return (
       <div>
         <input
@@ -22,7 +23,8 @@ class MoveToOption extends React.Component {
 
 MoveToOption.propTypes = {
   folderName: PropTypes.string,
-  folderId: PropTypes.number
+  folderId: PropTypes.number,
+  messageId: PropTypes.number
 };
 
 export default MoveToOption;
