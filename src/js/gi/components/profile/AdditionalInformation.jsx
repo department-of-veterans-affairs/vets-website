@@ -57,7 +57,7 @@ export class AdditionalInformation extends React.Component {
               Single point of contact for veterans:
             </a>
           </strong>
-          &nbsp;{!!it.vetPoc ? 'Yes' : 'No'}
+          &nbsp;{it.vetPoc ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
@@ -65,7 +65,7 @@ export class AdditionalInformation extends React.Component {
               Credit for military training:
             </a>
           </strong>
-          &nbsp;{!!it.creditForMilTraining ? 'Yes' : 'No'}
+          &nbsp;{it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
       </div>
     );

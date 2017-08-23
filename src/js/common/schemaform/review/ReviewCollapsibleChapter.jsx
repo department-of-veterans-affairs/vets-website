@@ -169,7 +169,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         buttonText="Update page"
                         buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
-                {arrayFields.map(arrayField =>
+                {arrayFields.map(arrayField => (
                   <div key={arrayField.path} className="form-review-array">
                     <ArrayField
                         pageKey={page.pageKey}
@@ -182,7 +182,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         setData={this.props.setData}
                         path={arrayField.path}/>
                   </div>
-                )}
+                ))}
               </div>
             );
           })}

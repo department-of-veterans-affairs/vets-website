@@ -12,7 +12,7 @@ export default function MailOrFax({ onClose }) {
         <p>
           If you can’t upload documents:
         </p>
-        <ol tabIndex="0">
+        <ol>
           <li>Make copies of the documents.</li>
           <li>Make sure you write your name and claim number on every page.</li>
           <li>Mail or fax them to the <a target="_blank" href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp">VA Claims Intake Center.</a></li>

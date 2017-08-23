@@ -99,7 +99,7 @@ class PrescriptionCard extends React.Component {
     const id = this.props.id;
     const name = attrs.prescriptionName;
 
-    let action = [];
+    const action = [];
 
     // Show tracking if applicable
     action.push(this.showTracking());

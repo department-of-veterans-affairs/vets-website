@@ -49,12 +49,10 @@ class FormApp extends React.Component {
 
     // If we start in the middle of a form, redirect to the beginning or load
     //  saved form / prefill
-    const currentPath = this.props.currentLocation.pathname;
-    const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
     // If we're in production, we'll redirect if we start in the middle of a form
     // In development, we won't redirect unless we append the URL with `?redirect`
     const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
-    if (currentPath !== firstPagePath && devRedirect) {
+    if (isInProgress(this.props.currentLocation.pathname) && devRedirect) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
@@ -83,7 +81,7 @@ class FormApp extends React.Component {
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (newProps.prefillStatus !== this.props.prefillStatus
       && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
-      newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
+      newProps.router.push(newProps.routes[this.props.routes.length - 1].pageList[0].path);
     } else if (status !== LOAD_STATUSES.notAttempted
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus

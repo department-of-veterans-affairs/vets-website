@@ -108,8 +108,8 @@ function testUnauthedUserFlow(client, path) {
   logIn(token, client, path, 1)
     .waitForElementVisible('.react-container', Timeouts.normal)
     .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
-  client.
-    expect.element('button.usa-button-big').text.to.equal('Get Started');
+  client
+    .expect.element('button.usa-button-big').text.to.equal('Get Started');
 }
 
 module.exports = {

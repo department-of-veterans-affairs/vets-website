@@ -37,13 +37,13 @@ export class HealthRecordsApp extends React.Component {
     return (
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"health-records"}
+          serviceRequired="health-records"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName={"mhvac"}
-            cancelPath={"/health-care"}
+            termsName="mhvac"
+            cancelPath="/health-care"
             termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div>
