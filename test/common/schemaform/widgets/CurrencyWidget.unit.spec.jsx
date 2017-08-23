@@ -9,8 +9,8 @@ describe('Schemaform <CurrencyWidget>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          value={178}/>
+        options={{}}
+        value={178}/>
     );
     const input = tree.subTree('input');
     expect(input.props.value).to.equal('178.00');
@@ -19,8 +19,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -33,8 +33,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -47,8 +47,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -61,8 +61,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -75,8 +75,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -89,8 +89,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -103,8 +103,8 @@ describe('Schemaform <CurrencyWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CurrencyWidget
-          options={{}}
-          onChange={onChange}/>
+        options={{}}
+        onChange={onChange}/>
     );
     tree.subTree('input').props.onChange({
       target: {

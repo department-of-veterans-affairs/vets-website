@@ -12,7 +12,7 @@ import employmentHistoryPage from '../../pages/employmentHistory';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
-import dateUi from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -116,7 +116,7 @@ const formConfig = {
                 'ui:title': 'Sponsor Social Security number'
               },
               'view:noSSN': {
-                'ui:title': 'I don\'t know my sponsor’s Social Security number',
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
                 'ui:title': 'Sponsor file number',
@@ -149,7 +149,7 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
-            highSchoolOrGedCompletionDate: dateUi('When did you earn your high school diploma or equivalency certificate?'),
+            highSchoolOrGedCompletionDate: monthYearUI('When did you earn your high school diploma or equivalency certificate?'),
             postHighSchoolTrainings: postHighSchoolTrainingsUi,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',

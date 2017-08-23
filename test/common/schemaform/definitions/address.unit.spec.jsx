@@ -19,8 +19,8 @@ describe('Schemaform definition address', () => {
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={s}
-          uiSchema={uis}/>
+        schema={s}
+        uiSchema={uis}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -44,8 +44,8 @@ describe('Schemaform definition address', () => {
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={s}
-          uiSchema={uis}/>
+        schema={s}
+        uiSchema={uis}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -62,8 +62,8 @@ describe('Schemaform definition address', () => {
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={s}
-          uiSchema={uis}/>
+        schema={s}
+        uiSchema={uis}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -131,8 +131,8 @@ describe('Schemaform definition address', () => {
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={s}
-          uiSchema={uis}/>
+        schema={s}
+        uiSchema={uis}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -151,8 +151,8 @@ describe('Schemaform definition address', () => {
     const uis = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={s}
-          uiSchema={uis}/>
+        schema={s}
+        uiSchema={uis}/>
     );
 
     const formDOM = findDOMNode(form);

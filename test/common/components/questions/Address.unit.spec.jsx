@@ -4,7 +4,7 @@ import { assert, expect } from 'chai';
 import sinon from 'sinon';
 
 import Address from
-    '../../../../src/js/common/components/questions/Address';
+  '../../../../src/js/common/components/questions/Address';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 function makeAddressField() {
@@ -23,8 +23,8 @@ describe('<Address>', () => {
   beforeEach(() => {
     component = ReactTestUtils.renderIntoDocument(
       <Address
-          value={makeAddressField()}
-          onUserInput={sinon.spy()}/>
+        value={makeAddressField()}
+        onUserInput={sinon.spy()}/>
     );
     assert.ok(component, 'Cannot even render component');
   });

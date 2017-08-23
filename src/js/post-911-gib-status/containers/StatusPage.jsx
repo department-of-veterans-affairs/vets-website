@@ -18,7 +18,7 @@ class StatusPage extends React.Component {
       introText = (
         <div className="va-introtext">
           <p>
-            The information on this page is the same information that's in your
+            The information on this page is the same information that’s in your
             Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
             (Chapter 33) benefits. You can print this page and use it instead
             of your COE to show that you qualify for benefits.

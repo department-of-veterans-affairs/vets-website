@@ -40,7 +40,7 @@ export default class SchoolSelectionReview extends React.Component {
                 <td>{this.props.data.school.address.postalCode.value}</td>
               </tr>
             </tbody>
-          : null}
+            : null}
           <tr>
             <td>Education or career goal:</td>
             <td>{this.props.data.educationObjective.value}</td>

@@ -22,7 +22,7 @@ You may be able to get disability benefits if you:
   - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, **or**
   - Were under hospital observation for more than 21 days at our expense for a service-connected disability
 
-### Who's covered?
+### Who’s covered?
 Veterans
 </div>
 
@@ -35,8 +35,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-**Note:** If you weren't in a VA hospital, when filing your claim you'll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
+**Note:** If you weren’t in a VA hospital, when filing your claim you’ll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
 
 **Example:** A Veteran with a 40% service-connected disability rating for diabetes had to stay in a VA hospital after going into a diabetic coma. He needed to stay in the hospital for 25 days due to the coma and related infections. We temporarily raised his rating to 100% during his hospital stay. After he got out of the hospital, his disability rating went back to 40%.

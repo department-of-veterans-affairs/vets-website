@@ -15,7 +15,7 @@ export default class SaveInProgressIntro extends React.Component {
     let alert;
 
     if (this.props.user.login.currentlyLoggedIn) {
-      if (!!savedForm) {
+      if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
@@ -59,7 +59,7 @@ export default class SaveInProgressIntro extends React.Component {
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator message="We’re checking to see if you have a saved version of this application"/>
+          <LoadingIndicator message="Checking to see if you have a saved version of this application..."/>
           <br/>
         </div>
       );
@@ -73,16 +73,16 @@ export default class SaveInProgressIntro extends React.Component {
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
-            resumeOnly={this.props.resumeOnly}
-            messages={this.props.messages}
-            startPage={this.props.pageList[1].path}
-            formId={this.props.formId}
-            returnUrl={this.props.returnUrl}
-            migrations={this.props.migrations}
-            fetchInProgressForm={this.props.fetchInProgressForm}
-            removeInProgressForm={this.props.removeInProgressForm}
-            prefillAvailable={prefillAvailable}
-            formSaved={!!savedForm}/>
+          resumeOnly={this.props.resumeOnly}
+          messages={this.props.messages}
+          startPage={this.props.pageList[1].path}
+          formId={this.props.formId}
+          returnUrl={this.props.returnUrl}
+          migrations={this.props.migrations}
+          fetchInProgressForm={this.props.fetchInProgressForm}
+          removeInProgressForm={this.props.removeInProgressForm}
+          prefillAvailable={prefillAvailable}
+          formSaved={!!savedForm}/>
         <br/>
       </div>
     );

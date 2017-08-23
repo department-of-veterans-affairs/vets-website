@@ -37,6 +37,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-We can support you in all stages of your job search. We've teamed up with the Department of Labor to give you career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses.
+We can support you in all stages of your job search. We’ve teamed up with the Department of Labor to give you career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses.
 
 </div>

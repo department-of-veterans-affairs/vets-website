@@ -37,11 +37,11 @@ class FolderNav extends React.Component {
 
     return (
       <Link
-          activeClassName="usa-current"
-          className={linkClass}
-          data-folderid={folder.folderId}
-          to={folderUrl(folder.name)}
-          onClick={this.props.onFolderChange}>
+        activeClassName="usa-current"
+        className={linkClass}
+        data-folderid={folder.folderId}
+        to={folderUrl(folder.name)}
+        onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
       </Link>

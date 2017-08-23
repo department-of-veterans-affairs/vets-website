@@ -48,10 +48,10 @@ export class TrackPackage extends React.Component {
         shipmentDate: formatDate(shippedDate),
         carrier: deliveryService.toUpperCase(),
         trackingLink: (<TrackPackageLink
-            className="rx-history-tracking"
-            external
-            text={trackingNumber}
-            url={trackingUrl}/>),
+          className="rx-history-tracking"
+          external
+          text={trackingNumber}
+          url={trackingUrl}/>),
         prescriptions,
         shippedDate
       };
@@ -87,15 +87,15 @@ export class TrackPackage extends React.Component {
       <div>
         <p className="rx-tab-explainer">Tracking information for each order expires 30 days after shipment.</p>
         <SortableTable
-            className={tableClass}
-            currentSort={this.state.currentSort}
-            data={data}
-            fields={fields}
-            onSort={(value, order) => {
-              this.setState({
-                currentSort: { value, order }
-              });
-            }}/>
+          className={tableClass}
+          currentSort={this.state.currentSort}
+          data={data}
+          fields={fields}
+          onSort={(value, order) => {
+            this.setState({
+              currentSort: { value, order }
+            });
+          }}/>
       </div>
     );
   }
@@ -109,7 +109,7 @@ export class TrackPackage extends React.Component {
     } else if (isPending) {
       content = (
         <p className="rx-tab-explainer">
-          You recently submitted a refill, and the tracking information isn't available yet.
+          You recently submitted a refill, and the tracking information isn’t available yet.
         </p>
       );
     } else {

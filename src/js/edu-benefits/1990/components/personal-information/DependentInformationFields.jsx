@@ -12,23 +12,23 @@ export default class DependentInformationFields extends React.Component {
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableRadioButtons
-            label="Are you married?"
-            name="married"
-            options={yesNo}
-            value={this.props.data.serviceBefore1977.married}
-            onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.married', update);}}/>
+          label="Are you married?"
+          name="married"
+          options={yesNo}
+          value={this.props.data.serviceBefore1977.married}
+          onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.married', update);}}/>
         <ErrorableRadioButtons
-            label="Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?"
-            name="haveDependents"
-            options={yesNo}
-            value={this.props.data.serviceBefore1977.haveDependents}
-            onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.haveDependents', update);}}/>
+          label="Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?"
+          name="haveDependents"
+          options={yesNo}
+          value={this.props.data.serviceBefore1977.haveDependents}
+          onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.haveDependents', update);}}/>
         <ErrorableRadioButtons
-            label="Do you have a parent who is dependent on your financial support?"
-            name="parentDependent"
-            options={yesNo}
-            value={this.props.data.serviceBefore1977.parentDependent}
-            onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.parentDependent', update);}}/>
+          label="Do you have a parent who is dependent on your financial support?"
+          name="parentDependent"
+          options={yesNo}
+          value={this.props.data.serviceBefore1977.parentDependent}
+          onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.parentDependent', update);}}/>
       </div>
     </fieldset>
     );

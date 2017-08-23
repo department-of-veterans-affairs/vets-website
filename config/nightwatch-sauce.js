@@ -31,7 +31,8 @@ module.exports = {
         recordScreenshots: true,
         recordLogs: true,
         captureHtml: true,
-        seleniumVersion: '3.4.0'
+        seleniumVersion: '3.4.0',
+        tunnelIdentifier: process.env.SAUCE_CONNECT_TUNNEL_IDENTIFIER || ''
       },
       selenium: {
         port: process.env.SELENIUM_PORT || 4444

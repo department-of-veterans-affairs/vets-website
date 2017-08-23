@@ -11,10 +11,10 @@ class ButtonClose extends React.Component {
 
     return (
       <button
-          className={buttonClass}
-          data-args={this.props.args}
-          onClick={this.props.onClick}
-          type="button">
+        className={buttonClass}
+        data-args={this.props.args}
+        onClick={this.props.onClick}
+        type="button">
         <i className="fa fa-close"></i>
       </button>
     );

@@ -55,8 +55,8 @@ describe('Schemaform review widgets', () => {
       ];
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions }}
-            value="Test"/>
+          options={{ enumOptions }}
+          value="Test"/>
       );
 
       expect(tree.text()).to.equal('Label');
@@ -70,8 +70,8 @@ describe('Schemaform review widgets', () => {
       ];
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions }}
-            value=""/>
+          options={{ enumOptions }}
+          value=""/>
       );
 
       expect(tree.text()).to.be.empty;
@@ -89,8 +89,8 @@ describe('Schemaform review widgets', () => {
       };
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions, labels }}
-            value="Test"/>
+          options={{ enumOptions, labels }}
+          value="Test"/>
       );
 
       expect(tree.text()).to.equal('Other');
@@ -125,12 +125,12 @@ describe('Schemaform review widgets', () => {
       const YesNo = yesNo;
       const tree = SkinDeep.shallowRender(
         <YesNo
-            value
-            options={{
-              labels: {
-                Y: 'Whatever'
-              }
-            }}/>
+          value
+          options={{
+            labels: {
+              Y: 'Whatever'
+            }
+          }}/>
       );
 
       expect(tree.text()).to.equal('Whatever');
@@ -139,10 +139,10 @@ describe('Schemaform review widgets', () => {
       const YesNo = yesNo;
       const tree = SkinDeep.shallowRender(
         <YesNo
-            value={false}
-            options={{
-              yesNoReverse: true
-            }}/>
+          value={false}
+          options={{
+            yesNoReverse: true
+          }}/>
       );
 
       expect(tree.text()).to.equal('Yes');

@@ -27,7 +27,7 @@ describe('<ButtonPrint>', () => {
     const onClick = sinon.spy();
     const buttonPrint = ReactTestUtils.renderIntoDocument(
       <ButtonPrint
-          onClick={onClick}/>
+        onClick={onClick}/>
     );
 
     buttonPrint.handleClick();

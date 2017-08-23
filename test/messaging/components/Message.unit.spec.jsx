@@ -55,9 +55,9 @@ describe('Message', () => {
   it('should hide attachments when collapsed', () => {
     const tree = SkinDeep.shallowRender(
       <Message
-          {...props}
-          attrs={{ ...props.attrs, attachment: true }}
-          isCollapsed/>
+        {...props}
+        attrs={{ ...props.attrs, attachment: true }}
+        isCollapsed/>
     );
     expect(tree.props.className).to.contain('messaging-thread-message--collapsed');
     expect(tree.subTree('MessageAttachmentsView')).to.be.false;
@@ -76,9 +76,9 @@ describe('Message', () => {
 
     const message = ReactTestUtils.renderIntoDocument(
       <Message
-          {...props}
-          attrs={{ ...props.attrs, attachment: true }}
-          fetchMessage={fetchMessage}/>
+        {...props}
+        attrs={{ ...props.attrs, attachment: true }}
+        fetchMessage={fetchMessage}/>
     );
 
     message.componentDidUpdate();
@@ -90,16 +90,16 @@ describe('Message', () => {
 
     const message = ReactTestUtils.renderIntoDocument(
       <Message
-          {...props}
-          attrs={{
-            ...props.attrs,
-            attachment: true,
-            attachments: [{
-              attributes: { name: 'test_file.png' },
-              links: { download: 'http://example.com' }
-            }]
-          }}
-          fetchMessage={fetchMessage}/>
+        {...props}
+        attrs={{
+          ...props.attrs,
+          attachment: true,
+          attachments: [{
+            attributes: { name: 'test_file.png' },
+            links: { download: 'http://example.com' }
+          }]
+        }}
+        fetchMessage={fetchMessage}/>
     );
 
     message.componentDidUpdate();

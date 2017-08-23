@@ -35,12 +35,12 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 
 #### Are any injuries excluded from TSGLI? 
 
-Yes. To qualify for TSGLI, your injury can't:
+Yes. To qualify for TSGLI, your injury can’t:
 
 - Be self-inflicted on purpose or the result of an attempt at self-injury, **or**
 - Involve the use of an illegal drug or a controlled substance that was given or taken without the advice of a medical doctor, **or**
 - Be the result of medical or surgical treatment of an illness or disease, **or**
-- Occur while you're committing or trying to commit a felony, **or**
+- Occur while you’re committing or trying to commit a felony, **or**
 - Be the result of a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
 
 [View TSGLI loss standards](http://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp).

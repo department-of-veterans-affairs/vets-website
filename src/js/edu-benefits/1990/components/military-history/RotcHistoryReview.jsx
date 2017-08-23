@@ -30,8 +30,8 @@ export default class RotcHistoryReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Scholarship amount - ${scholarship.amount.value}</td>
-                <td scope="col"></td>
+                <td>Scholarship amount - ${scholarship.amount.value}</td>
+                <td></td>
               </tr>
             </thead>
             <tbody>

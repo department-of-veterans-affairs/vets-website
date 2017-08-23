@@ -4,13 +4,14 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/currentOrPastMonthYear';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
@@ -100,7 +101,7 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:validations': [
                 (errors, dob) => {
-                  // If we have a complete date, check to make sure it's a valid dob
+                  // If we have a complete date, check to make sure it’s a valid dob
                   if (/\d{4}-\d{2}-\d{2}/.test(dob) && moment(dob).isAfter(moment().endOf('day').subtract(17, 'years'))) {
                     errors.addError('You must be at least 17 to apply');
                   }
@@ -371,11 +372,11 @@ const formConfig = {
       pages: {
         educationHistory: {
           title: 'Education history',
-          // There's only one page in this chapter (right?), so this url seems a
+          // There’s only one page in this chapter (right?), so this url seems a
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {
-            highSchoolOrGedCompletionDate: currentOrPastDateUI('When did you earn your high school diploma or equivalency certificate?'),
+            highSchoolOrGedCompletionDate: currentOrPastMonthYearUI('When did you earn your high school diploma or equivalency certificate?'),
             postHighSchoolTrainings: postHighSchoolTrainingsUI,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',
@@ -404,19 +405,16 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          // There's only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'school-selection/school-information',
-          uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
-          }
-        }
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema1990, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate'
+          ],
+          required: ['educationType']
+        }), {
+          path: 'school-selection/school-information'
+        })
       }
     },
     personalInformation: {

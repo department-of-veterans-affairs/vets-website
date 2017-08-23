@@ -91,7 +91,7 @@ class AppealStatusPage extends React.Component {
     const { appeal, loading } = this.props;
 
     if (loading) {
-      return <LoadingIndicator message="Loading your appeal status" setFocus/>;
+      return <LoadingIndicator message="Loading your appeal status..." setFocus/>;
     }
 
     if (!appeal) {

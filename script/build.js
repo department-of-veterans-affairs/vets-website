@@ -53,7 +53,7 @@ if (options.buildtype === undefined) {
 
 switch (options.buildtype) {
   case 'development':
-    // No extra checks needed in dev.
+  // No extra checks needed in dev.
     break;
 
   case 'staging':
@@ -443,6 +443,7 @@ if (options.watch) {
   // Useful for local development.
   try {
     // Check to see if we have a proxy config file
+    // eslint-disable-next-line import/no-unresolved
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
       '/api/v0/*': {
@@ -455,7 +456,6 @@ if (options.watch) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
-          return;
         }
       }
     };
@@ -535,7 +535,9 @@ smith.use(navigation({
     breadcrumbProperty: 'breadcrumb_path',
     pathProperty: 'nav_path',
     includeDirs: true
-  }, navSettings: {} }));
+  },
+  navSettings: {}
+}));
 
 // Note that there is no default layout specified.
 // All pages must explicitly declare a layout or else it will be rendered as raw html.
@@ -559,17 +561,17 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
       ['/education/gi-bill/post-9-11/ch-33-benefit',
-       '/employment/commitments',
-       '/employment/employers',
-       '/employment/job-seekers/create-resume',
-       '/employment/job-seekers/search-jobs',
-       '/employment/job-seekers/skills-translator',
-       '/gi-bill-comparison-tool/',
-       '/education/apply-for-education-benefits/application',
-       '/pension/application/527EZ',
-       '/burials-and-memorials/application/530',
-       '/health-care/apply/application',
-       '/letters'].join('|'))
+        '/employment/commitments',
+        '/employment/employers',
+        '/employment/job-seekers/create-resume',
+        '/employment/job-seekers/search-jobs',
+        '/employment/job-seekers/skills-translator',
+        '/gi-bill-comparison-tool/',
+        '/education/apply-for-education-benefits/application',
+        '/pension/application/527EZ',
+        '/burials-and-memorials/application/530',
+        '/health-care/apply/application',
+        '/letters'].join('|'))
   }));
 }
 

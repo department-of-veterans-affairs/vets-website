@@ -40,6 +40,16 @@ class FormApp extends React.Component {
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
+
+    // If we start in the middle of a form, redirect to the beginning
+    // If we're in production, we'll redirect if we start in the middle of a form
+    // In development, we won't redirect unless we append the URL with `?redirect` ()
+    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
+    if (isInProgress(this.props.currentLocation.pathname) && devRedirect) {
+      const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
+      // If the first page is not the intro and uses `depends`, this will probably break
+      this.props.router.push(firstPagePath);
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -50,7 +60,7 @@ class FormApp extends React.Component {
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (newProps.prefillStatus !== this.props.prefillStatus
       && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
-      newProps.router.push(newProps.routes[newProps.routes.length - 1].pageList[1].path);
+      newProps.router.push(newProps.routes[this.props.routes.length - 1].pageList[0].path);
     } else if (status !== LOAD_STATUSES.notAttempted
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus
@@ -73,7 +83,7 @@ class FormApp extends React.Component {
     }
   }
 
-  // I'm not convinced this is ever executed
+  // I’m not convinced this is ever executed
   componentWillUnmount() {
     this.removeOnbeforeunload();
   }
@@ -104,9 +114,9 @@ class FormApp extends React.Component {
     let content;
 
     if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we retrieve your saved form."/>;
+      content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
-      content = <LoadingIndicator message="Wait a moment while we save your form."/>;
+      content = <LoadingIndicator message="Saving your form..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -128,7 +138,7 @@ class FormApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             {
               formConfig.title &&
-              // If we're on the introduction page, show the title if we're actually on the loading screen
+              // If we’re on the introduction page, show the title if we’re actually on the loading screen
               (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
                 <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
             }

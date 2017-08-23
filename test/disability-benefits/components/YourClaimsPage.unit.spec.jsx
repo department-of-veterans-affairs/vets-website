@@ -13,8 +13,8 @@ describe('<YourClaimsPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          route={routeParams}
-          list={claims}/>
+        route={routeParams}
+        list={claims}/>
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });
@@ -25,8 +25,8 @@ describe('<YourClaimsPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          route={routeParams}
-          list={claims}/>
+        route={routeParams}
+        list={claims}/>
     );
     const sortDiv = tree.subTree('claims-list-sort');
     expect(sortDiv).to.exist;
@@ -40,12 +40,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          loading
-          claims={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          changePage={changePage}/>
+        loading
+        claims={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
   });
@@ -58,16 +58,122 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          synced={false}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
+  it('should not render error message when loading', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        loading
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
+    );
+
+    expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
+    expect(tree.everySubTree('AppealsUnavailable')).to.be.empty;
+  });
+
+  it('should render error message when claims & appeals are unavailable', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        canAccessAppeals
+        canAccessClaims
+        appealsAvailable={false}
+        claimsAvailable={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
+    );
+
+    expect(tree.everySubTree('ClaimsAppealsUnavailable')).not.to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
+    expect(tree.everySubTree('AppealsUnavailable')).to.be.empty;
+  });
+
+  it('should render error message when only claims are unavailable', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        canAccessClaims
+        claimsAvailable={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
+    );
+
+    expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
+    expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
+    expect(tree.everySubTree('AppealsUnavailable')).to.be.empty;
+  });
+
+  it('should render error message when claims are unauthorized', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        canAccessClaims
+        claimsAvailable
+        claimsAuthorized={false}
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        synced={false}
+        changePage={changePage}/>
+    );
+
+    expect(tree.everySubTree('ClaimsAppealsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnauthorized')).not.to.be.empty;
+    expect(tree.everySubTree('AppealsUnavailable')).to.be.empty;
+  });
+
   it('should render no claims message', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();
@@ -77,12 +183,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('NoClaims').length).to.equal(1);
   });
@@ -96,12 +202,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: false }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClaimsListItem').length).to.equal(2);
     expect(tree.subTree('Pagination').props.page).to.equal(page);
@@ -116,15 +222,15 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          unfilteredClaims={claims}
-          unfilteredAppeals={claims}
-          list={claims}
-          page={page}
-          pages={pages}
-          show30DayNotice
-          getClaims={getClaims}
-          route={{}}
-          changePage={changePage}/>
+        unfilteredClaims={claims}
+        unfilteredAppeals={claims}
+        list={claims}
+        page={page}
+        pages={pages}
+        show30DayNotice
+        getClaims={getClaims}
+        route={{}}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).not.to.be.empty;
   });
@@ -137,12 +243,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{}}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{}}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
   });
@@ -155,12 +261,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-          list={claims}
-          page={page}
-          pages={pages}
-          getClaims={getClaims}
-          route={{ showClosedClaims: true }}
-          changePage={changePage}/>
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: true }}
+        changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
   });

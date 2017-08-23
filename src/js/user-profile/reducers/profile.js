@@ -9,7 +9,7 @@ import {
   ACCEPTING_LATEST_MHV_TERMS,
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
- } from '../actions';
+} from '../actions';
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
 // TODO(crew): Romove before this goes to production.

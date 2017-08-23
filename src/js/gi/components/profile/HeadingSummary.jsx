@@ -37,9 +37,9 @@ class HeadingSummary extends React.Component {
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
-                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
-                isVisible={!!it.cautionFlag}
-                status="warning"/>
+              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+              isVisible={!!it.cautionFlag}
+              status="warning"/>
           </div>
           <div className="column">
             <p>

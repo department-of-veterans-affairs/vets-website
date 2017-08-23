@@ -31,7 +31,7 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
   - Non-Hodgkin’s lymphoma
   - Parkinson’s disease
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Reservists
@@ -48,13 +48,13 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor's report or medical test results),
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
 - [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
 **or**
 - [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
 
-When you apply, you'll need to give us:
+When you apply, you’ll need to give us:
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
@@ -77,7 +77,7 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 - Multiple myeloma
 - Myelodysplastic syndromes
 - Neurobehavioral effects
-- Non-Hodgkin's lymphoma
+- Non-Hodgkin’s lymphoma
 - Renal toxicity
 - Scleroderma
 

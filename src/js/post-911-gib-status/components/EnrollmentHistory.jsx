@@ -25,9 +25,9 @@ class EnrollmentHistory extends React.Component {
       const indexKey = `enrollment-${index}`;
       return (
         <EnrollmentPeriod
-            key={indexKey}
-            id={indexKey}
-            enrollment={enrollment}/>
+          key={indexKey}
+          id={indexKey}
+          enrollment={enrollment}/>
       );
     });
 
