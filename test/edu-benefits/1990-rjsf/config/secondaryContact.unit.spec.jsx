@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getFormDOM } from '../../../util/schemaform-utils';
+import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';
 
 describe('Edu 1990 secondaryContact', () => {
@@ -11,9 +10,9 @@ describe('Edu 1990 secondaryContact', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -22,9 +21,9 @@ describe('Edu 1990 secondaryContact', () => {
   it('should hide address fields when address is shared', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_secondaryContact_view\\:address_sameAddress', true);
@@ -34,9 +33,9 @@ describe('Edu 1990 secondaryContact', () => {
   it('should submit without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

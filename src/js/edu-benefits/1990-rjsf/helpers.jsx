@@ -9,7 +9,7 @@ export function directDepositDescription() {
 
       <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/" target="_blank">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
     </div>
-    );
+  );
 }
 
 export function transform(formConfig, form) {

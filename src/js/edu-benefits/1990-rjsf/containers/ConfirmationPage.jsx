@@ -37,11 +37,11 @@ class ConfirmationPage extends React.Component {
     if (arr && arr.length) {
       return (
         <ul className="claim-list">
-        {
-          arr.map((d, i) => {
-            return (<li key={i}>{d}</li>);
-          })
-        }
+          {
+            arr.map((d, i) => {
+              return (<li key={i}>{d}</li>);
+            })
+          }
         </ul>
       );
     }

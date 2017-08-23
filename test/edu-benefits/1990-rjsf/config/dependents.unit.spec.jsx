@@ -10,16 +10,16 @@ describe('Edu 1990 dependents', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            toursOfDuty: [
-              {
-                from: '1970-01-01',
-                to: '1990-01-01'
-              }
-            ]
-          }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          toursOfDuty: [
+            {
+              from: '1970-01-01',
+              to: '1990-01-01'
+            }
+          ]
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -28,16 +28,16 @@ describe('Edu 1990 dependents', () => {
   it('should submit form without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            toursOfDuty: [
-              {
-                from: '1970-01-01',
-                to: '1990-01-01'
-              }
-            ]
-          }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          toursOfDuty: [
+            {
+              from: '1970-01-01',
+              to: '1990-01-01'
+            }
+          ]
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
