@@ -75,7 +75,7 @@ export function validateFolderName(folderName, existingFolders = []) {
     return trimmedFolderName.value.toLowerCase() === folder.name.toLowerCase();
   };
 
-  if (!!existingFolders.find(doesFolderExist)) {
+  if (existingFolders.find(doesFolderExist)) {
     err.hasError = true;
     err.type = 'exists';
   }

@@ -21,10 +21,10 @@ describe('Edu 1995 <IntroductionPage>', () => {
     };
     const page = findDOMNode(ReactTestUtils.renderIntoDocument(
       <IntroductionPage
-          route={route}
-          router={{
-            push: onPush
-          }}/>
+        route={route}
+        router={{
+          push: onPush
+        }}/>
     ));
 
     ReactTestUtils.Simulate.click(page.querySelector('.usa-button-primary'));

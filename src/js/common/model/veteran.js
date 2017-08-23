@@ -705,7 +705,7 @@ const completeVeteran = {
 
 function veteranToApplication(veteran) {
   if (_.includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value) || veteran.discloseFinancialInformation.value === 'N') {
-    /* eslint-disable no-param-reassign*/
+    /* eslint-disable no-param-reassign */
     delete veteran.spouseAddress;
     delete veteran.spouseFullName;
     delete veteran.spouseGrossIncome;
@@ -733,7 +733,7 @@ function veteranToApplication(veteran) {
     }
 
     switch (key) {
-      // Convert radio buttons into booleans.
+    // Convert radio buttons into booleans.
       case 'isVaServiceConnected':
       case 'compensableVaServiceConnected':
       case 'provideSupportLastYear':

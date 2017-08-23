@@ -102,28 +102,28 @@ class DocumentRequestPage extends React.Component {
                 {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
                 {trackedItem.type.endsWith('others_list')
                   ? <div className="optional-upload">
-                    <p><strong>Optional</strong> - We've asked others to send this to us, but you may upload it if you have it.</p>
+                    <p><strong>Optional</strong> - We’ve asked others to send this to us, but you may upload it if you have it.</p>
                   </div>
                   : null}
                 <p>{trackedItem.description}</p>
                 <AddFilesForm
-                    field={this.props.uploadField}
-                    progress={this.props.progress}
-                    uploading={this.props.uploading}
-                    files={this.props.files}
-                    showMailOrFax={this.props.showMailOrFax}
-                    backUrl={this.props.lastPage || filesPath}
-                    onSubmit={() => this.props.submitFiles(
-                      this.props.claim.id,
-                      this.props.trackedItem,
-                      this.props.files
-                    )}
-                    onAddFile={this.props.addFile}
-                    onRemoveFile={this.props.removeFile}
-                    onFieldChange={this.props.updateField}
-                    onShowMailOrFax={this.props.showMailOrFaxModal}
-                    onCancel={this.props.cancelUpload}
-                    onDirtyFields={this.props.setFieldsDirty}/>
+                  field={this.props.uploadField}
+                  progress={this.props.progress}
+                  uploading={this.props.uploading}
+                  files={this.props.files}
+                  showMailOrFax={this.props.showMailOrFax}
+                  backUrl={this.props.lastPage || filesPath}
+                  onSubmit={() => this.props.submitFiles(
+                    this.props.claim.id,
+                    this.props.trackedItem,
+                    this.props.files
+                  )}
+                  onAddFile={this.props.addFile}
+                  onRemoveFile={this.props.removeFile}
+                  onFieldChange={this.props.updateField}
+                  onShowMailOrFax={this.props.showMailOrFaxModal}
+                  onCancel={this.props.cancelUpload}
+                  onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
             <div className="small-12 usa-width-one-third medium-4 columns">
@@ -137,7 +137,7 @@ class DocumentRequestPage extends React.Component {
     return (
       <div>
         <div name="topScrollElement"></div>
-          {content}
+        {content}
       </div>
     );
   }

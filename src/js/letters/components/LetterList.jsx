@@ -21,14 +21,14 @@ class LetterList extends React.Component {
 
       return (
         <CollapsiblePanel
-            panelName={letter.name}
-            key={`collapsiblePanel-${index}`}>
+          panelName={letter.name}
+          key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
           <DownloadLetterLink
-              letterType={letter.letterType}
-              letterName={letter.name}
-              downloadStatus={downloadStatus[letter.letterType]}
-              key={`download-link-${index}`}/>
+            letterType={letter.letterType}
+            letterName={letter.name}
+            downloadStatus={downloadStatus[letter.letterType]}
+            key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
     });
@@ -56,8 +56,10 @@ class LetterList extends React.Component {
     return (
       <div className="step-content">
         <p>
-          To see what is included in each letter and how it can be used, expand the box
-          using the (+). Then, download the letter.
+          To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
+        </p>
+        <p>
+          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/">Get Adobe Reader</a>
         </p>
         {letterItems}
         {eligibilityMessage}

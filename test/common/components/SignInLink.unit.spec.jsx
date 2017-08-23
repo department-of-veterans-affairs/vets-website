@@ -48,8 +48,8 @@ describe('<SignInLink>', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
-            isLoggedIn={false}
-            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+          isLoggedIn={false}
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -62,9 +62,9 @@ describe('<SignInLink>', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
-            type="button"
-            isLoggedIn={false}
-            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+          type="button"
+          isLoggedIn={false}
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -76,9 +76,9 @@ describe('<SignInLink>', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
-            loginUrl="login/url"
-            isLoggedIn={false}
-            onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
+          loginUrl="login/url"
+          isLoggedIn={false}
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -107,10 +107,10 @@ describe('<SignInLink>', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
-            loginUrl="login/url"
-            isLoggedIn={false}
-            onUpdateLoginUrl={onUpdateLoginUrl}
-            onLogin={loginSpy}>Sign in</SignInLink>
+          loginUrl="login/url"
+          isLoggedIn={false}
+          onUpdateLoginUrl={onUpdateLoginUrl}
+          onLogin={loginSpy}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);

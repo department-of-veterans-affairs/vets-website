@@ -60,12 +60,12 @@ class ClaimStatusPage extends React.Component {
           {!claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimComplete completedDate={getCompletedDate(claim)}/> : null}
           {phase !== null && claim.attributes.open
             ? <ClaimsTimeline
-                id={claim.id}
-                estimatedDate={claim.attributes.maxEstDate}
-                phase={phase}
-                currentPhaseBack={claim.attributes.currentPhaseBack}
-                everPhaseBack={claim.attributes.everPhaseBack}
-                events={claim.attributes.eventsTimeline}/>
+              id={claim.id}
+              estimatedDate={claim.attributes.maxEstDate}
+              phase={phase}
+              currentPhaseBack={claim.attributes.currentPhaseBack}
+              everPhaseBack={claim.attributes.everPhaseBack}
+              events={claim.attributes.eventsTimeline}/>
             : null}
         </div>
       );
@@ -73,12 +73,12 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-          claim={claim}
-          loading={loading}
-          clearNotification={this.props.clearNotification}
-          currentTab="Status"
-          message={message}
-          synced={synced}>
+        claim={claim}
+        loading={loading}
+        clearNotification={this.props.clearNotification}
+        currentTab="Status"
+        message={message}
+        synced={synced}>
         {content}
       </ClaimDetailLayout>
     );

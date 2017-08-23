@@ -10,7 +10,7 @@ order: 5
 
 <div class="va-introtext">
 
-If you're already getting disability benefits but think you may qualify for more, you can file a new claim. [File a claim now](/disability-benefits/apply/).
+If you’re already getting disability benefits but think you may qualify for more, you can file a new claim. [File a claim now](/disability-benefits/apply/).
 
 </div>
 

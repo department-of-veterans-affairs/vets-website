@@ -8,8 +8,8 @@ class SignInLink extends React.Component {
   constructor(props) {
     super(props);
 
-    // I don't like this, but we need to make sure componentWillReceiveProps
-    //  doesn't call onLogin() when a page with a SignInLink is refreshed and
+    // I don’t like this, but we need to make sure componentWillReceiveProps
+    //  doesn’t call onLogin() when a page with a SignInLink is refreshed and
     //  a user is logged in.
     this.clicked = false;
   }
@@ -36,7 +36,7 @@ class SignInLink extends React.Component {
 
   signIn = (e) => {
     if (this.props.type === 'button') {
-      e.preventDefault(); // Don't try to submit the page
+      e.preventDefault(); // Don’t try to submit the page
     }
     this.clicked = true;
     const { loginUrl, onUpdateLoginUrl } = this.props;
@@ -60,7 +60,7 @@ SignInLink.propTypes = {
   className: PropTypes.string,
   onLogin: PropTypes.func,
 
-  // I'd prefer to connect() the component rather than threading these props,
+  // I’d prefer to connect() the component rather than threading these props,
   //  but testing is a pain.
   isLoggedIn: PropTypes.bool.isRequired,
   loginUrl: PropTypes.string,

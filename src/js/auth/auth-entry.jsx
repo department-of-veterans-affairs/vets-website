@@ -24,7 +24,7 @@ function init() {
    */
 
   const handleChangedURL = (event) => {
-    // Here so eslint doesn't tell us about an unused variable.
+    // Here so eslint doesn’t tell us about an unused variable.
     return event;
   };
   browserHistory.listen(handleChangedURL);
@@ -34,7 +34,7 @@ function init() {
     <Provider store={store}>
       <Router history={browserHistory} routes={routes}/>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 initReact(init);

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { truncate, kebabCase } from 'lodash';

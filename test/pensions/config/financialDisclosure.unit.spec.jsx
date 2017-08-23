@@ -32,10 +32,10 @@ describe('Pensions financial disclosure', () => {
     it('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            data={nameData}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          data={nameData}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
       );
       const formDOM = findDOMNode(form);
 
@@ -48,12 +48,12 @@ describe('Pensions financial disclosure', () => {
       it('should render title on review page', () => {
         const form = ReactTestUtils.renderIntoDocument(
           <DefinitionTester
-              reviewMode
-              title={title}
-              schema={schema}
-              data={nameData}
-              definitions={formConfig.defaultDefinitions}
-              uiSchema={uiSchema}/>
+            reviewMode
+            title={title}
+            schema={schema}
+            data={nameData}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}/>
         );
         const formDOM = findDOMNode(form);
 
@@ -65,11 +65,11 @@ describe('Pensions financial disclosure', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = findDOMNode(form);
@@ -84,11 +84,11 @@ describe('Pensions financial disclosure', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = findDOMNode(form);
@@ -128,11 +128,11 @@ describe('Pensions financial disclosure', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = findDOMNode(form);

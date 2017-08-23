@@ -10,7 +10,7 @@ order: 2
 
 The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all your evidence, or supporting documents, when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
 
-If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, we'll remove your claim from the FDC program and process it as a standard claim.
+If you file a claim in the FDC program and we decide that additional documents exist that we need to decide your claim, we’ll remove your claim from the FDC program and process it as a standard claim.
 
 Find out how you can participate in the FDC program.
 
@@ -42,7 +42,7 @@ Submit your claim according to FDC Criteria:
 
 With a standard claim, you’ll give us permission to gather evidence or records for you. You’ll need to give us enough information about the evidence so we can request it from the right person or agency.
 
-If a person or agency refuses to turn over the evidence, asks for money for the evidence, or can’t get the evidence, we'll ask you to try to get the evidence or records. It’s your responsibility to make sure we receive all requested records that aren’t at a federal agency or office.
+If a person or agency refuses to turn over the evidence, asks for money for the evidence, or can’t get the evidence, we’ll ask you to try to get the evidence or records. It’s your responsibility to make sure we receive all requested records that aren’t at a federal agency or office.
 
 </div>
 </li>
@@ -91,7 +91,7 @@ To support a claim for increased disability pension benefits based on being hous
 
 #### FDC Program
 
-Under the FDC program, we'll:
+Under the FDC program, we’ll:
 - Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 
@@ -99,7 +99,7 @@ Under the FDC program, we'll:
 
 #### Standard Claim Process
 
-With the standard claim process, we'll:
+With the standard claim process, we’ll:
 - Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 - Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers

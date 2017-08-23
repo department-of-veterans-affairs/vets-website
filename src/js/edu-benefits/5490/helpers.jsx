@@ -4,7 +4,7 @@ import React from 'react';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
-  // Clone the form in so we don't modify the original...because of reasons FP
+  // Clone the form in so we don’t modify the original...because of reasons FP
   const newForm = _.cloneDeep(form);
 
   // Copy the data if necessary

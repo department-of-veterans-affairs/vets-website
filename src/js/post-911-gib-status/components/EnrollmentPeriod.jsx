@@ -52,13 +52,13 @@ class EnrollmentPeriod extends React.Component {
               <InfoPair label="Online Hours" value={amendment.onlineHours}/>
               <InfoPair label="Type of Change" value={amendment.type}/>
               <InfoPair
-                  label="Change Effective Date"
-                  value={formatDateParsedZoneShort(amendment.changeEffectiveDate)}/>
+                label="Change Effective Date"
+                value={formatDateParsedZoneShort(amendment.changeEffectiveDate)}/>
             </div>
           );
         })}
       </div>
-      ) : null;
+    ) : null;
 
     const changeHistory = amendments.length > 0 ? (
       <div className="usa-accordion">
@@ -66,10 +66,10 @@ class EnrollmentPeriod extends React.Component {
           <li>
             <div className="accordion-header clearfix">
               <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.historyExpanded ? 'true' : 'false'}
-                  aria-controls={`collapsible-${id}`}
-                  onClick={this.toggleHistory}>
+                className="usa-button-unstyled"
+                aria-expanded={this.state.historyExpanded ? 'true' : 'false'}
+                aria-controls={`collapsible-${id}`}
+                onClick={this.toggleHistory}>
                 See Change History
               </button>
             </div>

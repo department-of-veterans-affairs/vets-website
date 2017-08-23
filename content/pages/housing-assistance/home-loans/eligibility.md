@@ -91,7 +91,7 @@ You may still be able to get a COE if you were discharged due to:
 
 ### Can I get a COE as the spouse of a Veteran? 
 
-You may be able to get a COE if you're the spouse of a Veteran who:
+You may be able to get a COE if you’re the spouse of a Veteran who:
 
 - Is missing in action, **or**
 - Is a prisoner of war (POW), **or**
@@ -127,7 +127,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 
 To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
 [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
-[Find your state's VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

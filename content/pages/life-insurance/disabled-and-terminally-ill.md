@@ -27,7 +27,7 @@ If you become totally disabled or terminally ill, you may be able to get certain
 
 #### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military?
 
-You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you're totally disabled or have certain conditions.
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you’re totally disabled or have certain conditions.
 
 [Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-and-eligibility/sgli#extension).
 
@@ -46,7 +46,7 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
-You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you're covered under Service-Disabled Veterans Life Insurance (S-DVI), and your total disability:
+You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you’re covered under Service-Disabled Veterans Life Insurance (S-DVI), and your total disability:
 -	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
 -	Continues for at least 6 months in a row
 
@@ -112,9 +112,9 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
  
 **If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](http://benefits.va.gov/INSURANCE/forms/8284.htm).
 
-- If you’re still on active duty or you're a Reservist, turn in the form to your service branch. They will need to fill out part of the form. 
+- If you’re still on active duty or you’re a Reservist, turn in the form to your service branch. They will need to fill out part of the form. 
 
-- If you're a Veteran, have your doctor fill out their part of the form, then send the completed form to:
+- If you’re a Veteran, have your doctor fill out their part of the form, then send the completed form to:
 
 <p class="va-address-block">
   The Prudential Insurance Company of America<br>
@@ -130,7 +130,7 @@ Or, fax the form to 877-832-4943.
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
  
-We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
+We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse’s death.
 
 <br>
  

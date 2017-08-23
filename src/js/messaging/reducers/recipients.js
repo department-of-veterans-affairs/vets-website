@@ -13,9 +13,9 @@ export default function recipients(state = initialState, action) {
       return initialState;
 
     case FETCH_RECIPIENTS_SUCCESS: {
-      // Take the recipients object returned during the fetch operation
-      // and one return {label, value} object for each object in the
-      // action.recipients.data array.
+    // Take the recipients object returned during the fetch operation
+    // and one return {label, value} object for each object in the
+    // action.recipients.data array.
       const data = action.recipients.data.map((item) => {
         return {
           label: item.attributes.name,

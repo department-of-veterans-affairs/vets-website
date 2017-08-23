@@ -97,7 +97,7 @@ export function getListOfBenefits(veteran) {
   }
 
   if (veteran.chapter32) {
-    benefitList.push('Post-Vietnam Era Veterans\' Educational Assistance Program (VEAP or chapter 32)');
+    benefitList.push('Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or chapter 32)');
   }
 
   return benefitList;

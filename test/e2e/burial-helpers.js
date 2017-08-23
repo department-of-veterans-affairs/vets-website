@@ -8,6 +8,7 @@ function completeClaimantInformation(client, data) {
 
   if (data.relationship.type === 'other') {
     client
+      .waitForElementVisible('input[name="root_relationship_other"]', Timeouts.normal)
       .fill('input[name="root_relationship_other"]', data.relationship.other)
       // Not sure what to do with this, exactly, but I'll make it an option.
       .clickIf('#root_relationship_view:isEntity', data.relationship.isEntity);
