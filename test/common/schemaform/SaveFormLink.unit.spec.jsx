@@ -29,10 +29,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should render login message when not logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
-          user={user}
-          savedStatus={SAVE_STATUSES.notAttempted}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        savedStatus={SAVE_STATUSES.notAttempted}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
 
     expect(tree.text()).to.contain('Save and finish later');
@@ -40,10 +40,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should render expired message when not logged in and noAuth status', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
-          user={user}
-          savedStatus={SAVE_STATUSES.noAuth}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        savedStatus={SAVE_STATUSES.noAuth}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
 
     expect(tree.text()).to.contain('Sorry, you’re signed out.');
@@ -52,10 +52,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should render save message when logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
-          user={loggedInUser}
-          savedStatus={SAVE_STATUSES.notAttempted}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={loggedInUser}
+        savedStatus={SAVE_STATUSES.notAttempted}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
 
     expect(tree.text()).to.contain('Save and finish later');
@@ -63,10 +63,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should show error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
-          user={user}
-          savedStatus={SAVE_STATUSES.failure}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        savedStatus={SAVE_STATUSES.failure}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
 
     expect(tree.text()).to.contain('having some issues');
@@ -75,10 +75,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should show client error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
-          user={user}
-          savedStatus={SAVE_STATUSES.clientFailure}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        savedStatus={SAVE_STATUSES.clientFailure}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
 
     expect(tree.text()).to.contain('connect to Vets.gov');
@@ -87,10 +87,10 @@ describe('Schemaform <SaveFormLink>', () => {
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveFormLink
-          user={user}
-          savedStatus={SAVE_STATUSES.notAttempted}
-          saveForm={saveFormSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        savedStatus={SAVE_STATUSES.notAttempted}
+        saveForm={saveFormSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -120,10 +120,10 @@ describe('Schemaform <SaveFormLink>', () => {
       //  didn't want to just .click() the tree (if that would even work).
       <div>
         <SaveFormLink
-            user={loggedInUser}
-            savedStatus={SAVE_STATUSES.notAttempted}
-            saveForm={saveFormSpy}
-            onUpdateLoginUrl={updateLoginSpy}/>
+          user={loggedInUser}
+          savedStatus={SAVE_STATUSES.notAttempted}
+          saveForm={saveFormSpy}
+          onUpdateLoginUrl={updateLoginSpy}/>
       </div>
     );
     const findDOM = findDOMNode(tree);

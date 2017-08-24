@@ -143,7 +143,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.usa-button-primary')
       .expect.element('.js-test-location').attribute('data-location')
-        .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);

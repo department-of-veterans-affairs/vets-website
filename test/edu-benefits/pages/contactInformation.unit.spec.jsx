@@ -15,9 +15,9 @@ const pageTests = (page, addressType = 'veteran') => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
@@ -34,9 +34,9 @@ const pageTests = (page, addressType = 'veteran') => {
   it('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -47,10 +47,10 @@ const pageTests = (page, addressType = 'veteran') => {
   it('should conditionally require phone number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -77,10 +77,10 @@ const pageTests = (page, addressType = 'veteran') => {
   it('should show error if emails do not match', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -115,14 +115,14 @@ const pageTests = (page, addressType = 'veteran') => {
     it('should not render confirm email', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            data={{
-              'view:otherContactInfo': {
-                'view:confirmEmail': 'test@test.com'
-              }
-            }}
-            reviewMode
-            uiSchema={uiSchema}/>
+          schema={schema}
+          data={{
+            'view:otherContactInfo': {
+              'view:confirmEmail': 'test@test.com'
+            }
+          }}
+          reviewMode
+          uiSchema={uiSchema}/>
       );
 
       expect(findDOMNode(form).textContent).not.to.contain('test@test.com');

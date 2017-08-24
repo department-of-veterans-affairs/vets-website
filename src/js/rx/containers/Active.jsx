@@ -56,8 +56,8 @@ class Active extends React.Component {
     const requestedSort = this.props.location.query.sort || 'prescriptionName';
     const sortOrder = requestedSort[0] === '-' ? 'DESC' : 'ASC';
     const sortValue = sortOrder === 'DESC'
-                    ? requestedSort.slice(1)
-                    : requestedSort;
+      ? requestedSort.slice(1)
+      : requestedSort;
 
     const shouldSort =
       !_.isEmpty(prescriptions) &&
@@ -100,8 +100,8 @@ class Active extends React.Component {
 
     return (
       <div
-          className="rx-view-toggle"
-          ref={(elem) => { this.viewToggle = elem; }}>
+        className="rx-view-toggle"
+        ref={(elem) => { this.viewToggle = elem; }}>
         View:
         <ul>
           {toggles.map(t => {
@@ -140,22 +140,22 @@ class Active extends React.Component {
       if (this.state.view === 'list') {
         prescriptionsView = (
           <PrescriptionTable
-              handleSort={this.handleSort}
-              currentSort={currentSort}
-              items={this.props.prescriptions}
-              refillModalHandler={this.props.openRefillModal}
-              glossaryModalHandler={this.props.openGlossaryModal}/>
+            handleSort={this.handleSort}
+            currentSort={currentSort}
+            items={this.props.prescriptions}
+            refillModalHandler={this.props.openRefillModal}
+            glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       } else {
         prescriptionsView = (
           <PrescriptionList
-              items={this.props.prescriptions}
-              // If we’re sorting by facility, tell PrescriptionList to group 'em.
-              grouped={currentSort.value === 'facilityName'}
-              handleSort={this.handleSort}
-              currentSort={currentSort}
-              refillModalHandler={this.props.openRefillModal}
-              glossaryModalHandler={this.props.openGlossaryModal}/>
+            items={this.props.prescriptions}
+            // If we’re sorting by facility, tell PrescriptionList to group 'em.
+            grouped={currentSort.value === 'facilityName'}
+            handleSort={this.handleSort}
+            currentSort={currentSort}
+            refillModalHandler={this.props.openRefillModal}
+            glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       }
 

@@ -66,10 +66,10 @@ class DetailsPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-          claim={claim}
-          currentTab="Details"
-          loading={loading}
-          synced={synced}>
+        claim={claim}
+        currentTab="Details"
+        loading={loading}
+        synced={synced}>
         {content}
       </ClaimDetailLayout>
     );

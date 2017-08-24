@@ -9,15 +9,15 @@ class HealthBetaEnrollment extends React.Component {
     return (
       <div>
         <RequiredLoginView
-            authRequired={1}
-            serviceRequired="user-profile"
-            userProfile={this.props.profile}
-            loginUrl={this.props.loginUrl}
-            verifyUrl={this.props.verifyUrl}>
+          authRequired={1}
+          serviceRequired="user-profile"
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
           {this.props.children}
         </RequiredLoginView>
       </div>
-      );
+    );
   }
 }
 

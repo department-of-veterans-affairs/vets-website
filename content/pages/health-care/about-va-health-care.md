@@ -16,7 +16,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div class="va-introtext">
+<div itemprop="description" class="va-introtext">
 
 If you qualify for VA health care, you’ll receive coverage for the services you need to help you get—and stay—healthy. Learn more about your health care benefits.
 
@@ -47,7 +47,7 @@ You should also know that being signed up for VA health care meets your Affordab
 </div>
 </div>
 
-<br />
+<br>
 
 ### More about your medical benefits package
 
@@ -66,7 +66,7 @@ You should also know that being signed up for VA health care meets your Affordab
 - [What if I need help accessing services?](#health-accessing-services)
 - [Can I manage my VA health and benefits online?](#health-manage-online)
 
-<br />
+<br>
 
 <div id="health-about-basic" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">What basic health care services does VA cover?</h4>
@@ -93,7 +93,7 @@ You should also know that being signed up for VA health care meets your Affordab
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-other-services" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">What other medical services will VA cover to support my treatment?</h4>
@@ -109,7 +109,7 @@ We may cover services that your VA primary care provider concludes you need to s
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-non-medical" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name"> Will VA cover any non-medical services to support my treatment?</h4>
@@ -125,7 +125,7 @@ You may be able to get help with some non-medical services, like:
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-vision" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA cover my vision care?</h4>
@@ -137,7 +137,7 @@ We cover routine eye exams and preventive tests. In some cases, you may get cove
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-dental" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA cover my dental care?</h4>
@@ -149,7 +149,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-assisted-living" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA cover my assisted living and home health care?</h4>
@@ -161,7 +161,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-not-covered" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">What services aren’t covered under VA health care?</h4>
@@ -182,7 +182,7 @@ These services are **not** included in your VA medical benefits package:
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
@@ -194,7 +194,7 @@ At VA, we take a team approach to health care—with you at the center. Research
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-care-locations" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Where will I go to get care?</h4>
@@ -206,7 +206,7 @@ When you sign up for VA health care, you become part of the country’s largest 
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-about-other-insurance" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">How will VA health care work if I also have Medicare, Medicaid, or private insurance?</h4>
@@ -218,7 +218,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-accessing-services" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">What if I need help accessing services?</h4>
@@ -230,7 +230,7 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 </div>
 </div>
 </div>
-<br />
+<br>
 
 <div id="health-manage-online" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Can I manage my VA health and benefits online?</h4>
@@ -239,7 +239,7 @@ Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-22
 
 Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online:
 
-[Refill your prescriptions](/health-care/prescriptions/). <br /> 
+[Refill your prescriptions](/health-care/prescriptions/). <br> 
 [Send a secure message to your health care team](/health-care/messaging/). 
 
 You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).

@@ -6,12 +6,12 @@ import Main from './containers/Main.jsx';
 
 const routes = [
   <Route
-      component={Main}
-      key="main">
+    component={Main}
+    key="main">
     <IndexRoute
-        component={DownloadLetters}
-        name="Download Letters"
-        key="download-letters"/>
+      component={DownloadLetters}
+      name="Download Letters"
+      key="download-letters"/>
   </Route>
 ];
 

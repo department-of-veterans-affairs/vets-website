@@ -31,11 +31,11 @@ class LettersApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-          authRequired={3}
-          serviceRequired="evss-claims"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+        authRequired={3}
+        serviceRequired="evss-claims"
+        userProfile={this.props.profile}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}>
         <AppContent>
           <div>
             {this.props.children}

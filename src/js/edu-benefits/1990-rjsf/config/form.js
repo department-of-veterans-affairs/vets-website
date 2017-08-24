@@ -11,7 +11,7 @@ import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/currentOrPastMonthYear';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
@@ -376,7 +376,7 @@ const formConfig = {
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {
-            highSchoolOrGedCompletionDate: currentOrPastDateUI('When did you earn your high school diploma or equivalency certificate?'),
+            highSchoolOrGedCompletionDate: currentOrPastMonthYearUI('When did you earn your high school diploma or equivalency certificate?'),
             postHighSchoolTrainings: postHighSchoolTrainingsUI,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',

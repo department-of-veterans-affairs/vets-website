@@ -143,40 +143,40 @@ class FormPage extends React.Component {
     return (
       <div className="form-panel">
         <SchemaForm
-            name={route.pageConfig.pageKey}
-            title={route.pageConfig.title}
-            data={data}
-            schema={schema}
-            uiSchema={uiSchema}
-            pagePerItemIndex={params ? params.index : undefined}
-            uploadFile={this.props.uploadFile}
-            prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}>
+          name={route.pageConfig.pageKey}
+          title={route.pageConfig.title}
+          data={data}
+          schema={schema}
+          uiSchema={uiSchema}
+          pagePerItemIndex={params ? params.index : undefined}
+          uploadFile={this.props.uploadFile}
+          prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-outline"
-                  beforeText="«"/>
+                onButtonClick={this.goBack}
+                buttonText="Back"
+                buttonClass="usa-button-outline"
+                beforeText="«"/>
             </div>
             <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
-                  submitButton
-                  buttonText="Continue"
-                  buttonClass="usa-button-primary"
-                  afterText="»"/>
+                submitButton
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
             </div>
           </div>
           {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
-                  trackingPrefix={form.trackingPrefix}
-                  saveForm={this.handleSave}
-                  savedStatus={form.savedStatus}
-                  user={this.props.user}
-                  onUpdateLoginUrl={this.props.updateLogInUrl}/>
+                trackingPrefix={form.trackingPrefix}
+                saveForm={this.handleSave}
+                savedStatus={form.savedStatus}
+                user={this.props.user}
+                onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>
           </div>}
         </SchemaForm>

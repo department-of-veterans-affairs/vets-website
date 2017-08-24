@@ -29,20 +29,20 @@ class ModalConfirmSave extends React.Component {
         <div className="va-modal-button-group">
           <button type="submit">Save as draft</button>
           <button
-              className="usa-button-outline"
-              onClick={this.props.onClose}
-              type="button">Cancel</button>
+            className="usa-button-outline"
+            onClick={this.props.onClose}
+            type="button">Cancel</button>
         </div>
       </form>
     );
 
     return (
       <Modal
-          cssClass={this.props.cssClass}
-          contents={modalContents}
-          id={this.props.id}
-          onClose={this.props.onClose}
-          visible={this.props.visible}/>
+        cssClass={this.props.cssClass}
+        contents={modalContents}
+        id={this.props.id}
+        onClose={this.props.onClose}
+        visible={this.props.visible}/>
     );
   }
 }

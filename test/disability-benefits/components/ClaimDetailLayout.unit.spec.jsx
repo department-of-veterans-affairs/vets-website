@@ -8,7 +8,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          loading/>
+        loading/>
     );
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
@@ -25,8 +25,8 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          claim={claim}
-          synced={false}/>
+        claim={claim}
+        synced={false}/>
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
@@ -42,7 +42,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          claim={claim}/>
+        claim={claim}/>
     );
 
     expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2');
@@ -63,7 +63,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          claim={claim}/>
+        claim={claim}/>
     );
 
     expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2, Condition 3');
@@ -79,7 +79,7 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          claim={claim}/>
+        claim={claim}/>
     );
 
     expect(tree.subTree('.list').text()).to.contain('Not available');
@@ -97,8 +97,8 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          currentTab="Status"
-          claim={claim}/>
+        currentTab="Status"
+        claim={claim}/>
     );
 
     expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
@@ -116,8 +116,8 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          currentTab="Status"
-          claim={claim}/>
+        currentTab="Status"
+        claim={claim}/>
     );
 
     expect(tree.everySubTree('AddingDetails')).to.be.empty;
@@ -137,8 +137,8 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          currentTab="Status"
-          claim={claim}>
+        currentTab="Status"
+        claim={claim}>
         <div className="child-content"/>
       </ClaimDetailLayout>
     );
@@ -162,8 +162,8 @@ describe('<ClaimDetailLayout>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          message={message}
-          claim={claim}/>
+        message={message}
+        claim={claim}/>
     );
 
     expect(tree.subTree('Notification')).not.to.be.false;

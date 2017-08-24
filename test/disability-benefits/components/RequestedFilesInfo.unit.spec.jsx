@@ -11,9 +11,9 @@ describe('<RequestedFilesInfo>', () => {
 
     const tree = SkinDeep.shallowRender(
       <RequestedFilesInfo
-          id="1"
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}/>
+        id="1"
+        filesNeeded={filesNeeded}
+        optionalFiles={optionalFiles}/>
     );
     expect(tree.everySubTree('.no-documents')).not.to.be.empty;
   });
@@ -30,9 +30,9 @@ describe('<RequestedFilesInfo>', () => {
 
     const tree = SkinDeep.shallowRender(
       <RequestedFilesInfo
-          id="1"
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}/>
+        id="1"
+        filesNeeded={filesNeeded}
+        optionalFiles={optionalFiles}/>
     );
 
     expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
@@ -51,9 +51,9 @@ describe('<RequestedFilesInfo>', () => {
 
     const tree = SkinDeep.shallowRender(
       <RequestedFilesInfo
-          id="1"
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}/>
+        id="1"
+        filesNeeded={filesNeeded}
+        optionalFiles={optionalFiles}/>
     );
 
     expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;

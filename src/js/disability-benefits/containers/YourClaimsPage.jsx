@@ -145,20 +145,20 @@ class YourClaimsPage extends React.Component {
           <MainTabNav/>
           {tabs.map(tab => (
             <div
-                key={tab}
-                role="tabpanel"
-                id={`tabPanel${tab}`}
-                aria-labelledby={`tab${tab}`}
-                aria-hidden={currentTab !== tab}>
+              key={tab}
+              role="tabpanel"
+              id={`tabPanel${tab}`}
+              aria-labelledby={`tab${tab}`}
+              aria-hidden={currentTab !== tab}>
               {currentTab === tab &&
                 <div className="va-tab-content">
                   <div className="claims-list-sort">
                     <ErrorableSelect
-                        label="Sort by"
-                        includeBlankOption={false}
-                        options={sortOptions}
-                        value={{ value: this.props.sortProperty }}
-                        onValueChange={this.handleSort}/>
+                      label="Sort by"
+                      includeBlankOption={false}
+                      options={sortOptions}
+                      value={{ value: this.props.sortProperty }}
+                      onValueChange={this.handleSort}/>
                   </div>
                   {content}
                 </div>
@@ -193,12 +193,12 @@ class YourClaimsPage extends React.Component {
             </p>
             {content}
             <Modal
-                onClose={() => true}
-                visible={this.props.consolidatedModal}
-                hideCloseButton
-                id="consolidated-claims"
-                cssClass="claims-upload-modal"
-                contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
+              onClose={() => true}
+              visible={this.props.consolidatedModal}
+              hideCloseButton
+              id="consolidated-claims"
+              cssClass="claims-upload-modal"
+              contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns">
             <FeaturesWarning/>

@@ -135,23 +135,23 @@ export default class ReviewCollapsiblePanel extends React.Component {
                   <div className="form-review-panel-page-header-row">
                     <h5 className="form-review-panel-page-header">{pageCount > 1 && page.name}</h5>
                     <button
-                        className="edit-btn primary-outline"
-                        onClick={() => this.handleEdit(page.path)}>Edit</button>
+                      className="edit-btn primary-outline"
+                      onClick={() => this.handleEdit(page.path)}>Edit</button>
                   </div>}
                 {(editing || !ReviewComponent) &&
                   <Component
-                      data={this.props.data}
-                      editing={editing}
-                      onEdit={() => this.handleEdit(page.path)}
-                      onSave={() => this.handleSave(page.path)}
-                      inReview
-                      onStateChange={this.props.onStateChange}
-                      initializeFields={this.props.onFieldsInitialized}/>}
+                    data={this.props.data}
+                    editing={editing}
+                    onEdit={() => this.handleEdit(page.path)}
+                    onSave={() => this.handleSave(page.path)}
+                    inReview
+                    onStateChange={this.props.onStateChange}
+                    initializeFields={this.props.onFieldsInitialized}/>}
                 {!editing && !!ReviewComponent &&
                   <ReviewComponent data={this.props.data}/>}
                 {editing && !!ReviewComponent && <button
-                    className="usa-button-primary"
-                    onClick={() => this.handleSave(page.path)}>Update page</button>}
+                  className="usa-button-primary"
+                  onClick={() => this.handleSave(page.path)}>Update page</button>}
               </div>
             );
           })}

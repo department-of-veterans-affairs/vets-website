@@ -10,7 +10,7 @@ describe('<DueDate>', () => {
     const date = moment().subtract(1, 'day').format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(
       <DueDate
-          date={date}/>
+        date={date}/>
     );
 
     expect(tree.everySubTree('.past-due')).not.to.be.empty;
@@ -19,7 +19,7 @@ describe('<DueDate>', () => {
     const date = moment().subtract(1, 'hour').format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(
       <DueDate
-          date={date}/>
+        date={date}/>
     );
 
     expect(tree.everySubTree('.past-due')).not.to.be.empty;
@@ -28,7 +28,7 @@ describe('<DueDate>', () => {
     const date = moment().add(1, 'day').format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(
       <DueDate
-          date={date}/>
+        date={date}/>
     );
 
     expect(tree.everySubTree('.due-file')).not.to.be.empty;

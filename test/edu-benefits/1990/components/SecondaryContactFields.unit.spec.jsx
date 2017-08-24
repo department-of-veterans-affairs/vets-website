@@ -14,8 +14,8 @@ describe('<SecondaryContactFields>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SecondaryContactFields
-          data={data}
-          onStateChange={onStateChange}/>
+        data={data}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(0);
@@ -26,8 +26,8 @@ describe('<SecondaryContactFields>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SecondaryContactFields
-          data={data}
-          onStateChange={onStateChange}/>
+        data={data}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(1);
