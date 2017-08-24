@@ -52,7 +52,7 @@ describe('<SaveInProgressErrorPage>', () => {
 
     expect(findDOM.querySelector('.usa-alert').textContent).to.contain('You have been signed out.');
     expect(findDOM.querySelector('.usa-button-outline').textContent).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Sign in');
+    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Log in');
   });
   it('should render the unrecoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
