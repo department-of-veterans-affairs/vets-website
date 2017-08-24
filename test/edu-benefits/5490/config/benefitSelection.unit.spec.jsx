@@ -12,9 +12,9 @@ describe('Edu 5490 benefitSelection', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{ relationship: 'spouse' }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{ relationship: 'spouse' }}
+        uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
@@ -27,19 +27,19 @@ describe('Edu 5490 benefitSelection', () => {
   it('should show nested content', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -62,20 +62,20 @@ describe('Edu 5490 benefitSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -87,20 +87,20 @@ describe('Edu 5490 benefitSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

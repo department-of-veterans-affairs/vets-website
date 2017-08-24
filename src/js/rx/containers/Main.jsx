@@ -14,14 +14,14 @@ class Main extends React.Component {
     return (
       <ErrorView errors={this.props.errors}>
         <AlertBox
-            content={this.props.alert.content}
-            isVisible={this.props.alert.visible}
-            onCloseAlert={this.props.closeAlert}
-            scrollOnShow
-            status={this.props.alert.status}/>
+          content={this.props.alert.content}
+          isVisible={this.props.alert.visible}
+          onCloseAlert={this.props.closeAlert}
+          scrollOnShow
+          status={this.props.alert.status}/>
         <Disclaimer
-            isOpen={this.props.disclaimer.open}
-            handleClose={this.props.closeDisclaimer}/>
+          isOpen={this.props.disclaimer.open}
+          handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app-title">
           <h1>Prescription Refill</h1>
           <SettingsButton/>

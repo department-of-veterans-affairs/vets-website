@@ -18,11 +18,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -44,11 +44,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -67,11 +67,11 @@ describe('Schemaform <FieldTemplate>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          required
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        required
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -91,11 +91,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -117,11 +117,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -143,11 +143,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -168,11 +168,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );
@@ -193,11 +193,11 @@ describe('Schemaform <FieldTemplate>', () => {
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
-          id="test"
-          schema={schema}
-          uiSchema={uiSchema}
-          rawErrors={errors}
-          formContext={formContext}>
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
     );

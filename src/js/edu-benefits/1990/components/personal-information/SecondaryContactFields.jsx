@@ -15,29 +15,29 @@ export default class SecondaryContactFields extends React.Component {
         <p><span className="form-required-span">*</span>Indicates a required field</p>
         <div className="input-section">
           <ErrorableTextInput
-              label="Name"
-              autocomplete="name"
-              name="secondaryContactName"
-              field={this.props.data.secondaryContact.fullName}
-              onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>
+            label="Name"
+            autocomplete="name"
+            name="secondaryContactName"
+            field={this.props.data.secondaryContact.fullName}
+            onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>
           <Phone
-              additionalClass="usa-input-medium"
-              label="Telephone number"
-              name="secondaryContactPhone"
-              value={this.props.data.secondaryContact.phone}
-              onValueChange={(update) => {this.props.onStateChange('secondaryContact.phone', update);}}/>
+            additionalClass="usa-input-medium"
+            label="Telephone number"
+            name="secondaryContactPhone"
+            value={this.props.data.secondaryContact.phone}
+            onValueChange={(update) => {this.props.onStateChange('secondaryContact.phone', update);}}/>
         </div>
         <div className="input-section">
           <h4>Address</h4>
           <ErrorableCheckbox
-              label="Address for secondary contact is the same as mine."
-              name="secondaryContactSameAddress"
-              checked={this.props.data.secondaryContact.sameAddress}
-              onValueChange={(update) => {this.props.onStateChange('secondaryContact.sameAddress', update);}}/>
+            label="Address for secondary contact is the same as mine."
+            name="secondaryContactSameAddress"
+            checked={this.props.data.secondaryContact.sameAddress}
+            onValueChange={(update) => {this.props.onStateChange('secondaryContact.sameAddress', update);}}/>
           {!this.props.data.secondaryContact.sameAddress
             ? <Address
-                value={this.props.data.secondaryContact.address}
-                onUserInput={(update) => {this.props.onStateChange('secondaryContact.address', update);}}/>
+              value={this.props.data.secondaryContact.address}
+              onUserInput={(update) => {this.props.onStateChange('secondaryContact.address', update);}}/>
             : null}
         </div>
       </fieldset>

@@ -53,7 +53,7 @@ function letters(state = initialState, action) {
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', 'letterEligibilityError', state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
-      // Gather all possible displayed options that the user may toggle on/off.
+    // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {

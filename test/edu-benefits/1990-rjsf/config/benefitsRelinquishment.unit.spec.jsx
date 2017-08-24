@@ -19,10 +19,10 @@ describe('Edu 1990 benefitsRelinquishment', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={defaultData}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}/>
+        schema={schema}
+        data={defaultData}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -33,11 +33,11 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={defaultData}
-          uiSchema={uiSchema}
-          onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}/>
+        schema={schema}
+        data={defaultData}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -58,10 +58,10 @@ describe('Edu 1990 benefitsRelinquishment', () => {
   it('should show nested content', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={defaultData}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}/>
+        schema={schema}
+        data={defaultData}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -73,10 +73,10 @@ describe('Edu 1990 benefitsRelinquishment', () => {
   it('should require benefitsRelinquishedDate', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={defaultData}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}/>
+        schema={schema}
+        data={defaultData}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -92,11 +92,11 @@ describe('Edu 1990 benefitsRelinquishment', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={defaultData}
-          uiSchema={uiSchema}
-          onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}/>
+        schema={schema}
+        data={defaultData}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}/>
     );
     const formDOM = getFormDOM(form);
 

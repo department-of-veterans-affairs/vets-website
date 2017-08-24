@@ -35,14 +35,14 @@ class SocialSecurityNumber extends React.Component {
     return (
       <div>
         <ErrorableTextInput
-            autocomplete="false"
-            additionalClass="usa-input-medium"
-            errorMessage={errorMessage}
-            label={this.props.label || 'Social Security Number'}
-            name="ssn"
-            required={this.props.required !== undefined ? this.props.required : true}
-            field={this.props.ssn}
-            onValueChange={this.props.onValueChange}/>
+          autocomplete="false"
+          additionalClass="usa-input-medium"
+          errorMessage={errorMessage}
+          label={this.props.label || 'Social Security Number'}
+          name="ssn"
+          required={this.props.required !== undefined ? this.props.required : true}
+          field={this.props.ssn}
+          onValueChange={this.props.onValueChange}/>
       </div>
     );
   }

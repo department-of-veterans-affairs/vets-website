@@ -39,10 +39,10 @@ class IntroductionPage extends React.Component {
           </div>
           <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
+              onButtonClick={this.goForward}
+              buttonText="Continue"
+              buttonClass="usa-button-primary"
+              afterText="»"/>
           </div>
         </div>
         <div className="omb-info--container">

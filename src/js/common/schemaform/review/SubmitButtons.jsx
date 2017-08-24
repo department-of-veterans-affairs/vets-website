@@ -22,33 +22,33 @@ export default function SubmitButtons(props) {
   if (submission.status === false) {
     submitButton = (
       <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Submit Application"
-          buttonClass="usa-button-primary"/>
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
     );
   } else if (submission.status === 'submitPending') {
     submitButton = (
       <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Sending..."
-          disabled
-          buttonClass="usa-button-disabled"/>
+        onButtonClick={onSubmit}
+        buttonText="Sending..."
+        disabled
+        buttonClass="usa-button-disabled"/>
     );
   } else if (submission.status === 'applicationSubmitted') {
     submitButton = (
       <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Submitted"
-          disabled
-          buttonClass="form-button-green"
-          beforeText="&#10003;"/>
+        onButtonClick={onSubmit}
+        buttonText="Submitted"
+        disabled
+        buttonClass="form-button-green"
+        beforeText="&#10003;"/>
     );
   } else if (submission.status === 'clientError') {
     submitButton = (
       <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Submit Application"
-          buttonClass="usa-button-primary"/>
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
     );
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
@@ -61,9 +61,9 @@ export default function SubmitButtons(props) {
   } else if (submission.status === 'validationError') {
     submitButton = (
       <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Submit Application"
-          buttonClass="usa-button-primary"/>
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
     );
     submitMessage = (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
@@ -80,11 +80,11 @@ export default function SubmitButtons(props) {
       // Pass the props here instead of inline
       const SaveLink = ({ children }) => (
         <SaveFormLink
-            locationPathname={locationPathname}
-            form={form}
-            user={user}
-            saveInProgressForm={saveInProgressForm}
-            onUpdateLoginUrl={onUpdateLoginUrl}>
+          locationPathname={locationPathname}
+          form={form}
+          user={user}
+          saveInProgressForm={saveInProgressForm}
+          onUpdateLoginUrl={onUpdateLoginUrl}>
           {children}
         </SaveFormLink>
       );
@@ -148,10 +148,10 @@ export default function SubmitButtons(props) {
       <div className="row form-progress-buttons">
         <div className="small-6 usa-width-five-twelfths medium-5 columns">
           <ProgressButton
-              onButtonClick={onBack}
-              buttonText="Back"
-              buttonClass="usa-button-outline"
-              beforeText="«"/>
+            onButtonClick={onBack}
+            buttonText="Back"
+            buttonClass="usa-button-outline"
+            beforeText="«"/>
         </div>
         <div className="small-6 usa-width-five-twelfths medium-5 columns">
           {submitButton}
@@ -162,7 +162,7 @@ export default function SubmitButtons(props) {
       </div>
       <div className="row">
         <div className="columns">
-        {submitMessage}
+          {submitMessage}
         </div>
       </div>
     </div>

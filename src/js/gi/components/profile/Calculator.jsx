@@ -69,17 +69,17 @@ export class Calculator extends React.Component {
     return (
       <div className="calculator-inputs">
         <button
-            onClick={this.toggleCalculatorForm}
-            className="usa-button-outline">
+          onClick={this.toggleCalculatorForm}
+          className="usa-button-outline">
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
         {expanded ?
           <div className="form-expanding-group-open">
             <CalculatorForm
-                inputs={inputs}
-                displayedInputs={displayed}
-                onShowModal={this.props.showModal}
-                onInputChange={this.props.calculatorInputChange}/>
+              inputs={inputs}
+              displayedInputs={displayed}
+              onShowModal={this.props.showModal}
+              onInputChange={this.props.calculatorInputChange}/>
           </div> : null}
       </div>
     );
@@ -104,11 +104,11 @@ export class Calculator extends React.Component {
           </div>
           {terms.map(term => (
             <CalculatorResultRow
-                key={`${section}${term.label}`}
-                label={term.label}
-                value={term.value}
-                bold={term.label === 'Total per year'}
-                visible={term.visible}/>
+              key={`${section}${term.label}`}
+              label={term.label}
+              value={term.value}
+              bold={term.label === 'Total per year'}
+              visible={term.visible}/>
           ))}
         </div>
       );
@@ -140,40 +140,40 @@ export class Calculator extends React.Component {
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
-                label="GI Bill pays to school"
-                value={outputs.giBillPaysToSchool.value}
-                visible={outputs.giBillPaysToSchool.visible}
-                header/>
+              label="GI Bill pays to school"
+              value={outputs.giBillPaysToSchool.value}
+              visible={outputs.giBillPaysToSchool.visible}
+              header/>
             <CalculatorResultRow
-                label="Tuition and fees charged"
-                value={outputs.tuitionAndFeesCharged.value}
-                visible={outputs.tuitionAndFeesCharged.visible}/>
+              label="Tuition and fees charged"
+              value={outputs.tuitionAndFeesCharged.value}
+              visible={outputs.tuitionAndFeesCharged.visible}/>
             <CalculatorResultRow
-                label="Your scholarships"
-                value={outputs.yourScholarships.value}
-                visible={outputs.yourScholarships.visible}/>
+              label="Your scholarships"
+              value={outputs.yourScholarships.value}
+              visible={outputs.yourScholarships.visible}/>
             <CalculatorResultRow
-                label="Out of pocket tuition"
-                value={outputs.outOfPocketTuition.value}
-                bold
-                visible={outputs.outOfPocketTuition.visible}/>
+              label="Out of pocket tuition"
+              value={outputs.outOfPocketTuition.value}
+              bold
+              visible={outputs.outOfPocketTuition.visible}/>
           </div>
           <div className="total-paid-to-you">
             <CalculatorResultRow
-                label="Housing allowance"
-                value={outputs.housingAllowance.value}
-                visible={outputs.housingAllowance.visible}
-                header/>
+              label="Housing allowance"
+              value={outputs.housingAllowance.value}
+              visible={outputs.housingAllowance.visible}
+              header/>
             <CalculatorResultRow
-                label="Book stipend"
-                value={outputs.bookStipend.value}
-                visible={outputs.bookStipend.visible}
-                header/>
+              label="Book stipend"
+              value={outputs.bookStipend.value}
+              visible={outputs.bookStipend.visible}
+              header/>
             <CalculatorResultRow
-                label="Total paid to you"
-                value={outputs.totalPaidToYou.value}
-                bold
-                visible={outputs.totalPaidToYou.visible}/>
+              label="Total paid to you"
+              value={outputs.totalPaidToYou.value}
+              bold
+              visible={outputs.totalPaidToYou.visible}/>
           </div>
           <hr/>
           {this.renderPerTermSections()}

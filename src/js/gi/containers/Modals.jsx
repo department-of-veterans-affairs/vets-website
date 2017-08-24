@@ -91,13 +91,13 @@ export class Modals extends React.Component {
           <p>
             If a school has a student Veterans group that’s not represented here,
             please email <a title="224A.VBAVACO@va.gov"
-                href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
+              href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
             We make quarterly updates to this tool.
           </p>
           <p>
             Please note this email address is only for tool-related issues. For questions about your
             GI Bill benefits, please check this <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-                target="_blank">"Ask a Question" page</a>.
+              target="_blank">"Ask a Question" page</a>.
           </p>
         </Modal>
 
@@ -105,15 +105,15 @@ export class Modals extends React.Component {
           <h2>Yellow Ribbon</h2>
           <p>
             The <a title="Post-9/11 GI Bill"
-                href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
             Post-9/11 GI Bill</a> can cover all in-state tuition and fees at public degree granting
             schools, but may not cover all private degree granting schools and out-of-state tuition.
             The Yellow Ribbon Program provides additional support in those situations. Institutions
             voluntarily enter into an agreement with VA to fund uncovered charges. VA matches each
             dollar of unmet charges the institution agrees to contribute, up to the total cost of
             the tuition and fees. <a title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
           </p>
           <p>
             Only Veterans entitled to the maximum benefit rate (based on service requirements) or
@@ -128,7 +128,7 @@ export class Modals extends React.Component {
           <h2>Principles of Excellence</h2>
           <p>
             The <a title="Principles of Excellence"
-                href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
+              href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
             Principles of Excellence</a> are guidelines for educational institutions receiving
             Federal funding. Schools that agree to participate will:
           </p>
@@ -178,8 +178,8 @@ export class Modals extends React.Component {
           </p>
           <p>
             To learn more about accreditation, visit the U.S. Department of Education’s <a
-                href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-                target="_blank">8 Keys to Veterans’ Success</a> page.
+              href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
+              target="_blank">8 Keys to Veterans’ Success</a> page.
           </p>
         </Modal>
 
@@ -282,8 +282,8 @@ export class Modals extends React.Component {
           <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">School operating under provisional accreditation (previously accredited by ACICS)</a></p>
           <p>
             To learn more, visit the "Caution Flag" section of the <a
-                href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-                target="_blank">"About this Tool"</a> page.
+              href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank">"About this Tool"</a> page.
           </p>
         </Modal>
       </span>
@@ -317,8 +317,8 @@ export class Modals extends React.Component {
             dollar of unmet charges that the institution agrees to contribute, up to the total cost
             of the tuition and fees. For Frequently Asked Questions about the Yellow Ribbon Program,
             visit <a title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank">this page.</a>
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank">this page.</a>
           </p>
           <p>
             Only Veterans entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
@@ -353,8 +353,8 @@ export class Modals extends React.Component {
           <p>
             For more information about MHA increases or decreases,
             visit <a title="For more information about MHA increases or decreases click here"
-                href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-                target="_blank">this page</a>.
+              href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
+              target="_blank">this page</a>.
           </p>
         </Modal>
 
@@ -370,7 +370,7 @@ export class Modals extends React.Component {
             Defense, to extend a tour of duty or retain highly skilled military personnel. The money
             is a bonus on top of any GI Bill payments paid directly to the Veteran. To learn more,
             visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                target="_blank">this page</a>.</p>
+              target="_blank">this page</a>.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
@@ -426,7 +426,7 @@ export class Modals extends React.Component {
             monthly payment amount when using the Montgomery GI Bill. To learn
             more about MGIB please visit
             &nbsp;<a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
-                id="anch_399" target="_blank">
+              id="anch_399" target="_blank">
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>.
           </p>
@@ -443,7 +443,7 @@ export class Modals extends React.Component {
             rates increasing at one year and again at two years of consecutive
             service. To learn more about REAP please visit
             &nbsp;<a href="http://www.benefits.va.gov/gibill/reap.asp"
-                id="anch_403" target="_blank">
+              id="anch_403" target="_blank">
               http://www.benefits.va.gov/gibill/reap.asp
             </a>.
           </p>

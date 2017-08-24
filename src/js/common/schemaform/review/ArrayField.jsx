@@ -204,18 +204,18 @@ class ArrayField extends React.Component {
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && uiOptions.itemName && items.length > 1
-                          ? <h5>New {uiOptions.itemName}</h5>
-                          : null}
+                        ? <h5>New {uiOptions.itemName}</h5>
+                        : null}
                       <SchemaForm
-                          data={item}
-                          schema={itemSchema}
-                          uiSchema={arrayPageConfig.uiSchema}
-                          title={pageTitle}
-                          hideTitle
-                          name={fieldName}
-                          onChange={(data) => this.handleSetData(index, data)}
-                          onEdit={() => this.handleEdit(index, !isEditing)}
-                          onSubmit={() => this.handleSave(index)}>
+                        data={item}
+                        schema={itemSchema}
+                        uiSchema={arrayPageConfig.uiSchema}
+                        title={pageTitle}
+                        hideTitle
+                        name={fieldName}
+                        onChange={(data) => this.handleSetData(index, data)}
+                        onEdit={() => this.handleEdit(index, !isEditing)}
+                        onSubmit={() => this.handleSave(index)}>
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             <button className="float-left">Update</button>
@@ -234,15 +234,15 @@ class ArrayField extends React.Component {
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
                   <SchemaForm
-                      reviewMode
-                      data={item}
-                      schema={itemSchema}
-                      uiSchema={arrayPageConfig.uiSchema}
-                      title={itemTitle}
-                      name={fieldName}
-                      onChange={(data) => this.handleSetData(index, data)}
-                      onEdit={() => this.handleEdit(index, !isEditing)}
-                      onSubmit={() => this.handleSave(index)}>
+                    reviewMode
+                    data={item}
+                    schema={itemSchema}
+                    uiSchema={arrayPageConfig.uiSchema}
+                    title={itemTitle}
+                    name={fieldName}
+                    onChange={(data) => this.handleSetData(index, data)}
+                    onEdit={() => this.handleEdit(index, !isEditing)}
+                    onSubmit={() => this.handleSave(index)}>
                     <div/>
                   </SchemaForm>
                 </div>

@@ -79,16 +79,16 @@ export class Settings extends React.Component {
     return (
       <div className="rx-notifications-save">
         <button
-            className={saveButtonClass}
-            disabled={!isSaveable}>
+          className={saveButtonClass}
+          disabled={!isSaveable}>
           Save changes
         </button>
         {
           isSaveable &&
           (<button
-              className="usa-button-outline"
-              type="button"
-              onClick={() => this.setState({ discardChanges: true })}>
+            className="usa-button-outline"
+            type="button"
+            onClick={() => this.setState({ discardChanges: true })}>
             Cancel
           </button>)
         }
@@ -120,11 +120,11 @@ export class Settings extends React.Component {
     return (
       <div id="rx-settings">
         <AlertBox
-            content={alert.content}
-            isVisible={alert.visible}
-            onCloseAlert={this.props.closeAlert}
-            scrollOnShow
-            status={alert.status}/>
+          content={alert.content}
+          isVisible={alert.visible}
+          onCloseAlert={this.props.closeAlert}
+          scrollOnShow
+          status={alert.status}/>
         <div className="rx-app-title">
           <h1>Settings</h1>
           <SettingsButton/>
@@ -134,30 +134,30 @@ export class Settings extends React.Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <ErrorableRadioButtons
-              name="notifications"
-              label="Prescription refill shipment notification:"
-              options={[
-                { label: 'On', value: 'true' },
-                { label: 'Off', value: 'false' }
-              ]}
-              onValueChange={v => this.props.setNotificationFlag(v)}
-              value={flag}/>
+            name="notifications"
+            label="Prescription refill shipment notification:"
+            options={[
+              { label: 'On', value: 'true' },
+              { label: 'Off', value: 'false' }
+            ]}
+            onValueChange={v => this.props.setNotificationFlag(v)}
+            value={flag}/>
           {
             flag.value !== 'false' &&
             (<ErrorableTextInput
-                name="email"
-                label="Send email notifications to:"
-                onValueChange={({ value }) =>
-                  this.props.setNotificationEmail(makeField(value, true))
-                }
-                field={email}/>)
+              name="email"
+              label="Send email notifications to:"
+              onValueChange={({ value }) =>
+                this.props.setNotificationEmail(makeField(value, true))
+              }
+              field={email}/>)
           }
           {this.renderSaveButtons()}
         </form>
         <DiscardChangesModal
-            onClose={() => this.setState({ discardChanges: false })}
-            onSubmit={this.props.fetchPreferences}
-            visible={this.state.discardChanges}/>
+          onClose={() => this.setState({ discardChanges: false })}
+          onSubmit={this.props.fetchPreferences}
+          visible={this.state.discardChanges}/>
       </div>
     );
   }

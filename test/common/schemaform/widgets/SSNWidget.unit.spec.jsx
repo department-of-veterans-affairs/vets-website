@@ -9,7 +9,7 @@ describe('Schemaform <SSNWidget>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <SSNWidget
-          value="12345678"/>
+        value="12345678"/>
     );
     expect(tree.subTree('TextWidget').props.value).to.equal('12345678');
   });
@@ -17,8 +17,8 @@ describe('Schemaform <SSNWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SSNWidget
-          value=""
-          onChange={onChange}/>
+        value=""
+        onChange={onChange}/>
     );
     tree.subTree('TextWidget').props.onChange('123-45-5677');
     expect(onChange.calledWith('123455677')).to.be.true;
@@ -27,8 +27,8 @@ describe('Schemaform <SSNWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SSNWidget
-          value="123121234"
-          onChange={onChange}/>
+        value="123121234"
+        onChange={onChange}/>
     );
     tree.subTree('TextWidget').props.onChange('');
     expect(onChange.calledWith(undefined)).to.be.true;

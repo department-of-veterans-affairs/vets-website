@@ -76,9 +76,9 @@ export class ProfilePage extends React.Component {
       content = (
         <div>
           <HeadingSummary
-              institution={profile.attributes}
-              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-              onViewWarnings={this.handleViewWarnings}/>
+            institution={profile.attributes}
+            onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
+            onViewWarnings={this.handleViewWarnings}/>
           <div className="usa-accordion">
             <ul>
               <AccordionItem button="Estimate your benefits">
@@ -88,8 +88,8 @@ export class ProfilePage extends React.Component {
                 !isOJT &&
                 (<AccordionItem button="Veteran programs">
                   <Programs
-                      institution={profile.attributes}
-                      onShowModal={this.props.showModal}/>
+                    institution={profile.attributes}
+                    onShowModal={this.props.showModal}/>
                 </AccordionItem>)
               }
               {
@@ -97,23 +97,23 @@ export class ProfilePage extends React.Component {
                 (<AccordionItem button="Student outcomes">
                   <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
                     <Outcomes
-                        graphing={outcomes}
-                        onShowModal={this.props.showModal}/>
+                      graphing={outcomes}
+                      onShowModal={this.props.showModal}/>
                   </If>
                 </AccordionItem>)
               }
               <AccordionItem
-                  button="Cautionary information"
-                  ref={c => { this._cautionaryInfo = c; }}>
+                button="Cautionary information"
+                ref={c => { this._cautionaryInfo = c; }}>
                 <a name="viewWarnings"></a>
                 <CautionaryInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}/>
+                  institution={profile.attributes}
+                  onShowModal={this.props.showModal}/>
               </AccordionItem>
               <AccordionItem button="Additional information">
                 <AdditionalInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}/>
+                  institution={profile.attributes}
+                  onShowModal={this.props.showModal}/>
               </AccordionItem>
             </ul>
           </div>

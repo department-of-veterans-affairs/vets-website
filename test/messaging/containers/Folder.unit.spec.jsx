@@ -86,9 +86,9 @@ describe('Folder', () => {
   it('should show an error message with a reload', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
-          {...props }
-          attributes={{}}
-          lastRequestedFolder={{ id: 0, query: {} }}/>
+        {...props }
+        attributes={{}}
+        lastRequestedFolder={{ id: 0, query: {} }}/>
     );
     expect(tree.subTree('.msg-loading-error')).to.not.be.false;
     expect(tree.subTree('.msg-reload')).to.be.not.be.false;
@@ -100,15 +100,15 @@ describe('Folder', () => {
   it('should say that there are no messages in the folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
-          {...props }
-          filter={undefined}
-          messages={[]}
-          pagination={{
-            currentPage: 1,
-            perPage: 10,
-            totalPages: 1,
-            totalEntries: 0
-          }}/>
+        {...props }
+        filter={undefined}
+        messages={[]}
+        pagination={{
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 0
+        }}/>
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
@@ -120,15 +120,15 @@ describe('Folder', () => {
   it('should say that no messages were found through search', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
-          {...props }
-          filter={{ subject: { match: 'error' } }}
-          messages={[]}
-          pagination={{
-            currentPage: 1,
-            perPage: 10,
-            totalPages: 1,
-            totalEntries: 0
-          }}/>
+        {...props }
+        filter={{ subject: { match: 'error' } }}
+        messages={[]}
+        pagination={{
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 0
+        }}/>
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
@@ -152,15 +152,15 @@ describe('Folder', () => {
   it('should show messages found through search', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
-          {...props }
-          filter={{ subject: { match: 'ba' } }}
-          messages={[props.messages[1], props.messages[2]]}
-          pagination={{
-            currentPage: 1,
-            perPage: 10,
-            totalPages: 1,
-            totalEntries: 2
-          }}/>
+        {...props }
+        filter={{ subject: { match: 'ba' } }}
+        messages={[props.messages[1], props.messages[2]]}
+        pagination={{
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 2
+        }}/>
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;

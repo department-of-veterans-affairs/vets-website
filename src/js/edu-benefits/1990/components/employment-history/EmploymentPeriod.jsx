@@ -15,28 +15,28 @@ export default class EmploymentPeriod extends React.Component {
     const formFields = (
       <div className="input-section">
         <ErrorableRadioButtons
-            label="When did you do this work?"
-            name="postMilitaryJob"
-            options={employmentPeriodTiming}
-            value={period.postMilitaryJob}
-            onValueChange={(update) => {onValueChange('postMilitaryJob', update);}}/>
+          label="When did you do this work?"
+          name="postMilitaryJob"
+          options={employmentPeriodTiming}
+          value={period.postMilitaryJob}
+          onValueChange={(update) => {onValueChange('postMilitaryJob', update);}}/>
         <ErrorableTextInput
-            label="Main job"
-            name="name"
-            field={period.name}
-            onValueChange={(update) => {onValueChange('name', update);}}/>
+          label="Main job"
+          name="name"
+          field={period.name}
+          onValueChange={(update) => {onValueChange('name', update);}}/>
         <ErrorableTextInput
-            errorMessage={validateIfDirty(period.months, isValidMonths) ? undefined : 'Please enter a positive number of months'}
-            label="Number of months worked"
-            validation={validateIfDirty(period.months, isValidMonths)}
-            name="months"
-            field={period.months}
-            onValueChange={(update) => {onValueChange('months', update);}}/>
+          errorMessage={validateIfDirty(period.months, isValidMonths) ? undefined : 'Please enter a positive number of months'}
+          label="Number of months worked"
+          validation={validateIfDirty(period.months, isValidMonths)}
+          name="months"
+          field={period.months}
+          onValueChange={(update) => {onValueChange('months', update);}}/>
         <ErrorableTextInput
-            label="Licenses or rating"
-            name="licenseOrRating"
-            field={period.licenseOrRating}
-            onValueChange={(update) => {onValueChange('licenseOrRating', update);}}/>
+          label="Licenses or rating"
+          name="licenseOrRating"
+          field={period.licenseOrRating}
+          onValueChange={(update) => {onValueChange('licenseOrRating', update);}}/>
       </div>
     );
 

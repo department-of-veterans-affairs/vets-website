@@ -14,10 +14,10 @@ describe('<MilitaryServiceTour>', () => {
 
     const tree = SkinDeep.shallowRender(
       <MilitaryServiceTour
-          data={tour}
-          view="expanded"
-          onValueChange={f => f}
-          onStateChange={onStateChange}/>
+        data={tour}
+        view="expanded"
+        onValueChange={f => f}
+        onStateChange={onStateChange}/>
     );
     expect(tree.everySubTree('ErrorableTextarea').some(box => box.props.name === 'benefitsToApplyTo')).to.be.true;
   });

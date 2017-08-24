@@ -59,8 +59,7 @@ export default function alert(state = initialState, action) {
       return {
         content: (
           <b>
-            Refill for <Link to={`/${rx.prescriptionId}`}>
-            {rx.prescriptionName}</Link> has been requested.
+            Refill for <Link to={`/${rx.prescriptionId}`}>{rx.prescriptionName}</Link> has been requested.
           </b>
         ),
         status: 'success',

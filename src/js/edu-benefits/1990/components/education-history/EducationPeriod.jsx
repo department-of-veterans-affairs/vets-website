@@ -19,68 +19,68 @@ export default class EducationPeriod extends React.Component {
     const formFields = (
       <div className="input-section">
         <ErrorableTextInput
-            label="College, university, or other training provider"
-            name="name"
-            field={period.name}
-            onValueChange={(update) => {onValueChange('name', update);}}/>
+          label="College, university, or other training provider"
+          name="name"
+          field={period.name}
+          onValueChange={(update) => {onValueChange('name', update);}}/>
         <ErrorableTextInput
-            label="City"
-            name="city"
-            field={period.city}
-            onValueChange={(update) => {onValueChange('city', update);}}/>
+          label="City"
+          name="city"
+          field={period.city}
+          onValueChange={(update) => {onValueChange('city', update);}}/>
         <ErrorableSelect
-            label="State"
-            name="state"
-            field={period.state}
-            value={period.state}
-            options={states.USA}
-            onValueChange={(update) => {onValueChange('state', update);}}/>
+          label="State"
+          name="state"
+          field={period.state}
+          value={period.state}
+          options={states.USA}
+          onValueChange={(update) => {onValueChange('state', update);}}/>
         <ErrorableMonthYear
-            validation={{
-              valid: isValidPartialMonthYearInPast(period.dateRange.from.month.value, period.dateRange.from.year.value),
+          validation={{
+            valid: isValidPartialMonthYearInPast(period.dateRange.from.month.value, period.dateRange.from.year.value),
+            message: 'Please provide a valid date in the past'
+          }}
+          label="From"
+          name="fromDate"
+          date={period.dateRange.from}
+          onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
+        <ErrorableMonthYear
+          validation={[
+            {
+              valid: isValidPartialMonthYearInPast(period.dateRange.to.month.value, period.dateRange.to.year.value),
               message: 'Please provide a valid date in the past'
-            }}
-            label="From"
-            name="fromDate"
-            date={period.dateRange.from}
-            onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
-        <ErrorableMonthYear
-            validation={[
-              {
-                valid: isValidPartialMonthYearInPast(period.dateRange.to.month.value, period.dateRange.to.year.value),
-                message: 'Please provide a valid date in the past'
-              },
-              {
-                valid: isValidPartialMonthYearRange(period.dateRange.from, period.dateRange.to),
-                message: 'To date must be after From date'
-              },
-            ]}
-            label="To"
-            name="toDate"
-            date={period.dateRange.to}
-            onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
+            },
+            {
+              valid: isValidPartialMonthYearRange(period.dateRange.from, period.dateRange.to),
+              message: 'To date must be after From date'
+            },
+          ]}
+          label="To"
+          name="toDate"
+          date={period.dateRange.to}
+          onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableNumberInput
-            min={0}
-            label="Hours completed"
-            name="hours"
-            field={period.hours}
-            onValueChange={(update) => {onValueChange('hours', update);}}/>
+          min={0}
+          label="Hours completed"
+          name="hours"
+          field={period.hours}
+          onValueChange={(update) => {onValueChange('hours', update);}}/>
         <ErrorableRadioButtons
-            label="Type of hours"
-            name="hoursType"
-            value={period.hoursType}
-            options={hoursTypes}
-            onValueChange={(update) => {onValueChange('hoursType', update);}}/>
+          label="Type of hours"
+          name="hoursType"
+          value={period.hoursType}
+          options={hoursTypes}
+          onValueChange={(update) => {onValueChange('hoursType', update);}}/>
         <ErrorableTextInput
-            label="Name of degree, diploma, or certificate"
-            name="degreeReceived"
-            field={period.degreeReceived}
-            onValueChange={(update) => {onValueChange('degreeReceived', update);}}/>
+          label="Name of degree, diploma, or certificate"
+          name="degreeReceived"
+          field={period.degreeReceived}
+          onValueChange={(update) => {onValueChange('degreeReceived', update);}}/>
         <ErrorableTextInput
-            label="Major or course of study"
-            name="major"
-            field={period.major}
-            onValueChange={(update) => {onValueChange('major', update);}}/>
+          label="Major or course of study"
+          name="major"
+          field={period.major}
+          onValueChange={(update) => {onValueChange('major', update);}}/>
       </div>
     );
 

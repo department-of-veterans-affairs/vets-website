@@ -79,10 +79,10 @@ class LoginModal extends React.Component {
   render() {
     return (
       <Modal
-          cssClass="va-modal-large"
-          contents={this.getModalContents(this.props.user)}
-          onClose={this.props.onClose}
-          visible={this.props.visible}/>
+        cssClass="va-modal-large"
+        contents={this.getModalContents(this.props.user)}
+        onClose={this.props.onClose}
+        visible={this.props.visible}/>
     );
   }
 }

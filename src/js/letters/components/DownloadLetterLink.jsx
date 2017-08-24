@@ -76,18 +76,18 @@ export class DownloadLetterLink extends React.Component {
       <div>
         <div className="form-expanding-group form-expanding-group-open">
           <ReactCSSTransitionGroup
-              transitionName="form-expanding-group-inner"
-              transitionAppear
-              transitionAppearTimeout={700}
-              transitionEnterTimeout={700}
-              transitionLeave={false}>
+            transitionName="form-expanding-group-inner"
+            transitionAppear
+            transitionAppearTimeout={700}
+            transitionEnterTimeout={700}
+            transitionLeave={false}>
             {message}
           </ReactCSSTransitionGroup>
         </div>
         <div className="download-button">
           <button onClick={this.downloadLetter}
-              disabled={buttonDisabled}
-              className={buttonClasses}>
+            disabled={buttonDisabled}
+            className={buttonClasses}>
             {buttonText}
           </button>
         </div>

@@ -77,10 +77,10 @@ class ConfirmationPage extends React.Component {
             <li>
               <div className="accordion-header clearfix">
                 <button
-                    className="usa-button-unstyled"
-                    aria-expanded={this.state.isExpanded ? 'true' : 'false'}
-                    aria-controls="collapsible-document-explanation"
-                    onClick={this.toggleExpanded}>
+                  className="usa-button-unstyled"
+                  aria-expanded={this.state.isExpanded ? 'true' : 'false'}
+                  aria-controls="collapsible-document-explanation"
+                  onClick={this.toggleExpanded}>
                   No documents required at this time
                 </button>
               </div>

@@ -62,12 +62,12 @@ export class LandingPage extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm/>
               <KeywordSearch
-                  autocomplete={this.props.autocomplete}
-                  location={this.props.location}
-                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
-                  onFilterChange={this.handleFilterChange}
-                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
+                autocomplete={this.props.autocomplete}
+                location={this.props.location}
+                onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                onFilterChange={this.handleFilterChange}
+                onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <button className="usa-button-big" type="submit" id="search-button">
                 <span>Search Schools</span>
               </button>

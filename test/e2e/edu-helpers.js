@@ -88,7 +88,7 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
   }
 
   if (data.gender) {
-    client.click(data.gender === 'M' ? 'input[name=root_gender_0' : 'input[name=root_gender_1');
+    client.click(data.gender === 'M' ? 'input[name=root_gender_0]' : 'input[name=root_gender_1]');
   }
 }
 

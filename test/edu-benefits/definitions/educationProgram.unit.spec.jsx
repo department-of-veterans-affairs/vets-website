@@ -22,10 +22,10 @@ describe('Edu educationProgram', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema(schemaWithEdu)}
-          data={{}}
-          definitions={{ educationType }}
-          uiSchema={uiSchema}/>
+        schema={schema(schemaWithEdu)}
+        data={{}}
+        definitions={{ educationType }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -38,11 +38,11 @@ describe('Edu educationProgram', () => {
   it('should show address conditionally', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          schema={schema(schemaWithEdu)}
-          data={{}}
-          definitions={{ educationType }}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        schema={schema(schemaWithEdu)}
+        data={{}}
+        definitions={{ educationType }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

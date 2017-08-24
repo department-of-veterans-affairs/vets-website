@@ -28,24 +28,24 @@ export default class ServicePeriodsFields extends React.Component {
 
     const toursTable = (
       <GrowableTable
-          component={MilitaryServiceTour}
-          alwaysShowUpdateRemoveButtons={this.props.inReview}
-          showSingleRowExpanded={!this.props.inReview}
-          createRowIfEmpty={!this.props.inReview}
-          showEditButton={false}
-          showAddAnotherButton={!this.props.inReview}
-          createRow={createTour}
-          data={this.props.data}
-          initializeCurrentElement={() => this.props.initializeFields(tourFields, 'toursOfDuty')}
-          onRowsUpdate={(update) => {this.props.onStateChange('toursOfDuty', update);}}
-          path="/military-history/service-periods"
-          rows={this.props.data.toursOfDuty}
-          isValidSection={isValidPage}
-          addNewMessage="Add Another Service Period"
-          minimumRows={1}
-          collapseRows={this.props.inReview ? true : undefined}
-          rowTitle="New service period"
-          isValidRow={isValidTourOfDuty}/>
+        component={MilitaryServiceTour}
+        alwaysShowUpdateRemoveButtons={this.props.inReview}
+        showSingleRowExpanded={!this.props.inReview}
+        createRowIfEmpty={!this.props.inReview}
+        showEditButton={false}
+        showAddAnotherButton={!this.props.inReview}
+        createRow={createTour}
+        data={this.props.data}
+        initializeCurrentElement={() => this.props.initializeFields(tourFields, 'toursOfDuty')}
+        onRowsUpdate={(update) => {this.props.onStateChange('toursOfDuty', update);}}
+        path="/military-history/service-periods"
+        rows={this.props.data.toursOfDuty}
+        isValidSection={isValidPage}
+        addNewMessage="Add Another Service Period"
+        minimumRows={1}
+        collapseRows={this.props.inReview ? true : undefined}
+        rowTitle="New service period"
+        isValidRow={isValidTourOfDuty}/>
     );
 
     const editView = (<fieldset className={this.props.inReview ? 'edu-growable-review' : 'edu-growable-form'}>
@@ -64,8 +64,8 @@ export default class ServicePeriodsFields extends React.Component {
       <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
         <h5 className="form-review-panel-page-header">Service periods</h5>
         <button
-            className="edit-btn primary-outline"
-            onClick={this.addAnotherTour}>Add Another Service Period</button>
+          className="edit-btn primary-outline"
+          onClick={this.addAnotherTour}>Add Another Service Period</button>
       </div>
       {toursTable}
     </div>);
