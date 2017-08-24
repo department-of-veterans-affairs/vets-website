@@ -16,6 +16,16 @@ export default function SubmitButtons(props) {
     onUpdateLoginUrl,
     sipEnabled,
   } = props;
+  // Pulling this out to here so LoginModal doesn't get re-created on state change
+  //  since saving happens in LoginModal.componentWillReceiveProps()
+  const saveLink = (<SaveFormLink
+    locationPathname={locationPathname}
+    form={form}
+    user={user}
+    saveInProgressForm={saveInProgressForm}
+    onUpdateLoginUrl={onUpdateLoginUrl}>
+    save your application
+  </SaveFormLink>);
   const Message = errorMessage;
   let submitButton;
   let submitMessage;
@@ -77,17 +87,6 @@ export default function SubmitButtons(props) {
     if (errorMessage) {
       submitMessage = <Message/>;
     } else if (sipEnabled) {
-      // Pass the props here instead of inline
-      const SaveLink = ({ children }) => (
-        <SaveFormLink
-          locationPathname={locationPathname}
-          form={form}
-          user={user}
-          saveInProgressForm={saveInProgressForm}
-          onUpdateLoginUrl={onUpdateLoginUrl}>
-          {children}
-        </SaveFormLink>
-      );
       let InlineErrorComponent;
       if (typeof errorText === 'function') {
         InlineErrorComponent = errorText;
@@ -100,7 +99,7 @@ export default function SubmitButtons(props) {
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
           <div className="usa-alert-body">
             <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
-            <p>We’re working to fix the problem, but it may take us a little while. Please <SaveLink>save your application</SaveLink> and try submitting it again tomorrow.</p>
+            <p>We’re working to fix the problem, but it may take us a little while. Please {saveLink} and try submitting it again tomorrow.</p>
             {!user.login.currentlyLoggedIn && <p>If you don’t have an account, you’ll have to start over. Please try submitting your application again tomorrow.</p>}
             <InlineErrorComponent/>
           </div>
