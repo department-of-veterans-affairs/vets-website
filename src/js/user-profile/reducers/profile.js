@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import {
-  UPDATE_PROFILE_FIELD,
+  UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
   FETCHING_LATEST_MHV_TERMS,
   FETCHING_LATEST_MHV_TERMS_SUCCESS,
@@ -35,8 +35,8 @@ const initialState = {
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELD: {
-      return _.set(action.propertyPath, action.value, state);
+    case UPDATE_PROFILE_FIELDS: {
+      return _.assign(state, action.newState);
     }
     case PROFILE_LOADING_FINISHED: {
       return _.set('loading', false, state);
