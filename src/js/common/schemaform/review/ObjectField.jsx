@@ -102,13 +102,14 @@ class ObjectField extends React.Component {
 
     const renderedProperties = this.orderAndFilterProperties(properties)
       .map((objectFields, index) => {
-        const firstField = objectFields[0];
         // show all the fields only if the first one is truthy, since more than one field
         // means this is an expanding group
-        if (objectFields.length > 1 && !!formData[firstField]) {
+        const [first, ...rest] = objectFields;
+        const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
+        if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
         }
-        return showField(objectFields[0]) ? renderField(objectFields[0], index) : null;
+        return showField(first) ? renderField(first, index) : null;
       });
 
     if (isRoot) {
