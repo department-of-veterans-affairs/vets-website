@@ -100,7 +100,13 @@ class SaveFormLink extends React.Component {
 
 SaveFormLink.propTypes = {
   locationPathname: PropTypes.string.isRequired,
-  form: PropTypes.object.isRequired,
+  form: PropTypes.shape({
+    formId: PropTypes.string.isRequired,
+    version: PropTypes.number.isRequired,
+    data: PropTypes.object.isRequired,
+    trackingPrefix: PropTypes.string.isRequired,
+    savedStatus: PropTypes.string.isRequired
+  }).isRequired,
   user: PropTypes.object.isRequired,
   onUpdateLoginUrl: PropTypes.func.isRequired,
 };
