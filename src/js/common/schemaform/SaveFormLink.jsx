@@ -41,28 +41,47 @@ class SaveFormLink extends React.Component {
     this.setState({ modalOpened: false });
   }
 
-  saveFormAfterLogin = (...args) => {
-    window.dataLayer.push({
-      event: `${this.props.trackingPrefix}sip-login-before-save`
-    });
-    this.props.saveForm(...args);
+  handleSave() {
+    // TODO: Make sure this works; I logged in after dispatching
+    /*
+{
+  type: 'SET_SUBMISSION',
+  field: 'status',
+  value: 'foo'
+}
+     */
+    // to make the error show and...nothing. I logged in, but the form doesn't
+    //  seem to have saved.
+    const {
+      formId,
+      version,
+      data
+    } = this.props.form;
+    const returnUrl = this.props.locationPathname;
+    this.props.saveInProgressForm(formId, version, returnUrl, data);
   }
 
-  saveForm = (...args) => {
+  saveFormAfterLogin = () => {
+    window.dataLayer.push({
+      event: `${this.props.form.trackingPrefix}sip-login-before-save`
+    });
+    this.handleSave();
+  }
+
+  saveForm = () => {
     if (this.props.user.login.currentlyLoggedIn) {
-      this.props.saveForm(...args);
+      this.handleSave();
     } else {
       this.openLoginModal();
     }
   }
+
   render() {
-    const {
-      savedStatus
-    } = this.props;
+    const { savedStatus } = this.props.form;
 
     // TODO: Remove LoginModal from here
     return (
-      <div>
+      <div style={{ display: this.props.children ? 'inline' : null }}>
         <Element name="saveFormLinkTop"/>
         <LoginModal
             key={1}
@@ -83,18 +102,17 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>Save and finish later</button>}
+          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || 'Save and finish later'}</button>}
       </div>
     );
   }
 }
 
 SaveFormLink.propTypes = {
-  saveForm: PropTypes.func.isRequired,
-  savedStatus: PropTypes.string.isRequired,
+  locationPathname: PropTypes.string.isRequired,
+  form: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   onUpdateLoginUrl: PropTypes.func.isRequired,
-  trackingPrefix: PropTypes.string
 };
 
 export default SaveFormLink;
