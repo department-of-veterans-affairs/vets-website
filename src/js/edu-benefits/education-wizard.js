@@ -85,7 +85,7 @@ function reInitWidget() {
     toggleClass(button, 'va-button-primary');
   });
 
-  // Ensure form is reset on page load to prevent unexpected behavior
+  // Ensure form is reset on page load to prevent unexpected behavior associated with backtracking
   resetForm();
 }
 
