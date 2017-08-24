@@ -26,7 +26,7 @@ majorlinks:
       description: If you’re disabled because of an injury or illness caused—or made worse—by your active service, continue your life insurance beyond 2 years after you leave the military.
     - url: /life-insurance/options-and-eligibility/vmli/
       title: Veterans’ Mortgage Life Insurance (VMLI)
-      description: If you have a severe service-connected disability, get mortgage protection insurance for a home that's been adapted to meet your needs.
+      description: If you have a severe service-connected disability, get mortgage protection insurance for a home that’s been adapted to meet your needs.
 relatedlinks:
   - heading: More information about your benefits
     links:

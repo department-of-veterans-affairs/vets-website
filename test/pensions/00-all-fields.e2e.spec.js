@@ -312,9 +312,15 @@ const runTest = E2eHelpers.createE2eTest(
     // Document Upload page
     client.waitForElementVisible('label[for="root_files"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
-    client
-      .setValue('input#root_files', require('path').resolve(`${__dirname}/test.png`));
-    client.waitForElementVisible('.schemaform-file-remove-button', Timeouts.slow);
+
+    if (!process.env.SAUCE_ACCESS_KEY) {
+      // Looks like there are issues with uploads in nightwatch and Selenium
+      // https://github.com/nightwatchjs/nightwatch/issues/890
+      client
+        .setValue('input#root_files', require('path').resolve(`${__dirname}/test.png`));
+      client.waitForElementVisible('.schemaform-file-remove-button', Timeouts.slow);
+    }
+
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');
@@ -339,7 +345,7 @@ const runTest = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client.expect.element('.confirmation-page-title').to.be.visible;
+    client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
     client.axeCheck('.main');
     client.end();

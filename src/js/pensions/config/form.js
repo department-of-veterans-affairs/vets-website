@@ -110,16 +110,18 @@ const {
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 function isUnder65(formData) {
-  return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+  return moment().startOf('day').subtract(65, 'years')
+    .isBefore(formData.veteranDateOfBirth);
 }
 
 function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-// Checks to see if they're under 17.75 years old
+// Checks to see if they’re under 17.75 years old
 function isEligibleForDisabilitySupport(childDOB) {
-  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
+  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months')
+    .isBefore(childDOB);
 }
 
 function isCurrentMarriage(form, index) {
@@ -417,9 +419,9 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
-                  'Start of confinement',
-                  'End of confinement',
-                  'Confinement start date must be before end date'
+              'Start of confinement',
+              'End of confinement',
+              'Confinement start date must be before end date'
             )),
             'view:receivedSeverancePay': {
               'ui:title': 'Have you received any type of severance or separation pay?',

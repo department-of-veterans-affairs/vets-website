@@ -79,7 +79,7 @@ describe('Schemaform <FormSaved>', () => {
       <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={user}/>
     );
     ReactTestUtils.Simulate.click(
-        findDOMNode(section).querySelector('.va-button-link'));
+      findDOMNode(section).querySelector('.va-button-link'));
     expect(windowOpen.called).to.be.true;
   });
 });

@@ -16,23 +16,30 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  letters: [],
-  destination: {},
-  lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
-  serviceInfo: [],
+  destination: {},
+  letters: [],
+  lettersAvailability: 'awaitingResponse',
+  letterDownloadStatus: {},
   optionsAvailable: false,
-  requestOptions: {}
+  requestOptions: {},
+  serviceInfo: []
 };
 
 function letters(state = initialState, action) {
   switch (action.type) {
     case GET_LETTERS_SUCCESS: {
+      const letterDownloadStatus = {};
+      _.forEach((letter) => {
+        letterDownloadStatus[letter.letterType] = 'pending';
+      }, action.data.data.attributes.letters);
+
       return {
         ...state,
         letters: action.data.data.attributes.letters,
         destination: action.data.data.attributes.address,
-        lettersAvailability: 'available'
+        lettersAvailability: 'available',
+        letterDownloadStatus
       };
     }
     case BACKEND_SERVICE_ERROR:
@@ -46,7 +53,7 @@ function letters(state = initialState, action) {
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', 'letterEligibilityError', state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
-      // Gather all possible displayed options that the user may toggle on/off.
+    // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
@@ -77,6 +84,12 @@ function letters(state = initialState, action) {
       return _.set('optionsAvailable', false, state);
     case UPDATE_BENFIT_SUMMARY_REQUEST_OPTION:
       return _.set(['requestOptions', action.propertyPath], action.value, state);
+    case 'GET_LETTER_PDF_DOWNLOADING':
+      return _.set(['letterDownloadStatus', action.data], 'downloading', state);
+    case 'GET_LETTER_PDF_SUCCESS':
+      return _.set(['letterDownloadStatus', action.data], 'success', state);
+    case 'GET_LETTER_PDF_FAILURE':
+      return _.set(['letterDownloadStatus', action.data], 'failure', state);
     default:
       return state;
   }

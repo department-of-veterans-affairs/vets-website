@@ -13,10 +13,10 @@ describe('Pensions expedited', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -26,10 +26,10 @@ describe('Pensions expedited', () => {
   it('should render warning on Yes', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -39,25 +39,25 @@ describe('Pensions expedited', () => {
   it('should render warning on No', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_noRapidProcessingNo', 'N');
-    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn\'t qualify');
+    expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn’t qualify');
   });
   it('should submit', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

@@ -26,8 +26,8 @@ export default function StringField(props) {
 
   return (
     <Widget
-        options={{ enumOptions, labels }}
-        value={formData}
-        {...props}/>
+      options={{ enumOptions, labels }}
+      value={formData}
+      {...props}/>
   );
 }

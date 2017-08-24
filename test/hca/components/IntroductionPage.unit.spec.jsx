@@ -30,11 +30,11 @@ describe('hca <IntroductionPage>', () => {
     };
     const page = findDOMNode(ReactTestUtils.renderIntoDocument(
       <IntroductionPage
-          route={route}
-          router={{
-            push: onPush
-          }}
-          {...defaultProps}/>
+        route={route}
+        router={{
+          push: onPush
+        }}
+        {...defaultProps}/>
     ));
 
     ReactTestUtils.Simulate.click(page.querySelector('.usa-button-primary'));

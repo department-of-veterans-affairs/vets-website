@@ -27,9 +27,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
@@ -53,9 +53,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
@@ -75,9 +75,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('SignInLink')).not.to.be.false;
@@ -97,9 +97,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('.usa-alert')).to.be.false;
@@ -122,9 +122,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
@@ -145,9 +145,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SaveInProgressIntro
-          pageList={pageList}
-          formId="1010ez"
-          user={user}/>
+        pageList={pageList}
+        formId="1010ez"
+        user={user}/>
     );
 
     expect(tree.subTree('.usa-alert')).to.be.false;

@@ -75,12 +75,12 @@ export class GiBillApp extends React.Component {
             {
               preview.display &&
               (<PreviewBanner
-                  version={preview.version}
-                  onViewLiveVersion={this.exitPreviewMode}/>)
+                version={preview.version}
+                onViewLiveVersion={this.exitPreviewMode}/>)
             }
             <Breadcrumbs
-                location={this.props.location}
-                includeSearch={search.count !== null}/>
+              location={this.props.location}
+              includeSearch={search.count !== null}/>
             {content}
             <AboutThisTool/>
             <Disclaimer/>

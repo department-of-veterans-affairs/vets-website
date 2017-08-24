@@ -62,13 +62,13 @@ function getDerivedAttributes(constant, eligibility, institution) {
     case 1607:
       monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
       if (isOJT) {
-        monthlyRate = monthlyRate * 0.75;
+        monthlyRate *= 0.75;
       }
       break;
     case 1606:
       monthlyRate = constant.SRRATE;
       if (isOJT) {
-        monthlyRate = monthlyRate * 0.75;
+        monthlyRate *= 0.75;
       }
       break;
     case 35:

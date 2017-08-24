@@ -15,11 +15,11 @@ class State extends React.Component {
     return (
       <div>
         <ErrorableSelect required={this.props.required}
-            errorMessage={isNotBlank(this.props.value) ? undefined : 'Please select a state'}
-            label="State"
-            options={states.USA}
-            value={this.props.value}
-            onValueChange={this.props.onUserInput}/>
+          errorMessage={isNotBlank(this.props.value) ? undefined : 'Please select a state'}
+          label="State"
+          options={states.USA}
+          value={this.props.value}
+          onValueChange={this.props.onUserInput}/>
       </div>
     );
   }

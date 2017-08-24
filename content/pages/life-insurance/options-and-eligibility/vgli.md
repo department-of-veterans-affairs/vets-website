@@ -55,7 +55,7 @@ $10,000 to $400,000 in life insurance benefits, based on the amount of SGLI cove
 
 ### How do I get these benefits?
 
-You’ll need to apply for these benefits. When you apply, you won't need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
+You’ll need to apply for these benefits. When you apply, you won’t need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
 
 Apply in 1 of 3 ways:
 

@@ -18,7 +18,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember who meets certain criteria, we'll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
+If you’re a Servicemember who meets certain criteria, we’ll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -105,7 +105,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 
 <br>
 
-**If your branch of service hasn't yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+**If your branch of service hasn’t yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit’s personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
@@ -141,7 +141,7 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 <span id="extension"></span>
 
 ### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
-You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and:
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:

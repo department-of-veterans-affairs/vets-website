@@ -45,23 +45,23 @@ export default class ClaimDetailLayout extends React.Component {
             <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 <div className="claim-contentions">
-                  <h6>What you've claimed:</h6>
+                  <h6>What you’ve claimed:</h6>
                   <p className="list">
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
-                        ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')
+                      ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')
                       : 'Not available'}
                   </p>
                   {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONTENTIONS
-                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed contentions</Link>.</span>
+                    ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed contentions</Link>.</span>
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
                 {tabs.map(tab => (
                   <div
-                      key={tab}
-                      role="tabpanel"
-                      id={`tabPanel${tab}`}
-                      aria-labelledby={`tab${tab}`}>
+                    key={tab}
+                    role="tabpanel"
+                    id={`tabPanel${tab}`}
+                    aria-labelledby={`tab${tab}`}>
                     {currentTab === tab &&
                       <div className="va-tab-content db-tab-content">
                         {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
@@ -79,13 +79,13 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <LoadingIndicator setFocus message="Loading claim information"/>;
+      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
     }
 
     return (
       <div>
         <div name="topScrollElement"></div>
-          {content}
+        {content}
       </div>
     );
   }

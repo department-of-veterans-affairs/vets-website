@@ -23,6 +23,9 @@ class AddressSection extends React.Component {
     } else {
       addressContent = (
         <div className="step-content">
+          <p>
+            Downloaded documents will list your address as:
+          </p>
           <div className="letters-address">{(destination.fullName || '').toLowerCase()}</div>
           <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
           <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>

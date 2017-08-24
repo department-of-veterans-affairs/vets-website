@@ -88,7 +88,11 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { loading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     if (canAccessAppeals && canAccessClaims) {
       if (!claimsAvailable && !appealsAvailable) {
@@ -121,7 +125,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator message="Loading claims and appeals list" setFocus/>;
+      content = <LoadingIndicator message="Loading claims and appeals list..." setFocus/>;
     } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
@@ -141,20 +145,20 @@ class YourClaimsPage extends React.Component {
           <MainTabNav/>
           {tabs.map(tab => (
             <div
-                key={tab}
-                role="tabpanel"
-                id={`tabPanel${tab}`}
-                aria-labelledby={`tab${tab}`}
-                aria-hidden={currentTab !== tab}>
+              key={tab}
+              role="tabpanel"
+              id={`tabPanel${tab}`}
+              aria-labelledby={`tab${tab}`}
+              aria-hidden={currentTab !== tab}>
               {currentTab === tab &&
                 <div className="va-tab-content">
                   <div className="claims-list-sort">
                     <ErrorableSelect
-                        label="Sort by"
-                        includeBlankOption={false}
-                        options={sortOptions}
-                        value={{ value: this.props.sortProperty }}
-                        onValueChange={this.handleSort}/>
+                      label="Sort by"
+                      includeBlankOption={false}
+                      options={sortOptions}
+                      value={{ value: this.props.sortProperty }}
+                      onValueChange={this.handleSort}/>
                   </div>
                   {content}
                 </div>
@@ -189,12 +193,12 @@ class YourClaimsPage extends React.Component {
             </p>
             {content}
             <Modal
-                onClose={() => true}
-                visible={this.props.consolidatedModal}
-                hideCloseButton
-                id="consolidated-claims"
-                cssClass="claims-upload-modal"
-                contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
+              onClose={() => true}
+              visible={this.props.consolidatedModal}
+              hideCloseButton
+              id="consolidated-claims"
+              cssClass="claims-upload-modal"
+              contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns">
             <FeaturesWarning/>

@@ -18,8 +18,8 @@ function createQueryString(query) {
 export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
   const fullUrl = queryString
-                ? `${url}?${queryString}`
-                : url;
+    ? `${url}?${queryString}`
+    : url;
 
   return fullUrl;
 }
@@ -27,8 +27,8 @@ export function createUrlWithQuery(url, query) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/messaging/health`;
   const url = resource[0] === '/'
-            ? [baseUrl, resource].join('')
-            : resource;
+    ? [baseUrl, resource].join('')
+    : resource;
 
   return commonApiClient(url, optionalSettings, success, error);
 }
@@ -36,7 +36,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 export function formatFileSize(bytes, decimalplaces = 2) {
   const kilo = 1000;
   const mega = 1000000;
-  const multiplier = Math.pow(10, decimalplaces);
+  const multiplier = 10 ** decimalplaces;
   let size;
 
   if (bytes < kilo) {

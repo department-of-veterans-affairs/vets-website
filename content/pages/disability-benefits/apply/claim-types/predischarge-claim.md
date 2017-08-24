@@ -22,7 +22,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a disability and you're currently in predischarge status, you can file a claim for disability benefits up to 180 days before any of these changes to your status:
+If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits up to 180 days before any of these changes to your status:
 
 </div>
 

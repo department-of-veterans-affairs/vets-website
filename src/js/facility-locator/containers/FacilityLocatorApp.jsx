@@ -32,7 +32,7 @@ class FacilityLocatorApp extends React.Component {
         <div className="row">
           <div className="title-section">
             <nav className="va-nav-breadcrumbs">
-                {this.renderBreadcrumbs()}
+              {this.renderBreadcrumbs()}
             </nav>
           </div>
           <div className="facility-locator">

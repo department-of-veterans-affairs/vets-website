@@ -20,7 +20,7 @@ export default function ClaimEstimate({ maxDate, id }) {
       <p className="date-estimation">Estimated date: {estimatedDate.format('MMM D, YYYY')}</p>
       {estimatedDate.isBefore(today)
         ? <p>We estimated your claim would be completed by now but we need more time.</p>
-        : <p>We base this on claims similar to yours. It isn't an exact date.</p>}
+        : <p>We base this on claims similar to yours. It isn’t an exact date.</p>}
       <p><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</p>
     </div>
   );

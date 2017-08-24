@@ -2,6 +2,16 @@ import React from 'react';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
+export function directDepositDescription() {
+  return (
+    <div>
+      <p>VA makes payments only through direct deposit, also called electronic funds transfer (EFT). The only exception is for participants in the Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP).</p>
+
+      <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/" target="_blank">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
+    </div>
+  );
+}
+
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
@@ -23,33 +33,24 @@ export const benefitsEligibilityBox = (
   </div>
 );
 
-export const benefitsLabels = {
-  chapter33:
-    (<p>
-      Post-9/11 GI Bill (Chapter 33)
-      <br/>
-      <a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a>
-    </p>),
-  chapter30: (
-    <p>
-      Montgomery GI Bill (MGIB-AD, Chapter 30)
-      <br/>
-      <a href="/education/gi-bill/montgomery-active-duty/" target="_blank">Learn more</a>
-    </p>
-  ),
-  chapter1606: (
-    <p>
-      Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
-      <br/>
-      <a href="/education/gi-bill/montgomery-selected-reserve/" target="_blank">Learn more</a>
-    </p>
-  ),
-  chapter32: (
-    <p>
-      Post-Vietnam Era Veterans’ Educational Assistance Program <br/>
-      (VEAP, Chapter 32)
-      <br/>
-      <a href="/education/other-educational-assistance-programs/veap/" target="_blank">Learn more</a>
-    </p>
-  )
+export const benefitsRelinquishmentLabels = {
+  unknown: 'I’m only eligible for the Post-9/11 GI Bill',
+  chapter30: 'Montgomery GI Bill (MGIB-AD, Chapter 30)',
+  chapter1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+  chapter1607: 'Reserve Educational Assistance Program (REAP, Chapter 1607)'
 };
+
+export const benefitsRelinquishmentWarning = (
+  <div>
+    <p>Because you chose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for.</p>
+    <p><strong>Your decision is irrevocable</strong> (you can’t change your mind).</p>
+    <br/>
+  </div>
+);
+
+export const benefitsRelinquishedDescription = (
+  <span>
+    <br/>
+    If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+  </span>
+);

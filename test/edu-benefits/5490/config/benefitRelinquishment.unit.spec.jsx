@@ -12,20 +12,20 @@ describe('Edu 5490 benefitRelinquishment', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
@@ -38,21 +38,21 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -64,21 +64,21 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        data={{}}
+        state={{
+          benefitSelection: {
+            uiSchema: {
+              benefit: {
+                'ui:options': {
                 }
               }
             }
-          }}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

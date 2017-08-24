@@ -19,7 +19,7 @@ describe('<AcceptTermsPrompt>', () => {
   it('should be an empty div if there is no content', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt
-          terms={{}}/>
+        terms={{}}/>
     );
     expect(tree.toString()).to.equal('<div />');
   });
