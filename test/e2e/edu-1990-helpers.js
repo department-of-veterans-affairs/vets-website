@@ -109,7 +109,7 @@ const testValues = {
     postalCode: '12345-1234'
   },
   educationStartDate: {
-    month: '6',
+    month: 'Jun',
     day: '5',
     year: '2005'
   },
