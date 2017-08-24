@@ -101,9 +101,7 @@ class AcceptTermsPrompt extends React.Component {
           </div>
           <div>
             {submitButton}
-            <a href="#" onClick={this.onCancel} className="usa-button usa-button-outline">
-              Cancel
-            </a>
+            <button className="usa-button usa-button-outline" onClick={this.onCancel}>Cancel</button>
           </div>
         </div>
       </div>
