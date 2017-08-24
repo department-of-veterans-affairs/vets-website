@@ -90,7 +90,7 @@ describe('<LoginModal>', () => {
     const findDOM = findDOMNode(tree);
 
     // 3 buttons: sign in, cancel, close modal
-    expect(findDOM.querySelector('h1').textContent).to.equal('Some title');
+    expect(findDOM.querySelector('h3').textContent).to.equal('Some title');
   });
   it('should attempt to login', () => {
     setup();
