@@ -42,16 +42,6 @@ class SaveFormLink extends React.Component {
   }
 
   handleSave() {
-    // TODO: Make sure this works; I logged in after dispatching
-    /*
-{
-  type: 'SET_SUBMISSION',
-  field: 'status',
-  value: 'foo'
-}
-     */
-    // to make the error show and...nothing. I logged in, but the form doesn't
-    //  seem to have saved.
     const {
       formId,
       version,
