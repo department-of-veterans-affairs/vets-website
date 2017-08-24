@@ -69,7 +69,7 @@ class SaveInProgressErrorPage extends React.Component {
                   onLogin={this.reloadForm}
                   isLoggedIn={this.props.isLoggedIn}
                   loginUrl={this.props.loginUrl}
-                  onUpdateLoginUrl={this.props.updateLogInUrl}>Log in</SignInLink>
+                  onUpdateLoginUrl={this.props.updateLogInUrl}>Sign in</SignInLink>
               </div>
             </div>
           </div>

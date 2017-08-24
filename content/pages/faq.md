@@ -70,7 +70,7 @@ display_title: Frequently Asked Questions
                       What if I can’t verify my identity online?
                     </button>
                     <div id="dbq4" class="usa-accordion-content">
-                      <p>If you’re still unable to verify your identity through ID.me, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday – Friday, 8 am – 8 pm (ET) and the team will help you directly.</p>
+                      <p>If you’re still unable to verify your identity through ID.me, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>), Monday – Friday, 8 am – 8 pm (ET) and the team will help you directly.</p>
                       <p>If you received an error code from ID.me, please write it down and repeat it to the Help Desk.</p>
                       <p>Currently, you can only verify your identity online, but in the near-future VA will have in-person identity proofing at VA facilities and other locations.</p>
                     </div>
@@ -112,7 +112,7 @@ display_title: Frequently Asked Questions
                       Need help?
                     </button>
                     <div id="dbq9" class="usa-accordion-content">
-                      <p>Please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday – Friday, 8 am – 8 pm (ET)—they’ll be help you directly.</p>
+                      <p>Please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>), Monday – Friday, 8 am – 8 pm (ET)—they’ll be help you directly.</p>
                     </div>
                   </li>
                 </ul>
