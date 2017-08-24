@@ -6,9 +6,9 @@ class TabItem extends React.Component {
     return (
       <li>
         <IndexLink
-            className="va-tab-trigger"
-            activeClassName="va-tab-trigger--current"
-            to={this.props.tabpath}>
+          className="va-tab-trigger"
+          activeClassName="va-tab-trigger--current"
+          to={this.props.tabpath}>
           {this.props.title}
         </IndexLink>
       </li>

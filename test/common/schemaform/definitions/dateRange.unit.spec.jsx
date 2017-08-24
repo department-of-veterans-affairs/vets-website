@@ -30,9 +30,9 @@ describe('Schemaform definition dateRange', () => {
   it('should render dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={uiSchema()}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={uiSchema()}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -45,9 +45,9 @@ describe('Schemaform definition dateRange', () => {
     const dateRangeUISchema = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={dateRangeUISchema}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={dateRangeUISchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -64,9 +64,9 @@ describe('Schemaform definition dateRange', () => {
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
     );
 
     const formDOM = findDOMNode(form);

@@ -46,7 +46,7 @@ export function getLetterList() {
           }
         }
         return Promise.reject(
-          new Error('vets_letters_error_server_get: `${error.status}`')
+          new Error(`vets_letters_error_server_get: ${error.status}`)
         );
       })
       .catch((error) => {
@@ -99,6 +99,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
   let downloadUrl;
   return (dispatch) => {
+    dispatch({ type: 'GET_LETTER_PDF_DOWNLOADING', data: letterType });
     apiRequest(
       `/v0/letters/${letterType}`,
       settings,
@@ -123,7 +124,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl); // make sure this doesn't cause problems
-        dispatch({ type: GET_LETTER_PDF_SUCCESS });
+        dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
     );

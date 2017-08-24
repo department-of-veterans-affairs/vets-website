@@ -42,13 +42,13 @@ describe('<GrowableTable>', () => {
       // cause it cuts the test time from 1s down to ~0.1s.
       growableTable = ReactTestUtils.renderIntoDocument(
         <GrowableTable
-            component={Row}
-            createRow={createRow}
-            initializeCurrentElement={initializeCurrentElement}
-            rows={rows}
-            onRowsUpdate={onRowsUpdate}
-            path=""
-            isValidSection={isValidPage}/>
+          component={Row}
+          createRow={createRow}
+          initializeCurrentElement={initializeCurrentElement}
+          rows={rows}
+          onRowsUpdate={onRowsUpdate}
+          path=""
+          isValidSection={isValidPage}/>
       );
     });
 

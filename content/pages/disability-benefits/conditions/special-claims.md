@@ -37,6 +37,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-Do you have a disability that isn't listed on this site as being linked to military service? You may still be able to get disability compensation (payments) or other benefits. If you're a Veteran with a disability we've concluded is the result of an illness or injury caused—or made worse by—your active-duty service (called a service-connected disability), you may be able to get special compensation to help with disabilities like the ones listed below.
+Do you have a disability that isn’t listed on this site as being linked to military service? You may still be able to get disability compensation (payments) or other benefits. If you’re a Veteran with a disability we’ve concluded is the result of an illness or injury caused—or made worse by—your active-duty service (called a service-connected disability), you may be able to get special compensation to help with disabilities like the ones listed below.
 
 </div>

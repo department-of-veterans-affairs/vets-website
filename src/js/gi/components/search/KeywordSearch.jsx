@@ -76,27 +76,27 @@ export class KeywordSearch extends React.Component {
     return (
       <div className="keyword-search">
         <label
-            id="institution-search-label"
-            className="institution-search-label"
-            htmlFor="institution-search">
+          id="institution-search-label"
+          className="institution-search-label"
+          htmlFor="institution-search">
           {this.props.label}
         </label>
         <Autosuggest
-            getSuggestionValue={this.clickedSuggestionValue}
-            highlightFirstSuggestion
-            onSuggestionsClearRequested={this.props.onClearAutocompleteSuggestions}
-            onSuggestionSelected={this.handleSuggestionSelected}
-            onSuggestionsFetchRequested={this.handleFetchSuggestion}
-            renderSuggestion={this.renderSuggestion}
-            shouldRenderSuggestions={this.shouldRenderSuggestions}
-            suggestions={suggestions}
-            inputProps={{
-              value: searchTerm,
-              onChange: this.handleChange,
-              onKeyUp: this.handleKeyUp,
-              'aria-labelledby': 'institution-search-label',
-              onBlur: this.handleInputBlur,
-            }}/>
+          getSuggestionValue={this.clickedSuggestionValue}
+          highlightFirstSuggestion
+          onSuggestionsClearRequested={this.props.onClearAutocompleteSuggestions}
+          onSuggestionSelected={this.handleSuggestionSelected}
+          onSuggestionsFetchRequested={this.handleFetchSuggestion}
+          renderSuggestion={this.renderSuggestion}
+          shouldRenderSuggestions={this.shouldRenderSuggestions}
+          suggestions={suggestions}
+          inputProps={{
+            value: searchTerm,
+            onChange: this.handleChange,
+            onKeyUp: this.handleKeyUp,
+            'aria-labelledby': 'institution-search-label',
+            onBlur: this.handleInputBlur,
+          }}/>
       </div>
     );
   }

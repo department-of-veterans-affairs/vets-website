@@ -6,7 +6,7 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 /**
  * Returns schema for toursOfDuty based on the property names passed to it.
- * This is because some forms don't need all the information others do.
+ * This is because some forms don’t need all the information others do.
  *
  * Note: The order in which the names are in the array will affect the order
  *  they will appear in the form.

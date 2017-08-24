@@ -45,17 +45,17 @@ class ReadOnlyArrayField extends React.Component {
                   <div className="small-12 columns">
                     <h5 className="schemaform-array-readonly-header">{uiOptions.itemName}</h5>
                     <SchemaField key={index}
-                        schema={itemSchema}
-                        uiSchema={uiSchema.items}
-                        errorSchema={errorSchema ? errorSchema[index] : undefined}
-                        idSchema={itemIdSchema}
-                        formData={item}
-                        onChange={f => f}
-                        onBlur={f => f}
-                        registry={this.props.registry}
-                        required={false}
-                        disabled={disabled}
-                        readonly={readonly}/>
+                      schema={itemSchema}
+                      uiSchema={uiSchema.items}
+                      errorSchema={errorSchema ? errorSchema[index] : undefined}
+                      idSchema={itemIdSchema}
+                      formData={item}
+                      onChange={f => f}
+                      onBlur={f => f}
+                      registry={this.props.registry}
+                      required={false}
+                      disabled={disabled}
+                      readonly={readonly}/>
                   </div>
                 </div>
               </div>

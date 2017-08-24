@@ -20,7 +20,7 @@ Hearings are an optional part of the appeals process. They may add time to your 
 
 <h3>How do I get a representative?</h3>
 <p>At your hearing, you can bring a representative with you. This person can help you prepare for the hearing and present your information to the VLJ. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a>.</p>
-<p>Once you have a representative, you'll need to let the VA know they have permission to represent you by completing a form.</p>
+<p>Once you have a representative, you’ll need to let the VA know they have permission to represent you by completing a form.</p>
 <ul>
 <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a></li>
 <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download VA Form 21-22</a></li>

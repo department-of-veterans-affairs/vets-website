@@ -16,10 +16,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{}}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions }}/>
+        schema={{}}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions }}/>
     );
 
     expect(tree.everySubTree('option').length).to.equal(2);
@@ -37,10 +37,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{}}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions, labels }}/>
+        schema={{}}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions, labels }}/>
     );
 
     expect(tree.everySubTree('option')[1].text()).to.equal('Other');
@@ -55,10 +55,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{}}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions }}/>
+        schema={{}}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions }}/>
     );
 
     tree.subTree('select').props.onChange({
@@ -84,10 +84,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{ type: 'number' }}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions }}/>
+        schema={{ type: 'number' }}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions }}/>
     );
 
     tree.subTree('select').props.onChange({
@@ -107,10 +107,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{ type: 'boolean' }}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions }}/>
+        schema={{ type: 'boolean' }}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions }}/>
     );
 
     tree.subTree('select').props.onChange({
@@ -130,10 +130,10 @@ describe('Schemaform <SelectWidget>', () => {
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{}}
-          id="testing"
-          onBlur={onBlur}
-          options={{ enumOptions }}/>
+        schema={{}}
+        id="testing"
+        onBlur={onBlur}
+        options={{ enumOptions }}/>
     );
 
     tree.subTree('select').props.onBlur({
@@ -153,12 +153,12 @@ describe('Schemaform <SelectWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
-          schema={{
-            'default': 'test'
-          }}
-          id="testing"
-          onChange={onChange}
-          options={{ enumOptions }}/>
+        schema={{
+          'default': 'test'
+        }}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions }}/>
     );
 
     expect(tree.everySubTree('option').length).to.equal(1);

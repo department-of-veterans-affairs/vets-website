@@ -55,42 +55,42 @@ class FullName extends React.Component {
     return (
       <div>
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.first, this.props.required) ? undefined : errorMessage}
-            label="First name"
-            name="fname"
-            autocomplete="given-name"
-            charMax={30}
-            required={this.props.required}
-            field={this.props.name.first}
-            onValueChange={(update) => {this.handleChange('first', update);}}/>
+          errorMessage={this.validateRequiredFields(this.props.name.first, this.props.required) ? undefined : errorMessage}
+          label="First name"
+          name="fname"
+          autocomplete="given-name"
+          charMax={30}
+          required={this.props.required}
+          field={this.props.name.first}
+          onValueChange={(update) => {this.handleChange('first', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.middle, false) ? undefined : errorMessage}
-            label="Middle name"
-            name="mname"
-            autocomplete="additional-name"
-            charMax={30}
-            field={this.props.name.middle}
-            onValueChange={(update) => {this.handleChange('middle', update);}}/>
+          errorMessage={this.validateRequiredFields(this.props.name.middle, false) ? undefined : errorMessage}
+          label="Middle name"
+          name="mname"
+          autocomplete="additional-name"
+          charMax={30}
+          field={this.props.name.middle}
+          onValueChange={(update) => {this.handleChange('middle', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation) ? undefined : errorMessage}
-            label="Last name"
-            name="lname"
-            autocomplete="family-name"
-            charMax={30}
-            required={this.props.required}
-            field={this.props.name.last}
-            onValueChange={(update) => {this.handleChange('last', update);}}/>
+          errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation) ? undefined : errorMessage}
+          label="Last name"
+          name="lname"
+          autocomplete="family-name"
+          charMax={30}
+          required={this.props.required}
+          field={this.props.name.last}
+          onValueChange={(update) => {this.handleChange('last', update);}}/>
 
         <ErrorableSelect
-            autocomplete="false"
-            additionalClass="form-select-medium"
-            label="Suffix"
-            name="suffix"
-            options={suffixes}
-            value={this.props.name.suffix}
-            onValueChange={(update) => {this.handleChange('suffix', update);}}/>
+          autocomplete="false"
+          additionalClass="form-select-medium"
+          label="Suffix"
+          name="suffix"
+          options={suffixes}
+          value={this.props.name.suffix}
+          onValueChange={(update) => {this.handleChange('suffix', update);}}/>
       </div>
     );
   }

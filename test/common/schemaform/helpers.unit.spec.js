@@ -466,7 +466,7 @@ describe('Schemaform helpers:', () => {
     it('should skip array fields using option', () => {
       const result = getNonArraySchema({ type: 'array' }, { 'ui:option': { keepInPageOnReview: true } });
 
-      expect(result).to.be.defined;
+      expect(result).to.be.undefined;
     });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({

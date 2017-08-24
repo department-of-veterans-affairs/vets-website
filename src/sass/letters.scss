@@ -35,6 +35,15 @@
     padding-bottom: 1.5rem;
   }
 
+  .download-button {
+    margin: 1.5em 0 1em;
+
+    > button:disabled {
+      background-color: $color-gray-lighter;
+      color: $color-black;
+    }
+  }
+
   .service-info {
     text-transform: capitalize;
   }
@@ -60,6 +69,16 @@
   th[scope="row"] {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .form-expanding-group {
+    margin-left: initial;
+    margin-top: 1.5em;
+  }
+
+  .form-expanding-group-open {
+    border-left: 0;
+    padding-left: initial;
   }
 }
 

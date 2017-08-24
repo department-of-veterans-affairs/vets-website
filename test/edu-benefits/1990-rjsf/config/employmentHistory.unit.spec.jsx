@@ -11,10 +11,10 @@ describe('Edu 1990 employmentHistory', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -24,10 +24,10 @@ describe('Edu 1990 employmentHistory', () => {
   it('should show history fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);

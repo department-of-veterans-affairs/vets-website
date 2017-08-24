@@ -164,7 +164,7 @@ class ObjectField extends React.Component {
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
 
-    let containerClassNames = classNames({
+    const containerClassNames = classNames({
       'input-section': isRoot,
       'schemaform-field-container': true,
       'schemaform-block': title && !isRoot
@@ -174,18 +174,18 @@ class ObjectField extends React.Component {
       return (
         <div key={propName}>
           <SchemaField
-              name={propName}
-              required={this.isRequired(propName)}
-              schema={schema.properties[propName]}
-              uiSchema={uiSchema[propName]}
-              errorSchema={errorSchema[propName]}
-              idSchema={idSchema[propName]}
-              formData={formData[propName]}
-              onChange={this.onPropertyChange(propName)}
-              onBlur={onBlur}
-              registry={this.props.registry}
-              disabled={disabled}
-              readonly={readonly}/>
+            name={propName}
+            required={this.isRequired(propName)}
+            schema={schema.properties[propName]}
+            uiSchema={uiSchema[propName]}
+            errorSchema={errorSchema[propName]}
+            idSchema={idSchema[propName]}
+            formData={formData[propName]}
+            onChange={this.onPropertyChange(propName)}
+            onBlur={onBlur}
+            registry={this.props.registry}
+            disabled={disabled}
+            readonly={readonly}/>
         </div>
       );
     };
@@ -195,17 +195,17 @@ class ObjectField extends React.Component {
         <div className={containerClassNames}>
           {hasTitleOrDescription && <div className="schemaform-block-header">
             {CustomTitleField && !showFieldLabel
-                ? <CustomTitleField
-                    id={`${idSchema.$id}__title`}
-                    formData={formData}
-                    formContext={formContext}
-                    required={required}/> : null}
+              ? <CustomTitleField
+                id={`${idSchema.$id}__title`}
+                formData={formData}
+                formContext={formContext}
+                required={required}/> : null}
             {!CustomTitleField && title && !showFieldLabel
-                ? <TitleField
-                    id={`${idSchema.$id}__title`}
-                    title={title}
-                    required={required}
-                    formContext={formContext}/> : null}
+              ? <TitleField
+                id={`${idSchema.$id}__title`}
+                title={title}
+                required={required}
+                formContext={formContext}/> : null}
             {textDescription && <p>{textDescription}</p>}
             {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
@@ -226,7 +226,7 @@ class ObjectField extends React.Component {
             }
 
             // if fields have expandUnder, but are the only item, that means the
-            // field they're expanding under is hidden, and they should be hidden, too
+            // field they’re expanding under is hidden, and they should be hidden, too
             return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
               ? renderProp(objectFields[0], index)
               : undefined;

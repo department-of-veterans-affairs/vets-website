@@ -79,16 +79,16 @@ class ObjectField extends React.Component {
     const renderField = (propName) => {
       return (
         <SchemaField key={propName}
-            name={propName}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            onChange={this.onPropertyChange(propName)}
-            onBlur={this.props.onBlur}
-            required={this.isRequired(propName)}
-            formData={formData[propName]}
-            registry={this.props.registry}/>
+          name={propName}
+          schema={schema.properties[propName]}
+          uiSchema={uiSchema[propName]}
+          errorSchema={errorSchema[propName]}
+          idSchema={idSchema[propName]}
+          onChange={this.onPropertyChange(propName)}
+          onBlur={this.props.onBlur}
+          required={this.isRequired(propName)}
+          formData={formData[propName]}
+          registry={this.props.registry}/>
       );
     };
 

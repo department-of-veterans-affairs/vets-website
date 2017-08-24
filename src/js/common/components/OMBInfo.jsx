@@ -34,11 +34,11 @@ class OMBInfo extends React.Component {
         <div>Expiration date: <strong>{expDate}</strong></div>
         <div><a onClick={this.openModal}>Privacy Act Statement</a></div>
         <Modal
-            cssClass="va-modal-large"
-            contents={modalContents(resBurden)}
-            id="omb-modal"
-            visible={this.state.modalOpen}
-            onClose={this.closeModal}/>
+          cssClass="va-modal-large"
+          contents={modalContents(resBurden)}
+          id="omb-modal"
+          visible={this.state.modalOpen}
+          onClose={this.closeModal}/>
       </div>
     );
   }

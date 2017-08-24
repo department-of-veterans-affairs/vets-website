@@ -185,7 +185,7 @@ describe('messages reducer', () => {
     });
 
     expect(state.ui.messagesCollapsed)
-      .to.eql(new Set(thread.data.map(msg => msg.messageId)));
+      .to.eql(new Set(thread.data.map(msg => msg.attributes.messageId)));
   });
 
   it('should handle a successful fetch of a new message draft', () => {
@@ -269,7 +269,7 @@ describe('messages reducer', () => {
     });
 
     expect(state.ui.messagesCollapsed)
-      .to.eql(new Set(thread.data.map(msg => msg.messageId)));
+      .to.eql(new Set(thread.data.map(msg => msg.attributes.messageId)));
   });
 
   it('should collapse and expand a message', () => {

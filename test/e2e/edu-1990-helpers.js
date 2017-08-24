@@ -13,7 +13,7 @@ const testValues = {
   },
   veteranSocialSecurityNumber: '123456677',
   veteranDateOfBirth: {
-    month: 'May',
+    month: '5',
     day: '2',
     year: '1984'
   },
@@ -22,12 +22,12 @@ const testValues = {
     {
       serviceBranch: 'Air Force',
       fromDate: {
-        month: 'May',
+        month: '5',
         day: '2',
         year: '1996'
       },
       toDate: {
-        month: 'May',
+        month: '5',
         day: '2',
         year: '1999'
       },
@@ -46,7 +46,7 @@ const testValues = {
   phone: '1234567788',
   mobile: '1234567789',
   benefitsRelinquishedDate: {
-    month: 'May',
+    month: '5',
     day: '2',
     year: ((new Date()).getFullYear() + 1).toString()
   },
@@ -60,18 +60,18 @@ const testValues = {
   ],
   activeDutyRange: {
     from: {
-      month: 'May',
+      month: '5',
       day: '2',
       year: '1996'
     },
     to: {
-      month: 'May',
+      month: '5',
       day: '2',
       year: '1999'
     }
   },
   highSchoolOrGedCompletionDate: {
-    month: 'May',
+    month: '5',
     year: '1996'
   },
   educationPeriods: [
@@ -80,11 +80,11 @@ const testValues = {
       city: 'New York',
       state: 'NY',
       fromDate: {
-        month: 'May',
+        month: '5',
         year: '1996'
       },
       toDate: {
-        month: 'May',
+        month: '5',
         year: '1999'
       },
       hours: '9',
@@ -152,9 +152,9 @@ function completeVeteranInformation(client, data) {
     .clearValue('input[name="lname"]')
     .setValue('input[name="lname"]', data.veteranFullName.last)
     .clearValue('select[name="veteranBirthMonth"]')
-    .setValue('select[name="veteranBirthMonth"]', data.veteranDateOfBirth.month)
+    .selectDropdown('veteranBirthMonth', data.veteranDateOfBirth.month)
     .clearValue('select[name="veteranBirthDay"]')
-    .setValue('select[name="veteranBirthDay"]', data.veteranDateOfBirth.day)
+    .selectDropdown('veteranBirthDay', data.veteranDateOfBirth.day)
     .clearValue('input[name="veteranBirthYear"]')
     .setValue('input[name="veteranBirthYear"]', data.veteranDateOfBirth.year)
     .clearValue('input[name="ssn"]')
@@ -162,7 +162,7 @@ function completeVeteranInformation(client, data) {
 
   client
     .setValue('input[name="mname"]', data.veteranFullName.middle)
-    .setValue('select[name="suffix"]', data.veteranFullName.suffix)
+    .selectDropdown('suffix', data.veteranFullName.suffix)
     .click('input[name="gender-0"]');
 }
 
@@ -184,9 +184,9 @@ function completeBenefitsRelinquishment(client, data) {
     .pause(1000)
     .waitForElementVisible('select[name="benefitsRelinquishedDateMonth"]', Timeouts.slow)
     .clearValue('select[name="benefitsRelinquishedDateMonth"]')
-    .setValue('select[name="benefitsRelinquishedDateMonth"]', data.benefitsRelinquishedDate.month)
+    .selectDropdown('benefitsRelinquishedDateMonth', data.benefitsRelinquishedDate.month)
     .clearValue('select[name="benefitsRelinquishedDateDay"]')
-    .setValue('select[name="benefitsRelinquishedDateDay"]', data.benefitsRelinquishedDate.day)
+    .selectDropdown('benefitsRelinquishedDateDay', data.benefitsRelinquishedDate.day)
     .clearValue('input[name="benefitsRelinquishedDateYear"]')
     .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
 }
@@ -196,15 +196,15 @@ function completeServicePeriods(client, data) {
     .clearValue('input[name="serviceBranch"]')
     .setValue('input[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
     .clearValue('select[name="fromDateMonth"]')
-    .setValue('select[name="fromDateMonth"]', data.toursOfDuty[0].fromDate.month)
+    .selectDropdown('fromDateMonth', data.toursOfDuty[0].fromDate.month)
     .clearValue('select[name="fromDateDay"]')
-    .setValue('select[name="fromDateDay"]', data.toursOfDuty[0].fromDate.day)
+    .selectDropdown('fromDateDay', data.toursOfDuty[0].fromDate.day)
     .clearValue('input[name="fromDateYear"]')
     .setValue('input[name="fromDateYear"]', data.toursOfDuty[0].fromDate.year)
     .clearValue('select[name="toDateMonth"]')
-    .setValue('select[name="toDateMonth"]', data.toursOfDuty[0].toDate.month)
+    .selectDropdown('toDateMonth', data.toursOfDuty[0].toDate.month)
     .clearValue('select[name="toDateDay"]')
-    .setValue('select[name="toDateDay"]', data.toursOfDuty[0].toDate.day)
+    .selectDropdown('toDateDay', data.toursOfDuty[0].toDate.day)
     .clearValue('input[name="toDateYear"]')
     .setValue('input[name="toDateYear"]', data.toursOfDuty[0].toDate.year);
 
@@ -261,15 +261,15 @@ function completeContributions(client, data) {
   client
     .pause(1000)
     .clearValue('select[name="fromMonth"]')
-    .setValue('select[name="fromMonth"]', data.activeDutyRange.from.month)
+    .selectDropdown('fromMonth', data.activeDutyRange.from.month)
     .clearValue('select[name="fromDay"]')
-    .setValue('select[name="fromDay"]', data.activeDutyRange.from.day)
+    .selectDropdown('fromDay', data.activeDutyRange.from.day)
     .clearValue('input[name="fromYear"]')
     .setValue('input[name="fromYear"]', data.activeDutyRange.from.year)
     .clearValue('select[name="toMonth"]')
-    .setValue('select[name="toMonth"]', data.activeDutyRange.to.month)
+    .selectDropdown('toMonth', data.activeDutyRange.to.month)
     .clearValue('select[name="toDay"]')
-    .setValue('select[name="toDay"]', data.activeDutyRange.to.day)
+    .selectDropdown('toDay', data.activeDutyRange.to.day)
     .clearValue('input[name="toYear"]')
     .setValue('input[name="toYear"]', data.activeDutyRange.to.year);
 }
@@ -277,7 +277,7 @@ function completeContributions(client, data) {
 function completeEducationHistory(client, data) {
   client
     .clearValue('select[name="highSchoolOrGedCompletionDateMonth"]')
-    .setValue('select[name="highSchoolOrGedCompletionDateMonth"]', data.highSchoolOrGedCompletionDate.month)
+    .selectDropdown('highSchoolOrGedCompletionDateMonth', data.highSchoolOrGedCompletionDate.month)
     .clearValue('input[name="highSchoolOrGedCompletionDateYear"]')
     .setValue('input[name="highSchoolOrGedCompletionDateYear"]', data.highSchoolOrGedCompletionDate.year)
     .clearValue('input[name="name"]')
@@ -285,13 +285,13 @@ function completeEducationHistory(client, data) {
     .clearValue('input[name="city"]')
     .setValue('input[name="city"]', data.educationPeriods[0].city)
     .clearValue('select[name="state"]')
-    .setValue('select[name="state"]', data.educationPeriods[0].state)
+    .selectDropdown('state', data.educationPeriods[0].state)
     .clearValue('select[name="fromDateMonth"]')
-    .setValue('select[name="fromDateMonth"]', data.educationPeriods[0].fromDate.month)
+    .selectDropdown('fromDateMonth', data.educationPeriods[0].fromDate.month)
     .clearValue('input[name="fromDateYear"]')
     .setValue('input[name="fromDateYear"]', data.educationPeriods[0].fromDate.year)
     .clearValue('select[name="toDateMonth"]')
-    .setValue('select[name="toDateMonth"]', data.educationPeriods[0].toDate.month)
+    .selectDropdown('toDateMonth', data.educationPeriods[0].toDate.month)
     .clearValue('input[name="toDateYear"]')
     .setValue('input[name="toDateYear"]', data.educationPeriods[0].toDate.year)
     .clearValue('input[name="hours"]')
@@ -328,7 +328,7 @@ function completeContactInformation(client, data) {
     .clearValue('input[name="city"]')
     .setValue('input[name="city"]', data.veteranAddress.city)
     .clearValue('select[name="state"]')
-    .setValue('select[name="state"]', data.veteranAddress.state)
+    .selectDropdown('state', data.veteranAddress.state)
     .clearValue('input[name="postalCode"]')
     .setValue('input[name="postalCode"]', data.veteranAddress.postalCode)
     .clearValue('input[name="email"]')
@@ -345,7 +345,7 @@ function completeContactInformation(client, data) {
 function completeSchoolSelection(client, data) {
   client
     .clearValue('select[name="educationType"]')
-    .setValue('select[name="educationType"]', data.educationType)
+    .selectDropdown('educationType', data.educationType)
     .clearValue('input[name="schoolName"]')
     .setValue('input[name="schoolName"]', data.schoolName)
     .clearValue('input[name="address"]')
@@ -353,14 +353,14 @@ function completeSchoolSelection(client, data) {
     .clearValue('input[name="city"]')
     .setValue('input[name="city"]', data.schoolAddress.city)
     .clearValue('select[name="state"]')
-    .setValue('select[name="state"]', data.schoolAddress.state)
+    .selectDropdown('state', data.schoolAddress.state)
     .clearValue('input[name="postalCode"]')
     .setValue('input[name="postalCode"]', data.schoolAddress.postalCode)
     .setValue('input[name="educationObjective"]', data.educationObjective)
     .clearValue('select[name="educationStartDateMonth"]')
-    .setValue('select[name="educationStartDateMonth"]', data.educationStartDate.month)
+    .selectDropdown('educationStartDateMonth', data.educationStartDate.month)
     .clearValue('select[name="educationStartDateDay"]')
-    .setValue('select[name="educationStartDateDay"]', data.educationStartDate.day)
+    .selectDropdown('educationStartDateDay', data.educationStartDate.day)
     .clearValue('input[name="educationStartDateYear"]')
     .setValue('input[name="educationStartDateYear"]', data.educationStartDate.year);
 }
@@ -375,7 +375,7 @@ function completeSecondaryContact(client, data) {
     .clearValue('input[name="city"]')
     .setValue('input[name="city"]', data.secondaryAddress.city)
     .clearValue('select[name="state"]')
-    .setValue('select[name="state"]', data.secondaryAddress.state)
+    .selectDropdown('state', data.secondaryAddress.state)
     .clearValue('input[name="postalCode"]')
     .setValue('input[name="postalCode"]', data.secondaryAddress.postalCode);
 }

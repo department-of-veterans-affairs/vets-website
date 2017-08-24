@@ -24,11 +24,11 @@ class DisabilityBenefitsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-          authRequired={3}
-          serviceRequired={['evss-claims', 'appeals-status']}
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+        authRequired={3}
+        serviceRequired={['evss-claims', 'appeals-status']}
+        userProfile={this.props.profile}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}>
         <AppContent>
           <div>
             <div className="row">
