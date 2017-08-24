@@ -188,33 +188,25 @@ node('vets-website-linting') {
         return
       }
 
-      def targets = [
-        'master': [
-          [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-          [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
-        ],
-
-        'production': [
-          [ 'build': 'production', 'bucket': 'www.vets.gov' ]
-        ],
-      ][env.BRANCH_NAME]
-
-      def builds = [:]
-
-      for (int i=0; i<targets.size(); i++) {
-        def target = targets.get(i)
-
-        builds[target['bucket']] = {
-          dockerImage.inside(args) {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-s3',
-                                usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-            sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build/${target['build']} s3://${target['bucket']}/"
-            }
-          }
-        }
+      // Create a new GitHub release for this merge to production
+      if (env.BRANCH_NAME == 'production') {
+        build job: 'releases/vets-website', parameters: [
+          stringParam(name: 'ref', value: ref),
+        ], wait: true
       }
 
-      parallel builds
+      def targets = [
+        'master': [ 'dev', 'staging' ],
+        'production': [ 'production' ],
+      ][env.BRANCH_NAME]
+
+      // Deploy the build associated with this ref. To deploy from a release use 
+      // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
+      for (int i=0; i<targets.size(); i++) {
+        build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [
+          stringParam(name: 'ref', value: ref),
+        ], wait: false
+      }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
       throw error
