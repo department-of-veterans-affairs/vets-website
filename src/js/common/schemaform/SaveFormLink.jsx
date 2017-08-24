@@ -65,13 +65,13 @@ class SaveFormLink extends React.Component {
       <div>
         <Element name="saveFormLinkTop"/>
         <LoginModal
-            key={1}
-            title="Sign in to save your application"
-            onClose={this.closeLoginModal}
-            visible={this.state.modalOpened}
-            user={this.props.user}
-            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
-            onLogin={this.saveFormAfterLogin}/>
+          key={1}
+          title="Sign in to save your application"
+          onClose={this.closeLoginModal}
+          visible={this.state.modalOpened}
+          user={this.props.user}
+          onUpdateLoginUrl={this.props.onUpdateLoginUrl}
+          onLogin={this.saveFormAfterLogin}/>
         {saveErrors.has(savedStatus) &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.failure &&

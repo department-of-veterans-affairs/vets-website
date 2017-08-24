@@ -36,15 +36,15 @@ export class HealthRecordsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-          authRequired={3}
-          serviceRequired="health-records"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+        authRequired={3}
+        serviceRequired="health-records"
+        userProfile={this.props.profile}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName="mhvac"
-            cancelPath="/health-care"
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          termsName="mhvac"
+          cancelPath="/health-care"
+          termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div>
               <div className="row">
@@ -54,12 +54,12 @@ export class HealthRecordsApp extends React.Component {
                 </div>
               </div>
               <Modal
-                  cssClass="bb-modal"
-                  contents={this.props.modal.content}
-                  id="bb-glossary-modal"
-                  onClose={this.props.closeModal}
-                  title={this.props.modal.title}
-                  visible={this.props.modal.visible}/>
+                cssClass="bb-modal"
+                contents={this.props.modal.content}
+                id="bb-glossary-modal"
+                onClose={this.props.closeModal}
+                title={this.props.modal.title}
+                visible={this.props.modal.visible}/>
             </div>
           </AppContent>
         </RequiredTermsAcceptanceView>

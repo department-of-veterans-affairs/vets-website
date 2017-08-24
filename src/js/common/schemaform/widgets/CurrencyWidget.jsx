@@ -43,14 +43,14 @@ export default class CurrencyWidget extends React.Component {
 
     return (
       <input type="text"
-          id={id}
-          name={id}
-          disabled={disabled}
-          autoComplete={options.autocomplete || false}
-          className={options.widgetClassNames}
-          value={typeof value === 'undefined' ? '' : value}
-          onBlur={this.onBlur}
-          onChange={this.handleChange}/>
+        id={id}
+        name={id}
+        disabled={disabled}
+        autoComplete={options.autocomplete || false}
+        className={options.widgetClassNames}
+        value={typeof value === 'undefined' ? '' : value}
+        onBlur={this.onBlur}
+        onChange={this.handleChange}/>
     );
   }
 }

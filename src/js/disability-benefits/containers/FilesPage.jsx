@@ -61,9 +61,9 @@ class FilesPage extends React.Component {
         <div>
           {claim.attributes.open &&
             <RequestedFilesInfo
-                id={claim.id}
-                filesNeeded={filesNeeded}
-                optionalFiles={optionalFiles}/>}
+              id={claim.id}
+              filesNeeded={filesNeeded}
+              optionalFiles={optionalFiles}/>}
           {showDecision && <AskVAToDecide id={this.props.params.id}/>}
           <div className="submitted-files-list">
             <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
@@ -71,11 +71,11 @@ class FilesPage extends React.Component {
               ? <div className="no-documents-turned-in"><p>You haven’t turned in any documents to VA.</p></div>
               : null}
 
-              {documentsTurnedIn
-                .map((item, itemIndex) => (
-                  item.trackedItemId
-                    ? <SubmittedTrackedItem item={item} key={itemIndex}/>
-                    : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
+            {documentsTurnedIn
+              .map((item, itemIndex) => (
+                item.trackedItemId
+                  ? <SubmittedTrackedItem item={item} key={itemIndex}/>
+                  : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
           </div>
         </div>
       );
@@ -83,12 +83,12 @@ class FilesPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-          claim={claim}
-          loading={loading}
-          clearNotification={this.props.clearNotification}
-          currentTab="Files"
-          message={message}
-          synced={synced}>
+        claim={claim}
+        loading={loading}
+        clearNotification={this.props.clearNotification}
+        currentTab="Files"
+        message={message}
+        synced={synced}>
         {content}
       </ClaimDetailLayout>
     );

@@ -32,7 +32,7 @@ export default function compose(state = initialState, action) {
         ...action.files
       ], state);
     case DELETE_COMPOSE_ATTACHMENT:
-      // Remove the attachment at the requested index.
+    // Remove the attachment at the requested index.
       state.message.attachments.splice(action.index, 1);
       return set('message.attachments', state.message.attachments, state);
     case DELETE_COMPOSE_MESSAGE:

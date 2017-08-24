@@ -72,26 +72,26 @@ class MessageSearchAdvanced extends React.Component {
       senderOrRecipientField = (
         <div className="msg-search-advanced-group">
           <ErrorableTextInput
-              field={this.props.params.to.field}
-              label="To"
-              onValueChange={this.handleToChange}/>
+            field={this.props.params.to.field}
+            label="To"
+            onValueChange={this.handleToChange}/>
           <ErrorableCheckbox
-              checked={this.props.params.to.exact}
-              label="Exact match"
-              onValueChange={this.handleToExactChange}/>
+            checked={this.props.params.to.exact}
+            label="Exact match"
+            onValueChange={this.handleToExactChange}/>
         </div>
       );
     } else {
       senderOrRecipientField = (
         <div className="msg-search-advanced-group">
           <ErrorableTextInput
-              field={this.props.params.from.field}
-              label="From"
-              onValueChange={this.handleFromChange}/>
+            field={this.props.params.from.field}
+            label="From"
+            onValueChange={this.handleFromChange}/>
           <ErrorableCheckbox
-              checked={this.props.params.from.exact}
-              label="Exact match"
-              onValueChange={this.handleFromExactChange}/>
+            checked={this.props.params.from.exact}
+            label="Exact match"
+            onValueChange={this.handleFromExactChange}/>
         </div>
       );
     }
@@ -104,13 +104,13 @@ class MessageSearchAdvanced extends React.Component {
 
           <div className="msg-search-advanced-group">
             <ErrorableTextInput
-                field={this.props.params.subject.field}
-                label="Subject line"
-                onValueChange={this.handleSubjectChange}/>
+              field={this.props.params.subject.field}
+              label="Subject line"
+              onValueChange={this.handleSubjectChange}/>
             <ErrorableCheckbox
-                checked={this.props.params.subject.exact}
-                label="Exact match"
-                onValueChange={this.handleSubjectExactChange}/>
+              checked={this.props.params.subject.exact}
+              label="Exact match"
+              onValueChange={this.handleSubjectExactChange}/>
           </div>
 
           <fieldset className="msg-search-advanced-group">
@@ -118,28 +118,28 @@ class MessageSearchAdvanced extends React.Component {
               <legend className="msg-search-date-range-legend">Date range</legend>
               <div className="msg-search-date-range">
                 <label
-                    className="usa-sr-only"
-                    htmlFor="msg-search-date-start">Start date range</label>
+                  className="usa-sr-only"
+                  htmlFor="msg-search-date-start">Start date range</label>
                 <DatePicker
-                    id="msg-search-date-start"
-                    onChange={this.handleStartDateChange}
-                    placeholderText="MM/DD/YYYY"
-                    selected={this.props.params.dateRange.start}/>
+                  id="msg-search-date-start"
+                  onChange={this.handleStartDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={this.props.params.dateRange.start}/>
                 <span>to</span>
                 <label
-                    className="usa-sr-only"
-                    htmlFor="msg-search-date-end">End date range</label>
+                  className="usa-sr-only"
+                  htmlFor="msg-search-date-end">End date range</label>
                 <DatePicker
-                    id="msg-search-date-end"
-                    onChange={this.handleEndDateChange}
-                    placeholderText="MM/DD/YYYY"
-                    selected={this.props.params.dateRange.end}/>
+                  id="msg-search-date-end"
+                  onChange={this.handleEndDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={this.props.params.dateRange.end}/>
               </div>
             </div>
           </fieldset>
           <button
-              className="msg-search-advanced-submit"
-              type="submit">Search</button>
+            className="msg-search-advanced-submit"
+            type="submit">Search</button>
         </fieldset>);
     }
 
@@ -147,9 +147,9 @@ class MessageSearchAdvanced extends React.Component {
       <div className="msg-search-advanced">
         {advancedSearchForm}
         <button
-            className="msg-search-advanced-toggle"
-            onClick={this.props.onAdvancedSearch}
-            type="button">
+          className="msg-search-advanced-toggle"
+          onClick={this.props.onAdvancedSearch}
+          type="button">
           <i className={toggleClass}></i> Advanced Search</button>
       </div>);
   }

@@ -10,7 +10,7 @@ describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          loading/>
+        loading/>
     );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
@@ -27,8 +27,8 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          claim={claim}
-          message={message}/>
+        claim={claim}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
@@ -46,9 +46,9 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          claim={claim}
-          clearNotification={clearNotification}
-          message={message}/>
+        claim={claim}
+        clearNotification={clearNotification}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -68,10 +68,10 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          claim={claim}
-          uploadComplete
-          clearNotification={clearNotification}
-          message={message}/>
+        claim={claim}
+        uploadComplete
+        clearNotification={clearNotification}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -86,9 +86,9 @@ describe('<AdditionalEvidencePage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          claim={claim}
-          files={files}
-          submitFiles={onSubmit}/>
+        claim={claim}
+        files={files}
+        submitFiles={onSubmit}/>
     );
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
@@ -104,10 +104,10 @@ describe('<AdditionalEvidencePage>', () => {
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <AdditionalEvidencePage
-          claim={claim}
-          files={[]}
-          uploadField={{ value: null, dirty: false }}
-          resetUploads={resetUploads}/>
+        claim={claim}
+        files={[]}
+        uploadField={{ value: null, dirty: false }}
+        resetUploads={resetUploads}/>
     );
 
     expect(document.title).to.equal('Additional Evidence');
@@ -126,13 +126,13 @@ describe('<AdditionalEvidencePage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
-          claim={claim}
-          files={[]}
-          uploadComplete
-          uploadField={{ value: null, dirty: false }}
-          router={router}
-          getClaimDetail={getClaimDetail}
-          resetUploads={resetUploads}/>
+        claim={claim}
+        files={[]}
+        uploadComplete
+        uploadField={{ value: null, dirty: false }}
+        router={router}
+        getClaimDetail={getClaimDetail}
+        resetUploads={resetUploads}/>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({ uploadComplete: true });

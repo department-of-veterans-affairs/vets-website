@@ -21,10 +21,10 @@ class DownloadLetters extends React.Component {
         </StepHeader>
         <StepHeader name="Select and download" current="2" steps="2">
           <LetterList
-              letters={this.props.letters}
-              lettersAvailability={this.props.lettersAvailability}
-              letterDownloadStatus={this.props.letterDownloadStatus}
-              benefitSummaryOptions={this.props.benefitSummaryOptions}/>
+            letters={this.props.letters}
+            lettersAvailability={this.props.lettersAvailability}
+            letterDownloadStatus={this.props.letterDownloadStatus}
+            benefitSummaryOptions={this.props.benefitSummaryOptions}/>
         </StepHeader>
         <br/>
         <h4>Can’t find what you’re looking for?</h4>

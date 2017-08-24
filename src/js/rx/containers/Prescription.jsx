@@ -60,11 +60,11 @@ export class Prescription extends React.Component {
     return (
       <div id="rx-prescription">
         <AlertBox
-            content={alert.content}
-            isVisible={alert.visible}
-            onCloseAlert={this.props.closeAlert}
-            scrollOnShow
-            status={alert.status}/>
+          content={alert.content}
+          isVisible={alert.visible}
+          onCloseAlert={this.props.closeAlert}
+          scrollOnShow
+          status={alert.status}/>
         <div className="rx-app-title">
           <h1>{title}</h1>
           <SettingsButton/>

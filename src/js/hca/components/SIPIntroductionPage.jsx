@@ -28,10 +28,10 @@ class IntroductionPage extends React.Component {
           Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
         </p>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            messages={this.props.route.formConfig.savedFormMessages}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
+          pageList={this.props.route.pageList}
+          messages={this.props.route.formConfig.savedFormMessages}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
           Please complete the 10-10EZ form to apply for health care benefits.
         </SaveInProgressIntro>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}

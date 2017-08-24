@@ -15,11 +15,11 @@ export default class AppointmentInfo extends Component {
 
   anyWaitTimes(accessAttrs, category) {
     return some(Object.keys(accessAttrs),
-        (key) => {
-          return (typeof accessAttrs[key][category] !== 'undefined' &&
+      (key) => {
+        return (typeof accessAttrs[key][category] !== 'undefined' &&
              accessAttrs[key][category] !== null);
-        }
-        );
+      }
+    );
   }
 
   hasPrimaryCare(accessAttrs, category) {

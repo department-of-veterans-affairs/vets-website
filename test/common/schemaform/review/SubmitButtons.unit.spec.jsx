@@ -11,7 +11,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -23,7 +23,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Sending...');
@@ -35,7 +35,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Submitted');
@@ -47,7 +47,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
@@ -59,7 +59,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     // Make sure it displays an error--and the right one
@@ -75,7 +75,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;

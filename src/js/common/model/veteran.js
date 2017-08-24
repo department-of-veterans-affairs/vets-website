@@ -733,7 +733,7 @@ function veteranToApplication(veteran) {
     }
 
     switch (key) {
-      // Convert radio buttons into booleans.
+    // Convert radio buttons into booleans.
       case 'isVaServiceConnected':
       case 'compensableVaServiceConnected':
       case 'provideSupportLastYear':

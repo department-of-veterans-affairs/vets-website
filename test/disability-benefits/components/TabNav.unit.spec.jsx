@@ -8,7 +8,7 @@ describe('<TabNav>', () => {
   it('should render three tabs', () => {
     const tree = SkinDeep.shallowRender(
       <TabNav
-          id={1}/>
+        id={1}/>
     );
 
     expect(tree.subTree('.va-tabs').props.children.length).to.equal(3);

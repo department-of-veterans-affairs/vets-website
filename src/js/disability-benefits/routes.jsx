@@ -15,54 +15,54 @@ import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
 
 const routes = [
   <Redirect
-      key="/track-claims/your-claims"
-      from="/disability-benefits/track-claims*"
-      to="/your-claims"/>,
+    key="/track-claims/your-claims"
+    from="/disability-benefits/track-claims*"
+    to="/your-claims"/>,
   <Route
-      component={YourClaimsPage}
-      key="/your-claims"
-      path="/your-claims"/>,
+    component={YourClaimsPage}
+    key="/your-claims"
+    path="/your-claims"/>,
   <Route
-      component={YourClaimsPage}
-      showClosedClaims
-      key="/your-claims/closed"
-      path="/your-claims/closed"/>,
+    component={YourClaimsPage}
+    showClosedClaims
+    key="/your-claims/closed"
+    path="/your-claims/closed"/>,
   <Route
-      component={AppealStatusPage}
-      key="/appeals/:id/status"
-      path="/appeals/:id/status"/>,
+    component={AppealStatusPage}
+    key="/appeals/:id/status"
+    path="/appeals/:id/status"/>,
   <Route
-      component={AppealLearnMorePage}
-      key="/appeals/learn-more"
-      path="/appeals/learn-more"/>,
+    component={AppealLearnMorePage}
+    key="/appeals/learn-more"
+    path="/appeals/learn-more"/>,
   <Route
-      component={ClaimPage}
-      key="/your-claims/:id"
-      path="/your-claims/:id">
+    component={ClaimPage}
+    key="/your-claims/:id"
+    path="/your-claims/:id">
     <IndexRedirect to="status"/>
     <Route
-        component={ClaimStatusPage}
-        path="status"/>,
+      component={ClaimStatusPage}
+      path="status"/>,
     <Route
-        component={FilesPage}
-        path="files"/>,
+      component={FilesPage}
+      path="files"/>,
     <Route
-        component={DetailsPage}
-        path="details"/>,
+      component={DetailsPage}
+      path="details"/>,
     <Route
-        component={AskVAPage}
-        path="ask-va-to-decide"/>
+      component={AskVAPage}
+      path="ask-va-to-decide"/>
     <Route
-        component={AdditionalEvidencePage}
-        key="additional-evidence"
-        path="additional-evidence"/>,
+      component={AdditionalEvidencePage}
+      key="additional-evidence"
+      path="additional-evidence"/>,
     <Route
-        component={DocumentRequestPage}
-        path="document-request/:trackedItemId"/>
+      component={DocumentRequestPage}
+      path="document-request/:trackedItemId"/>
     <Route
-        component={ClaimEstimationPage}
-        key="claim-estimate"
-        path="claim-estimate"/>,
+      component={ClaimEstimationPage}
+      key="claim-estimate"
+      path="claim-estimate"/>,
   </Route>,
 ];
 

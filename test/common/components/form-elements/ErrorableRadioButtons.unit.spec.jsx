@@ -55,14 +55,14 @@ describe('<ErrorableRadioButtons>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ErrorableRadioButtons
-          label="my label"
-          options={optionsSub}
-          value={makeField('test')}
-          onValueChange={(_update) => {}}>
+        label="my label"
+        options={optionsSub}
+        value={makeField('test')}
+        onValueChange={(_update) => {}}>
         <RadioButtonsSubSection showIfValueChosen="test"/>
         <RadioButtonsSubSection showIfValueChosen="test2"/>
       </ErrorableRadioButtons>
-      );
+    );
 
     expect(tree.everySubTree('RadioButtonsSubSection').length).to.equal(1);
   });
@@ -79,13 +79,13 @@ describe('<ErrorableRadioButtons>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ErrorableRadioButtons
-          label="my label"
-          options={optionsSub}
-          value={makeField('test')}
-          onValueChange={(_update) => {}}>
+        label="my label"
+        options={optionsSub}
+        value={makeField('test')}
+        onValueChange={(_update) => {}}>
         <RadioButtonsSubSection showIfValueChosen="test2"/>
       </ErrorableRadioButtons>
-      );
+    );
 
     expect(tree.everySubTree('RadioButtonsSubSection').length).to.equal(0);
   });

@@ -20,10 +20,10 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to Form 21P-530</p>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            resumeOnly
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -66,9 +66,9 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
           Complete the form before submitting to apply for burial benefits with the 21P-530.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

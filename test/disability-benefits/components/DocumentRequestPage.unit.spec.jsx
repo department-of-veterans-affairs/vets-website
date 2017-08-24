@@ -10,7 +10,7 @@ describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          loading/>
+        loading/>
     );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
@@ -29,9 +29,9 @@ describe('<DocumentRequestPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          trackedItem={trackedItem}
-          claim={claim}
-          message={message}/>
+        trackedItem={trackedItem}
+        claim={claim}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
@@ -52,10 +52,10 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          trackedItem={trackedItem}
-          claim={claim}
-          clearNotification={clearNotification}
-          message={message}/>
+        trackedItem={trackedItem}
+        claim={claim}
+        clearNotification={clearNotification}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -78,11 +78,11 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          trackedItem={trackedItem}
-          claim={claim}
-          uploadComplete
-          clearNotification={clearNotification}
-          message={message}/>
+        trackedItem={trackedItem}
+        claim={claim}
+        uploadComplete
+        clearNotification={clearNotification}
+        message={message}/>
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -99,8 +99,8 @@ describe('<DocumentRequestPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          claim={claim}
-          trackedItem={trackedItem}/>
+        claim={claim}
+        trackedItem={trackedItem}/>
     );
     expect(tree.subTree('DueDate')).not.to.be.false;
     expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
@@ -116,8 +116,8 @@ describe('<DocumentRequestPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          claim={claim}
-          trackedItem={trackedItem}/>
+        claim={claim}
+        trackedItem={trackedItem}/>
     );
     expect(tree.subTree('.optional-upload')).not.to.be.false;
   });
@@ -133,9 +133,9 @@ describe('<DocumentRequestPage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          claim={claim}
-          trackedItem={trackedItem}
-          submitFiles={onSubmit}/>
+        claim={claim}
+        trackedItem={trackedItem}
+        submitFiles={onSubmit}/>
     );
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.called).to.be.true;
@@ -155,11 +155,11 @@ describe('<DocumentRequestPage>', () => {
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <DocumentRequestPage
-          claim={claim}
-          files={[]}
-          uploadField={{ value: null, dirty: false }}
-          trackedItem={trackedItem}
-          resetUploads={resetUploads}/>
+        claim={claim}
+        files={[]}
+        uploadField={{ value: null, dirty: false }}
+        trackedItem={trackedItem}
+        resetUploads={resetUploads}/>
     );
 
     expect(document.title).to.equal('Request for Testing');
@@ -182,14 +182,14 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-          claim={claim}
-          files={[]}
-          uploadComplete
-          uploadField={{ value: null, dirty: false }}
-          trackedItem={trackedItem}
-          router={router}
-          getClaimDetail={getClaimDetail}
-          resetUploads={resetUploads}/>
+        claim={claim}
+        files={[]}
+        uploadComplete
+        uploadField={{ value: null, dirty: false }}
+        trackedItem={trackedItem}
+        router={router}
+        getClaimDetail={getClaimDetail}
+        resetUploads={resetUploads}/>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({ uploadComplete: true });

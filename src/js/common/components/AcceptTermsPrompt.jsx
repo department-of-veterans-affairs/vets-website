@@ -48,18 +48,18 @@ class AcceptTermsPrompt extends React.Component {
     });
 
     const submitButton = (<button
-        className={submitClass}
-        disabled={submitDisabled}
-        onClick={this.handleSubmit}>Submit</button>);
+      className={submitClass}
+      disabled={submitDisabled}
+      onClick={this.handleSubmit}>Submit</button>);
 
     const yesButton = (<div>
       <input
-          type="checkbox"
-          name="form-selection"
-          id="form-yes"
-          value="yes"
-          onChange={this.handleAnswer}
-          disabled={!this.state.scrolledToBottom}/>
+        type="checkbox"
+        name="form-selection"
+        id="form-yes"
+        value="yes"
+        onChange={this.handleAnswer}
+        disabled={!this.state.scrolledToBottom}/>
       <label htmlFor="form-yes">
         {terms.yesContent}
       </label>
