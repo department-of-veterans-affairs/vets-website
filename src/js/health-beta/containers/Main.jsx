@@ -33,9 +33,9 @@ class Main extends React.Component {
 
     return (
       <div>
-          {view}
+        {view}
       </div>
-      );
+    );
   }
 }
 

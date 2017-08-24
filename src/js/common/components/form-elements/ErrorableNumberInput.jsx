@@ -61,26 +61,26 @@ class ErrorableNumberInput extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
-            className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
-            htmlFor={this.inputId}>
-              {this.props.label}
-              {requiredSpan}
+          className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
+          htmlFor={this.inputId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         <input
-            autoComplete={this.props.autocomplete}
-            className={this.props.additionalClass}
-            aria-describedby={errorSpanId}
-            id={this.inputId}
-            name={this.props.name}
-            max={this.props.max}
-            min={this.props.min}
-            pattern={this.props.pattern}
-            placeholder={this.props.placeholder}
-            type="number"
-            value={this.props.field.value}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}/>
+          autoComplete={this.props.autocomplete}
+          className={this.props.additionalClass}
+          aria-describedby={errorSpanId}
+          id={this.inputId}
+          name={this.props.name}
+          max={this.props.max}
+          min={this.props.min}
+          pattern={this.props.pattern}
+          placeholder={this.props.placeholder}
+          type="number"
+          value={this.props.field.value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}/>
       </div>
     );
   }

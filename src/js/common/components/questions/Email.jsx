@@ -33,16 +33,16 @@ class Email extends React.Component {
     return (
       <div>
         <ErrorableTextInput
-            type="email"
-            required={this.props.required}
-            errorMessage={errorMessage}
-            label={this.props.label}
-            name={this.props.name}
-            autocomplete="email"
-            charMax={50}
-            field={this.props.email}
-            additionalClass={this.props.additionalClass}
-            onValueChange={this.props.onValueChange}/>
+          type="email"
+          required={this.props.required}
+          errorMessage={errorMessage}
+          label={this.props.label}
+          name={this.props.name}
+          autocomplete="email"
+          charMax={50}
+          field={this.props.email}
+          additionalClass={this.props.additionalClass}
+          onValueChange={this.props.onValueChange}/>
       </div>
     );
   }

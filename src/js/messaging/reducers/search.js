@@ -54,15 +54,15 @@ export default function search(state = initialState, action) {
 
       if (recipientName) {
         params.to.field = recipientName.eq
-                          ? makeField(recipientName.eq, true)
-                          : makeField(recipientName.match, true);
+          ? makeField(recipientName.eq, true)
+          : makeField(recipientName.match, true);
         params.to.exact = !!recipientName.eq;
       }
 
       if (senderName) {
         params.from.field = senderName.eq
-                          ? makeField(senderName.eq, true)
-                          : makeField(senderName.match, true);
+          ? makeField(senderName.eq, true)
+          : makeField(senderName.match, true);
         params.from.exact = !!senderName.eq;
       }
 
@@ -74,8 +74,8 @@ export default function search(state = initialState, action) {
 
       if (subject) {
         params.subject.field = subject.eq
-                             ? makeField(subject.eq, true)
-                             : makeField(subject.match, true);
+          ? makeField(subject.eq, true)
+          : makeField(subject.match, true);
         params.subject.exact = !!subject.eq;
       }
 

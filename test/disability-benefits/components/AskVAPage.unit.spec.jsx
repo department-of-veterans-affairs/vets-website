@@ -13,9 +13,9 @@ describe('<AskVAPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
-          decisionRequestError={null}
-          params={{ id: 1 }}
-          router={router}/>
+        decisionRequestError={null}
+        params={{ id: 1 }}
+        router={router}/>
     );
     expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
     expect(router.push.called).to.be.false;
@@ -29,10 +29,10 @@ describe('<AskVAPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
-          decisionRequestError={null}
-          params={{ id: 1 }}
-          submitRequest={submitRequest}
-          router={router}/>
+        decisionRequestError={null}
+        params={{ id: 1 }}
+        submitRequest={submitRequest}
+        router={router}/>
     );
 
     tree.subTree('ErrorableCheckbox').props.onValueChange(true);
@@ -47,11 +47,11 @@ describe('<AskVAPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
-          loadingDecisionRequest
-          decisionRequestError={null}
-          params={{ id: 1 }}
-          submitRequest={submitRequest}
-          router={router}/>
+        loadingDecisionRequest
+        decisionRequestError={null}
+        params={{ id: 1 }}
+        submitRequest={submitRequest}
+        router={router}/>
     );
 
     expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
@@ -66,10 +66,10 @@ describe('<AskVAPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
-          decisionRequestError={null}
-          params={{ id: 1 }}
-          submitRequest={submitRequest}
-          router={router}/>
+        decisionRequestError={null}
+        params={{ id: 1 }}
+        submitRequest={submitRequest}
+        router={router}/>
     );
 
     tree.subTree('ErrorableCheckbox').props.onValueChange(true);
@@ -85,9 +85,9 @@ describe('<AskVAPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
-          params={{ id: 1 }}
-          submitRequest={submitRequest}
-          router={router}/>
+        params={{ id: 1 }}
+        submitRequest={submitRequest}
+        router={router}/>
     );
     tree.getMountedInstance().componentWillReceiveProps({
       decisionRequested: true,

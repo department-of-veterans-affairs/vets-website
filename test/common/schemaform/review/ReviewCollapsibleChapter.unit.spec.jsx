@@ -32,12 +32,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     expect(tree.everySubTree('.form-review-panel-page')).to.be.empty;
@@ -71,12 +71,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().handleEdit('test', true);
@@ -111,12 +111,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().handleEdit('test', true, 0);
@@ -163,12 +163,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();
@@ -220,12 +220,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={() => {}}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={() => {}}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();
@@ -277,12 +277,12 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={() => {}}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={() => {}}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();
@@ -316,13 +316,13 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          setPagesViewed={setPagesViewed}
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        setPagesViewed={setPagesViewed}
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().toggleChapter();
@@ -361,13 +361,13 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
-          viewedPages={new Set()}
-          onEdit={onEdit}
-          setData={setData}
-          pages={pages}
-          chapterKey={chapterKey}
-          chapter={chapter}
-          form={form}/>
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        setData={setData}
+        pages={pages}
+        chapterKey={chapterKey}
+        chapter={chapter}
+        form={form}/>
     );
 
     tree.getMountedInstance().handleSubmit({ test: 2 }, 'test', 'testing', 0);

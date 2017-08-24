@@ -11,9 +11,9 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          loading
-          message={{ title: 'Test', body: 'Body' }}
-          claim={claim}/>
+        loading
+        message={{ title: 'Test', body: 'Body' }}
+        claim={claim}/>
     );
     expect(tree.props.message).not.to.be.null;
   });
@@ -26,7 +26,7 @@ describe('<FilesPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          claim={claim}/>
+        claim={claim}/>
     );
 
     expect(tree.subTree('RequestedFilesInfo')).to.be.false;
@@ -40,7 +40,7 @@ describe('<FilesPage>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          claim={claim}/>
+        claim={claim}/>
     );
 
     expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
@@ -64,8 +64,8 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          params={{ id: 2 }}
-          claim={claim}/>
+        params={{ id: 2 }}
+        claim={claim}/>
     );
     expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
   });
@@ -87,7 +87,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
   });
@@ -106,7 +106,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
@@ -136,7 +136,7 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
     expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
@@ -155,9 +155,9 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          clearNotification={clearNotification}
-          message={message}
-          claim={claim}/>
+        clearNotification={clearNotification}
+        message={message}
+        claim={claim}/>
     );
     expect(clearNotification.called).to.be.false;
     tree.subTree('ClaimDetailLayout').props.clearNotification();
@@ -177,9 +177,9 @@ describe('<FilesPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          clearNotification={clearNotification}
-          message={message}
-          claim={claim}/>
+        clearNotification={clearNotification}
+        message={message}
+        claim={claim}/>
     );
     expect(clearNotification.called).to.be.false;
     tree.getMountedInstance().componentWillUnmount();

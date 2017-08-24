@@ -12,7 +12,7 @@ export default class EducationPeriodReview extends React.Component {
           <tbody className="edu-growable-review-desc">
             <tr>
               <td>{period.name.value}<br/>
-              {displayMonthYearIfValid(period.dateRange.from)} &mdash; {displayMonthYearIfValid(period.dateRange.to)}</td>
+                {displayMonthYearIfValid(period.dateRange.from)} &mdash; {displayMonthYearIfValid(period.dateRange.to)}</td>
               <td>
                 <button className="usa-button-outline float-right" onClick={this.props.onEdit}>Edit</button>
               </td>

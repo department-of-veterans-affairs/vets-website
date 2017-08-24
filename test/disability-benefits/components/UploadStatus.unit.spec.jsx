@@ -9,8 +9,8 @@ describe('<UploadStatus>', () => {
   it('should render single file needed', () => {
     const tree = SkinDeep.shallowRender(
       <UploadStatus
-          files={1}
-          progress={0.5}/>
+        files={1}
+        progress={0.5}/>
     );
 
     expect(tree.subTree('h4').text()).to.contain('Uploading 1 file');
@@ -20,9 +20,9 @@ describe('<UploadStatus>', () => {
     const onCancel = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <UploadStatus
-          files={1}
-          onCancel={onCancel}
-          progress={0.5}/>
+        files={1}
+        onCancel={onCancel}
+        progress={0.5}/>
     );
 
     tree.subTree('a').props.onClick({

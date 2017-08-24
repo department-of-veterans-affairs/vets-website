@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
-FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
+  FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;

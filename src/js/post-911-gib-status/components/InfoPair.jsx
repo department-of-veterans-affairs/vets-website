@@ -6,8 +6,8 @@ class InfoPair extends React.Component {
     const { additionalClass } = this.props;
 
     const gridRowClasses = additionalClass ?
-        `usa-grid-full ${additionalClass}`
-        : 'usa-grid-full';
+      `usa-grid-full ${additionalClass}`
+      : 'usa-grid-full';
 
     const row = (
       <div className={gridRowClasses}>

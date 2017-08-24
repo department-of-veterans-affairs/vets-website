@@ -19,14 +19,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('two buttons', () => {
       expect(tree.everySubTree('ProgressButton').length).to.equal(2);
@@ -49,14 +49,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('one button that says get started', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Get Started');
@@ -75,14 +75,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -104,14 +104,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -134,14 +134,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -164,14 +164,14 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -199,15 +199,15 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={false}
-          canSubmit={canSubmit}
-          dirtyPage={dirtyPage}
-          onNavigate={onNavigate}
-          onSubmit={onSubmit}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={false}
+        canSubmit={canSubmit}
+        dirtyPage={dirtyPage}
+        onNavigate={onNavigate}
+        onSubmit={onSubmit}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
 
     tree.everySubTree('ProgressButton')[1].props.onButtonClick();
@@ -232,15 +232,15 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={false}
-          canSubmit={canSubmit}
-          dirtyPage={dirtyPage}
-          onNavigate={onNavigate}
-          onSubmit={onSubmit}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={false}
+        canSubmit={canSubmit}
+        dirtyPage={dirtyPage}
+        onNavigate={onNavigate}
+        onSubmit={onSubmit}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
 
     it('should submit', () => {
@@ -267,16 +267,16 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onSubmit={onSubmit}
-          onComplete={onComplete}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onSubmit={onSubmit}
+        onComplete={onComplete}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
 
     it('should navigate forward', () => {
@@ -310,17 +310,17 @@ describe('<NavButtons>', () => {
     const render = (path, data) => {
       return SkinDeep.shallowRender(
         <NavButtons
-            submission={submission}
-            path={path}
-            data={data}
-            pages={pages}
-            isValid={isValid}
-            dirtyPage={dirtyPage}
-            canSubmit={false}
-            onNavigate={onNavigate}
-            onSubmit={onSubmit}
-            onComplete={onComplete}
-            onAttemptedSubmit={onAttemptedSubmit}/>
+          submission={submission}
+          path={path}
+          data={data}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onSubmit={onSubmit}
+          onComplete={onComplete}
+          onAttemptedSubmit={onAttemptedSubmit}/>
       );
     };
 
@@ -374,15 +374,15 @@ describe('<NavButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
-          submission={submission}
-          path={path}
-          pages={pages}
-          isValid={isValid}
-          dirtyPage={dirtyPage}
-          canSubmit={false}
-          onNavigate={onNavigate}
-          onSubmit={onSubmit}
-          onAttemptedSubmit={onAttemptedSubmit}/>
+        submission={submission}
+        path={path}
+        pages={pages}
+        isValid={isValid}
+        dirtyPage={dirtyPage}
+        canSubmit={false}
+        onNavigate={onNavigate}
+        onSubmit={onSubmit}
+        onAttemptedSubmit={onAttemptedSubmit}/>
     );
 
     it('should not navigate forward', () => {

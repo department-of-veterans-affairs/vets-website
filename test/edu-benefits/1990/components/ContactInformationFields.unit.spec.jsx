@@ -18,8 +18,8 @@ describe('<ContactInformationFields>', () => {
       const onStateChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <ContactInformationFields
-            data={data}
-            onStateChange={onStateChange}/>);
+          data={data}
+          onStateChange={onStateChange}/>);
 
       const primaryPhone = tree.everySubTree('Phone')[0];
       expect(primaryPhone.props.required).to.be.true;
@@ -40,8 +40,8 @@ describe('<ContactInformationFields>', () => {
       const onStateChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <ContactInformationFields
-            data={data}
-            onStateChange={onStateChange}/>);
+          data={data}
+          onStateChange={onStateChange}/>);
 
       const emailInputs = tree.everySubTree('Email');
       expect(emailInputs).to.have.lengthOf(2);

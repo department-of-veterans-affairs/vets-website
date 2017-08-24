@@ -36,9 +36,9 @@ class ErrorableGroup extends React.Component {
       <div className="form-errorable-group">
         <div className={hasError ? 'usa-input-error' : ''}>
           <label
-              className={hasError ? 'usa-input-error-label' : undefined}>
-              {this.props.label}
-              {requiredSpan}
+            className={hasError ? 'usa-input-error-label' : undefined}>
+            {this.props.label}
+            {requiredSpan}
           </label>
           {errorSpan}
           {this.props.children}

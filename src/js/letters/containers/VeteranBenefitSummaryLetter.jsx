@@ -69,13 +69,13 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <tr key={`option${key}`}>
             <th scope="row">
               <input
-                  aria-labelledby={`${key}Label`}
-                  autoComplete="false"
-                  checked={requestOptions[benefitOptionsMap[key]]}
-                  id={key}
-                  name={key}
-                  type="checkbox"
-                  onChange={this.handleChange}/>
+                aria-labelledby={`${key}Label`}
+                autoComplete="false"
+                checked={requestOptions[benefitOptionsMap[key]]}
+                id={key}
+                name={key}
+                type="checkbox"
+                onChange={this.handleChange}/>
             </th>
             <td><label id={`${key}Label`}>{optionText}</label></td>
           </tr>
@@ -118,16 +118,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         <h2>Military service information</h2>
         <div className="form-checkbox">
           <input
-              autoComplete="false"
-              checked={requestOptions.militaryService}
-              id="militaryService"
-              name="militaryService"
-              type="checkbox"
-              onChange={this.handleChange}/>
+            autoComplete="false"
+            checked={requestOptions.militaryService}
+            id="militaryService"
+            name="militaryService"
+            type="checkbox"
+            onChange={this.handleChange}/>
           <label
-              className="schemaform-label"
-              name="militaryService-label"
-              htmlFor="militaryService">
+            className="schemaform-label"
+            name="militaryService-label"
+            htmlFor="militaryService">
             Include all periods of service
           </label>
         </div>

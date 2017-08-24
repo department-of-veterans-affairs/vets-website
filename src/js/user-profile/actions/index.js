@@ -1,7 +1,7 @@
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
 
-export const UPDATE_PROFILE_FIELD = 'UPDATE_PROFILE_FIELD';
+export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const FETCHING_LATEST_MHV_TERMS = 'FETCHING_LATEST_MHV_TERMS';
 export const FETCHING_LATEST_MHV_TERMS_SUCCESS = 'FETCHING_LATEST_MHV_TERMS_SUCCESS';
@@ -10,11 +10,10 @@ export const ACCEPTING_LATEST_MHV_TERMS = 'ACCEPTING_LATEST_MHV_TERMS';
 export const ACCEPTING_LATEST_MHV_TERMS_SUCCESS = 'ACCEPTING_LATEST_MHV_TERMS_SUCCESS';
 export const ACCEPTING_LATEST_MHV_TERMS_FAILURE = 'ACCEPTING_LATEST_MHV_TERMS_FAILURE';
 
-export function updateProfileField(propertyPath, value) {
+export function updateProfileFields(newState) {
   return {
-    type: UPDATE_PROFILE_FIELD,
-    propertyPath,
-    value
+    type: UPDATE_PROFILE_FIELDS,
+    newState
   };
 }
 

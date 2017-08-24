@@ -7,13 +7,13 @@ class MessageSubject extends React.Component {
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextInput
-            charMax={this.props.charMax}
-            additionalClass={`${this.props.cssClass}-input`}
-            label="Additional subject line"
-            onValueChange={this.props.onValueChange}
-            required={this.props.required}
-            name="messageSubject"
-            field={this.props.subject}/>
+          charMax={this.props.charMax}
+          additionalClass={`${this.props.cssClass}-input`}
+          label="Additional subject line"
+          onValueChange={this.props.onValueChange}
+          required={this.props.required}
+          name="messageSubject"
+          field={this.props.subject}/>
       </div>
     );
   }

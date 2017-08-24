@@ -12,17 +12,17 @@ describe('Pensions spouse info', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            marriages: [{
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          marriages: [{
+            spouseFullName: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -34,17 +34,17 @@ describe('Pensions spouse info', () => {
   it('should render spouse address and contrib fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            marriages: [{
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          marriages: [{
+            spouseFullName: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -61,17 +61,17 @@ describe('Pensions spouse info', () => {
   it('should render file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            marriages: [{
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          marriages: [{
+            spouseFullName: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -86,10 +86,10 @@ describe('Pensions spouse info', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -104,10 +104,10 @@ describe('Pensions spouse info', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

@@ -35,11 +35,11 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = form.submission.response
-         ? form.submission.response.attributes
-         : {};
+      ? form.submission.response.attributes
+      : {};
     const { 'view:claimedBenefits': benefits,
-            claimantFullName: claimantName,
-            veteranFullName: veteranName } = form.data;
+      claimantFullName: claimantName,
+      veteranFullName: veteranName } = form.data;
     const hasDocuments = form.data.deathCertificate || form.data.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
 

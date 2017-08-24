@@ -47,7 +47,7 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-        // Strip all non-numeric characters.
+      // Strip all non-numeric characters.
         convertedValue = +value.replace(/[^0-9.]+/g, '');
       }
 
@@ -58,8 +58,8 @@ export default function (state = INITIAL_STATE, action) {
       if (field === 'inState') {
         newState.tuitionFees =
           value === 'yes' ?
-          state.tuitionInState :
-          state.tuitionOutOfState;
+            state.tuitionInState :
+            state.tuitionOutOfState;
 
         newState.inStateTuitionFees = state.tuitionInState;
       }
