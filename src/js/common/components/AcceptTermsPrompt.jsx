@@ -54,7 +54,8 @@ class AcceptTermsPrompt extends React.Component {
 
     const submitClass = classNames({
       'usa-button': true,
-      'usa-button-disabled': submitDisabled
+      'usa-button-disabled': submitDisabled,
+      'submit-button': true,
     });
 
     const submitButton = (<button
