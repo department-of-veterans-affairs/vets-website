@@ -10,14 +10,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'array' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'array' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{}}/>
     );
     expect(tree.subTree('input').props.value).to.equal(2);
   });
@@ -25,16 +25,16 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'array' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{
-            countOffset: -1
-          }}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'array' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{
+          countOffset: -1
+        }}/>
     );
     expect(tree.subTree('input').props.value).to.equal(3);
   });
@@ -42,14 +42,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[]}
-          schema={{ type: 'array' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value={[]}
+        schema={{ type: 'array' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{}}/>
     );
     expect(tree.subTree('input').props.value).to.equal(0);
   });
@@ -57,13 +57,13 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{}}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -76,15 +76,15 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{
-            countOffset: -1
-          }}/>
+        id="1"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{
+          countOffset: -1
+        }}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -97,14 +97,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{}}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -117,14 +117,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{}}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -137,16 +137,16 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{
-            countOffset: -2
-          }}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{
+          countOffset: -2
+        }}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -159,16 +159,16 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}, {}]}
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          options={{
-            countOffset: -1
-          }}/>
+        id="1"
+        value={[{}, {}]}
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        options={{
+          countOffset: -1
+        }}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -182,14 +182,14 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          formContext={{}}
-          onChange={onChange}
-          onBlur={onBlur}
-          options={{}}/>
+        id="1"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        formContext={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+        options={{}}/>
     );
     tree.subTree('input').props.onBlur();
     expect(onBlur.calledWith('1')).to.be.true;
@@ -199,16 +199,16 @@ describe('Schemaform <ArrayCountWidget>', () => {
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayCountWidget
-          id="1"
-          value={[{}]}
-          schema={{ type: 'string' }}
-          uiSchema={{ 'ui:title': 'Test title' }}
-          required
-          disabled={false}
-          formContext={{ reviewMode: true }}
-          onChange={onChange}
-          onBlur={onBlur}
-          options={{}}/>
+        id="1"
+        value={[{}]}
+        schema={{ type: 'string' }}
+        uiSchema={{ 'ui:title': 'Test title' }}
+        required
+        disabled={false}
+        formContext={{ reviewMode: true }}
+        onChange={onChange}
+        onBlur={onBlur}
+        options={{}}/>
     );
     expect(tree.subTree('dd').text()).to.contain('1');
     expect(tree.subTree('dt').text()).to.contain('Test title');

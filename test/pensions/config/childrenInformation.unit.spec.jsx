@@ -24,12 +24,12 @@ describe('Child information page', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={dependentData}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={dependentData}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -40,13 +40,13 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={dependentData}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={dependentData}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
@@ -58,13 +58,13 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={dependentData}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={dependentData}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:noSSN', true);
@@ -81,13 +81,13 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={dependentData}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={dependentData}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -108,13 +108,13 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={data}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={data}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -128,13 +128,13 @@ describe('Child information page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={data}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={data}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

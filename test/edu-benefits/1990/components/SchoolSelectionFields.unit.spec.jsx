@@ -13,9 +13,9 @@ describe('<SchoolSelectionFields>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
-          data={data}
-          initializeFields={f => f}
-          onStateChange={onStateChange}/>
+        data={data}
+        initializeFields={f => f}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(0);
@@ -28,9 +28,9 @@ describe('<SchoolSelectionFields>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
-          data={data}
-          initializeFields={f => f}
-          onStateChange={onStateChange}/>
+        data={data}
+        initializeFields={f => f}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(1);

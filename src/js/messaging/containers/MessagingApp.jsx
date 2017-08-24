@@ -47,11 +47,11 @@ class MessagingApp extends React.Component {
       return (
         <div className="messaging-warning-banner">
           <AlertBox
-              content={alertContent}
-              isVisible
-              status="warning"/>
+            content={alertContent}
+            isVisible
+            status="warning"/>
         </div>
-        );
+      );
     }
     return null;
   }
@@ -59,23 +59,23 @@ class MessagingApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-          authRequired={3}
-          serviceRequired="messaging"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+        authRequired={3}
+        serviceRequired="messaging"
+        userProfile={this.props.profile}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName="mhvac"
-            cancelPath="/health-care"
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          termsName="mhvac"
+          cancelPath="/health-care"
+          termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div id="messaging-app-header">
               <AlertBox
-                  content={this.props.alert.content}
-                  isVisible={this.props.alert.visible}
-                  onCloseAlert={this.props.closeAlert}
-                  scrollOnShow
-                  status={this.props.alert.status}/>
+                content={this.props.alert.content}
+                isVisible={this.props.alert.visible}
+                onCloseAlert={this.props.closeAlert}
+                scrollOnShow
+                status={this.props.alert.status}/>
               <div id="messaging-app-title">
                 <h1>Message your health care team</h1>
                 <ButtonSettings/>

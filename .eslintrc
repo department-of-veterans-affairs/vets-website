@@ -38,7 +38,6 @@
     'react/jsx-pascal-case': 2,
     'react/sort-prop-types': [0, {'callbacksLast': true, 'requiredFirst': true}],  // TODO(awong): Too hard to turn on.
     'react/jsx-sort-props': [0, {'callbacksLast': true, 'shorthandFirst': true}],  // TODO(awong): Too hard to turn on.
-    'react/jsx-indent-props': [2, 4],
     'react/jsx-no-duplicate-props': 2,
     'react/no-danger': 2,
     'react/no-deprecated': 2,
@@ -63,9 +62,9 @@
         message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
       }],
     'no-plusplus': 0,
+    'react/jsx-indent-props': 0,
 
     // TODO: evaluate and potentially turn these rules back on
-    'indent': 0, // on before
     'import/extensions': 0,
     'react/jsx-filename-extension': 0,
     'import/first': 0,
@@ -81,7 +80,6 @@
     'react/self-closing-comp': 0,
     'no-mixed-operators': 0,
     'react/jsx-first-prop-new-line': 0,
-    'react/jsx-indent': 0, // on before
     'react/jsx-max-props-per-line': 0,
     'react/no-array-index-key': 0,
     'react/no-unused-prop-types': 0,

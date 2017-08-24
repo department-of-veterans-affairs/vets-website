@@ -16,12 +16,12 @@ class SignInProfileMenu extends React.Component {
 
     return (
       <DropDown
-          buttonText={this.props.greeting}
-          clickHandler={this.props.clickHandler}
-          contents={dropDownContents}
-          id="accountMenu"
-          icon={icon}
-          isOpen={this.props.isOpen}/>
+        buttonText={this.props.greeting}
+        clickHandler={this.props.clickHandler}
+        contents={dropDownContents}
+        id="accountMenu"
+        icon={icon}
+        isOpen={this.props.isOpen}/>
     );
   }
 }

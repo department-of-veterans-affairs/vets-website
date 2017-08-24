@@ -9,7 +9,7 @@ describe('Schemaform <PhoneNumberWidget>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <PhoneNumberWidget
-          value="1234567890"/>
+        value="1234567890"/>
     );
     expect(tree.subTree('TextWidget').props.value).to.equal('1234567890');
   });
@@ -17,8 +17,8 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <PhoneNumberWidget
-          value=""
-          onChange={onChange}/>
+        value=""
+        onChange={onChange}/>
     );
     tree.subTree('TextWidget').props.onChange('+(154) 945-56x77');
     expect(onChange.calledWith('1549455677')).to.be.true;
@@ -27,8 +27,8 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <PhoneNumberWidget
-          value="1231231234"
-          onChange={onChange}/>
+        value="1231231234"
+        onChange={onChange}/>
     );
     tree.subTree('TextWidget').props.onChange('');
     expect(onChange.calledWith(undefined)).to.be.true;

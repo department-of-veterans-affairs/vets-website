@@ -11,10 +11,10 @@ describe('Burials plot allowance', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -25,11 +25,11 @@ describe('Burials plot allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -40,10 +40,10 @@ describe('Burials plot allowance', () => {
   it('should show state cemetery field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -56,10 +56,10 @@ describe('Burials plot allowance', () => {
   it('should show actual govt contribution text field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -73,11 +73,11 @@ describe('Burials plot allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

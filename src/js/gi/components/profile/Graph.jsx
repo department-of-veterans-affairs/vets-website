@@ -67,8 +67,8 @@ class Graph extends React.Component {
     let averagePercent;
     let averageObject;
     const bars = [
-        { name: 'vet', value: this.props.veterans },
-        { name: 'all', value: this.props.all }
+      { name: 'vet', value: this.props.veterans },
+      { name: 'all', value: this.props.all }
     ];
     // handle non-percentage data
     if (this.props.max !== 100) {
@@ -105,8 +105,8 @@ class Graph extends React.Component {
 
             {averagePercent ?
               <AverageMark
-                  percent={averagePercent}
-                  text={this.format(averageObject)}/> : null}
+                percent={averagePercent}
+                text={this.format(averageObject)}/> : null}
           </g>
         </svg>
       </div>

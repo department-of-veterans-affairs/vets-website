@@ -63,16 +63,16 @@ export default class ArrayCountWidget extends React.Component {
 
     return (
       <input type="number"
-          step="1"
-          min="1"
-          id={props.id}
-          name={props.id}
-          disabled={props.disabled}
-          autoComplete={props.options.autocomplete || false}
-          className={props.options.widgetClassNames}
-          value={typeof this.state.userCount === 'undefined' ? '' : this.state.userCount}
-          onBlur={() => props.onBlur(props.id)}
-          onChange={this.updateArrayLength}/>
+        step="1"
+        min="1"
+        id={props.id}
+        name={props.id}
+        disabled={props.disabled}
+        autoComplete={props.options.autocomplete || false}
+        className={props.options.widgetClassNames}
+        value={typeof this.state.userCount === 'undefined' ? '' : this.state.userCount}
+        onBlur={() => props.onBlur(props.id)}
+        onChange={this.updateArrayLength}/>
     );
   }
 }

@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { assert, expect } from 'chai';
 
 import State from
-    '../../../../src/js/common/components/questions/State';
+  '../../../../src/js/common/components/questions/State';
 
 describe('<State>', () => {
   let component = null;

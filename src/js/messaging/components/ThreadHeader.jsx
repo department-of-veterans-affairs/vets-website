@@ -30,19 +30,19 @@ class ThreadHeader extends React.Component {
 
       messageNav = (
         <MessageNav
-            currentRange={currentMessageNumber}
-            messageCount={folderMessageCount}
-            onItemSelect={this.props.onMessageSelect}
-            itemNumber={currentMessageNumber}
-            totalItems={folderMessageCount}/>
+          currentRange={currentMessageNumber}
+          messageCount={folderMessageCount}
+          onItemSelect={this.props.onMessageSelect}
+          itemNumber={currentMessageNumber}
+          totalItems={folderMessageCount}/>
       );
     }
 
     if (threadMessageCount > 1) {
       toggleThread = (
         <ToggleThread
-            messagesCollapsed={this.props.messagesCollapsed}
-            onClick={this.props.onToggleThread}/>
+          messagesCollapsed={this.props.messagesCollapsed}
+          onClick={this.props.onToggleThread}/>
       );
     }
 
@@ -59,13 +59,13 @@ class ThreadHeader extends React.Component {
 
       moveTo = (
         <MoveTo
-            currentFolder={currentFolder}
-            folders={folders}
-            isOpen={moveToIsOpen}
-            messageId={message.messageId}
-            onChooseFolder={this.props.onChooseFolder}
-            onCreateFolder={this.props.onCreateFolder}
-            onToggleMoveTo={this.props.onToggleMoveTo}/>
+          currentFolder={currentFolder}
+          folders={folders}
+          isOpen={moveToIsOpen}
+          messageId={message.messageId}
+          onChooseFolder={this.props.onChooseFolder}
+          onCreateFolder={this.props.onCreateFolder}
+          onToggleMoveTo={this.props.onToggleMoveTo}/>
       );
     }
 

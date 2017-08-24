@@ -8,8 +8,8 @@ describe('<Notification>', () => {
   it('should render success class', () => {
     const tree = SkinDeep.shallowRender(
       <Notification
-          title="Testing title"
-          body="Testing body"/>
+        title="Testing title"
+        body="Testing body"/>
     );
 
     expect(tree.text()).to.contain('Testing body');
@@ -19,9 +19,9 @@ describe('<Notification>', () => {
   it('should render error class', () => {
     const tree = SkinDeep.shallowRender(
       <Notification
-          title="Testing title"
-          type="error"
-          body="Testing body"/>
+        title="Testing title"
+        type="error"
+        body="Testing body"/>
     );
 
     expect(tree.text()).to.contain('Testing body');

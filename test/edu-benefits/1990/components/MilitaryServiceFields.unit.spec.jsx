@@ -15,9 +15,9 @@ describe('<MilitaryServiceFields>', () => {
 
     const tree = SkinDeep.shallowRender(
       <MilitaryServiceFields
-          data={veteran}
-          onStateChange={onStateChange}
-          initializeFields={initializeFields}/>
+        data={veteran}
+        onStateChange={onStateChange}
+        initializeFields={initializeFields}/>
     );
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'onTerminalLeave')).to.be.true;
   });

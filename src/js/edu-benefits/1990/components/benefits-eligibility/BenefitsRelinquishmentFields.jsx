@@ -13,14 +13,14 @@ export default class BenefitsRelinquishmentFields extends React.Component {
     const dateFields = (
       <div>
         <ErrorableDate required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
-            validation={{
-              valid: isValidRelinquishedDate(this.props.data.benefitsRelinquishedDate),
-              message: 'Date cannot be earlier than 2 years ago'
-            }}
-            label="Effective date"
-            name="benefitsRelinquishedDate"
-            date={this.props.data.benefitsRelinquishedDate}
-            onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
+          validation={{
+            valid: isValidRelinquishedDate(this.props.data.benefitsRelinquishedDate),
+            message: 'Date cannot be earlier than 2 years ago'
+          }}
+          label="Effective date"
+          name="benefitsRelinquishedDate"
+          date={this.props.data.benefitsRelinquishedDate}
+          onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
         <div>
           <ul>
             <li>Use today’s date unless you aren’t going to use your Post 9/11 GI Bill benefits until later.</li>
@@ -60,13 +60,13 @@ export default class BenefitsRelinquishmentFields extends React.Component {
         <p>Because you chose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. <br/> <strong>Your decision is irrevocable</strong> (you can’t change your mind).</p>
         <fieldset className="edu-benefits-info-no-icon">
           <ErrorableRadioButtons
-              required={this.props.data.chapter33}
-              errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
-              label="I choose to give up:"
-              name="benefitsRelinquished"
-              options={options}
-              value={this.props.data.benefitsRelinquished}
-              onValueChange={(update) => { this.props.onStateChange('benefitsRelinquished', update); }}/>
+            required={this.props.data.chapter33}
+            errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
+            label="I choose to give up:"
+            name="benefitsRelinquished"
+            options={options}
+            value={this.props.data.benefitsRelinquished}
+            onValueChange={(update) => { this.props.onStateChange('benefitsRelinquished', update); }}/>
         </fieldset>
         <p>If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
       </div>

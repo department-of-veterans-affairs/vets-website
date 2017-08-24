@@ -21,14 +21,14 @@ class LetterList extends React.Component {
 
       return (
         <CollapsiblePanel
-            panelName={letter.name}
-            key={`collapsiblePanel-${index}`}>
+          panelName={letter.name}
+          key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
           <DownloadLetterLink
-              letterType={letter.letterType}
-              letterName={letter.name}
-              downloadStatus={downloadStatus[letter.letterType]}
-              key={`download-link-${index}`}/>
+            letterType={letter.letterType}
+            letterName={letter.name}
+            downloadStatus={downloadStatus[letter.letterType]}
+            key={`download-link-${index}`}/>
         </CollapsiblePanel>
       );
     });

@@ -52,7 +52,7 @@ export default function modals(state = initialState, action) {
         message: composeMessage.errors.attachments[action.error.type]
       }, state);
     case OPEN_CREATE_FOLDER:
-      // If a message is provided, it gets moved to the newly created folder.
+    // If a message is provided, it gets moved to the newly created folder.
       return set('createFolder', {
         visible: true,
         newFolderName: makeField(''),
