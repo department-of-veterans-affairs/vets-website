@@ -146,6 +146,7 @@ class MegaMenu {
 export default MegaMenu;
 
 function reInitMenu() {
+  console.log('menu');
   const menuElement = document.querySelector('#vetnav');
   const openMenuElement = document.querySelector('.vetnav-controller-open');
   const closeMenuElement = document.querySelector('.vetnav-controller-close');
