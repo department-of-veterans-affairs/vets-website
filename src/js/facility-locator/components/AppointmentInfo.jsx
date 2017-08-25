@@ -43,11 +43,11 @@ export default class AppointmentInfo extends Component {
       return null;
     }
 
-    const renderStat = (label, value) => {
+    const renderStat = (label, value, sublist = false) => {
       if (value !== null) {
         const dayString = value === 1 ? 'day' : 'days';
         return (
-          <li key={label}>{label}: <strong>{value.toFixed(0)} {dayString}</strong></li>
+          <li key={label} className={sublist ? 'sublist' : null}>{label}: <strong>{value.toFixed(0)} {dayString}</strong></li>
         );
       }
       return null;
@@ -85,29 +85,22 @@ export default class AppointmentInfo extends Component {
       });
 
       const renderMoreTimes = () => {
-        return (
-          <div>
-            {this.state[showHideKey] && <div>
-              {lastToEnd.map(k => {
-                return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
-              })}
-            </div>}
-            <a onClick={onClick} className={seeMoreClasses}>See {this.state[showHideKey] ? 'less' : 'more'}</a>
-          </div>
-        );
+        return this.state[showHideKey] &&
+          lastToEnd.map(k => {
+            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
+          });
       };
 
-      return (
-        <li>
+      return [
+        <li key="specialty-care">
           Specialty care:
-          <ul>
-            {firstThree.map(k => {
-              return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
-            })}
-            {(lastToEnd.length > 0) && renderMoreTimes()}
-          </ul>
-        </li>
-      );
+        </li>,
+        firstThree.map(k => {
+          return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
+        }),
+        (lastToEnd.length > 0) && renderMoreTimes(),
+        <li key="show-more" className="show-more"><a onClick={onClick} className={seeMoreClasses}>See {this.state[showHideKey] ? 'less' : 'more'}</a></li>
+      ];
     };
 
     return (
