@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
-import DownloadLetterLink from './DownloadLetterLink';
-import VeteranBenefitSummaryLetter from '../containers/VeteranBenefitSummaryLetter';
+import DownloadLetterLink from '../components/DownloadLetterLink';
+import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
 import { letterContent } from '../utils/helpers.jsx';
 
-class LetterList extends React.Component {
+export class LetterList extends React.Component {
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
@@ -75,11 +75,17 @@ class LetterList extends React.Component {
   }
 }
 
-LetterList.PropTypes = {
-  letters: PropTypes.array,
-  lettersAvailability: PropTypes.string,
-  benefitSummaryOptions: PropTypes.object,
-  letterDownloadStatus: PropTypes.object
-};
+function mapStateToProps(state) {
+  const letterState = state.letters;
+  return {
+    benefitSummaryOptions: {
+      benefitInfo: letterState.benefitInfo,
+      serviceInfo: letterState.serviceInfo
+    },
+    letters: letterState.letters,
+    lettersAvailability: letterState.lettersAvailability,
+    letterDownloadStatus: letterState.letterDownloadStatus
+  };
+}
 
-export default LetterList;
+export default connect(mapStateToProps)(LetterList);
