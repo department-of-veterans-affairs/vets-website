@@ -9,10 +9,26 @@ import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
 class DownloadLetters extends React.Component {
+  constructor() {
+    super();
+    this.navigateToLetterList = this.navigateToLetterList.bind(this);
+  }
+
+  navigateToLetterList() {
+    this.props.router.push('/letter-list');
+  }
+
   render() {
     const { children, location } = this.props;
     const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
     const currentStep = currentPageIndex + 1;
+
+    let viewLettersButton;
+    if (location.pathname === '/confirm-address') {
+      viewLettersButton = (
+        <button onClick={this.navigateToLetterList} className="usa-button-primary view-letters-button">View letters</button>
+      );
+    }
 
     return (
       <div className="usa-width-three-fourths letters">
@@ -28,28 +44,8 @@ class DownloadLetters extends React.Component {
         </div>
         <StepHeader name={chapters[currentPageIndex].name} current={currentStep} steps="2">
           {children}
+          {viewLettersButton}
         </StepHeader>
-
-        <br/>
-        <h4>Can’t find what you’re looking for?</h4>
-        <p>
-          This system doesn’t include every VA letter. Learn more about how to access other VA letters and documents you might need.
-        </p>
-        <ul>
-          <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefits summary and eligibility.</strong></a></li>
-          <li><a href="https://gibill.custhelp.com/app/ask" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your Post-9/11 GI Bill benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Request a copy of your discharge or separation papers (DD214).</strong></a></li>
-        </ul>
-        <p>
-          Please visit <a href="https://www.ebenefits.va.gov/" target="_blank">eBenefits</a> for any document or letter not listed here.
-        </p>
-        <div className="feature help-desk">
-          <h2>Need help?</h2>
-          <div>If you have any questions, please call the Vets.gov Help Desk:</div>
-          <div>855-574-7286</div>
-          <div>Monday - Friday, 8 a.m. - 8 p.m. (ET)</div>
-        </div>
       </div>
     );
   }
