@@ -70,6 +70,27 @@ export class LetterList extends React.Component {
         </p>
         {letterItems}
         {eligibilityMessage}
+
+        <br/>
+        <h4>Can’t find what you’re looking for?</h4>
+        <p>
+          This system doesn’t include every VA letter. Learn more about how to access other VA letters and documents you might need.
+        </p>
+        <ul>
+          <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefits summary and eligibility.</strong></a></li>
+          <li><a href="https://gibill.custhelp.com/app/ask" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your Post-9/11 GI Bill benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Request a copy of your discharge or separation papers (DD214).</strong></a></li>
+        </ul>
+        <p>
+          Please visit <a href="https://www.ebenefits.va.gov/" target="_blank">eBenefits</a> for any document or letter not listed here.
+        </p>
+        <div className="feature help-desk">
+          <h2>Need help?</h2>
+          <div>If you have any questions, please call the Vets.gov Help Desk:</div>
+          <div>855-574-7286</div>
+          <div>Monday - Friday, 8 a.m. - 8 p.m. (ET)</div>
+        </div>
       </div>
     );
   }
