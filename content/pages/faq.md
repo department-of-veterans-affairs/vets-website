@@ -59,9 +59,9 @@ display_title: Frequently Asked Questions
                     </button>
                     <div id="dbq3" class="usa-accordion-content">
                       <p>Vets.gov confirms your identity using ID.me, which is a third-party Veteran-owned business that has partnered with VA to provide the strongest possible identity verification system to prevent fraud and identity theft. At this time, no government solution can provide this level of security, so a third-party product is required.</p>
-                      <p>To go through the ID.me identity proofing process, you’ll need a smartphone and a driver’s license or passport. <a href="https://vetsgov.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Follow these step-by-step instructions.</a></p>
+                      <p>To go through the ID.me identity proofing process, you’ll need a smartphone and a driver’s license or passport. <a href="https://support.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Follow these step-by-step instructions.</a></p>
                       <p>
-                        If you don’t have a smartphone, you can still confirm your identity using ID.me. To do so, you’ll need access to a computer with an internet connection and a landline or mobile phone. <a href="https://vetsgov.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Use these step-by-step instructions to verify your identity without a smartphone.</a>
+                        If you don’t have a smartphone, you can still confirm your identity using ID.me. To do so, you’ll need access to a computer with an internet connection and a landline or mobile phone. <a href="https://support.id.me/hc/en-us/articles/229334788-How-do-I-complete-the-LOA3-identity-proofing-process-">Use these step-by-step instructions to verify your identity without a smartphone.</a>
                       </p>
                     </div>
                   </li>
