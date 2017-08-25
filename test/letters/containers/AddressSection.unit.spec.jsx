@@ -9,8 +9,8 @@ import reducer from '../../../src/js/letters/reducers/index.js';
 import createCommonStore from '../../../src/js/common/store';
 
 const store = createCommonStore(reducer);
-
-const defaultProps = {
+const defaultProps = store.getState();
+defaultProps.letters = {
   destination: {
     addressLine1: '2476 Main Street',
     city: 'Reston',
@@ -34,7 +34,7 @@ describe('<AddressSection>', () => {
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
   });
 
-  it('should format address 2 address lines', () => {
+  it.only('should format address 2 address lines', () => {
     const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
     const tree = SkinDeep.shallowRender(<AddressSection store={store} {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
