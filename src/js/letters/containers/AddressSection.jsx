@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { invalidAddressProperty } from '../utils/helpers.jsx';
 
-class AddressSection extends React.Component {
+export class AddressSection extends React.Component {
   render() {
     const destination = this.props.destination || {};
     const addressLines = [
@@ -43,8 +43,11 @@ class AddressSection extends React.Component {
   }
 }
 
-AddressSection.propTypes = {
-  destination: PropTypes.object
-};
+function mapStateToProps(state) {
+  const letterState = state.letters;
+  return {
+    destination: letterState.destination,
+  };
+}
 
-export default AddressSection;
+export default connect(mapStateToProps)(AddressSection);

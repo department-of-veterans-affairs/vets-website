@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FormTitle from '../../common/schemaform/FormTitle';
-import AddressSection from '../components/AddressSection';
-import LetterList from '../components/LetterList';
-import StepHeader from '../components/StepHeader';
+// import AddressSection from '../components/AddressSection';
+// import LetterList from '../components/LetterList';
+// import StepHeader from '../components/StepHeader';
 
 class DownloadLetters extends React.Component {
   render() {
@@ -16,16 +16,7 @@ class DownloadLetters extends React.Component {
             To receive some benefits, Veterans and their surviving spouse or family members need a letter proving their Veteran or survivor status. You can download these benefit letters and documents online.
           </p>
         </div>
-        <StepHeader name="Review your address" current="1" steps="2">
-          <AddressSection destination={this.props.destination}/>
-        </StepHeader>
-        <StepHeader name="Select and download" current="2" steps="2">
-          <LetterList
-            letters={this.props.letters}
-            lettersAvailability={this.props.lettersAvailability}
-            letterDownloadStatus={this.props.letterDownloadStatus}
-            benefitSummaryOptions={this.props.benefitSummaryOptions}/>
-        </StepHeader>
+        {this.props.children}
         <br/>
         <h4>Can’t find what you’re looking for?</h4>
         <p>
@@ -69,3 +60,14 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(DownloadLetters);
+
+// <StepHeader name="Review your address" current="1" steps="2">
+//           <AddressSection destination={this.props.destination}/>
+//         </StepHeader>
+//         <StepHeader name="Select and download" current="2" steps="2">
+//           <LetterList
+//             letters={this.props.letters}
+//             lettersAvailability={this.props.lettersAvailability}
+//             letterDownloadStatus={this.props.letterDownloadStatus}
+//             benefitSummaryOptions={this.props.benefitSummaryOptions}/>
+//         </StepHeader>
