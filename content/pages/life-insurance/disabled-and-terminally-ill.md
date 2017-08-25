@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Benefits for Policyholders Who Are Totally Disabled or Terminally Ill
-display_title: Totally Disabled or Terminally Ill
+title: Claims for Disabled and Terminally Ill Policyholders
+display_title: Disabled & Terminally Ill Policyholders
 concurrence: 
 order: 2
 relatedlinks:

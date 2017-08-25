@@ -9,7 +9,7 @@ order: 6
 
 <div class="va-introtext">
 
-If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam Era, you may have had contact with Agent Orange, a toxic chemical used to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
+If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam War Era, you may have had contact with Agent Orange, a toxic chemical used to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
 
 </div>
 

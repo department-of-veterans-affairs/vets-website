@@ -57,7 +57,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 ### What if I need help filing my disability claim?
 
