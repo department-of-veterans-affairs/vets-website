@@ -3,14 +3,9 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
 
-import AddressSection from '../../../src/js/letters/containers/AddressSection.jsx';
+import { AddressSection } from '../../../src/js/letters/containers/AddressSection.jsx';
 
-import reducer from '../../../src/js/letters/reducers/index.js';
-import createCommonStore from '../../../src/js/common/store';
-
-const store = createCommonStore(reducer);
-const defaultProps = store.getState();
-defaultProps.letters = {
+const defaultProps = {
   destination: {
     addressLine1: '2476 Main Street',
     city: 'Reston',
@@ -24,19 +19,19 @@ defaultProps.letters = {
 
 describe('<AddressSection>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should format 1 address line', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
   });
 
   it('should format address 2 address lines', () => {
     const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
-    const tree = SkinDeep.shallowRender(<AddressSection store={store} {...props}/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
   });
 
@@ -47,7 +42,7 @@ describe('<AddressSection>', () => {
         addressLine3: 'west'
       }
     });
-    const tree = SkinDeep.shallowRender(<AddressSection store={store} {...props}/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12 west');
   });
 });
