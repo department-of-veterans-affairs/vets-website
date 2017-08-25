@@ -1,5 +1,4 @@
 import { apiRequest } from '../../common/helpers/api';
-import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';

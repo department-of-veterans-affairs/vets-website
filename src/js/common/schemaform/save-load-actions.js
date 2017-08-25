@@ -1,13 +1,15 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
-import { logOut } from '../../login/actions';
+import { logOut, updateUserData } from '../../login/actions';
+import { getUserData } from '../helpers/login-helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
+export const SET_REMOVE_ONLY = 'SET_REMOVE_ONLY';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
@@ -71,6 +73,12 @@ export function setInProgressForm(data) {
 export function setStartOver() {
   return {
     type: SET_START_OVER
+  };
+}
+
+export function setRemoveOnly() {
+  return {
+    type: SET_REMOVE_ONLY
   };
 }
 
@@ -327,10 +335,16 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 export function removeInProgressForm(formId, migrations) {
   return (dispatch, getState) => {
     const userToken = sessionStorage.userToken;
-    const trackingPrefix = getState().form.trackingPrefix;
-
+    let trackingPrefix;
+    const startOver = !!migrations;
+    const removeOnly = migrations === null;
+    if (startOver) {
     // Update UI while we’re waiting for the API
-    dispatch(setStartOver());
+      dispatch(setStartOver());
+      trackingPrefix = getState().form.trackingPrefix;
+    } else if (removeOnly) {
+      dispatch(setRemoveOnly());
+    }
 
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'DELETE',
@@ -350,18 +364,33 @@ export function removeInProgressForm(formId, migrations) {
 
       return Promise.resolve(res);
     }).then((res) => {
-      // If there’s some error when deleting, there’s not much we can
-      // do aside from not stop the user from continuing on
-      if (!res || res.status !== 401) {
-        window.dataLayer.push({
-          event: `${trackingPrefix}sip-form-start-over`
-        });
-        // after deleting, go fetch prefill info if they’ve got it
-        return dispatch(fetchInProgressForm(formId, migrations, true));
+
+      if (startOver) {
+        // If there’s some error when deleting, there’s not much we can
+        // do aside from not stop the user from continuing on
+        if (!res || res.status !== 401) {
+          window.dataLayer.push({
+            event: `${trackingPrefix}sip-form-start-over`
+          });
+          // after deleting, go fetch prefill info if they’ve got it
+          return dispatch(fetchInProgressForm(formId, migrations, true));
+        }
+
+        dispatch(logOut());
+        dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
       }
 
-      dispatch(logOut());
-      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+      if (removeOnly) {
+        // If there’s some error when deleting, there’s not much we can
+        // do aside from not stop the user from continuing on
+        if (!res || res.status !== 401) {
+          window.dataLayer.push({
+            event: `${formId}sip-list-item-remove-only`
+          });
+        }
+        // after deleting, go fetch their updated user data
+        getUserData(dispatch);
+      }
 
       return Promise.resolve();
     });
