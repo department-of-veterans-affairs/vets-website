@@ -102,9 +102,9 @@ class ObjectField extends React.Component {
 
     const renderedProperties = this.orderAndFilterProperties(properties)
       .map((objectFields, index) => {
-        // show all the fields only if the first one is truthy, since more than one field
-        // means this is an expanding group
         const [first, ...rest] = objectFields;
+        // expand under functionality is controlled in the reducer by setting ui:collapsed, so
+        // we can check if its expanded by seeing if there are any visible "children"
         const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
