@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRedirect } from 'react-router';
 
 import DownloadLetters from './containers/DownloadLetters.jsx';
 import AddressSection from './containers/AddressSection.jsx';
@@ -14,6 +14,7 @@ const routes = [
       component={DownloadLetters}
       name="Download Letters"
       key="download-letters">
+      <IndexRedirect to="confirm-address"/>,
       <Route
         component={AddressSection}
         name="Review your address"
