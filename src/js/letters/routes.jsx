@@ -16,12 +16,12 @@ const routes = [
       key="download-letters">
       <Route
         component={AddressSection}
-        name="Address Section"
-        key="address-section"
-        path="address-section"/>,
+        name="Review your address"
+        key="confirm-address"
+        path="confirm-address"/>,
       <Route
         component={LetterList}
-        name="Letter List"
+        name="Select and download"
         key="letter-list"
         path="letter-list"/>
     </Route>
@@ -29,3 +29,8 @@ const routes = [
 ];
 
 export default routes;
+
+export const chapters = [
+  { name: 'Review your address', path: '/confirm-address' },
+  { name: 'Select and download', path: '/letter-list' }
+];
