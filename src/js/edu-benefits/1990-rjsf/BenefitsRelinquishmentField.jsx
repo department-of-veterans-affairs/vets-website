@@ -84,8 +84,33 @@ export default class BenefitsRelinquishmentField extends React.Component {
       errorSchema,
       idSchema,
       onBlur,
-      registry
+      onChange,
+      registry,
+      required,
+      name,
+      formContext
     } = this.props;
+
+    const benefitsRelinquished = _.get('benefitsRelinquished', formData);
+    if (formContext.reviewMode &&
+      benefitsRelinquished !== 'unknown' &&
+      typeof benefitsRelinquished !== 'undefined') {
+      const ObjectField = registry.fields.ObjectField;
+      return (
+        <ObjectField
+          name={name}
+          required={required}
+          schema={schema}
+          uiSchema={uiSchema}
+          errorSchema={errorSchema}
+          idSchema={idSchema}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}
+          registry={registry}/>
+      );
+    }
+
     const SchemaField = registry.fields.SchemaField;
     return (
       <SchemaField

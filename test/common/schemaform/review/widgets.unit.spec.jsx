@@ -39,10 +39,17 @@ describe('Schemaform review widgets', () => {
   describe('<DateWidget>', () => {
     it('should render', () => {
       const tree = SkinDeep.shallowRender(
-        <DateWidget value="2010-01-02"/>
+        <DateWidget value="2010-01-02" options={{}}/>
       );
 
       expect(tree.text()).to.equal('01/02/2010');
+    });
+    it('should render month year', () => {
+      const tree = SkinDeep.shallowRender(
+        <DateWidget value="2010-01-02" options={{ monthYear: true }}/>
+      );
+
+      expect(tree.text()).to.equal('01/2010');
     });
   });
   describe('<SelectWidget>', () => {
