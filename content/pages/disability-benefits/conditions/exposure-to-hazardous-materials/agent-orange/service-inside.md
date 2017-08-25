@@ -9,7 +9,7 @@ order: 3
 
 <div class="va-introtext">
 
-Did you serve in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the Vietnam War Era? If you did, you likely had contact with Agent Orange, a toxic chemical the U.S. military used to clear plants and trees during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
+Did you serve in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the Vietnam Era? If you did, you likely had contact with Agent Orange, a toxic chemical the U.S. military used to clear plants and trees during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 </div>
 
