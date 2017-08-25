@@ -11,7 +11,7 @@ majorlinks:
     links:
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
       title: Agent Orange
-      description: If you served in or near Vietnam during the Vietnam Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war.
+      description: If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
       title: Asbestos
       description: If you worked in certain military jobs, you may have had contact with asbestos (toxic fibers once used in many buildings and products).
