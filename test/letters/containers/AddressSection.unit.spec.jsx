@@ -34,7 +34,7 @@ describe('<AddressSection>', () => {
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
   });
 
-  it.only('should format address 2 address lines', () => {
+  it('should format address 2 address lines', () => {
     const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
     const tree = SkinDeep.shallowRender(<AddressSection store={store} {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
