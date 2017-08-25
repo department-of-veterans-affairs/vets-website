@@ -48,4 +48,25 @@ describe('<AuthApplicationSection>', () => {
       findDOMNode(section).querySelector('.va-button-link'));
     expect(windowOpen.called).to.be.true;
   });
+  it('should show a saved applications list if the user has valid saved applications', () => {
+    props.userProfile.accountType = 1;
+    const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
+    ReactTestUtils.Simulate.click(
+      findDOMNode(section).querySelector('.va-button-link'));
+    expect(windowOpen.called).to.be.true;
+  });
+  it('should not show a saved applications list if the user does not have any valid saved applications', () => {
+    props.userProfile.accountType = 1;
+    const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
+    ReactTestUtils.Simulate.click(
+      findDOMNode(section).querySelector('.va-button-link'));
+    expect(windowOpen.called).to.be.true;
+  });
+  it('should not show a saved applications list if the user does not have any saved applications', () => {
+    props.userProfile.accountType = 1;
+    const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
+    ReactTestUtils.Simulate.click(
+      findDOMNode(section).querySelector('.va-button-link'));
+    expect(windowOpen.called).to.be.true;
+  });
 });

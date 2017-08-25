@@ -33,7 +33,72 @@ function initUserMock(token, level) {
             loa: {
               current: level
             },
-            first_name: 'Jane',
+						savedForms: [
+							{ 
+								form: '21P-527EZ', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '21P-530', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '1010ez', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-1990', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-1990E', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-1990N', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-1995', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-5490', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+							{ 
+								form: '22-5495', 
+								metadata: { 
+									last_updated: '1503632473', 
+									expires_at: '1504632473'
+								} 
+							},
+						],
+						first_name: 'Jane',
             middle_name: '',
             last_name: 'Doe',
             gender: 'F',
