@@ -18,7 +18,7 @@ display_title: Frequently Asked Questions
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
-                  Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday – Friday, 8:00am – 8:00pm (ET).
+                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>), Monday – Friday, 8:00am – 8:00pm (ET).
                 </p>
               </div>
             </div>
