@@ -6,22 +6,20 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import AuthApplicationSection from '../../../src/js/user-profile/components/AuthApplicationSection.jsx';
-import FormList from '../../../src/js/user-profile/components/FormList.jsx'; 
-import FormItem from '../../../src/js/user-profile/components/FormItem.jsx'; 
 
 describe('<AuthApplicationSection>', () => {
   const props = {
     userProfile: {
-		  savedForms: [
-			  { 
-					form: '1010ez',
-					metadata: {
-						last_updated: '1503688891',
-						expires_at: '1503688891'
-					}
-				}
-			]
-		},
+      savedForms: [
+        {
+          form: '1010ez',
+          metadata: {
+            last_updated: '1503688891',  // eslint-disable-line camelcase
+            expires_at: '1503688891'  // eslint-disable-line camelcase
+          }
+        }
+      ]
+    },
     verifyUrl: 'http://fake-verify-url'
   };
   let windowOpen;
@@ -61,14 +59,14 @@ describe('<AuthApplicationSection>', () => {
     expect(windowOpen.called).to.be.true;
   });
   it('should show a saved applications list if the user has valid saved applications', () => {
-		const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
-		const SavedFormElement = tree.dive(['FormList', 'FormItem']);
+    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
+    const SavedFormElement = tree.dive(['FormList', 'FormItem']);
     expect(tree.everySubTree('.sip-form-list').length).to.equal(1);
-		expect(SavedFormElement.text()).to.have.string('Application for health care (10-10EZ)');
+    expect(SavedFormElement.text()).to.have.string('Application for health care (10-10EZ)');
   });
   it('should not show a saved applications list if the user does not have any valid saved applications', () => {
     props.userProfile.savedForms = [];
-		const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
+    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     expect(tree.everySubTree('.sip-form-list').length).to.equal(0);
   });
 });

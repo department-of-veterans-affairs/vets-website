@@ -24,25 +24,33 @@ const formLinks = {
   '22-5495': '/education/apply-for-education-benefits/application/5495/introduction'
 };
 
-const sipEnabledForms = new Set(['1010ez', '21P-527EZ']);
+const sipEnabledForms = new Set(['1010ez', '21P-527EZ', '21P-530']);
+
+export function handleNonSIPEnabledForm(formNumber) {
+  throw new Error(`Could not find form ${formNumber} in list of sipEnabledForms`);
+}
+
+export function handleIncompleteInformation(formNumber) {
+  Raven.captureMessage('vets_sip_list_item_missing_info');
+  window.dataLayer.push({
+    event: `${formNumber}sip-list-item-missing-info`
+  });
+  return false;
+}
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
   if (!sipEnabledForms.has(formNumber)) {
-    // will this muck up the filtering logic?
-    throw new Error(`Could not find form ${formNumber} in list of sipEnabledForms`);
+    handleIncompleteInformation(formNumber);
   }
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
-	  Raven.captureMessage('vets_sip_list_item_missing_info');
-    window.dataLayer.push({
-      event: `${formNumber}sip-list-item-missing-info`
-    });
-    return false;
+    handleNonSIPEnabledForm(formNumber);
   }
   return true;
 }
 
 export {
   formTitles,
-  formLinks
+  formLinks,
+  sipEnabledForms
 };

@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
-import { logOut, updateUserData } from '../../login/actions';
+import { logOut } from '../../login/actions';
 import { getUserData } from '../helpers/login-helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';

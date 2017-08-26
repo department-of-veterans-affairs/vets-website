@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
@@ -54,7 +53,7 @@ class AuthApplicationSection extends React.Component {
 
     return (
       <div className="profile-section medium-12 columns">
-        {hasVerifiedSavedForms && <FormList handleClick={this.handleClick} savedForms={verifiedSavedForms}/>}
+        {hasVerifiedSavedForms && <FormList className="sip-form-list" handleClick={this.handleClick} savedForms={verifiedSavedForms}/>}
         <h4 className="section-header">Available services</h4>
         {content}
       </div>

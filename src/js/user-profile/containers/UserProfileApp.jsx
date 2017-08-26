@@ -22,7 +22,7 @@ class UserProfileApp extends React.Component {
            <AuthApplicationSection
              userProfile={this.props.profile}
              verifyUrl={this.props.verifyUrl}
-			        handleClick={this.handleClick}/>
+             handleClick={this.handleClick}/>
            <UserDataSection/>
          </div>
        </div>

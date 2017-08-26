@@ -2,12 +2,11 @@ import { expect } from 'chai';
 import _ from 'lodash';
 
 import {
-	formTitles,
-	formLinks,
-	handleIncompleteInformation,
-	handleNonSIPEnabledForm,
-	sipEnabledForms,
-	isSIPEnabledForm
+  formTitles,
+  formLinks,
+  handleIncompleteInformation,
+  handleNonSIPEnabledForm,
+  sipEnabledForms,
 } from '../../src/js/user-profile/helpers';
 
 import fullSchema1010ez from '../../src/js/hca/config/form';
@@ -23,53 +22,50 @@ import fullSchema530 from '../../src/js/burials/config/form';
 describe('profile helpers:', () => {
   describe('formTitles', () => {
     it('should have title information for each verified form', () => {
-			sipEnabledForms.forEach( form => {
-				expect(formTitles[form]).to.exist;
-			});
+      sipEnabledForms.forEach(form => {
+        expect(formTitles[form]).to.exist;
+      });
     });
   });
   describe('formLinks', () => {
     it('should have link information for each verified form', () => {
-			sipEnabledForms.forEach( form => {
-				expect(formLinks[form]).to.exist;
-			});
+      sipEnabledForms.forEach(form => {
+        expect(formLinks[form]).to.exist;
+      });
     });
   });
   describe('sipEnabledForms', () => {
     it('should include all and only SIP enabled forms', () => {
-			const sipEnabledSchemas = [
-			  fullSchema1010ez,
-			  fullSchema1990,
-			  fullSchema1990e,
-			  fullSchema1990n,
-			  fullSchema1995,
-			  fullSchema5490,
-			  fullSchema5495,
-			  fullSchema527EZ,
-				fullSchema530
-			].filter(schema => !!schema.savedFormMessages);
-      console.log('forms', sipEnabledForms);
-			console.log('schemas', sipEnabledSchemas);
-			const sipEnabledFormIds = sipEnabledSchemas.reduce( (accumulator, schema) => {
-				accumulator.push(schema.formId);
-				return accumulator;
-			}, []);
-			console.log('formIds', sipEnabledFormIds);
-			expect(_.isEqual(sipEnabledForms, new Set(sipEnabledFormIds))).to.be.true;
-		});
-	});
-	describe('handleIncompleteInformation', () => {
-    it('should push error into window if a form is missing title or link information', () => {
-			let oldWindow = global.window;
-			global.window = { dataLayer: [] };
-			handleIncompleteInformation('missingInfoForm');
-			expect(global.window.dataLayer[0]).to.deep.equal({ event: 'missingInfoFormsip-list-item-missing-info' });
-			global.window = oldWindow;
+      const sipEnabledSchemas = [
+        fullSchema1010ez,
+        fullSchema1990,
+        fullSchema1990e,
+        fullSchema1990n,
+        fullSchema1995,
+        fullSchema5490,
+        fullSchema5495,
+        fullSchema527EZ,
+        fullSchema530
+      ].filter(schema => !!schema.savedFormMessages);
+      const sipEnabledFormIds = sipEnabledSchemas.reduce((accumulator, schema) => {
+        accumulator.push(schema.formId);
+        return accumulator;
+      }, []);
+      expect(_.isEqual(sipEnabledForms, new Set(sipEnabledFormIds))).to.be.true;
     });
-	});
-	describe('handleNonSIPEnabledForm', () => {
+  });
+  describe('handleIncompleteInformation', () => {
+    it('should push error into window if a form is missing title or link information', () => {
+      const oldWindow = global.window;
+      global.window = { dataLayer: [] };
+      handleIncompleteInformation('missingInfoForm');
+      expect(global.window.dataLayer[0]).to.deep.equal({ event: 'missingInfoFormsip-list-item-missing-info' });
+      global.window = oldWindow;
+    });
+  });
+  describe('handleNonSIPEnabledForm', () => {
     it('should throw an error if a form is not included the list of sipEnabledForms', () => {
-			expect(() => handleNonSIPEnabledForm('notSIPEnabledForm')).to.throw('Could not find form');
+      expect(() => handleNonSIPEnabledForm('notSIPEnabledForm')).to.throw('Could not find form');
     });
   });
 });

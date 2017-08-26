@@ -10,8 +10,8 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
-    const { last_updated: lastSavedDate, expires_at } = savedFormData.metadata;
-    const expirationDate = moment.unix(expires_at);
+    const { last_updated: lastSavedDate, expires_at: expirationTime } = savedFormData.metadata;
+    const expirationDate = moment.unix(expirationTime);
     return (
       <div className="card information">
         <strong>Application for {formTitles[formId]}</strong><br/>
