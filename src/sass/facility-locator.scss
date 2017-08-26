@@ -474,6 +474,14 @@
   .facility-detail {
     padding: 0 1.5rem;
 
+    li.sublist {
+      margin-left: 1.5em;
+    }
+
+    li.show-more {
+      list-style-type: none;
+    }
+
     a {
       text-decoration: none;
 
