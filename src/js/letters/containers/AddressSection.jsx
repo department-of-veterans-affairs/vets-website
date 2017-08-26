@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { invalidAddressProperty } from '../utils/helpers.jsx';
+import { updateAddress } from '../actions/letters';
 
 export class AddressSection extends React.Component {
   render() {
+    // For testing only; should be called with the address form data from the
+    // "Update" button click handler; see https://marvelapp.com/3h1bfhd/screen/31460699
+    updateAddress();
+
     const destination = this.props.destination || {};
     const addressLines = [
       destination.addressLine1,
