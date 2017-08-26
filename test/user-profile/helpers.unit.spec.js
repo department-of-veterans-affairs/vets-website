@@ -1,95 +1,75 @@
 import { expect } from 'chai';
+import _ from 'lodash';
 
 import {
-  formatPartialDate
-} from '../../../src/js/edu-benefits/utils/helpers';
-import { makeField } from '../../../src/js/common/model/fields';
+	formTitles,
+	formLinks,
+	handleIncompleteInformation,
+	handleNonSIPEnabledForm,
+	sipEnabledForms,
+	isSIPEnabledForm
+} from '../../src/js/user-profile/helpers';
 
-describe('edu helpers:', () => {
-  describe('formatPartialDate', () => {
-    it('should format a full date', () => {
-      const date = {
-        month: makeField('5'),
-        day: makeField('1'),
-        year: makeField('2001')
-      };
+import fullSchema1010ez from '../../src/js/hca/config/form';
+import fullSchema1990 from '../../src/js/edu-benefits/1990-rjsf/config/form';
+import fullSchema1990e from '../../src/js/edu-benefits/1990e/config/form';
+import fullSchema1990n from '../../src/js/edu-benefits/1990n/config/form';
+import fullSchema1995 from '../../src/js/edu-benefits/1995/config/form';
+import fullSchema5490 from '../../src/js/edu-benefits/5490/config/form';
+import fullSchema5495 from '../../src/js/edu-benefits/5495/config/form';
+import fullSchema527EZ from '../../src/js/pensions/config/form';
+import fullSchema530 from '../../src/js/burials/config/form';
 
-      expect(formatPartialDate(date)).to.equal('2001-05-01');
+describe('profile helpers:', () => {
+  describe('formTitles', () => {
+    it('should have title information for each verified form', () => {
+			sipEnabledForms.forEach( form => {
+				expect(formTitles[form]).to.exist;
+			});
     });
-    it('should format a full date with 2 digit month and day', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField('12'),
-        year: makeField('2001')
-      };
-
-      expect(formatPartialDate(date)).to.equal('2001-12-12');
+  });
+  describe('formLinks', () => {
+    it('should have link information for each verified form', () => {
+			sipEnabledForms.forEach( form => {
+				expect(formLinks[form]).to.exist;
+			});
     });
-    it('should format a date with missing month', () => {
-      const date = {
-        month: makeField(''),
-        day: makeField('12'),
-        year: makeField('2001')
-      };
-
-      expect(formatPartialDate(date)).to.equal('2001-XX-12');
+  });
+  describe('sipEnabledForms', () => {
+    it('should include all and only SIP enabled forms', () => {
+			const sipEnabledSchemas = [
+			  fullSchema1010ez,
+			  fullSchema1990,
+			  fullSchema1990e,
+			  fullSchema1990n,
+			  fullSchema1995,
+			  fullSchema5490,
+			  fullSchema5495,
+			  fullSchema527EZ,
+				fullSchema530
+			].filter(schema => !!schema.savedFormMessages);
+      console.log('forms', sipEnabledForms);
+			console.log('schemas', sipEnabledSchemas);
+			const sipEnabledFormIds = sipEnabledSchemas.reduce( (accumulator, schema) => {
+				accumulator.push(schema.formId);
+				return accumulator;
+			}, []);
+			console.log('formIds', sipEnabledFormIds);
+			expect(_.isEqual(sipEnabledForms, new Set(sipEnabledFormIds))).to.be.true;
+		});
+	});
+	describe('handleIncompleteInformation', () => {
+    it('should push error into window if a form is missing title or link information', () => {
+			let oldWindow = global.window;
+			global.window = { dataLayer: [] };
+			handleIncompleteInformation('missingInfoForm');
+			expect(global.window.dataLayer[0]).to.deep.equal({ event: 'missingInfoFormsip-list-item-missing-info' });
+			global.window = oldWindow;
     });
-    it('should format a date with missing day', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField(''),
-        year: makeField('2001')
-      };
-
-      expect(formatPartialDate(date)).to.equal('2001-12-XX');
-    });
-    it('should format a date with missing year', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField('31'),
-        year: makeField('')
-      };
-
-      expect(formatPartialDate(date)).to.equal('XXXX-12-31');
-    });
-    it('should format a date with space in year', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField('31'),
-        year: makeField('2001 ')
-      };
-
-      expect(formatPartialDate(date)).to.equal('2001-12-31');
-    });
-    it('should format a date with non digit characters in year', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField('31'),
-        year: makeField('2001*')
-      };
-
-      expect(formatPartialDate(date)).to.equal('2001-12-31');
-    });
-    it('should return undefined for blank date', () => {
-      const date = {
-        month: makeField(''),
-        day: makeField(''),
-        year: makeField('')
-      };
-
-      expect(formatPartialDate(date)).to.be.undefined;
-    });
-    it('should return undefined for undefined date', () => {
-      expect(formatPartialDate()).to.be.undefined;
-    });
-    it('should format a partial year', () => {
-      const date = {
-        month: makeField('12'),
-        day: makeField('31'),
-        year: makeField('96')
-      };
-
-      expect(formatPartialDate(date)).to.equal('1996-12-31');
+	});
+	describe('handleNonSIPEnabledForm', () => {
+    it('should throw an error if a form is not included the list of sipEnabledForms', () => {
+			expect(() => handleNonSIPEnabledForm('notSIPEnabledForm')).to.throw('Could not find form');
     });
   });
 });
