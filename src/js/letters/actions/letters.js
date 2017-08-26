@@ -13,6 +13,7 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  UPDATE_ADDRESS_SUCCESS,
   UPDATE_ADDRESS_FAILURE
 } from '../utils/constants';
 
@@ -22,8 +23,8 @@ const exampleAddress = {
   type: 'DOMESTIC',
   addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
   addressOne: '140 Rock Creek Church Rd NW',
-  addressTwo: '#5',
-  addressThree: 'Room A',
+  addressTwo: '',
+  addressThree: '',
   city: 'Washington',
   stateCode: 'DC',
   zipCode: '20011',
@@ -59,9 +60,12 @@ export function getLetterList() {
             // of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
           }
+          return Promise.reject(
+            new Error(`vets_letters_error_server_get: error status ${error.status}`)
+          );
         }
         return Promise.reject(
-          new Error(`vets_letters_error_server_get: ${error.status}`)
+          new Error('vets_letters_error_server_get: unknown error status')
         );
       })
       .catch((error) => {
@@ -155,18 +159,18 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
 }
 
 export function updateAddress() {
-  // TODO: pass an address argument in and replace exampleAddress below
   const settings = {
-    method: 'POST',
+    method: 'PATCH',  // TODO: decide whether to use PATCH or PUT here; check with Alastair
     headers: { 'Content-Type': 'application/json' },
+    // TODO: pass in an address argument instead of using exampleAddress
     body: JSON.stringify(exampleAddress)
   };
   return (dispatch) => {
     apiRequest(
       '/v0/address',
       settings,
-      () => {},  // is there any response?
-      () => dispatch({ type: UPDATE_ADDRESS_FAILURE })  // what sorts of failures might we find, and how should the UI behave if the POST fails?
+      () => dispatch({ type: UPDATE_ADDRESS_SUCCESS }),
+      () => dispatch({ type: UPDATE_ADDRESS_FAILURE })
     );
   };
 }

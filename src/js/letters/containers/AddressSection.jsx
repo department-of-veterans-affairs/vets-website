@@ -6,11 +6,18 @@ import { invalidAddressProperty } from '../utils/helpers.jsx';
 import { updateAddress } from '../actions/letters';
 
 export class AddressSection extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  handleUpdate() {
     // For testing only; should be called with the address form data from the
     // "Update" button click handler; see https://marvelapp.com/3h1bfhd/screen/31460699
-    updateAddress();
+    this.props.updateAddress();
+  }
 
+  render() {
     const destination = this.props.destination || {};
     const addressLines = [
       destination.addressLine1,
@@ -36,6 +43,9 @@ export class AddressSection extends React.Component {
           <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
           <h5>Why is this address important?</h5>
           <div>When you download a letter, it will show this address on it. If this address is incorrect you may want to update it, but your letter will still be valid even with the incorrect address. <a href="https://eauth.va.gov/wssweb/wss-common-webparts/mvc/getPCIUUpdateForm" target="_blank">Update the address that appears on your letter(s)</a>.</div>
+          <button onClick={this.handleUpdate} className="usa-button-primary">
+            Update
+          </button>
         </div>
       );
     }
@@ -55,4 +65,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(AddressSection);
+const mapDispatchToProps = {
+  updateAddress
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
