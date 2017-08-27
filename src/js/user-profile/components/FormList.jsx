@@ -8,7 +8,10 @@ class FormList extends React.Component {
     const handleClick = this.props.handleClick;
     const forms = this.props.savedForms;
     return (
-      <ul>{forms.map((form, index) =>  <FormItem key={index} savedFormData={form} handleClick={handleClick}/>)}</ul>
+      <div>
+        <h4 className="section-header">Saved applications</h4>
+        {forms.map((form, index) =>  <FormItem key={index} savedFormData={form} handleClick={handleClick}/>)}
+      </div>
     );
   }
 }

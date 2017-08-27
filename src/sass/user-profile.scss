@@ -55,4 +55,35 @@
       margin-right: 5px;
     }
   }
+  
+  .saved-form-container {
+    margin-bottom: 16px;
+  }
+
+  .remove-saved-application-label {
+    display: inline;
+    margin-left: 5px;
+  }
+
+  .remove-saved-application-link {
+    display: float-right;
+    @include media($large-screen) {
+      display: float-left;
+    }
+  }
+
+  .resume-saved-application {
+    margin-top: 0
+  }
+
+  .saved-form-information {
+    display: inline-block;
+    @include media($large-screen) {
+      display: inline;
+    }
+  }
+
+  .saved-form-item-expires {
+    color: $color-secondary-dark
+  }
 }
