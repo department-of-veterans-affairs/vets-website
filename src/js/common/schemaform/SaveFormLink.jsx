@@ -73,13 +73,13 @@ class SaveFormLink extends React.Component {
       <div>
         <Element name="saveFormLinkTop"/>
         <LoginModal
-            key={1}
-            title="Sign in to save your application"
-            onClose={this.closeLoginModal}
-            visible={this.state.modalOpened}
-            user={this.props.user}
-            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
-            onLogin={this.saveFormAfterLogin}/>
+          key={1}
+          title="Sign in to save your application"
+          onClose={this.closeLoginModal}
+          visible={this.state.modalOpened}
+          user={this.props.user}
+          onUpdateLoginUrl={this.props.onUpdateLoginUrl}
+          onLogin={this.saveFormAfterLogin}/>
         {saveErrors.has(savedStatus) &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.failure &&
@@ -91,7 +91,7 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {!!lastSavedDate && !saveInlineInProgress &&
-            <p className="schemaform-save-notice">Application has been saved. Last saved at {moment(lastSavedDate).format('MM/DD/YY h:mm a')}</p>}
+        <p className="schemaform-save-notice">Application has been saved. Last saved at {moment(lastSavedDate).format('MM/DD/YY h:mm a')}</p>}
         {saveInlineInProgress && <p className="schemaform-save-notice">Loading...</p>}
         {savedStatus !== SAVE_STATUSES.noAuth &&
           <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>Finish this application later</button>}

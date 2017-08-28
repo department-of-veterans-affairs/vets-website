@@ -207,10 +207,10 @@ export default class ArrayField extends React.Component {
       <div className={containerClassNames}>
         {hasTitleOrDescription && <div className="schemaform-block-header">
           {title && !hideTitle
-              ? <TitleField
-                  id={`${idSchema.$id}__title`}
-                  title={title}
-                  formContext={formContext}/> : null}
+            ? <TitleField
+              id={`${idSchema.$id}__title`}
+              title={title}
+              formContext={formContext}/> : null}
           {textDescription && <p>{textDescription}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
           {!textDescription && !DescriptionField && description}
@@ -233,21 +233,21 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && items.length > 1 && uiSchema['ui:options'].itemName
-                          ? <h5>New {uiSchema['ui:options'].itemName}</h5>
-                          : null}
+                        ? <h5>New {uiSchema['ui:options'].itemName}</h5>
+                        : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemSchema}
-                            uiSchema={uiSchema.items}
-                            errorSchema={errorSchema ? errorSchema[index] : undefined}
-                            idSchema={itemIdSchema}
-                            formData={item}
-                            onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={onBlur}
-                            registry={this.props.registry}
-                            required={false}
-                            disabled={disabled}
-                            readonly={readonly}/>
+                          schema={itemSchema}
+                          uiSchema={uiSchema.items}
+                          errorSchema={errorSchema ? errorSchema[index] : undefined}
+                          idSchema={itemIdSchema}
+                          formData={item}
+                          onChange={(value) => this.onItemChange(index, value)}
+                          onBlur={onBlur}
+                          registry={this.props.registry}
+                          required={false}
+                          disabled={disabled}
+                          readonly={readonly}/>
                       </div>
                       {notLastOrMultipleRows &&
                         <div className="row small-collapse">
@@ -268,8 +268,8 @@ export default class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <div className="small-9 columns">
                     <ViewField
-                        formData={item}
-                        onEdit={() => this.handleEdit(index)}/>
+                      formData={item}
+                      onEdit={() => this.handleEdit(index)}/>
                   </div>
                   <div className="small-3 columns">
                     <button className="usa-button-outline float-right" onClick={() => this.handleEdit(index)}>Edit</button>
@@ -279,16 +279,16 @@ export default class ArrayField extends React.Component {
             );
           })}
           <button
-              type="button"
-              className={classNames(
-                'usa-button-outline',
-                'va-growable-add-btn',
-                {
-                  'usa-button-disabled': !this.props.formData
-                }
-              )}
-              disabled={!this.props.formData}
-              onClick={this.handleAdd}>
+            type="button"
+            className={classNames(
+              'usa-button-outline',
+              'va-growable-add-btn',
+              {
+                'usa-button-disabled': !this.props.formData
+              }
+            )}
+            disabled={!this.props.formData}
+            onClick={this.handleAdd}>
             Add Another {uiOptions.itemName}
           </button>
         </div>

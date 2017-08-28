@@ -1,5 +1,5 @@
 import EducationView from '../components/EducationView';
-import uiSchemaDateRange from '../../common/schemaform/definitions/dateRange';
+import monthYearRange from '../../common/schemaform/definitions/monthYearRange';
 
 import {
   hoursTypeLabels,
@@ -27,7 +27,7 @@ const uiSchema = {
         labels: stateLabels
       }
     },
-    dateRange: uiSchemaDateRange(
+    dateRange: monthYearRange(
       'From',
       'To'
     ),

@@ -8,8 +8,8 @@ describe('<DisabilityBenefitsApp>', () => {
   it('should render children and login view', () => {
     const tree = SkinDeep.shallowRender(
       <DisabilityBenefitsApp
-          available
-          authorized>
+        available
+        authorized>
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
@@ -22,8 +22,8 @@ describe('<DisabilityBenefitsApp>', () => {
   it('should render children', () => {
     const tree = SkinDeep.shallowRender(
       <AppContent
-          available
-          authorized>
+        available
+        authorized>
         <div className="test-child"/>
       </AppContent>
     );

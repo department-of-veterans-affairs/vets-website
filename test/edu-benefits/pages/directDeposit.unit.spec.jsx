@@ -14,9 +14,9 @@ const pageTests = (page, requiredErrors = 0) => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -27,9 +27,9 @@ const pageTests = (page, requiredErrors = 0) => {
   it('should show correct number of required errors', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -42,10 +42,10 @@ const pageTests = (page, requiredErrors = 0) => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     submitForm(form);

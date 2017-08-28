@@ -89,11 +89,11 @@ describe('Schemaform <FormPage>', () => {
 
       tree = SkinDeep.shallowRender(
         <FormPage
-            router={router}
-            setData={setData}
-            form={form}
-            onSubmit={onSubmit}
-            route={route}/>
+          router={router}
+          setData={setData}
+          form={form}
+          onSubmit={onSubmit}
+          route={route}/>
       );
     });
     it('change', () => {
@@ -151,8 +151,8 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          router={router}
-          form={form} route={route}/>
+        router={router}
+        form={form} route={route}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -244,10 +244,10 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          setData={setData}
-          form={form}
-          route={route}
-          params={{ index: 0 }}/>
+        setData={setData}
+        form={form}
+        route={route}
+        params={{ index: 0 }}/>
     );
 
     tree.getMountedInstance().onChange({ test: 2 });
@@ -307,12 +307,12 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          form={form}
-          route={route}
-          location={{
-            pathname: '/testing/0'
-          }}
-          params={{ index: 0 }}/>
+        form={form}
+        route={route}
+        location={{
+          pathname: '/testing/0'
+        }}
+        params={{ index: 0 }}/>
     );
 
     const { pageIndex } = tree.getMountedInstance().getEligiblePages();
@@ -362,14 +362,14 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          setData={setData}
-          router={router}
-          form={form}
-          route={route}
-          location={{
-            pathname: '/testing/0'
-          }}
-          params={{ index: 0 }}/>
+        setData={setData}
+        router={router}
+        form={form}
+        route={route}
+        location={{
+          pathname: '/testing/0'
+        }}
+        params={{ index: 0 }}/>
     );
 
     tree.getMountedInstance().onSubmit({ formData: { test: 2 } });

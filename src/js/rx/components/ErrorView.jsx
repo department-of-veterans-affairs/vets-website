@@ -62,10 +62,10 @@ class ErrorView extends React.Component {
     if (alert) {
       return (
         <AlertBox
-            content={content}
-            isVisible
-            status="warning"/>
-        );
+          content={content}
+          isVisible
+          status="warning"/>
+      );
     }
 
     return (

@@ -55,7 +55,7 @@ class UserDataSection extends React.Component {
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose}/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
   }
 
   renderTermsLink() {
@@ -107,11 +107,11 @@ class UserDataSection extends React.Component {
           {this.renderTermsLink()}
         </div>
         <Modal
-            cssClass="va-modal-large"
-            contents={this.renderModalContents()}
-            id="mhvac-modal"
-            visible={this.state.modalOpen}
-            onClose={this.closeModal}/>
+          cssClass="va-modal-large"
+          contents={this.renderModalContents()}
+          id="mhvac-modal"
+          visible={this.state.modalOpen}
+          onClose={this.closeModal}/>
       </div>
     );
   }

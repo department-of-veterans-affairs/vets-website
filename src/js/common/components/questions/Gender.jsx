@@ -24,12 +24,12 @@ class Gender extends React.Component {
     return (
       <div>
         <ErrorableSelect required={this.props.required}
-            errorMessage={isValid ? undefined : 'Please select a gender'}
-            label="Gender"
-            name="gender"
-            options={genders}
-            value={this.props.value}
-            onValueChange={this.props.onUserInput}/>
+          errorMessage={isValid ? undefined : 'Please select a gender'}
+          label="Gender"
+          name="gender"
+          options={genders}
+          value={this.props.value}
+          onValueChange={this.props.onUserInput}/>
       </div>
     );
   }

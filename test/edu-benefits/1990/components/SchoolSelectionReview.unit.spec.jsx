@@ -12,7 +12,7 @@ describe('<SchoolSelectionReview>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionReview
-          data={veteran}/>
+        data={veteran}/>
     );
 
     expect(tree.everySubTree('table').length).to.eql(1);

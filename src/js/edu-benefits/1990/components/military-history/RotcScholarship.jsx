@@ -17,25 +17,25 @@ export default class RotcScholarship extends React.Component {
           <div className="columns small-4 no-pad-left">
             <div className="edu-benefits-first-label">
               <ErrorableNumberInput
-                  errorMessage={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year.'}
-                  validation={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val))}
-                  label="Year"
-                  name="year"
-                  field={scholarship.year}
-                  min="1900"
-                  onValueChange={(update) => {onValueChange('year', update);}}/>
+                errorMessage={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year.'}
+                validation={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val))}
+                label="Year"
+                name="year"
+                field={scholarship.year}
+                min="1900"
+                onValueChange={(update) => {onValueChange('year', update);}}/>
             </div>
           </div>
           <div className="columns small-8 no-pad-right">
             <div className="edu-benefits-first-label">
               <ErrorableTextInput
-                  errorMessage={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val)) ? undefined : 'Please enter the amount received.'}
-                  validation={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val))}
-                  label="Scholarship amount"
-                  name="amount"
-                  field={scholarship.amount}
-                  placeholder="$"
-                  onValueChange={(update) => {onValueChange('amount', update);}}/>
+                errorMessage={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val)) ? undefined : 'Please enter the amount received.'}
+                validation={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val))}
+                label="Scholarship amount"
+                name="amount"
+                field={scholarship.amount}
+                placeholder="$"
+                onValueChange={(update) => {onValueChange('amount', update);}}/>
             </div>
           </div>
         </div>

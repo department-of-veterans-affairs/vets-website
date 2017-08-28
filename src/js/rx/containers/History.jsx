@@ -81,8 +81,8 @@ class History extends React.Component {
   formattedSortParam(value, order) {
     const formattedValue = _.snakeCase(value);
     const sort = order === 'DESC'
-               ? `-${formattedValue}`
-               : formattedValue;
+      ? `-${formattedValue}`
+      : formattedValue;
     return sort;
   }
 
@@ -132,13 +132,13 @@ class History extends React.Component {
             <Link to={`/${attrs.prescriptionId}`}>
               {attrs.prescriptionName}
             </Link>
-            ),
+          ),
 
           refillStatus: (
             <GlossaryLink
-                term={status}
-                onClick={this.props.openGlossaryModal}/>
-            )
+              term={status}
+              onClick={this.props.openGlossaryModal}/>
+          )
         };
       });
 
@@ -147,21 +147,21 @@ class History extends React.Component {
           <p className="rx-tab-explainer">Your VA prescription refill history</p>
           <div className="show-for-small-only">
             <SortMenu
-                onClick={this.handleSort}
-                onChange={this.handleSort}
-                options={fields}
-                selected={currentSort}/>
+              onClick={this.handleSort}
+              onChange={this.handleSort}
+              options={fields}
+              selected={currentSort}/>
           </div>
           <SortableTable
-              className="usa-table-borderless va-table-list rx-table rx-table-list"
-              currentSort={currentSort}
-              data={data}
-              fields={fields}
-              onSort={this.handleSort}/>
+            className="usa-table-borderless va-table-list rx-table rx-table-list"
+            currentSort={currentSort}
+            data={data}
+            fields={fields}
+            onSort={this.handleSort}/>
           <Pagination
-              onPageSelect={this.handlePageSelect}
-              page={this.props.page}
-              pages={this.props.pages}/>
+            onPageSelect={this.handlePageSelect}
+            page={this.props.page}
+            pages={this.props.pages}/>
         </div>
       );
     } else {
@@ -176,9 +176,9 @@ class History extends React.Component {
 
     return (
       <ScrollElement
-          id="rx-history"
-          name="history"
-          className="va-tab-content">
+        id="rx-history"
+        name="history"
+        className="va-tab-content">
         {content}
       </ScrollElement>
     );

@@ -115,9 +115,9 @@ class ServicesAtFacility extends Component {
 
         <div className="mb2">
           <AlertBox
-              isVisible
-              status="warning"
-              content={alertContent}/>
+            isVisible
+            status="warning"
+            content={alertContent}/>
         </div>
 
         <div className="mb2">

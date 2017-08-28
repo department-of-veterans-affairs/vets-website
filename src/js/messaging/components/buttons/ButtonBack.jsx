@@ -14,8 +14,8 @@ class ButtonBack extends React.Component {
   render() {
     return (
       <button
-          className="msg-btn-back"
-          onClick={this.onClick}>
+        className="msg-btn-back"
+        onClick={this.onClick}>
         <i className="fa fa-chevron-left"></i>
         <span>Back</span>
       </button>

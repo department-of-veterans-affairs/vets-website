@@ -11,8 +11,8 @@ describe('Pensions FinancialDisclosureDescription', () => {
 
     const tree = SkinDeep.shallowRender(
       <FinancialDisclosureDescription
-          pageKeys={pageKeys}
-          viewedPages={viewedPages}/>
+        pageKeys={pageKeys}
+        viewedPages={viewedPages}/>
     );
 
     expect(tree.text()).to.contain('spouse have any');
@@ -23,8 +23,8 @@ describe('Pensions FinancialDisclosureDescription', () => {
 
     const tree = SkinDeep.shallowRender(
       <FinancialDisclosureDescription
-          pageKeys={pageKeys}
-          viewedPages={viewedPages}/>
+        pageKeys={pageKeys}
+        viewedPages={viewedPages}/>
     );
 
     expect(tree.text()).to.contain('dependents you added');
@@ -35,8 +35,8 @@ describe('Pensions FinancialDisclosureDescription', () => {
 
     const tree = SkinDeep.shallowRender(
       <FinancialDisclosureDescription
-          pageKeys={pageKeys}
-          viewedPages={viewedPages}/>
+        pageKeys={pageKeys}
+        viewedPages={viewedPages}/>
     );
 
     expect(tree.text()).to.equal('');

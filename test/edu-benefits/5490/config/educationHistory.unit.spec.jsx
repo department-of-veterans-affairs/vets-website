@@ -12,10 +12,10 @@ describe('Edu 5490 educationHistory', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
@@ -26,10 +26,10 @@ describe('Edu 5490 educationHistory', () => {
   it('should render diploma date', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -39,16 +39,16 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 
   it('should render high school questions', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -65,11 +65,11 @@ describe('Edu 5490 educationHistory', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -82,10 +82,10 @@ describe('Edu 5490 educationHistory', () => {
   it('should render post high school trainings', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -95,16 +95,16 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
   });
 
   it('should render diploma date and not post high school trainings', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -114,6 +114,6 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(3);
   });
 });

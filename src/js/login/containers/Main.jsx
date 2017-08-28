@@ -120,9 +120,9 @@ class Main extends React.Component {
   render() {
     return (
       <SearchHelpSignIn
-          onUserLogin={this.handleLogin}
-          onUserSignup={this.handleSignup}
-          onUserLogout={this.handleLogout}/>
+        onUserLogin={this.handleLogin}
+        onUserSignup={this.handleSignup}
+        onUserLogout={this.handleLogout}/>
     );
   }
 }

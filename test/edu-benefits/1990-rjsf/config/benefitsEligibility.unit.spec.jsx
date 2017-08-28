@@ -10,9 +10,9 @@ describe('Edu 1990 benefitsEligibility', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -22,9 +22,9 @@ describe('Edu 1990 benefitsEligibility', () => {
   it('should not submit form without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
@@ -35,9 +35,9 @@ describe('Edu 1990 benefitsEligibility', () => {
   it('should submit with required information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

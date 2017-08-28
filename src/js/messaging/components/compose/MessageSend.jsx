@@ -47,15 +47,15 @@ class MessageSend extends React.Component {
     return (
       <span>
         <MessageAddAttachment
-            cssClass="msg-attach"
-            allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments-input"
-            label="Attach a file"
-            name="messageAttachments"
-            onChange={this.handleAttachmentsChange}/>
+          cssClass="msg-attach"
+          allowedMimeTypes={this.props.allowedMimeTypes}
+          id="msg-attachments-input"
+          label="Attach a file"
+          name="messageAttachments"
+          onChange={this.handleAttachmentsChange}/>
         <ButtonDelete
-            className="va-icon-link"
-            onClick={this.props.onDelete}/>
+          className="va-icon-link"
+          onClick={this.props.onDelete}/>
       </span>
     );
   }
@@ -67,15 +67,15 @@ class MessageSend extends React.Component {
       <div className="msg-send-group">
         <div className="msg-send-buttons">
           <button
-              disabled={isDisabled}
-              type="button"
-              onClick={this.props.onSend}>Send</button>
+            disabled={isDisabled}
+            type="button"
+            onClick={this.props.onSend}>Send</button>
           <button
-              disabled={isDisabled}
-              className="usa-button-outline msg-btn-save"
-              type="button"
-              value="save"
-              onClick={this.props.onSave}>Save As Draft</button>
+            disabled={isDisabled}
+            className="usa-button-outline msg-btn-save"
+            type="button"
+            value="save"
+            onClick={this.props.onSave}>Save As Draft</button>
         </div>
         {this.renderExtraActionButtons()}
       </div>
