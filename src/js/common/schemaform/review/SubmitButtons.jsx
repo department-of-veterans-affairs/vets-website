@@ -1,7 +1,31 @@
 import React from 'react';
 import ProgressButton from '../../components/form-elements/ProgressButton';
+import SaveFormLink from '../SaveFormLink';
 
-export default function SubmitButtons({ submission, onSubmit, onBack, errorMessage }) {
+export default function SubmitButtons(props) {
+  const {
+    errorMessage,
+    errorText,
+    onBack,
+    onSubmit,
+    submission,
+    locationPathname,
+    form,
+    user,
+    saveInProgressForm,
+    onUpdateLoginUrl,
+    sipEnabled,
+  } = props;
+  // Pulling this out to here so LoginModal doesn't get re-created on state change
+  //  since saving happens in LoginModal.componentWillReceiveProps()
+  const saveLink = (<SaveFormLink
+    locationPathname={locationPathname}
+    form={form}
+    user={user}
+    saveInProgressForm={saveInProgressForm}
+    onUpdateLoginUrl={onUpdateLoginUrl}>
+    save your application
+  </SaveFormLink>);
   const Message = errorMessage;
   let submitButton;
   let submitMessage;
@@ -60,14 +84,37 @@ export default function SubmitButtons({ submission, onSubmit, onBack, errorMessa
       </div>
     );
   } else {
-    submitMessage = errorMessage
-      ? <Message/>
-      : (<div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
-          <p>You’ll have to start over. We suggest you wait 1 day while we fix this problem.</p>
+    if (errorMessage) {
+      submitMessage = <Message/>;
+    } else if (sipEnabled) {
+      let InlineErrorComponent;
+      if (typeof errorText === 'function') {
+        InlineErrorComponent = errorText;
+      } else if (typeof errorText === 'string') {
+        InlineErrorComponent = () => <p>{errorText}</p>;
+      } else {
+        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="1-855-574-7286">855-574-7286</a> (TTY: <a href="1-800-829-4833">800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>;
+      }
+      submitMessage = (
+        <div className="usa-alert usa-alert-error schemaform-failure-alert">
+          <div className="usa-alert-body">
+            <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
+            <p>We’re working to fix the problem, but it may take us a little while. Please {saveLink} and try submitting it again tomorrow.</p>
+            {!user.login.currentlyLoggedIn && <p>If you don’t have an account, you’ll have to start over. Please try submitting your application again tomorrow.</p>}
+            <InlineErrorComponent/>
+          </div>
         </div>
-      </div>);
+      );
+    } else {
+      submitMessage = (
+        <div className="usa-alert usa-alert-error schemaform-failure-alert">
+          <div className="usa-alert-body">
+            <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
+            <p>You’ll have to start over. We suggest you wait 1 day while we fix this problem.</p>
+          </div>
+        </div>
+      );
+    }
 
     if (__BUILDTYPE__ !== 'production') {
       submitButton = (
