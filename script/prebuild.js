@@ -1,6 +1,7 @@
 const semver = require('semver');
 const fs = require('fs');
 const path = require('path');
+
 const minimumNodeVersion = '6.11.1';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {

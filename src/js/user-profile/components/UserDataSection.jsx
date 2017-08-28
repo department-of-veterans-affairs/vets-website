@@ -55,7 +55,7 @@ class UserDataSection extends React.Component {
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose}/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
   }
 
   renderTermsLink() {

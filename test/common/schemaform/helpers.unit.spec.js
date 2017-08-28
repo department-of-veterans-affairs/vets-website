@@ -10,6 +10,7 @@ import {
   setItemTouched,
   getNonArraySchema,
   checkValidSchema,
+  formatReviewDate,
   expandArrayPages
 } from '../../../src/js/common/schemaform/helpers';
 
@@ -770,6 +771,17 @@ describe('Schemaform helpers:', () => {
 
       expect(newPageList.length).to.equal(pageList.length - 1);
       expect(newPageList[0].path).to.equal('test');
+    });
+  });
+  describe('formatReviewDate', () => {
+    it('should format full date', () => {
+      expect(formatReviewDate('2010-01-01')).to.equal('01/01/2010');
+    });
+    it('should format partial date', () => {
+      expect(formatReviewDate('2010-01-XX')).to.equal('01/XX/2010');
+    });
+    it('should format month year date', () => {
+      expect(formatReviewDate('2010-01-XX', true)).to.equal('01/2010');
     });
   });
 });

@@ -123,7 +123,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
     expect(tree.subTree('.form-review-panel-page-header').text()).to.be.empty;
   });
-  it('should hide expand under items when false', () => {
+  it('should hide expand under items when collapsed', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -133,7 +133,8 @@ describe('Schemaform review: ObjectField', () => {
           type: 'boolean'
         },
         test2: {
-          type: 'string'
+          type: 'string',
+          'ui:collapsed': true
         }
       }
     };
@@ -145,7 +146,7 @@ describe('Schemaform review: ObjectField', () => {
       }
     };
     const formData = {
-      test: false
+      test: true
     };
     const tree = SkinDeep.shallowRender(
       <ObjectField

@@ -197,7 +197,7 @@ node('vets-website-linting') {
 
       def targets = [
         'master': [ 'dev', 'staging' ],
-        'production': [ 'production' ],
+        'production': [ 'prod' ],
       ][env.BRANCH_NAME]
 
       // Deploy the build associated with this ref. To deploy from a release use 

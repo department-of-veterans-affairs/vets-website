@@ -89,6 +89,7 @@ smith.metadata({ buildtype: options.buildtype });
 // To block an app from production add the following to the below list:
 //  ignoreList.push('<path-to-content-file>');
 const ignore = require('metalsmith-ignore');
+
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
