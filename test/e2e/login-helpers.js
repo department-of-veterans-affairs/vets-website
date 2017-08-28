@@ -160,14 +160,6 @@ function logIn(token, client, url, level) {
   return client;
 }
 
-function resumeForm(client, formId) {
-  client.execute(() => {
-    document.querySelector(`a[href*="${formId}"]`).click();
-  });
-
-  return client;
-}
-
 function testUnauthedUserFlow(client, path) {
   const token = getUserToken();
   const appURL = `${E2eHelpers.baseUrl}${path}`;
@@ -195,7 +187,6 @@ module.exports = {
   initLogoutMock,
   initUserMock,
   logIn,
-  resumeForm,
   testUnauthedUserFlow,
   setUserToken
 };
