@@ -80,3 +80,15 @@ export function handleLogin(loginUrl, onUpdateLoginUrl) {
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
 }
+
+// google analytics client Id
+/* global gaClientId ga:true */
+export function gaClientId() {
+  let clientId;
+  for (const data of ga.getAll()) {
+    if (data.get('cookieDomain') === 'vets.gov') {
+      clientId = data.get('clientId');
+    }
+  }
+  return clientId;
+}
