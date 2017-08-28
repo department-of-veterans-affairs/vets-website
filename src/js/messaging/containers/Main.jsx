@@ -87,11 +87,11 @@ export class Main extends React.Component {
     }
 
     if (loading.deletingMessage) {
-      return <LoadingIndicator message="Deleting message..."/>;
+      return <LoadingIndicator message="Deleting your message..."/>;
     }
 
     if (loading.movingMessage) {
-      return <LoadingIndicator message="Moving message..."/>;
+      return <LoadingIndicator message="Moving your message..."/>;
     }
 
     if (loading.savingDraft) {
