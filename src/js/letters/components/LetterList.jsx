@@ -12,34 +12,18 @@ class LetterList extends React.Component {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
-
+      let bslHelpInstructions;
       if (letter.letterType === 'benefit_summary') {
-        content = (
-          <div>
-            <VeteranBenefitSummaryLetter/>
-            <DownloadLetterLink
-                letterType={letter.letterType}
-                letterName={letter.name}
-                downloadStatus={downloadStatus[letter.letterType]}
-                key={`download-link-${index}`}/>
-            <p>
-              If your service period or disability status information is incorrect, please send us
-              a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
-              Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
-            </p>
-          </div>
+        content = (<VeteranBenefitSummaryLetter/>);
+        bslHelpInstructions = (
+          <p>
+            If your service period or disability status information is incorrect, please send us
+            a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+            Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+          </p>
         );
       } else {
-        content = (
-          <div>
-            <div>{letterContent[letter.letterType] || ''}</div>
-            <DownloadLetterLink
-                letterType={letter.letterType}
-                letterName={letter.name}
-                downloadStatus={downloadStatus[letter.letterType]}
-                key={`download-link-${index}`}/>
-          </div>
-        );
+        content = letterContent[letter.letterType] || '';
       }
 
       return (
@@ -47,6 +31,12 @@ class LetterList extends React.Component {
           panelName={letter.name}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
+          <DownloadLetterLink
+            letterType={letter.letterType}
+            letterName={letter.name}
+            downloadStatus={downloadStatus[letter.letterType]}
+            key={`download-link-${index}`}/>
+          <div>{bslHelpInstructions}</div>
         </CollapsiblePanel>
       );
     });
