@@ -2,6 +2,7 @@ const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts.js');
 const LoginHelpers = require('../../e2e/login-helpers');
 
+const { formLinks } = require('../../src/js/user-profile/helpers.jsx'
 module.exports = E2eHelpers.createE2eTest(client => {
   let token = LoginHelpers.getUserToken();
 
@@ -20,39 +21,39 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('document');
 
   client
-    .url(`${E2eHelpers.baseUrl}/pension/application/527EZ/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['21P-527EZ']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/burials-and-memorials/application/530/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['21P-530']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/health-care/apply/application/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['1010ez']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-1990']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990e/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-1990E']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990n/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-1990N']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1995/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-1995']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5490/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-5490']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5495/introduction`)
+    .url(`${E2eHelpers.baseUrl}${formLinks['22-5495']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client.end();

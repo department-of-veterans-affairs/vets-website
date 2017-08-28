@@ -4,25 +4,34 @@ import { removeInProgressForm } from '../../common/schemaform/save-load-actions'
 
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
-
+import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+
+import { isSIPEnabledForm } from '../helpers';
 
 class UserProfileApp extends React.Component {
 
- handleClick = (formId) => {
+ removeForm = (formId) => {
    this.props.removeInProgressForm(formId, null);
  }
 
  render() {
+   const savedForms = this.props.profile.savedForms;
+   const verifiedSavedForms = savedForms.filter(isSIPEnabledForm);
+   const hasVerifiedSavedForms = !!verifiedSavedForms.length;
+
    const view = (
      <div className="row user-profile-row">
        <div className="usa-width-two-thirds medium-8 small-12 columns">
          <h1>Your Account</h1>
          <div>
+           {hasVerifiedSavedForms && <FormList
+             userProfile={this.props.profile}
+             removeForm={this.removeForm}
+             savedForms={verifiedSavedForms}/>}
            <AuthApplicationSection
              userProfile={this.props.profile}
-             verifyUrl={this.props.verifyUrl}
-             handleClick={this.handleClick}/>
+             verifyUrl={this.props.verifyUrl}/>
            <UserDataSection/>
          </div>
        </div>

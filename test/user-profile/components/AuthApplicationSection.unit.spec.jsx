@@ -58,15 +58,4 @@ describe('<AuthApplicationSection>', () => {
       findDOMNode(section).querySelector('.va-button-link'));
     expect(windowOpen.called).to.be.true;
   });
-  it('should show a saved applications list if the user has valid saved applications', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
-    const SavedFormElement = tree.dive(['FormList', 'FormItem']);
-    expect(tree.everySubTree('.sip-form-list').length).to.equal(1);
-    expect(SavedFormElement.text()).to.have.string('Application for health care (10-10EZ)');
-  });
-  it('should not show a saved applications list if the user does not have any valid saved applications', () => {
-    props.userProfile.savedForms = [];
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
-    expect(tree.everySubTree('.sip-form-list').length).to.equal(0);
-  });
 });

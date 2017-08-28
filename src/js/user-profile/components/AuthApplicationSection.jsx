@@ -3,25 +3,15 @@ import React from 'react';
 
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
-import FormList from './FormList';
-import { isSIPEnabledForm } from '../helpers';
-
 class AuthApplicationSection extends React.Component {
   verifyUser = () => {
     handleVerify(this.props.verifyUrl);
-  }
-
-  handleClick = (formId) => {
-    this.props.handleClick(formId, null, true);
   }
 
   render() {
     let content;
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const isVerifiedUser = this.props.userProfile.accountType === verifiedAccountType;
-    const savedForms = this.props.userProfile.savedForms;
-    const verifiedSavedForms = savedForms.filter(isSIPEnabledForm);
-    const hasVerifiedSavedForms = !!verifiedSavedForms.length;
 
     if (isVerifiedUser) {
       content = (
@@ -53,7 +43,6 @@ class AuthApplicationSection extends React.Component {
 
     return (
       <div className="profile-section medium-12 columns">
-        {hasVerifiedSavedForms && <FormList className="sip-form-list" handleClick={this.handleClick} savedForms={verifiedSavedForms}/>}
         <h4 className="section-header">Available services</h4>
         {content}
       </div>

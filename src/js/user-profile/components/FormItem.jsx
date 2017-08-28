@@ -13,8 +13,8 @@ class FormItem extends React.Component {
     const lastSavedDate = moment.unix(lastSavedTime);
     const expirationDate = moment.unix(expirationTime);
     return (
-      <div className="card information">
-        <div className="row small-collapse saved-form-information">
+        <div className="card information">
+      <div className="row small-collapse saved-form-information">
           <div className="small-12 large-8 columns">
             <h5>Application for {formTitles[formId]}</h5>
             {!!lastSavedDate && !!expirationDate && <div>
@@ -27,18 +27,18 @@ class FormItem extends React.Component {
           </div>
         </div>
         <div className="remove-saved-application-container">
-          <a className="remove-saved-application-link" onClick={() => {this.props.handleClick(formId);}}>
+          <a className="remove-saved-application-link" onClick={() => {this.props.removeForm(formId);}}>
             <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
           </a>
         </div>
-      </div>
+    </div>
     );
   }
 }
 
 FormItem.propTypes = {
   savedFormData: PropTypes.object,
-  handleClick: PropTypes.func.isRequired
+  removeForm: PropTypes.func.isRequired
 };
 
 export default FormItem;
