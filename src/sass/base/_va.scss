@@ -196,9 +196,11 @@ hr {
   clear: both;
   margin: 0;
   padding: 0;
+  min-height: 147.19px;
 
   @include media($medium-screen) {
     position: relative;
+    min-height: 168.5px;
   }
 
 .login-container {
