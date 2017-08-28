@@ -34,6 +34,7 @@ const entryFiles = {
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   style: './src/sass/style.scss'
 };
+const NUM_BUNDLES = Object.keys(entryFiles).length;
 
 const configGenerator = (options) => {
   var filesToBuild = entryFiles; // eslint-disable-line no-var
@@ -49,7 +50,8 @@ const configGenerator = (options) => {
     'react-router',
     'redux',
     'redux-thunk',
-    'raven-js'
+    'raven-js',
+    'moment'
   ];
   const baseConfig = {
     entry: filesToBuild,
@@ -193,9 +195,9 @@ const configGenerator = (options) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-        minChunks: Infinity
+        names: ['commons', 'vendor'],
+        filename: (options.buildtype === 'development') ? '[name].js' : `[name].[chunkhash]-${timestamp}.js`,
+        minChunks: NUM_BUNDLES - 1
       }),
     ],
   };
