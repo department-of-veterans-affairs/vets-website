@@ -331,13 +331,13 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
     });
   };
 }
-
 export function removeInProgressForm(formId, migrations) {
+  
   return (dispatch, getState) => {
     const userToken = sessionStorage.userToken;
     let trackingPrefix;
-    const startOver = !!migrations;
     const removeOnly = migrations === null;
+    const startOver = !removeOnly;
     if (startOver) {
     // Update UI while we’re waiting for the API
       dispatch(setStartOver());
@@ -381,14 +381,11 @@ export function removeInProgressForm(formId, migrations) {
       }
 
       if (removeOnly) {
-        // If there’s some error when deleting, there’s not much we can
-        // do aside from not stop the user from continuing on
         if (!res || res.status !== 401) {
           window.dataLayer.push({
             event: `${formId}sip-list-item-remove-only`
           });
         }
-        // after deleting, go fetch their updated user data
         getUserData(dispatch);
       }
 

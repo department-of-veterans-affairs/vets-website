@@ -442,32 +442,6 @@ describe('Schemaform save / load actions:', () => {
         expect(dispatch.lastCall.args[0]).to.be.a('function');
       });
     });
-    it('removes a form and fetches user data', () => {
-      const thunk = removeInProgressForm('1010ez', null);
-      const dispatch = sinon.spy();
-      global.fetch.reset();
-      global.fetch.onCall(0).returns(Promise.resolve({
-        ok: true
-      }));
-
-      return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a('function');
-      });
-    });
-    it('handles remove error and fetches user data', () => {
-      const thunk = removeInProgressForm('1010ez', null);
-      const dispatch = sinon.spy();
-      global.fetch.returns(Promise.resolve({
-        ok: false,
-        status: 400
-      }));
-
-      return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a('function');
-      });
-    });
     it('sets no-auth status if session expires', () => {
       const thunk = removeInProgressForm('1010ez', {});
       const dispatch = sinon.spy();

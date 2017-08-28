@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
@@ -12,11 +13,22 @@ export function handleVerify(verifyUrl) {
 }
 
 export function getUserData(dispatch) {
+  
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',
     headers: new Headers({
       Authorization: `Token token=${sessionStorage.userToken}`
     })
+  }).catch(res => {
+    if (res instanceof Error) {
+      Raven.captureException(res);
+      Raven.captureMessage('vets_user_data_error_get');
+      return Promise.resolve();
+    } else if (!res.ok) {
+      Raven.captureMessage(`vets_user_data_error_get: ${res.statusText}`);
+    }
+
+    return Promise.resolve(res);
   }).then(response => {
     return response.json();
   }).then(json => {
