@@ -12,9 +12,16 @@ class LetterList extends React.Component {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
-
+      let bslHelpInstructions;
       if (letter.letterType === 'benefit_summary') {
         content = (<VeteranBenefitSummaryLetter/>);
+        bslHelpInstructions = (
+          <p>
+            If your service period or disability status information is incorrect, please send us
+            a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+            Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+          </p>
+        );
       } else {
         content = letterContent[letter.letterType] || '';
       }
@@ -29,6 +36,7 @@ class LetterList extends React.Component {
             letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
             key={`download-link-${index}`}/>
+          <div>{bslHelpInstructions}</div>
         </CollapsiblePanel>
       );
     });
@@ -38,11 +46,10 @@ class LetterList extends React.Component {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Letters may be unavailable</h2>
+            <h2 className="usa-alert-heading">Some letters may not be available</h2>
             <p className="usa-alert-text">
-              Our system is temporarily down. If you believe you're missing
-              a letter or document from this list, please try again later,
-              or call:
+              One of our systems appears to be down. If you believe you are missing a
+              letter or document from the list above, please try again later.
             </p>
             <ul>
               <li><a href="tel:888-888-8888">888-888-8888</a> for health-related documents</li>
