@@ -1,14 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
-
 import FormTitle from '../../common/schemaform/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
+  constructor() {
+    super();
+    this.navigateToPrint = this.navigateToPrint.bind(this);
+  }
+
+  navigateToPrint() {
+    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  }
+
   render() {
     const { enrollmentData } = this.props;
     let introText;
@@ -28,9 +35,9 @@ class StatusPage extends React.Component {
 
       printButton = (
         <div className="section">
-          <Link to="/print" target="_blank" className="usa-button-primary" id="print-button">
+          <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
             Print Statement of Benefits
-          </Link>
+          </button>
         </div>
       );
     }
