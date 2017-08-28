@@ -6,7 +6,7 @@ display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
 order: 4
-lastupdate: 2017-06-28
+lastupdate: 2017-08-28
 ---
 
 <div class="va-introtext">
