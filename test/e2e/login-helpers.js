@@ -153,10 +153,6 @@ function logIn(token, client, url, level) {
 
   E2eHelpers.overrideSmoothScrolling(client);
 
-  client.execute(() => {
-    document.querySelector('.usa-button-primary').click();
-  });
-
   return client;
 }
 
