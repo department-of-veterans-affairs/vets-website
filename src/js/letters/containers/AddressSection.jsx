@@ -56,7 +56,7 @@ export class AddressSection extends React.Component {
             <h5 className="letters-address">{(destination.fullName || '').toLowerCase()}</h5>
             {addressFields}
           </div>
-          <p>A correct address is not required to download, but you can update it if you want to.</p>
+          <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
         </div>
       );
     }

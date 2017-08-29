@@ -2,8 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableSelect from './ErrorableSelect';
+import ErrorableTextInput from './ErrorableTextInput';
 import { isNotBlank, isBlankAddress, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
 
@@ -84,13 +84,13 @@ class Address extends React.Component {
         name="state"
         autocomplete="address-level1"
         options={stateList}
-        value={{ value: this.props.value.state }}
+        value={this.props.value.state}
         required={this.props.required}
         onValueChange={(update) => {this.handleChange('state', update);}}/>)
       : (<ErrorableTextInput label="State/province"
         name="province"
         autocomplete="address-level1"
-        field={{ value: this.props.value.state }}
+        value={this.props.value.state}
         required={false}
         onValueChange={(update) => {this.handleChange('state', update);}}/>);
 
@@ -101,7 +101,7 @@ class Address extends React.Component {
           name="country"
           autocomplete="country"
           options={countries}
-          value={{ value: this.props.value.country === 'US' ? 'USA' : this.props.value.country }}
+          value={this.props.value.country === 'US' ? 'USA' : this.props.value.country }
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.addressLine1) ? undefined : 'Please enter a street address'}
@@ -109,7 +109,7 @@ class Address extends React.Component {
           name="address"
           autocomplete="street-address"
           charMax={30}
-          field={{ value: this.props.value.addressLine1 }}
+          value={this.props.value.addressLine1}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('addressLine1', update);}}/>
         <ErrorableTextInput
@@ -117,21 +117,21 @@ class Address extends React.Component {
           name="address"
           autocomplete="street-address"
           charMax={30}
-          field={{ value: this.props.value.addressLine2 }}
+          value={this.props.value.addressLine2}
           onValueChange={(update) => {this.handleChange('addressLine2', update);}}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          field={{ value: this.props.value.addressLine3 }}
+          value={this.props.value.addressLine3}
           onValueChange={(update) => {this.handleChange('addressLine3', update);}}/>
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.city) ? undefined : 'Please enter a city'}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
           charMax={30}
-          field={{ value: this.props.value.city }}
+          value={this.props.value.city}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('city', update);}}/>
         {stateProvince}
@@ -140,7 +140,7 @@ class Address extends React.Component {
           label={this.props.value.country === 'USA' ? 'Zip code' : 'Postal code'}
           name="postalCode"
           autocomplete="postal-code"
-          field={{ value: this.props.value.zipCode }}
+          value={this.props.value.zipCode}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('zipCode', update);}}/>
       </div>
