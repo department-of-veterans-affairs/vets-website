@@ -1,6 +1,6 @@
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField, profileLoadingFinished } from '../../user-profile/actions';
+import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
   window.dataLayer.push({ event: 'verify-link-clicked' });
@@ -27,18 +27,22 @@ export function getUserData(dispatch) {
       if (userData.first_name) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
-      dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
-      dispatch(updateProfileField('prefillsAvailable', json.data.attributes.prefills_available));
-      dispatch(updateProfileField('accountType', userData.loa.current));
-      dispatch(updateProfileField('email', userData.email));
-      dispatch(updateProfileField('userFullName.first', userData.first_name));
-      dispatch(updateProfileField('userFullName.middle', userData.middle_name));
-      dispatch(updateProfileField('userFullName.last', userData.last_name));
-      dispatch(updateProfileField('gender', userData.gender));
-      dispatch(updateProfileField('dob', userData.birth_date));
-      dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
-      dispatch(updateProfileField('services', json.data.attributes.services));
-      dispatch(updateProfileField('healthTermsCurrent', json.data.attributes.health_terms_current));
+      dispatch(updateProfileFields({
+        savedForms: json.data.attributes.in_progress_forms,
+        prefillsAvailable: json.data.attributes.prefills_available,
+        accountType: userData.loa.current,
+        email: userData.email,
+        userFullName: {
+          first: userData.first_name,
+          middle: userData.middle_name,
+          last: userData.last_name,
+        },
+        gender: userData.gender,
+        dob: userData.birth_date,
+        status: json.data.attributes.va_profile.status,
+        services: json.data.attributes.services,
+        healthTermsCurrent: json.data.attributes.health_terms_current,
+      }));
       dispatch(updateLoggedInStatus(true));
     } else {
       dispatch(profileLoadingFinished());

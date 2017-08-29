@@ -23,10 +23,10 @@ class SearchMenu extends React.Component {
   makeForm() {
     return (
       <form
-          acceptCharset="UTF-8"
-          action="https://search.vets.gov/search"
-          id="search"
-          method="get">
+        acceptCharset="UTF-8"
+        action="https://search.vets.gov/search"
+        id="search"
+        method="get">
         <div className="csp-inline-patch-header">
           <input name="utf8" type="hidden" value="&#x2713;"/>
         </div>
@@ -54,13 +54,13 @@ class SearchMenu extends React.Component {
 
     return (
       <DropDown
-          buttonText="Search"
-          clickHandler={this.props.clickHandler}
-          cssClass={buttonClasses}
-          contents={this.makeForm()}
-          id="searchmenu"
-          icon={icon}
-          isOpen={this.props.isOpen}/>
+        buttonText="Search"
+        clickHandler={this.props.clickHandler}
+        cssClass={buttonClasses}
+        contents={this.makeForm()}
+        id="searchmenu"
+        icon={icon}
+        isOpen={this.props.isOpen}/>
     );
   }
 }

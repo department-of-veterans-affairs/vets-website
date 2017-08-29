@@ -19,7 +19,7 @@ describe('<AcceptTermsPrompt>', () => {
   it('should be an empty div if there is no content', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt
-          terms={{}}/>
+        terms={{}}/>
     );
     expect(tree.toString()).to.equal('<div />');
   });
@@ -54,14 +54,14 @@ describe('<AcceptTermsPrompt>', () => {
     });
 
     const submitButton = findDOMNode(
-      ReactTestUtils.findRenderedDOMComponentWithTag(
+      ReactTestUtils.findRenderedDOMComponentWithClass(
         acceptTermsPrompt,
-        'button',
+        'submit-button',
       )
     );
 
     expect(submitButton).to.be.ok;
     expect(submitButton.disabled).to.be.false;
-    expect(submitButton.className).to.eq('usa-button');
+    expect(submitButton.className).to.eq('usa-button submit-button');
   });
 });

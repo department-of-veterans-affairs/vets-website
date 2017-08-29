@@ -32,10 +32,10 @@ class PrescriptionCard extends React.Component {
     if (trackable) {
       trackMessage = (
         <TrackPackageLink
-            key={`rx-${id}-track`}
-            className="usa-button"
-            text="Track package"
-            url={`/${id}/track`}/>
+          key={`rx-${id}-track`}
+          className="usa-button"
+          text="Track package"
+          url={`/${id}/track`}/>
       );
     }
 
@@ -50,8 +50,8 @@ class PrescriptionCard extends React.Component {
     if (remaining === 0) {
       msgProvider = (
         <div
-            className="rx-call-provider"
-            key={`rx-${id}-call`}>
+          className="rx-call-provider"
+          key={`rx-${id}-call`}>
           <a href="/health-care/messaging/compose">Message Provider</a>
         </div>
       );
@@ -69,24 +69,24 @@ class PrescriptionCard extends React.Component {
     if (refillable === true) {
       refillStatus = (
         <SubmitRefill
-            key={`rx-${id}-refill`}
-            cssClass="rx-prescription-button"
-            onSubmit={this.handleSubmit}
-            refillId={id}
-            text="Refill Prescription"/>
+          key={`rx-${id}-refill`}
+          cssClass="rx-prescription-button"
+          onSubmit={this.handleSubmit}
+          refillId={id}
+          text="Refill Prescription"/>
       );
     } else {
       const displayStatus = (status === 'active')
-                          ? rxStatuses.refillinprocess
-                          : rxStatuses[status];
+        ? rxStatuses.refillinprocess
+        : rxStatuses[status];
 
       refillStatus = (
         <div
-            key={`rx-${id}-status`}
-            className="rx-prescription-status">
+          key={`rx-${id}-status`}
+          className="rx-prescription-status">
           Refill status: <GlossaryLink
-              term={displayStatus}
-              onClick={this.props.glossaryModalHandler}/>
+            term={displayStatus}
+            onClick={this.props.glossaryModalHandler}/>
         </div>
       );
     }
@@ -145,7 +145,7 @@ class PrescriptionCard extends React.Component {
           <div className="rx-prescription-countaction">
             <div>
               <RefillsRemainingCounter
-                  remaining={attrs.refillRemaining}/>
+                remaining={attrs.refillRemaining}/>
               <div className="rx-prescription-action">
                 {action}
               </div>

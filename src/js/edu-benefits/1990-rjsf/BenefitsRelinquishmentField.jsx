@@ -27,16 +27,16 @@ export default class BenefitsRelinquishmentField extends React.Component {
     const effectiveDateContent = (
       <div>
         <SchemaField
-            name="benefitsRelinquishedDate"
-            required
-            schema={schema.properties.benefitsRelinquishedDate}
-            uiSchema={uiSchema.benefitsRelinquishedDate}
-            errorSchema={errorSchema.benefitsRelinquishedDate}
-            idSchema={idSchema.benefitsRelinquishedDate}
-            formData={formData.benefitsRelinquishedDate}
-            onChange={this.onPropertyChange('benefitsRelinquishedDate')}
-            onBlur={onBlur}
-            registry={registry}/>
+          name="benefitsRelinquishedDate"
+          required
+          schema={schema.properties.benefitsRelinquishedDate}
+          uiSchema={uiSchema.benefitsRelinquishedDate}
+          errorSchema={errorSchema.benefitsRelinquishedDate}
+          idSchema={idSchema.benefitsRelinquishedDate}
+          formData={formData.benefitsRelinquishedDate}
+          onChange={this.onPropertyChange('benefitsRelinquishedDate')}
+          onBlur={onBlur}
+          registry={registry}/>
         <ul>
           <li>Use today’s date unless you aren’t going to use your Post 9/11 GI Bill benefits until later.</li>
           <li>If you pick a future date, you can’t get benefits until then.</li>
@@ -84,25 +84,50 @@ export default class BenefitsRelinquishmentField extends React.Component {
       errorSchema,
       idSchema,
       onBlur,
-      registry
+      onChange,
+      registry,
+      required,
+      name,
+      formContext
     } = this.props;
+
+    const benefitsRelinquished = _.get('benefitsRelinquished', formData);
+    if (formContext.reviewMode &&
+      benefitsRelinquished !== 'unknown' &&
+      typeof benefitsRelinquished !== 'undefined') {
+      const ObjectField = registry.fields.ObjectField;
+      return (
+        <ObjectField
+          name={name}
+          required={required}
+          schema={schema}
+          uiSchema={uiSchema}
+          errorSchema={errorSchema}
+          idSchema={idSchema}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}
+          registry={registry}/>
+      );
+    }
+
     const SchemaField = registry.fields.SchemaField;
     return (
       <SchemaField
-          name="benefitsRelinquished"
-          required
-          schema={schema.properties.benefitsRelinquished}
-          uiSchema={_.merge(uiSchema.benefitsRelinquished, {
-            'ui:options': {
-              nestedContent: this.getNestedContent()
-            }
-          })}
-          errorSchema={errorSchema.benefitsRelinquished}
-          idSchema={idSchema.benefitsRelinquished}
-          formData={formData.benefitsRelinquished}
-          onChange={this.onPropertyChange('benefitsRelinquished')}
-          onBlur={onBlur}
-          registry={registry}/>
+        name="benefitsRelinquished"
+        required
+        schema={schema.properties.benefitsRelinquished}
+        uiSchema={_.merge(uiSchema.benefitsRelinquished, {
+          'ui:options': {
+            nestedContent: this.getNestedContent()
+          }
+        })}
+        errorSchema={errorSchema.benefitsRelinquished}
+        idSchema={idSchema.benefitsRelinquished}
+        formData={formData.benefitsRelinquished}
+        onChange={this.onPropertyChange('benefitsRelinquished')}
+        onBlur={onBlur}
+        registry={registry}/>
     );
   }
 }

@@ -20,10 +20,10 @@ describe('Schemaform <StringField>', () => {
 
     const tree = SkinDeep.shallowRender(
       <StringField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}/>
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        formData={formData}/>
     );
 
     expect(tree.props.value).to.equal(formData);
@@ -50,10 +50,10 @@ describe('Schemaform <StringField>', () => {
 
     const tree = SkinDeep.shallowRender(
       <StringField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}/>
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        formData={formData}/>
     );
 
     expect(tree.props.options.enumOptions).to.have.nested.property('[0].value', 'test');
@@ -74,10 +74,10 @@ describe('Schemaform <StringField>', () => {
 
     const tree = SkinDeep.shallowRender(
       <StringField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}/>
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        formData={formData}/>
     );
 
     expect(tree.props.value).to.equal(formData);

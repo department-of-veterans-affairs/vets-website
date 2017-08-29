@@ -18,26 +18,26 @@ export default class PersonalInformationFields extends React.Component {
         <p><span className="form-required-span">*</span>Indicates a required field</p>
         <div className="input-section">
           <FullName required
-              name={this.props.data.veteranFullName}
-              onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
+            name={this.props.data.veteranFullName}
+            onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
           <SocialSecurityNumber required
-              ssn={this.props.data.veteranSocialSecurityNumber}
-              onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
+            ssn={this.props.data.veteranSocialSecurityNumber}
+            onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
           <ErrorableCurrentOrPastDate required
-              validation={{
-                valid: isValidDateOver17(day.value, month.value, year.value),
-                message: 'You must be at least 17 to apply'
-              }}
-              invalidMessage="Please provide a valid date of birth"
-              name="veteranBirth"
-              date={this.props.data.veteranDateOfBirth}
-              onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
+            validation={{
+              valid: isValidDateOver17(day.value, month.value, year.value),
+              message: 'You must be at least 17 to apply'
+            }}
+            invalidMessage="Please provide a valid date of birth"
+            name="veteranBirth"
+            date={this.props.data.veteranDateOfBirth}
+            onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
           <ErrorableRadioButtons
-              label="Gender"
-              name="gender"
-              options={binaryGenders}
-              value={this.props.data.gender}
-              onValueChange={(update) => {this.props.onStateChange('gender', update);}}/>
+            label="Gender"
+            name="gender"
+            options={binaryGenders}
+            value={this.props.data.gender}
+            onValueChange={(update) => {this.props.onStateChange('gender', update);}}/>
         </div>
       </fieldset>
     );

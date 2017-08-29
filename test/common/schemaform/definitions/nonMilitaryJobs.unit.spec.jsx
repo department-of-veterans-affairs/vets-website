@@ -11,8 +11,8 @@ describe('Schemaform definition nonMilitaryJobs', () => {
   it('should render nonMilitaryJobs', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -25,8 +25,8 @@ describe('Schemaform definition nonMilitaryJobs', () => {
   it('should add another', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {

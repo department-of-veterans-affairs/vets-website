@@ -24,6 +24,10 @@ class VerifyPrompt extends React.Component {
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={() => handleVerify(this.props.verifyUrl)}><strong>Get Started</strong></button>
             </p>
+            <h5>Having trouble verifying your identity?</h5>
+            <p>
+              <a href="/faq">Get answers to Frequently Asked Questions (FAQs)</a>
+            </p>
           </div>
         </div>
       </div>

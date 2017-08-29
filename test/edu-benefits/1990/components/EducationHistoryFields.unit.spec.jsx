@@ -13,9 +13,9 @@ const makeTree = (_veteran) => {
 
   return SkinDeep.shallowRender(
     <EducationHistoryFields
-        data={veteran}
-        onStateChange={onStateChange}
-        initializeFields={initializeFields}/>
+      data={veteran}
+      onStateChange={onStateChange}
+      initializeFields={initializeFields}/>
   );
 };
 

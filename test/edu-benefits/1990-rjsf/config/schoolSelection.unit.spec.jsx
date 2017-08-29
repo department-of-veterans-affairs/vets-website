@@ -14,10 +14,10 @@ describe('Edu 1990 schoolSelection', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -31,11 +31,11 @@ describe('Edu 1990 schoolSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
@@ -47,11 +47,11 @@ describe('Edu 1990 schoolSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_educationProgram_educationType', 'college');
