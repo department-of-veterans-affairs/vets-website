@@ -53,11 +53,8 @@ export function handleNonSIPEnabledForm(formNumber) {
   throw new Error(`Could not find form ${formNumber} in list of sipEnabledForms`);
 }
 
-export function handleIncompleteInformation(trackingPrefix) {
+export function handleIncompleteInformation() {
   Raven.captureMessage('vets_sip_list_item_missing_info');
-  window.dataLayer.push({
-    event: `${trackingPrefix}sip-list-item-missing-info`
-  });
   return false;
 }
 
@@ -67,7 +64,7 @@ export function isSIPEnabledForm(savedForm) {
     return handleIncompleteInformation(formNumber);
   }
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    return handleNonSIPEnabledForm(trackingPrefixes[formNumber]);
+    handleNonSIPEnabledForm(trackingPrefixes[formNumber]);
   }
   return true;
 }

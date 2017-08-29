@@ -5,8 +5,7 @@ import FormItem from './FormItem';
 
 class FormList extends React.Component {
   render() {
-    const toggleModal = this.props.toggleModal;
-    const forms = this.props.savedForms;
+    const { toggleModal, savedForms: forms } = this.props;
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Saved applications</h4>

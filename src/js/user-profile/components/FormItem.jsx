@@ -12,11 +12,11 @@ class FormItem extends React.Component {
     const { last_updated: lastSavedTime, expires_at: expirationTime } = savedFormData.metadata;
     const lastSavedDate = moment.unix(lastSavedTime);
     const expirationDate = moment.unix(expirationTime);
-    const isExpired = moment(expirationDate).isBefore(moment().startOf('minute'));
+    const isExpired = moment(expirationDate).isBefore();
     const activeView = (
       <div className="card information">
         <div className="row small-collapse saved-form-information">
-          <div className="small-12 large-8 columns">
+          <div className="small-12 large-8 columns saved-form-metadata-container">
             <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
             {!!lastSavedDate && !!expirationDate && <div>
               <span className="saved-form-item-metadata">Last saved on {moment(lastSavedDate).format('MMMM D, YYYY')}</span>
@@ -45,8 +45,7 @@ class FormItem extends React.Component {
         </div>
       </div>
     );
-    const view = (isExpired ? expiredView : activeView);
-    return view;
+    return isExpired ? expiredView : activeView;
   }
 }
 
