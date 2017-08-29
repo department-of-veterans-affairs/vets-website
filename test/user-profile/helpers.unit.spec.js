@@ -74,11 +74,7 @@ describe('profile helpers:', () => {
   });
   describe('handleIncompleteInformation', () => {
     it('should push error into window if a form is missing title or link information', () => {
-      const oldWindow = global.window;
-      global.window = { dataLayer: [] };
-      handleIncompleteInformation('missingInfoForm');
-      expect(global.window.dataLayer[0]).to.deep.equal({ event: 'missingInfoFormsip-list-item-missing-info' });
-      global.window = oldWindow;
+      expect(handleIncompleteInformation('missingInfoForm')).to.be.false;
     });
   });
   describe('handleNonSIPEnabledForm', () => {
