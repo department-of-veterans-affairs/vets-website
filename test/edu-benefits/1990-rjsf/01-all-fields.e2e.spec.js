@@ -4,7 +4,7 @@ const EduHelpers = require('../../e2e/edu-helpers');
 const Edu1990Helpers = require('../../e2e/edu-1990-rjsf-helpers');
 const testData = require('./schema/maximal-test.json');
 
-module.exports = E2eHelpers.createE2eTest(
+const test = E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock('1990');
 
@@ -153,3 +153,7 @@ module.exports = E2eHelpers.createE2eTest(
       .end();
   }
 );
+
+if (process.env.BUILDTYPE !== 'production') {
+  module.exports = test;
+}
