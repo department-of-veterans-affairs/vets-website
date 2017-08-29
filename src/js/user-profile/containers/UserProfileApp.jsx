@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeSavedForm } from '../actions/index';
 
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import Modal from '../../common/components/Modal';
+
+import { removeSavedForm } from '../actions/index';
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
@@ -10,9 +13,18 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { isSIPEnabledForm } from '../helpers';
 
 class UserProfileApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
+  }
 
- removeForm = (formId) => {
-   this.props.removeSavedForm(formId);
+ removeForm = () => {
+   this.toggleModal();
+   this.props.removeSavedForm(this.state.formId);
+ }
+
+ toggleModal = (formId) => {
+   this.setState({ formId, modalOpen: !this.state.modalOpen });
  }
 
  render() {
@@ -27,12 +39,28 @@ class UserProfileApp extends React.Component {
          <div>
            {hasVerifiedSavedForms && <FormList
              userProfile={this.props.profile}
-             removeForm={this.removeForm}
+             toggleModal={this.toggleModal}
              savedForms={verifiedSavedForms}/>}
            <AuthApplicationSection
              userProfile={this.props.profile}
              verifyUrl={this.props.verifyUrl}/>
            <UserDataSection/>
+           <Modal
+             cssClass="va-modal-large"
+             id="start-over-modal"
+             onClose={this.toggleModal}
+             visible={this.state.modalOpen}>
+             <h4>Are you sure?</h4>
+             <p>If you delete this application, the information you entered will be lost.</p>
+             <ProgressButton
+               onButtonClick={this.removeForm}
+               buttonText="Yes, delete it"
+               buttonClass="usa-button-primary"/>
+             <ProgressButton
+               onButtonClick={this.toggleModal}
+               buttonText="No, keep it"
+               buttonClass="usa-button-outline"/>
+           </Modal>
          </div>
        </div>
      </div>

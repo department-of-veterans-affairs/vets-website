@@ -58,6 +58,17 @@
   
   .saved-form-container {
     margin-bottom: 16px;
+    float: right;
+    @include media($large-screen) {
+      float: left;
+    }
+  }
+
+  .remove-saved-application-link {
+    float: right;
+    @include media($large-screen) {
+      float: left;
+    }
   }
 
   .remove-saved-application-label {
@@ -65,25 +76,32 @@
     margin-left: 5px;
   }
 
-  .remove-saved-application-link {
-    display: float-right;
-    @include media($large-screen) {
-      display: float-left;
-    }
-  }
-
   .resume-saved-application {
     margin-top: 0
   }
 
   .saved-form-information {
-    display: inline-block;
-    @include media($large-screen) {
-      display: inline;
+    margin: 0;
+    
+    div {
+      margin: 0;
+    }
+    
+    span.saved-form-item-metadata {
+      display: inline-block;
+      @include media($large-screen) {
+        display: inline;
+      }
     }
   }
 
   .saved-form-item-expires {
     color: $color-secondary-dark
+  }
+  .va-expired-item-close {
+    float: right;
+    top: initial;
+    right: initial;
+    position: relative;
   }
 }

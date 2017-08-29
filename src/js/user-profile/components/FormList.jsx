@@ -5,12 +5,12 @@ import FormItem from './FormItem';
 
 class FormList extends React.Component {
   render() {
-    const removeForm = this.props.removeForm;
+    const toggleModal = this.props.toggleModal;
     const forms = this.props.savedForms;
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Saved applications</h4>
-        {forms.map((form) => <FormItem key={form.form} savedFormData={form} removeForm={removeForm}/>)}
+        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={toggleModal}/>)}
       </div>
     );
   }
@@ -18,7 +18,7 @@ class FormList extends React.Component {
 
 FormList.propTypes = {
   savedForms: PropTypes.array,
-  removeForm: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired
 };
 
 export default FormList;
