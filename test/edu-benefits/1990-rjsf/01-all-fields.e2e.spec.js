@@ -73,6 +73,7 @@ const test = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
+
     // contributions history
     client
       .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
