@@ -232,15 +232,23 @@ function completeSchoolSelection(client, data) {
     .fill('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
     .fill('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
     .fill('textarea[id="root_educationObjective"]', data.educationObjective);
+
+  if (data.educationStartDate) {
+    client.fillDate('root_educationStartDate', data.educationStartDate);
+  }
 }
 
 function completeEmploymentHistory(client, data) {
-  const nonMilitaryJobs = data.nonMilitaryJobs[0];
+  const nonMilitaryJob = data.nonMilitaryJobs[0];
   client
     .click('input[name="root_view:hasNonMilitaryJobsYes"]')
-    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJobs.name)
-    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJobs.months)
-    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJobs.licenseOrRating);
+    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJob.name)
+    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJob.months)
+    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJob.licenseOrRating);
+
+  if (nonMilitaryJob.postMilitaryJob) {
+    client.selectYesNo('root_nonMilitaryJobs_0_postMilitaryJob', nonMilitaryJob.postMilitaryJob);
+  }
 }
 
 
