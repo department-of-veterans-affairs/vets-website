@@ -24,7 +24,7 @@ class FormItem extends React.Component {
             </div>}
           </div>
           <div className="small-12 large-4 columns">
-            <a className="usa-button-primary resume-saved-application float-right" href={formLinks[formId]}>Resume application</a>
+            <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Resume application</a>
           </div>
         </div>
         <div className="remove-saved-application-container">
