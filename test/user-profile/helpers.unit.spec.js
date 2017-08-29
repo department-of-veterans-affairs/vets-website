@@ -18,7 +18,6 @@ import fullSchema5490 from '../../src/js/edu-benefits/5490/config/form';
 import fullSchema5495 from '../../src/js/edu-benefits/5495/config/form';
 import fullSchema527EZ from '../../src/js/pensions/config/form';
 import fullSchema530 from '../../src/js/burials/config/form';
-import fullSchema10007 from '../../src/js/pre-need/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
