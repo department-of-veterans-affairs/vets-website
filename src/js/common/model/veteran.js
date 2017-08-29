@@ -2,8 +2,7 @@
 // Veteran resource prototype objects. In common so server unittests can access.
 
 const _ = require('lodash');
-const fields = require('./fields');
-const makeField = fields.makeField;
+const makeField = require('./fields').makeField;
 
 // TODO: Remove providers and children if checkbox within section is unchecked
 const blankVeteran = {

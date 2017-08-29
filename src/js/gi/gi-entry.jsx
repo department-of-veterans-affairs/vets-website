@@ -1,4 +1,5 @@
 require('../common');  // common javascript.
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, useRouterHistory } from 'react-router';
@@ -12,6 +13,7 @@ import { updateRoute } from './actions';
 import createLoginWidget from '../login/login-entry';
 
 require('../../sass/gi/gi.scss');
+
 createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
