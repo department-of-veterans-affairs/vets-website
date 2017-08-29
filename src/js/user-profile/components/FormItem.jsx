@@ -20,7 +20,7 @@ class FormItem extends React.Component {
             <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
             {!!lastSaved && !!expirationDate && <div>
               <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
-              <span className="saved-form-item-metadata saved-form-item-expires">Expires in {dateDiffDesc(expirationDate)}.</span>
+              <span className="saved-form-item-metadata saved-form-item-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}.</span>
             </div>}
           </div>
           <div className="small-12 large-4 columns">
@@ -40,7 +40,7 @@ class FormItem extends React.Component {
           <i className="fa fa-close" aria-label="Close icon"></i>
         </button>
         <div className="usa-alert-body">
-          <h5>Your saved application has expired</h5>
+          <h5>Your saved application has expired.</h5>
           <p>The application you started for {formTitles[formId]} has expired. If you still want to apply, please <a href={formLinks[formId]}>start a new application</a>.</p>
         </div>
       </div>
