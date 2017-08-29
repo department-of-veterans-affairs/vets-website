@@ -215,7 +215,9 @@ const formConfig = {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {
-            isSpanishHispanicLatino: false
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false
+            }
           },
           uiSchema: {
             gender: {
