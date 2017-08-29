@@ -129,14 +129,37 @@ function completeServicePeriods(client, data, serviceName = 'view:newService') {
     client
       .click(`input[name="root_${serviceName}Yes"]`);
   }
+
   client
     .fill('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
     .fillDate('root_toursOfDuty_0_dateRange_from', data.toursOfDuty[0].dateRange.from)
-    .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to)
+    .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to);
+
+  if (data.toursOfDuty[0].serviceStatus) {
+    client.fill('input[name="root_toursOfDuty_0_serviceStatus"]', data.toursOfDuty[0].serviceStatus);
+  }
+
+  if (data.toursOfDuty[0].applyPeriodToSelected === false) {
+    client
+      .fillCheckbox('input[name="root_toursOfDuty_0_applyPeriodToSelected"]')
+      .fill('textarea[id="root_toursOfDuty_0_benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
+  }
+
+  client
     .click('button.va-growable-add-btn')
     .fill('input[name="root_toursOfDuty_1_serviceBranch"]', data.toursOfDuty[1].serviceBranch)
     .fillDate('root_toursOfDuty_1_dateRange_from', data.toursOfDuty[1].dateRange.from)
     .fillDate('root_toursOfDuty_1_dateRange_to', data.toursOfDuty[1].dateRange.to);
+
+  if (data.toursOfDuty[1].serviceStatus) {
+    client.fill('input[name="root_toursOfDuty_1_serviceStatus"]', data.toursOfDuty[1].serviceStatus);
+  }
+
+  if (data.toursOfDuty[1].applyPeriodToSelected === false) {
+    client
+      .fillCheckbox('input[name="root_toursOfDuty_1_applyPeriodToSelected"]')
+      .fill('textarea[id="root_toursOfDuty_1_benefitsToApplyTo"]', data.toursOfDuty[1].benefitsToApplyTo);
+  }
 }
 
 function completeVeteranAddress(client, data) {
@@ -209,15 +232,23 @@ function completeSchoolSelection(client, data) {
     .fill('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
     .fill('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
     .fill('textarea[id="root_educationObjective"]', data.educationObjective);
+
+  if (data.educationStartDate) {
+    client.fillDate('root_educationStartDate', data.educationStartDate);
+  }
 }
 
 function completeEmploymentHistory(client, data) {
-  const nonMilitaryJobs = data.nonMilitaryJobs[0];
+  const nonMilitaryJob = data.nonMilitaryJobs[0];
   client
     .click('input[name="root_view:hasNonMilitaryJobsYes"]')
-    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJobs.name)
-    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJobs.months)
-    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJobs.licenseOrRating);
+    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJob.name)
+    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJob.months)
+    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJob.licenseOrRating);
+
+  if (nonMilitaryJob.postMilitaryJob) {
+    client.selectYesNo('root_nonMilitaryJobs_0_postMilitaryJob', nonMilitaryJob.postMilitaryJob);
+  }
 }
 
 
