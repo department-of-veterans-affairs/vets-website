@@ -3,10 +3,12 @@ import chaiAsPromised from 'chai-as-promised';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
+const originalFetch = global.fetch;
 
 function wrapWithContext(context, contextTypes, children) {
   class WrapperWithContext extends React.Component {
@@ -61,5 +63,12 @@ function fillDate(formDOM, partialId, dateString) {
   });
 }
 
+export function mockFetch(returnVal) {
+  global.fetch = sinon.stub().returns(returnVal);
+}
+
+export function resetFetch() {
+  global.fetch = originalFetch();
+}
 
 export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };
