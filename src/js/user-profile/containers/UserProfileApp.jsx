@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeInProgressForm } from '../../common/schemaform/save-load-actions';
+import { removeSavedForm } from '../actions/index';
 
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
@@ -12,7 +12,7 @@ import { isSIPEnabledForm } from '../helpers';
 class UserProfileApp extends React.Component {
 
  removeForm = (formId) => {
-   this.props.removeInProgressForm(formId, null);
+   this.props.removeSavedForm(formId);
  }
 
  render() {
@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeInProgressForm
+  removeSavedForm
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);

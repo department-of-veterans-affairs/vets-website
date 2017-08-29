@@ -7,7 +7,7 @@ function isJson(response) {
   return contentType && contentType.indexOf('application/json') !== -1;
 }
 
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function apiRequest(resource, optionalSettings = {}, success, error, complete = false) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/'
     ? [baseUrl, resource].join('')
@@ -21,8 +21,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     }
   };
 
-  const settings = merge(defaultSettings, optionalSettings);
-
+  // if settings are complete, no need to merge with default
+  const settings = (complete ? optionalSettings :  merge(defaultSettings, optionalSettings));
   return fetch(url, settings)
     .then((response) => {
       const data = isJson(response)
