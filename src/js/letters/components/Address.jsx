@@ -30,7 +30,7 @@ class Address extends React.Component {
     let address = set(path, update, this.props.value);
     // if country is changing we should clear the state
     if (path === 'country') {
-      address = set('state.value', '', address);
+      address = set('state', '', address);
     }
 
     this.props.onUserInput(address);
@@ -105,13 +105,27 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.addressLine1) ? undefined : 'Please enter a street address'}
-          label="Street"
+          label="Street address"
           name="address"
           autocomplete="street-address"
           charMax={30}
           field={{ value: this.props.value.addressLine1 }}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('addressLine1', update);}}/>
+        <ErrorableTextInput
+          label="Street address (optional)"
+          name="address"
+          autocomplete="street-address"
+          charMax={30}
+          field={{ value: this.props.value.addressLine2 }}
+          onValueChange={(update) => {this.handleChange('addressLine2', update);}}/>
+        <ErrorableTextInput
+          label="Street address (optional)"
+          name="address"
+          autocomplete="street-address"
+          charMax={30}
+          field={{ value: this.props.value.addressLine3 }}
+          onValueChange={(update) => {this.handleChange('addressLine3', update);}}/>
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.city) ? undefined : 'Please enter a city'}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"

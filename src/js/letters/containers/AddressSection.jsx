@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { invalidAddressProperty } from '../utils/helpers.jsx';
+import { updateAddress } from '../actions/letters';
 import Address from '../components/Address';
 
 export class AddressSection extends React.Component {
@@ -23,7 +24,7 @@ export class AddressSection extends React.Component {
     if (this.state.editAddress) {
       addressFields = (
         <div>
-          <Address value={destination} onUserInput={{}} required/>
+          <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
           <button className="usa-button-primary" onClick={() => this.setState({ editAddress: false })}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ editAddress: false })}>Cancel</button>
         </div>
@@ -55,7 +56,7 @@ export class AddressSection extends React.Component {
             <h5 className="letters-address">{(destination.fullName || '').toLowerCase()}</h5>
             {addressFields}
           </div>
-          <div>A correct address is not required to download, but you can update it if you want to./</div>
+          <p>A correct address is not required to download, but you can update it if you want to.</p>
         </div>
       );
     }
@@ -75,4 +76,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(AddressSection);
+const mapDispatchToProps = {
+  updateAddress
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
