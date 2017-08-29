@@ -18,6 +18,24 @@ import fullSchema5490 from '../../src/js/edu-benefits/5490/config/form';
 import fullSchema5495 from '../../src/js/edu-benefits/5495/config/form';
 import fullSchema527EZ from '../../src/js/pensions/config/form';
 import fullSchema530 from '../../src/js/burials/config/form';
+import fullSchema10007 from '../../src/js/pre-need/config/form';
+
+import schemas from 'vets-json-schema/dist/schemas';
+
+// Maps schema id to config id
+const schemaToConfigIds = {
+  '10-10EZ': '1010ez',
+  '21P-527EZ': '21P-527EZ',
+  '21P-530': '21P-530',
+  '22-1990': '1990',
+  '22-1990E': '1990e',
+  '22-1990N': '1990n',
+  '22-1995': '1995',
+  '22-5490': '5490',
+  '22-5495': '5495',
+  '40-10007': '10007',
+  definitions: 'N/A'
+};
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
@@ -36,7 +54,7 @@ describe('profile helpers:', () => {
   });
   describe('sipEnabledForms', () => {
     it('should include all and only SIP enabled forms', () => {
-      const sipEnabledSchemas = [
+      const configs = [
         fullSchema1010ez,
         fullSchema1990,
         fullSchema1990e,
@@ -46,11 +64,12 @@ describe('profile helpers:', () => {
         fullSchema5495,
         fullSchema527EZ,
         fullSchema530
-      ].filter(schema => !!schema.savedFormMessages);
-      const sipEnabledFormIds = sipEnabledSchemas.reduce((accumulator, schema) => {
-        accumulator.push(schema.formId);
-        return accumulator;
-      }, []);
+      ];
+      const allFormIds = Object.keys(schemas);
+      const allMappedIds = Object.keys(schemaToConfigIds);
+      const sipEnabledConfigs = configs.filter(config => !config.disableSave);
+      const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
+      expect(_.isEqual(allFormIds, allMappedIds)).to.be.true;
       expect(_.isEqual(sipEnabledForms, new Set(sipEnabledFormIds))).to.be.true;
     });
   });
