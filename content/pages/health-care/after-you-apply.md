@@ -106,7 +106,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329<br>
 </p>
  
-You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/)
+You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/).
 
 <br>
 
