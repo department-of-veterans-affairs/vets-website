@@ -17,6 +17,10 @@
     margin-bottom: 0.5em !important;
   }
 
+  h5 {
+    color: $color-primary;
+  }
+
   p {
     padding: 0;
     margin-top: 0;
@@ -77,7 +81,8 @@
   }
 
   .resume-saved-application {
-    margin-top: 0
+    margin-top: 0;
+    margin-right: 0;
   }
 
   .saved-form-information {
@@ -85,11 +90,12 @@
     
     div {
       margin: 0;
+      margin-bottom: 8px;
     }
     
     span.saved-form-item-metadata {
-      display: inline-block;
-      @include media($large-screen) {
+      display: block;
+      @include media($medium-large-screen) {
         display: inline;
       }
     }

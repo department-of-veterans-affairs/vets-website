@@ -17,10 +17,10 @@ class FormItem extends React.Component {
       <div className="card information">
         <div className="row small-collapse saved-form-information">
           <div className="small-12 large-8 columns">
-            <h5>Application for {formTitles[formId]}</h5>
+            <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
             {!!lastSavedDate && !!expirationDate && <div>
-              <span className="saved-form-item-metadata">Last saved on {moment(lastSavedDate).format('MMMM D, YYYY')}.&nbsp;&nbsp;</span>
-              <span className="saved-form-item-metadata saved-form-item-expires">Expires in {dateDiffDesc(expirationDate)}.</span>
+              <span className="saved-form-item-metadata">Last saved on {moment(lastSavedDate).format('MMMM D, YYYY')}&nbsp;&nbsp;</span>
+              <span className="saved-form-item-metadata saved-form-item-expires">Expires in {dateDiffDesc(expirationDate)}</span>
             </div>}
           </div>
           <div className="small-12 large-4 columns">
