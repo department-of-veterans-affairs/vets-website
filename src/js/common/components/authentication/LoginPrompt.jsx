@@ -46,8 +46,8 @@ class LoginPrompt extends React.Component {
               <li>Download VA letters and documents related to your benefits and eligibility</li>
             </ul>
             <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Log in</strong></button>
-              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Sign up</strong></button>
+              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Log In</strong></button>
+              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Sign Up</strong></button>
             </p>
             <p>Even without an account, you can apply for VA benefits.</p>
             <h5>Having trouble signing in?</h5>
