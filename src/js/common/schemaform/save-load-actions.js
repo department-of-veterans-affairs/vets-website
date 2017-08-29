@@ -331,6 +331,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
     });
   };
 }
+
 export function removeInProgressForm(formId, migrations) {
 
   return (dispatch, getState) => {

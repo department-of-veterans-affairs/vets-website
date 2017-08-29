@@ -1,4 +1,3 @@
-import Raven from 'raven-js';
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';

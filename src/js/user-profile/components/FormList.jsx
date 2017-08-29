@@ -10,7 +10,7 @@ class FormList extends React.Component {
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Saved applications</h4>
-        {forms.map((form) =>  <FormItem key={form.form} savedFormData={form} removeForm={removeForm}/>)}
+        {forms.map((form) => <FormItem key={form.form} savedFormData={form} removeForm={removeForm}/>)}
       </div>
     );
   }

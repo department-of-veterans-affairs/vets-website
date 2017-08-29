@@ -1,7 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import FormList from '../../../src/js/user-profile/components/FormList.jsx';
 
@@ -17,21 +16,6 @@ describe('<FormList>', () => {
       }
     ]
   };
-  let windowOpen;
-  let oldWindow;
-  const setup = () => {
-    oldWindow = global.window;
-    windowOpen = sinon.stub().returns({ focus: f => f });
-    global.window = {
-      open: windowOpen,
-      dataLayer: []
-    };
-  };
-  const takeDown = () => {
-    global.window = oldWindow;
-  };
-  before(setup);
-  after(takeDown);
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<FormList {...props}/>);
     const vdom = tree.getRenderOutput();
