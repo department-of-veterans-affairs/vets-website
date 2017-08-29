@@ -43,7 +43,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
-              <p>After submitting the form, you’ll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -56,7 +56,6 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
