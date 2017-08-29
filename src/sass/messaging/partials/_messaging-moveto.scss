@@ -58,7 +58,7 @@
 
   .msg-btn-newfolder[type="button"] {
     display: block;
-    padding: .5rem;
+    padding: 1rem;
     width: 100%;
   }
 }
@@ -72,7 +72,7 @@
   white-space: nowrap;
 }
 
-// Exception for button in message table. 
+// Exception for button in message table.
 .messaging-message-row {
   .msg-move-to {
     position: static;

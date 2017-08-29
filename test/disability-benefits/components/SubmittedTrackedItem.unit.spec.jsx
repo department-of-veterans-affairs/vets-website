@@ -17,7 +17,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.subTree('.submission-file-type').text()).to.equal(item.displayName);
@@ -43,7 +43,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.everySubTree('.submission-item')).not.to.be.empty;
@@ -72,7 +72,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.everySubTree('.submission-item').length).to.equal(2);
@@ -95,7 +95,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('Reviewed by VA');
@@ -114,7 +114,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer needed');
@@ -133,7 +133,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmittedTrackedItem
-          item={item}/>
+        item={item}/>
     );
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer needed');

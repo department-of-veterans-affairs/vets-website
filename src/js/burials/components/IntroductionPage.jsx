@@ -20,10 +20,10 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530</p>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            resumeOnly
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -41,7 +41,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>A copy of the deceased Veteran’s DD214 or other separation documents</li>
                 <li>A copy of the Veteran’s death certificate</li>
-                <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran's remains)</li>
+                <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran’s remains)</li>
               </ul>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
@@ -66,9 +66,9 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
           Complete the form before submitting to apply for burial benefits with the 21P-530.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

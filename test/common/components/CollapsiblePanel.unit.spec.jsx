@@ -8,7 +8,7 @@ describe('<CollapsiblePanel>', () => {
   it('should render the correct panel header', () => {
     const tree = SkinDeep.shallowRender(
       <CollapsiblePanel
-          panelName={'Test panel'}/>
+        panelName={'Test panel'}/>
     );
 
     expect(tree.subTree('.usa-button-unstyled').text()).to.contain('Test panel');
@@ -17,7 +17,7 @@ describe('<CollapsiblePanel>', () => {
   it('should handle toggling chapter', () => {
     const tree = SkinDeep.shallowRender(
       <CollapsiblePanel
-          panelName={'Test panel'}/>
+        panelName={'Test panel'}/>
     );
 
     expect(tree.everySubTree('.usa-accordion-content')).to.be.empty;

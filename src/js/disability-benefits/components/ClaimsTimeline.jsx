@@ -21,8 +21,8 @@ export default class ClaimsTimeline extends React.Component {
         </ClaimPhase>
         <ClaimPhase phase={3} current={userPhase} activity={activityByPhase} id={id}>
           <p>
-            If we need more information, we'll request it from you, health care providers, governmental agencies, or others. Once we have all the information we need, we'll review it and send your claim to the rating specialist for a decision.
-            {everPhaseBack && ' There may be times when a claim moves forward to "Preparation for notification" and then briefly back to this stage for more processing.'}
+            If we need more information, we’ll request it from you, health care providers, governmental agencies, or others. Once we have all the information we need, we’ll review it and send your claim to the rating specialist for a decision.
+            {everPhaseBack && ' There may be times when a claim moves forward to “Preparation for notification” and then briefly back to this stage for more processing.'}
           </p>
           {currentPhaseBack && phase === LAST_EVIDENCE_GATHERING_PHASE && <PhaseBackWarning/>}
         </ClaimPhase>

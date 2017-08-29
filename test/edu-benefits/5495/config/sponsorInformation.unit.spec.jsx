@@ -12,10 +12,10 @@ describe('Edu 5495 sponsorInformation', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -25,11 +25,11 @@ describe('Edu 5495 sponsorInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -40,16 +40,16 @@ describe('Edu 5495 sponsorInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            relativeSocialSecurityNumber: '1231233333',
-            'view:veteranId': {
-              veteranSocialSecurityNumber: '876554434'
-            }
-          }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          relativeSocialSecurityNumber: '1231233333',
+          'view:veteranId': {
+            veteranSocialSecurityNumber: '876554434'
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

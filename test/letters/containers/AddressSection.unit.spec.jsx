@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
 
-import AddressSection from '../../../src/js/letters/components/AddressSection.jsx';
+import { AddressSection } from '../../../src/js/letters/containers/AddressSection.jsx';
 
 const defaultProps = {
   destination: {

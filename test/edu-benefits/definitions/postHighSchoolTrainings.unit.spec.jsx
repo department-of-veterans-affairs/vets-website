@@ -13,21 +13,21 @@ describe('Edu postHighSchoolTrainings', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
-    expect(fields.length).to.equal(15);
+    expect(fields.length).to.equal(13);
   });
 
   it('should add another', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_0_name'), {

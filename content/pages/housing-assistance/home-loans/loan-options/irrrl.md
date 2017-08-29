@@ -38,9 +38,9 @@ Often called a “streamline” refinance, an IRRRL may help you to:
 
 On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
-You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you'll want to be sure you understand what you're getting into. <br>
+You’ll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. <br>
 [Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/). <br />
-[Download the Bureau's home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+[Download the Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
 
 <br>
 

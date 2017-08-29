@@ -26,7 +26,7 @@ export default class CurrencyWidget extends React.Component {
         this.props.onChange(val);
       } else {
         // Needs to parse as a number
-        const parsed = parseFloat(val.replace(/[^0-9\.]/g, ''));
+        const parsed = parseFloat(val.replace(/[^0-9.]/g, ''));
         if (!isNaN(parsed)) {
           this.props.onChange(parsed);
         } else {
@@ -43,14 +43,14 @@ export default class CurrencyWidget extends React.Component {
 
     return (
       <input type="text"
-          id={id}
-          name={id}
-          disabled={disabled}
-          autoComplete={options.autocomplete || false}
-          className={options.widgetClassNames}
-          value={typeof value === 'undefined' ? '' : value}
-          onBlur={this.onBlur}
-          onChange={this.handleChange}/>
+        id={id}
+        name={id}
+        disabled={disabled}
+        autoComplete={options.autocomplete || false}
+        className={options.widgetClassNames}
+        value={typeof value === 'undefined' ? '' : value}
+        onBlur={this.onBlur}
+        onChange={this.handleChange}/>
     );
   }
 }

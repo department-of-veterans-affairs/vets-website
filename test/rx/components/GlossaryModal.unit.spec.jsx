@@ -37,8 +37,8 @@ describe('<GlossaryModal>', () => {
 
     const glossaryLink = ReactTestUtils.renderIntoDocument(
       <GlossaryModal
-          {...props}
-          onCloseModal={onCloseModal}/>
+        {...props}
+        onCloseModal={onCloseModal}/>
     );
 
     glossaryLink.handleCloseModal({ preventDefault: () => {} });

@@ -19,13 +19,14 @@ import {
 } from '../../utils/labels';
 
 import {
-  validateDate,
+  validateMonthYear,
   validateFutureDateIfExpectedGrad
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -314,7 +315,7 @@ const formConfig = {
                   'properties.veteranFullName',
                   'properties.veteranSocialSecurityNumber',
                   'properties.vaFileNumber'],
-                  previousBenefits),
+                previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
@@ -344,7 +345,7 @@ const formConfig = {
                 'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
-                'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
+                'ui:title': 'If you’re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
               remarriageDate: _.assign(dateUI('Date you got remarried'), {
@@ -467,15 +468,16 @@ const formConfig = {
           uiSchema: {
             highSchool: {
               status: {
-                'ui:title': 'What\'s your current high school status?',
+                'ui:title': 'What’s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels,
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                dateUI(null), {
+                monthYearUI(null), {
                   'ui:options': {
+                    monthYear: true,
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
@@ -489,7 +491,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [
-                    validateDate,
+                    validateMonthYear,
                     validateFutureDateIfExpectedGrad
                   ]
                 },

@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { invalidAddressProperty } from '../utils/helpers.jsx';
 
-class AddressSection extends React.Component {
+export class AddressSection extends React.Component {
   render() {
     const destination = this.props.destination || {};
     const addressLines = [
@@ -23,6 +23,9 @@ class AddressSection extends React.Component {
     } else {
       addressContent = (
         <div className="step-content">
+          <p>
+            Downloaded documents will list your address as:
+          </p>
           <div className="letters-address">{(destination.fullName || '').toLowerCase()}</div>
           <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
           <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
@@ -40,8 +43,11 @@ class AddressSection extends React.Component {
   }
 }
 
-AddressSection.propTypes = {
-  destination: PropTypes.object
-};
+function mapStateToProps(state) {
+  const letterState = state.letters;
+  return {
+    destination: letterState.destination,
+  };
+}
 
-export default AddressSection;
+export default connect(mapStateToProps)(AddressSection);

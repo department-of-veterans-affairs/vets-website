@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField } from '../../user-profile/actions';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -83,7 +82,7 @@ class AuthApp extends React.Component {
       view = (
         <div>
           <h3>We are sorry that we could not successfully log you in.</h3>
-          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
+          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
           <button onClick={window.close}>Close</button>
         </div>
       );
@@ -111,9 +110,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    onUpdateProfile: (field, update) => {
-      dispatch(updateProfileField(field, update));
     }
   };
 };

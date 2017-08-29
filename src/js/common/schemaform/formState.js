@@ -157,8 +157,8 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
 
 /*
  * Steps through data and removes any fields that are marked as hidden
- * This is done so that hidden fields don't cause validation errors that
- * a user can't see.
+ * This is done so that hidden fields don’t cause validation errors that
+ * a user can’t see.
  */
 export function removeHiddenData(schema, data) {
   if (isHiddenField(schema) || typeof data === 'undefined') {
@@ -263,12 +263,12 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
-  // this can happen if you import a field that doesn't exist from a schema
+  // this can happen if you import a field that doesn’t exist from a schema
   if (!schema) {
     throw new Error(`Schema is undefined at ${path}`);
   }
   if (schema.$ref) {
-    // There's a whole spec for JSON pointers, but we don't use anything more complicated
+    // There’s a whole spec for JSON pointers, but we don’t use anything more complicated
     // than this so far
     const refPath = schema.$ref.replace('#/definitions/', '').split('/');
     const definition = get(refPath, definitions);
@@ -330,17 +330,17 @@ export function updateItemsSchema(schema, fieldData = null) {
     }
 
     if (!fieldData) {
-      // If there's no data, the list of schemas should be empty
+      // If there’s no data, the list of schemas should be empty
       newSchema = _.set('items', [], newSchema);
     } else if (fieldData.length > newSchema.items.length) {
-      // Here we're filling in the items array to make it the same
+      // Here we’re filling in the items array to make it the same
       // length as the array of form data. This happens when you add
       // another record on the form, mainly.
       const fillIn = Array(fieldData.length - newSchema.items.length)
         .fill(newSchema.additionalItems);
       newSchema = _.set('items', newSchema.items.concat(fillIn), newSchema);
     } else if (fieldData.length < newSchema.items.length) {
-      // If someone removed a record we're removing the last schema item
+      // If someone removed a record we’re removing the last schema item
       // This may not be the actual removed schema, but the schemas will
       // always be updated in the next step
       newSchema = _.set('items', _.dropRight(1, newSchema.items), newSchema);
@@ -392,7 +392,7 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
   // Update the schema with any general updates based on the new data
   newSchema = updateSchemaFromUiSchema(newSchema, uiSchema, formData);
 
-  // Remove any data that's now hidden in the schema
+  // Remove any data that’s now hidden in the schema
   const newData = removeHiddenData(newSchema, formData);
 
   // We need to do this again because array data might have been removed

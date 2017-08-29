@@ -3,8 +3,8 @@ const INITIAL_STATE = {
   serviceType: null,
   facilityType: null,
   position: {
-    latitude: 38.8976763,
-    longitude: -77.03653,
+    latitude: 40.17887331434698,
+    longitude: -99.27246093750001,
   },
   bounds: [
     -77.53653,
@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   context: 20004,
   inProgress: false,
   currentPage: 1,
-  zoomLevel: 11,
+  zoomLevel: 4,
   searchBoundsInProgress: false,
 };
 

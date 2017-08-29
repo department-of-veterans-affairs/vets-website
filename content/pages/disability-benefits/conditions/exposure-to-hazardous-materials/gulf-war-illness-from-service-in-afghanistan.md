@@ -42,7 +42,7 @@ You must have been discharged under conditions other than dishonorable and have 
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>

@@ -8,9 +8,9 @@ describe('<TabItem>', () => {
   it('should render tab', () => {
     const tree = SkinDeep.shallowRender(
       <TabItem
-          shortcut={1}
-          tabpath="Some path"
-          title="Title"/>
+        shortcut={1}
+        tabpath="Some path"
+        title="Title"/>
     );
 
     expect(tree.subTree('IndexLink').props['aria-controls']).to.equal('tabPanelTitle');
@@ -20,10 +20,10 @@ describe('<TabItem>', () => {
   it('should use id if present', () => {
     const tree = SkinDeep.shallowRender(
       <TabItem
-          shortcut={1}
-          tabpath="Some path"
-          id="TitleHere"
-          title="Title Here"/>
+        shortcut={1}
+        tabpath="Some path"
+        id="TitleHere"
+        title="Title Here"/>
     );
 
     expect(tree.subTree('IndexLink').props['aria-controls']).to.equal('tabPanelTitleHere');

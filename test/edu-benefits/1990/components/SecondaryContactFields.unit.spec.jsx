@@ -8,26 +8,26 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<SecondaryContactFields>', () => {
   it('should not render address for true same address field', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     data.secondaryContact.sameAddress = true;
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <SecondaryContactFields
-          data={data}
-          onStateChange={onStateChange}/>
+        data={data}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(0);
   });
   it('should render school address for false same address field', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <SecondaryContactFields
-          data={data}
-          onStateChange={onStateChange}/>
+        data={data}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(1);

@@ -18,12 +18,12 @@ If your parent or spouse was an active-duty Servicemember who died in the line o
 ### Can I get Fry Scholarship benefits?
 You may be able to get benefits under the Fry Scholarship if you’re the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
-### Who's covered?
+### Who’s covered?
 - Qualified dependents
 - Qualified spouses
 </div>
 
-### What benefits can I get? 
+### What benefits can I get?
 You may be able to get up to 36 months of benefits, including:
 - Money for tuition (full in-state tuition costs at public schools and up to $22,805.34 per year for training at private or out-of-state schools)
 - Money for housing
@@ -32,7 +32,7 @@ You may be able to get up to 36 months of benefits, including:
 
 -----
 
-### Do I qualify for these benefits? 
+### Do I qualify for these benefits?
 
 - Children qualify as of their 18th birthday or after graduating high school, whichever comes first. Children no longer qualify as of their 33rd birthday. A spouse has 15 years from the Servicemember’s death to use the benefit.
 
@@ -55,7 +55,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 ##### Choose a school
 
 - The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- You should contact your school's certifying official to make sure your program is approved for VA benefits.  
+- You should contact your school’s certifying official to make sure your program is approved for VA benefits.  
 
 </li>
 

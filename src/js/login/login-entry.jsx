@@ -16,7 +16,7 @@ export default function createLoginWidget(store) {
       <Provider store={store}>
         <Main/>
       </Provider>
-      ), document.getElementById('login-root'));
+    ), document.getElementById('login-root'));
   }
 
   initReact(init);

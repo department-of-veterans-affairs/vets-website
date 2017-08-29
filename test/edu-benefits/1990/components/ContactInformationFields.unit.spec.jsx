@@ -9,7 +9,7 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 describe('<ContactInformationFields>', () => {
   describe('Phone number requirement', () => {
     it('requires a valid primary phone number when preferred contact is phone', () => {
-      let data = createVeteran();
+      const data = createVeteran();
       data.preferredContactMethod = {
         value: 'phone',
         dirty: true
@@ -18,8 +18,8 @@ describe('<ContactInformationFields>', () => {
       const onStateChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <ContactInformationFields
-            data={data}
-            onStateChange={onStateChange}/>);
+          data={data}
+          onStateChange={onStateChange}/>);
 
       const primaryPhone = tree.everySubTree('Phone')[0];
       expect(primaryPhone.props.required).to.be.true;
@@ -27,7 +27,7 @@ describe('<ContactInformationFields>', () => {
   });
   describe('Email confirmation', () => {
     it('does not include `error` prop when matches Email', () => {
-      let data = createVeteran();
+      const data = createVeteran();
       data.email = {
         value: 'mock@aol.com',
         dirty: true
@@ -40,8 +40,8 @@ describe('<ContactInformationFields>', () => {
       const onStateChange = sinon.spy();
       const tree = SkinDeep.shallowRender(
         <ContactInformationFields
-            data={data}
-            onStateChange={onStateChange}/>);
+          data={data}
+          onStateChange={onStateChange}/>);
 
       const emailInputs = tree.everySubTree('Email');
       expect(emailInputs).to.have.lengthOf(2);

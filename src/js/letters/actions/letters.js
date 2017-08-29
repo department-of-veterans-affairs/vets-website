@@ -46,7 +46,7 @@ export function getLetterList() {
           }
         }
         return Promise.reject(
-          new Error('vets_letters_error_server_get: `${error.status}`')
+          new Error(`vets_letters_error_server_get: ${error.status}`)
         );
       })
       .catch((error) => {
