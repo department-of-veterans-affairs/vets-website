@@ -28,7 +28,7 @@ class FormItem extends React.Component {
           </div>
         </div>
         <div className="remove-saved-application-container">
-          <button className="va-button-link remove-saved-application-link" onClick={() => {this.props.toggleModal(formId);}}>
+          <button className="va-button-link" onClick={() => {this.props.toggleModal(formId);}}>
             <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
           </button>
         </div>

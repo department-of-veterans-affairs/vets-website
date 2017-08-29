@@ -84,13 +84,6 @@
     }
   }
 
-  .remove-saved-application-link {
-    float: right;
-    @include media($large-screen) {
-      float: left;
-    }
-  }
-
   .remove-saved-application-label {
     display: inline;
     margin-left: 5px;

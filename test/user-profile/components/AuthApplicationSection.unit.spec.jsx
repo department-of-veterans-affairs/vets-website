@@ -9,17 +9,7 @@ import AuthApplicationSection from '../../../src/js/user-profile/components/Auth
 
 describe('<AuthApplicationSection>', () => {
   const props = {
-    userProfile: {
-      savedForms: [
-        {
-          form: '1010ez',
-          metadata: {
-            last_updated: '1503688891',  // eslint-disable-line camelcase
-            expires_at: '1503688891'  // eslint-disable-line camelcase
-          }
-        }
-      ]
-    },
+    userProfile: {},
     verifyUrl: 'http://fake-verify-url'
   };
   let windowOpen;
