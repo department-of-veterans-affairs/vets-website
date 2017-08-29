@@ -149,10 +149,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           Please choose what information you want to include in your letter.
         </p>
         {vaBenefitInformation}
-        <p>
-          If your service period or disability status information is incorrect, please send us a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
-        </p>
-
       </div>
     );
   }

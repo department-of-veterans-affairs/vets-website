@@ -29,8 +29,7 @@ const defaultProps = {
     ]
   },
   optionsAvailable: true,
-  requestOptions: {
-  }
+  requestOptions: {}
 };
 
 describe('<VeteranBenefitSummaryLetter>', () => {
@@ -59,7 +58,9 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const updateOption = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
-      <VeteranBenefitSummaryLetter store={store} {...props}/>);
+      <VeteranBenefitSummaryLetter store={store} {...props}/>
+    );
+
     const formDOM = findDOMNode(component);
     const inputs = formDOM.querySelectorAll('input');
     expect(inputs.length).to.equal(3);

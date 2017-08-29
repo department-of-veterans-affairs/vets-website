@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import LetterList from '../../../src/js/letters/components/LetterList.jsx';
+import { LetterList } from '../../../src/js/letters/containers/LetterList.jsx';
 
 const defaultProps = {
   letters: [

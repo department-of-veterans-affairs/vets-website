@@ -6,6 +6,10 @@ import sinon from 'sinon';
 import { FormPage } from '../../../src/js/common/schemaform/FormPage';
 
 describe('Schemaform <FormPage>', () => {
+  const location = {
+    pathname: '/testing/0'
+  };
+
   it('should render', () => {
     const route = {
       pageConfig: {
@@ -32,7 +36,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route}/>
+      <FormPage form={form} route={route} location={location}/>
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
@@ -93,6 +97,7 @@ describe('Schemaform <FormPage>', () => {
           setData={setData}
           form={form}
           onSubmit={onSubmit}
+          location={location}
           route={route}/>
       );
     });
@@ -152,7 +157,9 @@ describe('Schemaform <FormPage>', () => {
     const tree = SkinDeep.shallowRender(
       <FormPage
         router={router}
-        form={form} route={route}/>
+        form={form}
+        route={route}
+        location={location}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -197,7 +204,11 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} params={{ index: 0 }}/>
+      <FormPage
+        form={form}
+        route={route}
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     expect(tree.subTree('SchemaForm').props.schema).to.equal(form.pages.testPage.schema.properties.arrayProp.items[0]);
@@ -247,7 +258,8 @@ describe('Schemaform <FormPage>', () => {
         setData={setData}
         form={form}
         route={route}
-        params={{ index: 0 }}/>
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     tree.getMountedInstance().onChange({ test: 2 });
@@ -309,9 +321,7 @@ describe('Schemaform <FormPage>', () => {
       <FormPage
         form={form}
         route={route}
-        location={{
-          pathname: '/testing/0'
-        }}
+        location={location}
         params={{ index: 0 }}/>
     );
 
@@ -366,9 +376,7 @@ describe('Schemaform <FormPage>', () => {
         router={router}
         form={form}
         route={route}
-        location={{
-          pathname: '/testing/0'
-        }}
+        location={location}
         params={{ index: 0 }}/>
     );
 
