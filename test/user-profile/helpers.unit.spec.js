@@ -33,7 +33,7 @@ const schemaToConfigIds = {
   '22-1995': '1995',
   '22-5490': '5490',
   '22-5495': '5495',
-  '40-10007': '10007',
+  '40-10007': 'N/A', // the config for this form does not contain a formId property
   definitions: 'N/A'
 };
 
