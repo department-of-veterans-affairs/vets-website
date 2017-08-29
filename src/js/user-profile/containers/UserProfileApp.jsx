@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { removeSavedForm } from '../actions/index';
 import UserDataSection from '../components/UserDataSection';
@@ -8,6 +9,15 @@ import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import { isSIPEnabledForm } from '../helpers';
+
+moment.updateLocale('en', {
+  meridiem: (hour) => {
+    if (hour < 12) {
+      return 'a.m.';
+    }
+    return 'p.m.';
+  }
+});
 
 class UserProfileApp extends React.Component {
   render() {

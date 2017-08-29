@@ -9,8 +9,8 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
-    const { last_updated: lastSavedTime, expires_at: expirationTime } = savedFormData.metadata;
-    const lastSavedDate = moment.unix(lastSavedTime);
+    const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
+    const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
     const expirationDate = moment.unix(expirationTime);
     const isExpired = moment(expirationDate).isBefore();
     const activeView = (
@@ -18,13 +18,13 @@ class FormItem extends React.Component {
         <div className="row small-collapse saved-form-information">
           <div className="small-12 large-8 columns saved-form-metadata-container">
             <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
-            {!!lastSavedDate && !!expirationDate && <div>
-              <span className="saved-form-item-metadata">Last saved on {moment(lastSavedDate).format('MMMM D, YYYY')}</span>
-              <span className="saved-form-item-metadata saved-form-item-expires">Expires in {dateDiffDesc(expirationDate)}</span>
+            {!!lastSaved && !!expirationDate && <div>
+              <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
+              <span className="saved-form-item-metadata saved-form-item-expires">Expires in {dateDiffDesc(expirationDate)}.</span>
             </div>}
           </div>
           <div className="small-12 large-4 columns">
-            <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Resume application</a>
+            <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Continue Your Application</a>
           </div>
         </div>
         <div className="remove-saved-application-container">
@@ -41,7 +41,7 @@ class FormItem extends React.Component {
         </button>
         <div className="usa-alert-body">
           <h5>Your saved application has expired</h5>
-          <p>The application you started for {formTitles[formId]} on {moment(lastSavedDate).format('MMMM D, YYYY')} has expired. If you would still like to apply, you will need to <a href={formLinks[formId]}>start a new application</a>.</p>
+          <p>The application you started for {formTitles[formId]} has expired. If you still want to apply, please <a href={formLinks[formId]}>start a new application</a>.</p>
         </div>
       </div>
     );

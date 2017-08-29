@@ -50,7 +50,6 @@ class FormList extends React.Component {
 
 FormList.propTypes = {
   savedForms: PropTypes.array,
-  toggleModal: PropTypes.func.isRequired
 };
 
 export default FormList;
