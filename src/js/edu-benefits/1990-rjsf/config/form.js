@@ -32,6 +32,7 @@ import {
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
   directDepositDescription,
+  reserveKickerWarning
 } from '../helpers';
 
 import {
@@ -347,6 +348,13 @@ const formConfig = {
             reserveKicker: {
               'ui:title': 'I qualify for a Reserve Kicker (sometimes called a college fund).'
             },
+            'view:reserveKickerWarning': {
+              'ui:description': reserveKickerWarning,
+              'ui:options': {
+                expandUnder: 'reserveKicker',
+                hideIf: (data) => _.get('view:benefitsRelinquishedContainer.benefitsRelinquished', data) !== 'chapter30'
+              }
+            },
             'view:activeDutyRepayingPeriod': {
               'ui:title': 'I have a period of service that the Department of Defense counts toward an education loan payment.',
               'ui:options': {
@@ -372,6 +380,10 @@ const formConfig = {
               additionalContributions,
               activeDutyKicker,
               reserveKicker,
+              'view:reserveKickerWarning': {
+                type: 'object',
+                properties: {}
+              },
               'view:activeDutyRepayingPeriod': {
                 type: 'boolean'
               },
@@ -423,7 +435,8 @@ const formConfig = {
           fields: [
             'educationProgram',
             'educationObjective',
-            'educationStartDate'
+            'educationStartDate',
+            'currentlyActiveDuty'
           ],
           required: ['educationType']
         }), {
