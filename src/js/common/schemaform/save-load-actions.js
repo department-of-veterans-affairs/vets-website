@@ -2,7 +2,6 @@ import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
-import { getUserData } from '../helpers/login-helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
@@ -329,8 +328,10 @@ export function removeInProgressForm(formId, migrations) {
   return (dispatch, getState) => {
     const userToken = sessionStorage.userToken;
     const trackingPrefix = getState().form.trackingPrefix;
+
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());
+
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
       method: 'DELETE',
       headers: {
@@ -349,7 +350,6 @@ export function removeInProgressForm(formId, migrations) {
 
       return Promise.resolve(res);
     }).then((res) => {
-
       // If there’s some error when deleting, there’s not much we can
       // do aside from not stop the user from continuing on
       if (!res || res.status !== 401) {

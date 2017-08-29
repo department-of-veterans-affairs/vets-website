@@ -12,7 +12,6 @@ class AuthApplicationSection extends React.Component {
     let content;
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const isVerifiedUser = this.props.userProfile.accountType === verifiedAccountType;
-
     if (isVerifiedUser) {
       content = (
         <div className="medium-12 columns">
