@@ -30,7 +30,7 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 
 You may be able to get disability benefits if you have non-Hodgkin’s lymphoma and both of these are true:
 - You had contact with Agent Orange while serving in the military, **and**
-- You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested, or sprayed
+- You served in Vietnam or in the waters off Vietnam during the Vietnam Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested, or sprayed
 
 ### Who’s covered?
 - Veterans

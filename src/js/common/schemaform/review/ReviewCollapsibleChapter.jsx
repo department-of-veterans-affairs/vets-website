@@ -107,9 +107,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
         <div className="usa-accordion-content schemaform-chapter-accordion-content">
           {ChapterDescription &&
             <ChapterDescription
-                viewedPages={viewedPages}
-                pageKeys={this.pageKeys}
-                formData={form.data}/>}
+              viewedPages={viewedPages}
+              pageKeys={this.pageKeys}
+              formData={form.data}/>}
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
             let pageSchema;
@@ -150,37 +150,37 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 <Element name={`${fullPageKey}ScrollElement`}/>
                 {pageSchema &&
                   <SchemaForm
-                      name={page.pageKey}
-                      title={page.title}
-                      data={pageData}
-                      schema={pageSchema}
-                      uiSchema={pageUiSchema}
-                      hideHeaderRow={page.hideHeaderRow}
-                      hideTitle={expandedPages.length === 1}
-                      pagePerItemIndex={page.index}
-                      onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-                      onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
-                      onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
-                      uploadFile={this.props.uploadFile}
-                      reviewMode={!editing}
-                      editModeOnReviewPage={page.editModeOnReviewPage}>
+                    name={page.pageKey}
+                    title={page.title}
+                    data={pageData}
+                    schema={pageSchema}
+                    uiSchema={pageUiSchema}
+                    hideHeaderRow={page.hideHeaderRow}
+                    hideTitle={expandedPages.length === 1}
+                    pagePerItemIndex={page.index}
+                    onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+                    onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
+                    onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
+                    uploadFile={this.props.uploadFile}
+                    reviewMode={!editing}
+                    editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
-                        submitButton
-                        buttonText="Update page"
-                        buttonClass="usa-button-primary"/>}
+                      submitButton
+                      buttonText="Update page"
+                      buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
                 {arrayFields.map(arrayField => (
                   <div key={arrayField.path} className="form-review-array">
                     <ArrayField
-                        pageKey={page.pageKey}
-                        pageTitle={page.title}
-                        arrayData={_.get(arrayField.path, form.data)}
-                        formData={form.data}
-                        pageConfig={page}
-                        schema={arrayField.schema}
-                        uiSchema={arrayField.uiSchema}
-                        setData={this.props.setData}
-                        path={arrayField.path}/>
+                      pageKey={page.pageKey}
+                      pageTitle={page.title}
+                      arrayData={_.get(arrayField.path, form.data)}
+                      formData={form.data}
+                      pageConfig={page}
+                      schema={arrayField.schema}
+                      uiSchema={arrayField.uiSchema}
+                      setData={this.props.setData}
+                      path={arrayField.path}/>
                   </div>
                 ))}
               </div>
@@ -201,10 +201,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
           <li>
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.open ? 'true' : 'false'}
-                  aria-controls={`collapsible-${this.id}`}
-                  onClick={this.toggleChapter}>
+                className="usa-button-unstyled"
+                aria-expanded={this.state.open ? 'true' : 'false'}
+                aria-controls={`collapsible-${this.id}`}
+                onClick={this.toggleChapter}>
                 {this.props.chapter.title}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}

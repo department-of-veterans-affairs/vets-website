@@ -42,8 +42,8 @@ function runTests(client, segment, only508List) {
       .url(url)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('document', only508 ?
-                { scope: url, rules: ['section508'] } :
-                { scope: url });
+        { scope: url, rules: ['section508'] } :
+        { scope: url });
   });
 }
 

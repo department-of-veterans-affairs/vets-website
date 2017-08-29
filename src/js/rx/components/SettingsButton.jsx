@@ -5,8 +5,8 @@ class SettingsButton extends React.Component {
   render() {
     return (
       <Link
-          className="va-icon-link rx-settings-button"
-          to="/settings">
+        className="va-icon-link rx-settings-button"
+        to="/settings">
         <i className="fa fa-cog"></i>
         <span>Settings</span>
       </Link>

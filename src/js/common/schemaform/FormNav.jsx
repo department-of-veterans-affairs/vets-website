@@ -49,12 +49,12 @@ export default class FormNav extends React.Component {
         <SegmentedProgressBar total={chapters.length} current={current}/>
         <div className="schemaform-chapter-progress">
           <div
-              role="progressbar"
-              aria-valuenow={current}
-              aria-valuemin="1"
-              aria-valuetext={`Step ${current} of ${chapters.length}: ${chapterName}`}
-              aria-valuemax={chapters.length}
-              className="nav-header nav-header-schemaform">
+            role="progressbar"
+            aria-valuenow={current}
+            aria-valuemin="1"
+            aria-valuetext={`Step ${current} of ${chapters.length}: ${chapterName}`}
+            aria-valuemax={chapters.length}
+            className="nav-header nav-header-schemaform">
             <h4><span className="form-process-step current">{current}</span> <span className="form-process-total">of {chapters.length}</span> {chapterName}</h4>
           </div>
         </div>

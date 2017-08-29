@@ -2,19 +2,21 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
-
+import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/currentOrPastMonthYear';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -28,8 +30,13 @@ import {
   benefitsEligibilityBox,
   benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
-  benefitsRelinquishedDescription
+  benefitsRelinquishedDescription,
+  directDepositDescription,
 } from '../helpers';
+
+import {
+  hasServiceBefore1977
+} from '../../utils/helpers.jsx';
 
 import {
   benefitsLabels
@@ -50,7 +57,8 @@ const {
   benefitsRelinquishedDate,
   faaFlightCertificatesInformation,
   highSchoolOrGedCompletionDate,
-  serviceAcademyGraduationYear
+  serviceAcademyGraduationYear,
+  secondaryContact
 } = fullSchema1990.properties;
 
 
@@ -59,7 +67,10 @@ const {
   date,
   dateRange,
   year,
-  currentlyActiveDuty
+  currentlyActiveDuty,
+  address,
+  phone,
+  serviceBefore1977
 } = fullSchema1990.definitions;
 
 const formConfig = {
@@ -75,7 +86,10 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    year
+    year,
+    address,
+    phone,
+    serviceBefore1977
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
@@ -376,7 +390,7 @@ const formConfig = {
           //  bit heavy-handed.
           path: 'education-history/education-information',
           uiSchema: {
-            highSchoolOrGedCompletionDate: currentOrPastDateUI('When did you earn your high school diploma or equivalency certificate?'),
+            highSchoolOrGedCompletionDate: currentOrPastMonthYearUI('When did you earn your high school diploma or equivalency certificate?'),
             postHighSchoolTrainings: postHighSchoolTrainingsUI,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',
@@ -420,53 +434,88 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: {
-          title: 'Contact information',
-          path: 'personal-information/contact-information',
+        contactInformation: _.merge(contactInformationPage(fullSchema1990), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
+            'ui:title': 'Contact information'
           }
-        },
+        }),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
           uiSchema: {
+            'ui:title': 'Secondary contact',
+            'ui:description': 'This person should know where you can be reached at all times.',
+            secondaryContact: {
+              fullName: {
+                'ui:title': 'Name'
+              },
+              phone: phoneUI('Telephone number'),
+              'view:address': {
+                'ui:title': 'Address',
+                sameAddress: {
+                  'ui:title': 'Address for secondary contact is the same as mine'
+                },
+                address: _.merge(addressUI('', false), {
+                  'ui:options': {
+                    hideIf: formData => formData.secondaryContact && formData.secondaryContact['view:address'].sameAddress
+                  }
+                })
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              secondaryContact: {
+                type: 'object',
+                properties: {
+                  fullName: secondaryContact.properties.fullName,
+                  phone,
+                  'view:address': {
+                    type: 'object',
+                    properties: {
+                      sameAddress: secondaryContact.properties.sameAddress,
+                      address: addressSchema(fullSchema1990)
+                    }
+                  }
+                }
+              }
             }
           }
         },
         dependents: {
           title: 'Dependent information',
           path: 'personal-information/dependents',
-          depends: {
-            // hasServiceBefore1978
-          },
+          depends: hasServiceBefore1977,
           uiSchema: {
+            'ui:title': 'Dependents',
+            serviceBefore1977: {
+              married: {
+                'ui:title': 'Are you married?',
+                'ui:widget': 'yesNo'
+              },
+              haveDependents: {
+                'ui:title': 'Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?',
+                'ui:widget': 'yesNo'
+              },
+              parentDependent: {
+                'ui:title': 'Do you have a parent who is dependent on your financial support?',
+                'ui:widget': 'yesNo'
+              }
+            }
           },
           schema: {
             type: 'object',
             properties: {
+              serviceBefore1977: _.unset('required', serviceBefore1977)
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+        directDeposit: _.merge(createDirectDepositPage(fullSchema1990), {
           uiSchema: {
-          },
-          schema: {
-            type: 'object',
-            properties: {
-            }
+            'ui:description': directDepositDescription
           }
-        }
+        })
       }
     }
   }

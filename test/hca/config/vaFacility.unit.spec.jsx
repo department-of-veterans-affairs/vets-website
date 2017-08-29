@@ -12,9 +12,9 @@ describe('Hca VA facility', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -29,10 +29,10 @@ describe('Hca VA facility', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -47,15 +47,15 @@ describe('Hca VA facility', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          data={{
-            'view:preferredFacility': {
-              'view:facilityState': 'MA'
-            }
-          }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        data={{
+          'view:preferredFacility': {
+            'view:facilityState': 'MA'
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -67,16 +67,16 @@ describe('Hca VA facility', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          data={{
-            'view:preferredFacility': {
-              'view:facilityState': 'MA',
-              vaMedicalFacility: '631'
-            }
-          }}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        data={{
+          'view:preferredFacility': {
+            'view:facilityState': 'MA',
+            vaMedicalFacility: '631'
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

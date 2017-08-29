@@ -148,8 +148,8 @@ export class SearchPage extends React.Component {
     // Filter button on mobile.
     const filterButton =
       (<button
-          className="filter-button usa-button-outline"
-          onClick={this.props.toggleFilter}>Filter</button>);
+        className="filter-button usa-button-outline"
+        onClick={this.props.toggleFilter}>Filter</button>);
 
     if (search.inProgress) {
       searchResults = (
@@ -166,33 +166,33 @@ export class SearchPage extends React.Component {
             {search.results.map((result) => {
               return (
                 <SearchResult
-                    version={this.props.location.query.version}
-                    key={result.facilityCode}
-                    name={result.name}
-                    facilityCode={result.facilityCode}
-                    type={result.type}
-                    city={result.city}
-                    state={result.state}
-                    zip={result.zip}
-                    country={result.country}
-                    cautionFlag={result.cautionFlag}
-                    studentCount={result.studentCount}
-                    bah={result.bah}
-                    tuitionInState={result.tuitionInState}
-                    tuitionOutOfState={result.tuitionOutOfState}
-                    books={result.books}
-                    studentVeteran={result.studentVeteran}
-                    yr={result.yr}
-                    poe={result.poe}
-                    eightKeys={result.eightKeys}/>
+                  version={this.props.location.query.version}
+                  key={result.facilityCode}
+                  name={result.name}
+                  facilityCode={result.facilityCode}
+                  type={result.type}
+                  city={result.city}
+                  state={result.state}
+                  zip={result.zip}
+                  country={result.country}
+                  cautionFlag={result.cautionFlag}
+                  studentCount={result.studentCount}
+                  bah={result.bah}
+                  tuitionInState={result.tuitionInState}
+                  tuitionOutOfState={result.tuitionOutOfState}
+                  books={result.books}
+                  studentVeteran={result.studentVeteran}
+                  yr={result.yr}
+                  poe={result.poe}
+                  eightKeys={result.eightKeys}/>
               );
             })}
           </div>
 
           <Pagination
-              onPageSelect={this.handlePageSelect.bind(this)}
-              page={currentPage}
-              pages={totalPages}/>
+            onPageSelect={this.handlePageSelect.bind(this)}
+            page={currentPage}
+            pages={totalPages}/>
         </div>
       );
     }
@@ -214,17 +214,17 @@ export class SearchPage extends React.Component {
               {search.filterOpened && <h1>Filter your search</h1>}
               <h2>Keywords</h2>
               <KeywordSearch
-                  autocomplete={this.props.autocomplete}
-                  label="City, school, or employer"
-                  location={this.props.location}
-                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
-                  onFilterChange={this.handleFilterChange}
-                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
+                autocomplete={this.props.autocomplete}
+                label="City, school, or employer"
+                location={this.props.location}
+                onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                onFilterChange={this.handleFilterChange}
+                onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <InstitutionFilterForm
-                  search={search}
-                  filters={filters}
-                  onFilterChange={this.handleFilterChange}/>
+                search={search}
+                filters={filters}
+                onFilterChange={this.handleFilterChange}/>
               <EligibilityForm/>
             </div>
             <div className="results-button">

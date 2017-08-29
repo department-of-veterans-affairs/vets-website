@@ -195,8 +195,8 @@ export class Thread extends React.Component {
     // If the message is a draft, the delete button should prompt, since the
     // draft would get deleted entirely instead of being moved to a folder.
     const deleteMessageHandler = isSavedDraft
-                               ? this.props.toggleConfirmDelete
-                               : this.handleMessageDelete;
+      ? this.props.toggleConfirmDelete
+      : this.handleMessageDelete;
 
     const folders = [];
     this.props.folders.forEach(v => {
@@ -205,21 +205,21 @@ export class Thread extends React.Component {
 
     return (
       <ThreadHeader
-          currentFolder={this.getCurrentFolder()}
-          currentMessageNumber={currentIndex + 1}
-          folderMessageCount={folderMessages.length}
-          folders={folders}
-          isNewMessage={isNewMessage}
-          message={message}
-          messagesCollapsed={(messagesCollapsed.size > 0)}
-          moveToIsOpen={moveToOpened}
-          onChooseFolder={this.props.moveMessageToFolder}
-          onCreateFolder={this.props.openMoveToNewFolderModal}
-          onDeleteMessage={deleteMessageHandler}
-          onMessageSelect={handleMessageSelect}
-          onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleThreadMoveTo}
-          threadMessageCount={thread.length + 1}/>
+        currentFolder={this.getCurrentFolder()}
+        currentMessageNumber={currentIndex + 1}
+        folderMessageCount={folderMessages.length}
+        folders={folders}
+        isNewMessage={isNewMessage}
+        message={message}
+        messagesCollapsed={(messagesCollapsed.size > 0)}
+        moveToIsOpen={moveToOpened}
+        onChooseFolder={this.props.moveMessageToFolder}
+        onCreateFolder={this.props.openMoveToNewFolderModal}
+        onDeleteMessage={deleteMessageHandler}
+        onMessageSelect={handleMessageSelect}
+        onToggleThread={this.props.toggleMessagesCollapsed}
+        onToggleMoveTo={this.props.toggleThreadMoveTo}
+        threadMessageCount={thread.length + 1}/>
     );
   }
 
@@ -236,11 +236,11 @@ export class Thread extends React.Component {
 
         return (
           <Message
-              key={threadMessage.messageId}
-              attrs={threadMessage}
-              isCollapsed={isCollapsed}
-              onToggleCollapsed={this.props.toggleMessageCollapsed}
-              fetchMessage={this.props.fetchThreadMessage}/>
+            key={threadMessage.messageId}
+            attrs={threadMessage}
+            isCollapsed={isCollapsed}
+            onToggleCollapsed={this.props.toggleMessageCollapsed}
+            fetchMessage={this.props.fetchThreadMessage}/>
         );
       });
     }
@@ -265,36 +265,36 @@ export class Thread extends React.Component {
     if (isNewMessage) {
       form = (
         <NewMessageForm
-            message={draft}
-            recipients={recipients}
-            onAttachmentsClose={this.props.deleteDraftAttachment}
-            onAttachmentUpload={this.props.addDraftAttachments}
-            onAttachmentsError={this.props.openAttachmentsModal}
-            onBodyChange={this.props.updateDraft.bind(null, 'body')}
-            onCategoryChange={this.props.updateDraft.bind(null, 'category')}
-            onFetchRecipients={this.props.fetchRecipients}
-            onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
-            onSaveMessage={this.handleDraftSave}
-            onSendMessage={this.handleDraftSend}
-            onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
-            toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+          message={draft}
+          recipients={recipients}
+          onAttachmentsClose={this.props.deleteDraftAttachment}
+          onAttachmentUpload={this.props.addDraftAttachments}
+          onAttachmentsError={this.props.openAttachmentsModal}
+          onBodyChange={this.props.updateDraft.bind(null, 'body')}
+          onCategoryChange={this.props.updateDraft.bind(null, 'category')}
+          onFetchRecipients={this.props.fetchRecipients}
+          onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
+          onSaveMessage={this.handleDraftSave}
+          onSendMessage={this.handleDraftSend}
+          onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
+          toggleConfirmDelete={this.props.toggleConfirmDelete}/>
       );
     } else if (message) {
       form = (
         <ReplyForm
-            disabled={disabled}
-            detailsCollapsed={this.props.replyDetailsCollapsed}
-            recipient={message.senderName}
-            subject={message.subject}
-            reply={draft}
-            onAttachmentsClose={this.props.deleteDraftAttachment}
-            onAttachmentUpload={this.props.addDraftAttachments}
-            onAttachmentsError={this.props.openAttachmentsModal}
-            onBodyChange={this.props.updateDraft.bind(null, 'body')}
-            onSaveReply={this.handleDraftSave}
-            onSendReply={this.handleDraftSend}
-            toggleConfirmDelete={this.props.toggleConfirmDelete}
-            toggleDetails={this.props.toggleReplyDetails}/>
+          disabled={disabled}
+          detailsCollapsed={this.props.replyDetailsCollapsed}
+          recipient={message.senderName}
+          subject={message.subject}
+          reply={draft}
+          onAttachmentsClose={this.props.deleteDraftAttachment}
+          onAttachmentUpload={this.props.addDraftAttachments}
+          onAttachmentsError={this.props.openAttachmentsModal}
+          onBodyChange={this.props.updateDraft.bind(null, 'body')}
+          onSaveReply={this.handleDraftSave}
+          onSendReply={this.handleDraftSend}
+          toggleConfirmDelete={this.props.toggleConfirmDelete}
+          toggleDetails={this.props.toggleReplyDetails}/>
       );
     }
 
@@ -375,28 +375,28 @@ export class Thread extends React.Component {
           {thread}
           <div className="messaging-thread-form-trigger">
             <button
-                className="usa-button"
-                type="button"
-                onClick={this.props.toggleThreadForm}>
+              className="usa-button"
+              type="button"
+              onClick={this.props.toggleThreadForm}>
               {isSavedDraft ? 'Edit draft' : 'Reply'}
             </button>
           </div>
         </div>
         <div className={formClass}>
           <div
-              id="messaging-content-header"
-              className="messaging-thread-header">
+            id="messaging-content-header"
+            className="messaging-thread-header">
             <a
-                className="messaging-cancel-link"
-                onClick={this.props.toggleThreadForm}>
+              className="messaging-cancel-link"
+              onClick={this.props.toggleThreadForm}>
               Cancel
             </a>
             <h3>{isNewMessage ? 'Edit draft' : 'Reply'}</h3>
             <button
-                className="messaging-send-button"
-                type="button"
-                onClick={this.handleDraftSend}
-                disabled={!this.props.draft.body.value.length}>
+              className="messaging-send-button"
+              type="button"
+              onClick={this.handleDraftSend}
+              disabled={!this.props.draft.body.value.length}>
               Send
             </button>
           </div>
@@ -404,15 +404,15 @@ export class Thread extends React.Component {
         </div>
         {this.renderNotice(disabled)}
         <ModalConfirmDelete
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmDelete}
-            onDelete={this.handleDraftDelete}
-            visible={this.props.modals.deleteConfirm.visible}/>
+          cssClass="messaging-modal"
+          onClose={this.props.toggleConfirmDelete}
+          onDelete={this.handleDraftDelete}
+          visible={this.props.modals.deleteConfirm.visible}/>
         <ModalConfirmSave
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmSave}
-            onSave={this.handleConfirmDraftSave}
-            visible={this.props.modals.saveConfirm.visible}/>
+          cssClass="messaging-modal"
+          onClose={this.props.toggleConfirmSave}
+          onSave={this.handleConfirmDraftSave}
+          visible={this.props.modals.saveConfirm.visible}/>
       </div>
     );
   }

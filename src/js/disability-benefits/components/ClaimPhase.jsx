@@ -123,8 +123,8 @@ export default class ClaimPhase extends React.Component {
             {activityListContent}
           </div>
           <button
-              className="older-updates usa-button-outline"
-              onClick={this.showAllActivity}>
+            className="older-updates usa-button-outline"
+            onClick={this.showAllActivity}>
             See older updates&nbsp;<i className="fa fa-chevron-down"></i>
           </button>
         </div>);

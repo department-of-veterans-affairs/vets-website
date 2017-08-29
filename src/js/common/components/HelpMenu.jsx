@@ -19,13 +19,13 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDown
-          buttonText="Help"
-          clickHandler={this.props.clickHandler}
-          cssClass={this.props.cssClass}
-          contents={dropDownContents}
-          id="helpmenu"
-          icon={icon}
-          isOpen={this.props.isOpen}/>
+        buttonText="Help"
+        clickHandler={this.props.clickHandler}
+        cssClass={this.props.cssClass}
+        contents={dropDownContents}
+        id="helpmenu"
+        icon={icon}
+        isOpen={this.props.isOpen}/>
     );
   }
 }

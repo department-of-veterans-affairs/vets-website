@@ -89,9 +89,9 @@ export class CautionaryInformation extends React.Component {
       <div className="cautionary-information">
         <div className="caution-flag">
           <AlertBox
-              content={flagContent}
-              isVisible={!!it.cautionFlag}
-              status="warning"/>
+            content={flagContent}
+            isVisible={!!it.cautionFlag}
+            status="warning"/>
         </div>
 
         <div className="student-complaints">
@@ -118,9 +118,9 @@ export class CautionaryInformation extends React.Component {
               </thead>
               <tbody>
                 <TableRow
-                    description="All student complaints"
-                    thisCampus={allComplaints.thisCampus}
-                    allCampuses={allComplaints.allCampuses}/>
+                  description="All student complaints"
+                  thisCampus={allComplaints.thisCampus}
+                  allCampuses={allComplaints.allCampuses}/>
               </tbody>
             </table>
             <table className="complaints-by-type usa-table-borderless">
@@ -134,7 +134,7 @@ export class CautionaryInformation extends React.Component {
               <tbody>
                 {complaints.map((c) => (
                   <TableRow key={c.description} description={c.description}
-                      thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>
+                    thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>
                 ))}
               </tbody>
             </table>

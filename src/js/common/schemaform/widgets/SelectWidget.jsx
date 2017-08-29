@@ -31,27 +31,27 @@ function SelectWidget({
   const { enumOptions, labels = {} } = options;
   return (
     <select
-        id={id}
-        name={id}
-        multiple={multiple}
-        className={options.widgetClassNames}
-        value={value || ''}
-        required={required}
-        disabled={disabled}
-        readOnly={readonly}
-        onBlur={(event) => {
-          const newValue = getValue(event, multiple);
-          onBlur(id, processValue(schema, newValue));
-        }}
-        onChange={(event) => {
-          const newValue = getValue(event, multiple);
-          onChange(processValue(schema, newValue));
-        }}>
+      id={id}
+      name={id}
+      multiple={multiple}
+      className={options.widgetClassNames}
+      value={value || ''}
+      required={required}
+      disabled={disabled}
+      readOnly={readonly}
+      onBlur={(event) => {
+        const newValue = getValue(event, multiple);
+        onBlur(id, processValue(schema, newValue));
+      }}
+      onChange={(event) => {
+        const newValue = getValue(event, multiple);
+        onChange(processValue(schema, newValue));
+      }}>
       {!schema.default && <option value="">{placeholder}</option>}
       {enumOptions.map((option, i) => {
         return <option key={i} value={option.value}>{labels[option.value] || option.label}</option>;
       })
-    }</select>
+      }</select>
   );
 }
 

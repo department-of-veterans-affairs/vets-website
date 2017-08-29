@@ -26,8 +26,8 @@ export default function ErrorableCurrentOrPastDate(props) {
   }
   return (
     <ErrorableDate
-        {...props}
-        validation={validation}/>
+      {...props}
+      validation={validation}/>
   );
 }
 

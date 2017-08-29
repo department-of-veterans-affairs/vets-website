@@ -44,15 +44,15 @@ class ReviewPage extends React.Component {
         {Object.keys(chapters)
           .map(chapter => {
             return (<ReviewCollapsiblePanel
-                key={chapter}
-                chapter={chapter}
-                uiData={this.props.uiData}
-                data={this.props.data}
-                onUpdateEditStatus={this.props.onUpdateEditStatus}
-                onFieldsInitialized={this.props.onFieldsInitialized}
-                onStateChange={this.props.onStateChange}
-                urlPrefix="/1990/"
-                pages={chapters[chapter]}/>
+              key={chapter}
+              chapter={chapter}
+              uiData={this.props.uiData}
+              data={this.props.data}
+              onUpdateEditStatus={this.props.onUpdateEditStatus}
+              onFieldsInitialized={this.props.onFieldsInitialized}
+              onStateChange={this.props.onStateChange}
+              urlPrefix="/1990/"
+              pages={chapters[chapter]}/>
             );
           })}
       </div>);
@@ -65,9 +65,9 @@ class ReviewPage extends React.Component {
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
-            showError={this.props.hasAttemptedSubmit}
-            onChange={(update) => onStateChange('privacyAgreementAccepted', update)}
-            checked={this.props.data.privacyAgreementAccepted}/>
+          showError={this.props.hasAttemptedSubmit}
+          onChange={(update) => onStateChange('privacyAgreementAccepted', update)}
+          checked={this.props.data.privacyAgreementAccepted}/>
       </div>
     );
   }

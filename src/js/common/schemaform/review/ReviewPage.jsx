@@ -10,6 +10,8 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
+import { updateLogInUrl } from '../../../login/actions';
+import { saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
@@ -137,30 +139,37 @@ class ReviewPage extends React.Component {
           <div>
             {chapters.map(chapter => (
               <ReviewCollapsibleChapter
-                  key={chapter}
-                  onEdit={this.handleEdit}
-                  pages={this.pagesByChapter[chapter]}
-                  chapterKey={chapter}
-                  setData={this.props.setData}
-                  setValid={this.props.setValid}
-                  uploadFile={this.props.uploadFile}
-                  chapter={formConfig.chapters[chapter]}
-                  viewedPages={this.state.viewedPages}
-                  setPagesViewed={this.setPagesViewed}
-                  form={form}/>
+                key={chapter}
+                onEdit={this.handleEdit}
+                pages={this.pagesByChapter[chapter]}
+                chapterKey={chapter}
+                setData={this.props.setData}
+                setValid={this.props.setValid}
+                uploadFile={this.props.uploadFile}
+                chapter={formConfig.chapters[chapter]}
+                viewedPages={this.state.viewedPages}
+                setPagesViewed={this.setPagesViewed}
+                form={form}/>
             ))}
           </div>
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
-            onChange={this.props.setPrivacyAgreement}
-            checked={form.data.privacyAgreementAccepted}
-            showError={form.submission.hasAttemptedSubmit}/>
+          onChange={this.props.setPrivacyAgreement}
+          checked={form.data.privacyAgreementAccepted}
+          showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
-            errorMessage={formConfig.errorMessage}
-            onBack={this.goBack}
-            onSubmit={this.handleSubmit}
-            submission={form.submission}/>
+          errorText={formConfig.submitErrorText}
+          errorMessage={formConfig.errorMessage}
+          onBack={this.goBack}
+          onSubmit={this.handleSubmit}
+          submission={form.submission}
+          locationPathname={this.props.location.pathname}
+          form={form}
+          user={this.props.user}
+          saveInProgressForm={this.props.saveInProgressForm}
+          onUpdateLoginUrl={this.props.updateLogInUrl}
+          sipEnabled={!formConfig.disableSave}/>
       </div>
     );
   }
@@ -168,7 +177,8 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    user: state.user
   };
 }
 
@@ -178,7 +188,9 @@ const mapDispatchToProps = {
   submitForm,
   setPrivacyAgreement,
   setData,
-  uploadFile
+  uploadFile,
+  saveInProgressForm,
+  updateLogInUrl
 };
 
 ReviewPage.propTypes = {

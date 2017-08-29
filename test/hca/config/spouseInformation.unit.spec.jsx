@@ -13,9 +13,9 @@ describe('Hca spouse information', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -28,10 +28,10 @@ describe('Hca spouse information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -45,10 +45,10 @@ describe('Hca spouse information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

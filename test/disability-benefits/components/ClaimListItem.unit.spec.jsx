@@ -18,7 +18,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.equal('');
   });
@@ -32,7 +32,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.status').text()).to.equal('Status: Closed');
   });
@@ -46,7 +46,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.status').text()).to.equal('Status: Initial review');
   });
@@ -63,7 +63,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.contain('We sent you a development letter');
   });
@@ -80,7 +80,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.contain('We sent you a decision letter');
   });
@@ -97,7 +97,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.contain('Items need attention');
   });
@@ -114,7 +114,7 @@ describe('<ClaimsListItem>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ClaimsListItem
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.equal('');
   });

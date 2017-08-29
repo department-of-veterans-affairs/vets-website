@@ -16,7 +16,7 @@ export function formatVAFileNumber(n) {
   const lengthOfXString = number.length > 4 ? number.length - 4 : 0;
 
   return number.replace(number.substring(0, lengthOfXString),
-                        `${'x'.repeat(lengthOfXString)}-`);
+    `${'x'.repeat(lengthOfXString)}-`);
 }
 
 export function formatMonthDayFields(field) {

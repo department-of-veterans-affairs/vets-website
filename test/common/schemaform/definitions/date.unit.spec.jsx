@@ -12,8 +12,8 @@ describe('Schemaform definition date', () => {
   it('should render date', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema()}/>
+        schema={schema}
+        uiSchema={uiSchema()}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -27,8 +27,8 @@ describe('Schemaform definition date', () => {
     const dateUISchema = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={dateUISchema}/>
+        schema={schema}
+        uiSchema={dateUISchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -47,8 +47,8 @@ describe('Schemaform definition date', () => {
   it('should render date title', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema('My date')}/>
+        schema={schema}
+        uiSchema={uiSchema('My date')}/>
     );
 
     const formDOM = findDOMNode(form);

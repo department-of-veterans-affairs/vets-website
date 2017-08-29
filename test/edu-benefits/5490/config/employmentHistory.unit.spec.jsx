@@ -12,9 +12,9 @@ describe('Edu 5490 employmentHistory', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
@@ -25,9 +25,9 @@ describe('Edu 5490 employmentHistory', () => {
   it('should render expanded', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     const hasEmploymentYes = Array.from(formDOM.querySelectorAll('input'))
@@ -49,10 +49,10 @@ describe('Edu 5490 employmentHistory', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -66,10 +66,10 @@ describe('Edu 5490 employmentHistory', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     const hasEmploymentYes = Array.from(formDOM.querySelectorAll('input'))

@@ -12,11 +12,11 @@ describe('Edu 5490 benefitHistory', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length)
       .to.equal(7);
@@ -25,10 +25,10 @@ describe('Edu 5490 benefitHistory', () => {
   it('should expand options conditionally', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -98,11 +98,11 @@ describe('Edu 5490 benefitHistory', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -131,10 +131,10 @@ describe('Edu 5490 benefitHistory', () => {
   it('should require either ssn or file number for previous sponsor', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
