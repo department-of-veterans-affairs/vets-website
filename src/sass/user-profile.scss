@@ -55,6 +55,14 @@
       margin-right: 5px;
     }
   }
+
+  .card {
+    .resume-saved-application-container {
+      @include media($medium-large-screen) {
+        padding-left: 8px;
+      }
+    }
+  } 
   
   .saved-form-information {
     margin: 0;

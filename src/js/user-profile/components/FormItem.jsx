@@ -23,7 +23,7 @@ class FormItem extends React.Component {
               <span className="saved-form-item-metadata saved-form-item-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}.</span>
             </div>}
           </div>
-          <div className="small-12 large-4 columns">
+          <div className="small-12 large-4 columns resume-saved-application-container">
             <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Continue Your Application</a>
           </div>
         </div>
