@@ -148,7 +148,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).to.be.false;
   });
-  it('should render no message if signed in with an expired form', () => {
+  it('should render message if signed in with an expired form', () => {
     const user = {
       profile: {
         savedForms: [
