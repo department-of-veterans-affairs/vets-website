@@ -1,18 +1,51 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import Modal from '../../common/components/Modal';
+
 import FormItem from './FormItem';
 
 class FormList extends React.Component {
-  render() {
-    const { toggleModal, savedForms: forms } = this.props;
-    return (
-      <div className="profile-section medium-12 columns">
-        <h4 className="section-header">Saved applications</h4>
-        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={toggleModal}/>)}
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
   }
+
+ removeForm = () => {
+   this.toggleModal();
+   this.props.removeSavedForm(this.state.formId);
+ }
+
+ toggleModal = (formId) => {
+   this.setState({ formId, modalOpen: !this.state.modalOpen });
+ }
+
+ render() {
+   const { savedForms: forms } = this.props;
+   return (
+     <div className="profile-section medium-12 columns">
+       <h4 className="section-header">Saved applications</h4>
+       {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
+       <Modal
+         cssClass="va-modal-large"
+         id="start-over-modal"
+         onClose={this.toggleModal}
+         visible={this.state.modalOpen}>
+         <h4>Are you sure?</h4>
+         <p>If you delete this application, the information you entered will be lost.</p>
+         <ProgressButton
+           onButtonClick={this.removeForm}
+           buttonText="Yes, delete it"
+           buttonClass="usa-button-primary"/>
+         <ProgressButton
+           onButtonClick={this.toggleModal}
+           buttonText="No, keep it"
+           buttonClass="usa-button-outline"/>
+       </Modal>
+     </div>
+   );
+ }
 }
 
 FormList.propTypes = {
