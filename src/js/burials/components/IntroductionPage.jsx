@@ -52,7 +52,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this burial benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you'll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
