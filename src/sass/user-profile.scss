@@ -60,10 +60,10 @@
     }
   }
   
-  .saved-form-container {
+  .remove-saved-application-container {
     margin-bottom: 16px;
     float: right;
-    @include media($large-screen) {
+    @include media($medium-large-screen) {
       float: left;
     }
   }
