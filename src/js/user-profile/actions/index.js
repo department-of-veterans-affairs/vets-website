@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest, savedFormRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -97,15 +97,14 @@ export function removeSavedForm(formId) {
       },
     };
 
-    apiRequest(
+    savedFormRequest(
       `/in_progress_forms/${formId}`,
       settings,
       () => {
         dispatch(removingSavedFormSuccess());
         getUserData(dispatch);
       },
-      () => dispatch(removingSavedFormFailure()),
-      true
+      () => dispatch(removingSavedFormFailure())
     );
   };
 }
