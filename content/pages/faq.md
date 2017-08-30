@@ -12,9 +12,11 @@ display_title: Frequently Asked Questions
         <div class="section main-menu">
           <div class="row">
             <div class="small-12 columns">
-              <p>
-                Vets.gov partners with ID.me, a third-party Veteran-owned business, to provide the strongest possible identity verification system to prevent fraud and identity theft. When you begin the sign up process, an ID.me window will open on your screen.
-              </p>
+              <div itemprop="description">
+                <p>
+                  Vets.gov partners with ID.me, a third-party Veteran-owned business, to provide the strongest possible identity verification system to prevent fraud and identity theft. When you begin the sign up process, an ID.me window will open on your screen.
+                </p>
+              </div>
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
