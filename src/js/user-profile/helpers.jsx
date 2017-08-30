@@ -9,7 +9,8 @@ export const formTitles = {
   '22-1990N': 'education benefits (22-1990N)',
   '22-1995': 'education benefits (22-1995)',
   '22-5490': 'education benefits (22-5490)',
-  '22-5495': 'education benefits (22-5495)'
+  '22-5495': 'education benefits (22-5495)',
+  '10-10007': 'pre-need determination of eligibility in a VA National Cemetery'
 };
 
 export const formLinks = {
@@ -21,7 +22,8 @@ export const formLinks = {
   '22-1990N': '/education/apply-for-education-benefits/application/1990n/',
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
-  '22-5495': '/education/apply-for-education-benefits/application/5495/'
+  '22-5495': '/education/apply-for-education-benefits/application/5495/',
+  '40-10007': '/burials-and-memorials/burial-planning/application/'
 };
 
 export const trackingPrefixes = {
@@ -33,7 +35,8 @@ export const trackingPrefixes = {
   '22-1990N': 'edu-1990n-',
   '22-1995': 'edu-1995-',
   '22-5490': 'edu-5490-',
-  '22-5495': 'edu-5495-'
+  '22-5495': 'edu-5495-',
+  '40-10007': 'preneed-'
 };
 
 export const sipEnabledForms = new Set(['1010ez', '21P-527EZ', '21P-530']);

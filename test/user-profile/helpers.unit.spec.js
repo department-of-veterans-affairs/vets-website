@@ -16,6 +16,7 @@ import fullSchema5490 from '../../src/js/edu-benefits/5490/config/form';
 import fullSchema5495 from '../../src/js/edu-benefits/5495/config/form';
 import fullSchema527EZ from '../../src/js/pensions/config/form';
 import fullSchema530 from '../../src/js/burials/config/form';
+import fullSchema10007 from '../../src/js/pre-need/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
@@ -30,7 +31,7 @@ const schemaToConfigIds = {
   '22-1995': '1995',
   '22-5490': '5490',
   '22-5495': '5495',
-  '40-10007': 'N/A', // the config for this form does not contain a formId property
+  '40-10007': '40-10007',
   definitions: 'N/A'
 };
 
@@ -60,7 +61,8 @@ describe('profile helpers:', () => {
         fullSchema5490,
         fullSchema5495,
         fullSchema527EZ,
-        fullSchema530
+        fullSchema530,
+        fullSchema10007
       ];
       const allFormIds = Object.keys(schemas);
       const allMappedIds = Object.keys(schemaToConfigIds);
