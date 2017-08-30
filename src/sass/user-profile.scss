@@ -74,9 +74,6 @@
     .saved-form-item-metadata {
       display: block;
       margin-right: 5px;
-      @include media($medium-large-screen) {
-        display: inline;
-      }
     }
   }
 
