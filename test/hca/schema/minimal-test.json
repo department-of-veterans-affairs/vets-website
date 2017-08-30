@@ -34,7 +34,9 @@
       "last": "Doe"
     },
     "privacyAgreementAccepted": true,
-    "isSpanishHispanicLatino": false,
+    "view:demographicCategories": {
+      "isSpanishHispanicLatino": false
+    },
     "spouseFullName": {}
   }
 }

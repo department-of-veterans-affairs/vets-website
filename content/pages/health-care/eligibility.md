@@ -66,7 +66,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 [Learn about the application process](/health-care/apply/).
 
-#### Need help filling out your application forms?
+#### What if I need help filling out my application?
 
 Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 

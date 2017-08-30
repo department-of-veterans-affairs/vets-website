@@ -79,7 +79,7 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
+      content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     }
 
     return (
