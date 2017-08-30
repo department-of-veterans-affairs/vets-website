@@ -14,6 +14,7 @@ class MegaMenu {
     this.showMenu = this.showMenu.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
 
     this.addListeners();
   }
@@ -38,8 +39,16 @@ class MegaMenu {
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
 
+    document.addEventListener('click', this.handleDocumentClick);
+    document.addEventListener('touchend', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
+  }
 
+  handleDocumentClick(event){
+    const target = event.target;
+    if (!target.classList.contains('vetnav-level1')){
+      this.closeAll();
+    }
   }
 
   closeAll() {
@@ -99,6 +108,7 @@ class MegaMenu {
   }
 
   toggleSubMenu(event) {
+    event.stopPropagation();
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
     const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
 
