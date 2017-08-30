@@ -56,6 +56,8 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             value={address}
+            countries={this.props.countries}
+            states={this.props.states}
             onUserInput={(addr) => { this.props.updateAddress(addr); }}
             required/>
           <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
@@ -106,11 +108,13 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate } = state.letters;
+  const { fullName, address, canUpdate, countries, states } = state.letters;
   return {
     recipientName: fullName,
     address,
     canUpdate,
+    countries,
+    states
   };
 }
 

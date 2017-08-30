@@ -24,9 +24,15 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   // SAVE_ADDRESS_FAILURE
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  // GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  // GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 const initialState = {
+  countries: [],
+  states: [],
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
@@ -123,6 +129,10 @@ function letters(state = initialState, action) {
       return _.set('address', action.address, newState);
     }
     // Add SAVE_ADDRESS_FAILURE
+    case GET_ADDRESS_COUNTRIES_SUCCESS:
+      return _.set('countries', action.countries, state);
+    case GET_ADDRESS_STATES_SUCCESS:
+      return _.set('states', action.states, state);
     default:
       return state;
   }

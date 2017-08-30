@@ -8,14 +8,19 @@ import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   getBenefitSummaryOptions,
   getLetterList,
-  getMailingAddress
+  getMailingAddress,
+  getAddressCountries,
+  // getAddressStates
 } from '../actions/letters';
+import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
+    this.props.getAddressCountries();
+    // this.props.getAddressStates();
   }
 
   render() {
@@ -86,7 +91,9 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
   getLetterList,
-  getMailingAddress
+  getMailingAddress,
+  getAddressCountries,
+  // getAddressStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
