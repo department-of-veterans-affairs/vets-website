@@ -146,4 +146,3 @@ Once you leave active duty, you can still provide a future effective date that t
 </div>
 </div>
 </div>
-</div>
