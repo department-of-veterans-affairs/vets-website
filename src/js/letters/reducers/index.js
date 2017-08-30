@@ -14,17 +14,20 @@ import {
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   UPDATE_ADDRESS,
-  GET_ADDRESS_COUNTRIES_SUCCESS,
+  // GET_ADDRESS_COUNTRIES_SUCCESS,
   // GET_ADDRESS_COUNTRIES_FAILURE,
-  GET_ADDRESS_STATES_SUCCESS,
+  // GET_ADDRESS_STATES_SUCCESS,
   // GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
+
+const setStates = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'AS', 'DC', 'FM', 'GU', 'MH', 'MP', 'PW', 'PR', 'UM', 'VI', 'PI'];
+const setCountries = ['Afghanistan', 'Albania', 'Algeria', 'Angola', 'Anguilla', 'Antigua', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Azores', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Barbuda', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia-Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burma', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo, Democratic Republic of', 'Congo, People’s Republic of', 'Costa Rica', 'Cote d’Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'England', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'French Guiana', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Great Britain', 'Great Britain and Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guatemala', 'Guinea', 'Guinea,  Republic of Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel (Jerusalem)', 'Israel (Tel Aviv)', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Leeward Islands', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Malta', 'Martinique', 'Mauritania', 'Mauritius', 'Mexico', 'Moldavia', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'Nevis', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Northern Ireland', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Philippines (restricted payments)', 'Poland', 'Portugal', 'Qatar', 'Republic of Yemen', 'Romania', 'Russia', 'Rwanda', 'Sao-Tome/Principe', 'Saudi Arabia', 'Scotland', 'Senegal', 'Serbia', 'Serbia/Montenegro', 'Seychelles', 'Sicily', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St. Kitts', 'St. Lucia', 'St. Vincent', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey (Adana only)', 'Turkey (except Adana)', 'Turkmenistan', 'USA', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Wales', 'Western Samoa', 'Yemen Arab Republic', 'Zambia', 'Zimbabwe'];
 
 const initialState = {
   benefitInfo: {},
   destination: {},
-  countries: [],
-  states: [],
+  countries: setCountries,
+  states: setStates,
   letters: [],
   lettersAvailability: 'awaitingResponse',
   letterDownloadStatus: {},
@@ -99,10 +102,10 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
     case UPDATE_ADDRESS:
       return _.set('destination', action.address, state);
-    case GET_ADDRESS_COUNTRIES_SUCCESS:
-      return _.set('countries', action.countries, state);
-    case GET_ADDRESS_STATES_SUCCESS:
-      return _.set('states', action.states, state);
+    // case GET_ADDRESS_COUNTRIES_SUCCESS:
+    //   return _.set('countries', action.countries, state);
+    // case GET_ADDRESS_STATES_SUCCESS:
+    //   return _.set('states', action.states, state);
     default:
       return state;
   }

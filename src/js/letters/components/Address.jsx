@@ -5,7 +5,6 @@ import { set } from 'lodash/fp';
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
 import { isNotBlank, isBlankAddress, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
-import { countries, states } from '../../common/utils/options-for-select';
 
 /**
  * Input component for an address.
@@ -24,8 +23,6 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
-  // TODO: Look into if this is the best way to update address,
-  // it is incredibly slow right now
   handleChange(path, update) {
     let address = set(path, update, this.props.value);
     // if country is changing we should clear the state
@@ -69,21 +66,21 @@ class Address extends React.Component {
   }
 
   render() {
-    let stateList = [];
-    const selectedCountry = this.props.value.country === 'US' ? 'USA' : this.props.value.country;
-    if (states[selectedCountry]) {
-      stateList = states[selectedCountry];
-      if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
-        stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
-      }
-    }
+    // let stateList = [];
+    // const selectedCountry = this.props.value.country === 'US' ? 'USA' : this.props.value.country;
+    // if (states[selectedCountry]) {
+    //   stateList = states[selectedCountry];
+    //   if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
+    //     stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
+    //   }
+    // }
 
-    const stateProvince = _.hasIn(states, this.props.value.country === 'US' ? 'USA' : this.props.value.country)
+    const stateProvince = this.props.value.country === 'US'
       ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.value.state) ? undefined : 'Please enter a valid state/province'}
-        label={this.props.value.country === 'CAN' ? 'Province' : 'State'}
+        label="State"
         name="state"
         autocomplete="address-level1"
-        options={stateList}
+        options={this.props.states}
         value={this.props.value.state}
         required={this.props.required}
         onValueChange={(update) => {this.handleChange('state', update);}}/>)
@@ -100,7 +97,7 @@ class Address extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={countries}
+          options={this.props.countries}
           value={this.props.value.country === 'US' ? 'USA' : this.props.value.country }
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
