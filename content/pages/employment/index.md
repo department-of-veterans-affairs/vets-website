@@ -41,12 +41,6 @@ We can support you in all stages of your job search. We’ve teamed up with the 
 
 </div>
 
-<div class="va-introtext">
-
-With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
-
-</div>
-
 <div class="va-alert usa-alert usa-alert-warning">
   <div class="usa-alert-body">
     <h5 class="va-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.
@@ -58,7 +52,7 @@ With VA health care, you’re covered for regular checkups with your primary car
         <ul>
           <li>Calling the National Call Center for Homeless Veterans at 877-4AID-VET (877-424-3838) for help 24 hours a day, 7 days a week, <b>or</b></li>
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chatting online with a trained VA staff member</a>, <b>or</b></li>
-          <li>Getting job-placement help from a Community Employment Coordinator (CEC). <a href='http://www.va.gov/homeless/cec-contacts.asp'>Contact a CEC</a></li>
+          <li>Getting job-placement help from a Community Employment Coordinator (CEC). <a href='http://www.va.gov/homeless/cec-contacts.asp'>Contact a CEC</a>.</li>
         </ul>
         <br>
         <p><b>If you’re a female Veteran, you can also:</b></p>
