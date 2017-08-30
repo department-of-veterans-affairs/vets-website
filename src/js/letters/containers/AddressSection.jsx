@@ -21,7 +21,7 @@ export class AddressSection extends React.Component {
     ];
 
     let addressFields;
-    if (this.state.editAddress) {
+    if (this.state.isEditingAddress) {
       addressFields = (
         <div>
           <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
