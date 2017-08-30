@@ -4,15 +4,18 @@ import React from 'react';
 export default function ConsolidatedClaims({ onClose }) {
   return (
     <div>
-      <div className="claims-status-upload-header">Claim status update</div>
-      <div className="claims-status-upload-inner">
-        <h4 className="modal-title" id="consolidated-claims-title">A note about consolidated claims</h4>
-        <p>
+      <div className="va-modal-inner">
+        <h3 id="consolidated-claims-title">A note about consolidated claims</h3>
+        <button
+            className="va-modal-close"
+            type="button"
+            onClick={onClose}>
+          <i className="fa fa-close"></i>
+          <span className="usa-sr-only">Close this modal</span>
+        </button>
+        <div className="va-modal-body">
           If you turn in a new claim while we’re reviewing another one from you, we’ll add any new information to the original claim and close the new claim, with no action required from you.
-        </p>
-        <p>
-          <button className="usa-button" onClick={onClose}>Close</button>
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -21,4 +24,3 @@ export default function ConsolidatedClaims({ onClose }) {
 ConsolidatedClaims.propTypes = {
   onClose: PropTypes.func.isRequired
 };
-
