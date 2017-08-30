@@ -4,13 +4,20 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
-import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+import {
+  getBenefitSummaryOptions,
+  getLetterList,
+  getAddressCountries,
+  // getAddressStates
+} from '../actions/letters';
 import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
     this.props.getBenefitSummaryOptions();
+    this.props.getAddressCountries();
+    // this.props.getAddressStates();
   }
 
   render() {
@@ -81,7 +88,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
-  getLetterList
+  getLetterList,
+  getAddressCountries,
+  // getAddressStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -13,7 +13,11 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -144,5 +148,33 @@ export function updateAddress(address) {
   return {
     type: UPDATE_ADDRESS,
     address
+  };
+}
+
+export function getAddressCountries() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/countries',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
+        countries: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+    );
+  };
+}
+
+export function getAddressStates() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/states',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_STATES_SUCCESS,
+        states: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
+    );
   };
 }

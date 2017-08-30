@@ -13,12 +13,18 @@ import {
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  // GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  // GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 const initialState = {
   benefitInfo: {},
   destination: {},
+  countries: [],
+  states: [],
   letters: [],
   lettersAvailability: 'awaitingResponse',
   letterDownloadStatus: {},
@@ -93,6 +99,10 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
     case UPDATE_ADDRESS:
       return _.set('destination', action.address, state);
+    case GET_ADDRESS_COUNTRIES_SUCCESS:
+      return _.set('countries', action.countries, state);
+    case GET_ADDRESS_STATES_SUCCESS:
+      return _.set('states', action.states, state);
     default:
       return state;
   }

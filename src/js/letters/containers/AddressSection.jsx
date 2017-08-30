@@ -24,7 +24,12 @@ export class AddressSection extends React.Component {
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
-          <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
+          <Address
+            value={destination}
+            countries={this.props.countries}
+            states={this.props.states}
+            onUserInput={(address) => {this.props.updateAddress(address);}}
+            required/>
           <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
@@ -73,6 +78,8 @@ function mapStateToProps(state) {
   const letterState = state.letters;
   return {
     destination: letterState.destination,
+    countries: letterState.countries,
+    states: letterState.states
   };
 }
 
