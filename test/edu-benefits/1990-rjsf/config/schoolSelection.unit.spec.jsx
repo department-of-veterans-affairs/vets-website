@@ -58,4 +58,22 @@ describe('Edu 1990 schoolSelection', () => {
 
     expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(14);
   });
+  it('should hide non va assistance question', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          currentlyActiveDuty: {
+            yes: true
+          }
+        }}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(6);
+  });
 });
