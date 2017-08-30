@@ -11,6 +11,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   }, {
     path: 'testing'
   }];
+  const fetchInProgressForm = () => {};
+  const removeInProgressForm = () => {};
+  const updateLogInUrl = () => {};
 
   it('should render in progress message', () => {
     const user = {
@@ -29,7 +32,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
@@ -55,7 +61,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
@@ -77,14 +86,17 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('SignInLink')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
-  it('should render no message if signed in with no saved form', () => {
+  it('should render message if signed in with no saved form', () => {
     const user = {
       profile: {
         savedForms: [],
@@ -99,10 +111,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
-    expect(tree.subTree('.usa-alert')).to.be.false;
+    expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
@@ -124,13 +139,16 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).to.be.false;
   });
-  it('should render no message if signed in with an expired form', () => {
+  it('should render message if signed in with an expired form', () => {
     const user = {
       profile: {
         savedForms: [
@@ -147,10 +165,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       <SaveInProgressIntro
         pageList={pageList}
         formId="1010ez"
-        user={user}/>
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        updateLogInUrl={updateLogInUrl}/>
     );
 
-    expect(tree.subTree('.usa-alert')).to.be.false;
+    expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 });
