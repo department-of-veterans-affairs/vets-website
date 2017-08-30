@@ -24,8 +24,6 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
-  // TODO: Look into if this is the best way to update address,
-  // it is incredibly slow right now
   handleChange(path, update) {
     let address = set(path, update, this.props.value);
     // if country is changing we should clear the state
@@ -104,7 +102,7 @@ class Address extends React.Component {
         label="State"
         name="state"
         autocomplete="address-level1"
-        options={stateList}
+        options={this.props.states}
         value={this.props.value[stateField]}
         required={this.props.required}
         onValueChange={(update) => {this.handleChange(stateField, update);}}/>)
@@ -121,7 +119,7 @@ class Address extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={countries}
+          options={this.props.countries}
           value={selectedCountry}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
