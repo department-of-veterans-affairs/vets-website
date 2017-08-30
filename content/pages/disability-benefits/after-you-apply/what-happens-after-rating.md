@@ -29,9 +29,11 @@ If you haven’t gotten your decision notice:
 
 <h3 itemprop="name">When will I get my first payment?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">800-827-1000</a>.
 
+</div>
 </div>
 </div>
 
@@ -39,9 +41,11 @@ If your decision notice shows at least a 10% disability rating, you’ll get you
 
 <h3 itemprop="name">What if I disagree with my disability rating?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 If you disagree with your disability rating, you can file an appeal. You’ll need to do this within 1 year of getting your decision notice. [Learn about how to file an appeal](/disability-benefits/claims-appeal/).
 
+</div>
 </div>
 </div>
 
@@ -49,6 +53,7 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 
 <h3 itemprop="name">How do I get other benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/health-care/apply/).
 - **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](http://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">800-669-8477</a>.
@@ -60,11 +65,13 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 
 </div>
 </div>
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name"> How do I get benefits that cover specific disabilities?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - **If you have a 100% disability rating**, you may be able to get:
   - [Dental care](/disability-benefits/conditions/special-claims/dentistry/), **and**
@@ -72,6 +79,7 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 - **If you can’t work due to your disability caused by service in the military**—even without a 100% rating—you can apply for individual unemployability. [Learn about individual unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 - **If you need special clothing because of your injuries**, you may be able to get money to buy new clothes. [Learn about the annual clothing allowance benefit](/disability-benefits/conditions/special-claims/clothing/).
 
+</div>
 </div>
 </div>
 </div>
