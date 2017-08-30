@@ -4,7 +4,7 @@ template: detail-page
 title: Health Care Application Process
 display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2017-06-28
+lastupdate: 2017-08-28
 collection: healthCare
 order: 3
 ---
@@ -32,7 +32,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 <br>
 
-#### What if I need help filling out my application forms?
+#### What if I need help filling out my application?
 
 Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
@@ -107,6 +107,6 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 
 ### How do I update my information if I’m already signed up?
 
-To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.vets.gov/health-care/forms/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
 <div markdown="0"><br></div>
