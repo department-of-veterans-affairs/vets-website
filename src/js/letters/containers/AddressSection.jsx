@@ -9,7 +9,7 @@ import Address from '../components/Address';
 export class AddressSection extends React.Component {
   constructor() {
     super();
-    this.state = { editAddress: false };
+    this.state = { isEditAddressing: false };
   }
 
   render() {
@@ -25,8 +25,8 @@ export class AddressSection extends React.Component {
       addressFields = (
         <div>
           <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
-          <button className="usa-button-primary" onClick={() => this.setState({ editAddress: false })}>Update</button>
-          <button className="usa-button-outline" onClick={() => this.setState({ editAddress: false })}>Cancel</button>
+          <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
+          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
     } else {
@@ -34,7 +34,7 @@ export class AddressSection extends React.Component {
         <div>
           <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
           <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
-          <button className="usa-button-outline" onClick={() => this.setState({ editAddress: true })}>Edit</button>
+          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
         </div>
       );
     }
