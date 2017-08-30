@@ -7,6 +7,7 @@ function isJson(response) {
   return contentType && contentType.indexOf('application/json') !== -1;
 }
 
+// TODO: Remove this and replace with apiRequest once olive leaf issue is resolved on back end.
 export function savedFormRequest(resource, success, error, optionalSettings = {}) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/'
