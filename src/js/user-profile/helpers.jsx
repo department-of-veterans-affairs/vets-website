@@ -38,22 +38,14 @@ export const trackingPrefixes = {
 
 export const sipEnabledForms = new Set(['1010ez', '21P-527EZ', '21P-530']);
 
-export function handleNonSIPEnabledForm(formNumber) {
-  throw new Error(`Could not find form ${formNumber} in list of sipEnabledForms`);
-}
-
-export function handleIncompleteInformation() {
-  Raven.captureMessage('vets_sip_list_item_missing_info');
-  return false;
-}
-
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
-  if (!sipEnabledForms.has(formNumber)) {
-    return handleIncompleteInformation(formNumber);
-  }
   if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    handleNonSIPEnabledForm(trackingPrefixes[formNumber]);
+    Raven.captureMessage('vets_sip_list_item_missing_info');
+    return false;
+  }
+  if (!sipEnabledForms.has(formNumber)) {
+    throw new Error(`Could not find form ${trackingPrefixes[formNumber]} in list of sipEnabledForms`);
   }
   return true;
 }

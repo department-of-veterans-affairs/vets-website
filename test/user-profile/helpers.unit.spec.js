@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import {
   formTitles,
   formLinks,
-  handleIncompleteInformation,
-  handleNonSIPEnabledForm,
+  isSIPEnabledForm,
   sipEnabledForms,
 } from '../../src/js/user-profile/helpers';
 
@@ -68,18 +66,16 @@ describe('profile helpers:', () => {
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
       const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
-      expect(_.isEqual(allFormIds, allMappedIds)).to.be.true;
-      expect(_.isEqual(sipEnabledForms, new Set(sipEnabledFormIds))).to.be.true;
+      expect(allFormIds).to.deep.equal(allMappedIds);
+      expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
   describe('handleIncompleteInformation', () => {
     it('should push error into window if a form is missing title or link information', () => {
-      expect(handleIncompleteInformation('missingInfoForm')).to.be.false;
+      expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
     });
-  });
-  describe('handleNonSIPEnabledForm', () => {
     it('should throw an error if a form is not included the list of sipEnabledForms', () => {
-      expect(() => handleNonSIPEnabledForm('notSIPEnabledForm')).to.throw('Could not find form');
+      expect(() => isSIPEnabledForm({ form: '22-5490' })).to.throw('Could not find form');
     });
   });
 });
