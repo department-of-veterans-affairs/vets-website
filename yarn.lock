@@ -1298,6 +1298,14 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
+"bourbon-neat@https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz":
+  version "1.8.0"
+  resolved "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz#cac50f0721b9caa6d184e05133c7c75283ff4446"
+
+bourbon@4.2.7:
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/bourbon/-/bourbon-4.2.7.tgz#48a805dff475fbf61e002a64e1e4db68d2f82fba"
+
 brace-expansion@^1.0.0:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.7.tgz#3effc3c50e000531fb720eaff80f0ae8ef23cf59"
