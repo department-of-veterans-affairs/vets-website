@@ -5,11 +5,15 @@ import ProgressButton from '../../common/components/form-elements/ProgressButton
 import Modal from '../../common/components/Modal';
 
 import FormItem from './FormItem';
+import { isSIPEnabledForm } from '../helpers';
 
 class FormList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { modalOpen: false };
+    this.state = {
+      modalOpen: false,
+      formId: undefined
+    };
   }
 
  removeForm = () => {
@@ -23,7 +27,9 @@ class FormList extends React.Component {
 
  render() {
    const { savedForms: forms } = this.props;
-   return (
+   const verifiedSavedForms = forms.filter(isSIPEnabledForm);
+   const hasVerifiedSavedForms = !!verifiedSavedForms.length;
+   return !hasVerifiedSavedForms ? null : (
      <div className="profile-section medium-12 columns">
        <h4 className="section-header">Saved applications</h4>
        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}

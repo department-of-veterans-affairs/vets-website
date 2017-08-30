@@ -8,8 +8,6 @@ import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-import { isSIPEnabledForm } from '../helpers';
-
 moment.updateLocale('en', {
   meridiem: (hour) => {
     if (hour < 12) {
@@ -20,20 +18,18 @@ moment.updateLocale('en', {
 });
 
 class UserProfileApp extends React.Component {
+
   render() {
-    const savedForms = this.props.profile.savedForms;
-    const verifiedSavedForms = savedForms.filter(isSIPEnabledForm);
-    const hasVerifiedSavedForms = !!verifiedSavedForms.length;
 
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Account</h1>
           <div>
-            {hasVerifiedSavedForms && <FormList
+            {(__BUILDTYPE__ === 'development') && <FormList
               userProfile={this.props.profile}
               removeSavedForm={this.props.removeSavedForm}
-              savedForms={verifiedSavedForms}/>}
+              savedForms={this.props.profile.savedForms}/>}
             <AuthApplicationSection
               userProfile={this.props.profile}
               verifyUrl={this.props.verifyUrl}/>
