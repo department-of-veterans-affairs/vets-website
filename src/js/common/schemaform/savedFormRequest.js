@@ -1,13 +1,13 @@
 import merge from 'lodash/fp/merge';
 
-import environment from './environment';
+import environment from '../helpers/environment';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
   return contentType && contentType.indexOf('application/json') !== -1;
 }
 
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function savedFormRequest(resource, success, error, optionalSettings = {}) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/'
     ? [baseUrl, resource].join('')
@@ -16,13 +16,11 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
-      'X-Key-Inflection': 'camel'
+      Authorization: `Token token=${sessionStorage.userToken}`
     }
   };
 
   const settings = merge(defaultSettings, optionalSettings);
-
   return fetch(url, settings)
     .then((response) => {
       const data = isJson(response)
@@ -39,3 +37,4 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     })
     .then(success, error);
 }
+
