@@ -48,7 +48,7 @@ export function savedFormRequest(resource, optionalSettings = {}, success, error
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
+      Authorization: `Token token=${sessionStorage.userToken}`
     }
   };
 
