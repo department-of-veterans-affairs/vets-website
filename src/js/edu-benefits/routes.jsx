@@ -1,8 +1,5 @@
 import _ from 'lodash/fp';
 import { combineReducers } from 'redux';
-import EduBenefitsApp from './1990/containers/EduBenefitsApp';
-import routes1990 from './1990/routes';
-import form1990 from './1990/reducers';
 import asyncLoader from '../common/components/asyncLoader';
 import { commonReducer } from '../common/store';
 
@@ -11,20 +8,7 @@ function createCommonReducer(reducer) {
 }
 
 export default function createRoutes(store) {
-  // It will be confusing to have multiple forms in one app living side by side
-  // in the Redux store, so just replace everything when you go into a form
-  const onEnter = (reducer) => () => {
-    store.replaceReducer(createCommonReducer(reducer));
-  };
-
   const childRoutes = [
-    {
-      path: '1990',
-      indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
-      onEnter: onEnter(form1990),
-      component: EduBenefitsApp,
-      childRoutes: routes1990
-    },
     {
       path: '1995',
       indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
@@ -109,13 +93,10 @@ export default function createRoutes(store) {
           callback(null, require('./5495/routes').default);
         }, 'edu-5495');
       },
-    }
-  ];
-
-  if (__BUILDTYPE__ !== 'production') {
-    childRoutes.push({
-      path: '1990-rjsf',
-      indexRoute: { onEnter: (nextState, replace) => replace('/1990-rjsf/introduction') },
+    },
+    {
+      path: '1990',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
@@ -128,9 +109,9 @@ export default function createRoutes(store) {
         require.ensure([], (require) => {
           callback(null, require('./1990-rjsf/routes').default);
         }, 'edu-1990');
-      },
-    });
-  }
+      }
+    }
+  ];
 
   childRoutes.push({
     path: '*',

@@ -10,7 +10,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders
     client
-      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990-rjsf`)
+      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
@@ -155,6 +155,4 @@ const test = E2eHelpers.createE2eTest(
   }
 );
 
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = test;
-}
+module.exports = test;
