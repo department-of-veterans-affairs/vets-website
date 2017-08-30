@@ -125,7 +125,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator message="Loading claims and appeals list..." setFocus/>;
+      content = <LoadingIndicator message="Loading a list of your claims and appeals..." setFocus/>;
     } else if (list.length > 0) {
       content = (<div>
         {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}

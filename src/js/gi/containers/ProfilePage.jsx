@@ -69,7 +69,7 @@ export class ProfilePage extends React.Component {
     let content;
 
     if (profile.inProgress || _.isEmpty(profile.attributes)) {
-      content = <LoadingIndicator message="Loading profile..."/>;
+      content = <LoadingIndicator message="Loading your profile..."/>;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 

@@ -71,7 +71,7 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator setFocus message="Loading claim information..."/>;
+      content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
     } else {
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
