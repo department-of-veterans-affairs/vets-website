@@ -71,7 +71,7 @@ class Modal extends React.Component {
       closeButton = (<button
         className="va-modal-close"
         type="button"
-        onClick={this.props.onClose}>
+        onClick={this.props.onClose} onTouchStart={this.props.onClose}>
         <i className="fa fa-close"></i>
         <span className="usa-sr-only">Close this modal</span>
       </button>);
