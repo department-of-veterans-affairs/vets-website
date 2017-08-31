@@ -55,4 +55,58 @@
       margin-right: 5px;
     }
   }
+
+  .card {
+    .resume-saved-application-container {
+      @include media($medium-large-screen) {
+        padding-left: 8px;
+      }
+    }
+  } 
+  
+  .saved-form-information {
+    margin: 0;
+    
+    .saved-form-metadata-container {
+      margin-bottom: 8px;
+    }
+    
+    .saved-form-item-metadata {
+      display: block;
+      margin-right: 5px;
+    }
+  }
+
+  .saved-form-title {
+    color: $color-primary;
+  }
+
+  .remove-saved-application-container {
+    margin-bottom: 16px;
+    float: right;
+    @include media($medium-large-screen) {
+      float: left;
+    }
+  }
+
+  .remove-saved-application-label {
+    display: inline;
+    margin-left: 5px;
+  }
+
+  .resume-saved-application {
+    margin-top: 0;
+    margin-right: 0;
+    float: right;
+  }
+
+  .saved-form-item-expires {
+    color: $color-secondary-dark
+  }
+  .va-expired-item-close {
+    float: right;
+    top: initial;
+    right: initial;
+    position: relative;
+  }
 }

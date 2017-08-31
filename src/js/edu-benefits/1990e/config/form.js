@@ -43,7 +43,7 @@ const formConfig = {
   urlPrefix: '/1990e/',
   submitUrl: '/v0/education_benefits_claims/1990e',
   trackingPrefix: 'edu-1990e-',
-  formId: '1990e',
+  formId: '22-1990E',
   version: 0,
   disableSave: true,
   transformForSubmit: transform,
