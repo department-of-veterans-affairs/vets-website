@@ -16,7 +16,7 @@ import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-ac
 import { updateLogInUrl } from '../../login/actions';
 
 function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
+  const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
   if (legend && legend.getBoundingClientRect().height > 0) {
     focusElement(legend);
   } else {
