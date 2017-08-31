@@ -14,7 +14,7 @@ const scroller = Scroll.scroller;
  *
  * The Add Another button is always displayed at the bottom, no matter the state of the rest of the rows.
  *
- * If there's only one row, the form will always show expanded (i.e. fields are visible) with no grey box.
+ * If there’s only one row, the form will always show expanded (i.e. fields are visible) with no grey box.
  *
  * With more than one row:
  *
@@ -25,7 +25,7 @@ const scroller = Scroll.scroller;
  * The edit state is set when you click the Edit button. Complete is set for the current row when you add
  * another or update an existing one. Incomplete is set for the new row added after clicking Add Another.
  *
- * All rows are set to complete when the component is mounted (i.e. you're coming back to the page after adding a row previously).
+ * All rows are set to complete when the component is mounted (i.e. you’re coming back to the page after adding a row previously).
  * component - The component to render for each item in the table
  * createRow - Function called to create a new row
  * data - Form data
@@ -231,8 +231,8 @@ class GrowableTable extends React.Component {
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns va-growable-expanded">
                 {(stateKey === 'incomplete' && this.props.rowTitle && this.props.rows.length > 1)
-                    ? <h5>{this.props.rowTitle}</h5>
-                    : null}
+                  ? <h5>{this.props.rowTitle}</h5>
+                  : null}
                 {React.createElement(this.props.component,
                   { data: obj,
                     view: 'expanded',

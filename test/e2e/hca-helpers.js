@@ -173,10 +173,10 @@ function completeInsuranceInformation(client, data) {
 
 function completeVaInsuranceInformation(client, data) {
   client
-  .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
-  .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
-  .click('input[name="root_isEssentialAcaCoverage"]')
-  .click('input[name="root_wantsInitialVaContactYes"]');
+    .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
+    .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
+    .click('input[name="root_isEssentialAcaCoverage"]')
+    .click('input[name="root_wantsInitialVaContactYes"]');
 }
 
 function initApplicationSubmitMock() {

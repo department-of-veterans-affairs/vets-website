@@ -18,7 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 If you’re a surviving spouse, you can get compensation if you:
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
 - Were married to the Veteran for at least 1 year, **or**
-- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran's death or, if separated, weren’t at fault for the separation
+- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
 </div>
 

@@ -69,7 +69,7 @@ class ResultsList extends Component {
 
     return (
       <div>
-        <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
+        <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
         <div>
           {
             facilities.map(f => {

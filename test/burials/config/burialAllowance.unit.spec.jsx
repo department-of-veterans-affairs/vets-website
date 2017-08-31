@@ -11,10 +11,10 @@ describe('Burials burial allowance', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -25,11 +25,11 @@ describe('Burials burial allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{ burialDate: '2013-11-05' }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{ burialDate: '2013-11-05' }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_burialAllowanceRequested_1', 'nonService');
@@ -40,11 +40,11 @@ describe('Burials burial allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{ locationOfDeath: { location: 'stateVeteransHome' } }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{ locationOfDeath: { location: 'stateVeteransHome' } }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
@@ -54,11 +54,11 @@ describe('Burials burial allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -69,10 +69,10 @@ describe('Burials burial allowance', () => {
   it('should show actual burial cost text field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -84,17 +84,17 @@ describe('Burials burial allowance', () => {
   it('should show previously received question', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{
-            locationOfDeath: {
-              location: 'vaMedicalCenter'
-            },
-            relationship: {
-              type: 'spouse'
-            }
-          }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          locationOfDeath: {
+            location: 'vaMedicalCenter'
+          },
+          relationship: {
+            type: 'spouse'
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -105,17 +105,17 @@ describe('Burials burial allowance', () => {
   it('should show unclaimed question', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{
-            locationOfDeath: {
-              location: 'vaMedicalCenter'
-            },
-            relationship: {
-              type: 'other'
-            }
-          }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          locationOfDeath: {
+            location: 'vaMedicalCenter'
+          },
+          relationship: {
+            type: 'other'
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -127,11 +127,11 @@ describe('Burials burial allowance', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{ locationOfDeath: { location: 'vaMedicalCenter' } }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

@@ -1,14 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
-
 import FormTitle from '../../common/schemaform/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
+  constructor() {
+    super();
+    this.navigateToPrint = this.navigateToPrint.bind(this);
+  }
+
+  navigateToPrint() {
+    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  }
+
   render() {
     const { enrollmentData } = this.props;
     let introText;
@@ -18,7 +25,7 @@ class StatusPage extends React.Component {
       introText = (
         <div className="va-introtext">
           <p>
-            The information on this page is the same information that's in your
+            The information on this page is the same information that’s in your
             Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
             (Chapter 33) benefits. You can print this page and use it instead
             of your COE to show that you qualify for benefits.
@@ -28,9 +35,9 @@ class StatusPage extends React.Component {
 
       printButton = (
         <div className="section">
-          <Link to="/print" target="_blank" className="usa-button-primary" id="print-button">
+          <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
             Print Statement of Benefits
-          </Link>
+          </button>
         </div>
       );
     }

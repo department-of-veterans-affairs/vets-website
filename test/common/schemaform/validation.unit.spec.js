@@ -12,6 +12,8 @@ import {
   validateDateRange,
   validateFileField,
   validateBooleanGroup,
+  validateMonthYear,
+  validateCurrentOrPastMonthYear,
   isValidForm
 } from '../../../src/js/common/schemaform/validation';
 
@@ -491,6 +493,40 @@ describe('Schemaform validations', () => {
 
       expect(isValidForm(form, pageListByChapters).isValid).to.be.true;
       expect(pageListByChapters.testChapter[1].depends.calledWith(form.data)).to.be.true;
+    });
+  });
+  describe('validateMonthYear', () => {
+    it('should validate month and year', () => {
+      const errors = { addError: sinon.spy() };
+      validateMonthYear(errors, '20123-43-XX', null, null, { atLeastOne: 'testing' });
+
+      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid date');
+    });
+    it('should pass with valid month and year', () => {
+      const errors = { addError: sinon.spy() };
+      validateMonthYear(errors, '2012-03-XX', null, null, { atLeastOne: 'testing' });
+
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+  describe('validateCurrentOrPastMonthYear', () => {
+    it('should validate month and year', () => {
+      const errors = { addError: sinon.spy() };
+      validateCurrentOrPastMonthYear(errors, '20123-43-XX');
+
+      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid date');
+    });
+    it('should pass with valid month and year', () => {
+      const errors = { addError: sinon.spy() };
+      validateCurrentOrPastMonthYear(errors, '2012-03-XX');
+
+      expect(errors.addError.called).to.be.false;
+    });
+    it('should fail with date in future', () => {
+      const errors = { addError: sinon.spy() };
+      validateCurrentOrPastMonthYear(errors, moment().add(1, 'year').format('YYYY-MM-[XX]'));
+
+      expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
     });
   });
 });

@@ -18,7 +18,7 @@ describe('<ClosedClaimMessage>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ClosedClaimMessage
-          claims={claims}/>
+        claims={claims}/>
     );
 
     expect(tree.everySubTree('.usa-alert')).not.to.be.empty;
@@ -35,7 +35,7 @@ describe('<ClosedClaimMessage>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ClosedClaimMessage
-          claims={claims}/>
+        claims={claims}/>
     );
 
     expect(tree.everySubTree('.usa-alert')).to.be.empty;
@@ -52,7 +52,7 @@ describe('<ClosedClaimMessage>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ClosedClaimMessage
-          claims={claims}/>
+        claims={claims}/>
     );
 
     expect(tree.text()).to.be.empty;

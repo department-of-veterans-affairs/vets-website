@@ -12,7 +12,7 @@ export const hearingDescriptions = {
   },
   central_office: { // eslint-disable-line camelcase
     title: 'You asked for a Board hearing in Washington, DC',
-    description: <p>You’ll get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board's central office hearings take place at 425 Eye Street, NW, Washington, DC, 20001.</p>
+    description: <p>You’ll get a letter in the mail at least 30 days before your hearing is scheduled. It will let you know the date and time of the hearing. The Board’s central office hearings take place at 425 Eye Street, NW, Washington, DC, 20001.</p>
   },
 };
 
@@ -102,13 +102,13 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             </ul>
             <p>Your appeal is now ready for the RO to certify it to the Board. <strong>On average, this step takes 3 months.</strong>
             </p>
-            <p>Note: If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed. There isn't an average time for this step because the complexity of the new evidence can vary.
+            <p>Note: If new evidence was added to your appeal, the RO will review the evidence and another SSOC will be developed. There isn’t an average time for this step because the complexity of the new evidence can vary.
             </p>
           </div>,
         },
         activated: {
           title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Regional Office (RO)',
-          description: <p>VBA has completed the Board's remand instructions to obtain additional evidence for your appeal, but was not able to grant some or all of your appeal based on that evidence. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you’ll get a copy of it in the mail.</p>
+          description: <p>VBA has completed the Board’s remand instructions to obtain additional evidence for your appeal, but was not able to grant some or all of your appeal based on that evidence. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you’ll get a copy of it in the mail.</p>
         },
       },
       nextAction: {
@@ -122,7 +122,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
     remand_ssoc: { // eslint-disable-line camelcase
       status: {
         title: 'Your Supplemental Statement of the Case (SSOC) Was Prepared by the Veterans Benefits Administration (VBA)',
-        description: <p>VBA has followed the Board's remand instructions to find additional evidence for your appeal. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you will get a copy of it in the mail.</p>
+        description: <p>VBA has followed the Board’s remand instructions to find additional evidence for your appeal. VBA completed an SSOC with the new evidence included. The SSOC has been sent to the Board, and you will get a copy of it in the mail.</p>
       }
     },
     soc: {
@@ -153,8 +153,8 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'The Board Has Made a Decision on Your Appeal',
         description: <div>
-          <p>The Board has made a decision on each issue within your appeal. You'll receive a copy of the Board's decision in the mail.</p>
-          <h5>What if I don’t agree with the Board's decision?</h5>
+          <p>The Board has made a decision on each issue within your appeal. You’ll receive a copy of the Board’s decision in the mail.</p>
+          <h5>What if I don’t agree with the Board’s decision?</h5>
           <p>If you disagree with any part of the Board’s decision, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a federal court. You have 120 days to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></p>
         </div>,
       },
@@ -199,11 +199,11 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
       status: {
         title: 'The Court of Appeals for Veterans Claims (CAVC) Has Made a Decision',
         description: <div>
-          <p>The CAVC has made a decision on your appeal. You'll receive a copy of the CAVC's decision in the mail.</p>
+          <p>The CAVC has made a decision on your appeal. You’ll receive a copy of the CAVC’s decision in the mail.</p>
           <ul>
             <li>If the CAVC denied your appeal, your appeal is now closed.</li>
-            <li>If the CAVC reversed the Board decision and granted your appeal, the Board will issue a decision following the CAVC's instructions to grant you the benefits you sought on appeal.</li>
-            <li>If the CAVC remanded your case, that means the Board needs to further review your case. The Board will review the CAVC's decision and gather more evidence or make a new decision on your appeal. After a CAVC remand, your appeal has priority status at the Board. There is no average time for this step. The Board will send you a letter when it receives your appeal, and will let you know how to submit any additional evidence you may have. If you have additional evidence for the Board to review, you can submit it within 90 days from the date of the Board's letter.
+            <li>If the CAVC reversed the Board decision and granted your appeal, the Board will issue a decision following the CAVC’s instructions to grant you the benefits you sought on appeal.</li>
+            <li>If the CAVC remanded your case, that means the Board needs to further review your case. The Board will review the CAVC’s decision and gather more evidence or make a new decision on your appeal. After a CAVC remand, your appeal has priority status at the Board. There is no average time for this step. The Board will send you a letter when it receives your appeal, and will let you know how to submit any additional evidence you may have. If you have additional evidence for the Board to review, you can submit it within 90 days from the date of the Board’s letter.
             </li>
           </ul>
         </div>,
@@ -228,7 +228,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             <p><strong>Note:</strong> At this point in the process, if you or your legal representative adds new evidence, the evidence will be reviewed only by the Board and not by the RO. If someone other than you or your representative submits evidence, the Board will have to remand the appeal to the RO to consider the evidence. The RO will then either make a decision or, if some or all issues in your appeal can’t be granted, will prepare and send you a Supplemental Statement of the Case (SSOC). Sending the case back to the RO for this type of consideration can add years to the time it takes to decide your appeal, but you can avoid this additional delay if you send a letter to the Board that says you want the Board to consider the new evidence without sending it back to the RO.</p>
             <p>
               <strong>
-                There isn't an average time for this step because the complexity of the new evidence can vary.
+                There isn’t an average time for this step because the complexity of the new evidence can vary.
               </strong>
             </p>
           </div>
@@ -240,7 +240,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
             <p>If you have additional evidence you would like the Board to review, you can add it within 90 days from the CAVC decision. You’ll receive a letter from the Board about how to submit new evidence during this time period.</p>
             <p>
               <strong>
-                There isn't an average time for this step, but your appeal has priority status at the Board.
+                There isn’t an average time for this step, but your appeal has priority status at the Board.
               </strong>
             </p>
           </div>

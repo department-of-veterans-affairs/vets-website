@@ -30,27 +30,27 @@ class ThreadHeader extends React.Component {
 
       messageNav = (
         <MessageNav
-            currentRange={currentMessageNumber}
-            messageCount={folderMessageCount}
-            onItemSelect={this.props.onMessageSelect}
-            itemNumber={currentMessageNumber}
-            totalItems={folderMessageCount}/>
+          currentRange={currentMessageNumber}
+          messageCount={folderMessageCount}
+          onItemSelect={this.props.onMessageSelect}
+          itemNumber={currentMessageNumber}
+          totalItems={folderMessageCount}/>
       );
     }
 
     if (threadMessageCount > 1) {
       toggleThread = (
         <ToggleThread
-            messagesCollapsed={this.props.messagesCollapsed}
-            onClick={this.props.onToggleThread}/>
+          messagesCollapsed={this.props.messagesCollapsed}
+          onClick={this.props.onToggleThread}/>
       );
     }
 
     // Hide the 'Delete' button for drafts and sent messages,
     // since drafts should only be deletable from the form,
-    // and sent messages can't be deleted.
+    // and sent messages can’t be deleted.
     // Also hide the 'Move' button for drafts and sent messages,
-    // since they can't be moved to other folders.
+    // since they can’t be moved to other folders.
     if (folderName !== 'Sent' && folderName !== 'Drafts') {
       deleteButton =
         <ButtonDelete onClick={this.props.onDeleteMessage}/>;
@@ -59,13 +59,13 @@ class ThreadHeader extends React.Component {
 
       moveTo = (
         <MoveTo
-            currentFolder={currentFolder}
-            folders={folders}
-            isOpen={moveToIsOpen}
-            messageId={message.messageId}
-            onChooseFolder={this.props.onChooseFolder}
-            onCreateFolder={this.props.onCreateFolder}
-            onToggleMoveTo={this.props.onToggleMoveTo}/>
+          currentFolder={currentFolder}
+          folders={folders}
+          isOpen={moveToIsOpen}
+          messageId={message.messageId}
+          onChooseFolder={this.props.onChooseFolder}
+          onCreateFolder={this.props.onCreateFolder}
+          onToggleMoveTo={this.props.onToggleMoveTo}/>
       );
     }
 

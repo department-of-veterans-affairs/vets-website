@@ -1,5 +1,6 @@
 {
   'rules': {
+    'react/no-find-dom-node': 0,
     'no-unused-expressions': 0 //This conflicts with Chai assertions
   }
 }

@@ -9,7 +9,7 @@ order: 2
 
 <div class="va-introtext">
 
-A presumed disability is a disability that's been diagnosed by a doctor and that we consider to be related to a Veteran’s military service because of specific aspects of service. 
+A presumed disability is a disability that’s been diagnosed by a doctor and that we consider to be related to a Veteran’s military service because of specific aspects of service. 
 
 </div>
 

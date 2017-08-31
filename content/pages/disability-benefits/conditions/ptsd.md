@@ -42,7 +42,7 @@ You may be able to get disability benefits if you have symptoms related to a tra
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>

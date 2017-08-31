@@ -48,7 +48,7 @@ You may chose from the following:
 
 If you enlist under the National Call to Service program, you don’t qualify for MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to see if you qualify and to enroll in the National Call to Service program. This benefit affects your service contract.
 
-### Get more information 
+### Get more information
 
 [National Call to Service program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf).
 

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -45,7 +46,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
-    let vaBenefitInfoRows = [];
+    const vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
@@ -68,15 +69,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <tr key={`option${key}`}>
             <th scope="row">
               <input
-                  aria-labelledby={`${key}Label`}
-                  autoComplete="false"
-                  checked={requestOptions[benefitOptionsMap[key]]}
-                  id={key}
-                  name={key}
-                  type="checkbox"
-                  onChange={this.handleChange}/>
+                aria-labelledby={`${key}Label`}
+                autoComplete="false"
+                checked={requestOptions[benefitOptionsMap[key]]}
+                id={key}
+                name={key}
+                type="checkbox"
+                onChange={this.handleChange}/>
             </th>
-            <td><label id={`${key}Label`}>{optionText}</label></td>
+            <td><label id={`${key}Label`} htmlFor={key}>{optionText}</label></td>
           </tr>
         );
       }
@@ -117,16 +118,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         <h2>Military service information</h2>
         <div className="form-checkbox">
           <input
-              autoComplete="false"
-              checked={requestOptions.militaryService}
-              id="militaryService"
-              name="militaryService"
-              type="checkbox"
-              onChange={this.handleChange}/>
+            autoComplete="false"
+            checked={requestOptions.militaryService}
+            id="militaryService"
+            name="militaryService"
+            type="checkbox"
+            onChange={this.handleChange}/>
           <label
-              className="schemaform-label"
-              name="militaryService-label"
-              htmlFor="militaryService">
+            className="schemaform-label"
+            name="militaryService-label"
+            htmlFor="militaryService">
             Include all periods of service
           </label>
         </div>
@@ -148,10 +149,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           Please choose what information you want to include in your letter.
         </p>
         {vaBenefitInformation}
-        <p>
-          If your service period or disability status information is incorrect, please send us a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
-        </p>
-
       </div>
     );
   }

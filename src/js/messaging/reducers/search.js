@@ -53,29 +53,29 @@ export default function search(state = initialState, action) {
       const { recipientName, senderName, sentDate, subject } = filter;
 
       if (recipientName) {
-        params.to.field = !!recipientName.eq
-                          ? makeField(recipientName.eq, true)
-                          : makeField(recipientName.match, true);
+        params.to.field = recipientName.eq
+          ? makeField(recipientName.eq, true)
+          : makeField(recipientName.match, true);
         params.to.exact = !!recipientName.eq;
       }
 
       if (senderName) {
-        params.from.field = !!senderName.eq
-                          ? makeField(senderName.eq, true)
-                          : makeField(senderName.match, true);
+        params.from.field = senderName.eq
+          ? makeField(senderName.eq, true)
+          : makeField(senderName.match, true);
         params.from.exact = !!senderName.eq;
       }
 
       if (sentDate) {
         const { gteq: startDate, lteq: endDate } = sentDate;
-        params.dateRange.start = !!startDate ? moment(startDate) : null;
-        params.dateRange.end = !!endDate ? moment(endDate) : null;
+        params.dateRange.start = startDate ? moment(startDate) : null;
+        params.dateRange.end = endDate ? moment(endDate) : null;
       }
 
       if (subject) {
-        params.subject.field = !!subject.eq
-                             ? makeField(subject.eq, true)
-                             : makeField(subject.match, true);
+        params.subject.field = subject.eq
+          ? makeField(subject.eq, true)
+          : makeField(subject.match, true);
         params.subject.exact = !!subject.eq;
       }
 

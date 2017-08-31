@@ -13,7 +13,7 @@ describe('Pensions helpers', () => {
       };
       const tree = SkinDeep.shallowRender(
         <FileHelp
-            formData={formData}/>
+          formData={formData}/>
       );
 
       expect(tree.text()).to.contain('Please upload all doc');
@@ -27,7 +27,7 @@ describe('Pensions helpers', () => {
       };
       const tree = SkinDeep.shallowRender(
         <FileHelp
-            formData={formData}/>
+          formData={formData}/>
       );
 
       expect(tree.everySubTree('li').length).to.equal(3);
@@ -40,7 +40,7 @@ describe('Pensions helpers', () => {
       };
       const tree = SkinDeep.shallowRender(
         <FileHelp
-            formData={formData}/>
+          formData={formData}/>
       );
 
       expect(tree.everySubTree('li').length).to.equal(3);

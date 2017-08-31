@@ -103,13 +103,13 @@ function testUnauthedUserFlow(client, path) {
 
   client
     .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Log In With Your Account for Vets.gov');
+    .expect.element('h1').text.to.equal('Log In to Your Vets.gov Account');
 
   logIn(token, client, path, 1)
     .waitForElementVisible('.react-container', Timeouts.normal)
     .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
-  client.
-    expect.element('button.usa-button-big').text.to.equal('Get Started');
+  client
+    .expect.element('button.usa-button-big').text.to.equal('Get Started');
 }
 
 module.exports = {

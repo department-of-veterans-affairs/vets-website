@@ -18,23 +18,23 @@ export default class DirectDepositFields extends React.Component {
         <p><span className="form-required-span">*</span>Indicates a required field</p>
         <div className="input-section">
           <ErrorableRadioButtons
-              label="Account type"
-              name="accountType"
-              options={accountTypes}
-              value={this.props.data.bankAccount.accountType}
-              onValueChange={(update) => {this.props.onStateChange('bankAccount.accountType', update);}}/>
+            label="Account type"
+            name="accountType"
+            options={accountTypes}
+            value={this.props.data.bankAccount.accountType}
+            onValueChange={(update) => {this.props.onStateChange('bankAccount.accountType', update);}}/>
           <ErrorableTextInput
-              label="Account number"
-              name="accountNumber"
-              field={this.props.data.bankAccount.accountNumber}
-              onValueChange={(update) => {this.props.onStateChange('bankAccount.accountNumber', update);}}/>
+            label="Account number"
+            name="accountNumber"
+            field={this.props.data.bankAccount.accountNumber}
+            onValueChange={(update) => {this.props.onStateChange('bankAccount.accountNumber', update);}}/>
           <ErrorableTextInput
-              errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, (val) => isBlank(val) || isValidRoutingNumber(val)) ? undefined : 'Please enter a valid nine digit routing number'}
-              validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
-              label="Routing number"
-              name="routingNumber"
-              field={this.props.data.bankAccount.routingNumber}
-              onValueChange={(update) => {this.props.onStateChange('bankAccount.routingNumber', update);}}/>
+            errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, (val) => isBlank(val) || isValidRoutingNumber(val)) ? undefined : 'Please enter a valid nine digit routing number'}
+            validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
+            label="Routing number"
+            name="routingNumber"
+            field={this.props.data.bankAccount.routingNumber}
+            onValueChange={(update) => {this.props.onStateChange('bankAccount.routingNumber', update);}}/>
         </div>
       </fieldset>
     );

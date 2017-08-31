@@ -5,8 +5,8 @@ export function TextWidget({ value }) {
   return <span>{value}</span>;
 }
 
-export function DateWidget({ value }) {
-  return <span>{formatReviewDate(value)}</span>;
+export function DateWidget({ value, options }) {
+  return <span>{formatReviewDate(value, options.monthYear)}</span>;
 }
 
 export const EmailWidget = TextWidget;

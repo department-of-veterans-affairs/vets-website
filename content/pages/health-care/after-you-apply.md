@@ -6,7 +6,7 @@ display_title: After You Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
 order: 4
-lastupdate: 2017-06-28
+lastupdate: 2017-08-28
 ---
 
 <div class="va-introtext">
@@ -83,7 +83,7 @@ Contact your local VA medical center or clinic and ask for:
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
-If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
+If you’re signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
 [Refill your prescriptions](/health-care/prescriptions/). <br />
 [Send a secure message to your health care team](/health-care/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
@@ -96,7 +96,7 @@ If you need help accessing services, call our toll-free hotline at 877-222-VETS 
 
 #### What if I need to update my personal information?
 
-To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
 
 Mail this form and any supporting materials to:
 
@@ -106,7 +106,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329<br>
 </p>
  
-You can also get help updating your personal information by visiting your local VA facility or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/).
 
 <br>
 

@@ -27,8 +27,8 @@ export function openAdvancedSearch() {
 
 export function setDateRange(date, start = true) {
   const mode = start
-             ? SET_ADVSEARCH_START_DATE
-             : SET_ADVSEARCH_END_DATE;
+    ? SET_ADVSEARCH_START_DATE
+    : SET_ADVSEARCH_END_DATE;
 
   return {
     type: mode,

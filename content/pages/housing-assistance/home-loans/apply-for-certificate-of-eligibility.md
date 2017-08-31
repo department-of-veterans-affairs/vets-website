@@ -31,7 +31,7 @@ The first step in getting a VA direct or VA-backed home loan is to apply for a C
 
 #### Gather the information you’ll need to apply for your COE
 
-Click on the description that matches you best to find out what information you'll need:
+Click on the description that matches you best to find out what information you’ll need:
 
 <br>
 
@@ -41,7 +41,7 @@ Click on the description that matches you best to find out what information you'
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-veteran">Veteran</button>
 <div id="apply-coe-veteran" class="usa-accordion-content">
 
-If you're a **Veteran**, you'll need a copy of your discharge or separation papers (DD214).
+If you’re a **Veteran**, you’ll need a copy of your discharge or separation papers (DD214).
 
 </div>
 </li>
@@ -49,7 +49,7 @@ If you're a **Veteran**, you'll need a copy of your discharge or separation pape
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-active-duty">Servicemember</button>
 <div id="apply-coe-active-duty" class="usa-accordion-content">
 
-If you're an **active-duty Servicemember**, you'll need:
+If you’re an **active-duty Servicemember**, you’ll need:
 
 - A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
   - Your full name
@@ -65,7 +65,7 @@ If you're an **active-duty Servicemember**, you'll need:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-activated">Current or former activated National Guard or Reserve member</button>
 <div id="apply-coe-activated" class="usa-accordion-content">
 
-If you're a **current or former activated National Guard or Reserve member**, you'll need a copy of your discharge or separation papers (DD214).
+If you’re a **current or former activated National Guard or Reserve member**, you’ll need a copy of your discharge or separation papers (DD214).
 
 </div>
 </li>
@@ -73,7 +73,7 @@ If you're a **current or former activated National Guard or Reserve member**, yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-not-activated">Current member of the National Guard or Reserves who has never been activated</button>
 <div id="apply-coe-not-activated" class="usa-accordion-content">
 
-If you're a **current member of the National Guard or Reserves**, and have **never been activated**, you'll need:
+If you’re a **current member of the National Guard or Reserves**, and have **never been activated**, you’ll need:
 
 - A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
   - Your full name
@@ -90,7 +90,7 @@ If you're a **current member of the National Guard or Reserves**, and have **nev
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-ng">Discharged member of the National Guard who was never activated</button>
 <div id="apply-coe-discharged-ng" class="usa-accordion-content">
 
-If you are a **discharged member of the National Guard** and were **never activated**, you'll need:
+If you are a **discharged member of the National Guard** and were **never activated**, you’ll need:
 
 - Your Report of Separation and Record of Service (NGB Form 22) for each period of National Guard service, **or**
 - Your Retirement Points Statement (NGB Form 23) and proof of the character of service
@@ -101,7 +101,7 @@ If you are a **discharged member of the National Guard** and were **never activa
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves who was never activated</button>
 <div id="apply-coe-discharged-reserves" class="usa-accordion-content">
 
-If you are a **discharged member of the Reserves** and were **never activated**, you'll need:
+If you are a **discharged member of the Reserves** and were **never activated**, you’ll need:
 
 - A copy of your latest annual retirement points, **and**
 - Proof of your honorable service
@@ -112,12 +112,12 @@ If you are a **discharged member of the Reserves** and were **never activated**,
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-survivor">Surviving spouse of a Veteran who died on active duty or who had a service-connected disability</button>
 <div id="apply-coe-survivor" class="usa-accordion-content">
 
-If you're a **surviving spouse** who qualifies for home loan benefits, you'll need the Veteran’s discharge documents (DD214)—if available—**and:**
+If you’re a **surviving spouse** who qualifies for home loan benefits, you’ll need the Veteran’s discharge documents (DD214)—if available—**and:**
 
 - **If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send a Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses (VA Form 26-1817). [Download VA Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf). **Or**,
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21-534), **and**
   - A copy of your marriage license, **and**
-  - The Veteran's death certificate
+  - The Veteran’s death certificate
   
   <br>
  [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).

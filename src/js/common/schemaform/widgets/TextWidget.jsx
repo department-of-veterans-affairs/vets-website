@@ -9,15 +9,15 @@ export default function TextWidget(props) {
   }
   return (
     <input type={inputType}
-        id={props.id}
-        name={props.id}
-        disabled={props.disabled}
-        maxLength={props.schema.maxLength}
-        autoComplete={props.options.autocomplete || false}
-        className={props.options.widgetClassNames}
-        value={typeof props.value === 'undefined' ? '' : props.value}
-        onBlur={() => props.onBlur(props.id)}
-        onChange={(event) => props.onChange(event.target.value ? event.target.value : undefined)}/>
+      id={props.id}
+      name={props.id}
+      disabled={props.disabled}
+      maxLength={props.schema.maxLength}
+      autoComplete={props.options.autocomplete || false}
+      className={props.options.widgetClassNames}
+      value={typeof props.value === 'undefined' ? '' : props.value}
+      onBlur={() => props.onBlur(props.id)}
+      onChange={(event) => props.onChange(event.target.value ? event.target.value : undefined)}/>
   );
 }
 
