@@ -6,14 +6,14 @@ source: http://www.benefits.va.gov/VRE/
 template: L2-section-landing
 majorlinks:
   - url: /vocational-rehab-and-employment/service-disabled/
-    title: Programs for the Service Disabled
-    description: Find out if you qualify to get help learning new skills, finding a new job, or returning to your old job. 
+    title: Options and Eligibility for the Service Disabled
+    description: You may be eligible for help learning new skills, finding a new job, getting educational counseling, or returning to your former job. Choose your VR&E track. 
   - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process
     description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
   - url: /vocational-rehab-and-employment/family-members/
     title: Family Members
-    description: Find out if you qualify for certain counseling services, training, and education benefits.
+    description: Find out if you're eligible for certain counseling services, training, and education benefits.
 relatedlinks:
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
@@ -22,6 +22,6 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to work or prevents you from working, our Vocational Rehabilitation and Employment (VR&amp;E) program can help you explore career options and get more training. In some cases, your family members may qualify for VR&amp;E benefits too. 
+If you have a service-connected disability that limits your ability to work or prevents you from working, the Vocational Rehabilitation and Employment (VR&amp;E) program can help you—and in some cases, your family members—explore career options and get more training if required. We sometimes refer to VR&E as Chapter 31. 
 
 </div>
