@@ -111,7 +111,7 @@ For more information, call your local VA medical center’s enrollment coordinat
 
 #### What should I do if I move? 
 
-Let us know right away so we can help set up care in your new location. To change your address, call us at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
+Let us know right away so we can help set up care in your new location. To change your address, call us at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
 <br>
 
@@ -140,13 +140,23 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 
 #### How do I schedule an appointment at a VA health facility?
 
+<br>
+
+##### By phone
+
 You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
 
-[You can also use your DS Logon to request and schedule non-urgent visits online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). Your DS Logon is the same as the one you use for eBenefits.
+<br>
 
-Just keep in mind that your VA health care providers don't monitor this online tool. So:
+##### Online
 
-- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1.
+You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to use our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
+
+**Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
+
+Please keep in mind that your VA health care providers don't monitor this online tool:
+
+- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
 
 <br>
