@@ -37,7 +37,7 @@ describe('Schemaform definition dateRange', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('label').length).to.equal(8);
+    expect(formDOM.querySelectorAll('label,legend').length).to.equal(8);
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
     expect(formDOM.querySelectorAll('select').length).to.equal(4);
   });
@@ -71,7 +71,7 @@ describe('Schemaform definition dateRange', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('label')[0].textContent).to.equal('My from date');
-    expect(formDOM.querySelectorAll('label')[4].textContent).to.equal('My to date');
+    expect(formDOM.querySelectorAll('legend')[0].textContent).to.equal('My from date');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.equal('My to date');
   });
 });
