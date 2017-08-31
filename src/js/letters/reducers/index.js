@@ -12,7 +12,8 @@ import {
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
-  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  UPDATE_ADDRESS
 } from '../utils/constants';
 
 const initialState = {
@@ -90,6 +91,8 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], 'success', state);
     case 'GET_LETTER_PDF_FAILURE':
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
+    case UPDATE_ADDRESS:
+      return _.set('destination', action.address, state);
     default:
       return state;
   }
