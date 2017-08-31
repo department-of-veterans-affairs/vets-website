@@ -26,6 +26,12 @@ class MegaMenu {
 
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
+
+      const dropdown = this.getMenu(menu.getAttribute('aria-controls'));
+
+      if (dropdown) {
+        dropdown.addEventListener('click', (event) => event.stopPropagation());
+      }
     });
 
     submenus.forEach((submenu) => {
@@ -43,9 +49,9 @@ class MegaMenu {
     window.addEventListener('resize', this.resetMenu);
   }
 
-  handleDocumentClick(event){
+  handleDocumentClick(event) {
     const target = event.target;
-    if (!target.classList.contains('vetnav-level1')){
+    if (!target.classList.contains('vetnav-level1')) {
       this.closeAll();
     }
   }
