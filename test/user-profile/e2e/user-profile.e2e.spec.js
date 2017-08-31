@@ -3,6 +3,7 @@ const Timeouts = require('../../e2e/timeouts.js');
 const LoginHelpers = require('../../e2e/login-helpers');
 
 const { formLinks } = require('../../../src/js/user-profile/helpers.jsx');
+
 module.exports = E2eHelpers.createE2eTest(client => {
   let token = LoginHelpers.getUserToken();
 
