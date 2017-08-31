@@ -102,9 +102,9 @@ You can also schedule non-urgent visits online. You'll just need a DS Logon acco
 
 **Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
 
-Please keep in mind that your VA health care providers don't monitor this online tool. So:
+Please keep in mind that your VA health care providers don't monitor this online tool:
 
-- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1.
+- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
 
 <br>
