@@ -68,7 +68,7 @@ export default function FieldTemplate(props) {
     return children;
   }
 
-  const labelElement = isFieldGroup
+  const labelElement = (isFieldGroup || showFieldLabel)
     ? <legend className={labelClassNames}>{label}{requiredSpan}</legend>
     : <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>;
 
@@ -84,7 +84,7 @@ export default function FieldTemplate(props) {
     </div>
   );
 
-  if (isFieldGroup) {
+  if (isFieldGroup || showFieldLabel) {
     return (
       <fieldset className={containerClassNames}>
         {content}
