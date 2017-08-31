@@ -17,7 +17,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   token = LoginHelpers.getUserToken();
 
   LoginHelpers.logIn(token, client, '/profile', 3)
-    .waitForElementVisible('.react-container', Timeouts.slow)
+    .waitForElementVisible('.section-header', Timeouts.slow)
     .axeCheck('document');
 
   client
