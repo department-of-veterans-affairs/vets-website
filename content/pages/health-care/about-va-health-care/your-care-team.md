@@ -88,11 +88,17 @@ If you decide you want to change to a different primary care doctor, you’ll ne
 
 #### How do I schedule an appointment?
 
+##### By phone
+
 You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
 
-[You can also use your DS Logon to request and schedule non-urgent visits online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/). Your DS Logon is the same as the one you use for eBenefits.
+##### Online
 
-Just keep in mind that your VA health care providers don't monitor this online tool. So:
+You can also schedule non-urgent visits online. You'll just need a DS Logon (used for eBenefits and milConnect) to use our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
+
+**Don't have a DS Logon?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
+
+Please keep in mind that your VA health care providers don't monitor this online tool. So:
 
 - **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1.
 - **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
