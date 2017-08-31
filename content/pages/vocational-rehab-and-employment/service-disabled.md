@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Programs for Service-Disabled Servicemembers and Veterans
+title: Options and Eligibility for Servicemembers and Veterans with Service-Connected Disabilities
 template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran with a service-connected disability that doesn't let you continue on your current career path, our Vocational Rehabilitation and Employment (VR&amp;E) program may help. We offer 5 different VR&amp;E program tracks to help you build your career and live more independently. Find out if you qualify—and choose the track that best matches your needs.
+If you're a Servicemember or Veteran with a service-connected disability that impacts your ability to work, the Vocational Rehabilitation and Employment (VR&amp;E) program may help. We offer 5 support and service tracks to help you find and keep employment and live more independently. Find out if you're eligible.
 
 </div>
 
@@ -32,29 +32,24 @@ If you're a Servicemember or Veteran with a service-connected disability that do
 
 ##### Servicemembers
 
-You may qualify for VR&amp;E benefits if you're a Servicemember who:
+You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty
 
-**Note:** Having a service-connected disability means we've concluded that you're disabled because of an illness or injury caused—or made worse by—your active military service. Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve).
+**Note:** IDES helps to determine a Servicemember’s fitness for duty. It’s run in partnership by the Departments of Defense (DoD) and Veterans Affairs (VA). If you’re in the IDES and you’re found to be medically unfit for duty, you’ll get a proposed VA disability rating before you leave the service and you may be entitled to VR&E services. You’ll need to report for an evaluation with a VR&E before separating from active duty.
 
 <br>
 
 ##### Veterans
 
-You may also qualify for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+You may be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
 - Have a 10% or higher disability rating, **and**
 - Separated from the military or received a service-connected disability rating from VA within the past 12 years
 
-**Note:** Veterans may qualify for VR&amp;E benefits after 12 years if we conclude that more time is needed because of their employment handicap.
-
-<br>
-
-#### Who's covered?
-
-- Servicemembers
-- Veterans
-- [Qualified family members](/vocational-rehab-and-employment/family-members/)
+You may also be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+- Have a Serious Employment Handicap (SEH) due in large part to a service-connected disability, **and**
+- Have a 10% disability rating, **or**
+- Are beyond the 12-year basic period of eligibility
 
 </div>
