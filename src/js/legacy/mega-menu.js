@@ -40,7 +40,6 @@ class MegaMenu {
     this.closeControl.addEventListener('click', this.hideMenu);
 
     document.addEventListener('click', this.handleDocumentClick);
-    document.addEventListener('touchend', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
   }
 
@@ -64,6 +63,7 @@ class MegaMenu {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
 
+    event.stopPropagation();
     target.setAttribute('aria-expanded', false);
     this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
   }
@@ -108,9 +108,10 @@ class MegaMenu {
   }
 
   toggleSubMenu(event) {
-    event.stopPropagation();
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
     const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
+
+    event.stopPropagation();
 
     submenus.forEach((sm) => {
       sm.setAttribute('hidden','hidden');

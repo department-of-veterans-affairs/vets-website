@@ -11,12 +11,10 @@ class DropDown extends React.Component {
 
   componentWillMount() {
     this.props.container.addEventListener('click', this.handleDocumentClick, false);
-    this.props.container.addEventListener('touchend', this.handleDocumentClick, false);
   }
 
   componentWillUnmount() {
     this.props.container.removeEventListener('click', this.handleDocumentClick, false);
-    this.props.container.removeEventListener('touchend', this.handleDocumentClick, false);
   }
 
   handleDocumentClick(event) {
