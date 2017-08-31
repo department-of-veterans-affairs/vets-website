@@ -22,7 +22,7 @@ class DropDown extends React.Component {
     // then the user clicked elsewhere and we should invoke the click handler to toggle this
     // dropdown to closed.
     if (this.props.isOpen && !this.dropdownDiv.contains(event.target)) {
-      this.props.toggleDropDown();
+      this.toggleDropDown();
     }
   }
 
