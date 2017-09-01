@@ -14,10 +14,6 @@ majorlinks:
   - url: /vocational-rehab-and-employment/family-members/
     title: Family Members
     description: Find out if you're eligible for certain counseling services, training, and education benefits.
-relatedlinks:
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim now to help speed up the claim decision process.
 ---
 
 <div class="va-introtext">
