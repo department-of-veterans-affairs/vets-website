@@ -48,7 +48,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <li class="process-step list-six">
 
-If you're a Servicemember who hasn't yet received a service-connected disability rating, you don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
+**If you're a Servicemember who hasn't yet received a service-connected disability rating**, you don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
 You may be eligible for VR&amp;E services if you’re:
 - Going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge, **and**
@@ -64,7 +64,9 @@ You may also be eligible for VR&amp;E services if you’re:
 
 <li class="process-step list-seven">
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
+After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). 
+
+After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
 You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. [Learn more about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
 
