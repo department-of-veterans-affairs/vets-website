@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Job-Search Counseling and Employment Rehabilitation
+title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
