@@ -227,24 +227,24 @@ body {
 
 #hurricane-warning-container {
 
-  width:100%;
-  background-color:#fff1d2;
+  width: 100%;
+  background-color: $color-gibill-accent;
 
 }
 
 #hurricane-warning {
 
   max-width: 62.5em;
-  margin:0 auto;
+  margin: 0 auto;
 
   .usa-alert-body {
-    margin:0 auto;
+    margin: 0 auto;
     text-align: left;
 
     .usa-alert-heading {
 
-      margin:0 auto;
-      padding:0;
+      margin: 0 auto;
+      padding: 0;
     }
   }
 }
