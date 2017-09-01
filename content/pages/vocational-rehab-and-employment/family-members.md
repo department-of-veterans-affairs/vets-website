@@ -7,8 +7,8 @@ relatedlinks:
     title: VetSuccess on Campus
     description: Find out if our counselors can help you transition from military to college life.  
   - url: /vocational-rehab-and-employment/service-disabled/
-    title: Programs for Service-Disabled Servicemembers and Veterans
-    description: Help the Servicemember or Veteran in your family find out if they qualify for VR&amp;E benefits and services.
+    title: Options and Eligibility for the Service Disabled
+    description: Help the Servicemember or Veteran in your family find out if they're eligible for VR&amp;E benefits and services.
   - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process for Servicemembers and Veterans
     description: Help the Servicemember or Veteran in your family learn how to apply for VR&amp;E benefits and services.  
@@ -22,12 +22,11 @@ As the family member of a Servicemember or Veteran with a service-connected disa
 
 <div class="feature">
 
-### Can I get Survivors' and Dependents' Educational Assistance (DEA) services provided by VR&amp;E (sometimes called Chapter 35)?
+### Can I get Survivors' and Dependents' Educational Assistance (DEA) services (sometimes called Chapter 35)?
 
-You may be eligible for DEA services if you're the spouse of a:
-- Servicemember or Veteran who died from a service-connected disability, **or**
-- Servicemember or Veteran with a permanent and total service-connected disability, **or**
-- Servicemember who is Missing in Action, captured in the line of duty by a hostile force, or held or imprisoned by a foreign government or power for more than 90 days
+[Find out if you may be eligible for DEA](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+
+<br>
 
 ### Can I get educational and vocational counseling services provided by VR&amp;E (sometimes called Chapter 36)?
 
@@ -35,6 +34,8 @@ You may be eligible for educational and vocational counseling if:
 
 - You're the child of a Vietnam or Korean War Veteran who has been diagnosed with spina bifida and other specified birth defects, and you're participating in a VA educational assistance program under “Chapter 18” VA benefits, **or**
 - You're participating in the DEA program (Chapter 35)
+
+<br>
 
 ### Can I get VR&E counseling (sometimes called Chapter 33)?
 
@@ -57,69 +58,40 @@ You can get educational and vocational counseling, plus help with:
 
 ### How do I get these benefits?
 
-You'll need to apply for services. 
-
-#### To apply for Chapter 33 or 36 services
+You'll need to apply for services. Follow these steps to apply for Chapter 33 or Chapter 36 services:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 [Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
-Choose **Additional Benefits** on your dashboard.
-
-</li>
-
-<li class="step three">
-
-Choose **Vocational Rehabilitation and Employment Program**.
+Click **Additional Benefits** on your dashboard.
 
 </li>
 
-<li class="step last four">
+<li class="process-step list-three">
+
+Click **Vocational Rehabilitation and Employment Program**.
+
+</li>
+
+<li class="process-step list-four">
 
 Apply for **Educational and Vocational Counseling**.
 
 </li>
-</ol>
 
-If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Counselor (VRC).
+<li class="process-step list-five">
 
-
-#### To apply for Chapter 35 services
-
-##### Online
-
-<ol class="process">
-<li class="step one">
-
-[Log in to your Veterans On-Line Application (VONAPP) account](https://www.ebenefits.va.gov/ebenefits/vonapp).
-
-</li>
-
-<li class="step two">
-
-Go to the Forms drop down box.
-
-</li>
-
-<li class="step last three">
-
-Select and Apply for VA Form 22-5490 (Dependents' Application for VA Educational Benefits).
-
-**Note:** If the Servicemember or Veteran in your family isn't yet using VR&amp;E benefits and services, they can also apply online through eBenefits.
+If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path.
 
 </li>
 </ol>
 
-##### By mail
+**[Find out how to apply for DEA (Chapter 25) services](/education/gi-bill/survivors-dependent-assistance/dependents-education/)**.
 
-If you don't have access to VONAPP:
-
-Print and fill out VA Form 22-5490 (Dependents Application for VA Education Benefits). [Download VA Form 22-5490](https://www.vba.va.gov/pubs/forms/VBA-22-5490-ARE.pdf).
-
-Mail the form to your nearest VA Regional Process Office. To find the office nearest you, use our facility locator tool. Select **Benefits** for Facility Type and **Family member claim help** for Service Type. [Go to the facility locator](/facilities). 
+**Note:** If the Servicemember or Veteran in your family isn’t yet using VR&E benefits and services, they may also apply online through eBenefits.
