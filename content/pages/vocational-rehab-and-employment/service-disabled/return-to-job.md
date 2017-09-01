@@ -19,37 +19,28 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Veteran with a service-connected disability, you can return to the job you held before deploying to active service because of the Uniformed Services Employment and Reemployment Rights Act (USERRA). Find out if our Vocational Rehabilitation and Employment (VR&amp;E) program can help you return to your old job by supporting your employer in meeting your needs. 
-
-[Learn more about USERRA](http://www.dol.gov/vets/programs/userra/). 
+As a Veteran, you’re protected under the Uniformed Services Employment and Reemployment Rights Act (USERRA). This means you can’t be disadvantaged in your civilian career because of your service. If you’re a Veteran with a service-connected disability, we can help your employer accommodate your needs. Your Vocational Rehabilitation Counselor can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process. Find out how we can help you return to your former job and support your employer in meeting your needs.
 
 </div>
 
 <div class="feature" markdown="1">
 
-### Can I get help returning to my old job through VR&amp;E?
+### Can I get help returning to my former job through VR&amp;E?
 
 You may qualify for help if you're a Veteran with a service-connected disability and you:
-- Have an employment barrier or handicap, **and**
-- Are signed up for VR&amp;E, **and**
+- Have an employment barrier or handicap (meaning your service-connected disability limits your ability to  prepare for, find, and keep a job that's consistent with your abilities, aptitudes, and interests), **and**
+- Are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
 - Would like to return to your previous place of employment
-
-**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Having an employment barrier means your disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
-
-<br>
-
-#### Who's covered?
-
-Veterans
 
 </div>
 
 ### What kind of benefits can I get?
 
-- A full range of rehabilitation services with a Vocational Rehabilitation Counselor (VRC)
-- Referral to the Department of Labor to begin the process
+Help with the process of returning to the job you held before deploying.
 
 ### Get more information
+
+We offer more employment resources for Servicemembers and Veterans. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
 
 Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
 
@@ -59,6 +50,40 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 ### How do I get these benefits?
 
-You'll need to apply for these benefits to find a VRC who can help you. [Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
+You'll need to apply for these benefits to find a VRC who can help you. Follow these steps to apply.
+
+<ol class="process">
+
+<li class="step one">
+
+[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+
+</li>
+
+<li class="step two">
+
+Choose **Additional Benefits** on your dashboard.
+
+</li>
+
+<li class="step three">
+
+Choose **Vocational Rehabilitation and Employment Program**.
+
+</li>
+
+<li class="step four">
+
+Apply for the Vocational Rehabilitation and Employment Program. 
+
+</li>
+
+<li class="step last five">
+
+If you're eligible, we'll invite you to an orientation session at your nearest VA Regional Office.
+
+</li>
+</ol>
+
 
 **Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
