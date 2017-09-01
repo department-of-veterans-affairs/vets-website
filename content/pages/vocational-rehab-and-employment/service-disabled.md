@@ -11,7 +11,7 @@ relatedlinks:
     description: Find out if you qualify for training.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
     title: Self-Employment Track—Guidance and Support for Starting a Business
-    description: If you’re a Servicemember or Veteran with a service-connected disability, we can help you start your own business.
+    description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
