@@ -53,4 +53,6 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 - Have a 10% disability rating, **or**
 - Are beyond the 12-year basic period of eligibility
 
+**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. 
+
 </div>
