@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Are you a disabled Servicemember or Veteran who has the desire and skills to run a successful business? Find out if you can get counseling to guide you through the process of starting your own business through the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
+Are you a Servicemember or Veteran with a service-connected disability and an employment barrier who has the strong desire, skills, and drive to run a successful business? Find out if you can get help starting your own business through the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
 
 </div>
 
@@ -27,18 +27,12 @@ Are you a disabled Servicemember or Veteran who has the desire and skills to run
 
 ### Can I get help starting my own business through the VR&amp;E self-employment track?
 
-You may qualify for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you have:
-- An employment barrier, **and**
-- A draft business plan
+You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
 
-**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). Having an employment barrier means your service-connected disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
+- Are enrolled in VR&amp;E, **and**
+- Have an employment barrier (meaning your service-connected disability limits your ability to  prepare for, find, and keep a job that's consistent with your abilities, aptitudes, and interests), **and**
 
-<br>
-
-#### Who's covered?
-
-- Veterans
-- Servicemembers
+**Note:** If you have a 10% service-connected disability and a Vocational Rehabilitation Counselor says you need help because of a severe employment handicap, you may be entitled to services.
 
 </div>
 
@@ -47,15 +41,51 @@ You may qualify for the VR&amp;E self-employment track if you're a Servicemember
 - Coordination services and help with developing a proposed business plan
 - Analysis of your business concept
 - Training in small-business operations, marketing, and finances
-- Guidance in getting the resources you'll need to put your business plan into action
+- Guidance in getting the right resources to implement your business plan
 
-We may also provide minimum stocks, needed equipment, and business license fees.
+We may also provide minimum stocks, essential equipment, and business license fees for those with the most significant disabilities.
+
+After you develop your business plan, we’ll review it and evaluate whether self-employment and the proposed business are viable options.
 
 <hr>
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. [Apply for VR&amp;E Benefits](/vocational-rehab-and-employment/apply-vre/).
+You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. Follow these steps to apply:
+
+<ol class="process">
+
+<li class="step one">
+
+[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+
+</li>
+
+<li class="step two">
+
+Choose **Additional Benefits** on your dashboard.
+
+</li>
+
+<li class="step three">
+
+Choose **Vocational Rehabilitation and Employment Program**.
+
+</li>
+
+<li class="step four">
+
+Apply for the Vocational Rehabilitation and Employment Program. 
+
+</li>
+
+<li class="step last five">
+
+If you're eligible, we'll invite you to an orientation session at your nearest VA Regional Office.
+
+</li>
+</ol>
+
 
 If you qualify for VR&amp;E Benefits and develop a business plan, we'll review your plan and decide if self-employment and the proposed business are likely to succeed. If the answer is yes, we'll work with you to provide more support.
 
