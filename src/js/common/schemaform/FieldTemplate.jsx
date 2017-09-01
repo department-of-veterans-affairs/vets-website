@@ -27,6 +27,7 @@ export default function FieldTemplate(props) {
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
   const hideLabelText = uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
+  const useLabel = uiSchema['ui:options'] && uiSchema['ui:options'].useLabel;
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
@@ -68,7 +69,9 @@ export default function FieldTemplate(props) {
     return children;
   }
 
-  const labelElement = (isFieldGroup || showFieldLabel)
+  const useFieldsetLegend = (isFieldGroup || showFieldLabel) && !useLabel;
+
+  const labelElement = useFieldsetLegend
     ? <legend className={labelClassNames}>{label}{requiredSpan}</legend>
     : <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>;
 
@@ -84,7 +87,7 @@ export default function FieldTemplate(props) {
     </div>
   );
 
-  if (isFieldGroup || showFieldLabel) {
+  if (useFieldsetLegend) {
     return (
       <fieldset className={containerClassNames}>
         {content}

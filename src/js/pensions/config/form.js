@@ -614,6 +614,7 @@ const formConfig = {
                 showFieldLabel: true,
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
+                useLabel: true,
                 expandUnderCondition: (status) => !!status
                   && status !== 'Never Married'
               },
@@ -810,7 +811,8 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: true,
                 keepInPageOnReview: true,
-                countOffset: -1
+                countOffset: -1,
+                useLabel: true
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage'
