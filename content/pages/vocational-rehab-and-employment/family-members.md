@@ -22,21 +22,21 @@ As the family member of a Servicemember or Veteran with a service-connected disa
 
 <div class="feature">
 
-### Can I get Survivors' and Dependents' Educational Assistance (DEA) services provided by VR&amp;E (sometimes referred to as Chapter 35)?
+### Can I get Survivors' and Dependents' Educational Assistance (DEA) services provided by VR&amp;E (sometimes called Chapter 35)?
 
 You may be eligible for DEA services if you're the spouse of a:
-- Servicemember or Veteran who died from a service-connected disability
-- Servicemember or Veteran with a permanent and total service-connected disability
+- Servicemember or Veteran who died from a service-connected disability, **or**
+- Servicemember or Veteran with a permanent and total service-connected disability, **or**
 - Servicemember who is Missing in Action, captured in the line of duty by a hostile force, or held or imprisoned by a foreign government or power for more than 90 days
 
-### Can I get educational and vocational counseling services provided by VR&amp;E (sometimes referred to as Chapter 36)?
+### Can I get educational and vocational counseling services provided by VR&amp;E (sometimes called Chapter 36)?
 
 You may be eligible for educational and vocational counseling if:
 
 - You're the child of a Vietnam or Korean War Veteran who has been diagnosed with spina bifida and other specified birth defects, and you're participating in a VA educational assistance program under “Chapter 18” VA benefits, **or**
-- You're participating in the Survivors’ and Dependents’ Educational Assistance program (Chapter 35)
+- You're participating in the DEA program (Chapter 35)
 
-### Can I get VR&E counseling (sometimes referred to as Chapter 33)?
+### Can I get VR&E counseling (sometimes called Chapter 33)?
 
 You may be eligible for VR&E counseling if:
 
@@ -82,7 +82,7 @@ Choose **Vocational Rehabilitation and Employment Program**.
 
 <li class="step last four">
 
-Apply for the Vocational Rehabilitation and Employment Program.
+Apply for **Educational and Vocational Counseling**.
 
 </li>
 </ol>
@@ -103,7 +103,7 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 
 <li class="step two">
 
-Go to the Forms drop down box
+Go to the Forms drop down box.
 
 </li>
 
