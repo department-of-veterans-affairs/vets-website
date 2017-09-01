@@ -5,10 +5,10 @@ template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
     title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
-    description: Continue on your current career path with the help of our counselors.
+    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you qualify for training.
+    description: Find out if you qualify for vocational training.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
     title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
@@ -23,7 +23,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran with a service-connected disability that impacts your ability to work, the Vocational Rehabilitation and Employment (VR&amp;E) program may help. We offer 5 support and service tracks to help you find and keep employment and live more independently. Find out if you're eligible.
+If you're a Servicemember or Veteran with a service-connected disability that impacts your ability to work, the Vocational Rehabilitation and Employment (VR&amp;E) program may be able to help. We offer 5 support-and-services tracks to help you find and keep a job and live more independently. Find out if you're eligible for VR&amp;E benefits—and explore the different tracks.
 
 </div>
 
@@ -38,7 +38,7 @@ You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty
 
-**Note:** IDES helps to determine a Servicemember’s fitness for duty. It’s run in partnership by the Departments of Defense (DoD) and Veterans Affairs (VA). If you’re in the IDES and you’re found to be medically unfit for duty, you’ll get a proposed VA disability rating before you leave the service and you may be entitled to VR&E services. You’ll need to report for an evaluation with a VR&E before separating from active duty.
+**Note:** IDES helps to determine a Servicemember’s fitness for duty. It’s run in partnership by VA and the Department of Defense (DoD). If you’re in this system and you’re found to be medically unfit for duty, you’ll get a proposed VA disability rating before you leave the service and you may be entitled to VR&E services. You’ll need to report for an evaluation with a VR&E counselor before separating from active duty.
 
 <br>
 
