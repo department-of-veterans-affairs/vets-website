@@ -206,6 +206,9 @@ legend.schemaform-label {
 
 fieldset.schemaform-field-template {
   margin-top: 3rem;
+  &.schemaform-first-field {
+    margin-top: 0;
+  }
 }
 
 .schemaform-warning-header {
