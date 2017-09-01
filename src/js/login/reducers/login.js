@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { gaClientId } from '../../common/helpers/login-helpers';
 import appendQuery from 'append-query';
 
 import {
@@ -37,13 +36,13 @@ function loginStuff(state = initialState, action) {
       return _.set('currentlyLoggedIn', action.value, state);
 
     case UPDATE_LOGIN_URL:
-      return _.set('loginUrl', appendQuery(action.value, { clientId: gaClientId() }), state);
+      return _.set('loginUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case UPDATE_VERIFY_URL:
-      return _.set('verifyUrl', appendQuery(action.value, { clientId: gaClientId() }), state);
+      return _.set('verifyUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case UPDATE_LOGOUT_URL:
-      return _.set('logoutUrl', appendQuery(action.value, { clientId: gaClientId() }), state);
+      return _.set('logoutUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);
