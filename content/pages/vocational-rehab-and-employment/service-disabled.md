@@ -4,20 +4,21 @@ title: Options and Eligibility for Servicemembers and Veterans with Service-Conn
 template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track: Employment Counseling and Job-Search Assistance
+    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
     description: Continue on your current career path with the help of our counselors.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-    title: Employment Through Long-Term Services Track: Training to Develop New Job Skills
+    title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
     description: Find out if you qualify for training.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track: Guidance and Support for Starting a Business
+    title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Services Track: Support to Help You Live More Independently
+    title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track: Support with Returning to The Job You Held Before Mobilization
+    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
     description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+    
 ---
 
 <div class="va-introtext">
