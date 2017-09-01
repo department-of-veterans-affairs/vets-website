@@ -90,9 +90,9 @@ Apply for the Vocational Rehabilitation and Employment Program.
 If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Counselor (VRC).
 
 
-#### To apply for Chapter 35 benefits
+#### To apply for Chapter 35 services
 
-##### Apply online
+##### Online
 
 <ol class="process">
 <li class="step one">
@@ -107,19 +107,19 @@ Go to the Forms drop down box
 
 </li>
 
-<li class="step three">
+<li class="step last three">
 
 Select and Apply for VA Form 22-5490 (Dependents' Application for VA Educational Benefits).
 
 **Note:** If the Servicemember or Veteran in your family isn't yet using VR&amp;E benefits and services, they can also apply online through eBenefits.
 
 </li>
+</ol>
 
-##### Or by mail
+##### By mail
 
 If you don't have access to VONAPP:
 
 Print and fill out VA Form 22-5490 (Dependents Application for VA Education Benefits). [Download VA Form 22-5490](https://www.vba.va.gov/pubs/forms/VBA-22-5490-ARE.pdf).
 
 Mail the form to your nearest VA Regional Process Office. To find the office nearest you, use our facility locator tool. Select **Benefits** for Facility Type and **Family member claim help** for Service Type. [Go to the facility locator](/facilities). 
-
