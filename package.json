@@ -178,7 +178,7 @@
     "svg-url-loader": "^1.1.0",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
-    "uswds": "0.10.0",
+    "uswds": "1.3.1",
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "0.0.5",
@@ -194,6 +194,8 @@
   },
   "private": true,
   "dependencies": {
+    "bourbon": "4.2.7",
+    "bourbon-neat": "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz",
     "camelcase-keys-recursive": "^0.8.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-stats": "^1.0.0",
