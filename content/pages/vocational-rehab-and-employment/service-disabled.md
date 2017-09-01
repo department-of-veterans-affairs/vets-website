@@ -4,7 +4,7 @@ title: Options and Eligibility for Servicemembers and Veterans with Service-Conn
 template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
+    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
     description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
