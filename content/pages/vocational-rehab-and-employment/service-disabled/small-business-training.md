@@ -4,11 +4,11 @@ title: Self-Employment Track—Guidance and Support for Starting a Business
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
-    description: Continue on your current career path with the help of our counselors.
+    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
+    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you qualify for training.
+    description: Find out if you qualify for vocational training.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
