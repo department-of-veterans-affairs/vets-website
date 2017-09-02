@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Are you a Servicemember or Veteran with a service-connected disability and an employment barrier who has the strong desire, skills, and drive to run a successful business? Find out if you can get help starting your own business through the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
+Are you a Servicemember or Veteran with a service-connected disability and an employment barrier who has the strong desire, skills, and drive to run a successful business? You may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track. Find out if you can get help starting your own business.
 
 </div>
 
@@ -27,12 +27,17 @@ Are you a Servicemember or Veteran with a service-connected disability and an em
 
 ### Can I get help starting my own business through the VR&amp;E self-employment track?
 
-You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
+You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20%, and you:
 
-- Are enrolled in VR&amp;E, **and**
-- Have an employment barrier (meaning your service-connected disability limits your ability to  prepare for, find, and keep a job that's consistent with your abilities, aptitudes, and interests), **and**
+- Have an employment barrier, **and**
+- Are enrolled in VR&amp;E
 
-**Note:** If you have a 10% service-connected disability and a Vocational Rehabilitation Counselor says you need help because of a severe employment handicap, you may be entitled to services.
+You may also be entitled to services if you’re a Servicemember or Veteran with a service-connected disability of at least 10%, and:
+- You’re enrolled in VR&E, **and**
+- A Vocational Rehabilitation Counselor (VRC) says you need help because of a severe employment handicap
+	
+**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+
 
 </div>
 
@@ -55,40 +60,40 @@ You'll need to apply for benefits to find a Vocational Rehabilitation Counselor 
 
 <ol class="process">
 
-<li class="step one">
+<li class="process-step list-one">
 
 [Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
-Choose **Additional Benefits** on your dashboard.
-
-</li>
-
-<li class="step three">
-
-Choose **Vocational Rehabilitation and Employment Program**.
+Click **Additional Benefits** on your dashboard.
 
 </li>
 
-<li class="step four">
+<li class="process-step list-three">
+
+Click **Vocational Rehabilitation and Employment Program**.
+
+</li>
+
+<li class="process-step list-four">
 
 Apply for the Vocational Rehabilitation and Employment Program. 
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
-If you're eligible, we'll invite you to an orientation session at your nearest VA Regional Office.
+If you're eligible, we'll invite you to an orientation session at your nearest VA regional office.
 
 </li>
 </ol>
 
 
-If you qualify for VR&amp;E Benefits and develop a business plan, we'll review your plan and decide if self-employment and the proposed business are likely to succeed. If the answer is yes, we'll work with you to provide more support.
 
-**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/). 
+
+
 
 
