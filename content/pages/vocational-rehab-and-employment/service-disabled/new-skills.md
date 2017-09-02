@@ -4,8 +4,8 @@ title: Employment Through Long-Term Services Track—Training to Develop New Job
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Assistance
-    description: Continue on your current career path with the help of our counselors.
+    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
+    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
     title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Do you have a service-connected disability that makes it hard for you to succeed in your career path? Find out if you're eligible for Vocational Rehabilitation and Employment (VR&amp;E) training to help you find work in a different field that better suits your current abilities and interests.
+Do you have a service-connected disability that makes it hard for you to succeed in your career path? Vocational Rehabilitation and Employment (VR&amp;E) training may help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for VR&E benefits. 
 
 </div>
 
@@ -29,7 +29,7 @@ Do you have a service-connected disability that makes it hard for you to succeed
 
 You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service), and: 
 
-- You have an employment barrier or handicap (meaning your service-connected disability limits your ability to  prepare for, find, and keep a job that's consistent with your abilities, aptitudes, and interests), **and**
+- You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
 - Your service-connected disability makes it hard for you to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
@@ -39,7 +39,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 
 ### What kind of benefits can I get?
 
-- A comprehensive skills assessment
+- A complete skills assessment
 - Career guidance
 - Job-market evaluation
 - Education and training for a vocational field that’s a good fit for you
@@ -59,41 +59,40 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you.
+You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you. Follow these steps to apply:
 
 <ol class="process">
 
-<li class="step one">
+<li class="process-step list-one">
 
 [Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
-Choose **Additional Benefits** on your dashboard.
-
-</li>
-
-<li class="step three">
-
-Choose **Vocational Rehabilitation and Employment Program**.
+Click **Additional Benefits** on your dashboard.
 
 </li>
 
-<li class="step four">
+<li class="process-step list-three">
+
+Click **Vocational Rehabilitation and Employment Program**.
+
+</li>
+
+<li class="process-step list-four">
 
 Apply for the Vocational Rehabilitation and Employment Program. 
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
-If you're eligible, we'll invite you to an orientation session at your nearest VA Regional Office.
+If you're eligible, we'll invite you to an orientation session at your nearest VA regional office.
 
 </li>
 </ol>
 
-**Note:** VR&amp;E is an employment program different from the GI Bill that may be used to pay for education needed to train you for suitable employment.
+**Note:** VR&amp;E is an employment program different from the GI Bill that may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
 
-**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/). 
