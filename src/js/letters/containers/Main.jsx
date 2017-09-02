@@ -31,7 +31,7 @@ export class Main extends React.Component {
         break;
       // Need a permanent UI for this
       case 'invalidAddressProperty':
-        appContent = invalidAddressProperty;
+        appContent = systemDownMessage;
         break;
       case 'letterEligibilityError':
         appContent = this.props.children;
