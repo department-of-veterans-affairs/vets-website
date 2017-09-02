@@ -5,7 +5,7 @@ template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you qualify for vocational training.
+    description: Find out if you may be eligible for vocational training.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
     title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
