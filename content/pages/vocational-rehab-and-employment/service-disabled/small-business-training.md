@@ -8,7 +8,7 @@ relatedlinks:
     description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you qualify for vocational training.
+    description: Find out if you may be eligible for vocational training.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
