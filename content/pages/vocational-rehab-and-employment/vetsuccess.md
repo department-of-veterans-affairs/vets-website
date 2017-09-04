@@ -25,5 +25,5 @@ This program is also available to dependents of Veterans who:
 
 - [Are eligible for the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
 - [Are eligible for the Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education), **or**
-- Have had GI Bill benefits transferred to you from a spouse or parent, or
+- Have had GI Bill benefits transferred from a spouse or parent, **or**
 - [Are eligible for educational assistance under any GI Bill program](/education/gi-bill/)
