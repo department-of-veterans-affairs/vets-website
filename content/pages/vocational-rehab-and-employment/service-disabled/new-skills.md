@@ -13,8 +13,8 @@ relatedlinks:
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
-    description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
@@ -25,9 +25,9 @@ Do you have a service-connected disability that makes it hard for you to succeed
 
 <div class="feature" markdown="1">
 
-### Can I get career counseling and new skills training through VR&amp;E?
+### Can I get career counseling and training for new skills through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service), and: 
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service) and: 
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
@@ -49,7 +49,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 
 ### Get more information
 
-We offer more employment resources for Servicemembers and Veterans. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
 Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
 
@@ -94,5 +94,5 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 </li>
 </ol>
 
-**Note:** VR&amp;E is an employment program different from the GI Bill that may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
+**Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
 
