@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
+title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
@@ -39,11 +39,11 @@ You may be eligible for help if you're a Veteran with a service-connected disabi
 
 ### What kind of benefits can I get?
 
-Help with the process of returning to the job you held before deploying.
+Help with the process of returning to the job you held before you deployed.
 
 ### Get more information
 
-We offer more employment resources for Servicemembers and Veterans. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
 Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
 
