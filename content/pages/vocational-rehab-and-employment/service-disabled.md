@@ -5,7 +5,7 @@ template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
     title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
-    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+    description: If you want to use your existing skills in the workplace, find out if you can get help looking for and settling into a job.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
     title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
     description: Find out if you may be eligible for vocational training.
@@ -16,8 +16,8 @@ relatedlinks:
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
-    description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
     
 ---
 
@@ -44,7 +44,7 @@ You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 
 ##### Veterans
 
-You may be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+You may be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a 10% or higher disability rating, **and**
 - Separated from the military or received a service-connected disability rating from VA within the past 12 years
 
