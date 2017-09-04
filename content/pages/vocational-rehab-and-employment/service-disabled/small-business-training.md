@@ -13,8 +13,8 @@ relatedlinks:
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
-    description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
@@ -27,12 +27,12 @@ Are you a Servicemember or Veteran with a service-connected disability and an em
 
 ### Can I get help starting my own business through the VR&amp;E self-employment track?
 
-You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20%, and you:
+You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
 
 - Have an employment barrier, **and**
 - Are enrolled in VR&amp;E
 
-You may also be entitled to services if you’re a Servicemember or Veteran with a service-connected disability of at least 10%, and:
+You may also be entitled to services if you’re a Servicemember or Veteran with a service-connected disability of at least 10% and:
 - You’re enrolled in VR&E, **and**
 - A Vocational Rehabilitation Counselor (VRC) says you need help because of a severe employment handicap
 	
