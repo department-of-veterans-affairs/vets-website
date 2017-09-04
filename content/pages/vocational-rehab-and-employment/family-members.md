@@ -30,19 +30,19 @@ As the family member of a Servicemember or Veteran with a service-connected disa
 
 ### Can I get educational and vocational counseling services provided by VR&amp;E (sometimes called Chapter 36)?
 
-You may be eligible for educational and vocational counseling if:
+You may be eligible for educational and vocational counseling if you're:
 
-- You're the child of a Vietnam or Korean War Veteran who has been diagnosed with spina bifida and other specified birth defects, and you're participating in a VA educational assistance program under “Chapter 18” VA benefits, **or**
-- You're participating in the DEA program (Chapter 35)
+- The child of a Vietnam or Korean War Veteran who has been diagnosed with spina bifida and other specified birth defects, and you're participating in a VA educational assistance program under Chapter 18 VA benefits, **or**
+- Participating in the DEA program (Chapter 35)
 
 <br>
 
 ### Can I get VR&E counseling (sometimes called Chapter 33)?
 
-You may be eligible for VR&E counseling if:
+You may be eligible for VR&E counseling if you're:
 
-- You're the dependent of a Veteran, **and**
-- You're eligible for a VA education benefit
+- The dependent of a Veteran, **and**
+- Eligible for a VA education benefit
 
 </div>
 
@@ -92,6 +92,6 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 </li>
 </ol>
 
-**[Find out how to apply for DEA (Chapter 25) services](/education/gi-bill/survivors-dependent-assistance/dependents-education/)**.
+**[Find out how to apply for DEA (Chapter 35) services](/education/gi-bill/survivors-dependent-assistance/dependents-education/)**.
 
 **Note:** If the Servicemember or Veteran in your family isn’t yet using VR&E benefits and services, they may also apply online through eBenefits.
