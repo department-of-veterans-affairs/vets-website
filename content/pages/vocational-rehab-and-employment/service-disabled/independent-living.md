@@ -13,8 +13,8 @@ relatedlinks:
     title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
-    description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
@@ -44,9 +44,9 @@ Depending on your needs, services may include:
 - Evaluation and counseling to identify your needs and goals
 - Home consultations with specialists
 - Referral to support resources
-- Guidance to help you understand if you’re eligible for our adaptive-housing programs. These programs can help you make changes to your home—like widening doorways or adding ramps—to help you live more independently. [Learn more about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+- Guidance to help you understand if you’re eligible for our adaptive-housing programs. These programs can help you make changes to your home—like widening doorways or adding ramps—so you can live more independently. [Learn more about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
 
-These services generally last up to 24 months. In some cases, services may be used for longer.
+These services generally last up to 24 months. In some cases, you may be able to use services for longer than this.
 
 <br>
 
