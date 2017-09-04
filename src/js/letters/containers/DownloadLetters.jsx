@@ -52,12 +52,13 @@ class DownloadLetters extends React.Component {
 }
 
 function mapStateToProps(state) {
+  // TODO: eliminate all of these props?
   const userState = state.user;
   const letterState = state.letters;
   return {
     profile: userState.profile,
     letters: letterState.letters,
-    destination: letterState.destination,
+    address: letterState.address,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {

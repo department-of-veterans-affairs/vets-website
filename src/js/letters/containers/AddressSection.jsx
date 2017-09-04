@@ -1,23 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
+import { pick } from 'lodash/fp/pick';
 
-import { invalidAddressProperty } from '../utils/helpers.jsx';
+import {
+  isBlankAddress,
+  invalidAddressAlert,
+  makeAddressField
+} from '../utils/helpers.jsx';
 import { updateAddress } from '../actions/letters';
 import Address from '../components/Address';
 
 export class AddressSection extends React.Component {
   constructor() {
     super();
-    this.state = { isEditAddressing: false };
+    this.state = { isEditingAddress: false };
   }
 
   render() {
-    const destination = this.props.destination || {};
+    const address = this.props.address || makeAddressField();
     const addressLines = [
-      destination.addressLine1,
-      destination.addressLine2 ? `, ${destination.addressLine2}` : '',
-      destination.addressLine3 ? ` ${destination.addressLine3}` : ''
+      address.addressOne.value,
+      address.addressTwo.value ? `, ${address.addressTwo.value}` : '',
+      address.addressThree.value ? ` ${address.addressThree.value}` : ''
     ];
 
     let addressFields;
@@ -25,30 +29,36 @@ export class AddressSection extends React.Component {
       addressFields = (
         <div>
           <Address
-            value={destination}
+            address
             countries={this.props.countries}
             states={this.props.states}
-            onUserInput={(address) => {this.props.updateAddress(address);}}
+            onUserInput={(addr) => {this.props.updateAddress(addr);}}
             required/>
           <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
     } else {
+      let editButton;
+      if (this.props.referenceDataAvailable) {
+        editButton = (
+          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+        );
+      }
       addressFields = (
         <div>
           <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
-          <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          <div className="letters-address">{(address.city.value || '').toLowerCase()}, {address.stateCode.value} {(address.zipCode.value || '').toLowerCase()}</div>
+          {editButton}
         </div>
       );
     }
 
     let addressContent;
-    if (isEmpty(destination)) {
+    if (isBlankAddress(address)) {
       addressContent = (
         <div className="step-content">
-          {invalidAddressProperty}
+          {invalidAddressAlert}
         </div>
       );
     } else {
@@ -58,7 +68,7 @@ export class AddressSection extends React.Component {
             Downloaded documents will list your address as:
           </p>
           <div className="address-block">
-            <h5 className="letters-address">{(destination.fullName || '').toLowerCase()}</h5>
+            <h5 className="letters-address">{(this.props.fullName || '').toLowerCase()}</h5>
             {addressFields}
           </div>
           <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
@@ -75,12 +85,8 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const letterState = state.letters;
-  return {
-    destination: letterState.destination,
-    countries: letterState.countries,
-    states: letterState.states
-  };
+  return pick(state.letters,
+    ['fullName', 'address', 'countries', 'states', 'referenceDataAvailable']);
 }
 
 const mapDispatchToProps = {

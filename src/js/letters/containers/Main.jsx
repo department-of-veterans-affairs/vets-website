@@ -8,16 +8,16 @@ import {
   getBenefitSummaryOptions,
   getLetterList,
   getAddressCountries,
-  // getAddressStates
+  getAddressStates
 } from '../actions/letters';
-import { invalidAddressProperty } from '../utils/helpers.jsx';
+import { invalidAddressAlert } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
     this.props.getBenefitSummaryOptions();
     this.props.getAddressCountries();
-    // this.props.getAddressStates();
+    this.props.getAddressStates();
   }
 
   render() {
@@ -36,9 +36,8 @@ export class Main extends React.Component {
       case 'backendAuthenticationError':
         appContent = unableToFindRecordWarning;
         break;
-      // Need a permanent UI for this
-      case 'invalidAddressProperty':
-        appContent = invalidAddressProperty;
+      case 'invalidAddressAlert':
+        appContent = invalidAddressAlert;
         break;
       case 'letterEligibilityError':
         appContent = this.props.children;
@@ -73,10 +72,11 @@ export class Main extends React.Component {
 }
 
 function mapStateToProps(state) {
+  // TODO: eliminate all of these props except lettersAvailability?
   const letterState = state.letters;
   return {
     letters: letterState.letters,
-    destination: letterState.destination,
+    address: letterState.address,
     lettersAvailability: letterState.lettersAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
@@ -90,7 +90,7 @@ const mapDispatchToProps = {
   getBenefitSummaryOptions,
   getLetterList,
   getAddressCountries,
-  // getAddressStates
+  getAddressStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

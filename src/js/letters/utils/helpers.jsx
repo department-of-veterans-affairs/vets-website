@@ -4,7 +4,9 @@ import includes from 'lodash/fp/includes';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
+import { makeField } from '../../common/model/fields';
 import { formatDateShort } from '../../common/utils/helpers';
+import { isBlank } from '../../common/utils/validations.js';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -15,7 +17,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
 
-export const invalidAddressProperty = (
+export const invalidAddressAlert = (
   <div id="invalidAddress">
     <div className="usa-alert usa-alert-error">
       <div className="usa-alert-body">
@@ -236,3 +238,55 @@ export const benefitOptionsMap = {
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };
+
+// Create address fields from letters response destination object, or blank address
+// if no address is given.
+export function makeAddressField(address) {
+  if (address) {
+    return {
+      addressOne: makeField(address.addressLine1 || ''),
+      addressTwo: makeField(address.addressLine2 || ''),
+      addressThree: makeField(address.addressLine3 || ''),
+      city: makeField(address.city || ''),
+      stateCode: makeField(address.state || ''),
+      countryName: makeField(address.country || ''),
+      zipCode: makeField(address.zipCode || ''),
+      militaryPostOfficeTypeCode: makeField(address.militaryPostOfficeTypeCode || ''),
+      militaryPostalTypeCode: makeField(address.militaryPostalTypeCode || ''),
+      addressTypeCode: makeField(''),
+      zipSuffix: makeField('')
+    };
+  }
+  return {
+    addressOne: makeField(''),
+    addressTwo: makeField(''),
+    addressThree: makeField(''),
+    city: makeField(''),
+    stateCode: makeField(''),
+    countryName: makeField(''),
+    zipCode: makeField(''),
+    militaryPostOfficeTypeCode: makeField(''),
+    militaryPostalTypeCode: makeField(''),
+    addressTypeCode: makeField(''),
+    zipSuffix: makeField('')
+  };
+}
+
+export function isBlankAddress(address) {
+  return isBlank(address.addressOne.value)
+      && isBlank(address.addressTwo.value)
+      && isBlank(address.addressThree.value)
+      && isBlank(address.city.value)
+      && isBlank(address.stateCode.value)
+      && isBlank(address.countryName.value)
+      && isBlank(address.zipCode.value)
+      && isBlank(address.zipSuffix.value)
+      && isBlank(address.militaryPostOfficeTypeCode.value)
+      && isBlank(address.militaryPostalTypeCode.value)
+      && isBlank(address.addressTypeCode.value);
+}
+
+export function isMilitaryCity(city) {
+  const lowerCity = city.toLowerCase().trim();
+  return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+}

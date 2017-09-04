@@ -99,6 +99,7 @@ export class LetterList extends React.Component {
 function mapStateToProps(state) {
   const letterState = state.letters;
   return {
+    // TODO: eliminate benefitSummaryOptions prop?
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
