@@ -13,19 +13,19 @@ relatedlinks:
     title: Independent-Living Services Track—Support to Help You Live More Independently
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support with Returning to The Job You Held Before Mobilization
+    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
     description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
 
-If you want to follow a career path that uses your existing skill set, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities, and aptitudes. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
+If you want to follow a career path that uses your existing skill set, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
 
 </div>
 
 <div class="feature" markdown="1">
 
-### Can I get job-search counseling and employment coaching through VR&amp;E?
+### Can I get employment counseling and job-search support through VR&amp;E?
 
 You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and you:
 - Have an employment handicap or barrier, **and**
@@ -45,7 +45,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 
 ### Get more information
 
-We offer more employment resources for Servicemembers and Veterans. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
 Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
 
@@ -77,7 +77,7 @@ Click **Vocational Rehabilitation and Employment Program**.
 
 </li>
 
-<li class="step four">
+<li class="process-step list-four">
 
 Apply for the Vocational Rehabilitation and Employment Program. 
 
