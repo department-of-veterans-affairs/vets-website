@@ -31,7 +31,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility page.
     client
-      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_benefit_0"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
@@ -40,7 +40,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Service periods page.
     client
-      .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_view:newServiceYes"]', Timeouts.slow);
     EduHelpers.completeServicePeriods(client, testData.data);
     client
       .axeCheck('.main')
@@ -49,7 +49,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Military service page.
     client
-      .waitForElementVisible('label[for="root_view:hasServiceBefore1978"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_view:hasServiceBefore1978Yes"]', Timeouts.slow);
     Edu1995Helpers.completeMilitaryService(client);
     client
       .axeCheck('.main')
@@ -76,7 +76,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Contact information page.
     client
-      .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_preferredContactMethod_0"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
@@ -85,7 +85,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Dependents page.
     client
-      .waitForElementVisible('label[for="root_serviceBefore1977_married"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_serviceBefore1977_marriedYes"]', Timeouts.slow);
     Edu1995Helpers.completeDependents(client);
     client
       .axeCheck('.main')
@@ -94,7 +94,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Direct deposit page.
     client
-      .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_bankAccountChange_0"]', Timeouts.slow);
     EduHelpers.completePaymentChange(client, testData.data);
     EduHelpers.completeDirectDeposit(client, testData.data);
     client

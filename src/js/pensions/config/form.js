@@ -611,7 +611,7 @@ const formConfig = {
               'ui:required': (form) => !!_.get('maritalStatus', form)
                   && form.maritalStatus !== 'Never Married',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
                 expandUnderCondition: (status) => !!status
@@ -808,7 +808,7 @@ const formConfig = {
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 countOffset: -1
               },
