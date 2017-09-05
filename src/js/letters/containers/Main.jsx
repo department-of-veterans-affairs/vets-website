@@ -5,7 +5,6 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
 import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
-import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
