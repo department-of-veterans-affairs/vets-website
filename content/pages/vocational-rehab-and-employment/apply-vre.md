@@ -39,6 +39,12 @@ Click **Vocational Rehabilitation and Employment Program**.
 Apply for the Vocational Rehabilitation and Employment Program. 
 
 </li>
+
+<li class="process-step list-five">
+
+If you’re eligible, we’ll invite you to an orientation session at your nearest VA regional office.
+
+</li>
 </ol>
 
 ### Ready to apply?
