@@ -10,7 +10,7 @@ export const formTitles = {
   '22-1995': 'education benefits (22-1995)',
   '22-5490': 'education benefits (22-5490)',
   '22-5495': 'education benefits (22-5495)',
-  '10-10007': 'pre-need determination of eligibility in a VA National Cemetery'
+  '40-10007': 'pre-need determination of eligibility in a VA National Cemetery'
 };
 
 export const formLinks = {
