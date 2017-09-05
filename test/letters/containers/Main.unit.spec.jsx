@@ -41,10 +41,10 @@ describe('<Main>', () => {
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
 
-  it('should show invalid address error', () => {
+  it('should show system down message for invalid address error', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: 'invalidAddressProperty' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#invalidAddress')).to.be.ok;
+    expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
 
   it('should show letters unavailable message when service is unavailable', () => {
