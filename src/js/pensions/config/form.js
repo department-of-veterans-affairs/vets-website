@@ -611,10 +611,9 @@ const formConfig = {
               'ui:required': (form) => !!_.get('maritalStatus', form)
                   && form.maritalStatus !== 'Never Married',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
-                useLabel: true,
                 expandUnderCondition: (status) => !!status
                   && status !== 'Never Married'
               },
@@ -809,10 +808,9 @@ const formConfig = {
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
-                countOffset: -1,
-                useLabel: true
+                countOffset: -1
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage'

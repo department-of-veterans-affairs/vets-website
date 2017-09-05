@@ -228,7 +228,7 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('legend').text()).to.equal('Title');
     expect(tree.subTree('fieldset')).not.to.be.false;
   });
-  it('should not render fieldset if useLabel is true', () => {
+  it('should not render fieldset if showFieldLabel is set to label', () => {
     const schema = {
       type: 'string'
     };
@@ -236,7 +236,7 @@ describe('Schemaform <FieldTemplate>', () => {
       'ui:title': 'Title',
       'ui:widget': 'radio',
       'ui:options': {
-        useLabel: true
+        showFieldLabel: 'label'
       }
     };
     const formContext = {

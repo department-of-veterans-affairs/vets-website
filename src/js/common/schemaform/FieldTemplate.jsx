@@ -27,7 +27,7 @@ export default function FieldTemplate(props) {
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
   const hideLabelText = uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
-  const useLabel = uiSchema['ui:options'] && uiSchema['ui:options'].useLabel;
+  const useLabelElement = showFieldLabel === 'label';
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
@@ -69,7 +69,7 @@ export default function FieldTemplate(props) {
     return children;
   }
 
-  const useFieldsetLegend = (isFieldGroup || showFieldLabel) && !useLabel;
+  const useFieldsetLegend = (isFieldGroup || !!showFieldLabel) && !useLabelElement;
 
   const labelElement = useFieldsetLegend
     ? <legend className={labelClassNames}>{label}{requiredSpan}</legend>
