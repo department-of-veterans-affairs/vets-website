@@ -18,6 +18,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, the Vocational Rehabilitation and Employment (VR&amp;E) program—also referred to as Chapter 31—can help. Find out if you're eligible and how to apply for help exploring career options and getting more training if required. In some cases, your family members may also be eligible for certain VR&E benefits. 
+If you have a service-connected disability that limits your ability to work or prevents you from working, the Vocational Rehabilitation and Employment (VR&amp;E) program—also referred to as Chapter 31—can help. Find out if you're eligible and how to apply to get help exploring career options and getting more training if required. In some cases, your family members may also be eligible for certain VR&E benefits. 
 
 </div>
