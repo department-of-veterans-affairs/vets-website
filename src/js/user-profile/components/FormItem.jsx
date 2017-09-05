@@ -9,8 +9,7 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
-    const { last_updated: lastSaved, expires_at: expirationTime, return_url: returnUrl } = savedFormData.metadata;
-    const resumePath = returnUrl.slice(1);
+    const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
     const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
     const expirationDate = moment.unix(expirationTime);
     const isExpired = moment(expirationDate).isBefore();
@@ -25,7 +24,7 @@ class FormItem extends React.Component {
             </div>}
           </div>
           <div className="small-12 large-4 columns resume-saved-application-container">
-            <a className="usa-button-primary resume-saved-application" href={`${formLinks[formId]}${resumePath}?resume`}>Continue Your Application</a>
+            <a className="usa-button-primary resume-saved-application" href={`${formLinks[formId]}resume`}>Continue Your Application</a>
           </div>
         </div>
         <div className="remove-saved-application-container">
@@ -51,7 +50,7 @@ class FormItem extends React.Component {
 }
 
 FormItem.propTypes = {
-  savedFormData: PropTypes.object,
+  savedFormData: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
 
