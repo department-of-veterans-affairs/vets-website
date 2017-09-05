@@ -13,7 +13,7 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 import * as personId from '../../../common/schemaform/definitions/personId';
 
-import IntroductionPage from '../components/SIPIntroductionPage';
+import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
@@ -43,7 +43,10 @@ const formConfig = {
   trackingPrefix: 'edu-5495-',
   formId: '22-5495',
   version: 0,
-  // disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
