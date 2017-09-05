@@ -69,6 +69,8 @@ You may also be eligible for VR&amp;E services if you’re:
 - Apply for VR&E services, **and**
 - Report for an evaluation with a VR&E counselor before separating from active duty
 
+[Learn more about predischarge disability claims and IDES](/disability-benefits/apply/claim-types/predischarge-claim).
+
 </div>
 
 
