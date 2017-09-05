@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As a Veteran, you’re protected under the Uniformed Services Employment and Reemployment Rights Act (USERRA). This means you can’t be disadvantaged in your civilian career because of your service. If you’re a Veteran with a service-connected disability, we can help your employer accommodate your needs. Your Vocational Rehabilitation Counselor (VRC) can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process. Find out how we can help you return to your former job and support your employer in meeting your needs.
+As a Veteran, you’re protected under the Uniformed Services Employment and Reemployment Rights Act (USERRA). This means you can’t be disadvantaged in your civilian career because of your service. If you’re a Veteran with a service-connected disability, the Vocational Rehabilitation and Employment (VR&E) program can help your employer accommodate your needs. Your Vocational Rehabilitation Counselor (VRC) can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process. Find out how we can help you return to your former job and support your employer in meeting your needs.
 
 </div>
 
