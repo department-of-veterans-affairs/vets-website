@@ -18,7 +18,7 @@ Are you a Servicemember or Veteran who’s overcoming challenges related to serv
 
 <li class="process-step list-one">
 
-[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+Log in to your eBenefits account.
 
 </li>
 
@@ -39,16 +39,19 @@ Click **Vocational Rehabilitation and Employment Program**.
 Apply for the Vocational Rehabilitation and Employment Program. 
 
 </li>
+</ol>
 
-<li class="process-step list-five">
+### Ready to apply?
 
-If you're eligible, we'll invite you to an orientation session at your nearest VA regional office.
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+	Go to eBenefits to Apply
+</a>
 
-</li>
+<div class="feature" markdown=“1”>
 
-<li class="process-step list-six">
+### What if I'm a Servicemember who hasn't yet received a service-connected disability rating?
 
-**If you're a Servicemember who hasn't yet received a service-connected disability rating**, you don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
+You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
 You may be eligible for VR&amp;E services if you’re:
 - Going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge, **and**
@@ -60,9 +63,12 @@ You may also be eligible for VR&amp;E services if you’re:
 - Apply for VR&E services, **and**
 - Report for an evaluation with a VR&E counselor before separating from active duty
 
-</li>
+</div>
 
-<li class="process-step list-seven">
+
+### What happens after I apply?
+
+If you're eligible, we'll invite you to an orientation session at your nearest VA regional office.
 
 After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). 
 
@@ -70,6 +76,4 @@ After we make an entitlement decision, you and your counselor will work together
 
 You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. [Learn more about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
 
-</li>
-
-</ol>
+<div markdown="0"><br></div>
