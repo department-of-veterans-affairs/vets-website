@@ -51,8 +51,10 @@ class FormApp extends React.Component {
     //  saved form / prefill
     // If we're in production, we'll redirect if we start in the middle of a form
     // In development, we won't redirect unless we append the URL with `?redirect`
+    const resumeForm = this.props.currentLocation.search.includes('resume');
     const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
-    if (isInProgress(this.props.currentLocation.pathname) && devRedirect) {
+    const goToStartPage = resumeForm || devRedirect;
+    if (isInProgress(this.props.currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
@@ -127,7 +129,6 @@ class FormApp extends React.Component {
     this.shouldRedirectOrLoad = false;
 
     const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
-
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
