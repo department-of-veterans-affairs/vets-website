@@ -432,6 +432,38 @@ describe('Schemaform helpers:', () => {
       expect(output.someField).to.be.undefined;
       expect(output.someField2).to.be.undefined;
     });
+    it('should remove empty objects within an array', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        data: {
+          someField: {
+            subField: [
+              { foo: 'bar' },
+              {}
+            ]
+          },
+          arrayField: [
+            { foo: 'bar' },
+            {}
+          ],
+          emtpyArray: [{}, {}]
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output.someField.subField.length).to.equal(1);
+      expect(output.arrayField.length).to.equal(1);
+      expect(output.emptyArray).to.be.undefined;
+    });
   });
   describe('setItemTouched', () => {
     /* eslint-disable camelcase */

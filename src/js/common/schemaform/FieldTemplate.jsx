@@ -27,12 +27,14 @@ export default function FieldTemplate(props) {
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
   const hideLabelText = uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
+  const useLabelElement = showFieldLabel === 'label';
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField = typeof description === 'function'
     ? uiSchema['ui:description']
     : null;
+  const isFieldGroup = isDateField || uiSchema['ui:widget'] === 'yesNo' || uiSchema['ui:widget'] === 'radio';
 
   let errorSpanId;
   let errorSpan;
@@ -56,21 +58,46 @@ export default function FieldTemplate(props) {
     'usa-input-error form-error-date': isDateField && hasErrors
   });
 
-  return (schema.type === 'object'
-    || schema.type === 'array'
-    || (schema.type === 'boolean' && !uiSchema['ui:widget'])
-  ) && !showFieldLabel
-    ? children
-    : (<div className={containerClassNames}>
-      <div className={errorClass}>
-        {!hideLabelText && <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>}
-        {textDescription && <p>{textDescription}</p>}
-        {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
-        {!textDescription && !DescriptionField && description}
-        {errorSpan}
-        {<div className={inputWrapperClassNames}>{children}</div>}
-        {help}
-      </div>
-    </div>
+  const noWrapperContent = !showFieldLabel &&
+    (
+      schema.type === 'object' ||
+      schema.type === 'array' ||
+      (schema.type === 'boolean' && !uiSchema['ui:widget'])
     );
+
+  if (noWrapperContent) {
+    return children;
+  }
+
+  const useFieldsetLegend = (isFieldGroup || !!showFieldLabel) && !useLabelElement;
+
+  const labelElement = useFieldsetLegend
+    ? <legend className={labelClassNames}>{label}{requiredSpan}</legend>
+    : <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>;
+
+  const content = (
+    <div className={errorClass}>
+      {!hideLabelText && labelElement}
+      {textDescription && <p>{textDescription}</p>}
+      {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+      {!textDescription && !DescriptionField && description}
+      {errorSpan}
+      {<div className={inputWrapperClassNames}>{children}</div>}
+      {help}
+    </div>
+  );
+
+  if (useFieldsetLegend) {
+    return (
+      <fieldset className={containerClassNames}>
+        {content}
+      </fieldset>
+    );
+  }
+
+  return (
+    <div className={containerClassNames}>
+      {content}
+    </div>
+  );
 }
