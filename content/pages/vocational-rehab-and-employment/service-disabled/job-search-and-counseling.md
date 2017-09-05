@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you want to follow a career path that uses your existing skill set, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
+If you want to follow a career path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) program can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
 
 </div>
 
