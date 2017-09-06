@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VR&E Eligibility for Servicemembers and Veterans
+title: VR&E Eligibility
 template: topic-landing
 relatedlinks:
   - heading: More information about VR&E benefits and services
