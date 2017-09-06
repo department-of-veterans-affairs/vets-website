@@ -54,15 +54,15 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
-	Go to eBenefits to Apply
-</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
 [Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet](/vocational-rehab-and-employment/apply-vre/).
 
 <br>
 
-### What kind of VR&E benefits can I get?
+### What kind of VR&E services can I get?
+
+Depending on your needs and goals, services may include:
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services

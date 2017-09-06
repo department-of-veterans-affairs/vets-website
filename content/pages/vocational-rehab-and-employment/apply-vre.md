@@ -15,7 +15,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap and would like special career support or help living more independently with a severe disability? Follow these steps to apply for Vocational Rehabilitation and Employment (VR&amp;E) services.  
+If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
 
 </div>
 
@@ -56,9 +56,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
-	Go to eBenefits to Apply
-</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
 <br>
 
@@ -87,7 +85,7 @@ You may also be eligible for VR&amp;E services if you’re:
 
 ### What happens after I apply?
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). 
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 

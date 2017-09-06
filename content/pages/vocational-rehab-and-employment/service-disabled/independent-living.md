@@ -1,27 +1,27 @@
 ---
 layout: page-breadcrumbs.html
-title: Independent-Living Services Track—Support to Help You Live More Independently
+title: VR&E Independent-Living Services Track
 template: detail-page
 relatedlinks:
   - heading: HEADING HERE
     links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-      title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
-      description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+      title: Rapid Access to Employment Track
+      description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
     - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-      title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-      description: Find out if you may be eligible for vocational training.
+      title: Employment Through Long-Term Services Track
+      description: Find out if you may be eligible for vocational training to help you develop new job skills.
     - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-      title: Self-Employment Track—Guidance and Support for Starting a Business
+      title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
     - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-      title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+      title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get independent-living services. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get support to help you live more independently through the Vocational Rehabilitation and Employment (VR&E) Independent Living Services track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
 
 </div>
 
@@ -29,7 +29,7 @@ If your service-connected disability limits your ability to perform activities o
 
 ### Can I get independent-living services through VR&amp;E?
 
-You may be eligible for independent-living services if you’re a Servicemember or Veteran with a service-connected disability who qualifies for Vocational Rehabilitation and Employment (VR&E) benefits, and:
+You may be eligible for independent-living services if you’re a Servicemember or Veteran with a service-connected disability who qualifies for VR&E benefits, and:
 
 - You have a service-connected disability rating of 20&#37; or higher, **and**
 - Your injuries prevent you from looking for or returning to work right away, **and**

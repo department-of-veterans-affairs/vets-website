@@ -15,12 +15,11 @@ relatedlinks:
       title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
     - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-      title: Independent-Living Services Track
+      title: Independent Living Track
       description: Learn about services that can help you live more independently with your service-connected disability.
     - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
-
 ---
 
 <div class="va-introtext">

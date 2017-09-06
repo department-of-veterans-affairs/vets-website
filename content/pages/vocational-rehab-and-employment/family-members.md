@@ -7,10 +7,13 @@ relatedlinks:
     links:
     - url: /vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
-      description: Find out if our counselors can help you transition from military to college life.  
+      description: Find out if our counselors can help you transition from military to college life. 
+    - url: /vocational-rehab-and-employment/eligibility/
+      title: Eligibiliy for Servicemembers and Veterans
+      description: Find out if the Servicemember or Veteran in your family is eligible for VR&E benefits and services.
     - url: /vocational-rehab-and-employment/service-disabled/
-      title: Options and Eligibility for the Service Disabled
-      description: Help the Servicemember or Veteran in your family find out if they're eligible for VR&amp;E benefits and services.
+      title: VR&E Programs for Servicemembers and Veterans
+      description: Help the Servicemember or Veteran in your family explore VR&E support-and-service tracks for help learning new skills, finding a new job, staring a business, getting educational counseling, or returning to their former job.
     - url: /vocational-rehab-and-employment/apply-vre/
       title: Application Process for Servicemembers and Veterans
       description: Help the Servicemember or Veteran in your family learn how to apply for VR&amp;E benefits and services.  
