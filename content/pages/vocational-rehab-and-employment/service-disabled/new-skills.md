@@ -1,25 +1,25 @@
 ---
 layout: page-breadcrumbs.html
-title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
+title: Employment Through Long-Term Services Track
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
-    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+    title: Rapid Access to Employment Track
+    description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track—Guidance and Support for Starting a Business
+    title: Self-Employment Track
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Services Track—Support to Help You Live More Independently
+    title: Independent Living Track
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    title: Reemployment Track
     description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
 
-Do you have a service-connected disability that makes it hard for you to succeed in your career path? Vocational Rehabilitation and Employment (VR&amp;E) training may help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for VR&E benefits. 
+If you have a service-connected disability that makes it hard for you to succeed in your career path, the Vocational Rehabilitation and Employment (VR&amp;E) track can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training through VR&E. 
 
 </div>
 
@@ -27,7 +27,7 @@ Do you have a service-connected disability that makes it hard for you to succeed
 
 ### Can I get career counseling and training for new skills through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service) and: 
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and: 
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
