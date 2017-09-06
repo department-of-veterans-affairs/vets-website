@@ -32,7 +32,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Are enrolled in VR&E, **and**
 - Already have experience, education, or training in your field of interest
 
-**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 </div>
 
