@@ -1,10 +1,7 @@
 const mock = require('./mock-helpers');
-const LoginHelpers = require('./login-helpers.js');
 
 // Create API routes
 function initApplicationSubmitMock(form) {
-  const token = LoginHelpers.getUserToken();
-
   mock(null, {
     path: `/v0/education_benefits_claims/${form}`,
     verb: 'post',
@@ -18,56 +15,6 @@ function initApplicationSubmitMock(form) {
       }
     }
   });
-  /* eslint-disable camelcase */
-  mock(token, {
-    path: '/v0/sessions',
-    verb: 'delete',
-    value: {
-      logout_via_get: 'http://fake'
-    }
-  });
-
-  mock(token, {
-    path: '/v0/sessions/new',
-    verb: 'get',
-    value: {
-      logout_via_get: 'http://fake'
-    }
-  });
-
-  mock(token, {
-    path: '/v0/user',
-    verb: 'get',
-    value: {
-      data: {
-        attributes: {
-          profile: {
-            email: 'fake@fake.com',
-            loa: {
-              current: 3
-            },
-            first_name: 'Jane',
-            middle_name: '',
-            last_name: 'Doe',
-            gender: 'F',
-            birth_date: '1985-01-01',
-          },
-          in_progress_forms: [],
-          prefills_available: [],
-          services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
-          va_profile: {
-            status: 'OK',
-            birth_date: '19511118',
-            family_name: 'Hunter',
-            gender: 'M',
-            given_names: ['Julio', 'E'],
-            active_status: 'active'
-          }
-        }
-      }
-    }
-  });
-  /* eslint-enable camelcase */
 }
 
 function completeVeteranInformation(client, data, root = 'root') {
