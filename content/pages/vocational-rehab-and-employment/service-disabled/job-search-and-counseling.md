@@ -7,10 +7,10 @@ relatedlinks:
     title: Employment Through Long-Term Services Track
     description: Find out if you may be eligible for vocational training to help you develop new job skills.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track—Guidance and Support for Starting a Business
+    title: Self-Employment Track
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Track
+    title: Independent Living Track
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
     title: Reemployment Track
