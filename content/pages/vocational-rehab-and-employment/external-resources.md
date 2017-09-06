@@ -21,6 +21,6 @@ relatedlinks:
 
 [My Next Move for Vets](http://www.mynextmove.org/vets/) helps you look for a new career or find a civilian career that's like your military job.
 
-[Hire Heroes USA](https://www.hireheroesusa.org/about-us/) connects you with successful business professionals and helps you explain your military skills on your résumé or in private-sector interviews.
+[Hire Heroes USA](https://www.hireheroesusa.org/about-us/) connects you with successful business professionals and helps you explain your military skills on your resume or in private-sector interviews.
 
 [Operation Pave: Paving Access for Veterans Employment](http://www.pva.org/site/c.ajIRK9NJLcJ2E/b.7750849/k.36C/Operation_PAVE_Paving_Access_for_Veterans_Employment.htm) helps Veterans with spinal-cord injuries find jobs and access resources for workplace accommodations. Workplace accommodations are changes or adjustments to a job, work environment, or work process that set you up to do your job despite your disability. Examples of workplace accommodations include special equipment, ramps to make buildings wheelchair accessible, or modified work schedules.
