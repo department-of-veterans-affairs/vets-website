@@ -21,19 +21,28 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As the family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family qualifies for Vocational Rehabilitation and Employment (VR&amp;E) benefits, you may be able to get career and educational counseling, and other support. Find out if you're eligible for VR&E benefits.
+As the family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're eligible for certain benefits and services.
 
 </div>
 
 <div class="feature">
 
-### Can I get Survivors' and Dependents' Educational Assistance (DEA) services (sometimes called Chapter 35)?
+### Can I get Survivors' and Dependents' Educational Assistance (DEA) services (also called Chapter 35)?
 
-[Find out if you may be eligible for DEA](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+You may be eligible for DEA if you’re the child or spouse of:
+
+- A Veteran who died or who’s permanently and totally disabled as the result of active service, **or**
+- A Veteran who was permanently and totally disabled as the result of active service and who died while in this condition, **or**
+- A Servicemember hospitalized or receiving outpatient treatment for a service-connected permanent and total disability who is likely to be discharged for that disability, **or**
+- A Servicemember missing in action or captured in the line of duty by a hostile force, **or**
+- A Servicemember forcibly detained (held) or interned in the line of duty by a foreign entity
+
+[Find out more about eligibility requirements for DEA](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
+
 
 <br>
 
-### Can I get educational and vocational counseling services provided by VR&amp;E (sometimes called Chapter 36)?
+### Can I get educational and vocational counseling services provided by VR&amp;E (also called Chapter 36)?
 
 You may be eligible for educational and vocational counseling if you're:
 
@@ -42,7 +51,7 @@ You may be eligible for educational and vocational counseling if you're:
 
 <br>
 
-### Can I get VR&E counseling (sometimes called Chapter 33)?
+### Can I get VR&E counseling (also called Chapter 33)?
 
 You may be eligible for VR&E counseling if you're:
 
@@ -63,12 +72,14 @@ You can get educational and vocational counseling, plus help with:
 
 ### How do I get these benefits?
 
-You'll need to apply for services. Follow these steps to apply for Chapter 33 or Chapter 36 services:
+You'll need to apply for services.
+
+#### Follow these steps to apply for Chapter 33 or Chapter 36 services:
 
 <ol class="process">
 <li class="process-step list-one">
 
-[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+Log in to your eBenefits account.
 
 </li>
 
@@ -96,6 +107,10 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 
 </li>
 </ol>
+
+### Ready to apply?
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
 **[Find out how to apply for DEA (Chapter 35) services](/education/gi-bill/survivors-dependent-assistance/dependents-education/)**.
 
