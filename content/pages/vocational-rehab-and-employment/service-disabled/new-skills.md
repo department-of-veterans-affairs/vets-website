@@ -31,7 +31,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
-- Your service-connected disability makes it hard for you to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
+- Your service-connected disability makes it hard for you to prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
 **Note:** You may be eligible for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
 
