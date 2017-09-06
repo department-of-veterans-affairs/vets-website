@@ -27,7 +27,7 @@ class RequiredLoginView extends React.Component {
     return false;
   }
 
-  render() {
+  renderContent() {
     if (this.props.userProfile.loading === true) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
@@ -90,6 +90,10 @@ class RequiredLoginView extends React.Component {
     }
 
     return this.props.children;
+  }
+
+  render() {
+    return <div>{this.renderContent()}</div>;
   }
 }
 
