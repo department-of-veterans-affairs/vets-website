@@ -68,17 +68,9 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
-You may be eligible for VR&amp;E services if you:
-- Are going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge, **and**
-- Have a VA memorandum rating of 20% or more, **and**
-- Apply for VR&E services
-
-You may also be eligible for VR&amp;E services if you:
-- Are in the Integrated Disability Evaluation System (IDES) or are certified by the military as having a severe injury that may prevent you from performing your military duties, **and**
-- Apply for VR&E services, **and**
-- Report for an evaluation with a VR&E counselor before separating from active duty
-
-[Learn more about predischarge disability claims and IDES](/disability-benefits/apply/claim-types/predischarge-claim).
+You may be eligible for VR&amp;E benefits and services if you're:
+- Going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge and have a VA memorandum rating of 20% or more, **or**
+- In the Integrated Disability Evaluation System (IDES) or are certified by the military as having a severe injury that may prevent you from performing your military duties. [Learn more about predischarge disability claims and IDES](/disability-benefits/apply/claim-types/predischarge-claim).
 
 </div>
 
