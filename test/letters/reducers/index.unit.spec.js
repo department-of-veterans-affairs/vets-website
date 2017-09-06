@@ -17,6 +17,7 @@ const benefitSummaryOptionData = {
     attributes: {
       benefitInformation: {
         awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
+        monthlyAwardAmount: 200,
         hasChapter35Eligibility: true
       },
       militaryService: [
@@ -40,6 +41,36 @@ describe('letters reducer', () => {
 
     expect(state.letters).to.be.empty;
     expect(state.lettersAvailability).to.equal('unavailable');
+  });
+
+  it('should handle backend service error', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'BACKEND_SERVICE_ERROR' }
+    );
+
+    expect(state.letters).to.be.empty;
+    expect(state.lettersAvailability).to.equal('backendServiceError');
+  });
+
+  it('should handle backend authentication error', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'BACKEND_AUTHENTICATION_ERROR' }
+    );
+
+    expect(state.letters).to.be.empty;
+    expect(state.lettersAvailability).to.equal('backendAuthenticationError');
+  });
+
+  it('should handle invalid address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'INVALID_ADDRESS_PROPERTY' }
+    );
+
+    expect(state.letters).to.be.empty;
+    expect(state.lettersAvailability).to.equal('invalidAddressProperty');
   });
 
   it('should handle a successful request for letters', () => {

@@ -1,23 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
+import { removeSavedForm } from '../actions/index';
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
-
+import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-class UserProfileApp extends React.Component {
-  render() {
-    let view;
+moment.updateLocale('en', {
+  meridiem: (hour) => {
+    if (hour < 12) {
+      return 'a.m.';
+    }
+    return 'p.m.';
+  }
+});
 
-    view = (
+class UserProfileApp extends React.Component {
+
+  render() {
+
+    const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Account</h1>
           <div>
+            {(__BUILDTYPE__ === 'development') && <FormList
+              userProfile={this.props.profile}
+              removeSavedForm={this.props.removeSavedForm}
+              savedForms={this.props.profile.savedForms}/>}
             <AuthApplicationSection
-                userProfile={this.props.profile}
-                verifyUrl={this.props.verifyUrl}/>
+              userProfile={this.props.profile}
+              verifyUrl={this.props.verifyUrl}/>
             <UserDataSection/>
           </div>
         </div>
@@ -27,15 +42,15 @@ class UserProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-            authRequired={1}
-            serviceRequired={"user-profile"}
-            userProfile={this.props.profile}
-            loginUrl={this.props.loginUrl}
-            verifyUrl={this.props.verifyUrl}>
+          authRequired={1}
+          serviceRequired="user-profile"
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
           {view}
         </RequiredLoginView>
       </div>
-      );
+    );
   }
 }
 
@@ -49,5 +64,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UserProfileApp);
+const mapDispatchToProps = {
+  removeSavedForm
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
 export { UserProfileApp };

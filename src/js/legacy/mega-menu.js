@@ -14,6 +14,7 @@ class MegaMenu {
     this.showMenu = this.showMenu.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
 
     this.addListeners();
   }
@@ -25,6 +26,12 @@ class MegaMenu {
 
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
+
+      const dropdown = this.getMenu(menu.getAttribute('aria-controls'));
+
+      if (dropdown) {
+        dropdown.addEventListener('click', (event) => event.stopPropagation());
+      }
     });
 
     submenus.forEach((submenu) => {
@@ -38,8 +45,15 @@ class MegaMenu {
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
 
+    document.addEventListener('click', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
+  }
 
+  handleDocumentClick(event) {
+    const target = event.target;
+    if (!target.classList.contains('vetnav-level1')) {
+      this.closeAll();
+    }
   }
 
   closeAll() {
@@ -55,6 +69,7 @@ class MegaMenu {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
 
+    event.stopPropagation();
     target.setAttribute('aria-expanded', false);
     this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
   }
@@ -101,6 +116,8 @@ class MegaMenu {
   toggleSubMenu(event) {
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
     const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
+
+    event.stopPropagation();
 
     submenus.forEach((sm) => {
       sm.setAttribute('hidden','hidden');

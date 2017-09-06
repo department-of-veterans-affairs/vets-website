@@ -364,20 +364,21 @@ a.claim-list-item {
     }
   }
 
+  .event-date {
+    flex: 0 0 10rem;
+    margin-right: 1rem;
+  }
+
   .event-header {
     cursor: pointer;
     display: flex;
     align-items: center;
     padding: 1.5rem 0;
 
-    .date {
-      flex: 0 1 12rem;
-    }
-
     i.fa {
       &:first-child {
         color: $color-gray;
-        flex: 0 1 3.25rem;
+        flex: 0 0 3.25rem;
       }
 
       &:last-child {
@@ -388,7 +389,7 @@ a.claim-list-item {
   }
 
   .event-title {
-    flex: 1 0 40rem;
+    flex: 1 1;
   }
 
   .event-description {

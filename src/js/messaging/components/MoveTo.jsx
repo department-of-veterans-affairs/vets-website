@@ -18,7 +18,7 @@ class MoveTo extends React.Component {
 
   handleChooseFolder(domEvent) {
     // domEvent will bubble up from the radio button
-    // to the form, which is why we're using currentTarget.
+    // to the form, which is why we’re using currentTarget.
     // instead of target.
     const folderId = +domEvent.currentTarget.messagingMoveToFolder.value;
     const moveToFolder = this.props.folders.find((folder) => {
@@ -43,8 +43,9 @@ class MoveTo extends React.Component {
       return (
         <li key={folder.folderId}>
           <MoveToOption
-              folderName={folder.name}
-              folderId={folder.folderId}/>
+            folderName={folder.name}
+            folderId={folder.folderId}
+            messageId={this.props.messageId}/>
         </li>
       );
     });
@@ -53,8 +54,8 @@ class MoveTo extends React.Component {
       <div className="msg-move-to">
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
-            hidden={!this.props.isOpen}
-            onChange={this.handleChooseFolder}>
+          hidden={!this.props.isOpen}
+          onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
               Move this message to
@@ -63,7 +64,7 @@ class MoveTo extends React.Component {
               {folderOptions}
               <li>
                 <ButtonCreateFolder
-                    onClick={this.openCreateFolderModal}/>
+                  onClick={this.openCreateFolderModal}/>
               </li>
             </ul>
           </fieldset>

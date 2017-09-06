@@ -62,9 +62,9 @@ class SchemaForm extends React.Component {
   }
 
   /*
-   * If we're in review mode, we can short circuit updating
+   * If we’re in review mode, we can short circuit updating
    * by making sure the schemas are the same and the data
-   * displayed on this particular page hasn't changed
+   * displayed on this particular page hasn’t changed
    */
   shouldComponentUpdate(nextProps, nextState) {
     if ((nextProps.reviewMode && !nextProps.editModeOnReviewPage)
@@ -153,23 +153,23 @@ class SchemaForm extends React.Component {
     return (
       <div>
         <Form
-            safeRenderCompletion={safeRenderCompletion}
-            FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
-            formContext={this.state.formContext}
-            liveValidate
-            noHtml5Validate
-            onError={this.onError}
-            onBlur={this.onBlur}
-            onChange={({ formData }) => onChange(formData)}
-            onSubmit={onSubmit}
-            schema={schema}
-            uiSchema={uiSchema}
-            validate={this.validate}
-            showErrorList={false}
-            formData={data}
-            widgets={useReviewMode ? reviewWidgets : widgets}
-            fields={useReviewMode ? reviewFields : fields}
-            transformErrors={this.transformErrors}>
+          safeRenderCompletion={safeRenderCompletion}
+          FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
+          formContext={this.state.formContext}
+          liveValidate
+          noHtml5Validate
+          onError={this.onError}
+          onBlur={this.onBlur}
+          onChange={({ formData }) => onChange(formData)}
+          onSubmit={onSubmit}
+          schema={schema}
+          uiSchema={uiSchema}
+          validate={this.validate}
+          showErrorList={false}
+          formData={data}
+          widgets={useReviewMode ? reviewWidgets : widgets}
+          fields={useReviewMode ? reviewFields : fields}
+          transformErrors={this.transformErrors}>
           {children}
         </Form>
       </div>

@@ -136,7 +136,7 @@ function completeDependents(client, data) {
 function completeDependentInfo(client, data, index) {
   client
     .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
-    .clickIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
+    .fillCheckboxIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
     .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
     .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
 
@@ -183,6 +183,7 @@ function completeNetWorthInfo(client, data) {
     .fill('input[name$="ira"]', data.ira)
     .fill('input[name$="stocks"]', data.stocks)
     .fill('input[name$="realProperty"]', data.realProperty)
+    .click('body')
     .click('.pensions-sources-add-btn')
     .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
@@ -198,6 +199,7 @@ function completeMonthlyIncomeInfo(client, data) {
     .fill('input[name$="blackLung"]', data.blackLung)
     .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
     .fill('input[name$="ssi"]', data.ssi)
+    .click('body')
     .click('.pensions-sources-add-btn')
     .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
@@ -209,6 +211,7 @@ function completeExpectedIncomeInfo(client, data) {
   client
     .fill('input[name$="salary"]', data.salary)
     .fill('input[name$="interest"]', data.interest)
+    .click('body')
     .click('.pensions-sources-add-btn')
     .waitForElementVisible('input[name$="additionalSources_0_name"]', Timeouts.normal)
     .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
@@ -240,12 +243,6 @@ function completeContactInfo(client, data) {
     .fill('input[name$="dayPhone"]', data.dayPhone)
     .fill('input[name$="nightPhone"]', data.nightPhone)
     .fill('input[name$="mobilePhone"]', data.mobilePhone);
-}
-
-function completeBenefitsSelection(client, data) {
-  client
-    .selectYesNo('root_view:aidAttendance', data['view:aidAttendance'])
-    .waitForElementVisible('.usa-alert-info', Timeouts.normal);
 }
 
 function completeExpeditedInfo(client, data) {
@@ -307,7 +304,6 @@ module.exports = {
   completeOtherExpensesInfo,
   completeDirectDepositInfo,
   completeContactInfo,
-  completeBenefitsSelection,
   completeExpeditedInfo,
   initApplicationSubmitMock,
   initDocumentUploadMock

@@ -10,14 +10,19 @@ describe('Schemaform <FormApp>', () => {
   it('should render children', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'introduction'
+      pathname: 'introduction',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -29,14 +34,19 @@ describe('Schemaform <FormApp>', () => {
   it('should render nav and children', () => {
     const formConfig = {};
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -49,14 +59,19 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.notAttempted}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.notAttempted}>
         <div className="child"/>
       </FormApp>
     );
@@ -68,16 +83,20 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -89,10 +108,11 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
     const routes = [{
-      pageList: [{}, {
+      pageList: [{
         path: 'test-path'
       }]
     }];
@@ -102,12 +122,12 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          prefillStatus={PREFILL_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        prefillStatus={PREFILL_STATUSES.pending}
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -125,8 +145,12 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
     const router = {
       push: sinon.spy()
     };
@@ -135,11 +159,11 @@ describe('Schemaform <FormApp>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -159,19 +183,23 @@ describe('Schemaform <FormApp>', () => {
       title: 'Testing'
     };
     const currentLocation = {
-      pathname: 'test'
+      pathname: 'test',
+      search: ''
     };
+    const routes = [{
+      pageList: [{ path: currentLocation.pathname }]
+    }];
     const router = {
       push: sinon.spy()
     };
 
     const tree = SkinDeep.shallowRender(
       <FormApp
-          formConfig={formConfig}
-          currentLocation={currentLocation}
-          loadedStatus={LOAD_STATUSES.pending}
-          isLoggedIn
-          updateLogInUrl={() => {}}>
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        updateLogInUrl={() => {}}>
         <div className="child"/>
       </FormApp>
     );
@@ -183,5 +211,151 @@ describe('Schemaform <FormApp>', () => {
     });
 
     expect(router.push.calledWith('/error')).to.be.true;
+  });
+  it('should route to the first page if started in the middle and not logged in', () => {
+    const formConfig = {
+      title: 'Testing'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      replace: sinon.spy()
+    };
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    tree.getMountedInstance().componentDidMount();
+
+    expect(router.replace.calledWith('/introduction')).to.be.true;
+    __BUILDTYPE__ = buildType;
+  });
+  it('should load a saved form when starting in the middle of a form and logged in', () => {
+    const formConfig = {
+      title: 'Testing',
+      formId: 'testForm'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      push: sinon.spy(),
+      replace: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        profileIsLoading
+        loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    // When logged in, the component gets mounted before the profile is finished
+    //  loading, so the logic is in componentWillReceiveProps()
+    tree.getMountedInstance().componentWillReceiveProps({
+      profileIsLoading: false,
+      isLoggedIn: true,
+      savedForms: [{ form: formConfig.formId }],
+      prefillsAvailable: [],
+      formConfig,
+      router,
+      routes,
+      fetchInProgressForm
+    });
+
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
+      .to.be.true;
+    __BUILDTYPE__ = buildType;
+  });
+  it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
+    const formConfig = {
+      title: 'Testing',
+      formId: 'testForm'
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: ''
+    };
+    const routes = [{
+      pageList: [
+        { path: '/introduction' },
+        { path: currentLocation.pathname }, // You are here
+        { path: '/lastPage' }
+      ]
+    }];
+    const router = {
+      replace: sinon.spy(),
+      push: sinon.spy()
+    };
+    const fetchInProgressForm = sinon.spy();
+
+    // Only redirects in production or if ?redirect is in the URL
+    const buildType = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        router={router}
+        currentLocation={currentLocation}
+        profileIsLoading
+        loadedStatus={LOAD_STATUSES.pending}>
+        <div className="child"/>
+      </FormApp>
+    );
+
+    // When logged in, the component gets mounted before the profile is finished
+    //  loading, so the logic is in componentWillReceiveProps()
+    tree.getMountedInstance().componentWillReceiveProps({
+      profileIsLoading: false,
+      isLoggedIn: true,
+      savedForms: [],
+      prefillsAvailable: [formConfig.formId],
+      formConfig,
+      router,
+      routes,
+      fetchInProgressForm
+    });
+
+    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true))
+      .to.be.true;
+    __BUILDTYPE__ = buildType;
   });
 });

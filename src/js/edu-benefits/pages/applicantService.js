@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import * as toursOfDuty from '../definitions/toursOfDuty';
+import * as toursOfDuty from '../definitions/toursOfDuty.jsx';
 
 /**
  * Returns the applicantService page. This is for dependent applicants.
@@ -32,7 +32,7 @@ export default function applicantServicePage(currentSchema) {
     },
     schema: {
       type: 'object',
-      // If answered 'Yes' without entering information, it's the same as
+      // If answered 'Yes' without entering information, it’s the same as
       //  answering 'No' as far as the back end is concerned.
       required: ['view:applicantServed'],
       properties: {

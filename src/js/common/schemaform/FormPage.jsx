@@ -16,7 +16,7 @@ import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-ac
 import { updateLogInUrl } from '../../login/actions';
 
 function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
+  const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
   if (legend && legend.getBoundingClientRect().height > 0) {
     focusElement(legend);
   } else {
@@ -44,7 +44,6 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.handleSave = this.handleSave.bind(this);
   }
 
   componentDidMount() {
@@ -72,7 +71,16 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
-  onSubmit() {
+  onSubmit({ formData }) {
+    const { route, params, form } = this.props;
+
+    // This makes sure defaulted data on a page with no changes is saved
+    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
+    if (route.pageConfig.showPagePerItem) {
+      const newData = _.set([route.pageConfig.arrayPath, params.index], formData, form.data);
+      this.props.setData(newData);
+    }
+
     const { pages, pageIndex } = this.getEligiblePages();
     this.props.router.push(pages[pageIndex + 1].path);
   }
@@ -87,7 +95,7 @@ class FormPage extends React.Component {
     // Any `showPagePerItem` pages are expanded to create items for each array item.
     // We update the `path` for each of those pages to replace `:index` with the current item index.
     const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    // We can't check the pageKey for showPagePerItem pages, because multiple pages will match
+    // We can’t check the pageKey for showPagePerItem pages, because multiple pages will match
     const pageIndex = pageConfig.showPagePerItem
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
@@ -97,19 +105,9 @@ class FormPage extends React.Component {
   goBack() {
     const { pages, pageIndex } = this.getEligiblePages();
     // if we found the current page, go to previous one
-    // if not, go back to the beginning because they shouldn't be here
+    // if not, go back to the beginning because they shouldn’t be here
     const page = pageIndex >= 0 ? pageIndex - 1 : 0;
     this.props.router.push(pages[page].path);
-  }
-
-  handleSave() {
-    const {
-      formId,
-      version,
-      data
-    } = this.props.form;
-    const returnUrl = this.props.location.pathname;
-    this.props.saveInProgressForm(formId, version, returnUrl, data);
   }
 
   render() {
@@ -134,40 +132,40 @@ class FormPage extends React.Component {
     return (
       <div className="form-panel">
         <SchemaForm
-            name={route.pageConfig.pageKey}
-            title={route.pageConfig.title}
-            data={data}
-            schema={schema}
-            uiSchema={uiSchema}
-            pagePerItemIndex={params ? params.index : undefined}
-            uploadFile={this.props.uploadFile}
-            prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}>
+          name={route.pageConfig.pageKey}
+          title={route.pageConfig.title}
+          data={data}
+          schema={schema}
+          uiSchema={uiSchema}
+          pagePerItemIndex={params ? params.index : undefined}
+          uploadFile={this.props.uploadFile}
+          prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-outline"
-                  beforeText="«"/>
+                onButtonClick={this.goBack}
+                buttonText="Back"
+                buttonClass="usa-button-outline"
+                beforeText="«"/>
             </div>
             <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
-                  submitButton
-                  buttonText="Continue"
-                  buttonClass="usa-button-primary"
-                  afterText="»"/>
+                submitButton
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
             </div>
           </div>
-          {(!form.disableSave && __BUILDTYPE__ !== 'production') && <div className="row">
+          {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
-                  trackingPrefix={form.trackingPrefix}
-                  saveForm={this.handleSave}
-                  savedStatus={form.savedStatus}
-                  user={this.props.user}
-                  onUpdateLoginUrl={this.props.updateLogInUrl}/>
+                locationPathname={this.props.location.pathname}
+                form={form}
+                user={this.props.user}
+                saveInProgressForm={this.props.saveInProgressForm}
+                onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>
           </div>}
         </SchemaForm>

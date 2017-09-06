@@ -55,6 +55,7 @@ export function submitForm(formConfig, form) {
 
   const captureError = (error, clientError) => {
     Raven.captureException(error, {
+      fingerprint: [formConfig.trackingPrefix, error.message],
       extra: {
         clientError,
         statusText: error.statusText
@@ -153,7 +154,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       return Promise.reject();
     }
 
-    // we limit file types, but it's not respected on mobile and desktop
+    // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
     if (!uiOptions.fileTypes.some(fileType => file.name.toLowerCase().endsWith(fileType.toLowerCase()))) {
       dispatch(

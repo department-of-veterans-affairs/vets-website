@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans’ Group Life Insurance (VGLI)
-display_title: Veterans' Group (VGLI)
+display_title: Veterans’ Group (VGLI)
 concurrence: 
 order: 4
 relatedlinks:
@@ -55,7 +55,7 @@ $10,000 to $400,000 in life insurance benefits, based on the amount of SGLI cove
 
 ### How do I get these benefits?
 
-You’ll need to apply for these benefits. When you apply, you won't need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
+You’ll need to apply for these benefits. When you apply, you won’t need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
 
 Apply in 1 of 3 ways:
 
@@ -65,12 +65,11 @@ Apply in 1 of 3 ways:
 
 Fax the form to 800-236-6142, or mail it to: 
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>OSGLI</dd>
-  <dd>PO Box 41618</dd>
-  <dd>Philadelphia, PA 19176-9913</dd>
-</dl>
+<p class="va-address-block">
+  OSGLI<br>
+  PO Box 41618<br>
+  Philadelphia, PA 19176-9913<br>
+</p>
 
 <br>
 

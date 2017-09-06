@@ -9,7 +9,7 @@ describe('<ClaimsDecision>', () => {
     const date = null;
     const tree = SkinDeep.shallowRender(
       <ClaimsDecision
-          completedDate={date}/>
+        completedDate={date}/>
     );
 
     expect(tree.text()).not.to.contain('We finished reviewing your claim');
@@ -18,7 +18,7 @@ describe('<ClaimsDecision>', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(
       <ClaimsDecision
-          completedDate={date}/>
+        completedDate={date}/>
     );
 
     expect(tree.text()).to.contain('We finished reviewing your claim');

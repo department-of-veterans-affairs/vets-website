@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
@@ -30,8 +31,8 @@ export default class AppealEventItem extends React.Component {
       <li className="event-item" onClick={this.toggle}>
         <div className="event-header">
           <i className="fa fa-check-circle"/>
-          <strong className="date">
-            {moment(event.date).format('MMMM DD, YYYY')}
+          <strong className="event-date">
+            {moment(event.date).format('MMM DD, YYYY')}
           </strong>
           <span className="event-title">
             {status.title}

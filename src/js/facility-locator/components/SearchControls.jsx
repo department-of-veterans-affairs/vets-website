@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { truncate, kebabCase } from 'lodash';
@@ -58,6 +61,13 @@ class SearchControls extends Component {
   handleSearch = (e) => {
     const { onSearch } = this.props;
     e.preventDefault();
+
+    const { facilityType } = this.props.currentQuery;
+    // Report event here to only send analytics event when a user clicks on the button
+    window.dataLayer.push({
+      event: 'fl-search',
+      'fl-search-fac-type': facilityType
+    });
 
     onSearch();
   }

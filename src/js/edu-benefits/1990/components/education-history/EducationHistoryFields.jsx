@@ -37,34 +37,34 @@ export default class EducationHistoryFields extends React.Component {
 
     const periodsTable = (
       <GrowableTable
-          component={EducationPeriod}
-          alwaysShowUpdateRemoveButtons={this.props.inReview}
-          showSingleRowExpanded={!this.props.inReview}
-          createRowIfEmpty={!this.props.inReview}
-          showEditButton={false}
-          showAddAnotherButton={!this.props.inReview}
-          createRow={createEducationPeriod}
-          data={this.props.data}
-          initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
-          onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
-          path="/education-history/education-information"
-          rows={this.props.data.postHighSchoolTrainings}
-          isValidSection={isValidPage}
-          isValidRow={isValidEducationPeriod}/>
+        component={EducationPeriod}
+        alwaysShowUpdateRemoveButtons={this.props.inReview}
+        showSingleRowExpanded={!this.props.inReview}
+        createRowIfEmpty={!this.props.inReview}
+        showEditButton={false}
+        showAddAnotherButton={!this.props.inReview}
+        createRow={createEducationPeriod}
+        data={this.props.data}
+        initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
+        onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
+        path="/education-history/education-information"
+        rows={this.props.data.postHighSchoolTrainings}
+        isValidSection={isValidPage}
+        isValidRow={isValidEducationPeriod}/>
     );
 
     const formView = (<fieldset className={this.props.inReview ? null : 'edu-growable-form'}>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableMonthYear
-            validation={{
-              valid: isValidPartialMonthYearInPast(completionDate.month.value, completionDate.year.value),
-              message: 'Please provide a valid date in the past'
-            }}
-            label="When did you earn your high school diploma or equivalency certificate?"
-            name="highSchoolOrGedCompletionDate"
-            date={completionDate}
-            onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
+          validation={{
+            valid: isValidPartialMonthYearInPast(completionDate.month.value, completionDate.year.value),
+            message: 'Please provide a valid date in the past'
+          }}
+          label="When did you earn your high school diploma or equivalency certificate?"
+          name="highSchoolOrGedCompletionDate"
+          date={completionDate}
+          onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
       {!this.props.inReview && <div className="input-section">
         <h4>Education after high school</h4>
@@ -77,10 +77,10 @@ export default class EducationHistoryFields extends React.Component {
       {!this.props.inReview && <hr/>}
       <div className="input-section">
         <ErrorableTextarea
-            label="If you have any FAA flight certificates, please list them here."
-            name="faaFlightCertificatesInformation"
-            field={this.props.data.faaFlightCertificatesInformation}
-            onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
+          label="If you have any FAA flight certificates, please list them here."
+          name="faaFlightCertificatesInformation"
+          field={this.props.data.faaFlightCertificatesInformation}
+          onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
       </div>
       {this.props.inReview && <button className="usa-button-primary" onClick={this.props.onSave}>Update</button>}
     </fieldset>
@@ -96,8 +96,8 @@ export default class EducationHistoryFields extends React.Component {
         <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
           <h5 className="form-review-panel-page-header">Education after high school</h5>
           <button
-              className="edit-btn primary-outline"
-              onClick={this.addAnotherPeriod}>Add Another</button>
+            className="edit-btn primary-outline"
+            onClick={this.addAnotherPeriod}>Add Another</button>
         </div>
         {periodsTable}
       </div>

@@ -41,9 +41,12 @@ const formConfig = {
   urlPrefix: '/5495/',
   submitUrl: '/v0/education_benefits_claims/5495',
   trackingPrefix: 'edu-5495-',
-  formId: '5495',
+  formId: '22-5495',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

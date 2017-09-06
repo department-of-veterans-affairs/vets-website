@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatDateLong } from '../../common/utils/helpers';
+import { formatDateShort, formatDateParsedZoneLong } from '../../common/utils/helpers';
 import {
   formatPercent,
   formatVAFileNumber,
@@ -16,7 +16,7 @@ class UserInfoSection extends React.Component {
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 
-    // Get today's date to show information current as of
+    // Get today’s date to show information current as of
     const todayFormatted = formatDateShort(new Date());
     const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
@@ -50,7 +50,7 @@ class UserInfoSection extends React.Component {
           <div className="section">
             <h4>Your Benefits</h4>
             <InfoPair label="Total months received" value={formatMonthDayFields(originalEntitlement)}/>
-            <InfoPair label="Months you've used" value={formatMonthDayFields(usedEntitlement)}/>
+            <InfoPair label="Months you’ve used" value={formatMonthDayFields(usedEntitlement)}/>
             <InfoPair label="Months you have left to use" value={formatMonthDayFields(remainingEntitlement)} displayIfZero/>
             <p id="benefit-level">
               Your eligibility percentage is <strong>{percentageBenefit}</strong>.
@@ -72,23 +72,23 @@ class UserInfoSection extends React.Component {
         {currentAsOfAlert}
         <div className="section">
           <InfoPair
-              label="Name"
-              value={fullName}
-              id="gibs-full-name"
-              additionalClass="section-line"/>
+            label="Name"
+            value={fullName}
+            id="gibs-full-name"
+            additionalClass="section-line"/>
           <InfoPair
-              label="Date of birth"
-              name="dateOfBirth"
-              value={formatDateLong(enrollmentData.dateOfBirth)}
-              additionalClass="section-line"/>
+            label="Date of birth"
+            name="dateOfBirth"
+            value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
+            additionalClass="section-line"/>
           <InfoPair
-              label="VA file number"
-              value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-              additionalClass="section-line"/>
+            label="VA file number"
+            value={formatVAFileNumber(enrollmentData.vaFileNumber)}
+            additionalClass="section-line"/>
           <InfoPair
-              label="Regional Processing Office"
-              value={enrollmentData.regionalProcessingOffice}
-              additionalClass="section-line"/>
+            label="Regional Processing Office"
+            value={enrollmentData.regionalProcessingOffice}
+            additionalClass="section-line"/>
         </div>
         {entitlementInfo}
       </div>

@@ -54,6 +54,17 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.focusOnPage(`${key}${index === null ? '' : index}`);
   }
 
+  handleSubmit = (formData, key, path = null, index = null) => {
+    // This makes sure defaulted data on a page with no changes is saved
+    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
+    if (path) {
+      const newData = _.set([path, index], formData, this.props.form.data);
+      this.props.setData(newData);
+    }
+
+    this.handleEdit(key, false, index);
+  }
+
   scrollToTop() {
     scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, {
       duration: 500,
@@ -96,9 +107,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
         <div className="usa-accordion-content schemaform-chapter-accordion-content">
           {ChapterDescription &&
             <ChapterDescription
-                viewedPages={viewedPages}
-                pageKeys={this.pageKeys}
-                formData={form.data}/>}
+              viewedPages={viewedPages}
+              pageKeys={this.pageKeys}
+              formData={form.data}/>}
           {expandedPages.map(page => {
             const pageState = form.pages[page.pageKey];
             let pageSchema;
@@ -123,7 +134,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               // ObjectField will hide them in the main section.
               arrayFields = getArrayFields(pageState, page);
               // This will be undefined if there are no fields other than an array
-              // in a page, in which case we won't render the form, just the array
+              // in a page, in which case we won’t render the form, just the array
               pageSchema = getNonArraySchema(pageState.schema, pageState.uiSchema);
               pageUiSchema = pageState.uiSchema;
               pageData = form.data;
@@ -139,39 +150,39 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 <Element name={`${fullPageKey}ScrollElement`}/>
                 {pageSchema &&
                   <SchemaForm
-                      name={page.pageKey}
-                      title={page.title}
-                      data={pageData}
-                      schema={pageSchema}
-                      uiSchema={pageUiSchema}
-                      hideHeaderRow={page.hideHeaderRow}
-                      hideTitle={expandedPages.length === 1}
-                      pagePerItemIndex={page.index}
-                      onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-                      onSubmit={() => this.handleEdit(page.pageKey, false, page.index)}
-                      onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
-                      uploadFile={this.props.uploadFile}
-                      reviewMode={!editing}
-                      editModeOnReviewPage={page.editModeOnReviewPage}>
+                    name={page.pageKey}
+                    title={page.title}
+                    data={pageData}
+                    schema={pageSchema}
+                    uiSchema={pageUiSchema}
+                    hideHeaderRow={page.hideHeaderRow}
+                    hideTitle={expandedPages.length === 1}
+                    pagePerItemIndex={page.index}
+                    onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+                    onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
+                    onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
+                    uploadFile={this.props.uploadFile}
+                    reviewMode={!editing}
+                    editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
-                        submitButton
-                        buttonText="Update page"
-                        buttonClass="usa-button-primary"/>}
+                      submitButton
+                      buttonText="Update page"
+                      buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
-                {arrayFields.map(arrayField =>
+                {arrayFields.map(arrayField => (
                   <div key={arrayField.path} className="form-review-array">
                     <ArrayField
-                        pageKey={page.pageKey}
-                        pageTitle={page.title}
-                        arrayData={_.get(arrayField.path, form.data)}
-                        formData={form.data}
-                        pageConfig={page}
-                        schema={arrayField.schema}
-                        uiSchema={arrayField.uiSchema}
-                        setData={this.props.setData}
-                        path={arrayField.path}/>
+                      pageKey={page.pageKey}
+                      pageTitle={page.title}
+                      arrayData={_.get(arrayField.path, form.data)}
+                      formData={form.data}
+                      pageConfig={page}
+                      schema={arrayField.schema}
+                      uiSchema={arrayField.uiSchema}
+                      setData={this.props.setData}
+                      path={arrayField.path}/>
                   </div>
-                )}
+                ))}
               </div>
             );
           })}
@@ -190,10 +201,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
           <li>
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.open ? 'true' : 'false'}
-                  aria-controls={`collapsible-${this.id}`}
-                  onClick={this.toggleChapter}>
+                className="usa-button-unstyled"
+                aria-expanded={this.state.open ? 'true' : 'false'}
+                aria-controls={`collapsible-${this.id}`}
+                onClick={this.toggleChapter}>
                 {this.props.chapter.title}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}

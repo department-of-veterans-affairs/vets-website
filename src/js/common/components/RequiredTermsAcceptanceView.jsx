@@ -16,8 +16,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
       this.props.fetchLatestTerms(this.props.termsName);
       window.scrollTo(0, 0);
     }
-    const app = window.location.pathname.split('/').pop();
-    window.dataLayer.push({ event: `terms-shown-${app}` });
+    window.dataLayer.push({ event: 'terms-shown' });
   }
 
   componentDidUpdate(prevProps) {
@@ -33,7 +32,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
     let view;
 
     if (terms.loading === true) {
-      view = <LoadingIndicator setFocus message="Loading your information"/>;
+      view = <LoadingIndicator setFocus message="Loading your information..."/>;
     } else if (!this.props.termsNeeded) {
       view = React.Children.map(this.props.children,
         (child) => {

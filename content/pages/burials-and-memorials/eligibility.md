@@ -17,12 +17,12 @@ Servicemembers, Veterans, and family members may be eligible for burial in a VA 
 
 ### Who can get VA burial and memorial benefits? 
 
-Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they're:
+Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they’re:
 
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
-- In some cases, the adult dependent child of a Veteran (if they aren't married)
+- In some cases, the adult dependent child of a Veteran (if they aren’t married)
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <div markdown="0"><br></div>
 [Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
@@ -38,12 +38,11 @@ Fill out the Application for Pre-Need Determination of Eligibility for Burial in
 Send the application to the National Cemetery Scheduling Office in 1 of 2 ways:
 - Send it by U.S. mail to: 
 
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>National Cemetery Scheduling Office</dd>
-    <dd>P.O. Box 510543</dd>
-    <dd>St. Louis, MO 63151</dd>
-</dl>
+<p class="va-address-block">
+    National Cemetery Scheduling Office<br>
+    P.O. Box 510543<br>
+    St. Louis, MO 63151<br>
+</p>
 
 - Fax it to 855-840-8299
 

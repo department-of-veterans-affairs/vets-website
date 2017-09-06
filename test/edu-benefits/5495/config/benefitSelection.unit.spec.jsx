@@ -12,8 +12,8 @@ describe('Edu 5495 benefitSelection', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
@@ -27,9 +27,9 @@ describe('Edu 5495 benefitSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

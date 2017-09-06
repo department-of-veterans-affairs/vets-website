@@ -17,7 +17,7 @@ Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if you haven't remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and:
+You may be able to get this benefit if you haven’t remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and:
 
 - Entered active duty on or before September 7, 1980, and served at least 90 days on active military service, with at least 1 day during a wartime period, **or**
 
@@ -44,7 +44,7 @@ You can apply in 1 of 3 ways:
 
 #### Apply by mail
 
-Fill out VA Form 21-534EZ (Application for DIC, Death Pension, and/or Accrued Benefits). [Download VA Form 21-534EZ](http://www.vba.va.gov/pubs/forms/VBA-21-534EZ-ARE.pdf). 
+Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
 Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/). 
 

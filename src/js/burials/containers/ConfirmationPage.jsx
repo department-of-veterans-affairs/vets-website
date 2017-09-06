@@ -35,13 +35,16 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = form.submission.response
-         ? form.submission.response.attributes
-         : {};
+      ? form.submission.response.attributes
+      : {};
     const { 'view:claimedBenefits': benefits,
-            claimantFullName: claimantName,
-            veteranFullName: veteranName } = form.data;
+      claimantFullName: claimantName,
+      veteranFullName: veteranName } = form.data;
     const hasDocuments = form.data.deathCertificate || form.data.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
+
+    const submittedAt = moment(form.submission.submittedAt);
+    const offset = submittedAt.isDST() ? '-0500' : '-0600';
 
     return (
       <div>
@@ -61,7 +64,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
               <strong>Deceased Veteran</strong><br/>

@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField } from '../../user-profile/actions';
+
+import appendQuery from 'append-query';
+import { gaClientId } from '../../common/helpers/login-helpers';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -59,7 +61,7 @@ class AuthApp extends React.Component {
           }).then(response => {
             return response.json();
           }).then(innerJson => {
-            window.location.href = innerJson.authenticate_via_get;
+            window.location.href = appendQuery(innerJson.authenticate_via_get, { clientId: gaClientId() });
           });
         }
       } else {
@@ -83,7 +85,7 @@ class AuthApp extends React.Component {
       view = (
         <div>
           <h3>We are sorry that we could not successfully log you in.</h3>
-          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
+          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
           <button onClick={window.close}>Close</button>
         </div>
       );
@@ -111,9 +113,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    onUpdateProfile: (field, update) => {
-      dispatch(updateProfileField(field, update));
     }
   };
 };

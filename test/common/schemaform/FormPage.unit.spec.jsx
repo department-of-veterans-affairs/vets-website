@@ -6,6 +6,10 @@ import sinon from 'sinon';
 import { FormPage } from '../../../src/js/common/schemaform/FormPage';
 
 describe('Schemaform <FormPage>', () => {
+  const location = {
+    pathname: '/testing/0'
+  };
+
   it('should render', () => {
     const route = {
       pageConfig: {
@@ -32,7 +36,7 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route}/>
+      <FormPage form={form} route={route} location={location}/>
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
@@ -89,11 +93,12 @@ describe('Schemaform <FormPage>', () => {
 
       tree = SkinDeep.shallowRender(
         <FormPage
-            router={router}
-            setData={setData}
-            form={form}
-            onSubmit={onSubmit}
-            route={route}/>
+          router={router}
+          setData={setData}
+          form={form}
+          onSubmit={onSubmit}
+          location={location}
+          route={route}/>
       );
     });
     it('change', () => {
@@ -103,7 +108,7 @@ describe('Schemaform <FormPage>', () => {
       expect(setData.calledWith('testPage', newData));
     });
     it('submit', () => {
-      tree.getMountedInstance().onSubmit();
+      tree.getMountedInstance().onSubmit({});
 
       expect(router.push.calledWith('next-page'));
     });
@@ -151,8 +156,10 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          router={router}
-          form={form} route={route}/>
+        router={router}
+        form={form}
+        route={route}
+        location={location}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -197,7 +204,11 @@ describe('Schemaform <FormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} params={{ index: 0 }}/>
+      <FormPage
+        form={form}
+        route={route}
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     expect(tree.subTree('SchemaForm').props.schema).to.equal(form.pages.testPage.schema.properties.arrayProp.items[0]);
@@ -244,10 +255,11 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          setData={setData}
-          form={form}
-          route={route}
-          params={{ index: 0 }}/>
+        setData={setData}
+        form={form}
+        route={route}
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     tree.getMountedInstance().onChange({ test: 2 });
@@ -307,16 +319,75 @@ describe('Schemaform <FormPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          form={form}
-          route={route}
-          location={{
-            pathname: '/testing/0'
-          }}
-          params={{ index: 0 }}/>
+        form={form}
+        route={route}
+        location={location}
+        params={{ index: 0 }}/>
     );
 
     const { pageIndex } = tree.getMountedInstance().getEligiblePages();
 
     expect(pageIndex).to.equal(1);
+  });
+  it('should update data when submitting on array page', () => {
+    const setData = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        setData={setData}
+        router={router}
+        form={form}
+        route={route}
+        location={location}
+        params={{ index: 0 }}/>
+    );
+
+    tree.getMountedInstance().onSubmit({ formData: { test: 2 } });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [
+        {
+          test: 2
+        }
+      ]
+    });
   });
 });

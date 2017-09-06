@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -13,6 +14,15 @@ class AcceptTermsPrompt extends React.Component {
 
   componentWillMount() {
     this.setState({ scrolledToBottom: false, yesSelected: false });
+  }
+
+  onCancel(e) {
+    e.preventDefault();
+    if (document.referrer !== '' && !this.props.isInModal) {
+      browserHistory.goBack();
+    } else {
+      browserHistory.push(this.props.cancelPath);
+    }
   }
 
   handleSubmit() {
@@ -44,22 +54,23 @@ class AcceptTermsPrompt extends React.Component {
 
     const submitClass = classNames({
       'usa-button': true,
-      'usa-button-disabled': submitDisabled
+      'usa-button-disabled': submitDisabled,
+      'submit-button': true,
     });
 
     const submitButton = (<button
-        className={submitClass}
-        disabled={submitDisabled}
-        onClick={this.handleSubmit}>Submit</button>);
+      className={submitClass}
+      disabled={submitDisabled}
+      onClick={this.handleSubmit}>Submit</button>);
 
     const yesButton = (<div>
       <input
-          type="checkbox"
-          name="form-selection"
-          id="form-yes"
-          value="yes"
-          onChange={this.handleAnswer}
-          disabled={!this.state.scrolledToBottom}/>
+        type="checkbox"
+        name="form-selection"
+        id="form-yes"
+        value="yes"
+        onChange={this.handleAnswer}
+        disabled={!this.state.scrolledToBottom}/>
       <label htmlFor="form-yes">
         {terms.yesContent}
       </label>
@@ -91,9 +102,7 @@ class AcceptTermsPrompt extends React.Component {
           </div>
           <div>
             {submitButton}
-            <a href={this.props.cancelPath} className="usa-button usa-button-outline">
-              Cancel
-            </a>
+            <button className="usa-button usa-button-outline" onClick={this.onCancel}>Cancel</button>
           </div>
         </div>
       </div>

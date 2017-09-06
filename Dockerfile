@@ -25,7 +25,7 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 6.10.3
+ENV NODE_VERSION 6.11.1
 ENV NPM_VERSION 3.8.9
 ENV YARN_VERSION 0.27.5
 ENV NODE_ENV production
@@ -82,4 +82,6 @@ RUN yarn install --production=false
 
 COPY . .
 RUN chown -R jenkins:jenkins /application
+RUN chmod -R 777 /application
+RUN chmod -R 777 /home/jenkins
 USER jenkins

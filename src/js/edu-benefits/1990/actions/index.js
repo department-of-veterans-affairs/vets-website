@@ -101,6 +101,7 @@ export function submitForm(data) {
 
   const captureError = (error, clientError) => {
     Raven.captureException(error, {
+      fingerprint: ['edu-', error.message],
       extra: {
         clientError,
         statusText: error.statusText

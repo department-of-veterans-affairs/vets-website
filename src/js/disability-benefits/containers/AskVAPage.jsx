@@ -48,7 +48,6 @@ class AskVAPage extends React.Component {
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
-                <li className="active">Ask for your Claim Decision</li>
               </ul>
             </nav>
           </div>
@@ -67,16 +66,16 @@ class AskVAPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info claims-no-icon claims-alert">
                 <ErrorableCheckbox
-                    className="claims-alert-checkbox"
-                    checked={this.state.submittedDocs}
-                    onValueChange={(update) => this.setSubmittedDocs(update)}
+                  className="claims-alert-checkbox"
+                  checked={this.state.submittedDocs}
+                  onValueChange={(update) => this.setSubmittedDocs(update)}
 
-                    label="I have submitted all evidence that will support my claim and I'm not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."/>
+                  label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."/>
               </div>
               <button
-                  disabled={submitDisabled}
-                  className={submitDisabled ? 'usa-button-primary usa-button-disabled' : 'usa-button-primary'}
-                  onClick={() => this.props.submitRequest(this.props.params.id)}>
+                disabled={submitDisabled}
+                className={submitDisabled ? 'usa-button-primary usa-button-disabled' : 'usa-button-primary'}
+                onClick={() => this.props.submitRequest(this.props.params.id)}>
                 {buttonMsg}
               </button>
               {!loadingDecisionRequest

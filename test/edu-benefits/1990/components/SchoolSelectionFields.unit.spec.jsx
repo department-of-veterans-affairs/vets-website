@@ -8,29 +8,29 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<SchoolSelectionFields>', () => {
   xit('should not render school address for empty education type', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
-          data={data}
-          initializeFields={f => f}
-          onStateChange={onStateChange}/>
+        data={data}
+        initializeFields={f => f}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(0);
   });
 
   it('should render school address for college education type', () => {
-    let data = createVeteran();
+    const data = createVeteran();
     data.educationType.value = 'college';
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionFields
-          data={data}
-          initializeFields={f => f}
-          onStateChange={onStateChange}/>
+        data={data}
+        initializeFields={f => f}
+        onStateChange={onStateChange}/>
     );
 
     expect(tree.everySubTree('Address').length).to.equal(1);

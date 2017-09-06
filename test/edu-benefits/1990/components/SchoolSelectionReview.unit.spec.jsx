@@ -7,12 +7,12 @@ import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/vetera
 
 describe('<SchoolSelectionReview>', () => {
   it('should render', () => {
-    let veteran = createVeteran();
+    const veteran = createVeteran();
     veteran.educationType.value = 'college';
 
     const tree = SkinDeep.shallowRender(
       <SchoolSelectionReview
-          data={veteran}/>
+        data={veteran}/>
     );
 
     expect(tree.everySubTree('table').length).to.eql(1);

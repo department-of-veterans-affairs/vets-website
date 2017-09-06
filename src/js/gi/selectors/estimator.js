@@ -2,11 +2,7 @@ import { createSelector } from 'reselect';
 
 const getConstants = (state) => state.constants.constants;
 
-const getEligibilityDetails = (state) => {
-  const details = Object.assign({}, state.eligibility);
-  delete details.dropdowns;
-  return details;
-};
+const getEligibilityDetails = (state) => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
   const { type, bah, country } = props;
@@ -66,13 +62,13 @@ function getDerivedAttributes(constant, eligibility, institution) {
     case 1607:
       monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
       if (isOJT) {
-        monthlyRate = monthlyRate * 0.75;
+        monthlyRate *= 0.75;
       }
       break;
     case 1606:
       monthlyRate = constant.SRRATE;
       if (isOJT) {
-        monthlyRate = monthlyRate * 0.75;
+        monthlyRate *= 0.75;
       }
       break;
     case 35:

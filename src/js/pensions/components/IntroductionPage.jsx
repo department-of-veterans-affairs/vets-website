@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
@@ -18,13 +17,13 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for pension benefits"/>
+        <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to Form 21P-527EZ</p>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            resumeOnly
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>}
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -46,12 +45,12 @@ class IntroductionPage extends React.Component {
                 <div className="usa-alert-body">
                   <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
                   <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed and there is no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
-                  <p><a href="/pension/apply/pension-fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
+                  <p><a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
                 </div>
               </div>
               <br/>
               <h6>Aid and Attendance and Housebound benefits</h6>
-              If you need help with daily activities or you're housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
+              If you need help with daily activities or you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
               <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about eligibility</a>.<br/><br/>
               <ul>
                 <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
@@ -64,7 +63,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you’ll get a confirmation message that you can print.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -77,21 +76,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
           Complete the form before submitting to apply for pension benefits with the 21-527EZ.
-        </SaveInProgressIntro>}
-        {__BUILDTYPE__ === 'production' && <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Get Started"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>}
+        </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>

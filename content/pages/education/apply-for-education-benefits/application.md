@@ -9,7 +9,6 @@ layout: page-react.html
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
       <li class="parent"><a href="/education/apply-for-education-benefits/">Apply for Education Benefits</a></li>
-      <li class="active">Apply Online</li>
     </ul>
   </nav>
   <div class="section">
@@ -29,7 +28,7 @@ layout: page-react.html
       <div class="row">
         <div class="small-12 columns">
           <div class="csp-inline-patch-application">
-          <h3>We're sorry. The education benefits application is currently down while we fix a few things. We will be back up as soon as we can.</h3>
+          <h3>We’re sorry. The education benefits application is currently down while we fix a few things. We’ll be back up as soon as we can.</h3>
           <h4>In the meantime, you can still call 1-877-222-VETS(8387) and press 2 to complete this application over the phone.</h4>
           <a href="/"><button>Go back to Vets.gov</button></a>
           </div>

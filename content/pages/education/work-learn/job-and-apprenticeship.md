@@ -24,32 +24,32 @@ You can get benefits if you qualify for the GI Bill, and:
       -	Hotel management
       -	Firefighting
 
-### Who's covered?
+### Who’s covered?
 Veterans<br />
 
 **Exception:** 
-You can't get OJT if you're an active-duty Servicemember or a spouse using a transferred benefit.
+You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
 </div>
 
 ### What benefits can I get?
 
 -	Money for books and supplies, up to $83 per month
--	Money for housing, if you're covered under the Post-9/11 GI Bill
+-	Money for housing, if you’re covered under the Post-9/11 GI Bill
 
 -----
 
 ### How do I get these benefits? 
 
-You'll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
+You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
 
-You'll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you'll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you'll get a job certification or journeyman status.
+You’ll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you’ll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you’ll get a job certification or journeyman status.
 
-If you're a Veteran in an approved program, you can use your GI Bill benefit and get tax-free money for books and supplies. The Post-9/11 GI Bill offers you a monthly housing allowance (MHA) in addition to your entry-level wage. We issue GI Bill payments each month after your employer or union reports your hours to us.
+If you’re a Veteran in an approved program, you can use your GI Bill benefit and get tax-free money for books and supplies. The Post-9/11 GI Bill offers you a monthly housing allowance (MHA) in addition to your entry-level wage. We issue GI Bill payments each month after your employer or union reports your hours to us.
 
-Your payment depends on which GI Bill program you're using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+Your payment depends on which GI Bill program you’re using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 #### Post-9/11 GI Bill MHA Payment Rates
-You'll get 100% of your applicable MHA during the first 6 months of training. Then you'll get:
+You’ll get 100% of your applicable MHA during the first 6 months of training. Then you’ll get:
 
 - 80% of your applicable MHA during the second 6 months of training
 - 60% of your applicable MHA during the third 6 months of training

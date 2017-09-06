@@ -1,6 +1,7 @@
 const mock = require('./mock-helpers');
 const Timeouts = require('./timeouts.js');
 const LoginHelpers = require('./login-helpers.js');
+const moment = require('moment');
 
 function completePersonalInformation(client, data) {
   client
@@ -172,10 +173,10 @@ function completeInsuranceInformation(client, data) {
 
 function completeVaInsuranceInformation(client, data) {
   client
-  .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
-  .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
-  .click('input[name="root_isEssentialAcaCoverage"]')
-  .click('input[name="root_wantsInitialVaContactYes"]');
+    .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
+    .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
+    .click('input[name="root_isEssentialAcaCoverage"]')
+    .click('input[name="root_wantsInitialVaContactYes"]');
 }
 
 function initApplicationSubmitMock() {
@@ -236,7 +237,12 @@ function initSaveInProgressMock(url, client) {
             birth_date: '1985-01-01',
           },
           in_progress_forms: [{
-            form: '1010ez'
+            form: '1010ez',
+            last_updated: 1501608808,
+            metadata: {
+              last_updated: 1506792808,
+              expires_at: moment().add(1, 'day').unix(),
+            }
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
@@ -284,7 +290,7 @@ function initSaveInProgressMock(url, client) {
         version: 0,
         returnUrl: '/veteran-information/birth-information',
         savedAt: 1498588443698,
-        expires_at: 1503772443,
+        expires_at: moment().add(1, 'day').unix(),
         last_updated: 1498588443
       }
     }
@@ -293,6 +299,17 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'put',
     value: {
+      data: {
+        attributes: {
+          metadata: {
+            version: 0,
+            returnUrl: '/veteran-information/birth-information',
+            savedAt: 1498588443698,
+            expires_at: moment().add(1, 'day').unix(),
+            last_updated: 1498588443
+          }
+        }
+      }
     }
   });
   /* eslint-enable camelcase */

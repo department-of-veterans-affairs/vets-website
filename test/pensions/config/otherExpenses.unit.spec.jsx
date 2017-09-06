@@ -31,10 +31,10 @@ describe('Pensions', () => {
     it('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            data={nameData}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          data={nameData}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
       );
       const formDOM = getFormDOM(form);
 
@@ -46,10 +46,10 @@ describe('Pensions', () => {
     it('should reveal expenses fields', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            data={nameData}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          data={nameData}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
       );
       const formDOM = getFormDOM(form);
 
@@ -62,12 +62,12 @@ describe('Pensions', () => {
       it('should render title on review page', () => {
         const form = ReactTestUtils.renderIntoDocument(
           <DefinitionTester
-              reviewMode
-              title={title}
-              schema={schema}
-              data={nameData}
-              definitions={formConfig.defaultDefinitions}
-              uiSchema={uiSchema}/>
+            reviewMode
+            title={title}
+            schema={schema}
+            data={nameData}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}/>
         );
         const formDOM = getFormDOM(form);
 
@@ -79,11 +79,11 @@ describe('Pensions', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = getFormDOM(form);
@@ -98,18 +98,21 @@ describe('Pensions', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = getFormDOM(form);
 
       formDOM.fillData(`#root_view\\:${namePath.startsWith('spouse') ? 'spouseHas' : 'has'}OtherExpensesYes`, 'Y');
 
-      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, 12);
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_amount`, '12');
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_purpose`, 'procedure');
+      formDOM.fillDate(`root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_date`, '2001-12-11');
+      formDOM.fillData(`#root_${namePath.startsWith('spouse') ? 'spouseOtherExpenses' : 'otherExpenses'}_0_paidTo`, 'doctor');
 
       formDOM.click('.va-growable-add-btn');
 
@@ -121,11 +124,11 @@ describe('Pensions', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            definitions={formConfig.defaultDefinitions}
-            data={nameData}
-            onSubmit={onSubmit}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          data={nameData}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = getFormDOM(form);
