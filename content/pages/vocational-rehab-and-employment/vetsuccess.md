@@ -4,7 +4,7 @@ title: VetSuccess on Campus
 source: http://www.benefits.va.gov/vocrehab/vsoc.asp
 template: detail-page
 relatedlinks:
-  - heading:
+  - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: Programs for Servicemembers and Veterans
