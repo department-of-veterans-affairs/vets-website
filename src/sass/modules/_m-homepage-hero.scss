@@ -12,6 +12,10 @@
   padding: 1em 2.4rem;
   text-align: center;
 
+  &.usa-grid {
+    max-width: 114rem;
+  }
+
   @include media($medium-large-screen) {
     padding: 2em 0;
     min-height: 32rem;
@@ -50,7 +54,7 @@
 
 .va-homepage-benefits {
   padding-bottom: 2rem;
-  // Commenting to remove this for now because there's still a discussion about 
+  // Commenting to remove this for now because there's still a discussion about
   // whether these links should be one column or two.
   // Restore if we use two columns. Remove if we use one.
   //@include media($medium-screen) {

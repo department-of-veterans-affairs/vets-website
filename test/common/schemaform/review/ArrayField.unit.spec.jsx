@@ -41,16 +41,16 @@ describe('Schemaform review <ArrayField>', () => {
     const arrayData = [];
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          pageKey="page1"
-          arrayData={arrayData}
-          path={['thingList']}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formContext={formContext}
-          pageTitle=""
-          requiredSchema={requiredSchema}/>
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(uiSchema['ui:title']);
@@ -80,16 +80,16 @@ describe('Schemaform review <ArrayField>', () => {
     const arrayData = [{}, {}];
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          pageKey="page1"
-          arrayData={arrayData}
-          path={['thingList']}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formContext={formContext}
-          pageTitle=""
-          requiredSchema={requiredSchema}/>
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.everySubTree('SchemaForm').length).to.equal(2);
@@ -134,16 +134,16 @@ describe('Schemaform review <ArrayField>', () => {
     const arrayData = [{}, {}];
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          pageKey="page1"
-          arrayData={arrayData}
-          path={['thingList']}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formContext={formContext}
-          pageTitle=""
-          requiredSchema={requiredSchema}/>
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}/>
     );
 
     tree.getMountedInstance().handleAdd();
@@ -185,16 +185,16 @@ describe('Schemaform review <ArrayField>', () => {
       setData = sinon.spy();
       tree = SkinDeep.shallowRender(
         <ArrayField
-            pageKey="page1"
-            setData={setData}
-            arrayData={arrayData}
-            path={['thingList']}
-            schema={schema}
-            uiSchema={uiSchema}
-            registry={registry}
-            formContext={formContext}
-            pageTitle=""
-            requiredSchema={requiredSchema}/>
+          pageKey="page1"
+          setData={setData}
+          arrayData={arrayData}
+          path={['thingList']}
+          schema={schema}
+          uiSchema={uiSchema}
+          registry={registry}
+          formContext={formContext}
+          pageTitle=""
+          requiredSchema={requiredSchema}/>
       );
     });
     it('edit', () => {
@@ -257,16 +257,16 @@ describe('Schemaform review <ArrayField>', () => {
     }];
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          pageKey="page1"
-          arrayData={arrayData}
-          path={['thingList']}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formContext={formContext}
-          pageTitle=""
-          requiredSchema={requiredSchema}/>
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}/>
     );
 
     const instance = tree.getMountedInstance();

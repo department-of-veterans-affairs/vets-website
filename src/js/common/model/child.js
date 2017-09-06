@@ -1,7 +1,5 @@
 // Child resource prototype objects. In common so server unittests can access.
-
-const fields = require('./fields');
-const makeField = fields.makeField;
+const makeField = require('./fields').makeField;
 
 const blankChild = {
   childFullName: {

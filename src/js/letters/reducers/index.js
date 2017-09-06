@@ -12,7 +12,8 @@ import {
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
-  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  UPDATE_ADDRESS
 } from '../utils/constants';
 
 const initialState = {
@@ -53,7 +54,7 @@ function letters(state = initialState, action) {
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', 'letterEligibilityError', state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
-      // Gather all possible displayed options that the user may toggle on/off.
+    // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
@@ -90,6 +91,8 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], 'success', state);
     case 'GET_LETTER_PDF_FAILURE':
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
+    case UPDATE_ADDRESS:
+      return _.set('destination', action.address, state);
     default:
       return state;
   }

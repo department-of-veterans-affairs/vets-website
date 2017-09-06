@@ -32,13 +32,24 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
+      } else {
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> You can save this form in progress, and come back later to finish filling it out.
+              </div>
+            </div>
+            <br/>
+          </div>
+        );
       }
     } else {
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
+              <strong>Note:</strong> You can save this form, and come back later to finish filling it out. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
             </div>
           </div>
           <br/>
@@ -73,16 +84,16 @@ export default class SaveInProgressIntro extends React.Component {
       <div>
         {this.getAlert(savedForm)}
         <FormStartControls
-            resumeOnly={this.props.resumeOnly}
-            messages={this.props.messages}
-            startPage={this.props.pageList[1].path}
-            formId={this.props.formId}
-            returnUrl={this.props.returnUrl}
-            migrations={this.props.migrations}
-            fetchInProgressForm={this.props.fetchInProgressForm}
-            removeInProgressForm={this.props.removeInProgressForm}
-            prefillAvailable={prefillAvailable}
-            formSaved={!!savedForm}/>
+          resumeOnly={this.props.resumeOnly}
+          messages={this.props.messages}
+          startPage={this.props.pageList[1].path}
+          formId={this.props.formId}
+          returnUrl={this.props.returnUrl}
+          migrations={this.props.migrations}
+          fetchInProgressForm={this.props.fetchInProgressForm}
+          removeInProgressForm={this.props.removeInProgressForm}
+          prefillAvailable={prefillAvailable}
+          formSaved={!!savedForm}/>
         <br/>
       </div>
     );

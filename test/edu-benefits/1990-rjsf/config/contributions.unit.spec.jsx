@@ -12,10 +12,10 @@ describe('Edu 1990 contributions', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -26,11 +26,11 @@ describe('Edu 1990 contributions', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -38,15 +38,34 @@ describe('Edu 1990 contributions', () => {
     expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
+  it('should reveal warning', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          'view:benefitsRelinquishedContainer': {
+            benefitsRelinquished: 'chapter30'
+          }
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
+    );
+    const formDOM = getFormDOM(form);
+    formDOM.setCheckbox('#root_reserveKicker', true);
+
+    expect(formDOM.querySelectorAll('.usa-alert-warning').length).to.equal(1);
+  });
   it('should reveal date fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:activeDutyRepayingPeriod', true);

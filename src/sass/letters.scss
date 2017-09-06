@@ -25,8 +25,30 @@
     margin-left: 2em;
   }
 
+  .letters-progress-bar {
+    width: 6em;
+  }
+
+  .address-block {
+    background-color: $color-gray-lightest;
+    padding: 1em;
+
+    h5 {
+      color: $color-primary-darker;
+      padding: 0;
+    }
+
+    button {
+      margin-top: 2em;
+    }
+  }
+
   .letters-address {
     text-transform: capitalize;
+  }
+
+  .view-letters-button {
+    margin: 2em;
   }
 
   .accordion-header > button {

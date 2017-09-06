@@ -6,6 +6,10 @@ import sinon from 'sinon';
 import { ReviewPage } from '../../../../src/js/common/schemaform/review/ReviewPage';
 
 describe('Schemaform review: ReviewPage', () => {
+  const location = {
+    pathname: '/testing/0'
+  };
+
   it('should render chapters', () => {
     const formConfig = {
       chapters: {
@@ -46,10 +50,11 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          form={form}
-          route={{ formConfig, pageList }}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}/>
+        form={form}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        location={location}/>
     );
 
     expect(tree.everySubTree('ReviewCollapsibleChapter').length).to.equal(2);
@@ -109,13 +114,14 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          router={router}
-          setData={setData}
-          form={form}
-          onSubmit={onSubmit}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={route}/>
+        router={router}
+        setData={setData}
+        form={form}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={route}
+        location={location}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -175,11 +181,12 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}
+        location={location}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -237,12 +244,13 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          setSubmission={setSubmission}
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        setSubmission={setSubmission}
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}
+        location={location}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -297,12 +305,13 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          setSubmission={setSubmission}
-          submitForm={submitForm}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        setSubmission={setSubmission}
+        submitForm={submitForm}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}
+        location={location}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -354,11 +363,12 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          router={router}
-          form={form}
-          setEditMode={f => f}
-          setPrivacyAgreement={f => f}
-          route={{ formConfig, pageList }}/>
+        router={router}
+        form={form}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        route={{ formConfig, pageList }}
+        location={location}/>
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
@@ -415,10 +425,11 @@ describe('Schemaform review: ReviewPage', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
-          form={form}
-          route={{ formConfig, pageList }}
-          setEditMode={setEditMode}
-          setPrivacyAgreement={f => f}/>
+        form={form}
+        route={{ formConfig, pageList }}
+        setEditMode={setEditMode}
+        setPrivacyAgreement={f => f}
+        location={location}/>
     );
 
     expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.false;

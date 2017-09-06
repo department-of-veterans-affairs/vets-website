@@ -68,10 +68,10 @@ class BasicArrayField extends React.Component {
       <div className={containerClassNames}>
         {hasTitleOrDescription && <div className="schemaform-block-header">
           {title && !hideTitle
-              ? <TitleField
-                  id={`${idSchema.$id}__title`}
-                  title={title}
-                  formContext={formContext}/> : null}
+            ? <TitleField
+              id={`${idSchema.$id}__title`}
+              title={title}
+              formContext={formContext}/> : null}
           {textDescription && <p>{textDescription}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
           {!textDescription && !DescriptionField && description}
@@ -88,17 +88,17 @@ class BasicArrayField extends React.Component {
                 <div className="row small-collapse">
                   <div className="small-12 columns">
                     <SchemaField key={index}
-                        schema={itemSchema}
-                        uiSchema={uiSchema.items}
-                        errorSchema={errorSchema ? errorSchema[index] : undefined}
-                        idSchema={itemIdSchema}
-                        formData={item}
-                        onChange={(value) => this.onItemChange(index, value)}
-                        onBlur={onBlur}
-                        registry={this.props.registry}
-                        required={false}
-                        disabled={disabled}
-                        readonly={readonly}/>
+                      schema={itemSchema}
+                      uiSchema={uiSchema.items}
+                      errorSchema={errorSchema ? errorSchema[index] : undefined}
+                      idSchema={itemIdSchema}
+                      formData={item}
+                      onChange={(value) => this.onItemChange(index, value)}
+                      onBlur={onBlur}
+                      registry={this.props.registry}
+                      required={false}
+                      disabled={disabled}
+                      readonly={readonly}/>
                   </div>
                 </div>
               </div>

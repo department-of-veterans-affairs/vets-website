@@ -7,15 +7,19 @@ concurrence: complete
 order: 3
 ---
 
-<div class="va-introtext">
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
 If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out if you can get education benefits through the Post-9/11 GI Bill. 
 
 </div>
 
 <div class="feature" markdown="0"> 
+<div itemscope itemtype="http://schema.org/Question">
 
-### Can I get education benefits?
+<h3 itemprop="name">Can I get education benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You can get education benefits if: 
 - You qualify for any GI Bill program, **and** 
@@ -23,33 +27,72 @@ You can get education benefits if:
 
 If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can’t change your mind. 
 
-### Who’s covered?
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Who’s covered?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - Veterans
 - Qualified dependents
 
 </div>
+</div>
+</div>
+</div>
 
 
-### What benefits can I get? 
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">What benefits can I get?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - Tuition and fees
 - Money for housing (if you’re in school more than half time)
 - Money for books and supplies (up to $1,000 per school year)
 
+</div>
+</div>
+</div>
 
-### Do I have Post-9/11 GI Bill benefits?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Do I have Post-9/11 GI Bill benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
 You can check to see if you have Post-9/11 GI Bill benefits. [View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
+
+</div>
+</div>
+</div>
 
 -------
 
-### How do I get these benefits?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">How do I get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You’ll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). 
 
 The benefit amount depends on which school you go to, how much active-duty service you’ve had since September 10, 2001, and how many credits or training hours you’re taking.
 
-#### What benefits does the Post-9/11 GI Bill include? 
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">What benefits does the Post-9/11 GI Bill include?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - The full tuition amount for in-state schools up to the maximum national average of $22,805.34
 - A Basic Allowance for Housing (BAH) based on the cost of living where your school is located
@@ -58,14 +101,31 @@ The benefit amount depends on which school you go to, how much active-duty servi
 
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
 
-#### Other possible benefits
+</div>
+</div>
+</div>
+
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Other possible benefits</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. [Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
 - If you’re a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. [Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 - The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. [Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
+</div>
+</div>
+</div>
 
-#### Types of training
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">Types of training</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You can use these types of programs and courses under the Post-9/11 GI Bill:
 
@@ -82,12 +142,24 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
 
+</div>
+</div>
+</div>
 
-### Get more information
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Get more information</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
 - Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/rates/).
 - [Read the Post-9/11 GI Bill pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).
 
+</div>
+</div>
+</div>
+</div>
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).

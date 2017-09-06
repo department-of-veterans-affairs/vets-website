@@ -2,6 +2,16 @@ import React from 'react';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
+export function directDepositDescription() {
+  return (
+    <div>
+      <p>VA makes payments only through direct deposit, also called electronic funds transfer (EFT). The only exception is for participants in the Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP).</p>
+
+      <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/" target="_blank">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
+    </div>
+  );
+}
+
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
@@ -43,4 +53,12 @@ export const benefitsRelinquishedDescription = (
     <br/>
     If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
   </span>
+);
+
+export const reserveKickerWarning = (
+  <div className="usa-alert usa-alert-warning usa-content secondary">
+    <div className="usa-alert-body">
+      <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won’t get your Active Duty kicker.</span>
+    </div>
+  </div>
 );

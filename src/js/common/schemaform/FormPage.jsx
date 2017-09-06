@@ -16,7 +16,7 @@ import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-ac
 import { updateLogInUrl } from '../../login/actions';
 
 function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
+  const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
   if (legend && legend.getBoundingClientRect().height > 0) {
     focusElement(legend);
   } else {
@@ -44,7 +44,6 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.handleSave = this.handleSave.bind(this);
   }
 
   componentDidMount() {
@@ -111,16 +110,6 @@ class FormPage extends React.Component {
     this.props.router.push(pages[page].path);
   }
 
-  handleSave() {
-    const {
-      formId,
-      version,
-      data
-    } = this.props.form;
-    const returnUrl = this.props.location.pathname;
-    this.props.saveInProgressForm(formId, version, returnUrl, data);
-  }
-
   render() {
     const { route, params, form } = this.props;
     let {
@@ -143,40 +132,40 @@ class FormPage extends React.Component {
     return (
       <div className="form-panel">
         <SchemaForm
-            name={route.pageConfig.pageKey}
-            title={route.pageConfig.title}
-            data={data}
-            schema={schema}
-            uiSchema={uiSchema}
-            pagePerItemIndex={params ? params.index : undefined}
-            uploadFile={this.props.uploadFile}
-            prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}>
+          name={route.pageConfig.pageKey}
+          title={route.pageConfig.title}
+          data={data}
+          schema={schema}
+          uiSchema={uiSchema}
+          pagePerItemIndex={params ? params.index : undefined}
+          uploadFile={this.props.uploadFile}
+          prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-outline"
-                  beforeText="«"/>
+                onButtonClick={this.goBack}
+                buttonText="Back"
+                buttonClass="usa-button-outline"
+                beforeText="«"/>
             </div>
             <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
-                  submitButton
-                  buttonText="Continue"
-                  buttonClass="usa-button-primary"
-                  afterText="»"/>
+                submitButton
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
             </div>
           </div>
           {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
-                  trackingPrefix={form.trackingPrefix}
-                  saveForm={this.handleSave}
-                  savedStatus={form.savedStatus}
-                  user={this.props.user}
-                  onUpdateLoginUrl={this.props.updateLogInUrl}/>
+                locationPathname={this.props.location.pathname}
+                form={form}
+                user={this.props.user}
+                saveInProgressForm={this.props.saveInProgressForm}
+                onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>
           </div>}
         </SchemaForm>

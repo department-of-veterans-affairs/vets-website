@@ -34,6 +34,9 @@
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
+{% if includes_edu_wizard %}
+{% include "content/includes/wizard.html" %}
+{% endif %}
 {% if title === 'Home' %}
 <title>Vets.gov</title>
 {% else %}
@@ -68,21 +71,21 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<!-- We participate in the US government’s analytics program. See the data at analytics.usa.gov. -->
-<script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
-
 <script>
 //<![CDATA[
 window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 //]]>
 </script>
 
-<script src="/generated/vendor.js"></script>
+<script defer src="/generated/vendor.js"></script>
 {% if entryname %}
-<script src="/generated/{{ entryname }}.entry.js"></script>
+<script defer src="/generated/{{ entryname }}.entry.js"></script>
 {% else %}
-<script src="/generated/no-react.entry.js"></script>
+<script defer src="/generated/no-react.entry.js"></script>
 {% endif %}
+
+<!-- We participate in the US government’s analytics program. See the data at analytics.usa.gov. -->
+<script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
 
 </head>
 <body class="{{ body_class }}">
@@ -148,7 +151,6 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
     {% endif %}
   </div>
 
-
 </header>
 
-<script src="/js/usa-search.js"></script>
+<script async src="/js/usa-search.js"></script>

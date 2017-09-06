@@ -25,6 +25,8 @@ import {
   resumeMessage
 } from '../helpers';
 
+import migrations from './migrations';
+
 import SIPIntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
@@ -118,8 +120,8 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 0,
-  // Disable save in progress for production
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.',
@@ -127,10 +129,9 @@ const formConfig = {
     startOver: 'This will remove anything you have put into the Health Care Application.'
   },
   transformForSubmit: transform,
-  // Use the old intro page for production, but SiP for dev and staging
   introduction: SIPIntroductionPage,
   confirmation: ConfirmationPage,
-  errorMessage: ErrorMessage,
+  submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
   getHelp: GetFormHelp,
@@ -217,7 +218,9 @@ const formConfig = {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {
-            isSpanishHispanicLatino: false
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false
+            }
           },
           uiSchema: {
             gender: {

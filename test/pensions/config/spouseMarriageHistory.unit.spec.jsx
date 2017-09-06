@@ -15,9 +15,9 @@ describe('Pensions spouse marriage history', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -27,21 +27,21 @@ describe('Pensions spouse marriage history', () => {
   it('should render labels with spouse name', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            marriages: [{
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          marriages: [{
+            spouseFullName: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelector('label[for="root_dateOfMarriage"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain('Jane Doe');
     expect(formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent).to.contain('Jane Doe');
   });
 
@@ -59,10 +59,10 @@ describe('Pensions spouse marriage history', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -77,10 +77,10 @@ describe('Pensions spouse marriage history', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

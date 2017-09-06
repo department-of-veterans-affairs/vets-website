@@ -32,13 +32,13 @@ class PerfPanel extends React.Component {
         </div>
         <div className="small-4 columns">
           <button
-              className="usa-button-primary"
-              onClick={this.handleStart}>Start</button>
+            className="usa-button-primary"
+            onClick={this.handleStart}>Start</button>
         </div>
         <div className="small-4 columns">
           <button
-              className="usa-button-primary"
-              onClick={this.handleStop}>Stop</button>
+            className="usa-button-primary"
+            onClick={this.handleStop}>Stop</button>
         </div>
       </div>
     );

@@ -154,10 +154,13 @@ export function formatISOPartialDate({ month, day, year }) {
   return undefined;
 }
 
-export function formatReviewDate(dateString) {
+export function formatReviewDate(dateString, monthYear = false) {
   if (dateString) {
     const [year, month, day] = dateString.split('-', 3);
-    return `${formatDayMonth(month)}/${formatDayMonth(day)}/${formatYear(year)}`;
+
+    return monthYear
+      ? `${formatDayMonth(month)}/${formatYear(year)}`
+      : `${formatDayMonth(month)}/${formatDayMonth(day)}/${formatYear(year)}`;
   }
 
   return undefined;
@@ -230,6 +233,13 @@ export function stringifyFormReplacer(key, value) {
     if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
       return undefined;
     }
+  }
+
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
   }
 
   return value;
@@ -438,7 +448,7 @@ function generateArrayPages(arrayPages, data) {
           index
         })
       )),
-      []
+    []
     )
     // doing this after the map so that we don’t change indexes
     .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));

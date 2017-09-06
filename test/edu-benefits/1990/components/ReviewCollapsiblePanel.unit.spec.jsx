@@ -18,25 +18,25 @@ describe('<ReviewCollapsiblePanel>', () => {
 
     return SkinDeep.shallowRender(
       <ReviewCollapsiblePanel
-          chapter="2"
-          data={data}
-          uiData={uiData}
-          urlPrefix="/1990/"
-          pages={
-            [
-              {
-                name: 'Test',
-                path,
-                fieldsComponent: FakeFields,
-                reviewComponent: FakeReview
-              }
-            ]
-          }
-          onStateChange={f => f}
-          onFieldsInitialized={onFieldsInitialized}
-          onUpdateSaveStatus={onUpdateSaveStatus}
-          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
-          onUpdateEditStatus={onUpdateEditStatus}/>
+        chapter="2"
+        data={data}
+        uiData={uiData}
+        urlPrefix="/1990/"
+        pages={
+          [
+            {
+              name: 'Test',
+              path,
+              fieldsComponent: FakeFields,
+              reviewComponent: FakeReview
+            }
+          ]
+        }
+        onStateChange={f => f}
+        onFieldsInitialized={onFieldsInitialized}
+        onUpdateSaveStatus={onUpdateSaveStatus}
+        onUpdateVerifiedStatus={onUpdateVerifiedStatus}
+        onUpdateEditStatus={onUpdateEditStatus}/>
     );
   }
   it('should render fields to update', () => {

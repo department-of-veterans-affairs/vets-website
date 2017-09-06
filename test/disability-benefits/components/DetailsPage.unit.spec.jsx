@@ -17,7 +17,7 @@ describe('<DetailsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DetailsPage
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.claim-contentions-list').text()).to.contain('Condition 1Condition 2');
   });
@@ -31,7 +31,7 @@ describe('<DetailsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DetailsPage
-          claim={claim}/>
+        claim={claim}/>
     );
     expect(tree.subTree('.claim-contentions-list').text()).to.contain('Not Available');
   });

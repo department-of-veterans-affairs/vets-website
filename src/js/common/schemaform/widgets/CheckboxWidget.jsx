@@ -16,12 +16,12 @@ export default function CheckboxWidget({
   return (
     <div className={widgetClasses}>
       <input type="checkbox"
-          id={id}
-          name={id}
-          checked={typeof value === 'undefined' ? false : value}
-          required={required}
-          disabled={disabled}
-          onChange={(event) => onChange(event.target.checked)}/>
+        id={id}
+        name={id}
+        checked={typeof value === 'undefined' ? false : value}
+        required={required}
+        disabled={disabled}
+        onChange={(event) => onChange(event.target.checked)}/>
       <label className="schemaform-label" htmlFor={id}>
         {options.title || label}{requiredSpan}
       </label>

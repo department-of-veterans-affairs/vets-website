@@ -72,23 +72,23 @@ class UserInfoSection extends React.Component {
         {currentAsOfAlert}
         <div className="section">
           <InfoPair
-              label="Name"
-              value={fullName}
-              id="gibs-full-name"
-              additionalClass="section-line"/>
+            label="Name"
+            value={fullName}
+            id="gibs-full-name"
+            additionalClass="section-line"/>
           <InfoPair
-              label="Date of birth"
-              name="dateOfBirth"
-              value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
-              additionalClass="section-line"/>
+            label="Date of birth"
+            name="dateOfBirth"
+            value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
+            additionalClass="section-line"/>
           <InfoPair
-              label="VA file number"
-              value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-              additionalClass="section-line"/>
+            label="VA file number"
+            value={formatVAFileNumber(enrollmentData.vaFileNumber)}
+            additionalClass="section-line"/>
           <InfoPair
-              label="Regional Processing Office"
-              value={enrollmentData.regionalProcessingOffice}
-              additionalClass="section-line"/>
+            label="Regional Processing Office"
+            value={enrollmentData.regionalProcessingOffice}
+            additionalClass="section-line"/>
         </div>
         {entitlementInfo}
       </div>

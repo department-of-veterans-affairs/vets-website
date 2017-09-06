@@ -54,6 +54,7 @@
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
     "ajv": "^4.7.1",
+    "append-query": "2.0.1",
     "axe-core": "^2.3.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -139,7 +140,7 @@
     "morgan": "^1.7.0",
     "nightwatch": "^0.9.16",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
-    "node-sass": "3.4.2",
+    "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
     "polyfill-function-prototype-bind": "0.0.1",
     "quick_check": "^0.7.0",

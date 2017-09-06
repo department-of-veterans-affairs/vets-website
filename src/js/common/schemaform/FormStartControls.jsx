@@ -52,14 +52,14 @@ class FormStartControls extends React.Component {
       return (
         <div>
           <ProgressButton
-              onButtonClick={this.handleLoadForm}
-              buttonText="Continue with Application"
-              buttonClass="usa-button-primary no-text-transform"/>
+            onButtonClick={this.handleLoadForm}
+            buttonText="Continue with Application"
+            buttonClass="usa-button-primary no-text-transform"/>
           {!this.props.resumeOnly && <ProgressButton
-              onButtonClick={this.toggleModal}
-              buttonText="Start over"
-              buttonClass="usa-button-outline"
-              afterText="»"/>}
+            onButtonClick={this.toggleModal}
+            buttonText="Start over"
+            buttonClass="usa-button-outline"
+            afterText="»"/>}
           <Modal
               cssClass="va-modal-large"
               id="start-over-modal"
@@ -68,13 +68,13 @@ class FormStartControls extends React.Component {
             <h3>{startOver || 'Starting over would erase your in progress form.'}</h3>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
-                onButtonClick={this.startOver}
-                buttonText="Start over"
-                buttonClass="usa-button-primary"/>
+              onButtonClick={this.startOver}
+              buttonText="Start over"
+              buttonClass="usa-button-primary"/>
             <ProgressButton
-                onButtonClick={this.toggleModal}
-                buttonText="Cancel"
-                buttonClass="usa-button-outline"/>
+              onButtonClick={this.toggleModal}
+              buttonText="Cancel"
+              buttonClass="usa-button-outline"/>
           </Modal>
         </div>
       );
@@ -83,10 +83,10 @@ class FormStartControls extends React.Component {
     return (
       <div>
         <ProgressButton
-            onButtonClick={this.handleLoadPrefill}
-            buttonText="Get Started"
-            buttonClass="usa-button-primary"
-            afterText="»"/>
+          onButtonClick={this.handleLoadPrefill}
+          buttonText="Get Started"
+          buttonClass="usa-button-primary"
+          afterText="»"/>
       </div>
     );
   }

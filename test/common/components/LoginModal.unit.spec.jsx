@@ -55,10 +55,10 @@ describe('<LoginModal>', () => {
   it('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -68,10 +68,10 @@ describe('<LoginModal>', () => {
   it('should be hidden when not visible', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible={false}
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        visible={false}
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -81,11 +81,11 @@ describe('<LoginModal>', () => {
   it('should render a title', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -96,11 +96,11 @@ describe('<LoginModal>', () => {
     setup();
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -124,12 +124,12 @@ describe('<LoginModal>', () => {
     const loginSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"
-          onLogin={loginSpy}/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"
+        onLogin={loginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -150,12 +150,12 @@ describe('<LoginModal>', () => {
     const loginSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"
-          onLogin={loginSpy}/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"
+        onLogin={loginSpy}/>
     );
 
     const instance = tree.getMountedInstance();

@@ -14,8 +14,8 @@ describe('<BenefitsRelinquishmentFields>', () => {
 
   const tree = SkinDeep.shallowRender(
     <BenefitsRelinquishmentFields
-        data={data}
-        onStateChange={onStateChange}/>
+      data={data}
+      onStateChange={onStateChange}/>
   );
 
   it('should render a subsection for chapter 33', () => {

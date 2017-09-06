@@ -419,9 +419,9 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
-                  'Start of confinement',
-                  'End of confinement',
-                  'Confinement start date must be before end date'
+              'Start of confinement',
+              'End of confinement',
+              'Confinement start date must be before end date'
             )),
             'view:receivedSeverancePay': {
               'ui:title': 'Have you received any type of severance or separation pay?',
@@ -611,7 +611,7 @@ const formConfig = {
               'ui:required': (form) => !!_.get('maritalStatus', form)
                   && form.maritalStatus !== 'Never Married',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
                 expandUnderCondition: (status) => !!status
@@ -808,7 +808,7 @@ const formConfig = {
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 countOffset: -1
               },

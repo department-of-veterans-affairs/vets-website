@@ -14,28 +14,28 @@ describe('Edu 1990 schoolSelection', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
 
     const inputs = formDOM.querySelectorAll('input, select, textarea');
 
-    expect(inputs.length).to.equal(6);
+    expect(inputs.length).to.equal(8);
   });
 
   it('should have 1 required input', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
@@ -47,15 +47,33 @@ describe('Edu 1990 schoolSelection', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig1990.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_educationProgram_educationType', 'college');
 
-    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(12);
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(14);
+  });
+  it('should hide non va assistance question', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          currentlyActiveDuty: {
+            yes: true
+          }
+        }}
+        definitions={formConfig1990.defaultDefinitions}
+        uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(6);
   });
 });

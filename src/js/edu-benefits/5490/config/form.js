@@ -19,13 +19,14 @@ import {
 } from '../../utils/labels';
 
 import {
-  validateDate,
+  validateMonthYear,
   validateFutureDateIfExpectedGrad
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -78,7 +79,7 @@ const formConfig = {
   urlPrefix: '/5490/',
   submitUrl: '/v0/education_benefits_claims/5490',
   trackingPrefix: 'edu-5490-',
-  formId: '5490',
+  formId: '22-5490',
   version: 0,
   disableSave: true,
   transformForSubmit: transform,
@@ -314,7 +315,7 @@ const formConfig = {
                   'properties.veteranFullName',
                   'properties.veteranSocialSecurityNumber',
                   'properties.vaFileNumber'],
-                  previousBenefits),
+                previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
@@ -474,8 +475,9 @@ const formConfig = {
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                dateUI(null), {
+                monthYearUI(null), {
                   'ui:options': {
+                    monthYear: true,
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
@@ -489,7 +491,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [
-                    validateDate,
+                    validateMonthYear,
                     validateFutureDateIfExpectedGrad
                   ]
                 },

@@ -23,9 +23,9 @@ class ModalDiscardChanges extends React.Component {
         <div className="va-modal-button-group">
           <button>Discard changes</button>
           <button
-              className="usa-button-outline"
-              type="button"
-              onClick={this.props.onClose}>
+            className="usa-button-outline"
+            type="button"
+            onClick={this.props.onClose}>
             Cancel
           </button>
         </div>
@@ -34,10 +34,10 @@ class ModalDiscardChanges extends React.Component {
 
     return (
       <Modal
-          cssClass="messaging-modal"
-          contents={contents}
-          onClose={this.props.onClose}
-          visible={this.props.visible}/>
+        cssClass="messaging-modal"
+        contents={contents}
+        onClose={this.props.onClose}
+        visible={this.props.visible}/>
     );
   }
 }

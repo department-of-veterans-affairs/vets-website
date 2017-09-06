@@ -28,7 +28,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
     // Additional benefits page
-    client.waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
+    client.waitForElementVisible('label[for="root_civilianBenefitsAssistanceYes"]', Timeouts.slow);
     EduHelpers.completeAdditionalBenefits(client, testData.data);
     client
       .axeCheck('.main')
@@ -60,7 +60,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection');
 
     // Contact information page
-    client.waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+    client.waitForElementVisible('label[for="root_preferredContactMethod_0"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Direct deposit page
-    client.waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
+    client.waitForElementVisible('label[for="root_bankAccount_accountType_0"]', Timeouts.slow);
     EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
@@ -83,7 +83,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary')
       .expect.element('.js-test-location').attribute('data-location')
-        .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page
     client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
