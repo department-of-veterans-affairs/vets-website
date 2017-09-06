@@ -26,7 +26,7 @@ If you have a disability that was caused by—or got worse because of—your act
 
 ### Can I get VR&amp;E benefits?
 
-##### Servicemembers
+#### Servicemembers
 
 You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 
@@ -37,7 +37,7 @@ You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 
 <br>
 
-##### Veterans
+#### Veterans
 
 You may be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a 10% or higher disability rating, **and**
@@ -57,7 +57,8 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
 	Go to eBenefits to Apply
 </a>
-[Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet](/vocational-rehab-and-employment/apply-vre/)
+
+[Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet](/vocational-rehab-and-employment/apply-vre/).
 
 <br>
 
