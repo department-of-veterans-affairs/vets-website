@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VR&E Independent-Living Services Track
+title: VR&E Independent Living Track
 template: detail-page
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get support to help you live more independently through the Vocational Rehabilitation and Employment (VR&E) Independent Living Services track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get support to help you live more independently through the Vocational Rehabilitation and Employment (VR&E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
 
 </div>
 
@@ -105,5 +105,5 @@ If you’re eligible, your VRC will help you create a personalized independent-l
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Or, find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if haven't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
