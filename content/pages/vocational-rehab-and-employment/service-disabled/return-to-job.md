@@ -1,25 +1,25 @@
 ---
 layout: page-breadcrumbs.html
-title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+title: Reemployment Track
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
-    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+    title: Rapid Access to Employment Track
+    description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-    title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you may be eligible for vocational training.
+    title: Employment Through Long-Term Services Track
+    description: Find out if you may be eligible for vocational training to help you develop new job skills.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track—Guidance and Support for Starting a Business
+    title: Self-Employment Track
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Services Track—Support to Help You Live More Independently
+    title: Independent Living Track
     description: Learn about services that can help you live more independently with your service-connected disability.
 ---
 
 <div class="va-introtext">
 
-As a Veteran, you’re protected under the Uniformed Services Employment and Reemployment Rights Act (USERRA). This means you can’t be disadvantaged in your civilian career because of your service. If you’re a Veteran with a service-connected disability, the Vocational Rehabilitation and Employment (VR&E) program can help your employer accommodate your needs. Your Vocational Rehabilitation Counselor (VRC) can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process. Find out how we can help you return to your former job and support your employer in meeting your needs.
+As a Veteran, you’re protected under the Uniformed Services Employment and Reemployment Rights Act (USERRA). This means you can’t be disadvantaged in your civilian career because of your service. If you’re a Veteran with a service-connected disability, the Vocational Rehabilitation and Employment (VR&E) Independent Services track can help your employer accommodate your needs. Your Vocational Rehabilitation Counselor (VRC) can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process. Find out how we can help you return to your former job and support your employer in meeting your needs.
 
 </div>
 
