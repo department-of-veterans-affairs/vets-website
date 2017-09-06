@@ -129,14 +129,11 @@ class FormApp extends React.Component {
   }
 
   redirectOrLoad(props) {
-    const { currentLocation } = this.props;
-    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
 
     const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
-    const currentPagePath = props.returnUrl;
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
