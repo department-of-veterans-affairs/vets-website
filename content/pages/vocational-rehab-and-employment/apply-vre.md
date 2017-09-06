@@ -13,7 +13,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap and would like special career support or help living more independently with a severe disability? Follow these steps to apply for Vocational Rehabilitation and Employment (VR&amp;E) services.  
+If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services online. Find out how to apply.  
 
 </div>
 
@@ -54,9 +54,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
-	Go to eBenefits to Apply
-</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
 <br>
 
