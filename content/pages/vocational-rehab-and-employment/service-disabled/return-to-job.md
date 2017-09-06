@@ -1,20 +1,22 @@
 ---
 layout: page-breadcrumbs.html
 title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
-    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
-  - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-    title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you may be eligible for vocational training.
-  - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track—Guidance and Support for Starting a Business
-    description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-  - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Services Track—Support to Help You Live More Independently
-    description: Learn about services that can help you live more independently with your service-connected disability.
+  - heading: HEADING HERE
+    links:
+    - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+      title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
+      description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+    - url: /vocational-rehab-and-employment/service-disabled/new-skills/
+      title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
+      description: Find out if you may be eligible for vocational training.
+    - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
+      title: Self-Employment Track—Guidance and Support for Starting a Business
+      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
+    - url: /vocational-rehab-and-employment/service-disabled/independent-living/
+      title: Independent-Living Services Track—Support to Help You Live More Independently
+      description: Learn about services that can help you live more independently with your service-connected disability.
 ---
 
 <div class="va-introtext">
@@ -45,7 +47,7 @@ Help with the process of returning to the job you held before you deployed.
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
-Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
 
 Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/vocational-rehab-and-employment/external-resources/).
 
@@ -77,7 +79,7 @@ Choose **Vocational Rehabilitation and Employment Program**.
 
 <li class="process-step list-four">
 
-Apply for the Vocational Rehabilitation and Employment Program. 
+Apply for the Vocational Rehabilitation and Employment Program.
 
 </li>
 
@@ -87,4 +89,3 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 </li>
 </ol>
-
