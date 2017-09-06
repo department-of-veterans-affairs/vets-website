@@ -1,20 +1,22 @@
 ---
 layout: page-breadcrumbs.html
 title: Employment Through Long-Term Services Track
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-    title: Rapid Access to Employment Track
-    description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-  - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
-    title: Self-Employment Track
-    description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-  - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent Living Track
-    description: Learn about services that can help you live more independently with your service-connected disability.
-  - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track
-    description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
+    - heading: HEADING
+      links:
+    - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+      title: Rapid Access to Employment Track
+      description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
+    - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
+      title: Self-Employment Track
+      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
+    - url: /vocational-rehab-and-employment/service-disabled/independent-living/
+      title: Independent Living Track
+      description: Learn about services that can help you live more independently with your service-connected disability.
+    - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
+      title: Reemployment Track
+      description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
@@ -43,7 +45,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Career guidance
 - Job-market evaluation
 - Education and training for a vocational field that’s a good fit for you
-- Apprenticeship, on-the-job training, and volunteer opportunities 
+- Apprenticeship, on-the-job training, and volunteer opportunities
 - Employment help
 
 
@@ -51,7 +53,7 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
-Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
 
 Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/vocational-rehab-and-employment/external-resources/).
 
@@ -83,7 +85,7 @@ Click **Vocational Rehabilitation and Employment Program**.
 
 <li class="process-step list-four">
 
-Apply for the Vocational Rehabilitation and Employment Program. 
+Apply for the Vocational Rehabilitation and Employment Program.
 
 </li>
 
@@ -95,4 +97,3 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 </ol>
 
 **Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
-

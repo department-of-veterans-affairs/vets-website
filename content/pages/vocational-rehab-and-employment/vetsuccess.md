@@ -2,17 +2,19 @@
 layout: page-breadcrumbs.html
 title: VetSuccess on Campus
 source: http://www.benefits.va.gov/vocrehab/vsoc.asp
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/service-disabled/
-    title: Programs for Servicemembers and Veterans
-    description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
-  - url: /vocational-rehab-and-employment/apply-vre/
-    title: Application Process
-    description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    description: Find out if you're eligible for certain counseling services, training, and education benefits.
+  - heading:
+    links:
+    - url: /vocational-rehab-and-employment/service-disabled/
+      title: Programs for Servicemembers and Veterans
+      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
+    - url: /vocational-rehab-and-employment/apply-vre/
+      title: Application Process
+      description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
+    - url: /vocational-rehab-and-employment/family-members/
+      title: Family Members
+      description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">

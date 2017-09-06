@@ -2,17 +2,19 @@
 layout: page-breadcrumbs.html
 title: External Resources
 source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/service-disabled/
-    title: VR&E Programs for Servicemembers and Veterans
-    description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
-  - url: /vocational-rehab-and-employment/apply-vre/
-    title: Application Process
-    description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    description: Find out if you're eligible for certain counseling services, training, and education benefits.
+  - heading:
+    links:
+    - url: /vocational-rehab-and-employment/service-disabled/
+      title: VR&E Programs for Servicemembers and Veterans
+      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
+    - url: /vocational-rehab-and-employment/apply-vre/
+      title: Application Process
+      description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
+    - url: /vocational-rehab-and-employment/family-members/
+      title: Family Members
+      description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
 
 [Veterans ReEmployment](http://www.careeronestop.org/ReEmployment/veterans/default.aspx) connects you with employment services and jobs that use the skills you learned in the military. It also helps with job-search strategies, getting copies of military records, and choosing the right schools or training programs.
