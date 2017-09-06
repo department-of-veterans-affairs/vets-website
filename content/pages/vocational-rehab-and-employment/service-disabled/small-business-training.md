@@ -12,7 +12,7 @@ relatedlinks:
       title: Employment Through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
     - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-      title: Independent-Living Services Track
+      title: Independent Living Track
       description: Learn about services that can help you live more independently with your service-connected disability.
     - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-I you're a Servicemember or Veteran with a service-connected disability and an employment barrier who has the strong desire, skills, and drive to run a successful business, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Self-Employment track. Find out if you can get help starting your own business.
+If you're a Servicemember or Veteran with a service-connected disability and an employment barrier who has the strong desire, skills, and drive to run a successful business, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Self-Employment track. Find out if you can get help starting your own business.
 
 </div>
 
@@ -37,6 +37,7 @@ You may be eligible for the VR&amp;E self-employment track if you're a Serviceme
 You may also be entitled to services if you’re a Servicemember or Veteran with a service-connected disability of at least 10% and:
 - You’re enrolled in VR&E, **and**
 - A Vocational Rehabilitation Counselor (VRC) says you need help because of a severe employment handicap
+<br>
 **Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 </div>
@@ -95,4 +96,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Or, find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
