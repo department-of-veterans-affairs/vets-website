@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-title: Self-Employment Track
+title: VR&E Self-Employment Track
 template: detail-page
 relatedlinks:
-  - heading: HEADING HERE
+  - heading: Other VR&E tracks you may be interested in
     links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
@@ -62,7 +62,7 @@ You'll need to apply for benefits to find a Vocational Rehabilitation Counselor 
 
 <li class="process-step list-one">
 
-[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+Log in to your eBenefits account.
 
 </li>
 
@@ -90,3 +90,9 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 </li>
 </ol>
+
+### Ready to apply?
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
+
+[Or, find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
