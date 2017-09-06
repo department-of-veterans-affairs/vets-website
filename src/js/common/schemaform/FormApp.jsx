@@ -79,7 +79,7 @@ class FormApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
-    if (status === LOAD_STATUSES.success && newProps.currentLocation.pathname.endsWith('resume')) {
+    if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
