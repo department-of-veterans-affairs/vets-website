@@ -7,7 +7,7 @@ relatedlinks:
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /vocational-rehab-and-employment/apply-vre/
       title: Application Process
       description: Find out how to apply for VR&E as a Servicemember or Veteran.
@@ -18,7 +18,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability that was caused by—or got worse because of—your active military service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benfits and services. Find out if you can get career support or help living more independently.  
+If you have a disability that was caused by—or got worse because of—your active military service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get career support or help living more independently.  
 
 </div>
 
@@ -56,7 +56,7 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet](/vocational-rehab-and-employment/apply-vre/).
+Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet.[Find out about the application process](/vocational-rehab-and-employment/apply-vre/).
 
 <br>
 
@@ -66,9 +66,9 @@ Depending on your needs and goals, services may include:
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
-- Employment services such as job-training, job-seeking skills, resume development, and other work readiness assistance
+- Employment services such as job training, resume development, and other work-readiness support  
 - Help finding and keeping a job, including the use of special employer incentives and job accommodations
 - On the Job Training (OJT), apprenticeships, and non-paid work experiences
-- Post-secondary training at a college, vocational, technical or business school
+- Post-secondary training at a college, vocational, technical, or business school
 - Supportive rehabilitation services including case management, counseling, and medical referrals
-- Independent living services if you're unable to work due to the severity of your disabilities
+- Independent-living services if you're unable to work due to the severity of your disabilities
