@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-title: Rapid Access to Employment Track
+title: VR&E Rapid Access to Employment Track
 template: detail-page
 relatedlinks:
-  - heading: HEADING
+  - heading: Other VR&E tracks you may be interested in
     links:
     - url: /vocational-rehab-and-employment/service-disabled/new-skills/
       title: Employment Through Long-Term Services Track
