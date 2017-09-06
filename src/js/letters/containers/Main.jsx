@@ -72,17 +72,8 @@ export class Main extends React.Component {
 }
 
 function mapStateToProps(state) {
-  // TODO: eliminate all of these props except lettersAvailability?
-  const letterState = state.letters;
   return {
-    letters: letterState.letters,
-    address: letterState.address,
-    lettersAvailability: letterState.lettersAvailability,
-    benefitSummaryOptions: {
-      benefitInfo: letterState.benefitInfo,
-      serviceInfo: letterState.serviceInfo
-    },
-    optionsAvailable: letterState.optionsAvailable
+    lettersAvailability: state.letters.lettersAvailability,
   };
 }
 

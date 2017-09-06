@@ -287,6 +287,9 @@ export function isBlankAddress(address) {
 }
 
 export function isMilitaryCity(city) {
-  const lowerCity = city.toLowerCase().trim();
-  return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+  return includes(city.toLowerCase().trim(), ['apo', 'fpo', 'dpo']);
+}
+
+export function isUSA(country) {
+  return country === 'USA';
 }

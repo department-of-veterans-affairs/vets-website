@@ -1,11 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { set } from 'lodash/fp';
 
-import { US_COUNTRY_NAME } from '../utils/constants';
-import { isBlankAddress } from '../utils/helpers';
+import {
+  isBlankAddress,
+  isMilitaryCity,
+  isUSA
+} from '../utils/helpers';
 
-import ErrorableSelect from './ErrorableSelect';
-import ErrorableTextInput from './ErrorableTextInput';
+import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ErrorableTextInput from '../../common/components/form-elements//ErrorableTextInput';
 import {
   isNotBlank,
   validateIfDirty,
@@ -22,21 +26,21 @@ class Address extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.validateAddressField = this.validateAddressField.bind(this);
-    this.validatePostalCode = this.isValidPostalCode.bind(this);
+    this.validatePostalCode = this.validatePostalCode.bind(this);
   }
 
   handleChange(path, update) {
     let address = set(path, update, this.props.address);
-    // Clear the state when country value changes
+    // If the country value is changing, clear the state value
     if (path === 'countryName') {
-      address = set('stateCode', '', address);
+      address = set('stateCode.value', '', address);
     }
     this.props.onUserInput(address);
   }
 
-  // Primitive validation: requires the field value to be non-empty
-  // only if at least one other element of the address object is
-  // non-empty and the field has been dirtied.
+  // Primitive validation: if the field has been dirtied and at least
+  // one other element of the address object is non-empty, require the
+  // field value to be non-empty; otherwise pass.
   validateAddressField(field) {
     if (!isBlankAddress(this.props.address)) {
       return validateIfDirty(field, isNotBlank);
@@ -49,42 +53,39 @@ class Address extends React.Component {
     if (!isBlankAddress(this.props.address)) {
       isValid = isValid && validateIfDirty(postalCodeField, isNotBlank);
     }
-    if (this.props.address.countryName.value === US_COUNTRY_NAME && isNotBlank(postalCodeField.value)) {
+    // Only US postal codes have backend validation requirements. 
+    if (isUSA(this.props.address.countryName.value) && isNotBlank(postalCodeField.value)) {
       isValid = isValid && validateIfDirty(postalCodeField, isValidUSZipCode);
     }
     return isValid;
   }
 
   createStateOrProvinceComponent() {
-    let label;
-    let name;
-    let options;
-    let required;
-    if (this.props.address.countryName.value === US_COUNTRY_NAME) {
-      label = 'State';
-      name = 'state';
-      options = this.props.states;
-      required = true;
-    } else {
-      label = 'State/province';
-      name = 'province';
-      required = false;
-    }
-
     const errorMessage =
-      (this.props.address.countryName.value === US_COUNTRY_NAME &&
+      (isUSA(this.props.address.countryName.value) &&
        this.validateAddressField(this.props.address.stateCode)) ?
         'Please enter a valid state/province' : undefined;
-
+    if (isUSA(this.props.address.countryName.value)) {
+      return (
+        <ErrorableSelect
+          errorMessage={errorMessage}
+          label="State"
+          name="state"
+          autocomplete="state"
+          options={this.props.states}
+          value={this.props.address.stateCode}
+          required
+          onValueChange={(update) => {this.handleChange('stateCode', update);}}/>
+      );
+    }
+    // For international addresses, is there no state/province field?
+    // Swagger says this must be an enum for domestic state codes
     return (
-      <ErrorableSelect
+      <ErrorableTextInput
         errorMessage={errorMessage}
-        label={label}
-        name={name}
-        autocomplete="address-level1"
-        options={options}
-        value={this.props.address.stateCode.value}
-        required={required}
+        label="State/province"
+        name="province"
+        field={this.props.address.stateCode}
         onValueChange={(update) => {this.handleChange('stateCode', update);}}/>
     );
   }
@@ -98,7 +99,6 @@ class Address extends React.Component {
     //     stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
     //   }
     // }
-
     return (
       <div>
         {/* Country */}
@@ -107,7 +107,7 @@ class Address extends React.Component {
           name="country"
           autocomplete="country"
           options={this.props.countries}
-          value={this.props.address.countryName.value}
+          value={this.props.address.countryName}
           required
           onValueChange={(update) => {this.handleChange('countryName', update);}}/>
         {/* Address 1 */}
@@ -115,8 +115,8 @@ class Address extends React.Component {
           label="Street address"
           name="address"
           autocomplete="street-address"
-          charMax={30}
-          value={this.props.address.addressOne.value}
+          charMax={20}
+          field={this.props.address.addressOne}
           required
           onValueChange={(update) => {this.handleChange('addressOne', update);}}/>
         {/* Address 2 */}
@@ -124,24 +124,24 @@ class Address extends React.Component {
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
-          charMax={30}
-          value={this.props.address.addressTwo}
+          charMax={20}
+          field={this.props.address.addressTwo}
           onValueChange={(update) => {this.handleChange('addressTwo', update);}}/>
         {/* Address 3 */}
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
-          charMax={30}
-          value={this.props.address.addressThree}
+          charMax={20}
+          field={this.props.address.addressThree}
           onValueChange={(update) => {this.handleChange('addressThree', update);}}/>
         {/* City */}
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.address.city) ? undefined : 'Please enter a city'}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
-          charMax={30}
-          value={this.props.address.city}
+          charMax={20}
+          field={this.props.address.city}
           required
           onValueChange={(update) => {this.handleChange('city', update);}}/>
         {/* State or province */}
@@ -149,15 +149,23 @@ class Address extends React.Component {
         {/* Zip or postal code */}
         <ErrorableTextInput errorMessage={this.validatePostalCode(this.props.address.zipCode) ? undefined : 'Please enter a valid postal code'}
           additionalClass="usa-input-medium"
-          label={this.props.value.country === US_COUNTRY_NAME ? 'Zip code' : 'Postal code'}
+          label={isUSA(this.props.address.countryName.value) ? 'Zip code' : 'Postal code'}
           name="postalCode"
           autocomplete="postal-code"
-          value={this.props.address.zipCode.value}
-          required
+          field={this.props.address.zipCode}
+          required={isUSA(this.props.address.countryName.value) || isMilitaryCity(this.props.address.city.value)}
           onValueChange={(update) => {this.handleChange('zipCode', update);}}/>
       </div>
     );
   }
 }
+
+Address.propTypes = {
+  address: PropTypes.object.isRequired,
+  countries: PropTypes.array.isRequired,
+  states: PropTypes.array.isRequired,
+  onUserInput: PropTypes.func,
+  required: PropTypes.bool
+};
 
 export default Address;

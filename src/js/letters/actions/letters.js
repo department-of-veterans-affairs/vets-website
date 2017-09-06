@@ -26,6 +26,10 @@ export const STATE_LIST = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL',
 // Temporary: hard-code country list to emulate fetching from reference API endpoints.
 export const COUNTRY_LIST = ['Afghanistan', 'Albania', 'Algeria', 'Angola', 'Anguilla', 'Antigua', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Azores', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Barbuda', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia-Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burma', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo, Democratic Republic of', 'Congo, People’s Republic of', 'Costa Rica', 'Cote d’Ivoire', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'England', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'French Guiana', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Great Britain', 'Great Britain and Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guatemala', 'Guinea', 'Guinea,  Republic of Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel (Jerusalem)', 'Israel (Tel Aviv)', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Leeward Islands', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Mali', 'Malta', 'Martinique', 'Mauritania', 'Mauritius', 'Mexico', 'Moldavia', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'Nevis', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Northern Ireland', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Philippines (restricted payments)', 'Poland', 'Portugal', 'Qatar', 'Republic of Yemen', 'Romania', 'Russia', 'Rwanda', 'Sao-Tome/Principe', 'Saudi Arabia', 'Scotland', 'Senegal', 'Serbia', 'Serbia/Montenegro', 'Seychelles', 'Sicily', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St. Kitts', 'St. Lucia', 'St. Vincent', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey (Adana only)', 'Turkey (except Adana)', 'Turkmenistan', 'USA', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Wales', 'Western Samoa', 'Yemen Arab Republic', 'Zambia', 'Zimbabwe'];
 
+/**
+ * Fetch the list of available letters, which also includes the
+ * destination (full name and mailing address) to include in the letter header.
+ */
 export function getLetterList() {
   return (dispatch) => {
     apiRequest(
@@ -55,25 +59,29 @@ export function getLetterList() {
             // of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
           }
-          // Unrecognized status code
-          /*
+          // All other error codes
           return Promise.reject(
             new Error(`vets_letters_error_server_get: ${error.status}`)
           );
-          */
         }
-        // throw response;  // throw the error if not a result of a failed fetch
         return Promise.reject(
-          new Error('vets_letters_error_server_get: unknown error status')
+          new Error('vets_letters_error_server_get')
         );
       })
       .catch((error) => {
-        Raven.captureException(error);
-        return dispatch({ type: GET_LETTERS_FAILURE });
+        if (error.message.match('vets_letters_error_server_get')) {
+          Raven.captureException(error);
+          return dispatch({ type: GET_LETTERS_FAILURE });
+        }
+        throw error;
       });
   };
 }
 
+/**
+ * Fetch the options available to the user for customizing the benefit
+ * summary letter.
+ */
 export function getBenefitSummaryOptions() {
   return (dispatch) => {
     apiRequest(
@@ -88,6 +96,10 @@ export function getBenefitSummaryOptions() {
   };
 }
 
+/**
+ * Download the PDF for the given letter type, and name the file with
+ * the given letter name.
+ */
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
   if (letterType === 'benefit_summary') {
@@ -167,7 +179,7 @@ export function updateAddress(address) {
 export function getAddressCountries() {
   return (dispatch) => dispatch({
     type: GET_ADDRESS_COUNTRIES_SUCCESS,
-    states: COUNTRY_LIST
+    countries: COUNTRY_LIST
   });
   /*
   return (dispatch) => {
