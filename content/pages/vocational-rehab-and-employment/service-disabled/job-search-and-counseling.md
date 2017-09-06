@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you want to follow a career path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
+If you want to follow a career path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits and services to help you use your existing skill set to find a job.
 
 </div>
 
@@ -57,7 +57,9 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you. Follow these steps to apply:
+First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC).
+
+#### If you have your VA disability rating, follow these steps to apply:
 
 <ol class="process">
 
@@ -96,6 +98,6 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
-Some dependents of Veterans with service-connected disabilities may also qualify for education and career counseling. [Learn about services for family members](/vocational-rehab-and-employment/family-members/).
+Some dependents of Servicemembers or Veterans with service-connected disabilities may also be eligible for education and career counseling. [Learn about services for family members](/vocational-rehab-and-employment/family-members/).
