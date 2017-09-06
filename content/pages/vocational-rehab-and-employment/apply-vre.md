@@ -7,7 +7,7 @@ relatedlinks:
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /vocational-rehab-and-employment/family-members/
       title: Family Members
       description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits. 
@@ -68,13 +68,13 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
-You may be eligible for VR&amp;E services if you’re:
-- Going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge, **and**
+You may be eligible for VR&amp;E services if you:
+- Are going through the Physical Evaluation Board process or expecting an other-than-dishonorable discharge, **and**
 - Have a VA memorandum rating of 20% or more, **and**
 - Apply for VR&E services
 
-You may also be eligible for VR&amp;E services if you’re:
-- In the Integrated Disability Evaluation System (IDES) or are certified by the military as having a severe injury that may prevent you from performing your military duties, **and**
+You may also be eligible for VR&amp;E services if you:
+- Are in the Integrated Disability Evaluation System (IDES) or are certified by the military as having a severe injury that may prevent you from performing your military duties, **and**
 - Apply for VR&E services, **and**
 - Report for an evaluation with a VR&E counselor before separating from active duty
 
