@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VR&E Independent-Living Services Track—Support to Help You Live More Independently
+title: VR&E Independent-Living Services Track
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get independent-living services through the Vocational Rehabilitation and Employment (VR&E) Independent Living Services track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get support to help you live more independently through the Vocational Rehabilitation and Employment (VR&E) Independent Living Services track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
 
 </div>
 
