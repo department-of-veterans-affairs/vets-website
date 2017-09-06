@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 title: VR&E Employment Through Long-Term Services Track
 template: detail-page
 relatedlinks:
-    - heading: Other VR&E tracks you may be interested in
-      links:
+  - heading: Other VR&E tracks you may be interested in
+    links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
