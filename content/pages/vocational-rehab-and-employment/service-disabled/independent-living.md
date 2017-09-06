@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: VR&E Independent-Living Services Track
 template: detail-page
 relatedlinks:
-  - heading: HEADING HERE
+  - heading: Other VR&E tracks you may be interested in
     links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
@@ -54,12 +54,14 @@ These services generally last up to 24 months. In some cases, you may be able to
 
 ### How do I get these benefits?
 
-First, you’ll need to apply for VR&amp;E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps to apply:
+First, you’ll need to apply for VR&amp;E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). 
+
+**If you have your VA disability rating, follow these steps to apply:**
 
 <ol class="process">
 <li class="process-step list-one">
 
-[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+Log in to your eBenefits account.
 
 </li>
 
@@ -98,3 +100,10 @@ If you’re eligible, your VRC will help you create a personalized independent-l
 
 </li>
 </ol>
+
+### Ready to apply?
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
+
+[Or, find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+
