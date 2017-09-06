@@ -4,7 +4,7 @@ title: External Resources
 source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
 template: detail-page
 relatedlinks:
-  - heading:
+  - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
