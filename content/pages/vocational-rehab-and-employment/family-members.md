@@ -10,7 +10,7 @@ relatedlinks:
     title: Eligibiliy for Servicemembers and Veterans
     description: Find out if the Servicemember or Veteran in your family is eligible for VR&E benefits and services.
   - url: /vocational-rehab-and-employment/service-disabled/
-      title: VR&E Programs for Servicemembers and Veterans
+    title: VR&E Programs for Servicemembers and Veterans
     description: Help the Servicemember or Veteran in your family explore VR&E support-and-service tracks for help learning new skills, finding a new job, staring a business, getting educational counseling, or returning to their former job.
   - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process for Servicemembers and Veterans
