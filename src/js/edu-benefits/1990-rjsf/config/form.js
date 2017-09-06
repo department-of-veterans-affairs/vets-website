@@ -75,7 +75,7 @@ const {
 } = fullSchema1990.definitions;
 
 const formConfig = {
-  urlPrefix: '/1990-rjsf/',
+  urlPrefix: '/1990/',
   submitUrl: '/v0/education_benefits_claims/1990',
   trackingPrefix: 'edu-',
   formId: '22-1990',

@@ -10,7 +10,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders
     client
-      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990-rjsf`)
+      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
@@ -40,7 +40,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Benefit relinquishment page
     client
-      .waitForElementVisible('label[for="root_view:benefitsRelinquishedContainer_benefitsRelinquished"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_view:benefitsRelinquishedContainer_benefitsRelinquished_0"]', Timeouts.slow);
     Edu1990Helpers.completeBenefitRelinquishment(client, testData.data);
     client
       .axeCheck('.main')
@@ -67,7 +67,7 @@ const test = E2eHelpers.createE2eTest(
 
     // rotc history
     client
-      .waitForElementVisible('label[for="root_seniorRotcScholarshipProgram"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_seniorRotcScholarshipProgramYes"]', Timeouts.slow);
     Edu1990Helpers.completeRotcHistory(client, testData.data);
     client
       .axeCheck('.main')
@@ -85,7 +85,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Education history page
     client
-      .waitForElementVisible('label[for="root_highSchoolOrGedCompletionDate"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_highSchoolOrGedCompletionDateMonth"]', Timeouts.slow);
     Edu1990Helpers.completeEducationHistory(client, testData.data);
     client
       .axeCheck('.main')
@@ -94,7 +94,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Employment history page
     client
-      .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_view:hasNonMilitaryJobsYes"]', Timeouts.slow);
     EduHelpers.completeEmploymentHistory(client, testData.data);
     client
       .axeCheck('.main')
@@ -112,7 +112,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Contact information page
     client
-      .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_preferredContactMethod_0"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
@@ -130,7 +130,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Direct deposit page
     client
-      .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_bankAccount_accountType_0"]', Timeouts.slow);
     EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
@@ -155,6 +155,4 @@ const test = E2eHelpers.createE2eTest(
   }
 );
 
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = test;
-}
+module.exports = test;
