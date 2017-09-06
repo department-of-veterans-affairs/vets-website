@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Eligibility
 template: topic-landing
 relatedlinks:
-  - heading: 
+  - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
@@ -24,11 +24,11 @@ If you have a disability that was caused by—or got worse because of—your act
 
 <div class="feature" markdown="1">
 
-### Can I get VR&amp;E benefits?
+### Can I get VR&amp;E benefits and services?
 
 #### Servicemembers
 
-You may be eligible for VR&amp;E benefits if you're a Servicemember who:
+You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
 
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty
@@ -39,11 +39,11 @@ You may be eligible for VR&amp;E benefits if you're a Servicemember who:
 
 #### Veterans
 
-You may be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable and you:
+You may be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a 10% or higher disability rating, **and**
 - Separated from the military or received a service-connected disability rating from VA within the past 12 years
 
-You may also be eligible for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+You may also be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable, and you:
 - Have a Serious Employment Handicap (SEH) due in large part to a service-connected disability, **and**
 - Have a 10% disability rating, **or**
 - Are beyond the 12-year basic period of eligibility
