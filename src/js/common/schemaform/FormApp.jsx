@@ -79,7 +79,9 @@ class FormApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
-    if (status === LOAD_STATUSES.success) {
+    if (status === LOAD_STATUSES.success && newProps.currentLocation.pathname.endsWith('resume')) {
+      newProps.router.replace(newProps.returnUrl);
+    } else if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -143,9 +145,6 @@ class FormApp extends React.Component {
       const saveEnabled = !this.props.formConfig.disableSave;
       if (saveEnabled && (isSaved || isPrefill)) {
         props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
-        if (trimmedPathname.endsWith('resume')) {
-          props.router.replace(currentPagePath);
-        }
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
