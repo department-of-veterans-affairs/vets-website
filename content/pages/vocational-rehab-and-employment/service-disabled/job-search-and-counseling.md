@@ -1,25 +1,25 @@
 ---
 layout: page-breadcrumbs.html
-title: Rapid Access to Employment Track—Employment Counseling and Job-Search Support
+title: Rapid Access to Employment Track
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-    title: Employment Through Long-Term Services Track—Training to Develop New Job Skills
-    description: Find out if you may be eligible for vocational training.
+    title: Employment Through Long-Term Services Track
+    description: Find out if you may be eligible for vocational training to help you develop new job skills.
   - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
     title: Self-Employment Track—Guidance and Support for Starting a Business
     description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
-    title: Independent-Living Services Track—Support to Help You Live More Independently
+    title: Independent-Living Track
     description: Learn about services that can help you live more independently with your service-connected disability.
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
-    title: Reemployment Track—Support as You Return to the Job You Held Before Mobilization
+    title: Reemployment Track
     description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
 
-If you want to follow a career path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) program can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
+If you want to follow a career path that uses your existing skill set, the Vocational Rehabilitation and Employment (VR&amp;E) Rapid Access to Employment track can help you with your job search through counseling and rehabilitation services that address your abilities, aptitudes, and interests. Find out if you can get VR&amp;E benefits to help you use your existing skill set to find a job.
 
 </div>
 
