@@ -55,7 +55,7 @@ class Main extends React.Component {
       message = this.renderErrors();
     } else if (this.props.redirect) {
       message = (
-        <p>Redirecting to {this.props.redirect}</p>
+        <p>Redirecting to Veteran ID Card site...</p>
       );
       window.location.href = this.props.redirect;
     }
