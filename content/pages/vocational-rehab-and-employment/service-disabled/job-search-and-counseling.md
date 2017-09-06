@@ -16,7 +16,7 @@ relatedlinks:
       description: Learn about services that can help you live more independently with your service-connected disability.
     - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
-      description: You may have the right to return to the civilian job you help before activating. Find out how we can help with this process.
+      description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
 
 <div class="va-introtext">
@@ -96,6 +96,6 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Or, find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
 Some dependents of Veterans with service-connected disabilities may also qualify for education and career counseling. [Learn about services for family members](/vocational-rehab-and-employment/family-members/).
