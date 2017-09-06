@@ -1,5 +1,26 @@
 @import "shared-variables";
 
+.login {
+  background: white;
+
+  .container {
+    padding: 2em 0;
+  }
+
+  .logo {
+    text-align: center;
+    border-bottom: solid 1px $color-gray-light;
+    padding: 1em 0;
+
+    a {
+      &:hover {
+        background-color: transparent;
+      }
+      display: inline-block;
+    }
+  }
+}
+
 .sign-in-link {
   color: $color-white;
 
