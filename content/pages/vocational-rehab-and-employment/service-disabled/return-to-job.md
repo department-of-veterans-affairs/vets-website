@@ -33,7 +33,7 @@ You may be eligible for help if you're a Veteran with a service-connected disabi
 - Are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
 - Would like to return to your previous place of employment
 
-**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 </div>
 
