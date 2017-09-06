@@ -150,7 +150,7 @@ You can call the VA health facility where you receive care. [Find your VA health
 
 ##### Online
 
-You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to use our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
+You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to access our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
 
 **Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
 
