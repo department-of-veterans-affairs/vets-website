@@ -28,7 +28,6 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <br/>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
