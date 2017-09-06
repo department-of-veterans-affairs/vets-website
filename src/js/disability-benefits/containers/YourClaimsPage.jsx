@@ -84,6 +84,7 @@ class YourClaimsPage extends React.Component {
     if (claim.type === 'appeals_status_models_appeals') {
       return <AppealListItem key={claim.id} appeal={claim}/>;
     }
+
     return <ClaimsListItem claim={claim} key={claim.id}/>;
   }
 
@@ -123,22 +124,23 @@ class YourClaimsPage extends React.Component {
     ];
 
     let content;
+    let innerContent;
 
     if (loading) {
       content = <LoadingIndicator message="Loading a list of your claims and appeals..." setFocus/>;
-    } else if (list.length > 0) {
-      content = (<div>
-        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
-        <div className="claim-list">
-          {list.map(claim => this.renderListItem(claim))}
-          <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
-        </div>
-      </div>);
     } else {
-      content = <NoClaims/>;
-    }
+      if (list.length > 0) {
+        innerContent = (<div>
+          {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
+          <div className="claim-list">
+            {list.map(claim => this.renderListItem(claim))}
+            <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+          </div>
+        </div>);
+      } else {
+        innerContent = <NoClaims/>;
+      }
 
-    if (!loading) {
       const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
         <div>
@@ -160,7 +162,7 @@ class YourClaimsPage extends React.Component {
                       value={{ value: this.props.sortProperty }}
                       onValueChange={this.handleSort}/>
                   </div>
-                  {content}
+                  {innerContent}
                 </div>
               }
             </div>

@@ -31,7 +31,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Additional benefits page
     client
-      .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_nonVaAssistanceYes"]', Timeouts.slow);
     EduHelpers.completeAdditionalBenefits(client, testData.data);
     client
       .axeCheck('.main')
@@ -40,7 +40,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility page
     client
-      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_benefit_0"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Employment history page
     client
-      .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_view:hasNonMilitaryJobsYes"]', Timeouts.slow);
     EduHelpers.completeEmploymentHistory(client, testData.data);
     client
       .axeCheck('.main')
@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Contact information page
     client
-      .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_preferredContactMethod_0"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.data, true);
     client
       .axeCheck('.main')
@@ -95,7 +95,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Direct deposit page
     client
-      .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_bankAccount_accountType_0"]', Timeouts.slow);
     EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')

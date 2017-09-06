@@ -36,21 +36,21 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
-    client.waitForElementVisible('label[for="root_view:serveUnderOtherNames"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_view:serveUnderOtherNamesYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeGeneralMilitaryInfo(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/general');
 
-    client.waitForElementVisible('label[for="root_nationalGuardActivation"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_nationalGuardActivationYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeNationalGuard(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/reserve-national-guard');
 
-    client.waitForElementVisible('label[for="root_view:powStatus"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_view:powStatusYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completePOW(client, testData.data);
     client.axeCheck('.main')
@@ -66,7 +66,7 @@ const runTest = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/disability/history');
 
-    client.waitForElementVisible('label[for="root_view:workedBeforeDisabled"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_view:workedBeforeDisabledYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeWorkHistory(client, testData.data);
     client.axeCheck('.main')
@@ -74,7 +74,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
     // marriage info
-    client.waitForElementVisible('label[for="root_maritalStatus"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_maritalStatus_0"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeMaritalStatus(client, testData.data);
     client.axeCheck('.main')
@@ -98,7 +98,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household/marriages/1');
 
     // spouse info
-    client.waitForElementVisible('label[for="root_spouseDateOfBirth"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_spouseDateOfBirthMonth"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeSpouseInfo(client, testData.data);
     client.axeCheck('.main')
@@ -106,7 +106,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-info');
 
     // spouse marriage
-    client.waitForElementVisible('label[for="root_dateOfMarriage"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_dateOfMarriageMonth"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeSpouseMarriage(client, testData.data);
     client.axeCheck('.main')
@@ -114,7 +114,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-marriages/0');
 
     // dependents
-    client.waitForElementVisible('label[for="root_view:hasDependents"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_view:hasDependentsYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeDependents(client, testData.data);
     client.axeCheck('.main')
@@ -129,7 +129,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/information/0');
 
     // dependent address info
-    client.waitForElementVisible('label[for="root_childInHousehold"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_childInHouseholdYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeDependentAddressInfo(client, testData.data, 0);
     client.axeCheck('.main')
@@ -145,7 +145,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household/dependents/children/information/1');
 
     // second dependent address info
-    client.waitForElementVisible('label[for="root_childInHousehold"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_childInHouseholdYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeDependentAddressInfo(client, testData.data, 1);
     client.axeCheck('.main')
@@ -326,7 +326,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
     // FDC page
-    client.waitForElementVisible('label[for="root_noRapidProcessing"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_noRapidProcessingYes"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
     PageHelpers.completeExpeditedInfo(client, testData.data);
     client.axeCheck('.main')

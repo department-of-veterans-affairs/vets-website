@@ -204,4 +204,55 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.text()).to.contain('uiDescription');
   });
+  it('should render fieldset', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:widget': 'radio'
+    };
+    const formContext = {
+      touched: {}
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.subTree('legend').text()).to.equal('Title');
+    expect(tree.subTree('fieldset')).not.to.be.false;
+  });
+  it('should not render fieldset if showFieldLabel is set to label', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:widget': 'radio',
+      'ui:options': {
+        showFieldLabel: 'label'
+      }
+    };
+    const formContext = {
+      touched: {}
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.subTree('label').text()).to.equal('Title');
+    expect(tree.subTree('fieldset')).to.be.false;
+  });
 });

@@ -5,7 +5,6 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
 import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
-import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -31,7 +30,7 @@ export class Main extends React.Component {
         break;
       // Need a permanent UI for this
       case 'invalidAddressProperty':
-        appContent = invalidAddressProperty;
+        appContent = systemDownMessage;
         break;
       case 'letterEligibilityError':
         appContent = this.props.children;
