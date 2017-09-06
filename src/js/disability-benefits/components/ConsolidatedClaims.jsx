@@ -7,9 +7,9 @@ export default function ConsolidatedClaims({ onClose }) {
       <div className="va-modal-inner">
         <h3 id="consolidated-claims-title">A note about consolidated claims</h3>
         <button
-            className="va-modal-close"
-            type="button"
-            onClick={onClose}>
+          className="va-modal-close"
+          type="button"
+          onClick={onClose}>
           <i className="fa fa-close"></i>
           <span className="usa-sr-only">Close this modal</span>
         </button>
