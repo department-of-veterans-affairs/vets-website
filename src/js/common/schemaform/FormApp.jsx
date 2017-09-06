@@ -163,13 +163,14 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children, formData } = this.props;
+    const { currentLocation, formConfig, children, formData, loadedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
-    if (!formConfig.disableSave && trimmedPathname.endsWith('resume')) {
+    const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
+    if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
       content = <LoadingIndicator message="Saving your form..."/>;
