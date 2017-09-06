@@ -52,6 +52,7 @@ When you need other services to meet your goals and needs, your team may call ot
 
 - [How will my health care team work with me](#health-care-team)?
 - [Do I get to choose my primary care provider](#choose-primary-care-provider)?
+- [How do I schedule an appointment?](#appointments)
 - [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
 - [Can I see a local community care provider, paid for by VA?](#non-va-provider)?
 
@@ -80,6 +81,31 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 No. You’ll choose the main VA location where you’d like to get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
 
 If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Find a medical center near you](/facilities/).
+
+<br>
+
+<span id="appointments">
+
+#### How do I schedule an appointment?
+
+<br>
+
+##### By phone
+
+You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
+
+<br>
+
+##### Online
+
+You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to access our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
+
+**Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
+
+Please keep in mind that your VA health care providers don't monitor this online tool:
+
+- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
+- **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
 
 <br>
 
