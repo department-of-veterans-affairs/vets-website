@@ -2,8 +2,8 @@
 layout: page-breadcrumbs.html
 title: VR&E Programs for Servicemembers and Veterans
 template: detail-page
-relatedlinks:
-  - heading: HEADING
+majorlinks:
+  - heading: 
     links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
