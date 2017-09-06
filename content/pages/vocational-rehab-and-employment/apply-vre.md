@@ -1,14 +1,16 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&amp;E Application Process
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/service-disabled/
-    title: VR&E Programs for Servicemembers and Veterans
-    description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits. 
+  - heading: HEADING
+    links:
+    - url: /vocational-rehab-and-employment/service-disabled/
+      title: VR&E Programs for Servicemembers and Veterans
+      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+    - url: /vocational-rehab-and-employment/family-members/
+      title: Family Members
+      description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits. 
 ---
 
 <div class="va-introtext">
@@ -41,7 +43,7 @@ Click **Vocational Rehabilitation and Employment Program**.
 
 <li class="process-step list-four">
 
-Apply for the Vocational Rehabilitation and Employment Program. 
+Apply for the Vocational Rehabilitation and Employment Program.
 
 </li>
 
@@ -85,7 +87,7 @@ You may also be eligible for VR&amp;E services if you’re:
 
 ### What happens after I apply?
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). 
+After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 

@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Eligibility
-template: topic-landing
+template: detail-page
 relatedlinks:
   - heading: ADD HEADING HERE
     links:

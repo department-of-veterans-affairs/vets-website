@@ -1,17 +1,19 @@
 ---
 layout: page-breadcrumbs.html
 title: Family Members
-template: 6-info-page
+template: detail-page
 relatedlinks:
-  - url: /vocational-rehab-and-employment/vetsuccess/
-    title: VetSuccess on Campus
-    description: Find out if our counselors can help you transition from military to college life.  
-  - url: /vocational-rehab-and-employment/service-disabled/
-    title: Options and Eligibility for the Service Disabled
-    description: Help the Servicemember or Veteran in your family find out if they're eligible for VR&amp;E benefits and services.
-  - url: /vocational-rehab-and-employment/apply-vre/
-    title: Application Process for Servicemembers and Veterans
-    description: Help the Servicemember or Veteran in your family learn how to apply for VR&amp;E benefits and services.  
+  - heading:
+    links:
+    - url: /vocational-rehab-and-employment/vetsuccess/
+      title: VetSuccess on Campus
+      description: Find out if our counselors can help you transition from military to college life.  
+    - url: /vocational-rehab-and-employment/service-disabled/
+      title: Options and Eligibility for the Service Disabled
+      description: Help the Servicemember or Veteran in your family find out if they're eligible for VR&amp;E benefits and services.
+    - url: /vocational-rehab-and-employment/apply-vre/
+      title: Application Process for Servicemembers and Veterans
+      description: Help the Servicemember or Veteran in your family learn how to apply for VR&amp;E benefits and services.  
 ---
 
 <div class="va-introtext">
@@ -49,7 +51,7 @@ You may be eligible for VR&E counseling if you're:
 ### What kind of VR&amp;E benefits can I get?
 
 You can get educational and vocational counseling, plus help with:
- 
+
 - Exploring your abilities and interests
 - Mapping out a career path
 - Planning the best use of your VA benefits
