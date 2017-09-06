@@ -36,7 +36,7 @@ You may also be entitled to services if you’re a Servicemember or Veteran with
 - You’re enrolled in VR&E, **and**
 - A Vocational Rehabilitation Counselor (VRC) says you need help because of a severe employment handicap
 	
-**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, find, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 
 </div>
