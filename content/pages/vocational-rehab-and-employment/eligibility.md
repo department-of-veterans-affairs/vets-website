@@ -3,11 +3,14 @@ layout: page-breadcrumbs.html
 title: Eligibility
 template: topic-landing
 relatedlinks:
-  - heading: ADD HEADING HERE
+  - heading: 
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
       description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+    - url: /vocational-rehab-and-employment/apply-vre/
+      title: Application Process
+      description: Find out how to apply for VR&E as a Servicemember or Veteran.
     - url: /vocational-rehab-and-employment/family-members/
       title: Family Members
       description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
@@ -15,7 +18,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap and would like special career support or help living more independently with a severe disability? Follow these steps to apply for Vocational Rehabilitation and Employment (VR&amp;E) services.  
+If you have a disability that was caused by—or got worse because of—your active military service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benfits and services. Find out if you can get career support or help living more independently.  
 
 </div>
 
@@ -48,4 +51,24 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 **Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. 
 
 </div>
+
+### Ready to apply?
+
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">
+	Go to eBenefits to Apply
+</a>
+[Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet](/vocational-rehab-and-employment/apply-vre/)
+
+<br>
+
+### What kind of VR&E benefits can I get?
+
+- A complete evaluation to determine your abilities, skills, and interests for employment
+- Vocational counseling and rehabilitation planning for employment services
+- Employment services such as job-training, job-seeking skills, resume development, and other work readiness assistance
+- Help finding and keeping a job, including the use of special employer incentives and job accommodations
+- On the Job Training (OJT), apprenticeships, and non-paid work experiences
+- Post-secondary training at a college, vocational, technical or business school
+- Supportive rehabilitation services including case management, counseling, and medical referrals
+- Independent living services if you're unable to work due to the severity of your disabilities
 
