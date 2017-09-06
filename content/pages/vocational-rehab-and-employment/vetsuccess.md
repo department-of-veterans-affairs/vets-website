@@ -5,8 +5,8 @@ source: http://www.benefits.va.gov/vocrehab/vsoc.asp
 template: 6-info-page
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/
-    title: Options and Eligibility for the Service Disabled
-    description: You may be eligible to get help learning new skills, finding a new job, getting educational counseling, or returning to your former job. Choose your VR&E track.
+    title: Programs for Servicemembers and Veterans
+    description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
   - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process
     description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
