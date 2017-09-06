@@ -39,13 +39,31 @@ export const characterOfServiceContent = {
   dishonorable: 'Dishonorable'
 };
 
+// Define jsx for service_verification letter to add alert informing user that 
+// service_verification letter is being phased out in favor of benefit_summary
+// letter
+const serviceVerificationLetterContent = (
+  <div>
+    <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert-body">
+        <p className="usa-alert-text">
+          You can now use the Benefit Summary Letter in place of your Service Verification Letter.
+        </p>
+      </div>
+    </div>
+    <p>
+      This letter shows your branch of service, date entered on active duty, and date discharged from active duty.
+    </p>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: 'If you’re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
   proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
   minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
-  service_verification: 'This letter shows your branch of service, date entered on active duty, and date discharged from active duty.',
+  service_verification: serviceVerificationLetterContent,
   civil_service: 'This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
   benefit_summary: 'This letter shows what benefits you’re receiving from the VA, military service, and disability status. Below, you can choose if you want military service and disability status to be included.',
   benefit_verification: 'This letter shows what benefits you’re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'

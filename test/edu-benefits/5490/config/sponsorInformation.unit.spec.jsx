@@ -37,9 +37,9 @@ describe('Edu 5490 sponsorInformation', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
 
     // The divorce input should be there now
-    expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.not.be.null;
+    expect(formDOM.querySelector('input[name=root_spouseInfo_divorcePendingYes]')).to.not.be.null;
     // But remarriage date shouldn't be yet
-    expect(formDOM.querySelector('label[for=root_spouseInfo_remarriageDate]')).to.be.null;
+    expect(formDOM.querySelector('input[name=root_spouseInfo_remarriageDateMonth]')).to.be.null;
 
     // Select remarried
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_spouseInfo_remarriedYes'), {
@@ -48,6 +48,6 @@ describe('Edu 5490 sponsorInformation', () => {
       }
     });
     // Remarried date should now appear
-    expect(formDOM.querySelector('label[for=root_spouseInfo_remarriageDate]')).to.not.be.null;
+    expect(formDOM.querySelector('select[name=root_spouseInfo_remarriageDateMonth]')).to.not.be.null;
   });
 });

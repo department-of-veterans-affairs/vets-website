@@ -1,4 +1,5 @@
 import { apiRequest } from '../../common/helpers/api';
+import { savedFormRequest } from '../../common/schemaform/savedFormRequest';
 import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -9,6 +10,9 @@ export const FETCHING_LATEST_MHV_TERMS_FAILURE = 'FETCHING_LATEST_MHV_TERMS_FAIL
 export const ACCEPTING_LATEST_MHV_TERMS = 'ACCEPTING_LATEST_MHV_TERMS';
 export const ACCEPTING_LATEST_MHV_TERMS_SUCCESS = 'ACCEPTING_LATEST_MHV_TERMS_SUCCESS';
 export const ACCEPTING_LATEST_MHV_TERMS_FAILURE = 'ACCEPTING_LATEST_MHV_TERMS_FAILURE';
+export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
+export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
+export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
 export function updateProfileFields(newState) {
   return {
@@ -20,6 +24,24 @@ export function updateProfileFields(newState) {
 export function profileLoadingFinished() {
   return {
     type: PROFILE_LOADING_FINISHED
+  };
+}
+
+export function removingSavedForm() {
+  return {
+    type: REMOVING_SAVED_FORM
+  };
+}
+
+export function removingSavedFormSuccess() {
+  return {
+    type: REMOVING_SAVED_FORM_SUCCESS
+  };
+}
+
+export function removingSavedFormFailure() {
+  return {
+    type: REMOVING_SAVED_FORM_FAILURE
   };
 }
 
@@ -60,6 +82,30 @@ export function acceptTerms(termsName) {
         getUserData(dispatch);
       },
       () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
+    );
+  };
+}
+
+export function removeSavedForm(formId) {
+  return dispatch => {
+    dispatch(removingSavedForm());
+    const userToken = sessionStorage.userToken;
+    const settings = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token token=${userToken}`
+      },
+    };
+
+    savedFormRequest(
+      `/in_progress_forms/${formId}`,
+      () => {
+        dispatch(removingSavedFormSuccess());
+        getUserData(dispatch);
+      },
+      () => dispatch(removingSavedFormFailure()),
+      settings
     );
   };
 }

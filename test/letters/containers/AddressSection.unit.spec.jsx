@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
@@ -44,5 +45,30 @@ describe('<AddressSection>', () => {
     });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12 west');
+  });
+
+  it('should expand address fields when Edit button is clicked', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+
+    ReactTestUtils.Simulate.click(editButton);
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
+  });
+
+  it('should collase address fields when Update button is clicked', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+
+    ReactTestUtils.Simulate.click(editButton);
+
+    const updateButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
+
+    ReactTestUtils.Simulate.click(updateButton);
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
 });

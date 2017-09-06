@@ -235,6 +235,13 @@ export function stringifyFormReplacer(key, value) {
     }
   }
 
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
   return value;
 }
 
