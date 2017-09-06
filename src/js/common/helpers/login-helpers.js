@@ -31,7 +31,6 @@ export function getUserData(dispatch) {
         savedForms: json.data.attributes.in_progress_forms,
         prefillsAvailable: json.data.attributes.prefills_available,
         accountType: userData.loa.current,
-        veteranStatus: json.data.attributes.veteran_status.status,
         email: userData.email,
         userFullName: {
           first: userData.first_name,
@@ -41,6 +40,8 @@ export function getUserData(dispatch) {
         gender: userData.gender,
         dob: userData.birth_date,
         status: json.data.attributes.va_profile.status,
+        veteranStatus: json.data.attributes.veteran_status.status,
+        isVeteran: json.data.attributes.veteran_status.is_veteran,
         services: json.data.attributes.services,
         healthTermsCurrent: json.data.attributes.health_terms_current,
       }));
