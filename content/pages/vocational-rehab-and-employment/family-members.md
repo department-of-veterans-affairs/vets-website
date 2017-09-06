@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Family Members
 template: detail-page
 relatedlinks:
-  - heading:
+  - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
