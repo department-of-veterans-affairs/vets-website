@@ -16,8 +16,9 @@ majorlinks:
     - url: /vocational-rehab-and-employment/apply-vre/
       title: Application Process
       description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
-    - url: /vocational-rehab-and-employment/family-members/
   - heading: For Family Members of Servicemembers and Veterans with Service-Connected Disabilities
+    links:
+    - url: /vocational-rehab-and-employment/family-members/
       title: Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
