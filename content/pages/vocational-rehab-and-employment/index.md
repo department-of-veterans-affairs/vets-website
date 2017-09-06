@@ -5,15 +5,19 @@ permalink: /vocational-rehab-and-employment/index.html
 source: http://www.benefits.va.gov/VRE/
 template: level2-index
 majorlinks:
-  - heading:
+  - heading: For Servicemembers and Veterans with Service-Connected Disabilities
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
-      title: VR&E Programs for Servicemembers and Veterans.
-      description: You may be eligible to get help learning new skills, finding a new job, getting educational counseling, or returning to your former job. Choose your VR&E track.
+      title: Eligibility 
+      description: Find out if you can get VR&E benefits and services as a Servicemember or Veteran.
+    - url: /vocational-rehab-and-employment/service-disabled/
+      title: VR&E Programs for Servicemembers and Veterans
+      description: Explore VR&E support-and-service tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /vocational-rehab-and-employment/apply-vre/
       title: Application Process
       description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
     - url: /vocational-rehab-and-employment/family-members/
+  - heading: For Family Members of Servicemembers and Veterans with Service-Connected Disabilities
       title: Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
