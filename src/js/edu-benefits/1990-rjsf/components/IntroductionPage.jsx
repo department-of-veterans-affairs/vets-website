@@ -33,12 +33,6 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
@@ -70,7 +64,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Complete the form before submitting to apply for education benefits with the 22-1990.
+          Please complete the 22-1990 form to apply for education benefits.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
