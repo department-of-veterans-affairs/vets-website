@@ -60,7 +60,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 <br>
 
-<br>
+<span id="servicemember-not-received-rating"></span>
 
 <div class="feature" markdown=“1”>
 
