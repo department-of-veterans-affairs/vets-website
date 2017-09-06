@@ -65,7 +65,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Complete the form before submitting to apply to use transferred education benefits with the 22-1990E.
+          Please complete the 22-1990E form to apply for transferred education benefits.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
