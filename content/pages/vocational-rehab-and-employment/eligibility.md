@@ -60,7 +60,9 @@ You may also be eligible for VR&amp;E benefits if you're a Veteran who was disch
 
 <br>
 
-### What kind of VR&E benefits can I get?
+### What kind of VR&E services can I get?
+
+Depending on your needs and goals, services may include:
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
