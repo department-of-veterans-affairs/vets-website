@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get support to help you live more independently through the Vocational Rehabilitation and Employment (VR&E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for independent-living services.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others), you may be able to get independent-living services through the Vocational Rehabilitation and Employment (VR&E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your counselor can help you restore your daily-living activities. Find out if you’re eligible for services to help you live more independently.
 
 </div>
 
@@ -29,7 +29,7 @@ If your service-connected disability limits your ability to perform activities o
 
 ### Can I get independent-living services through VR&amp;E?
 
-You may be eligible for independent-living services if you’re a Servicemember or Veteran with a service-connected disability who qualifies for VR&E benefits, and:
+You may be eligible for independent-living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and:
 
 - You have a service-connected disability rating of 20&#37; or higher, **and**
 - Your injuries prevent you from looking for or returning to work right away, **and**
