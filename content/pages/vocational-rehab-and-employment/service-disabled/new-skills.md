@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-title: Employment Through Long-Term Services Track
+title: VR&E Employment Through Long-Term Services Track
 template: detail-page
 relatedlinks:
-    - heading: HEADING
+    - heading: Other VR&E tracks you may be interested in
       links:
     - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
