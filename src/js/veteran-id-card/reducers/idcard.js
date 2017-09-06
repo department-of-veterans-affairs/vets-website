@@ -1,34 +1,35 @@
 
 import {
-  BETA_REGISTERING,
-  BETA_REGISTER_SUCCESS,
-  BETA_REGISTER_FAILURE
+  ATTRS_FETCHING,
+  ATTRS_SUCCESS,
+  ATTRS_FAILURE
 } from '../actions';
 
 const initialState = {
-  username: null,
-  stats: null,
-  loading: false
+  redirect: null,
+  errors: null,
+  fetching: false
 };
 
 function idcard(state = initialState, action) {
   switch (action.type) {
-    case BETA_REGISTERING:
+    case ATTRS_FETCHING:
       return {
         ...state,
-        loading: true
+        fetching: true
       };
-    case BETA_REGISTER_SUCCESS:
+    case ATTRS_SUCCESS:
       return {
         ...state,
         redirect: action.redirect,
-        loading: false
+        errors: null,
+        fetching: false
       };
-    case BETA_REGISTER_FAILURE:
+    case ATTRS_FAILURE:
       return {
         ...state,
         errors: action.errors,
-        loading: false
+        fetching: false
       };
     default:
       return state;

@@ -1,21 +1,21 @@
 import { apiRequest } from '../../common/helpers/api';
 
-export const BETA_REGISTERING = 'BETA_REGISTERING';
-export const BETA_REGISTER_SUCCESS = 'BETA_REGISTER_SUCCESS';
-export const BETA_REGISTER_FAILURE = 'BETA_REGISTER_FAILURE';
+export const ATTRS_FETCHING = 'ATTRS_FETCHING';
+export const ATTRS_SUCCESS = 'ATTRS_SUCCESS';
+export const ATTRS_FAILURE = 'ATTRS_FAILURE';
 
 export function initiateIdRequest() {
   return dispatch => {
-    dispatch({ type: BETA_REGISTERING });
+    dispatch({ type: ATTRS_FETCHING });
 
     apiRequest('/id_card_attributes',
-      { redirect: 'follow' },
+      {},
       (response) => dispatch({
-        type: BETA_REGISTER_SUCCESS,
+        type: ATTRS_SUCCESS,
         redirect: response.redirect,
       }),
       (response) => dispatch({
-        type: BETA_REGISTER_FAILURE,
+        type: ATTRS_FAILURE,
         errors: response.errors
       })
     );

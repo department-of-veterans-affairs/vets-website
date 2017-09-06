@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredVeteranView from '../components/RequiredVeteranView';
 
 class VeteranIDCard extends React.Component {
 
@@ -14,7 +15,9 @@ class VeteranIDCard extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          {this.props.children}
+          <RequiredVeteranView userProfile={this.props.profile}>
+            {this.props.children}
+          </RequiredVeteranView>
         </RequiredLoginView>
       </div>
     );
