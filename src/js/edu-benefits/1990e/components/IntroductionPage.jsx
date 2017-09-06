@@ -33,11 +33,6 @@ class IntroductionPage extends React.Component {
                 <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
               </ul>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
               <br/>
               <p>We encourage you to work with a trained professional, such as <a href="/disability-benefits/apply/help/index.html">an accredited representative with a Veterans Service Organization (VSO),</a> to pick the right program.</p>
               <h6>Learn about educational programs</h6>
