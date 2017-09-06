@@ -7,7 +7,7 @@ template: level2-index
 majorlinks:
   - heading: For Servicemembers and Veterans with Service-Connected Disabilities
     links:
-    - url: /vocational-rehab-and-employment/service-disabled/
+    - url: /vocational-rehab-and-employment/eligibility/
       title: Eligibility 
       description: Find out if you can get VR&E benefits and services as a Servicemember or Veteran.
     - url: /vocational-rehab-and-employment/service-disabled/
