@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: VR&amp;E Application Process
 template: detail-page
 relatedlinks:
-  - heading: HEADING
+  - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
