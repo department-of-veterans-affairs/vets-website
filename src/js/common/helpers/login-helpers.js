@@ -31,6 +31,7 @@ export function getUserData(dispatch) {
         savedForms: json.data.attributes.in_progress_forms,
         prefillsAvailable: json.data.attributes.prefills_available,
         accountType: userData.loa.current,
+        veteranStatus: json.data.attributes.veteran_status.status,
         email: userData.email,
         userFullName: {
           first: userData.first_name,
