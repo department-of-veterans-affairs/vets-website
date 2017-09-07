@@ -83,7 +83,9 @@ class DocumentRequestPage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <nav className="va-nav-breadcrumbs">
-                <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+                <ul className="row va-nav-breadcrumbs-list claims-breadcrumbs" role="menubar" aria-label="Primary">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/disability-benefits">Disability Benefits</a></li>
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
                 </ul>
