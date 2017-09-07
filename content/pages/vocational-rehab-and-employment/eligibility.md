@@ -10,7 +10,7 @@ relatedlinks:
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /vocational-rehab-and-employment/apply-vre/
       title: Application Process
-      description: Find out how to apply for VR&E as a Servicemember or Veteran.
+      description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
     - url: /vocational-rehab-and-employment/family-members/
       title: Family Members
       description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
