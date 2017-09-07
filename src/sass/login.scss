@@ -1,7 +1,7 @@
 @import "shared-variables";
 
 .login {
-  background: white;
+  background: #fff;
 
   .container {
     padding: 2em 0;
@@ -9,7 +9,7 @@
 
   .logo {
     text-align: center;
-    border-bottom: solid 1px $color-gray-light;
+    border-bottom: solid 2px $color-gray-light-alt;
     padding: 1em 0;
 
     a {
@@ -18,6 +18,21 @@
       }
       display: inline-block;
     }
+  }
+
+  .signin-buttons {
+    text-align: center;
+    margin-right: 2em;
+
+    div:first-child {
+      background: $color-gray-light-alt;
+    }
+
+    border: solid 2px $color-gray-light-alt;
+  }
+
+  .explanation-content {
+    padding: 0 2em;
   }
 }
 

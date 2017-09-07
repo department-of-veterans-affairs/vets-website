@@ -144,10 +144,32 @@ class Main extends React.Component {
           </div>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
-              Placeholder for buttons
+              <div className="signin-buttons">
+                <div>
+                  Secured & powered by ID.me
+                </div>
+                <div>
+                  Placeholder for buttons
+                </div>
+              </div>
             </div>
             <div className="columns usa-width-one-half medium-6">
-              Right side informational content
+              <div className="explanation-content">
+                <h4>Manage the benefits and services you've earned. Simply and securely.</h4>
+                <p>
+                  With Vets.gov you can:
+                </p>
+                <ul>
+                  <li>Track your VA claims and appeals</li>
+                  <li>Download your VA health record</li>
+                  <li>Refill your VA prescriptions</li>
+                  <li><a href="#">And more</a></li>
+                </ul>
+                <p>
+                  <strong>A secure account powered by ID.me</strong><br/>
+                  ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information. <a href="#">Learn more about ID.me</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
