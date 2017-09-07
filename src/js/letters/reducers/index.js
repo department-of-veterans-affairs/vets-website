@@ -103,7 +103,7 @@ function letters(state = initialState, action) {
     case 'GET_LETTER_PDF_FAILURE':
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
     case UPDATE_ADDRESS:
-      return _.set('destination', action.address, state);
+      return _.set('address', action.address, state);
     default:
       return state;
   }
