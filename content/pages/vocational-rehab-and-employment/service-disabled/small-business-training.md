@@ -27,9 +27,9 @@ If you're a Servicemember or Veteran with a service-connected disability and an 
 
 <div class="feature" markdown="1">
 
-### Can I get help starting my own business through the VR&amp;E self-employment track?
+### Can I get help starting my own business through the VR&amp;E Self-Employment track?
 
-You may be eligible for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
+You may be eligible for the VR&amp;E Self-Employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
 
 - Have an employment barrier, **and**
 - Are enrolled in VR&amp;E
@@ -57,7 +57,9 @@ After you develop your business plan, we’ll review it and evaluate whether sel
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. Follow these steps to apply:
+First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC).
+
+#### If you have your VA disability rating, follow these steps to apply:
 
 <ol class="process">
 
@@ -96,4 +98,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
