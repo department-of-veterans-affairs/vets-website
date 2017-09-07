@@ -28,12 +28,6 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
@@ -65,7 +59,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 22-5495 form to apply for education benefits.
+          Please complete the 5495 form to apply to manage your education benefits.
         </SaveInProgressIntro>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

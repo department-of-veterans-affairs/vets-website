@@ -45,7 +45,10 @@ const formConfig = {
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply to use transferred education benefits.',
+    noAuth: 'Please sign in again to resume your application for transferred education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
