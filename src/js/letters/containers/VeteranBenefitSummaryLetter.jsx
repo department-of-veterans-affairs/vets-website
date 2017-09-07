@@ -155,15 +155,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
-  const { veteranStatus, isVeteran } = state.user.profile;
+  const { profile } = state.user;
 
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
     },
-    // default isVeteran to true if backing service for determining this is down
-    isVeteran: (veteranStatus === "OK" ? isVeteran : true),
+    // default isVeteran to true if service for determining this is down
+    isVeteran: (profile.veteranStatus === "OK"? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };
