@@ -172,9 +172,6 @@ class YourClaimsPage extends React.Component {
     return (
       <div className="your-claims">
         <div className="row">
-          {this.renderErrorMessages()}
-        </div>
-        <div className="row">
           <div>
             <h1>Your Claims and Appeals</h1>
           </div>
@@ -182,6 +179,9 @@ class YourClaimsPage extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div className="row">
+              {this.renderErrorMessages()}
+            </div>
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
