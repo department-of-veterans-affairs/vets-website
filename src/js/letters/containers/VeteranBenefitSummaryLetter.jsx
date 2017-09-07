@@ -163,7 +163,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo
     },
     // default isVeteran to true if service for determining this is down
-    isVeteran: (profile.veteranStatus === "OK"? profile.isVeteran : true),
+    isVeteran: (profile.veteranStatus === "OK" ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };
