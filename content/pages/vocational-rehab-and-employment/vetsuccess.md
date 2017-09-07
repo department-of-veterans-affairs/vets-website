@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-VetSuccess on Campus supports Veterans, Servicemembers, and some eligible family members in their transition from military to college life. We have Vocational Rehabilitation Counselors (VRCs) at 94 college campuses across the country. Our VRCs can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. [Find out if your college has a VRC](http://www.benefits.va.gov/vocrehab/vsoc.asp).
+VetSuccess on Campus supports Veterans, Servicemembers, and some eligible dependents in their transition from military to college life. We have Vocational Rehabilitation Counselors (VRCs) at 94 college campuses across the country. Our VRCs can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. [Find out if your college has a VRC](http://www.benefits.va.gov/vocrehab/vsoc.asp).
 
 </div>
 
