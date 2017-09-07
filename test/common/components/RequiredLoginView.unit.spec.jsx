@@ -108,7 +108,7 @@ describe('<RequiredLoginView>', () => {
 
     // Child components should not be passed an isDataAvailable prop
     tree.props.children.forEach((child) => {
-      expect(child.props.isDataAvailable).to.be.undefined;
+      expect(child.props.isDataAvailable).to.equal(true);
     });
   });
 
