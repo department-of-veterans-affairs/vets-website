@@ -56,7 +56,7 @@ These services generally last up to 24 months. In some cases, you may be able to
 
 First, you’ll need to apply for VR&amp;E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). 
 
-**If you have your VA disability rating, follow these steps to apply:**
+#### If you have your VA disability rating, follow these steps to apply:
 
 <ol class="process">
 <li class="process-step list-one">
@@ -67,13 +67,13 @@ Log in to your eBenefits account.
 
 <li class="process-step list-two">
 
-Choose **Additional Benefits** on your dashboard.
+Click **Additional Benefits** on your dashboard.
 
 </li>
 
 <li class="process-step list-three">
 
-Choose **Vocational Rehabilitation and Employment Program**.
+Click **Vocational Rehabilitation and Employment Program**.
 
 </li>
 
