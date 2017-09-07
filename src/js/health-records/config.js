@@ -102,7 +102,7 @@ module.exports = {
       children: [
         {
           value: 'vaimmunizations',
-          label: 'VA Immunizations',
+          label: 'Immunizations received through VA',
         },
         {
           value: 'seiimmunizations',
