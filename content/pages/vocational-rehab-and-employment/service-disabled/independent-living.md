@@ -32,7 +32,7 @@ If your service-connected disability limits your ability to perform activities o
 You may be eligible for independent-living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and:
 
 - You have a service-connected disability rating of 20&#37; or higher, **and**
-- Your injuries prevent you from looking for or returning to work right away, **and**
+- Your injuries prevent you from looking for or returning to work, **and**
 - Your case manager refers you after you enroll in the VR&amp;E program
 
 <br>
