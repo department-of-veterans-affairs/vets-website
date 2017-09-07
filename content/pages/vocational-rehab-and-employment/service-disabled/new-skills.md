@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to succeed in your career path, the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training through VR&E. 
+If you have a service-connected disability that makes it hard for you to succeed in your career path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training through VR&E. 
 
 </div>
 
@@ -104,4 +104,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 [Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
-**Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
+**Note:** You may be eligible for both VR&amp;E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
