@@ -164,6 +164,8 @@ class FormApp extends React.Component {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
       content = <LoadingIndicator message="Saving your form..."/>;
+    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
+      content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
