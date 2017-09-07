@@ -5,6 +5,7 @@ title: Careers and Employment
 tagline: In partnership with the Department of Labor
 permalink: /employment/index.html
 concurrence: complete
+description: Get the support and tools you need for your post-military job search—including help building your resume, finding a job, and starting a new business.
 majorlinks:
   - heading:
     links:
