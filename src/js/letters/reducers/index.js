@@ -9,6 +9,8 @@ import {
   INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
@@ -17,13 +19,14 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  benefitInfo: {},
-  destination: {},
   letters: [],
   lettersAvailability: 'awaitingResponse',
   letterDownloadStatus: {},
+  fullName: {},
+  address: {},
   optionsAvailable: false,
   requestOptions: {},
+  benefitInfo: {},
   serviceInfo: []
 };
 
@@ -38,7 +41,7 @@ function letters(state = initialState, action) {
       return {
         ...state,
         letters: action.data.data.attributes.letters,
-        destination: action.data.data.attributes.address,
+        fullName: action.data.data.attributes.fullName, // TODO: verify with @kreek
         lettersAvailability: 'available',
         letterDownloadStatus
       };
@@ -53,6 +56,14 @@ function letters(state = initialState, action) {
       return _.set('lettersAvailability', 'unavailable', state);
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', 'letterEligibilityError', state);
+    case GET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        address: action.data.data.attributes.address,
+        addressAvailable: true
+      };
+    case GET_ADDRESS_FAILURE:
+      return _.set('addressAvailable', false, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;

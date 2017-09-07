@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
-import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+import {
+  getBenefitSummaryOptions,
+  getLetterList,
+  getMailingAddress
+} from '../actions/letters';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
+    this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
   }
 
@@ -79,7 +84,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
-  getLetterList
+  getLetterList,
+  getMailingAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

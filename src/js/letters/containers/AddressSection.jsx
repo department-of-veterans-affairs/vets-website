@@ -13,18 +13,18 @@ export class AddressSection extends React.Component {
   }
 
   render() {
-    const destination = this.props.destination || {};
+    const address = this.props.address || {};
     const addressLines = [
-      destination.addressLine1,
-      destination.addressLine2 ? `, ${destination.addressLine2}` : '',
-      destination.addressLine3 ? ` ${destination.addressLine3}` : ''
+      address.addressOne,
+      address.addressTwo ? `, ${address.addressTwo}` : '',
+      address.addressThree ? ` ${address.addressThree}` : ''
     ];
 
     let addressFields;
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
-          <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
+          <Address value={address} onUserInput={(addr) => {this.props.updateAddress(addr);}} required/>
           <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
@@ -33,14 +33,15 @@ export class AddressSection extends React.Component {
       addressFields = (
         <div>
           <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
-          <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
+          {/* TODO: format for display should vary depending on address type, i.e., domestic, military, international */}
+          <div className="letters-address">{(address.city || '').toLowerCase()}, {address.state} {(address.zipCode || '').toLowerCase()}</div>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
         </div>
       );
     }
 
     let addressContent;
-    if (isEmpty(destination)) {
+    if (isEmpty(address)) {
       addressContent = (
         <div className="step-content">
           {invalidAddressProperty}
@@ -53,7 +54,7 @@ export class AddressSection extends React.Component {
             Downloaded documents will list your address as:
           </p>
           <div className="address-block">
-            <h5 className="letters-address">{(destination.fullName || '').toLowerCase()}</h5>
+            <h5 className="letters-address">{(this.props.fullName || '').toLowerCase()}</h5>
             {addressFields}
           </div>
           <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
@@ -72,7 +73,8 @@ export class AddressSection extends React.Component {
 function mapStateToProps(state) {
   const letterState = state.letters;
   return {
-    destination: letterState.destination,
+    fullName: letterState.fullName,
+    address: letterState.address
   };
 }
 
