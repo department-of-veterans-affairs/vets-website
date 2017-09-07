@@ -32,7 +32,7 @@ class OMBInfo extends React.Component {
         <div>Respondent burden: <strong>{resBurden} minutes</strong></div>
         <div>OMB Control #: <strong>{ombNumber}</strong></div>
         <div>Expiration date: <strong>{expDate}</strong></div>
-        <div><a onClick={this.openModal}>Privacy Act Statement</a></div>
+        <div><button className={'va-button-link'} onClick={this.openModal}>Privacy Act Statement</button></div>
         <Modal
           cssClass="va-modal-large"
           contents={modalContents(resBurden)}

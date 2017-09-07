@@ -18,11 +18,11 @@ module.exports = {
       children: [
         {
           value: 'prescriptions',
-          label: 'VA Medication History',
+          label: 'VA medication history',
         },
         {
           value: 'medications',
-          label: 'Self-Reported Medications and Supplements',
+          label: 'Self-reported medications and supplements',
         },
       ],
     },
@@ -31,34 +31,34 @@ module.exports = {
       children: [
         {
           value: 'labsandtests',
-          label: 'VA Laboratory Results',
+          label: 'VA laboratory results',
           hold: 3,
           holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA lab results will be available 3 calendar days after they’ve been verified.',
         },
         {
           value: 'vapathology',
-          label: 'VA Pathology Reports',
+          label: 'VA pathology reports',
           hold: 14,
           holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA pathology reports will be available 14 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
         },
         {
           value: 'varadiology',
-          label: 'VA Radiology Reports',
+          label: 'VA radiology reports',
           hold: 3,
           holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA radiology reports will be available 3 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
         },
         {
           value: 'vaekg',
-          label: 'History of Electrocardiograms (EKGs) performed at VA facilities',
+          label: 'History of electrocardiograms (EKGs) performed at VA facilities',
         },
         {
           value: 'vachemlabs',
-          label: 'Self-Reported Labs and Tests',
+          label: 'Self-reported labs and tests',
         },
       ],
     },
     ehr: {
-      title: 'VA Electronic Health Record History and Wellness Reminders',
+      title: 'VA electronic Health Record History and Wellness Reminders',
       children: [
         {
           value: 'vaproblemlist',
@@ -89,11 +89,11 @@ module.exports = {
       children: [
         {
           value: 'vaallergies',
-          label: 'VA Allergies',
+          label: 'VA allergies',
         },
         {
           value: 'seiallergies',
-          label: 'Self-Reported Allergies',
+          label: 'Self-reported allergies',
         },
       ],
     },
@@ -106,7 +106,7 @@ module.exports = {
         },
         {
           value: 'seiimmunizations',
-          label: 'Self-Reported Immunizations',
+          label: 'Self-reported immunizations',
         },
       ],
     },
@@ -115,11 +115,11 @@ module.exports = {
       children: [
         {
           value: 'vitalsandreadings',
-          label: 'VA Vitals and Readings',
+          label: 'VA vitals and readings',
         },
         {
           value: 'vahth',
-          label: 'Self-Reported Vitals and Readings',
+          label: 'Self-reported vitals and readings',
         },
       ],
     },
@@ -128,23 +128,23 @@ module.exports = {
       children: [
         {
           value: 'medicalevents',
-          label: 'Medical Events',
+          label: 'Medical events',
         },
         {
           value: 'familyhealthhistory',
-          label: 'Family Health History',
+          label: 'Family health history',
         },
         {
           value: 'militaryhealthhistory',
-          label: 'Military Health History',
+          label: 'Military health history',
         },
         {
           value: 'treatmentfacilities',
-          label: 'Treatment Facilities',
+          label: 'Treatment facilities',
         },
         {
           value: 'healthcareproviders',
-          label: 'Health Care Providers',
+          label: 'Health care providers',
         },
       ],
     },
@@ -153,11 +153,11 @@ module.exports = {
       children: [
         {
           value: 'seiactivityjournal',
-          label: 'Self-Reported Activity Journal',
+          label: 'Self-reported activity journal',
         },
         {
           value: 'seifoodjournal',
-          label: 'Self-Reported Food Journal',
+          label: 'Self-reported food journal',
         },
       ],
     },
@@ -166,11 +166,11 @@ module.exports = {
       children: [
         {
           value: 'seimygoalscurrent',
-          label: 'Self-Reported Current Goals',
+          label: 'Self-reported current goals',
         },
         {
           value: 'seimygoalscompleted',
-          label: 'Self-Reported Completed Goals',
+          label: 'Self-reported completed goals',
         },
       ],
     },
@@ -179,15 +179,15 @@ module.exports = {
       children: [
         {
           value: 'vademographics',
-          label: 'VA Demographics from VA Treating Facilities in the last 3 years',
+          label: 'VA demographics from VA treating facilities in the last 3 years',
         },
         {
           value: 'seidemographics',
-          label: 'Self-Reported Demographics',
+          label: 'Self-reported demographics',
         },
         {
           value: 'healthinsurance',
-          label: 'Self-Reported Health Insurance',
+          label: 'Self-reported health insurance',
         },
       ],
     },
