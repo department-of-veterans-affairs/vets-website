@@ -90,13 +90,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 <li class="process-step list-six">
 
-If you’re eligible, a VRC will work with you to determine the severity of your service-connected disability, if you’re ready to work, and if you’ll benefit from independent-living services.
-
-</li>
-
-<li class="process-step list-seven">
-
-If you’re eligible, your VRC will help you create a personalized independent-living plan that meets your needs.
+If you’re eligible, a VRC will work with you to determine the severity of your service-connected disability, if you’re ready to work, and if you’ll benefit from independent-living services. Your VRC will help you create a personalized independent-living plan that meets your needs.
 
 </li>
 </ol>
