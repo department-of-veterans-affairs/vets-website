@@ -35,7 +35,7 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
+              <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">1-888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
