@@ -27,7 +27,7 @@ describe('Pensions spouse info', () => {
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
-    expect(formDOM.querySelector('label[for="root_spouseDateOfBirth"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain('Jane Doe');
     expect(formDOM.querySelector('label[for="root_spouseSocialSecurityNumber"]').textContent).to.contain('Jane Doe');
   });
 

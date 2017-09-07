@@ -3,8 +3,15 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { invalidAddressProperty } from '../utils/helpers.jsx';
+import { updateAddress } from '../actions/letters';
+import Address from '../components/Address';
 
 export class AddressSection extends React.Component {
+  constructor() {
+    super();
+    this.state = { isEditAddressing: false };
+  }
+
   render() {
     const destination = this.props.destination || {};
     const addressLines = [
@@ -12,6 +19,25 @@ export class AddressSection extends React.Component {
       destination.addressLine2 ? `, ${destination.addressLine2}` : '',
       destination.addressLine3 ? ` ${destination.addressLine3}` : ''
     ];
+
+    let addressFields;
+    if (this.state.isEditingAddress) {
+      addressFields = (
+        <div>
+          <Address value={destination} onUserInput={(address) => {this.props.updateAddress(address);}} required/>
+          <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
+          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
+        </div>
+      );
+    } else {
+      addressFields = (
+        <div>
+          <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
+          <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
+          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+        </div>
+      );
+    }
 
     let addressContent;
     if (isEmpty(destination)) {
@@ -26,11 +52,11 @@ export class AddressSection extends React.Component {
           <p>
             Downloaded documents will list your address as:
           </p>
-          <div className="letters-address">{(destination.fullName || '').toLowerCase()}</div>
-          <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
-          <div className="letters-address">{(destination.city || '').toLowerCase()}, {destination.state} {(destination.zipCode || '').toLowerCase()}</div>
-          <h5>Why is this address important?</h5>
-          <div>When you download a letter, it will show this address on it. If this address is incorrect you may want to update it, but your letter will still be valid even with the incorrect address. <a href="https://eauth.va.gov/wssweb/wss-common-webparts/mvc/getPCIUUpdateForm" target="_blank">Update the address that appears on your letter(s)</a>.</div>
+          <div className="address-block">
+            <h5 className="letters-address">{(destination.fullName || '').toLowerCase()}</h5>
+            {addressFields}
+          </div>
+          <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
         </div>
       );
     }
@@ -50,4 +76,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(AddressSection);
+const mapDispatchToProps = {
+  updateAddress
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);

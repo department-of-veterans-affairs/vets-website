@@ -8,7 +8,8 @@ export const uiSchema = {
   'ui:order': ['name', 'educationType', 'address'],
   address: _.merge(address.uiSchema(), {
     'ui:options': {
-      hideIf: (formData) => !showSchoolAddress(_.get('educationProgram.educationType', formData))
+      expandUnder: 'educationType',
+      expandUnderCondition: showSchoolAddress
     }
   }),
   educationType: educationTypeUISchema,
