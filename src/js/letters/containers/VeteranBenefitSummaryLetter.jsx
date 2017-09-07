@@ -60,7 +60,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
       const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
-      const optionText = getBenefitOptionText(key, value, true, benefitInfo.awardEffectiveDate);
+      const { isVeteran } = this.props;
+      const optionText = getBenefitOptionText(key, value, isVeteran, benefitInfo.awardEffectiveDate);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
