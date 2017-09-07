@@ -2,6 +2,7 @@
 title: Track Claims
 entryname: disability-benefits
 layout: page-react.html
+description: Log in to your Vets.gov account to track the status of your VA claims and appeals.
 ---
 <div id="main">
   <div class="section">
