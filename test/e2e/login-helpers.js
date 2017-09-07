@@ -40,6 +40,7 @@ function initUserMock(token, level) {
             birth_date: '1985-01-01'
           },
           in_progress_forms: [],
+          prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           health_terms_current: true,
           va_profile: {

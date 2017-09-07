@@ -5,11 +5,11 @@ module.exports = {
       children: [
         {
           value: 'futureappointments',
-          label: 'Upcoming VA Appointments',
+          label: 'Upcoming VA appointments',
         },
         {
           value: 'pastappointments',
-          label: 'VA Appointment History from the last 2 years',
+          label: 'VA appointment history (limited to the past 2 years)',
         },
       ],
     },
@@ -102,7 +102,7 @@ module.exports = {
       children: [
         {
           value: 'vaimmunizations',
-          label: 'VA Immunizations',
+          label: 'Immunizations received through VA',
         },
         {
           value: 'seiimmunizations',
