@@ -1,7 +1,8 @@
 ---
 title: Sign in
-layout: page-react.html
 entryname: signin
+layout: page-react.html
+noHeader: true
 ---
 
 <div id="main">
