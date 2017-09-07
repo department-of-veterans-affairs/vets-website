@@ -2,7 +2,7 @@ const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-1990-helpers');
 
-module.exports = E2eHelpers.createE2eTest(
+E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock();
 
