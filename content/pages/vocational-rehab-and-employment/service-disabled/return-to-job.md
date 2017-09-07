@@ -33,7 +33,7 @@ You may be eligible for help if you're a Veteran with a service-connected disabi
 
 - Have an employment barrier or handicap, **and**
 - Are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
-- Would like to return to your previous place of employment
+- Would like to return to your former job
 
 **Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
@@ -55,7 +55,9 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 ### How do I get these benefits?
 
-You'll need to apply for these benefits to find a VRC who can help you. Follow these steps to apply.
+First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC).
+
+#### If you have your VA disability rating, follow these steps to apply:
 
 <ol class="process">
 
@@ -94,4 +96,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Find out how to apply as a Servicemember who hasn't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
