@@ -175,7 +175,9 @@ class ArrayField extends React.Component {
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
-    const items = itemCountLocked ? this.props.arrayData : this.state.items;
+    // Make sure we default to an empty array if the item count is locked and no
+    //  arrayData is passed (mysteriously)
+    const items = itemCountLocked ? (this.props.arrayData || []) : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
