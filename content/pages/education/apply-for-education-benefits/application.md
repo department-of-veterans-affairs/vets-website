@@ -2,7 +2,7 @@
 title: Apply for education benefits
 entryname: edu-benefits
 layout: page-react.html
-description: Use your VA education benefits to pay for college or training programs. Find out what documents you’ll need to apply for benefits, and start your online application today.
+description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
