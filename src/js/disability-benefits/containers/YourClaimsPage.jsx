@@ -172,13 +172,11 @@ class YourClaimsPage extends React.Component {
     return (
       <div className="your-claims">
         <div className="row">
-          <div>
-            <h1>Your Claims and Appeals</h1>
-          </div>
-          {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
-        </div>
-        <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div>
+              <h1>Your Claims and Appeals</h1>
+            </div>
+            {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
             <div className="row">
               {this.renderErrorMessages()}
             </div>
