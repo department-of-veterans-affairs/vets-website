@@ -153,7 +153,7 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children, formData } = this.props;
+    const { currentLocation, formConfig, children, formData, router } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
@@ -169,7 +169,7 @@ class FormApp extends React.Component {
     } else {
       content = (
         <div>
-          <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>
+          <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname} router={router}/>
           <div className="progress-box progress-box-schemaform">
             {children}
           </div>
