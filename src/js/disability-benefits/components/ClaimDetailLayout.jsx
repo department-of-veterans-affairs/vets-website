@@ -7,6 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
@@ -27,13 +28,9 @@ export default class ClaimDetailLayout extends React.Component {
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <nav className="va-nav-breadcrumbs">
-                <ul className="row va-nav-breadcrumbs-list claims-breadcrumbs" role="menubar" aria-label="Primary">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/disability-benefits">Disability Benefits</a></li>
-                  <li><Link to={claimsPath}>Your claims</Link></li>
-                </ul>
-              </nav>
+              <Breadcrumbs>
+                <li><Link to={claimsPath}>Your Claims</Link></li>
+              </Breadcrumbs>
             </div>
           </div>
           <div className="row">
