@@ -53,6 +53,14 @@ We may also provide minimum stocks, essential equipment, and business license fe
 
 After you develop your business plan, we’ll review it and evaluate whether self-employment and the proposed business are viable options.
 
+### Get more information
+
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
+
+Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/vocational-rehab-and-employment/external-resources/).
+
 <hr>
 
 ### How do I get these benefits?
