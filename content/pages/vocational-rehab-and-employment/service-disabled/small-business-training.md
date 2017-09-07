@@ -42,7 +42,7 @@ You may also be entitled to services if you’re a Servicemember or Veteran with
 
 </div>
 
-### What kind of benefits can I get through the VR&amp;E self-employment track?
+### What kind of benefits can I get through the VR&amp;E Self-Employment track?
 
 - Coordination services and help with developing a proposed business plan
 - Analysis of your business concept
