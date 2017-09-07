@@ -104,4 +104,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 [Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
-**Note:** You may be eligible for both VR&amp;E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
+**Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. [Learn more about the GI Bill](/education/gi-bill/).
