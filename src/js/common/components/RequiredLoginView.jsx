@@ -66,22 +66,15 @@ class RequiredLoginView extends React.Component {
           return <SystemDownView messageLine1="We couldn’t find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
         }
 
-        // If va_profile has any other value, continue on to check if this user can
-        // use this specific service.
-        if (this.isServiceAvailable()) {
-          // If you have the required service, show the application view.
-          return this.props.children;
-        }
-
+        // Otherwise if va_profile is present and populated, show the application view.
         // If the required service is not available, the component will still be rendered,
-        // but we pass an `isDataAvailable` prop to child components indicating there is
-        // no data. (Only add this prop to React components (functions), and not ordinary
+        // but we pass an `isDataAvailable` prop to child components indicating whether 
+        // or not there is data.
+        // (Only add this prop to React components (functions), and not ordinary
         // DOM elements.)
+        const props = { isDataAvailable: this.isServiceAvailable() };
         return React.Children.map(this.props.children, (child) => {
-          const props = typeof child.type === 'function'
-            ? { isDataAvailable: false }
-            : null;
-          return React.cloneElement(child, props);
+          React.cloneElement(child, typeof child.type === 'function' : props, null);
         });
       } else if (this.props.userProfile.accountType === 1) {
         return  <Main renderType="verifyPage"/>;

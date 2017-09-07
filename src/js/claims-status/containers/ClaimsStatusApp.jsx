@@ -5,13 +5,12 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
 // This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
+// the isDataAvailable prop
 function AppContent({ children, isDataAvailable }) {
-  const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
-      {!canUseApp && <ClaimsAppealsUnavailable/>}
-      {canUseApp &&
+      {!isDataAvailable && <ClaimsAppealsUnavailable/>}
+      {isDataAvailable &&
         <div>
           {children}
         </div>}

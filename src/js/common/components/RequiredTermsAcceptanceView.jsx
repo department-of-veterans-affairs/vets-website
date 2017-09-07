@@ -27,7 +27,6 @@ export class RequiredTermsAcceptanceView extends React.Component {
 
   render() {
     const { terms, topContent } = this.props;
-    const enabled = this.props.isDataAvailable === true || typeof this.props.isDataAvailable === 'undefined';
 
     let view;
 
@@ -38,7 +37,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
         (child) => {
           let props = null;
           if (typeof child.type === 'function') {
-            props = { isDataAvailable: enabled };
+            props = { isDataAvailable: this.props.isDataAvailable };
           }
           return React.cloneElement(child, props);
         }
