@@ -43,7 +43,7 @@ You may be eligible for VR&amp;E benefits and services if you're a Veteran who w
 - Have a 10% or higher disability rating, **and**
 - Separated from the military or received a service-connected disability rating from VA within the past 12 years
 
-You may also be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+You may also be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a Serious Employment Handicap (SEH) due in large part to a service-connected disability, **and**
 - Have a 10% disability rating, **or**
 - Are beyond the 12-year basic period of eligibility
