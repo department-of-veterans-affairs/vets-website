@@ -1,7 +1,7 @@
 ---
 title: GI Bill Comparison Tool
 display_title: Compare GI Bill Benefits
-description: Learn about education programs and compare benefits by school
+description: Use our GI Bill Comparison Tool to decide which education program and school is best for you. Find out what benefits you’ll get at your chosen school.
 layout: page-react.html
 entryname: gi
 collection: education
