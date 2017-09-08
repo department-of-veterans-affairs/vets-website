@@ -76,7 +76,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 name={key}
                 type="checkbox"
                 onChange={this.handleChange}/>
-              <label/>
+              <label />
             </th>
             <td><label id={`${key}Label`} htmlFor={key}>{optionText}</label></td>
           </tr>

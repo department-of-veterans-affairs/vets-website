@@ -75,11 +75,15 @@ table > tbody > tr {
   
   td > label {
     margin: 0;
-    z-index: 100;
+    cursor: pointer;
   }
 
+  // The USWDS label controlling the checkbox enforces an 8px margin-bottom
+  // We are adding an equivalent top margin so that vertical-align works
+  // correctly without using !important to over-ride margin-bottom
   th > input, label {
-    margin: 0 !important;
+    margin-top: 8px;
+    cursor: pointer;
   }
 }
 
