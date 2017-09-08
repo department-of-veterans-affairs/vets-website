@@ -1,5 +1,5 @@
 //=====================================
-// Process list with a connected 
+// Process list with a connected
 // "subway map" line
 // Should only be used with ol elements
 // Also see l-playbook for a variation of these styles.
@@ -34,6 +34,10 @@
 
     &:only-of-type {
       margin-top: 0;
+    }
+
+    &.va-address-block {
+      padding-left: 1rem;
     }
   }
 
