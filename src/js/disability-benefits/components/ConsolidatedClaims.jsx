@@ -4,7 +4,7 @@ import React from 'react';
 export default function ConsolidatedClaims({ onClose }) {
   return (
     <div>
-      <h3 id="consolidated-claims-title claims-status-upload-header">A note about consolidated claims</h3>
+      <h3 id="consolidated-claims-title" className="claims-status-upload-header">A note about consolidated claims</h3>
       <button
         className="va-modal-close"
         type="button"
