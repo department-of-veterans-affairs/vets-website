@@ -62,16 +62,18 @@ class FormPage extends React.Component {
   }
 
   onChange(formData) {
-    let newData = formData;
-    if (this.props.route.pageConfig.showPagePerItem) {
+    if (event && event.type !== 'message') {
+      let newData = formData;
+      if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+        newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
+      }
+      this.props.setData(newData);
     }
-    this.props.setData(newData);
   }
 
-  onSubmit({ formData }) {
+  onSubmit({formData}) {
     const { route, params, form } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
