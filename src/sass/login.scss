@@ -20,6 +20,23 @@
     }
   }
 
+  .fed-warning {
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    p {
+      margin: 0.5em 0;
+    }
+  }
+
+  .help-info {
+    padding: 2em 0;
+
+    p:first-of-type {
+      margin-top: 0;
+    }
+  }
+
   .signin-actions-container {
     text-align: center;
     margin-right: 2em;
@@ -48,7 +65,7 @@
     }
 
     .signin-actions {
-      padding: 2em 1em;
+      padding: 2em 1em 1em;
 
       span.sidelines {
         position: relative;
@@ -67,7 +84,7 @@
           overflow: hidden;
           width: 50%;
           height: 2px;
-          content: '\a0';
+          content: "\a0";
           background-color: $color-gray-light-alt;
         }
 

@@ -188,7 +188,32 @@ class Main extends React.Component {
                 </ul>
                 <p>
                   <strong>A secure account powered by ID.me</strong><br/>
-                  ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information. <a href="#">Learn more about ID.me</a>
+                  ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information.
+                  <p><a href="#">Learn more about ID.me</a></p>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="columns small-12">
+              <div className="help-info">
+                <h4>Having trouble signing in?</h4>
+                <p><a href="/faq">Get answers to Frequently Asked Questions</a></p>
+                <p>
+                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).<br/>
+                  We're here Monday – Friday, 8:00am – 8:00pm (ET).
+                </p>
+              </div>
+              <hr/>
+              <div className="fed-warning">
+                <p>
+                  By entering authentication information, you are attempting to access a United States Federal Government information system. This system is for the use of authorized users only.
+                </p>
+                <p>
+                  System usage may be monitored, recorded, and subject to audit. By accessing this system, you are consenting to have your activiteis monitored, recorded, and made available to auditors or law enforcement officials.
+                </p>
+                <p>
+                  Unauthorized use of this information system or use in excess of your approved authority is prohibited, and may be subject ot disciplinary action including criminal or civil penalties.
                 </p>
               </div>
             </div>
