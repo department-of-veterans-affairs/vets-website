@@ -144,12 +144,19 @@ class Main extends React.Component {
           </div>
           <div className="row">
             <div className="columns usa-width-one-half medium-6">
-              <div className="signin-buttons">
-                <div>
-                  Secured & powered by ID.me
+              <div className="signin-actions-container">
+                <div className="top-banner">
+                  <div>
+                    <img alt="ID.me" src="/img/signin/lock-icon.svg"/> Secured & powered by <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/>
+                  </div>
                 </div>
-                <div>
-                  Placeholder for buttons
+                <div className="signin-actions">
+                  <h5>Sign in with an existing account</h5>
+                  <div>
+                    <button className="usa-button-primary va-button-primary" onClick={this.handleLogin}>
+                      <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
