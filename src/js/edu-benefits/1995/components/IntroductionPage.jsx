@@ -62,7 +62,6 @@ class IntroductionPage extends React.Component {
               <div><h5>Decision</h5></div>
               <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
-              </div>
             </li>
           </ol>
         </div>
