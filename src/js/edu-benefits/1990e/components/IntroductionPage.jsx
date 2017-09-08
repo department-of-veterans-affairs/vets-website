@@ -35,7 +35,7 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p><a href="/disability-benefits/apply/help/index.html">An accredited representative with a Veterans Service Organization (VSO)</a> can help you pick the right program.</p>
+              <p><a href="/disability-benefits/apply/help/index.html">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
