@@ -131,7 +131,7 @@ class Main extends React.Component {
           <div className="columns">
             <div className="logo">
               <a href="/">
-                <img alt="vets.gov" className="va-header-logo" src="/img/vetslogo.png"/>
+                <img alt="vets.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
               </a>
             </div>
           </div>
@@ -162,6 +162,14 @@ class Main extends React.Component {
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
+                    <span className="sidelines">OR</span>
+                    <div className="alternate-signin">
+                      <h5>Don't have those accounts?</h5>
+                      <button className="idme-create usa-button usa-button-outline" onClick={this.handleLogin}>
+                        <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/><strong> Create an ID.me account</strong>
+                      </button>
+                      <p>Use your email, Google, or Facebook</p>
+                    </div>
                   </div>
                 </div>
               </div>

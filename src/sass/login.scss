@@ -50,6 +50,37 @@
     .signin-actions {
       padding: 2em 1em;
 
+      span.sidelines {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        text-align: center;
+        width: 100%;
+        display: inline-block;
+
+        font-size: 1.15em;
+        font-weight: bold;
+
+        &:before, &:after {
+          position: absolute;
+          top: 51%;
+          overflow: hidden;
+          width: 50%;
+          height: 2px;
+          content: '\a0';
+          background-color: $color-gray-light-alt;
+        }
+
+        &:before {
+          margin-left: -52%;
+          text-align: right;
+        }
+
+        &:after {
+          margin-left: 2%;
+        }
+      }
+
       button {
         display: flex;
         justify-content: center;
@@ -63,9 +94,28 @@
           background: $color-primary-darker;
         }
 
+        &.idme-create {
+          box-shadow: inset 0 0 0 2px $color-green;
+          color: $color-green;
+          margin-bottom: 0;
+
+          &:hover {
+            box-shadow: inset 0 0 0 2px $color-green-darker;
+            color: $color-green-darker;
+          }
+        }
+
         img {
           height: 1em;
           padding: 0 0.25em;
+        }
+      }
+
+      .alternate-signin {
+        padding-top: 1em;
+
+        p:first-of-type {
+          margin-top: 0.5em;
         }
       }
     }
