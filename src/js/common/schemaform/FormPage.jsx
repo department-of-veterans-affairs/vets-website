@@ -60,20 +60,18 @@ class FormPage extends React.Component {
       focusForm();
     }
   }
-
+  
   onChange(formData) {
-    if (event && event.type !== 'message') {
-      let newData = formData;
-      if (this.props.route.pageConfig.showPagePerItem) {
+    let newData = formData;
+    if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-        newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
-      }
-      this.props.setData(newData);
+      newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
+    this.props.setData(newData);
   }
 
-  onSubmit({formData}) {
+  onSubmit({ formData }) {
     const { route, params, form } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -142,7 +140,7 @@ class FormPage extends React.Component {
           pagePerItemIndex={params ? params.index : undefined}
           uploadFile={this.props.uploadFile}
           prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-          onChange={this.onChange}
+          onChange={_.once(this.onChange)} // Wrapped in _.once to prevent message events from retriggering validation
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 usa-width-five-twelfths medium-5 columns">
