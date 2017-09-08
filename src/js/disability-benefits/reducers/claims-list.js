@@ -17,7 +17,7 @@ const initialState = {
   sortProperty: 'phaseChangeDate',
   consolidatedModal: false,
   show30DayNotice: true,
-  loading: true,
+  loading: false,
 };
 
 // We want to sort claims without dates below claims with dates
