@@ -46,7 +46,6 @@ class IntroductionPage extends React.Component {
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
-              </div>
             </li>
             <li className="process-step list-three" itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
               <div  itemProp="name"><h5>VA Review</h5></div>
