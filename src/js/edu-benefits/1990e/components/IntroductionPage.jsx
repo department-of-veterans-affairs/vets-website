@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits"/>
         <p>Equal to VA Form 22-1990E (Application for Family Member to Use Transferred Benefits).</p>
-         <SaveInProgressIntro
+        <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           resumeOnly
