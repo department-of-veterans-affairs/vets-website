@@ -73,11 +73,6 @@
 table > tbody > tr {
   vertical-align: middle;
   
-  td > label {
-    margin: 0;
-    cursor: pointer;
-  }
-
   th {
     input, label {
       cursor: pointer;  
@@ -90,6 +85,11 @@ table > tbody > tr {
       margin-top: 8px;
       text-align: center;
     }
+  }
+  
+  td > label {
+    margin: 0;
+    cursor: pointer;
   }
 }
 
