@@ -84,20 +84,20 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
 
   if (typeof data.relationship !== 'undefined') {
     client
-      .click('input[name="root_relationship_0"]');
+      .click('input#root_relationship_0');
   }
 
   if (data.gender) {
-    client.click(data.gender === 'M' ? 'input[name=root_gender_0]' : 'input[name=root_gender_1]');
+    client.click(data.gender === 'M' ? 'input#root_gender_0' : 'input#root_gender_1');
   }
 }
 
 function completeAdditionalBenefits(client, data) {
   if (typeof data.nonVaAssistance !== 'undefined') {
-    client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
+    client.click(data.nonVaAssistance ? '#root_nonVaAssistanceYes' : '#root_nonVaAssistanceNo');
   }
   if (typeof data.civilianBenefitsAssistance !== 'undefined') {
-    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+    client.click(data.civilianBenefitsAssistance ? '#root_civilianBenefitsAssistanceYes' : '#root_civilianBenefitsAssistanceNo');
 
     if (typeof data.civilianBenefitsSource !== 'undefined') {
       client.fill('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
@@ -127,7 +127,7 @@ function completeBenefitsSelection(client, data) {
 function completeServicePeriods(client, data, serviceName = 'view:newService') {
   if (serviceName) {
     client
-      .click(`input[name="root_${serviceName}Yes"]`);
+      .selectYesNo(`root_${serviceName}`, true);
   }
 
   client
@@ -203,7 +203,7 @@ function completeContactInformation(client, data, isRelative = false) {
     .setValue('input[name="root_view:otherContactInfo_view:confirmEmail"]', data['view:otherContactInfo']['view:confirmEmail']);
 
   client
-    .click('input[name="root_preferredContactMethod_2"]')
+    .click('input#root_preferredContactMethod_2')
     .clearValue('input[name="root_view:otherContactInfo_homePhone"]')
     .setValue('input[name="root_view:otherContactInfo_homePhone"]', data['view:otherContactInfo'].homePhone)
     .clearValue('input[name="root_view:otherContactInfo_mobilePhone"]')
@@ -212,12 +212,12 @@ function completeContactInformation(client, data, isRelative = false) {
 
 function completePaymentChange(client) {
   client
-    .click('input[name="root_bankAccountChange_1"]');
+    .click('input#root_bankAccountChange_1');
 }
 
 function completeDirectDeposit(client, data) {
   client
-    .click('input[name="root_bankAccount_accountType_1"]')
+    .click('input#root_bankAccount_accountType_1')
     .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
     .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
 }
@@ -241,7 +241,7 @@ function completeSchoolSelection(client, data) {
 function completeEmploymentHistory(client, data) {
   const nonMilitaryJob = data.nonMilitaryJobs[0];
   client
-    .click('input[name="root_view:hasNonMilitaryJobsYes"]')
+    .click('input#root_view\\:hasNonMilitaryJobsYes')
     .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJob.name)
     .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJob.months)
     .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJob.licenseOrRating);

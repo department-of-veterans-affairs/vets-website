@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
 
@@ -16,12 +17,10 @@ class ClaimEstimationPage extends React.Component {
       <div>
         <div className="row">
           <div className="medium-12 columns">
-            <nav className="va-nav-breadcrumbs">
-              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
-              </ul>
-            </nav>
+            <Breadcrumbs>
+              <li><Link to="your-claims">Your Claims</Link></li>
+              <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
+            </Breadcrumbs>
           </div>
         </div>
         <div className="row">
