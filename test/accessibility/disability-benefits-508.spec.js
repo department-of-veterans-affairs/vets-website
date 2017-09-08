@@ -34,7 +34,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Claim status tab
     client
       .click('a.claim-list-item:first-child')
-      .waitForElementVisible('.claim-title', Timeouts.normal)
+      // .waitForElementVisible('.claim-title', Timeouts.normal)
       .axeCheck('.main');
 
     // claim estimation page
