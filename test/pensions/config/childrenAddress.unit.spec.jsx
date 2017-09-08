@@ -47,7 +47,7 @@ describe('Child address page', () => {
     );
 
     const formDOM = getFormDOM(form);
-    formDOM.selectRadio('root_childInHouseholdNo', 'N');
+    formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(13);
   });
