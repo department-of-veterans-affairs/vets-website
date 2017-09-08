@@ -94,10 +94,10 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
 
 function completeAdditionalBenefits(client, data) {
   if (typeof data.nonVaAssistance !== 'undefined') {
-    client.click(data.nonVaAssistance ? 'input#root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo');
+    client.click(data.nonVaAssistance ? '#root_nonVaAssistanceYes' : '#root_nonVaAssistanceNo');
   }
   if (typeof data.civilianBenefitsAssistance !== 'undefined') {
-    client.click(data.civilianBenefitsAssistance ? 'input#root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo');
+    client.click(data.civilianBenefitsAssistance ? '#root_civilianBenefitsAssistanceYes' : '#root_civilianBenefitsAssistanceNo');
 
     if (typeof data.civilianBenefitsSource !== 'undefined') {
       client.fill('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
@@ -127,7 +127,7 @@ function completeBenefitsSelection(client, data) {
 function completeServicePeriods(client, data, serviceName = 'view:newService') {
   if (serviceName) {
     client
-      .click(`input#root_${serviceName}Yes`);
+      .selectYesNo(`root_${serviceName}`, true);
   }
 
   client

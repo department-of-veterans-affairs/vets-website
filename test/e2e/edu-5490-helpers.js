@@ -46,8 +46,8 @@ function completeSponsorService(client, data) {
   const felony = `root_outstandingFelony${data.outstandingFelony ? 'Yes' : 'No'}`;
   client
     .fill('input[name="root_serviceBranch"]', data.serviceBranch)
-    .click(`input[name="${activeDuty}"]`)
-    .click(`input[name="${felony}"]`);
+    .click(`#${activeDuty}`)
+    .click(`#${felony}`);
 }
 
 function completeSecondaryContact(client, data) {
