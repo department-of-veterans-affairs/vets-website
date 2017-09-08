@@ -74,11 +74,9 @@ describe('<RequiredLoginView>', () => {
       </RequiredLoginView>
     );
 
-    const instance = tree.getMountedInstance();
-    instance.setState({ loading: false });
     const vdom = tree.getRenderOutput();
 
-    return { tree, instance, mergedProps, vdom };
+    return { tree, mergedProps, vdom };
   }
 
   it('should render', () => {
@@ -87,8 +85,9 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should render a loading graphic while loading', () => {
-    const { tree, instance } = setup();
-    instance.setState({ loading: true });
+    const { tree } = setup({
+      userProfile: { loading: true }
+    });
     const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
     expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
@@ -102,9 +101,6 @@ describe('<RequiredLoginView>', () => {
         <TestChildComponent name="three"/>
       </RequiredLoginView>
     );
-    tree.getMountedInstance().setState({
-      loading: false,
-    });
 
     // Child components should not be passed an isDataAvailable prop
     tree.props.children.forEach((child) => {
@@ -121,9 +117,6 @@ describe('<RequiredLoginView>', () => {
         <TestChildComponent name="three"/>
       </RequiredLoginView>
     );
-    tree.getMountedInstance().setState({
-      loading: false,
-    });
 
     // Each direct child component should be passed a false isDataAvailable prop
     tree.props.children.forEach((child) => {

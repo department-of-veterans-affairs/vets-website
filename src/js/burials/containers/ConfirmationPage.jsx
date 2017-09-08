@@ -85,7 +85,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready. For telecommunication relay services, dial <a href="tel:711">711</a>.</p>
+        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready. For telecommunication relay services, dial <a href="tel:711">711</a>.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
