@@ -131,7 +131,7 @@ export class DownloadPage extends React.Component {
 
   render() {
     if (this.props.form.inProgress) {
-      return <LoadingIndicator message="Generating health record..."/>;
+      return <LoadingIndicator message="Generating your health record..."/>;
     }
 
     return (

@@ -32,13 +32,24 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
+      } else {
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> You can save this form in progress, and come back later to finish filling it out.
+              </div>
+            </div>
+            <br/>
+          </div>
+        );
       }
     } else {
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              <strong>Note:</strong> You are now able save a form in progress, and come back to finish it later. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>log in</SignInLink>.
+              <strong>Note:</strong> You can save this form, and come back later to finish filling it out. To be able to save your form in progress, please <SignInLink isLoggedIn={this.props.user.login.currentlyLoggedIn} loginUrl={this.props.user.login.loginUrl} onUpdateLoginUrl={this.props.updateLogInUrl}>sign in</SignInLink>.
             </div>
           </div>
           <br/>

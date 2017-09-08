@@ -39,6 +39,8 @@ function initUserMock(token, level) {
             gender: 'F',
             birth_date: '1985-01-01'
           },
+          in_progress_forms: [],
+          prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           health_terms_current: true,
           va_profile: {
@@ -103,7 +105,7 @@ function testUnauthedUserFlow(client, path) {
 
   client
     .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Log In With Your Account for Vets.gov');
+    .expect.element('h1').text.to.equal('Log In to Your Vets.gov Account');
 
   logIn(token, client, path, 1)
     .waitForElementVisible('.react-container', Timeouts.normal)

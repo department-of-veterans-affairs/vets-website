@@ -102,7 +102,7 @@ export class Settings extends React.Component {
     if (isLoading) {
       return (
         <div id="rx-settings">
-          <LoadingIndicator message="Loading preferences..."/>
+          <LoadingIndicator message="Loading your preferences..."/>
         </div>
       );
     }
@@ -110,7 +110,7 @@ export class Settings extends React.Component {
     if (isSaving) {
       return (
         <div id="rx-settings">
-          <LoadingIndicator message="Saving preferences..."/>
+          <LoadingIndicator message="Saving your preferences..."/>
         </div>
       );
     }

@@ -25,6 +25,8 @@ import {
   resumeMessage
 } from '../helpers';
 
+import migrations from './migrations';
+
 import SIPIntroductionPage from '../components/SIPIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
@@ -118,7 +120,8 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.',
@@ -215,7 +218,9 @@ const formConfig = {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {
-            isSpanishHispanicLatino: false
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false
+            }
           },
           uiSchema: {
             gender: {

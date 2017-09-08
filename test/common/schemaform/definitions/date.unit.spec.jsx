@@ -53,6 +53,6 @@ describe('Schemaform definition date', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelector('label').textContent).to.equal('My date');
+    expect(formDOM.querySelector('legend').textContent).to.equal('My date');
   });
 });

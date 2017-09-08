@@ -12,7 +12,8 @@ import {
   GET_LETTER_PDF_FAILURE,
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
-  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  UPDATE_ADDRESS
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -131,11 +132,17 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   };
 }
 
-
 export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
     type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
     value
+  };
+}
+
+export function updateAddress(address) {
+  return {
+    type: UPDATE_ADDRESS,
+    address
   };
 }

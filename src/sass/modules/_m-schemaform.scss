@@ -195,6 +195,22 @@ label {
   }
 }
 
+legend.schemaform-label {
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 46rem;
+  padding-bottom: 0;
+}
+
+fieldset.schemaform-field-template {
+  margin-top: 3rem;
+  &.schemaform-first-field {
+    margin-top: 0;
+  }
+}
+
 .schemaform-warning-header {
   margin-top: 9px;
 }

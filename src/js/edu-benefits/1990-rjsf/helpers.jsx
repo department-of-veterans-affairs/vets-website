@@ -54,3 +54,11 @@ export const benefitsRelinquishedDescription = (
     If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
   </span>
 );
+
+export const reserveKickerWarning = (
+  <div className="usa-alert usa-alert-warning usa-content secondary">
+    <div className="usa-alert-body">
+      <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won’t get your Active Duty kicker.</span>
+    </div>
+  </div>
+);
