@@ -2,9 +2,11 @@ function toggleClass(element, className) {
   element.classList.toggle(className);
 }
 function openState(element) {
+  element.setAttribute('hidden', false);
   element.setAttribute('data-state', 'open');
 }
 function closeState(element) {
+  element.setAttribute('hidden', true);
   element.setAttribute('data-state', 'closed');
   const selectionElement = element.querySelector('input:checked');
   if (selectionElement) {
@@ -77,7 +79,6 @@ function reInitWidget() {
       const nextQuestion = radio.dataset.nextQuestion;
       const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
       openState(nextQuestionElement);
-      nextQuestionElement.querySelector('input').focus();
     }
   });
   button.addEventListener('click', () => {

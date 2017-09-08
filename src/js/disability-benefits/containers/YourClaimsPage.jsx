@@ -20,6 +20,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const sortOptions = [
   {
@@ -173,14 +174,19 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="your-claims">
+        <Breadcrumbs/>
         <div className="row">
-          {this.renderErrorMessages()}
+          <div className="small-12 columns">
+            {this.renderErrorMessages()}
+          </div>
         </div>
         <div className="row">
-          <div>
+          <div className="small-12 columns">
             <h1>Your Claims and Appeals</h1>
           </div>
-          {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+          <div className="small-12 columns">
+            {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+          </div>
         </div>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
