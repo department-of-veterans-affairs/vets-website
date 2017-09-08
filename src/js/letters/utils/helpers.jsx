@@ -272,4 +272,3 @@ export function getZipCode(address) {
 export function getStateName(stateCode) {
   return STATE_CODE_TO_NAME[stateCode] || '';
 }
-
