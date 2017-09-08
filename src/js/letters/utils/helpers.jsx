@@ -244,3 +244,26 @@ export const benefitOptionsMap = {
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };
+
+export function isDomesticAddress(address) {
+  return (address.type === 'DOMESTIC');
+}
+
+export function isInternationalAddress(address) {
+  return (address.type === 'INTERNATIONAL');
+}
+
+export function isMilitaryAddress(address) {
+  return (address.type === 'MILITARY');
+}
+
+export function getZipCode(address) {
+  if (isInternationalAddress(address)) {
+    return '';
+  }
+  const parts = [
+    address.zipCode,
+    address.zipSuffix ? `-${address.zipSuffix}` : ''
+  ];
+  return parts.join('');
+}

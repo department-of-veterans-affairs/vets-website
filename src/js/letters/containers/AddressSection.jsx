@@ -2,7 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
-import { invalidAddressProperty } from '../utils/helpers.jsx';
+import {
+  getZipCode,
+  isDomesticAddress,
+  isMilitaryAddress,
+  isInternationalAddress,
+  invalidAddressProperty
+} from '../utils/helpers.jsx';
 import { updateAddress } from '../actions/letters';
 import Address from '../components/Address';
 
@@ -14,17 +20,38 @@ export class AddressSection extends React.Component {
 
   render() {
     const address = this.props.address || {};
-    const addressLines = [
+
+    // Street address: first line of address
+    const streetAddressLines = [
       address.addressOne,
       address.addressTwo ? `, ${address.addressTwo}` : '',
       address.addressThree ? ` ${address.addressThree}` : ''
     ];
+    const streetAddress = streetAddressLines.join('').toLowerCase();
+
+    // City, state, postal code: second line of address
+    const country = isInternationalAddress(address) ? address.countryName : '';
+    const zipCode = getZipCode(address);
+    let cityStatePostal;
+    if (isDomesticAddress(address)) {
+      const city = (address.city || '').toLowerCase();
+      // const state = getStateName(address.stateCode);
+      const state = 'XY';
+      cityStatePostal = `${city}, ${state} ${zipCode}`;
+    } else if (isMilitaryAddress(address)) {
+      const militaryPostOfficeTypeCode = address.militaryPostOfficeTypeCode || '';
+      const militaryStateCode = address.militaryStateCode || '';
+      cityStatePostal = `${militaryPostOfficeTypeCode}, ${militaryStateCode} ${zipCode}`;
+    }
 
     let addressFields;
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
-          <Address value={address} onUserInput={(addr) => {this.props.updateAddress(addr);}} required/>
+          <Address
+            value={address}
+            onUserInput={(addr) => {this.props.updateAddress(addr);}}
+            required/>
           <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
@@ -32,9 +59,9 @@ export class AddressSection extends React.Component {
     } else {
       addressFields = (
         <div>
-          <div className="letters-address">{addressLines.join('').toLowerCase()}</div>
-          {/* TODO: format for display should vary depending on address type, i.e., domestic, military, international */}
-          <div className="letters-address">{(address.city || '').toLowerCase()}, {address.state} {(address.zipCode || '').toLowerCase()}</div>
+          <div className="letters-address">{streetAddress}</div>
+          <div className="letters-address">{cityStatePostal}</div>
+          <div className="letters-address">{country}</div>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
         </div>
       );

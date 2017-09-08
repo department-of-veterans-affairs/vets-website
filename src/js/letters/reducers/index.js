@@ -41,7 +41,7 @@ function letters(state = initialState, action) {
       return {
         ...state,
         letters: action.data.data.attributes.letters,
-        fullName: action.data.data.attributes.fullName, // TODO: verify with @kreek
+        fullName: action.data.data.attributes.fullName,
         lettersAvailability: 'available',
         letterDownloadStatus
       };
