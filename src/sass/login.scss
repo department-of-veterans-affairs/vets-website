@@ -51,10 +51,22 @@
       padding: 2em 1em;
 
       button {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
         width: 100%;
         padding: 0.75em;
         font-size: 1.15em;
+        margin: 1em 0;
+
+        &.dslogon {
+          background: $color-primary-darker;
+        }
+
+        img {
+          height: 1em;
+          padding: 0 0.25em;
+        }
       }
     }
   }
