@@ -5,6 +5,7 @@ import { submitRequest, getClaimDetail } from '../actions';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
+import Breadcrumbs from '../components/Breadcrumbs';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
@@ -44,12 +45,10 @@ class AskVAPage extends React.Component {
       <div>
         <div className="row">
           <div className="medium-12 columns">
-            <nav className="va-nav-breadcrumbs">
-              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
-              </ul>
-            </nav>
+            <Breadcrumbs>
+              <li><Link to="your-claims">Your Claims</Link></li>
+              <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
+            </Breadcrumbs>
           </div>
         </div>
         <div className="row">

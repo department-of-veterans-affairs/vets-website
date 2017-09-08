@@ -20,6 +20,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const sortOptions = [
   {
@@ -84,6 +85,7 @@ class YourClaimsPage extends React.Component {
     if (claim.type === 'appeals_status_models_appeals') {
       return <AppealListItem key={claim.id} appeal={claim}/>;
     }
+
     return <ClaimsListItem claim={claim} key={claim.id}/>;
   }
 
@@ -123,22 +125,23 @@ class YourClaimsPage extends React.Component {
     ];
 
     let content;
+    let innerContent;
 
     if (loading) {
       content = <LoadingIndicator message="Loading a list of your claims and appeals..." setFocus/>;
-    } else if (list.length > 0) {
-      content = (<div>
-        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
-        <div className="claim-list">
-          {list.map(claim => this.renderListItem(claim))}
-          <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
-        </div>
-      </div>);
     } else {
-      content = <NoClaims/>;
-    }
+      if (list.length > 0) {
+        innerContent = (<div>
+          {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
+          <div className="claim-list">
+            {list.map(claim => this.renderListItem(claim))}
+            <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+          </div>
+        </div>);
+      } else {
+        innerContent = <NoClaims/>;
+      }
 
-    if (!loading) {
       const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
         <div>
@@ -160,7 +163,7 @@ class YourClaimsPage extends React.Component {
                       value={{ value: this.props.sortProperty }}
                       onValueChange={this.handleSort}/>
                   </div>
-                  {content}
+                  {innerContent}
                 </div>
               }
             </div>
@@ -171,14 +174,19 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="your-claims">
+        <Breadcrumbs/>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
-            <div>
-              <h1>Your Claims and Appeals</h1>
-            </div>
-            {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
             <div className="row">
-              {this.renderErrorMessages()}
+              <div className="small-12 columns">
+                <h1>Your Claims and Appeals</h1>
+              </div>
+              <div className="small-12 columns">
+                {this.renderErrorMessages()}
+              </div>
+              <div className="small-12 columns">
+                {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+              </div>
             </div>
             <p>
               <a href className="claims-combined" onClick={(evt) => {
