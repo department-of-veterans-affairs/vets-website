@@ -70,34 +70,18 @@
     text-transform: capitalize;
   }
 
-  table > tbody > tr > td {
-    label {
-      margin: 0;
-      cursor: pointer;
-    }
-  }
-
-  #benefitInfoTable > tbody > tr > th > label {
-    vertical-align: middle;
+table > tbody > tr {
+  vertical-align: middle;
+  
+  td > label {
     margin: 0;
+    z-index: 100;
   }
-  // table {
-  //   input[type="checkbox"] {
-  //     height: inherit;
-  //     margin: auto;
-  //     opacity: inherit;
-  //     position: inherit;
-  //     width: 50%;
 
-  //     &:focus {
-  //       box-shadow: none;
-  //     }
-  //   }
-
-  //   label {
-  //     margin: 0;
-  //   }
-  // }
+  th > input, label {
+    margin: 0 !important;
+  }
+}
 
   th[scope="row"] {
     padding-top: 0;
