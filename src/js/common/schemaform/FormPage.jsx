@@ -41,8 +41,8 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.goForward = this.goForward.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
   }
 
@@ -71,20 +71,6 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
-  onSubmit({ formData }) {
-    const { route, params, form } = this.props;
-
-    // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
-    if (route.pageConfig.showPagePerItem) {
-      const newData = _.set([route.pageConfig.arrayPath, params.index], formData, form.data);
-      this.props.setData(newData);
-    }
-
-    const { pages, pageIndex } = this.getEligiblePages();
-    this.props.router.push(pages[pageIndex + 1].path);
-  }
-
   /*
    * Returns the page list without conditional pages that have not satisfied
    * their dependencies and therefore should be skipped.
@@ -100,6 +86,14 @@ class FormPage extends React.Component {
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
     return { pages: expandedPageList, pageIndex };
+  }
+
+  goForward() {
+    const { pages, pageIndex } = this.getEligiblePages();
+    // if we found the current page, go to previous one
+    // if not, go back to the beginning because they shouldn’t be here
+    const page = pageIndex + 1;
+    this.props.router.push(pages[page].path);
   }
 
   goBack() {
@@ -152,7 +146,7 @@ class FormPage extends React.Component {
             </div>
             <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
-                submitButton
+                onButtonClick={this.goForward}
                 buttonText="Continue"
                 buttonClass="usa-button-primary"
                 afterText="»"/>

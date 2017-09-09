@@ -8,10 +8,29 @@ import { getActivePages } from '../utils/helpers';
 import { createFormPageList, createPageList, expandArrayPages } from './helpers';
 
 export default class FormNav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   // The formConfig transforming is a little heavy, so skip it if we can
   shouldComponentUpdate(newProps) {
     return !shallowEqual(this.props, newProps);
   }
+
+  handleClick(chapter) {
+    const { formConfig, formData } = this.props;
+    // This is converting the config into a list of pages with chapter keys,
+    // finding the current page, then getting the chapter name using the key
+    const formPages = createFormPageList(formConfig);
+    const pageList = createPageList(formConfig, formPages);
+    const eligiblePageList = getActivePages(pageList, formData);
+    const expandedPageList = expandArrayPages(eligiblePageList, formData);
+    const firstPages = expandedPageList.filter((p, i, a) => i === 0 || p.chapterKey !== a[i - 1].chapterKey);
+    const firstChapterPage = firstPages[chapter];
+    this.props.router.push(firstChapterPage.path);
+  }
+
   render() {
     const { formConfig, currentPath, formData } = this.props;
 
@@ -46,7 +65,7 @@ export default class FormNav extends React.Component {
 
     return (
       <div>
-        <SegmentedProgressBar total={chapters.length} current={current}/>
+        <SegmentedProgressBar total={chapters.length} current={current} handleClick={this.handleClick}/>
         <div className="schemaform-chapter-progress">
           <div
             role="progressbar"
