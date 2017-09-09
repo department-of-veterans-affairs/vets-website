@@ -60,7 +60,7 @@ class FormPage extends React.Component {
       focusForm();
     }
   }
-  
+
   onChange(formData) {
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
