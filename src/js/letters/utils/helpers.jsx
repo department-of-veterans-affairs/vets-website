@@ -5,6 +5,7 @@ import includes from 'lodash/fp/includes';
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
+import { STATE_CODE_TO_NAME } from './constants.js';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -267,3 +268,8 @@ export function getZipCode(address) {
   ];
   return parts.join('');
 }
+
+export function getStateName(stateCode) {
+  return STATE_CODE_TO_NAME[stateCode] || '';
+}
+

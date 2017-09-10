@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import {
+  getStateName,
   getZipCode,
   isDomesticAddress,
   isMilitaryAddress,
@@ -30,19 +31,18 @@ export class AddressSection extends React.Component {
     const streetAddress = streetAddressLines.join('').toLowerCase();
 
     // City, state, postal code: second line of address
-    const country = isInternationalAddress(address) ? address.countryName : '';
     const zipCode = getZipCode(address);
     let cityStatePostal;
     if (isDomesticAddress(address)) {
       const city = (address.city || '').toLowerCase();
-      // const state = getStateName(address.stateCode);
-      const state = 'XY';
+      const state = getStateName(address.stateCode);
       cityStatePostal = `${city}, ${state} ${zipCode}`;
     } else if (isMilitaryAddress(address)) {
       const militaryPostOfficeTypeCode = address.militaryPostOfficeTypeCode || '';
       const militaryStateCode = address.militaryStateCode || '';
       cityStatePostal = `${militaryPostOfficeTypeCode}, ${militaryStateCode} ${zipCode}`;
     }
+    const country = isInternationalAddress(address) ? address.countryName : '';
 
     let addressFields;
     if (this.state.isEditingAddress) {
