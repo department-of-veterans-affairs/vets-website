@@ -3,6 +3,10 @@
 .login {
   background: $color-white;
 
+  hr {
+    border-color: $color-gray-lighter;
+  }
+
   .container {
     padding: 2em 0;
   }
@@ -109,6 +113,10 @@
 
         &.dslogon {
           background: $color-primary-darker;
+
+          &:hover {
+            background: $color-primary-darkest;
+          }
         }
 
         &.idme-create {
@@ -133,6 +141,7 @@
 
         p:first-of-type {
           margin-top: 0.5em;
+          color: $color-gray-dark;
         }
       }
     }

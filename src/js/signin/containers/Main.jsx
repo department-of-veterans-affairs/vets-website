@@ -176,7 +176,7 @@ class Main extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h4>Manage the benefits and services you've earned. Simply and securely.</h4>
+                <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
                 <p>
                   With Vets.gov you can:
                 </p>
@@ -187,7 +187,7 @@ class Main extends React.Component {
                   <li><a href="#">And more</a></li>
                 </ul>
                 <p>
-                  <strong>A secure account powered by ID.me</strong><br/>
+                  <h3>A secure account powered by ID.me</h3><br/>
                   ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information.
                   <p><a href="#">Learn more about ID.me</a></p>
                 </p>
