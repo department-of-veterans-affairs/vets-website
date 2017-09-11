@@ -165,7 +165,7 @@ class Main extends React.Component {
                     <span className="sidelines">OR</span>
                     <div className="alternate-signin">
                       <h5>Don't have those accounts?</h5>
-                      <button className="idme-create usa-button usa-button-outline" onClick={this.handleLogin}>
+                      <button className="idme-create usa-button usa-button-outline" onClick={this.handleSignup}>
                         <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/><strong> Create an ID.me account</strong>
                       </button>
                       <p>Use your email, Google, or Facebook</p>
