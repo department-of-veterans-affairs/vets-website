@@ -16,7 +16,7 @@ export default function YesNoWidget({
         autoComplete="false"
         checked={value === yesValue}
         id={`${id}Yes`}
-        name={`${id}Yes`}
+        name={`${id}`}
         value="Y"
         disabled={disabled}
         onChange={_ => onChange(yesValue)}/>
@@ -27,7 +27,7 @@ export default function YesNoWidget({
         autoComplete="false"
         checked={value === noValue}
         id={`${id}No`}
-        name={`${id}No`}
+        name={`${id}`}
         value="N"
         disabled={disabled}
         onChange={_ => onChange(noValue)}/>
