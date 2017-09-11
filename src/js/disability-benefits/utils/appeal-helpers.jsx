@@ -21,35 +21,41 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
 
   const contentMap = {
     hearing_held: { // eslint-disable-line camelcase
-      title: 'Your Hearing Was Held',
-      description: <p>Your hearing was held on {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. The transcript of your hearing will be added to your appeal.</p>
+      status: {
+        title: 'Your Hearing Was Held',
+        description: <p>Your hearing was held on {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. The transcript of your hearing will be added to your appeal.</p>
+      }
     },
     hearing_cancelled: { // eslint-disable-line camelcase
-      title: 'Your Hearing Was Canceled',
-      description: <div>
-        <p>Your hearing was scheduled for {eventDateString}.</p>
-        <p>If you canceled your hearing for an important reason, like you, your representative, or a witness was sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
-        <p><strong>Send letters explaining why you need to reschedule your hearing to:</strong><br/>
-          Director, Office of Management, Planning and Analysis (014)<br/>
-          Board of Veterans' Appeals<br/>
-          P.O. Box 27063<br/>
-          Washington, DC 20038
-        </p>
-      </div>
+      status: {
+        title: 'Your Hearing Was Canceled',
+        description: <div>
+          <p>Your hearing was scheduled for {eventDateString}.</p>
+          <p>If you canceled your hearing for an important reason, like you, your representative, or a witness was sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you need to reschedule the hearing. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.</p>
+          <p><strong>Send letters explaining why you need to reschedule your hearing to:</strong><br/>
+            Director, Office of Management, Planning and Analysis (014)<br/>
+            Board of Veterans' Appeals<br/>
+            P.O. Box 27063<br/>
+            Washington, DC 20038
+          </p>
+        </div>
+      }
     },
     hearing_no_show: { // eslint-disable-line camelcase
-      title: 'You Missed Your Hearing',
-      description: <div>
-        <p>Your hearing was scheduled for {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. Because you missed the date, your hearing has been canceled. The Judge will make a decision based on the information you have provided.</p>
-        <p>If you missed your hearing for an important reason, like you, your representative, or a witness were sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you had to miss the hearing. The letter should include information about (a) why you missed your appeal and (b) why you could not submit a request to postpone the hearing prior to the originally scheduled date. You must mail the letter no later than 15 days after the original hearing was scheduled. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.
-        </p>
-        <p>Send letters explaining why you need to reschedule your hearing to:<br/>
-          Director, Office of Management, Planning and Analysis (014)<br/>
-          Board of Veterans' Appeals<br/>
-          P.O. Box 27063<br/>
-          Washington, DC 20038
-        </p>
-      </div>
+      status: {
+        title: 'You Missed Your Hearing',
+        description: <div>
+          <p>Your hearing was scheduled for {eventDateString} with a Veterans Law Judge in Washington, DC / through videoconference / at your local VA with the Traveling Board. Because you missed the date, your hearing has been canceled. The Judge will make a decision based on the information you have provided.</p>
+          <p>If you missed your hearing for an important reason, like you, your representative, or a witness were sick, or you had difficulty getting records needed for your appeal, you can file a motion by writing a letter to the Board explaining why you had to miss the hearing. The letter should include information about (a) why you missed your appeal and (b) why you could not submit a request to postpone the hearing prior to the originally scheduled date. You must mail the letter no later than 15 days after the original hearing was scheduled. A Veterans Law Judge will review your letter and decide if the hearing can be rescheduled. You’ll get a copy of the decision about rescheduling your hearing in the mail.
+          </p>
+          <p>Send letters explaining why you need to reschedule your hearing to:<br/>
+            Director, Office of Management, Planning and Analysis (014)<br/>
+            Board of Veterans' Appeals<br/>
+            P.O. Box 27063<br/>
+            Washington, DC 20038
+          </p>
+        </div>
+      }
     },
     withdrawn: {
       status: {

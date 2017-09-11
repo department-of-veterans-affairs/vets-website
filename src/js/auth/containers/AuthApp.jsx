@@ -5,6 +5,9 @@ import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus } from '../../login/actions';
 
+import appendQuery from 'append-query';
+import { gaClientId } from '../../common/helpers/login-helpers';
+
 class AuthApp extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +61,7 @@ class AuthApp extends React.Component {
           }).then(response => {
             return response.json();
           }).then(innerJson => {
-            window.location.href = innerJson.authenticate_via_get;
+            window.location.href = appendQuery(innerJson.authenticate_via_get, { clientId: gaClientId() });
           });
         }
       } else {

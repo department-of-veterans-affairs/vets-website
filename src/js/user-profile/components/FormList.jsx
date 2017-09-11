@@ -55,7 +55,7 @@ class FormList extends React.Component {
 }
 
 FormList.propTypes = {
-  savedForms: PropTypes.array,
+  savedForms: PropTypes.array
 };
 
 export default FormList;

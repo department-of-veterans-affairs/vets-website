@@ -75,12 +75,15 @@ const {
 } = fullSchema1990.definitions;
 
 const formConfig = {
-  urlPrefix: '/1990-rjsf/',
+  urlPrefix: '/1990/',
   submitUrl: '/v0/education_benefits_claims/1990',
   trackingPrefix: 'edu-',
   formId: '22-1990',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

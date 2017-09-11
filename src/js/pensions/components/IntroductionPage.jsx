@@ -80,7 +80,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Complete the form before submitting to apply for pension benefits with the 21-527EZ.
+          Please complete the 21-527EZ form to apply for pension benefits.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>

@@ -46,8 +46,8 @@ function completeSponsorService(client, data) {
   const felony = `root_outstandingFelony${data.outstandingFelony ? 'Yes' : 'No'}`;
   client
     .fill('input[name="root_serviceBranch"]', data.serviceBranch)
-    .click(`input[name="${activeDuty}"]`)
-    .click(`input[name="${felony}"]`);
+    .click(`#${activeDuty}`)
+    .click(`#${felony}`);
 }
 
 function completeSecondaryContact(client, data) {
@@ -74,7 +74,7 @@ function completeEducationHistory(client, data) {
   if (!_.isEmpty(data.postHighSchoolTrainings)) {
     // Open up the trainings section if there are trainings in the data
     client
-      .click('input[name="root_view:hasTrainingsYes"]')
+      .click('input#root_view\\:hasTrainingsYes')
       .waitForElementVisible('input[name="root_postHighSchoolTrainings_0_name"]', Timeouts.normal);
 
     // Fill out the information for each training
