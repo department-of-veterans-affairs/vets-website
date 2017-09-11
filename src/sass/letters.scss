@@ -70,23 +70,28 @@
     text-transform: capitalize;
   }
 
-  table {
-    input[type="checkbox"] {
-      height: inherit;
-      margin: auto;
-      opacity: inherit;
-      position: inherit;
-      width: 50%;
+table > tbody > tr {
+  vertical-align: middle;
 
-      &:focus {
-        box-shadow: none;
-      }
+  th {
+    input, label {
+      cursor: pointer;
     }
 
     label {
-      margin: 0;
+      // The USWDS label controlling the checkbox enforces an 8px margin-bottom
+      // We are adding an equivalent top margin so that vertical-align works
+      // correctly without using !important to over-ride margin-bottom
+      margin-top: 8px;
+      text-align: center;
     }
   }
+
+  td > label {
+    margin: 0;
+    cursor: pointer;
+  }
+}
 
   th[scope="row"] {
     padding-top: 0;

@@ -19,7 +19,7 @@ function completeSponsorInformation(client, data) {
     data
   );
   client
-    .clickIf('input[name="root_outstandingFelonyYes"]', data.outstandingFelony);
+    .clickIf('input#root_outstandingFelonyYes', data.outstandingFelony);
 }
 
 module.exports = {
