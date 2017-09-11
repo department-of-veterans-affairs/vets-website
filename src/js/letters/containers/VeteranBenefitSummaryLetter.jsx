@@ -163,9 +163,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo
     },
     // default isVeteran to true if service for determining this is down
-    // this decision may need to be revisited if we expect more than a 
-    // small percentage of dependents to use the system, or we infer status
-    // from the actual available letters returned from vets-api.
+    // this decision may need to be revisited.
     isVeteran: (profile.veteranStatus === "OK" ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
