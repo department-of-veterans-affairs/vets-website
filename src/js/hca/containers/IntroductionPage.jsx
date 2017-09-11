@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for health care benefits"/>
-        <p>Equal to VA Form 10-10EZ</p>
+        <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -29,8 +29,8 @@ class IntroductionPage extends React.Component {
               <div><h5>Prepare</h5></div>
               <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
-                <li>Your Social Security number (required)</li>
-                <li>A copy of your military discharge papers (DD214 or other separation documents)</li>
+                <li>Social Security number (required)</li>
+                <li>Copy of your military discharge papers (DD214 or other separation documents)</li>
                 <li>Financial information—and your dependents’ financial information</li>
                 <li>Most recent tax return</li>
                 <li>Account numbers for any health insurance you currently have (such as Medicare, private insurance, or insurance from an employer)</li>
