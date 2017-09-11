@@ -9,11 +9,13 @@ import {
   GET_LETTERS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
   GET_LETTER_PDF_FAILURE,
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  LETTER_TYPES
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -73,7 +75,7 @@ export function getBenefitSummaryOptions() {
 
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
-  if (letterType === 'benefit_summary') {
+  if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -100,7 +102,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
   let downloadUrl;
   return (dispatch) => {
-    dispatch({ type: 'GET_LETTER_PDF_DOWNLOADING', data: letterType });
+    dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
     apiRequest(
       `/v0/letters/${letterType}`,
       settings,

@@ -25,7 +25,7 @@ const initialState = {
   benefitInfo: {},
   destination: {},
   letters: [],
-  lettersAvailability: 'awaitingResponse',
+  lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
   optionsAvailable: false,
   requestOptions: {},
