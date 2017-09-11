@@ -34,7 +34,7 @@ def notify = { message, color='good' ->
     }
 }
 
-node('') {
+node('vetsgov-general-purpose') {
   def dockerImage, args, ref
 
   // Checkout source, create output directories, build container
