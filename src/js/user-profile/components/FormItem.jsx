@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { dateDiffDesc } from '../../common/utils/helpers';
-import { formTitles, formLinks } from '../helpers';
+import { formBenefits, formTitles, formLinks } from '../helpers';
 
 class FormItem extends React.Component {
   render() {
@@ -12,7 +12,8 @@ class FormItem extends React.Component {
     const { last_updated: lastSaved, expires_at: expirationTime } = savedFormData.metadata;
     const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
     const expirationDate = moment.unix(expirationTime);
-    const isExpired = moment(expirationDate).isBefore();
+    //const isExpired = moment(expirationDate).isBefore();
+    const isExpired = true;
     const activeView = (
       <div className="card information">
         <div className="saved-form-information">
@@ -40,8 +41,11 @@ class FormItem extends React.Component {
           <i className="fa fa-close" aria-label="Close icon"></i>
         </button>
         <div className="usa-alert-body">
-          <h5>Your saved application has expired.</h5>
-          <p>The application you started for {formTitles[formId]} has expired. If you still want to apply, please <a href={formLinks[formId]}>start a new application</a>.</p>
+          <h5>Your saved {formTitles[formId]} application has expired.</h5>
+          <p>To apply for {formBenefits[formId]}, please start a new application.</p>
+          <div className="small-12 medium-8 large-8 columns resume-saved-application-container">
+            <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Start a New Application</a>
+          </div>
         </div>
       </div>
     );
