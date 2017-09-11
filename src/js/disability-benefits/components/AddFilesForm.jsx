@@ -145,7 +145,7 @@ class AddFilesForm extends React.Component {
           onClose={() => true}
           visible={this.props.uploading}
           hideCloseButton
-          cssClass="claims-upload-modal"
+          cssClass=""
           id="upload-status"
           contents={<UploadStatus
             progress={this.props.progress}
@@ -156,7 +156,7 @@ class AddFilesForm extends React.Component {
           visible={this.props.showMailOrFax}
           hideCloseButton
           focusSelector="button"
-          cssClass="claims-upload-modal"
+          cssClass=""
           contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
       </div>
     );
