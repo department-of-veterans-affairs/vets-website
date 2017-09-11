@@ -39,6 +39,10 @@ function initUserMock(token, level) {
             gender: 'F',
             birth_date: '1985-01-01'
           },
+          veteran_status: {
+            status: "OK",
+            is_veteran: true,
+          },
           in_progress_forms: [],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
