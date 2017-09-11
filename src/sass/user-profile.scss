@@ -57,6 +57,10 @@
   }
 
   .card {
+    p {
+      margin-bottom: 8px;
+    }
+
     .resume-saved-application-container {
       @include media($medium-large-screen) {
         padding-left: 8px;
@@ -81,12 +85,13 @@
     color: $color-primary;
   }
 
+  .remove-saved-application-button {
+    float: right;
+  }
+  
   .remove-saved-application-container {
     margin-bottom: 16px;
     float: right;
-    @include media($medium-large-screen) {
-      float: left;
-    }
   }
 
   .remove-saved-application-label {
@@ -97,11 +102,11 @@
   .resume-saved-application {
     margin-top: 0;
     margin-right: 0;
-    float: right;
   }
 
   .saved-form-item-expires {
-    color: $color-secondary-dark
+    font-weight: bold;
+    display: inline;
   }
   .va-expired-item-close {
     float: right;

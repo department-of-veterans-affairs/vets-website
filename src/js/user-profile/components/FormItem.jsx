@@ -15,22 +15,22 @@ class FormItem extends React.Component {
     const isExpired = moment(expirationDate).isBefore();
     const activeView = (
       <div className="card information">
-        <div className="row small-collapse saved-form-information">
-          <div className="small-12 large-8 columns saved-form-metadata-container">
-            <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
-            {!!lastSaved && !!expirationDate && <div>
-              <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
-              <span className="saved-form-item-metadata saved-form-item-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}.</span>
-            </div>}
-          </div>
-          <div className="small-12 large-4 columns resume-saved-application-container">
+        <div className="saved-form-information">
+          <h5 className="saved-form-title">Application for {formTitles[formId]}</h5>
+          {!!lastSaved && !!expirationDate && <div className="saved-form-metadata-container">
+            <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
+            <p className="saved-form-item-metadata">Your saved application <span className="saved-form-item-expires">will expire in {dateDiffDesc(expirationDate)}.</span></p>
+          </div>}
+        </div>
+        <div className="row small-collapse">
+          <div className="small-12 medium-8 large-8 columns resume-saved-application-container">
             <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Continue Your Application</a>
           </div>
-        </div>
-        <div className="remove-saved-application-container">
-          <button className="va-button-link" onClick={() => {this.props.toggleModal(formId);}}>
-            <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
-          </button>
+          <div className="small-12 medium-4 large-4 columns remove-saved-application-container">
+            <button className="va-button-link remove-saved-application-button" onClick={() => {this.props.toggleModal(formId);}}>
+              <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
+            </button>
+          </div>
         </div>
       </div>
     );
