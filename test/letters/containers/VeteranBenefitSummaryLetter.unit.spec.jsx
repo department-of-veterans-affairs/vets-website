@@ -89,7 +89,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('Does not render veteran options for dependents', () => {
-    const dependentProps = {isVeteran: false, ...defaultProps};
+    const dependentProps = { isVeteran: false, ...defaultProps };
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...dependentProps}/>);
     const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     benefitInfoRows.forEach((row) => {

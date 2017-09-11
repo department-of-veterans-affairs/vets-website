@@ -42,7 +42,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         </tr>
       );
     });
-    
+
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
@@ -164,7 +164,7 @@ function mapStateToProps(state) {
     },
     // default isVeteran to true if service for determining this is down
     // this decision may need to be revisited.
-    isVeteran: (profile.veteranStatus === "OK" ? profile.isVeteran : true),
+    isVeteran: (profile.veteranStatus === 'OK' ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };
