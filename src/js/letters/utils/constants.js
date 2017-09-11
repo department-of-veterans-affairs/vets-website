@@ -11,3 +11,20 @@ export const GET_LETTER_PDF_SUCCESS = 'GET_LETTER_PDF_SUCCESS';
 export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR';
 export const UPDATE_BENFIT_SUMMARY_REQUEST_OPTION = 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION';
 export const UPDATE_ADDRESS = 'UPDATE_ADDRESS';
+
+
+export const AVAILABILITY_STATUSES = Object.freeze({
+  available: 'available',
+  backendServiceError: 'backendServiceError',
+  backendAuthenticationError: 'backendAuthenticationError',
+  invalidAddressProperty: 'invalidAddressProperty',
+  unavailable: 'unavailable',
+  letterEligibilityError: 'letterEligibilityError'
+});
+
+export const DOWNLOAD_STATUSES = Object.freeze({
+  pending: 'pending',
+  downloading: 'downloading',
+  success: 'success',
+  failure: 'failure'
+});
