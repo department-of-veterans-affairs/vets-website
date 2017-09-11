@@ -49,10 +49,9 @@ describe('hca <DemographicField>', () => {
 
     expect(reviewRows[0].subTree('dt').text())
       .to.equal(demographicInformation.uiSchema['view:demographicCategories']['ui:title']);
-
-    expect(reviewRows[1].subTree('dd').text())
+    expect(reviewRows[0].subTree('dd').text())
       .to.equal(demographicInformation.uiSchema['view:demographicCategories'].isSpanishHispanicLatino['ui:title']);
-    expect(reviewRows[2].subTree('dd').text())
+    expect(reviewRows[1].subTree('dd').text())
       .to.equal(demographicInformation.uiSchema['view:demographicCategories'].isAsian['ui:title']);
   });
 });

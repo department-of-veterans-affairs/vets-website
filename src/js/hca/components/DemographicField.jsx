@@ -9,12 +9,14 @@ export default class DemographicField extends React.Component {
       return <ObjectField {...this.props}/>;
     }
 
+    const categories = Object.keys(schema.properties).filter(prop => formData[prop]);
     return (
       <div>
         <div className="review-row">
           <dt>{uiSchema['ui:title']}</dt>
+          {categories.length > 0 && <dd>{uiSchema[categories[0]]['ui:title']}</dd>}
         </div>
-        {Object.keys(schema.properties).filter(prop => formData[prop]).map(prop => (
+        {categories.slice(1).map(prop => (
           <div key={prop} className="review-row">
             <dt></dt>
             <dd>{uiSchema[prop]['ui:title']}</dd>
