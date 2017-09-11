@@ -164,6 +164,7 @@ class SchemaForm extends React.Component {
           onSubmit={onSubmit}
           schema={schema}
           uiSchema={uiSchema}
+          noValidate={true}
           validate={this.validate}
           showErrorList={false}
           formData={data}
