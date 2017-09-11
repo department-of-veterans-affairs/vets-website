@@ -40,7 +40,7 @@ function initUserMock(token, level) {
             birth_date: '1985-01-01'
           },
           veteran_status: {
-            status: "OK",
+            status: 'OK',
             is_veteran: true,
           },
           in_progress_forms: [],
