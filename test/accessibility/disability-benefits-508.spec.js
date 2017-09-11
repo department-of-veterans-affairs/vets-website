@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-modal-inner button.usa-button');
+      .click('.va-modal-close');
 
     // Claim status tab
     client
