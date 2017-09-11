@@ -147,7 +147,7 @@ class ObjectField extends React.Component {
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
     const uiOptions = uiSchema['ui:options'] || {};
-    const hasApplicantPrefillInfo = !!(formData.veteranFullName || formData.claimantFullName);
+    const hasApplicantPrefillInfo = !_.values(formData).some(x => x !== undefined);
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
