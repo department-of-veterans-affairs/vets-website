@@ -12,7 +12,7 @@ export default function ConsolidatedClaims({ onClose }) {
         <i className="fa fa-close"></i>
         <span className="usa-sr-only">Close this modal</span>
       </button>
-      <div className="va-modal-body">
+      <div>
         If you turn in a new claim while we’re reviewing another one from you, we’ll add any new information to the original claim and close the new claim, with no action required from you.
       </div>
     </div>
