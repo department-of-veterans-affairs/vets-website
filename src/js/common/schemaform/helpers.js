@@ -111,6 +111,14 @@ export function createRoutes(formConfig) {
     });
   }
 
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'resume',
+      pageList,
+      formConfig
+    });
+  }
+
   return routes.concat([
     {
       path: 'review-and-submit',

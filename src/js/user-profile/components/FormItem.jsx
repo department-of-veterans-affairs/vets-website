@@ -24,7 +24,7 @@ class FormItem extends React.Component {
             </div>}
           </div>
           <div className="small-12 large-4 columns resume-saved-application-container">
-            <a className="usa-button-primary resume-saved-application" href={formLinks[formId]}>Continue Your Application</a>
+            <a className="usa-button-primary resume-saved-application" href={`${formLinks[formId]}resume`}>Continue Your Application</a>
           </div>
         </div>
         <div className="remove-saved-application-container">
@@ -50,7 +50,7 @@ class FormItem extends React.Component {
 }
 
 FormItem.propTypes = {
-  savedFormData: PropTypes.object,
+  savedFormData: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
 
