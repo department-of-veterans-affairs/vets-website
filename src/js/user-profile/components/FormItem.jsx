@@ -45,7 +45,6 @@ class FormItem extends React.Component {
         </button>
         <div className="usa-alert-body">
           <h5 className="form-title">Your saved {formTitles[formId]} application has expired.</h5>
-          <p>To apply for {formBenefits[formId]}, please start a new application.</p>
           <div className="small-12 medium-8 large-8 columns application-route-container">
             <a className="usa-button-primary application-route" href={formLinks[formId]}>Start a New Application</a>
           </div>
