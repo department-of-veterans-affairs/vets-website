@@ -56,20 +56,15 @@
     }
   }
 
-  .card {
-    p {
-      margin-bottom: 8px;
-    }
-
-    .application-route-container {
+  .resume {
+    padding-left: 8px;
+    padding-right: 8px;
+    @include media($medium-large-screen) {
       padding-left: 8px;
-      padding-right: 8px;
-      @include media($medium-large-screen) {
-        padding-left: 8px;
-      }
     }
   }
-
+  
+  
   .saved-form-information {
     margin: 0;
 
@@ -79,6 +74,9 @@
 
     .saved-form-metadata {
       display: block;
+    }
+    .saved-form-item-metadata:last-child {
+      margin-bottom: 8px;
     }
   }
 
