@@ -13,18 +13,13 @@ export const formBenefits = {
   '40-10007': 'pre-need determination of eligibility in a VA National Cemetery'
 };
 
-export const formTitles = {
-  '21P-527EZ': `${formBenefits['21P-527EZ']} (21P-527EZ)`,
-  '21P-530': `${formBenefits['21P-530']} (21P-530)`,
-  '1010ez': `${formBenefits['1010ez']} (10-10EZ)`,
-  '22-1990': `${formBenefits['22-1990']} (22-1990)`,
-  '22-1990E': `${formBenefits['22-1990E']} (22-1990E)`,
-  '22-1990N': `${formBenefits['22-1990N']} (22-1990N)`,
-  '22-1995': `${formBenefits['22-1995']} (22-1995)`,
-  '22-5490': `${formBenefits['22-5490']} (22-5490)`,
-  '22-5495': `${formBenefits['22-5495']} (22-5495)`,
-  '40-10007': `${formBenefits['40-10007']}`
-};
+export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
+  titles[key] = key === '40-10007'
+    ? formBenefits[key]
+    : `${formBenefits[key]} (${key})`;
+
+  return titles;
+}, {});
 
 export const formLinks = {
   '21P-527EZ': '/pension/application/527EZ/',
