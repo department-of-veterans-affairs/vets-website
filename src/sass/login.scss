@@ -1,5 +1,111 @@
 @import "shared-variables";
 
+span.sidelines {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+
+  font-size: 1.15em;
+  font-weight: bold;
+
+  &:before, &:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 2px;
+    content: "\a0";
+    background-color: $color-gray-light-alt;
+  }
+
+  &:before {
+    margin-left: -52%;
+    text-align: right;
+  }
+
+  &:after {
+    margin-left: 2%;
+  }
+}
+
+.verify, .login {
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    padding: 0.75em;
+    font-size: 1.15em;
+    margin: 1em 0;
+
+    &.dslogon {
+      background: $color-primary-darker;
+
+      &:hover {
+        background: $color-primary-darkest;
+      }
+    }
+
+    &.idme-create {
+      box-shadow: inset 0 0 0 2px $color-green;
+      color: $color-green;
+      margin-bottom: 0;
+
+      &:hover {
+        box-shadow: inset 0 0 0 2px $color-green-darker;
+        color: $color-green-darker;
+      }
+    }
+
+    img {
+      height: 1em;
+      padding: 0 0.25em;
+    }
+  }
+
+  .container {
+    padding: 2em 0;
+  }
+
+  .logo {
+    text-align: center;
+    border-bottom: solid 2px $color-gray-light-alt;
+    padding: 1em 0;
+
+    a {
+      &:hover {
+        background-color: transparent;
+      }
+      display: inline-block;
+    }
+  }
+
+  .help-info {
+    padding: 2em 0;
+
+    p:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+
+.verify {
+  button {
+    width: auto;
+
+    &.dslogon {
+      margin-bottom: 0.25em;
+    }
+  }
+
+  @include media-maxwidth($small-screen) {
+    padding: 1em;
+  }
+}
+
 .login {
   background: $color-white;
 
@@ -35,37 +141,12 @@
     }
   }
 
-  .container {
-    padding: 2em 0;
-  }
-
-  .logo {
-    text-align: center;
-    border-bottom: solid 2px $color-gray-light-alt;
-    padding: 1em 0;
-
-    a {
-      &:hover {
-        background-color: transparent;
-      }
-      display: inline-block;
-    }
-  }
-
   .fed-warning {
     font-size: 0.9em;
     margin-bottom: 2em;
 
     p {
       margin: 0.5em 0;
-    }
-  }
-
-  .help-info {
-    padding: 2em 0;
-
-    p:first-of-type {
-      margin-top: 0;
     }
   }
 
@@ -98,71 +179,6 @@
 
     .signin-actions {
       padding: 2em 1em 1em;
-
-      span.sidelines {
-        position: relative;
-        z-index: 1;
-        overflow: hidden;
-        text-align: center;
-        width: 100%;
-        display: inline-block;
-
-        font-size: 1.15em;
-        font-weight: bold;
-
-        &:before, &:after {
-          position: absolute;
-          top: 51%;
-          overflow: hidden;
-          width: 50%;
-          height: 2px;
-          content: "\a0";
-          background-color: $color-gray-light-alt;
-        }
-
-        &:before {
-          margin-left: -52%;
-          text-align: right;
-        }
-
-        &:after {
-          margin-left: 2%;
-        }
-      }
-
-      button {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        width: 100%;
-        padding: 0.75em;
-        font-size: 1.15em;
-        margin: 1em 0;
-
-        &.dslogon {
-          background: $color-primary-darker;
-
-          &:hover {
-            background: $color-primary-darkest;
-          }
-        }
-
-        &.idme-create {
-          box-shadow: inset 0 0 0 2px $color-green;
-          color: $color-green;
-          margin-bottom: 0;
-
-          &:hover {
-            box-shadow: inset 0 0 0 2px $color-green-darker;
-            color: $color-green-darker;
-          }
-        }
-
-        img {
-          height: 1em;
-          padding: 0 0.25em;
-        }
-      }
 
       .alternate-signin {
         padding-top: 1em;
