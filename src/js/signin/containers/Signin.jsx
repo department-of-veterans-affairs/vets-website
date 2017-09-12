@@ -56,9 +56,6 @@ class Main extends React.Component {
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
               <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
-              <p>
-                <a href="#">What can I do with Vets.gov?</a>
-              </p>
             </div>
           </div>
           <div className="row">
@@ -103,7 +100,7 @@ class Main extends React.Component {
                   <li>Track your VA claims and appeals</li>
                   <li>Download your VA health record</li>
                   <li>Refill your VA prescriptions</li>
-                  <li><a href="#">And more</a></li>
+                  <li>And more</li>
                 </ul>
                 <p>
                   <strong>A secure account powered by ID.me</strong><br/>
