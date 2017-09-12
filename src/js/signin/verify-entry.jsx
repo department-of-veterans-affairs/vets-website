@@ -7,7 +7,7 @@ import initReact from '../common/init-react';
 import createCommonStore from '../common/store';
 import reducer from './reducers/login';
 
-import Verify from './containers/Verify';
+import Main from './containers/Main';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/login.scss');
@@ -18,7 +18,7 @@ export default function createLoginWidget(store, rootElementId = 'login-root') {
   function init() {
     ReactDOM.render((
       <Provider store={store}>
-        <Verify/>
+        <Main verify/>
       </Provider>
     ), document.getElementById(rootElementId));
   }

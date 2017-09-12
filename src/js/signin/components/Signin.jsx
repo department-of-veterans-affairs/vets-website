@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-class Main extends React.Component {
+class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
@@ -24,6 +25,8 @@ class Main extends React.Component {
         window.location.replace(nextPath);
       }
       window.location.replace('/');
+    } else {
+      window.dataLayer.push({ event: 'login-prompt-displayed' });
     }
   }
 
@@ -140,4 +143,10 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+Signin.propTypes = {
+  currentlyLoggedIn: PropTypes.bool,
+  handleLogin: PropTypes.func,
+  handleSignup: PropTypes.func,
+};
+
+export default Signin;

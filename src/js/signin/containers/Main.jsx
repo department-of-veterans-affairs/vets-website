@@ -6,7 +6,8 @@ import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, handleLogin, getLoginUrl } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl } from '../actions';
-import Signin from './Signin';
+import Signin from '../components/Signin';
+import Verify from '../components/Verify';
 
 class Main extends React.Component {
   constructor(props) {
@@ -121,9 +122,8 @@ class Main extends React.Component {
 
     if (this.props.verify) {
       return (
-        <Signin
-          handleSignup={this.handleSignup}
-          handleLogin={this.handleLogin}/>
+        <Verify
+          verifyUrl={this.props.login.verifyUrl}/>
       );
     }
 
