@@ -57,9 +57,6 @@
   }
 
   .card {
-    p {
-      margin-bottom: 8px;
-    }
 
     .application-route-container {
       padding-left: 8px;
@@ -80,6 +77,9 @@
     .saved-form-item-metadata {
       display: block;
       margin-right: 5px;
+    }
+    .saved-form-item-metadata:last-child {
+      margin-bottom: 8px;
     }
   }
 
