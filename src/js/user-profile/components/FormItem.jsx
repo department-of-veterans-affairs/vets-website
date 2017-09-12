@@ -57,7 +57,7 @@ class FormItem extends React.Component {
 }
 
 FormItem.propTypes = {
-  savedFormData: PropTypes.object,
+  savedFormData: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
 
