@@ -56,14 +56,15 @@
     }
   }
 
-  .application-route-container {
+  .resume {
     padding-left: 8px;
     padding-right: 8px;
     @include media($medium-large-screen) {
       padding-left: 8px;
     }
   }
-
+  
+  
   .saved-form-information {
     margin: 0;
 
