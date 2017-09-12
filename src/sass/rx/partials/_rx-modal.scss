@@ -2,9 +2,9 @@
 // Used in prescriptions, messaging.
 
 .rx-modal {
-  &-drug, &-dosage {
-    font-size: 2.4rem;
+  &-drug {
     font-weight: bold;
+    text-transform: uppercase;
   }
 
   .rx-glossary {
