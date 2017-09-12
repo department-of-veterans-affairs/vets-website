@@ -37,7 +37,7 @@ export default class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                <strong>Note:</strong> You can save this form in progress, and come back later to finish filling it out.
+                You can save this form in progress, and come back later to finish filling it out.
               </div>
             </div>
             <br/>
