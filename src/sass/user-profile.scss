@@ -62,6 +62,8 @@
     }
 
     .application-route-container {
+      padding-left: 8px;
+      padding-right: 8px;
       @include media($medium-large-screen) {
         padding-left: 8px;
       }
@@ -81,8 +83,14 @@
     }
   }
 
-  .saved-form-title {
+  .saved {
     color: $color-primary;
+  }
+
+  .form-title {
+    @include media ($medium-large-screen) {
+    padding-right: 24px;
+    }
   }
 
   .remove-saved-application-button {
@@ -92,6 +100,8 @@
   .remove-saved-application-container {
     margin-bottom: 16px;
     float: right;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   .remove-saved-application-label {
