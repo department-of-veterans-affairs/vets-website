@@ -11,7 +11,7 @@ class Main extends React.Component {
     this.checkLoggedInStatus();
   }
 
-  componentWillUpdate() {
+  componentWillReceiveProps() {
     this.checkLoggedInStatus();
   }
 
@@ -19,7 +19,7 @@ class Main extends React.Component {
     const nextParams = new URLSearchParams(window.location.search);
     const nextPath = nextParams.get('next');
 
-    if (this.props.login.currentlyLoggedIn) {
+    if (this.props.currentlyLoggedIn) {
       if (nextPath) {
         window.location.replace(nextPath);
       }

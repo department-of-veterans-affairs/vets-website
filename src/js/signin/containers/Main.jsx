@@ -129,7 +129,7 @@ class Main extends React.Component {
 
     return (
       <Signin
-        login={this.props.login}
+        currentlyLoggedIn={this.props.login.currentlyLoggedIn}
         handleSignup={this.handleSignup}
         handleLogin={this.handleLogin}/>
     );
