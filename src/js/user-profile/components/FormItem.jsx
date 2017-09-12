@@ -30,7 +30,7 @@ class FormItem extends React.Component {
           </div>
           <div className="small-12 large-4 columns">
             <div className="remove-saved-application-container">
-              <button className="va-button-link remove-saved-application-button" onClick={() => {this.props.toggleModal(formId);}}>
+              <button className="va-button-link remove-saved-application-button" onClick={() => this.props.toggleModal(formId)}>
                 <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
               </button>
             </div>

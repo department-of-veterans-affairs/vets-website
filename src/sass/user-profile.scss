@@ -56,14 +56,11 @@
     }
   }
 
-  .card {
-
-    .application-route-container {
+  .application-route-container {
+    padding-left: 8px;
+    padding-right: 8px;
+    @include media($medium-large-screen) {
       padding-left: 8px;
-      padding-right: 8px;
-      @include media($medium-large-screen) {
-        padding-left: 8px;
-      }
     }
   }
 
