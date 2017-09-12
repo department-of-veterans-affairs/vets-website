@@ -23,12 +23,12 @@ class FormItem extends React.Component {
           </div>}
         </div>
         <div className="row small-collapse">
-          <div className="small-12 large-8 columns">
+          <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container">
               <a className="usa-button-primary application-route" href={formLinks[formId]}>Continue Your Application</a>
             </div>
           </div>
-          <div className="small-12 large-4 columns">
+          <div className="small-12 medium-4 large-4 columns">
             <div className="remove-saved-application-container">
               <button className="va-button-link remove-saved-application-button" onClick={() => this.props.toggleModal(formId)}>
                 <i className="fa fa-trash"></i><span className="remove-saved-application-label">Delete</span>
@@ -46,7 +46,7 @@ class FormItem extends React.Component {
         <div className="usa-alert-body">
           <h5 className="form-title">Your saved {formTitles[formId]} application has expired.</h5>
           <p>To apply for {formBenefits[formId]}, please start a new application.</p>
-          <div className="small-12 large-8 columns application-route-container">
+          <div className="small-12 medium-8 large-8 columns application-route-container">
             <a className="usa-button-primary application-route" href={formLinks[formId]}>Start a New Application</a>
           </div>
         </div>
