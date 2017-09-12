@@ -6,7 +6,7 @@ export const systemDownMessage = (
     <div className="small-12 columns">
       <div className="react-container">
         <h3>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h3>
-        <a href="/"><button>Go Back to Vets.gov</button></a>
+        <a href="/" className="usa-button-primary">Go Back to Vets.gov</a>
       </div>
     </div>
   </div>
