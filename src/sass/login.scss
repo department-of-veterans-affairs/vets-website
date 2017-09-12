@@ -12,10 +12,6 @@
       display: none;
     }
 
-    .explanation-content {
-      padding: 1em 2em;
-    }
-
     .help-info {
       padding: 2em !important;
     }
@@ -102,7 +98,11 @@
     }
 
     .signin-actions {
-      padding: 2em;
+      padding: 2em 2em 1em;
+
+      @include media-maxwidth($small-screen) {
+        padding: 2em 1em 1em;
+      }
 
       span.sidelines {
         position: relative;
