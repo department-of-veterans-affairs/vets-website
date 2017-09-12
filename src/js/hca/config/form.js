@@ -32,6 +32,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
+import DemographicField from '../components/DemographicField';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
@@ -230,6 +231,7 @@ const formConfig = {
               'ui:title': 'Marital status'
             },
             'view:demographicCategories': {
+              'ui:field': DemographicField,
               'ui:title': 'Which categories best describe you?',
               'ui:description': 'You may check more than one.',
               isSpanishHispanicLatino: {
