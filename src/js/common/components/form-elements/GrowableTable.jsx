@@ -124,11 +124,12 @@ class GrowableTable extends React.Component {
     return _.findKey(this.state, v => v === 'incomplete');
   }
 
-  handleAdd() {
+  handleAdd(allFields) {
     // Save existing
     const success = this.handleSave();
 
-    if (success) {
+    if (success && allFields) {
+      this.submitEducation = false;
       const key = this.createNewElement();
       this.scrollToRow(key);
     }
@@ -177,6 +178,16 @@ class GrowableTable extends React.Component {
   // TODO: change this to not use reaactKey, and instead perhaps add
   // `this.rows = []` in the constructor and update on changes
   render() {
+    this.submitEducation = false;
+    if (this.props.data && this.props.data.postHighSchoolTrainings.length) {
+      const currentHSTData = this.props.data.postHighSchoolTrainings[this.props.data.postHighSchoolTrainings.length - 1];
+      const keys = Object.keys(currentHSTData);
+      keys.forEach(key => {
+        if (currentHSTData[key].value) {
+          this.submitEducation = true;
+        }
+      });
+    }
     let reactKey = 0;
     let rowContent;
     const state = this.state;
@@ -255,7 +266,7 @@ class GrowableTable extends React.Component {
       <div className="va-growable">
         <Element name={`topOfTable${this.tableId}`}/>
         {rowElements}
-        {this.props.showAddAnotherButton && <button className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>}
+        {this.props.showAddAnotherButton && <button className="usa-button-outline va-growable-add-btn" onClick={() => this.handleAdd(this.submitEducation)}>{this.props.addNewMessage || 'Add Another'}</button>}
       </div>
     );
   }
