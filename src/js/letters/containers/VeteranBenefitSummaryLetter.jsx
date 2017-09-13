@@ -127,7 +127,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             className="schemaform-label"
             name="militaryService-label"
             htmlFor="militaryService">
-            Include all periods of service
+            Include military service information
           </label>
         </div>
         <table className="usa-table-borderless" id="militaryServiceTable">
