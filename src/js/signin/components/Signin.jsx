@@ -132,7 +132,7 @@ class Signin extends React.Component {
                   System usage may be monitored, recorded, and subject to audit. By accessing this system, you are consenting to have your activities monitored, recorded, and made available to auditors or law enforcement officials.
                 </p>
                 <p>
-                  Unauthorized use of this information system or use in excess of your approved authority is prohibited, and may be subject ot disciplinary action including criminal or civil penalties.
+                  Unauthorized use of this information system or use in excess of your approved authority is prohibited, and may be subject to disciplinary action including criminal or civil penalties.
                 </p>
               </div>
             </div>
