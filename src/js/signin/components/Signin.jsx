@@ -129,7 +129,7 @@ class Signin extends React.Component {
                   By entering authentication information, you are attempting to access a United States Federal Government information system. This system is for the use of authorized users only.
                 </p>
                 <p>
-                  System usage may be monitored, recorded, and subject to audit. By accessing this system, you are consenting to have your activiteis monitored, recorded, and made available to auditors or law enforcement officials.
+                  System usage may be monitored, recorded, and subject to audit. By accessing this system, you are consenting to have your activities monitored, recorded, and made available to auditors or law enforcement officials.
                 </p>
                 <p>
                   Unauthorized use of this information system or use in excess of your approved authority is prohibited, and may be subject ot disciplinary action including criminal or civil penalties.
