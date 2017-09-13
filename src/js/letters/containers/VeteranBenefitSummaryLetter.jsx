@@ -111,10 +111,10 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           This letter is for disabled Veterans. It gives a summary of VA benefits that are available to them, such as housing assistance, civil service preference, and state or local property or car tax relief.
         </p>
         <h2>Choose the information you want to include.</h2>
+        <h2>Military service information</h2>
         <p>
           Our records show the 3 most recent service periods. There may be additional service periods not shown here.
         </p>
-        <h2>Military service information</h2>
         <div className="form-checkbox">
           <input
             autoComplete="false"
