@@ -61,7 +61,7 @@ const serviceVerificationLetterContent = (
 const commissaryLetterContent = (
   <div>
     If you’re a Veteran with a 100% service-connected disability rating take this letter, a copy of your DD214 or other discharge papers, and your DD2765 to a local military ID and pass office. You can schedule an appointment to get a Retiree Military ID card at the office or use the <a
-    target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">Rapid Appointments Scheduler</a>. The Retiree Military ID card gives you access to your local base facilities, including the commissary and post exchange.
+      target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">Rapid Appointments Scheduler</a>. The Retiree Military ID card gives you access to your local base facilities, including the commissary and post exchange.
   </div>
 );
 
