@@ -119,7 +119,6 @@ class Main extends React.Component {
   }
 
   render() {
-
     if (this.props.verify) {
       return (
         <Verify

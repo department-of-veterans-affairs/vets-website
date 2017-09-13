@@ -12,22 +12,22 @@ class Signin extends React.Component {
     this.checkLoggedInStatus();
   }
 
-  componentWillReceiveProps() {
-    this.checkLoggedInStatus();
+  componentWillReceiveProps(nextProps) {
+    this.checkLoggedInStatus(nextProps.currentlyLoggedIn);
   }
 
-  checkLoggedInStatus() {
-    const nextParams = new URLSearchParams(window.location.search);
-    const nextPath = nextParams.get('next');
+  checkLoggedInStatus(loggedIn) {
+    if (this.props.currentlyLoggedIn || loggedIn) {
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
 
-    if (this.props.currentlyLoggedIn) {
       if (nextPath) {
-        window.location.replace(nextPath);
+        return window.location.replace(nextPath);
       }
-      window.location.replace('/');
-    } else {
-      window.dataLayer.push({ event: 'login-prompt-displayed' });
+      return window.location.replace('/');
     }
+
+    return window.dataLayer.push({ event: 'login-prompt-displayed' });
   }
 
   handleLogin() {
