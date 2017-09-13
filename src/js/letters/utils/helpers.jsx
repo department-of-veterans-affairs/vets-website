@@ -66,7 +66,7 @@ export const letterContent = {
   service_verification: serviceVerificationLetterContent,
   civil_service: 'This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
   benefit_summary: 'This letter can be customized and used for many things, including to verify income and apply for housing assistance, civil service preference jobs, and state or local property or car tax relief.',
-  benefit_verification: 'This letter shows what benefits you’re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
+  benefit_verification: 'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.'
 };
 
 // Options returned by the benefit summary letter request that should be offered in
