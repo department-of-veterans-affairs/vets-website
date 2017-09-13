@@ -60,7 +60,7 @@ const serviceVerificationLetterContent = (
 // Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: 'If you’re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
-  proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
+  proof_of_service: 'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
   minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
   service_verification: serviceVerificationLetterContent,
