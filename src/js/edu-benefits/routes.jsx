@@ -100,14 +100,14 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(createCommonReducer(require('./1990-rjsf/reducer').default));
-            resolve(require('./1990-rjsf/Form1990App').default);
+            store.replaceReducer(createCommonReducer(require('./1990/reducer').default));
+            resolve(require('./1990/Form1990App').default);
           }, 'edu-1990');
         });
       }, 'Loading Form 22-1990'),
       getChildRoutes(partialNextState, callback) {
         require.ensure([], (require) => {
-          callback(null, require('./1990-rjsf/routes').default);
+          callback(null, require('./1990/routes').default);
         }, 'edu-1990');
       }
     }

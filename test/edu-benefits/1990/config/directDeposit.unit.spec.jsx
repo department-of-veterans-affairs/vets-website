@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getFormDOM, DefinitionTester } from '../../../util/schemaform-utils';
 
-import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';
+import formConfig from '../../../../src/js/edu-benefits/1990/config/form.js';
 
 describe('Edu 1990 directDeposit', () => {
   const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.directDeposit;

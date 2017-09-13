@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import { transform } from '../../../../src/js/edu-benefits/1990-rjsf/helpers';
-import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form';
+import { transform } from '../../../../src/js/edu-benefits/1990/helpers';
+import formConfig from '../../../../src/js/edu-benefits/1990/config/form';
 import fullSchema1990e from 'vets-json-schema/dist/22-1990-schema.json';
 
 describe('1990 schema tests', () => {
