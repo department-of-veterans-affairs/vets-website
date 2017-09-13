@@ -60,10 +60,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
       const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
-      // TODO: find out if there is anything in the profile or from EVSS that can tell
-      // us whether the user is a veteran or a user. For now we just pass in
-      // true for the isVeteran parameter
-      const optionText = getBenefitOptionText(key, value, true, benefitInfo.awardEffectiveDate);
+      const { isVeteran } = this.props;
+      const optionText = getBenefitOptionText(key, value, isVeteran, benefitInfo.awardEffectiveDate);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
@@ -157,11 +155,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const { profile } = state.user;
+
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
     },
+    // default isVeteran to true if service for determining this is down
+    // this decision may need to be revisited.
+    isVeteran: (profile.veteranStatus === 'OK' ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };
