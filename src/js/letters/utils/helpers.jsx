@@ -164,7 +164,7 @@ const benefitOptionText = {
   },
   hasSpecialMonthlyCompensation: {
     'true': {
-      veteran: <div>Your service-connected disability includes a loss, or loss of use, of a limb, or you’re totally blind or missing an eye.</div>,
+      veteran: <div>You’re receiving special monthly payments due to your service-connected disabilities.</div>,
       dependent: undefined
     },
     'false': {
