@@ -19,7 +19,7 @@ export default class SaveInProgressIntro extends React.Component {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.last_updated);
-        const expirationDate = moment.unix(savedForm.metadata.expires_at);
+        const expirationDate = moment.unix(savedForm.metadata.expires_at).format('M/D/YYYY');
 
         alert = (
           <div>
@@ -27,7 +27,7 @@ export default class SaveInProgressIntro extends React.Component {
               <div style={{ paddingBottom: '16px' }}>Application status: <strong>In progress</strong></div>
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">Last saved on {savedAt.format('MM/DD/YYYY [at] h:mm a')}</span>
-                <div className="expires-container">Your saved application <span className="expires">will expire in {dateDiffDesc(expirationDate)}.</span></div>
+                <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
               </div>
               <div>{this.props.children}</div>
             </div>
