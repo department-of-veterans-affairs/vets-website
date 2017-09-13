@@ -27,7 +27,7 @@ import {
 
 import migrations from './migrations';
 
-import SIPIntroductionPage from '../components/SIPIntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -130,7 +130,7 @@ const formConfig = {
     startOver: 'This will remove anything you have put into the Health Care Application.'
   },
   transformForSubmit: transform,
-  introduction: SIPIntroductionPage,
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
