@@ -21,14 +21,15 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>What you need to fill out this application</h6></div>
+              <div><h6>To fill out this application, you'll need your:</h6></div>
               <ul>
                 <li>Social Security number (required)</li>
                 <li>Military history (required)</li>
-                <li>Basic information about the school or training facility where you want to attend (required)</li>
+                <li>Basic information about the school or training facility you want to attend (required)</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
+               <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
@@ -56,7 +57,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
+              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
