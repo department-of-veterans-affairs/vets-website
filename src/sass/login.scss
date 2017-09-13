@@ -84,6 +84,8 @@ span.sidelines {
   }
 
   .help-info {
+    padding: 2em 0;
+
     p:first-of-type {
       margin-top: 0;
     }
@@ -99,8 +101,8 @@ span.sidelines {
     }
   }
 
-  @include media-maxwidth($small-screen) {
-    padding: 1em;
+  h4 + p {
+    margin-top: 0;
   }
 }
 

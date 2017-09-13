@@ -26,14 +26,6 @@ class Verify extends React.Component {
               <h1>Verify your identity</h1>
             </div>
           </div>
-          <div className="row hide-for-medium-up mobile-explanation">
-            <div className="columns small-12">
-              <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
-              <p>
-                <a href="#">What can I do with Vets.gov?</a>
-              </p>
-            </div>
-          </div>
           <div className="row">
             <div className="columns small-12">
               <p>
