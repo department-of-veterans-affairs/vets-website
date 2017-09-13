@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { dateDiffDesc } from '../../common/utils/helpers';
-import { formBenefits, formTitles, formLinks } from '../helpers';
+import { formTitles, formLinks } from '../helpers';
 
 class FormItem extends React.Component {
   render() {
