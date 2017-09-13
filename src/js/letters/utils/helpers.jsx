@@ -57,9 +57,17 @@ const serviceVerificationLetterContent = (
   </div>
 );
 
+// Commissary letter contains a link so gets its own jsx to correctly display the anchor tag
+const commissaryLetterContent = (
+  <div>
+    If you’re a Veteran with a 100% service-connected disability rating take this letter, a copy of your DD214 or other discharge papers, and your DD2765 to a local military ID and pass office. You can schedule an appointment to get a Retiree Military ID card at the office or use the <a
+    target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">Rapid Appointments Scheduler</a>. The Retiree Military ID card gives you access to your local base facilities, including the commissary and post exchange.
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const letterContent = {
-  commissary: 'If you’re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
+  commissary: commissaryLetterContent,
   proof_of_service: 'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
   minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
