@@ -16,7 +16,9 @@ export const formBenefits = {
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   titles[key] = key === '40-10007' // eslint-disable-line no-param-reassign  
     ? formBenefits[key]
-    : `${formBenefits[key]} (${key})`;
+    : key === '1010ez'
+    ? `${formBenefits[key]} (10-10EZ)`
+    :`${formBenefits[key]} (${key})`;
 
   return titles;
 }, {});
