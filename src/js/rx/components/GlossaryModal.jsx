@@ -37,7 +37,7 @@ class GlossaryModal extends React.Component {
 
     return (
       <Modal
-        cssClass="va-modal rx-modal"
+        cssClass="va-modal"
         contents={element}
         hideCloseButton
         id="rx-glossary-modal"
