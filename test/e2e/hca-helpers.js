@@ -236,6 +236,10 @@ function initSaveInProgressMock(url, client) {
             gender: 'F',
             birth_date: '1985-01-01',
           },
+          veteran_status: {
+            is_veteran: true,
+            status: 'OK',
+          },
           in_progress_forms: [{
             form: '1010ez',
             last_updated: 1501608808,
