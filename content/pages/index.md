@@ -3,6 +3,7 @@ layout: home.html
 body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
+enablewarning: true
 majorlinks:
   - heading:
     links:

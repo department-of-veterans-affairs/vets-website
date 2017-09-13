@@ -52,8 +52,8 @@ export class LetterList extends React.Component {
               letter or document from the list above, please try again later.
             </p>
             <ul>
-              <li><a href="tel:888-888-8888">888-888-8888</a> for health-related documents</li>
-              <li><a href="tel:888-888-8888">888-888-8888</a> for benefits-related documents</li>
+              <li><a href="tel:888-888-8888">1-888-888-8888</a> for health-related documents</li>
+              <li><a href="tel:888-888-8888">1-888-888-8888</a> for benefits-related documents</li>
             </ul>
           </div>
         </div>
@@ -88,7 +88,7 @@ export class LetterList extends React.Component {
         <div className="feature help-desk">
           <h2>Need help?</h2>
           <div>If you have any questions, please call the Vets.gov Help Desk:</div>
-          <div>855-574-7286</div>
+          <div><a href="tel:855-574-7286">1-855-574-7286</a></div>
           <div>Monday - Friday, 8 a.m. - 8 p.m. (ET)</div>
         </div>
       </div>

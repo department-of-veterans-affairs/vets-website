@@ -19,17 +19,17 @@ import {
 
 // Copied from the vets-api v0/address POST swagger; TODO: delete once
 // actual form data is passed to updateAddress
-const exampleAddress = {
-  type: 'DOMESTIC',
-  addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
-  addressOne: '140 Rock Creek Church Rd NW',
-  addressTwo: '',
-  addressThree: '',
-  city: 'Washington',
-  stateCode: 'DC',
-  zipCode: '20011',
-  zipSuffix: '1865'
-};
+// const exampleAddress = {
+//   type: 'DOMESTIC',
+//   addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
+//   addressOne: '140 Rock Creek Church Rd NW',
+//   addressTwo: '',
+//   addressThree: '',
+//   city: 'Washington',
+//   stateCode: 'DC',
+//   zipCode: '20011',
+//   zipSuffix: '1865'
+// };
 
 export function getLetterList() {
   return (dispatch) => {
@@ -158,19 +158,33 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
-export function updateAddress() {
+export function updateAddressSuccess(address) {
+  return {
+    type: UPDATE_ADDRESS_SUCCESS,
+    address
+  };
+}
+
+export function updateAddressFailure(address) {
+  return {
+    type: UPDATE_ADDRESS_FAILURE,
+    address
+  };
+}
+
+export function updateAddress(address) {
   const settings = {
     method: 'PATCH',  // TODO: decide whether to use PATCH or PUT here; check with Alastair
     headers: { 'Content-Type': 'application/json' },
     // TODO: pass in an address argument instead of using exampleAddress
-    body: JSON.stringify(exampleAddress)
+    body: JSON.stringify(address)
   };
   return (dispatch) => {
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch({ type: UPDATE_ADDRESS_SUCCESS }),
-      () => dispatch({ type: UPDATE_ADDRESS_FAILURE })
+      () => dispatch(updateAddressSuccess(address)),
+      () => dispatch(updateAddressFailure(address))
     );
   };
 }

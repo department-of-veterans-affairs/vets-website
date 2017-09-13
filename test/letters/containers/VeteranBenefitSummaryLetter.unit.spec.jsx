@@ -28,6 +28,7 @@ const defaultProps = {
       }
     ]
   },
+  isVeteran: true,
   optionsAvailable: true,
   requestOptions: {}
 };
@@ -83,5 +84,22 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
     expect(updateOption.calledTwice).to.be.true;
     global.window = oldWindow;
+  });
+
+  it('Does not render dependent options for veterans', () => {
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
+    const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
+    benefitInfoRows.forEach((row) => {
+      expect(() => row.dive(['td', '#hasDeathResultOfDisability'])).to.throw();
+    });
+  });
+
+  it('Does not render veteran options for dependents', () => {
+    const dependentProps = { isVeteran: false, ...defaultProps };
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...dependentProps}/>);
+    const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
+    benefitInfoRows.forEach((row) => {
+      expect(() => row.dive(['td', '#hasServiceConnectedDisabilities'])).to.throw();
+    });
   });
 });

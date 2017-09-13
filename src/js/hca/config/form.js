@@ -25,11 +25,14 @@ import {
   resumeMessage
 } from '../helpers';
 
-import SIPIntroductionPage from '../components/SIPIntroductionPage';
+import migrations from './migrations';
+
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
+import DemographicField from '../components/DemographicField';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
@@ -118,8 +121,8 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 0,
-  // Disable save in progress for production
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.',
@@ -127,10 +130,9 @@ const formConfig = {
     startOver: 'This will remove anything you have put into the Health Care Application.'
   },
   transformForSubmit: transform,
-  // Use the old intro page for production, but SiP for dev and staging
-  introduction: SIPIntroductionPage,
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  errorMessage: ErrorMessage,
+  submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
   getHelp: GetFormHelp,
@@ -217,7 +219,9 @@ const formConfig = {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {
-            isSpanishHispanicLatino: false
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false
+            }
           },
           uiSchema: {
             gender: {
@@ -227,6 +231,7 @@ const formConfig = {
               'ui:title': 'Marital status'
             },
             'view:demographicCategories': {
+              'ui:field': DemographicField,
               'ui:title': 'Which categories best describe you?',
               'ui:description': 'You may check more than one.',
               isSpanishHispanicLatino: {

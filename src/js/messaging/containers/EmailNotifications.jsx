@@ -94,7 +94,7 @@ export class EmailNotifications extends React.Component {
     if (isLoadingPreferences) {
       return (
         <div className="va-tab-content">
-          <LoadingIndicator message="Loading preferences..."/>
+          <LoadingIndicator message="Loading your preferences..."/>
         </div>
       );
     }
@@ -102,7 +102,7 @@ export class EmailNotifications extends React.Component {
     if (isSavingPreferences) {
       return (
         <div className="va-tab-content">
-          <LoadingIndicator message="Saving preferences..."/>
+          <LoadingIndicator message="Saving your preferences..."/>
         </div>
       );
     }

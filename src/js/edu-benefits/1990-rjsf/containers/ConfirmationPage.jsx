@@ -127,7 +127,7 @@ class ConfirmationPage extends React.Component {
           </ul>
         </div>
         <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
-        <p>Need help? If you have questions, call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
+        <p>Need help? If you have questions, call <a href="tel:888-442-4551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

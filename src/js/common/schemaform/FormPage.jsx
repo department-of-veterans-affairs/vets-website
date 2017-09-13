@@ -16,7 +16,7 @@ import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-ac
 import { updateLogInUrl } from '../../login/actions';
 
 function focusForm() {
-  const legend = document.querySelector('.form-panel legend');
+  const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
   if (legend && legend.getBoundingClientRect().height > 0) {
     focusElement(legend);
   } else {
@@ -44,7 +44,6 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.handleSave = this.handleSave.bind(this);
   }
 
   componentDidMount() {
@@ -111,16 +110,6 @@ class FormPage extends React.Component {
     this.props.router.push(pages[page].path);
   }
 
-  handleSave() {
-    const {
-      formId,
-      version,
-      data
-    } = this.props.form;
-    const returnUrl = this.props.location.pathname;
-    this.props.saveInProgressForm(formId, version, returnUrl, data);
-  }
-
   render() {
     const { route, params, form } = this.props;
     let {
@@ -172,10 +161,10 @@ class FormPage extends React.Component {
           {!form.disableSave && <div className="row">
             <div className="small-12 columns">
               <SaveFormLink
-                trackingPrefix={form.trackingPrefix}
-                saveForm={this.handleSave}
-                savedStatus={form.savedStatus}
+                locationPathname={this.props.location.pathname}
+                form={form}
                 user={this.props.user}
+                saveInProgressForm={this.props.saveInProgressForm}
                 onUpdateLoginUrl={this.props.updateLogInUrl}/>
             </div>
           </div>}

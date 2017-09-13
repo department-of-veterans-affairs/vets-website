@@ -220,11 +220,6 @@ export class Modals extends React.Component {
           <p>To learn more about accreditation types, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('tuitionPolicy')}>
-          <h2>Link to Veterans Tuition Policy</h2>
-          <p>URL for tuition policies specifically related to veterans and military service members.</p>
-        </Modal>
-
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('singleContact')}>
           <h2>Single Point of Contact For Veterans</h2>
           <p>Does the school have a dedicated point of contact for support services for veterans, military servicemembers, and their families?</p>

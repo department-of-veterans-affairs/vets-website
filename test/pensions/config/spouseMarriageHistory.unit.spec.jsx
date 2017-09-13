@@ -41,7 +41,7 @@ describe('Pensions spouse marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelector('label[for="root_dateOfMarriage"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain('Jane Doe');
     expect(formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent).to.contain('Jane Doe');
   });
 

@@ -10,6 +10,8 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
+import { updateLogInUrl } from '../../../login/actions';
+import { saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
@@ -157,10 +159,17 @@ class ReviewPage extends React.Component {
           checked={form.data.privacyAgreementAccepted}
           showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
+          errorText={formConfig.submitErrorText}
           errorMessage={formConfig.errorMessage}
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
-          submission={form.submission}/>
+          submission={form.submission}
+          locationPathname={this.props.location.pathname}
+          form={form}
+          user={this.props.user}
+          saveInProgressForm={this.props.saveInProgressForm}
+          onUpdateLoginUrl={this.props.updateLogInUrl}
+          sipEnabled={!formConfig.disableSave}/>
       </div>
     );
   }
@@ -168,7 +177,8 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    user: state.user
   };
 }
 
@@ -178,7 +188,9 @@ const mapDispatchToProps = {
   submitForm,
   setPrivacyAgreement,
   setData,
-  uploadFile
+  uploadFile,
+  saveInProgressForm,
+  updateLogInUrl
 };
 
 ReviewPage.propTypes = {

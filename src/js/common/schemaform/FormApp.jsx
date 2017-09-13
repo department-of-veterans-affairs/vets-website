@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
-import { LOAD_STATUSES, PREFILL_STATUSES, SAVE_STATUSES, setFetchFormStatus } from './save-load-actions';
+import {
+  LOAD_STATUSES,
+  PREFILL_STATUSES,
+  SAVE_STATUSES,
+  setFetchFormStatus,
+  fetchInProgressForm
+} from './save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
@@ -41,20 +47,41 @@ class FormApp extends React.Component {
       window.History.scrollRestoration = 'manual';
     }
 
-    // If we start in the middle of a form, redirect to the beginning
+    // If we start in the middle of a form, redirect to the beginning or load
+    //  saved form / prefill
     // If we're in production, we'll redirect if we start in the middle of a form
-    // In development, we won't redirect unless we append the URL with `?redirect` ()
-    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
-    if (isInProgress(this.props.currentLocation.pathname) && devRedirect) {
-      const firstPagePath = this.props.routes[this.props.routes.length - 1].pageList[0].path;
-      // If the first page is not the intro and uses `depends`, this will probably break
-      this.props.router.push(firstPagePath);
+    // In development, we won't redirect unless we append the URL with `?redirect`
+    const { currentLocation } = this.props;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const resumeForm = trimmedPathname.endsWith('resume');
+    const devRedirect = __BUILDTYPE__ !== 'development' || currentLocation.search.includes('redirect');
+    const goToStartPage = resumeForm || devRedirect;
+    if (isInProgress(currentLocation.pathname) && goToStartPage) {
+      // We started on a page that isn't the first, so after we know whether
+      //  we're logged in or not, we'll load or redirect as needed.
+      this.shouldRedirectOrLoad = true;
+    }
+  }
+
+  componentDidMount() {
+    // When a user isn't logged in, the profile finishes loading before the component mounts
+    if (!this.props.profileIsLoading && this.shouldRedirectOrLoad) {
+      this.redirectOrLoad(this.props);
     }
   }
 
   componentWillReceiveProps(newProps) {
+    // When a user is logged in, the profile finishes loading after the component
+    //  has mounted, so we check here.
+    // If we're done loading the profile, check to see if we should load or redirect
+    if (this.props.profileIsLoading && !newProps.profileIsLoading && this.shouldRedirectOrLoad) {
+      this.redirectOrLoad(newProps);
+    }
+
     const status = newProps.loadedStatus;
-    if (status === LOAD_STATUSES.success) {
+    if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
+      newProps.router.replace(newProps.returnUrl);
+    } else if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -101,22 +128,50 @@ class FormApp extends React.Component {
     return message;
   }
 
+  redirectOrLoad(props) {
+    // Stop a user that's been redirected to be redirected again after logging in
+    this.shouldRedirectOrLoad = false;
+
+
+    const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
+    // If we're logged in and have a saved / pre-filled form, load that
+    if (props.isLoggedIn) {
+      const currentForm = props.formConfig.formId;
+      const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
+      const isPrefill = props.prefillsAvailable.includes(currentForm);
+      const saveEnabled = !this.props.formConfig.disableSave;
+      if (saveEnabled && (isSaved || isPrefill)) {
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
+      } else {
+        // No forms to load; go to the beginning
+        // If the first page is not the intro and uses `depends`, this will probably break
+        props.router.replace(firstPagePath);
+      }
+    } else {
+      // Can't load a form; go to the beginning
+      // If the first page is not the intro and uses `depends`, this will probably break
+      props.router.replace(firstPagePath);
+    }
+  }
+
   removeOnbeforeunload = () => {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
   render() {
-    const { currentLocation, formConfig, children, formData } = this.props;
+    const { currentLocation, formConfig, children, formData, loadedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
-
-    if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
+    const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
+    if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
       content = <LoadingIndicator message="Saving your form..."/>;
+    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
+      content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -159,11 +214,16 @@ const mapStateToProps = (state) => ({
   savedStatus: state.form.savedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
-  formData: state.form.data
+  formData: state.form.data,
+  isLoggedIn: state.user.login.currentlyLoggedIn,
+  savedForms: state.user.profile.savedForms,
+  prefillsAvailable: state.user.profile.prefillsAvailable,
+  profileIsLoading: state.user.profile.loading
 });
 
 const mapDispatchToProps = {
   setFetchFormStatus,
+  fetchInProgressForm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
