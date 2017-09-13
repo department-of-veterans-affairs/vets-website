@@ -3,8 +3,6 @@ import React from 'react';
 import { intersection } from 'lodash';
 
 import SystemDownView from './SystemDownView';
-import LoginPrompt from './authentication/LoginPrompt';
-import VerifyPrompt from './authentication/VerifyPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredLoginView extends React.Component {
@@ -32,15 +30,15 @@ class RequiredLoginView extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
-    const verifyComponent = <VerifyPrompt verifyUrl={this.props.verifyUrl}/>;
+    const currentPath = window.location.pathname;
 
     if (this.props.authRequired === 1) {
       if (this.props.userProfile.accountType >= 1) {
         return this.props.children;
       }
 
-      return loginComponent;
+      return window.location.replace(`/signin?next=${currentPath}`);
+
     } else if (this.props.authRequired === 3) {
       if (this.props.userProfile.accountType === 3) {
         // TODO: Delete the logic around attemptingAppealsAccess once we
@@ -83,10 +81,10 @@ class RequiredLoginView extends React.Component {
           return React.cloneElement(child, props);
         });
       } else if (this.props.userProfile.accountType === 1) {
-        return verifyComponent;
+        return window.location.replace(`/verify?next=${currentPath}`);
       }
 
-      return loginComponent;
+      return window.location.replace(`/signin?next=${currentPath}`);
     }
 
     return this.props.children;
