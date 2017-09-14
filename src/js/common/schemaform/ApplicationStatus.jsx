@@ -40,7 +40,7 @@ export class ApplicationStatus extends React.Component {
         const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
 
         return (
-          <div className="usa-alert usa-alert-info no-background-image no-top-margin">
+          <div className="usa-alert usa-alert-info no-background-image sip-application-status">
             <h5 className="form-title saved">{titleText} in progress</h5>
             <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
             <br/>
@@ -50,7 +50,7 @@ export class ApplicationStatus extends React.Component {
               </a>
               <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
             </p>
-            <p className="saved-form-item-metadata">Your saved application <strong>will expire on {expirationDate}.</strong></p>
+            <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate}.</strong></p>
             <Modal
               cssClass="va-modal-large"
               id="start-over-modal"

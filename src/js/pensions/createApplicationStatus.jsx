@@ -6,8 +6,10 @@ export default function createPensionApplicationStatus(store) {
   const root = document.getElementById('react-pensionApplicationStatus');
 
   if (root) {
-    require.ensure([], (require) => {
-      const ApplicationStatus = require('../common/schemaform/ApplicationStatus').default;
+    import(
+      /* webpackChunkName: "pension-application-status" */
+      '../common/schemaform/ApplicationStatus').then(module => {
+      const ApplicationStatus = module.default;
       ReactDOM.render((
         <Provider store={store}>
           <ApplicationStatus
@@ -17,6 +19,6 @@ export default function createPensionApplicationStatus(store) {
             applyText="Apply for a Veterans Pension"/>
         </Provider>
       ), root);
-    }, 'pension-application-status');
+    });
   }
 }
