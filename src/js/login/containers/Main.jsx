@@ -34,7 +34,6 @@ class Main extends React.Component {
 
   componentWillUnmount() {
     this.loginUrlRequest.abort();
-    this.verifyUrlRequest.abort();
     this.logoutUrlRequest.abort();
   }
 
