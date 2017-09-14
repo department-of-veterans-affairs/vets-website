@@ -1,0 +1,33 @@
+function mountWidgets(widgets) {
+  widgets
+    .filter(function (widget) { return widget.spinner; })
+    .forEach(function (widget) {
+      var root = document.getElementById(widget.root);
+      var timeout = (widget.timeout || 0) * 1000;
+      var slowLoadingThreshold = 6000;
+
+      if (!widget.showSpinnerUnauthed && sessionStorage.userToken) {
+        root.innerHTML = '<div class="loading-indicator-container"> <div class="loading-indicator" role="progressbar" aria-valuetext="' + widget.loadingMessage + '"></div><span class="loading-indicator-message">' + widget.loadingMessage + '</span></div><span class="static-content"/>';
+      }
+
+      if (timeout > slowLoadingThreshold) {
+        setTimeout(function() {
+          var replacedWithWidget = !root.querySelector('.static-content');
+          if (!replacedWithWidget) {
+            root.querySelector('.loading-indicator-message').innerHTML = widget.slowMessage;
+          }
+        }, slowLoadingThreshold);
+      }
+
+      if (timeout > 0) {
+        setTimeout(function() {
+          var replacedWithWidget = !root.querySelector('.static-content');
+          if (!replacedWithWidget && widget.errorMessage) {
+            root.innerHTML = '<div class="usa-alert usa-alert-error"><div class="usa-alert-body">' + widget.errorMessage + '</div></div>';
+          } else if (!replacedWithWidget) {
+            root.innerHTML = '';
+          }
+        }, timeout);
+      }
+  });
+}

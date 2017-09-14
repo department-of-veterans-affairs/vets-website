@@ -121,6 +121,12 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-
+{% if widgets %}
+<script type="text/javascript">
+var widgets = {{ widgets | json }};
+{% include "src/js/common/utils/static-page-widgets.js" %}
+mountWidgets(widgets);
+</script>
+{% endif %}
 </body>
 </html>
