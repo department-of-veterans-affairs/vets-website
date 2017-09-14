@@ -74,13 +74,13 @@ class Signin extends React.Component {
                 <div className="signin-actions">
                   <h5>Sign in with an existing account</h5>
                   <div>
-                    <button className="usa-button-primary" onClick={this.handleLogin('mhvUrl')}>
+                    <button className="usa-button-primary" onClick={this.handleLogin('mhv')}>
                       <img alt="ID.me" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
                     </button>
-                    <button className="dslogon" onClick={this.handleLogin('dslogonUrl')}>
+                    <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
-                    <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idmeUrl')}>
+                    <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
                     <span className="sidelines">OR</span>

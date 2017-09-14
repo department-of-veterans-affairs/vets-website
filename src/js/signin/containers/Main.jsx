@@ -75,7 +75,7 @@ class Main extends React.Component {
     });
   }
 
-  handleLogin(loginUrl = 'idmeUrl') {
+  handleLogin(loginUrl = 'idme') {
     this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
   }
 

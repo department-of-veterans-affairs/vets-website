@@ -73,7 +73,7 @@ export function getLoginUrl(onUpdateLoginUrl) {
 }
 
 export function getLoginUrls(onUpdateLoginUrls) {
-  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/auth_urls`, {
+  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
     method: 'GET',
   }).then(response => {
     return response.json();

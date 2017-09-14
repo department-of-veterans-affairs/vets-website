@@ -42,9 +42,9 @@ function loginStuff(state = initialState, action) {
 
     case UPDATE_LOGIN_URLS:
       return _.set('loginUrls', {
-        mhvUrl: appendQuery(action.value.mhv_url, { clientId: action.gaClientId }),
-        dslogonUrl: appendQuery(action.value.dslogon_url, { clientId: action.gaClientId }),
-        idmeUrl: appendQuery(action.value.idme_url, { clientId: action.gaClientId }),
+        mhv: appendQuery(action.value.mhv, { clientId: action.gaClientId }),
+        dslogon: appendQuery(action.value.dslogon, { clientId: action.gaClientId }),
+        idme: appendQuery(action.value.idme, { clientId: action.gaClientId }),
       }, state);
 
     case UPDATE_VERIFY_URL:
