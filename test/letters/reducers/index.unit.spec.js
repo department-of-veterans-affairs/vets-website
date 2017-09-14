@@ -4,7 +4,7 @@ import lettersReducer from '../../../src/js/letters/reducers';
 
 const initialState = {
   letters: [],
-  destination: {},
+  address: {},
   lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
   serviceInfo: [],
@@ -73,7 +73,7 @@ describe('letters reducer', () => {
     expect(state.lettersAvailability).to.equal('invalidAddressProperty');
   });
 
-  it('should handle a successful request for letters', () => {
+  it.only('should handle a successful request for letters', () => {
     const state = lettersReducer.letters(
       initialState,
       {
@@ -81,10 +81,6 @@ describe('letters reducer', () => {
         data: {
           data: {
             attributes: {
-              address: {
-                addressLine1: '2476 MAIN STREET',
-                fullName: 'MARK WEBB'
-              },
               letters: [
                 {
                   letterType: 'commissary',
@@ -98,7 +94,6 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
-    expect(state.destination.addressLine1).to.eql('2476 MAIN STREET');
     expect(state.lettersAvailability).to.equal('available');
   });
 
