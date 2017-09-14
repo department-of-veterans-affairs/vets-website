@@ -20,6 +20,9 @@ class GlossaryModal extends React.Component {
     if (this.props.isVisible) {
       element = (
         <div>
+          console.log(<p>What does this data look like?</p>
+          <p>{this.props.content}</p>
+          <p><GlossaryList/></p>);
           <button className="va-modal-close" type="button"><i className="fa fa-close"></i><span className="usa-sr-only" onClick={this.props.handleCloseModal}>Close this modal</span></button>
           <GlossaryList terms={this.props.content}/>
           <div className="va-modal-button-group cf">
