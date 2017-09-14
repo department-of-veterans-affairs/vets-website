@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     // Ensure glossary modal can be dismissed
-    /* client
+    client
       .click('.va-modal-button-group button')
       .expect.element('#rx-glossary-modal').to.not.be.present;
     client
@@ -97,6 +97,5 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
     client.end();
-    */
   }
 );
