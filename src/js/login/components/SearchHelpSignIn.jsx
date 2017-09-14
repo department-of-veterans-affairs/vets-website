@@ -26,6 +26,8 @@ class SearchHelpSignIn extends React.Component {
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
+    } else if (this.props.profile.loading) {
+      content = null;
     } else {
       content = (<div>
         <a href="#" onClick={this.props.onUserLogin}>Sign In</a><span className="signin-spacer">|</span><a href="#" onClick={this.props.onUserSignup}>Sign up</a>

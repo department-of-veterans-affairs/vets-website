@@ -56,9 +56,9 @@ export class DownloadLetterLink extends React.Component {
         message = (
           <div className="usa-alert usa-alert-error" role="alert">
             <div className="usa-alert-body">
-              <h2 className="usa-alert-heading">Your letter didn't download.</h2>
+              <h2 className="usa-alert-heading">Your letter didn’t download.</h2>
               <p className="usa-alert-text">
-                Your letter isn't available at this time. If you need help with
+                Your letter isn’t available at this time. If you need help with
                 accessing your letter, please call <a href="tel: 855-574-7286">
                 855-574-7286</a>, Monday-Friday, 8 a.m. - 8 p.m. (ET).
               </p>

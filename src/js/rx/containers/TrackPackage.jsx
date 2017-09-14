@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import SortableTable from '../../common/components/SortableTable';
 import TrackPackageLink from '../components/TrackPackageLink';
-import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
 
 export class TrackPackage extends React.Component {
@@ -130,14 +129,13 @@ export class TrackPackage extends React.Component {
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
-  const { submitted, refillinprocess } = rxStatuses;
   const {
     rx: { attributes: { refillStatus } },
     trackings
   } = rxState.prescriptions.currentItem;
 
   return {
-    isPending: [submitted, refillinprocess].includes(refillStatus),
+    isPending: ['submitted', 'refillinprocess'].includes(refillStatus),
     items: trackings
   };
 };

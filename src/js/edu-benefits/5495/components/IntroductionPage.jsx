@@ -59,7 +59,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 5495 form to apply to manage your education benefits.
+          Please complete the 22-5495 form to apply to manage your education benefits.
         </SaveInProgressIntro>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

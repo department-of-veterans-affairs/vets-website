@@ -19,7 +19,8 @@ const defaultProfileProps = {
   email: 'fake@aol.com',
   userFullName: {
     first: 'Sharon'
-  }
+  },
+  loading: false
 };
 
 function buildProps(defaultProps, props = {}) {
@@ -27,7 +28,7 @@ function buildProps(defaultProps, props = {}) {
 }
 
 describe('<SearchHelpSignIn>', () => {
-  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps}/>);
+  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps} profile={{ loading: false }}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

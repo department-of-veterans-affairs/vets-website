@@ -56,14 +56,15 @@
     }
   }
 
-  .card {
-    .resume-saved-application-container {
-      @include media($medium-large-screen) {
-        padding-left: 8px;
-      }
+  .resume {
+    padding-left: 8px;
+    padding-right: 8px;
+    @include media($medium-large-screen) {
+      padding-left: 8px;
     }
   }
-
+  
+  
   .saved-form-information {
     margin: 0;
 
@@ -75,18 +76,30 @@
       display: block;
       margin-right: 5px;
     }
+    .saved-form-item-metadata:last-child {
+      margin-bottom: 8px;
+    }
   }
 
-  .saved-form-title {
+  .saved {
     color: $color-primary;
   }
 
+  .form-title {
+    @include media ($medium-large-screen) {
+    padding-right: 24px;
+    }
+  }
+
+  .remove-saved-application-button {
+    float: right;
+  }
+  
   .remove-saved-application-container {
     margin-bottom: 16px;
     float: right;
-    @include media($medium-large-screen) {
-      float: left;
-    }
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   .remove-saved-application-label {
@@ -94,14 +107,14 @@
     margin-left: 5px;
   }
 
-  .resume-saved-application {
+  .application-route {
     margin-top: 0;
     margin-right: 0;
-    float: right;
   }
 
   .saved-form-item-expires {
-    color: $color-secondary-dark
+    font-weight: bold;
+    display: inline;
   }
   .va-expired-item-close {
     float: right;

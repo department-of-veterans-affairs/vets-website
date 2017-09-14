@@ -8,6 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
@@ -82,12 +83,10 @@ class DocumentRequestPage extends React.Component {
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <nav className="va-nav-breadcrumbs">
-                <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                  <li><Link to={claimsPath}>Your claims</Link></li>
-                  <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
-                </ul>
-              </nav>
+              <Breadcrumbs>
+                <li><Link to={claimsPath}>Your Claims</Link></li>
+                <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
+              </Breadcrumbs>
             </div>
           </div>
           <div className="row">
