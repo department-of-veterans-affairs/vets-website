@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     // Ensure glossary modal can be dismissed
-    client
+    /* client
       .click('.va-modal-button-group button')
       .expect.element('#rx-glossary-modal').to.not.be.present;
     client
@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.rx-modal-refillinfo button[type=submit]')
       .expect.element('#rx-confirm-refill').to.not.be.present.after(Timeouts.normal);
-
+    */
     // Ensure refill request is submitted
     client.expect.element('.rx-prescription-card:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
 
