@@ -28,7 +28,7 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
     this.getLoginUrls();
-    this.getVerifyUrl();
+    // this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
