@@ -8,7 +8,6 @@ import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import SignInLink from '../components/SignInLink';
 import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
-import { dateDiffDesc } from '../utils/helpers';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -26,7 +25,7 @@ export default class SaveInProgressIntro extends React.Component {
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div style={{ paddingBottom: '16px' }}>Application status: <strong>In progress</strong></div>
               <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">Last saved on {savedAt.format('MM/DD/YYYY [at] h:mm a')}</span>
+                <span className="saved-form-metadata">Last saved on {savedAt.format('M/D/YYYY [at] h:mm a')}</span>
                 <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
               </div>
               <div>{this.props.children}</div>

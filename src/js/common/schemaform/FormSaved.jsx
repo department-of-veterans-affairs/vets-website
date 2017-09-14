@@ -44,7 +44,7 @@ class FormSaved extends React.Component {
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const expirationDate = moment.unix(this.props.expirationDate).format('D/M/YYYY');
+    const expirationDate = moment.unix(this.props.expirationDate).format('M/D/YYYY');
 
     return (
       <div>
