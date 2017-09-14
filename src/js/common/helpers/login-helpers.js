@@ -11,6 +11,30 @@ export function handleVerify(verifyUrl) {
   }
 }
 
+export function handleMultifactor(multifactorUrl) {
+  window.dataLayer.push({ event: 'multifactor-link-clicked' });
+  if (multifactorUrl) {
+    window.dataLayer.push({ event: 'multifactor-link-opened' });
+    const receiver = window.open(multifactorUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+}
+
+export function getMultifactorUrl(onUpdateMultifactorUrl) {
+  const getMultifactorUrlRequest = fetch(`${environment.API_URL}/v0/sessions/multifactor`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Token token=${sessionStorage.userToken}`
+    })
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateMultifactorUrl(json.multifactor_url);
+  });
+
+  return getMultifactorUrlRequest;
+}
+
 export function getUserData(dispatch) {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',
@@ -37,6 +61,8 @@ export function getUserData(dispatch) {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        loa: userData.loa,
+        multifactor: userData.multifactor,
         gender: userData.gender,
         dob: userData.birth_date,
         status: json.data.attributes.va_profile.status,
