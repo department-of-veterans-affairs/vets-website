@@ -51,10 +51,6 @@ export class LetterList extends React.Component {
               One of our systems appears to be down. If you believe you are missing a
               letter or document from the list above, please try again later.
             </p>
-            <ul>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for health-related documents</li>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for benefits-related documents</li>
-            </ul>
           </div>
         </div>
       );
