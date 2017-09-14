@@ -73,7 +73,7 @@ describe('letters reducer', () => {
     expect(state.lettersAvailability).to.equal('invalidAddressProperty');
   });
 
-  it.only('should handle a successful request for letters', () => {
+  it('should handle a successful request for letters', () => {
     const state = lettersReducer.letters(
       initialState,
       {
@@ -132,5 +132,25 @@ describe('letters reducer', () => {
     );
     expect(state.requestOptions.chapter35Eligibility).to.be.true;
     expect(state.requestOptions.monthlyAward).to.be.true;
+  });
+
+  it('should handle a successful request for the address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: 'GET_ADDRESS_SUCCESS',
+        data: {
+          data: {
+            attributes: {
+              address: {
+                addressOne: '2746 Main St'
+              }
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.address.addressOne).to.equal('2746 Main St');
   });
 });
