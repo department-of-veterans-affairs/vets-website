@@ -27,7 +27,6 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
     this.getLoginUrl();
-    // this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
@@ -42,16 +41,6 @@ class Main extends React.Component {
 
   getLoginUrl() {
     this.loginUrlRequest = getLoginUrl(this.props.onUpdateLoginUrl);
-  }
-
-  getVerifyUrl() {
-    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
-      method: 'GET',
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.props.onUpdateVerifyUrl(json.authenticate_via_get);
-    });
   }
 
   setMyToken(event) {
