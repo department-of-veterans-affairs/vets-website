@@ -29,6 +29,10 @@ class GlossaryModal extends React.Component {
               onClick={this.props.onCloseModal}>
               See all status definitions
             </Link>
+
+            <p>What does this data look like?</p>
+            <p>{this.props.content}</p>
+            <p><GlossaryList/></p>
           </div>
         </div>
       );
