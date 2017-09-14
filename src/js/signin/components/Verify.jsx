@@ -41,10 +41,7 @@ class Verify extends React.Component {
               <h4>Already using other VA online services?</h4>
               <p>If you have a <strong>premium account</strong> with My HealtheVet or DS Logon, you can use it to verify your identity automatically:</p>
 
-              <button className="usa-button-primary" onClick={this.handleLogin}>
-                <img alt="ID.me" src="/img/signin/mhv-icon.svg"/><strong> Verify with My HealtheVet</strong>
-              </button>
-              <button className="dslogon" onClick={this.handleLogin}>
+              <button className="dslogon" onClick={() => handleVerify(this.props.verifyUrl)}>
                 <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
               </button>
               <span>(Used for eBenefits and milConnect)</span>
