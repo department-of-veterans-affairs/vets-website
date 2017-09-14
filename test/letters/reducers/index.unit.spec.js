@@ -153,4 +153,13 @@ describe('letters reducer', () => {
 
     expect(state.address.addressOne).to.equal('2746 Main St');
   });
+
+  it('should handle failure to fetch the address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'GET_ADDRESS_FAILURE' }
+    );
+
+    expect(state.address).to.be.empty;
+  });
 });
