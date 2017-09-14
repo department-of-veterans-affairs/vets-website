@@ -35,7 +35,6 @@ class ConfirmRefillModal extends React.Component {
       innerElement = (
         <form onSubmit={this.handleConfirmRefill}>
           <div className="rx-modal-refillinfo">
-            <h3>Confirm refill</h3>
             <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
             <span className="rx-modal-drug">
               {prescription.prescriptionName}
