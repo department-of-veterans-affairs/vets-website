@@ -72,9 +72,11 @@
       margin-bottom: 8px;
     }
 
-    .saved-form-item-metadata {
+    .saved-form-metadata {
       display: block;
-      margin-right: 5px;
+    }
+    .saved-form-item-metadata:last-child {
+      margin-bottom: 8px;
     }
     .saved-form-item-metadata:last-child {
       margin-bottom: 8px;
@@ -87,7 +89,7 @@
 
   .form-title {
     @include media ($medium-large-screen) {
-    padding-right: 24px;
+      padding-right: 24px;
     }
   }
 
@@ -112,10 +114,11 @@
     margin-right: 0;
   }
 
-  .saved-form-item-expires {
+  .expires {
     font-weight: bold;
     display: inline;
   }
+
   .va-expired-item-close {
     float: right;
     top: initial;
