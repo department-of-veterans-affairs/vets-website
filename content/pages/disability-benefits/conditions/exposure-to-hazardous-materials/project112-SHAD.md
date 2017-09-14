@@ -38,10 +38,10 @@ You may be able to get disability benefits if:
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. You can call the VA Special Issues Helpline at <a href="tel:+18007498387">800-749-8387</a>. Or apply now for disability benefits. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. You can call the VA Special Issues Helpline at <a href="tel:+18007498387">1-800-749-8387</a>. Or apply now for disability benefits. [Apply for benefits](/disability-benefits/apply/).
 
 If you were part of Projects 112 or SHAD from 1962 to 1974 and want to know more about a certain test site, ship, or unit, see the declassified Department of Defense fact sheets. [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
-If you have a question about the tests, including whether you may have been part of them—or if you have any information that can help show you were part of them—contact the Department of Defense at <a href="tel:+18004976261">800-497-6261</a>.
+If you have a question about the tests, including whether you may have been part of them—or if you have any information that can help show you were part of them—contact the Department of Defense at <a href="tel:+18004976261">1-800-497-6261</a>.
 
 
