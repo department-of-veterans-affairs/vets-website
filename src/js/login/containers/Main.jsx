@@ -14,7 +14,6 @@ class Main extends React.Component {
     this.setMyToken = this.setMyToken.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.getLoginUrl = this.getLoginUrl.bind(this);
-    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);

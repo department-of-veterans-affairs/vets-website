@@ -46,6 +46,8 @@ class Main extends React.Component {
   }
 
   getVerifyUrl() {
+    if (!this.props.login.currentlyLoggedIn) return;
+
     this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
       method: 'GET',
     }).then(response => {
@@ -119,7 +121,9 @@ class Main extends React.Component {
   }
 
   render() {
-    if (this.props.verify) {
+    const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
+
+    if (this.props.verify && currentlyLoggedIn) {
       return (
         <Verify
           verifyUrl={this.props.login.verifyUrl}/>
@@ -128,7 +132,7 @@ class Main extends React.Component {
 
     return (
       <Signin
-        currentlyLoggedIn={this.props.login.currentlyLoggedIn}
+        currentlyLoggedIn={currentlyLoggedIn}
         handleSignup={this.handleSignup}
         handleLogin={this.handleLogin}/>
     );
