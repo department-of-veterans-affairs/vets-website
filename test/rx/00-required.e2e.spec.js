@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.rx-modal-refillinfo button[type=submit]')
       .expect.element('#rx-confirm-refill').to.not.be.present.after(Timeouts.normal);
-    */
+
     // Ensure refill request is submitted
     client.expect.element('.rx-prescription-card:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
 
@@ -97,5 +97,6 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
     client.end();
+    */
   }
 );
