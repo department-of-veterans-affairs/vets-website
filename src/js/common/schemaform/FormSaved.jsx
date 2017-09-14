@@ -51,10 +51,10 @@ class FormSaved extends React.Component {
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
             <strong>Your {formTitles[formId]} application has been saved.</strong><br/>
-            {!!lastSavedDate && !!expirationDate && <p className="saved-form-metadata-container">
+            {!!lastSavedDate && !!expirationDate && <div className="saved-form-metadata-container">
               <span className="saved-form-metadata">Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}</span>
               <p className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
-            </p>}
+            </div>}
             {success}
             If you’re logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>
