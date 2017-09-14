@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import createCommonStore from '../common/store';
-import reducer from './reducers/login';
+import reducer from '../login/reducers/login';
 
 import Main from './containers/Main';
 

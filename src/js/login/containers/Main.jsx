@@ -14,7 +14,6 @@ class Main extends React.Component {
     this.setMyToken = this.setMyToken.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.getLoginUrl = this.getLoginUrl.bind(this);
-    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -27,7 +26,6 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
     this.getLoginUrl();
-    this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
@@ -36,22 +34,11 @@ class Main extends React.Component {
 
   componentWillUnmount() {
     this.loginUrlRequest.abort();
-    this.verifyUrlRequest.abort();
     this.logoutUrlRequest.abort();
   }
 
   getLoginUrl() {
     this.loginUrlRequest = getLoginUrl(this.props.onUpdateLoginUrl);
-  }
-
-  getVerifyUrl() {
-    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
-      method: 'GET',
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.props.onUpdateVerifyUrl(json.authenticate_via_get);
-    });
   }
 
   setMyToken(event) {

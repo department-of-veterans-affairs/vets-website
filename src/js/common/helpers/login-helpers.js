@@ -72,6 +72,18 @@ export function getLoginUrl(onUpdateLoginUrl) {
   return loginUrlRequest;
 }
 
+export function getLoginUrls(onUpdateLoginUrls) {
+  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
+    method: 'GET',
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateLoginUrls(json);
+  });
+
+  return loginUrlsRequest;
+}
+
 export function handleLogin(loginUrl, onUpdateLoginUrl) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
