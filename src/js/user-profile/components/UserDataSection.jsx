@@ -88,6 +88,8 @@ class UserDataSection extends React.Component {
   }
 
   renderMultifactorMessage() {
+    if (this.props.profile.multifactor) { return null; }
+
     const content = (
       <div className="mfa-message">
         <div className="medium-8 column">
