@@ -51,10 +51,6 @@ export class LetterList extends React.Component {
               One of our systems appears to be down. If you believe you are missing a
               letter or document from the list above, please try again later.
             </p>
-            <ul>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for health-related documents</li>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for benefits-related documents</li>
-            </ul>
           </div>
         </div>
       );
@@ -74,7 +70,7 @@ export class LetterList extends React.Component {
         <br/>
         <h4>Can’t find what you’re looking for?</h4>
         <p>
-          This system doesn’t include every VA letter. Learn more about how to access other VA letters and documents you might need.
+          This system doesn’t include every VA letter. Find out how to access other VA letters and documents you might need.
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefits summary and eligibility.</strong></a></li>
