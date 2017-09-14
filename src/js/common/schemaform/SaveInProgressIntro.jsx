@@ -23,7 +23,7 @@ export default class SaveInProgressIntro extends React.Component {
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
-              <div style={{ paddingBottom: '16px' }}>Application status: <strong>In progress</strong></div>
+              <div className="schemaform-sip-alert-title">Application status: <strong>In progress</strong></div>
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">Last saved on {savedAt.format('M/D/YYYY [at] h:mm a')}</span>
                 <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
