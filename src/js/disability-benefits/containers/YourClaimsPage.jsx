@@ -176,20 +176,18 @@ class YourClaimsPage extends React.Component {
       <div className="your-claims">
         <Breadcrumbs/>
         <div className="row">
-          <div className="small-12 columns">
-            {this.renderErrorMessages()}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h1>Your Claims and Appeals</h1>
-          </div>
-          <div className="small-12 columns">
-            {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
-          </div>
-        </div>
-        <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div className="row">
+              <div className="small-12 columns">
+                <h1>Your Claims and Appeals</h1>
+              </div>
+              <div className="small-12 columns">
+                {this.renderErrorMessages()}
+              </div>
+              <div className="small-12 columns">
+                {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+              </div>
+            </div>
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
