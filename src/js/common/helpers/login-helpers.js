@@ -61,6 +61,7 @@ export function getUserData(dispatch) {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        authnContext: userData.authn_context,
         loa: userData.loa,
         multifactor: userData.multifactor,
         gender: userData.gender,
