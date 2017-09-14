@@ -21,11 +21,11 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>What you need to fill out this application</h6></div>
+              <div><h6>To fill out this application, you'll need your:</h6></div>
               <ul>
-                <li>Your Social Security number (required)</li>
-                <li>Your sponsor’s Social Security number (required)</li>
-                <li>Basic information about the school or training facility where you want to attend</li>
+                <li>Social Security number (required)</li>
+                <li>Sponsor’s Social Security number (required)</li>
+                <li>Basic information about the school or training facility you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
@@ -35,7 +35,7 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>              
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
@@ -47,17 +47,14 @@ class IntroductionPage extends React.Component {
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
-              <div><h5>VA Review</h5></div>
-              <div><h6>How long does it take VA to make a decision?</h6></div>
-              <ul><li>We usually process claims within 30 days.</li></ul>
-              <div><h6>What should I do while I wait?</h6></div>
-              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
-              <div><h6>What if VA needs more information?</h6></div>
-              <ul><li>We’ll contact you if we need more information.</li></ul>
+              <div><h5>VA Review</h5></div>              
+              <p>We usually process claims within 30 days.</p>
+              <p>We’ll let you know by mail if we need more information.</p>
+              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>            
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
+              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
