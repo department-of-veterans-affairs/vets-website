@@ -2,6 +2,8 @@
 // SCSS for content/components/navigation-sidebar.html
 //====================================
 
+$sidebar-width: 80%;
+
 .va-sidebarnav {
   li {
     border-top-color: $color-gray-lighter;
@@ -49,14 +51,23 @@
       overflow: auto;
       padding: 3.2rem 1.6rem 1.6rem;
       position: absolute;
-      right: 0;
       top: 0;
-      width: 80%;
+      right: -$sidebar-width;
+      width: $sidebar-width;
       z-index: 2;
+      -webkit-transition: 100ms right linear;
+              transition: 100ms right linear;
     }
 
     &--opened {
       display: block;
+
+      &.in > div {
+        right: 0;
+      }
+      &.out > div {
+        right: -$sidebar-width;
+      }
     }
 
     &-close {

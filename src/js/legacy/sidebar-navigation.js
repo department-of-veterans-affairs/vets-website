@@ -30,16 +30,34 @@ class SideBarMenu {
   }
 
   openMenu(trigger) {
-    this.getMenu(trigger).classList.add('va-sidebarnav--opened');
+    const menu = this.getMenu(trigger);
+
+    menu.classList.add('va-sidebarnav--opened');
     document.body.classList.add('va-pos-fixed');
+
+    // Delay the animation classes slightly so that switching the display property
+    // to block doesn't cause the animations to skip.
+    setTimeout(() => {
+      menu.classList.remove('out');
+      menu.classList.add('in');
+    }, 10);
+
     this.closeMenu(trigger);
   }
 
   closeMenu(trigger) {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', (domEvent) => {
-      this.menu.classList.remove('va-sidebarnav--opened');
-      document.body.classList.remove('va-pos-fixed');
+
+      this.menu.classList.remove('in');
+      this.menu.classList.add('out');
+
+      // Give the animations time to complete before removing the display classes.
+      setTimeout(() => {
+        this.menu.classList.remove('va-sidebarnav--opened');
+        document.body.classList.remove('va-pos-fixed');
+      }, 300)
+      
     })
   }  
 }
