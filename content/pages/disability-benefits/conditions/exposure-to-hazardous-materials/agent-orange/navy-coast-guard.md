@@ -67,7 +67,7 @@ If you don’t have an Agent Orange–related disability at this time, you and y
 
 ### Need help?
 Get help from us in 1 of 2 ways:
-- Call <a href="tel:+18008271000">800-827-1000</a> or <a href="tel:+18008294833">800-829-4833</a> (TDD for hearing impaired).
+- Call <a href="tel:+18008271000">1-800-827-1000</a> or <a href="tel:+18008294833">1-800-829-4833</a> (TDD for hearing impaired).
 - Go to your [nearest VA benefits office](/facilities)
 
 Get more information about ships that may have been exposed to Agent Orange.
