@@ -7,6 +7,7 @@ import {
   UPDATE_LOGIN_URLS,
   UPDATE_VERIFY_URL,
   UPDATE_LOGOUT_URL,
+  UPDATE_MULTIFACTOR_URL,
   UPDATE_SEARCH_HELP_USER_MENU,
   LOG_OUT
 } from '../actions';
@@ -15,6 +16,7 @@ const initialState = {
   currentlyLoggedIn: false,
   loginUrl: null,
   loginUrls: {},
+  multifactorUrl: null,
   verifyUrl: null,
   logoutUrl: null,
   utilitiesMenuIsOpen: {
@@ -46,6 +48,9 @@ function loginStuff(state = initialState, action) {
         dslogon: appendQuery(action.value.dslogon, { clientId: action.gaClientId }),
         idme: appendQuery(action.value.idme, { clientId: action.gaClientId }),
       }, state);
+
+    case UPDATE_MULTIFACTOR_URL:
+      return _.set('multifactorUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case UPDATE_VERIFY_URL:
       return _.set('verifyUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);

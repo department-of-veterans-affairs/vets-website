@@ -51,13 +51,16 @@ class AuthApp extends React.Component {
     }).then(json => {
       const userData = json.data.attributes.profile;
       if (userData.loa.highest === 3) {
-        if (userData.loa.current === 3 && sessionStorage.mfa_start) {
+        if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext !== null) {
           this.setMyToken(myToken);
         } else {
           sessionStorage.setItem('mfa_start', true);
 
           this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
             method: 'GET',
+            headers: new Headers({
+              Authorization: `Token token=${myToken}`
+            })
           }).then(response => {
             return response.json();
           }).then(innerJson => {

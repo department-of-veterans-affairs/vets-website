@@ -74,9 +74,6 @@ class Signin extends React.Component {
                 <div className="signin-actions">
                   <h5>Sign in with an existing account</h5>
                   <div>
-                    <button className="usa-button-primary" onClick={this.handleLogin('mhv')}>
-                      <img alt="ID.me" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
-                    </button>
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
