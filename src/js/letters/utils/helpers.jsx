@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import includes from 'lodash/fp/includes';
+import Raven from 'raven-js';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
@@ -270,5 +271,11 @@ export function getZipCode(address) {
 }
 
 export function getStateName(stateCode) {
-  return STATE_CODE_TO_NAME[stateCode] || '';
+  const stateName = STATE_CODE_TO_NAME[stateCode];
+
+  if (stateName === undefined) {
+    Raven.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
+  }
+
+  return stateName || '';
 }

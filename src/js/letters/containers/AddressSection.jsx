@@ -16,7 +16,7 @@ import Address from '../components/Address';
 export class AddressSection extends React.Component {
   constructor() {
     super();
-    this.state = { isEditAddressing: false };
+    this.state = { isEditingAddress: false };
   }
 
   render() {
