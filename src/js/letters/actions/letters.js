@@ -4,7 +4,6 @@ import { apiRequest } from '../utils/helpers.jsx';
 import {
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
   GET_ADDRESS_FAILURE,
@@ -37,11 +36,6 @@ export function getLetterList() {
           if (error.status === '403') {
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          }
-          // TODO: remove this since we no longer use the letters destination properties
-          if (error.status === '422') {
-            // Something about the address is invalid, unable to process the request
-            return dispatch({ type: INVALID_ADDRESS_PROPERTY });
           }
           if (error.status === '502') {
             // Some of the partner services are down, so we cannot verify the eligibility

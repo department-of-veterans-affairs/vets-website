@@ -72,8 +72,8 @@ export const STATE_CODE_TO_NAME = {
   MH: 'Marshall Islands',
   MP: 'Northern Mariana Islands',
   PW: 'Palau',
-  PR: '',
-  UM: '',
-  VI: '',
-  PI: ''
+  PR: 'Puerto Rico',
+  UM: 'U.S. Minor Outlying Islands',
+  VI: 'U.S. Virgin Islands',
+  PI: 'Virgin Islands'
 };

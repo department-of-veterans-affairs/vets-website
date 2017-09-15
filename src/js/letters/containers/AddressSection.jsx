@@ -81,7 +81,7 @@ export class AddressSection extends React.Component {
             Downloaded documents will list your address as:
           </p>
           <div className="address-block">
-            <h5 className="letters-address">{(this.props.fullName || '').toLowerCase()}</h5>
+            <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
             {addressFields}
           </div>
           <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
@@ -100,7 +100,7 @@ export class AddressSection extends React.Component {
 function mapStateToProps(state) {
   const letterState = state.letters;
   return {
-    fullName: letterState.fullName,
+    recipientName: letterState.fullName,
     address: letterState.address
   };
 }
