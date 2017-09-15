@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
+import moment from 'moment';
 import Scroll from 'react-scroll';
 
 import SchemaForm from './SchemaForm';
@@ -11,7 +12,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import { SAVE_STATUSES, PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -41,6 +42,7 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.autoSave = this.autoSave.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
@@ -71,7 +73,20 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
+  autoSave() {
+    const { route, params, form } = this.props;
+    let data = form.data;
+    const { formId, version } = form;
+    const returnUrl = this.props.locationPathname;
+
+    if (route.pageConfig.showPagePerItem) {
+      data = _.get([route.pageConfig.arrayPath, params.index], data);
+    }
+    this.props.saveInProgressForm(formId, version, returnUrl, data, true);
+  }
+
   onSubmit({ formData }) {
+    this.autoSave();
     const { route, params, form } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
@@ -112,13 +127,28 @@ class FormPage extends React.Component {
 
   render() {
     const { route, params, form } = this.props;
+    const { profile } = this.props.user;
     let {
       schema,
       uiSchema
     } = form.pages[route.pageConfig.pageKey];
 
     let data = form.data;
+    let savedAt;
+    let savedAtMessage;
+    const savedForm = profile && profile.savedForms.length > 0 && profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === form.formId);
+    if (savedForm || form.lastSavedDate) {
 
+      savedAt = form.lastSavedDate
+        ? moment(this.props.lastSavedDate)
+        : moment.unix(savedForm.last_updated);
+      savedAtMessage = ` Last saved at ${savedAt.format('M/D/YYYY [at] h:mm a')}`;
+    } else {
+      savedAtMessage = '';
+    }
+    const isSaving = form.savedStatus === SAVE_STATUSES.autoPending;
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
@@ -140,6 +170,7 @@ class FormPage extends React.Component {
           pagePerItemIndex={params ? params.index : undefined}
           uploadFile={this.props.uploadFile}
           prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
+          autoSave={this.autoSave}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
@@ -160,6 +191,10 @@ class FormPage extends React.Component {
           </div>
           {!form.disableSave && <div className="row">
             <div className="small-12 columns">
+              {savedAt && !isSaving && <div className="panel saved-success-container">
+                <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
+              </div>}
+              {isSaving && <p style={{ fontStyle: 'italic' }}>Saving...</p>}
               <SaveFormLink
                 locationPathname={this.props.location.pathname}
                 form={form}

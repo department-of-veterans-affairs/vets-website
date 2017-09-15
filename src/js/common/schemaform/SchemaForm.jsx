@@ -88,6 +88,7 @@ class SchemaForm extends React.Component {
   }
 
   onBlur(id) {
+    this.props.autoSave();
     if (!this.state.formContext.touched[id]) {
       const formContext = _.set(['touched', id], true, this.state.formContext);
       this.setState({ formContext });
@@ -159,7 +160,7 @@ class SchemaForm extends React.Component {
           liveValidate
           noHtml5Validate
           onError={this.onError}
-          onBlur={this.onBlur}
+          autoSave={this.autoSave}
           onChange={({ formData }) => onChange(formData)}
           onSubmit={onSubmit}
           schema={schema}
