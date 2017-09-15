@@ -5,7 +5,7 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, handleLogin, getLoginUrls } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
+import { updateLoggedInStatus, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
@@ -150,9 +150,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
-    },
     onUpdateLoginUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },

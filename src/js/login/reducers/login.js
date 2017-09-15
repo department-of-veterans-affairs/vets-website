@@ -3,7 +3,6 @@ import appendQuery from 'append-query';
 
 import {
   UPDATE_LOGGEDIN_STATUS,
-  UPDATE_LOGIN_URL,
   UPDATE_LOGIN_URLS,
   UPDATE_VERIFY_URL,
   UPDATE_LOGOUT_URL,
@@ -14,7 +13,6 @@ import {
 
 const initialState = {
   currentlyLoggedIn: false,
-  loginUrl: null,
   loginUrls: {},
   multifactorUrl: null,
   verifyUrl: null,
@@ -39,9 +37,7 @@ function loginStuff(state = initialState, action) {
     case UPDATE_LOGGEDIN_STATUS:
       return _.set('currentlyLoggedIn', action.value, state);
 
-    case UPDATE_LOGIN_URL:
-      return _.set('loginUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
-
+    // being explicit here to avoid confusion
     case UPDATE_LOGIN_URLS:
       return _.set('loginUrls', {
         mhv: appendQuery(action.value.mhv, { clientId: action.gaClientId }),
