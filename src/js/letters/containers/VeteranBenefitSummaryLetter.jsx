@@ -60,10 +60,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
       const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
-      // TODO: find out if there is anything in the profile or from EVSS that can tell
-      // us whether the user is a veteran or a user. For now we just pass in
-      // true for the isVeteran parameter
-      const optionText = getBenefitOptionText(key, value, true, benefitInfo.awardEffectiveDate);
+      const { isVeteran } = this.props;
+      const optionText = getBenefitOptionText(key, value, isVeteran, benefitInfo.awardEffectiveDate);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
@@ -76,6 +74,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 name={key}
                 type="checkbox"
                 onChange={this.handleChange}/>
+              <label/>
             </th>
             <td><label id={`${key}Label`} htmlFor={key}>{optionText}</label></td>
           </tr>
@@ -112,10 +111,10 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           This letter is for disabled Veterans. It gives a summary of VA benefits that are available to them, such as housing assistance, civil service preference, and state or local property or car tax relief.
         </p>
         <h2>Choose the information you want to include.</h2>
+        <h2>Military service information</h2>
         <p>
           Our records show the 3 most recent service periods. There may be additional service periods not shown here.
         </p>
-        <h2>Military service information</h2>
         <div className="form-checkbox">
           <input
             autoComplete="false"
@@ -128,7 +127,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             className="schemaform-label"
             name="militaryService-label"
             htmlFor="militaryService">
-            Include all periods of service
+            Include military service information
           </label>
         </div>
         <table className="usa-table-borderless" id="militaryServiceTable">
@@ -156,11 +155,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const { profile } = state.user;
+
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
     },
+    // default isVeteran to true if service for determining this is down
+    // this decision may need to be revisited.
+    isVeteran: (profile.veteranStatus === 'OK' ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };

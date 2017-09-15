@@ -1,16 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { focusElement } from '../../../common/utils/helpers';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-  goForward = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
     return (
@@ -23,12 +21,12 @@ class IntroductionPage extends React.Component {
               <div><h5>Prepare</h5></div>
               <div><h6>To fill out this application, you'll need your:</h6></div>
               <ul>
-                <li>Social Security number (required)</li>                
+                <li>Social Security number (required)</li>
                 <li>Basic information about the school or training facility you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-               <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
@@ -58,21 +56,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
-            <a href="/education/apply-for-education-benefits/">
-              <button className="usa-button-outline">« Back</button>
-            </a>
-          </div>
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-              onButtonClick={this.goForward}
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
-          </div>
-        </div>
-        <div className="omb-info--container">
+        <SaveInProgressIntro
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 22-1990N form to apply for education benefits.
+        </SaveInProgressIntro>
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
         </div>
       </div>
@@ -80,4 +71,16 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);

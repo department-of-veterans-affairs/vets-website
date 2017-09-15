@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
@@ -30,11 +29,6 @@ class DisabilityBenefitsApp extends React.Component {
         loginUrl={this.props.loginUrl}
         verifyUrl={this.props.verifyUrl}>
         <AppContent>
-          <div>
-            <div className="row">
-              <Breadcrumbs location={this.props.location}/>
-            </div>
-          </div>
           {this.props.children}
         </AppContent>
       </RequiredLoginView>

@@ -72,4 +72,4 @@ We provide memorial headstones and markers for qualified Veterans when their rem
 
 For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
 
-Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">800-697-6947</a>.
+Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">1-800-697-6947</a>.

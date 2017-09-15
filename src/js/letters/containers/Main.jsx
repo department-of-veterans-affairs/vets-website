@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
-import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+import {
+  getBenefitSummaryOptions,
+  getLetterList,
+  getMailingAddress
+} from '../actions/letters';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
+    this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
   }
 
@@ -42,9 +47,8 @@ export class Main extends React.Component {
               <div className="usa-alert-body">
                 <h4 className="usa-alert-heading">Letters Unavailable</h4>
                 <p className="usa-alert-text">
-                  We weren't able to retrieve your VA letters. Please call
-                  <a href="tel:855-574-7286">1-855-574-7286</a> between Monday-Friday
-                  8:00 a.m. - 8:00 p.m. (ET).
+                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">
+                  1-855-574-7286</a> between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
                 </p>
               </div>
             </div>
@@ -80,7 +84,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
-  getLetterList
+  getLetterList,
+  getMailingAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

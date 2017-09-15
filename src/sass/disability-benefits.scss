@@ -264,8 +264,12 @@ a.claim-list-item {
   color: $color-primary-darker;
 }
 
-.your-claims, .claims-status {
+.claims-status {
   padding: 1em 0 3em 0;
+}
+
+.your-claims, .claims-status {
+  padding-bottom: 3em;
 
   h3 {
     margin-top: 1em;
@@ -683,7 +687,7 @@ p.first-of-type {
 }
 
 .disability-benefits-content {
-  margin: 0 5px;
+  margin: 0 0;
 }
 
 .db-breadcrumbs {
@@ -832,4 +836,9 @@ h1:focus {
 
 .claims-closed-text {
   margin-top: 1em;
+}
+
+.claims-breadcrumbs {
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
 }

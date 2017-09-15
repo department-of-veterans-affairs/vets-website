@@ -39,10 +39,10 @@ class IntroductionPage extends React.Component {
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
-              <div><h5>VA Review</h5></div>              
+              <div><h5>VA Review</h5></div>
               <p>We usually process claims within 30 days.</p>
               <p>We’ll let you know by mail if we need more information.</p>
-              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>            
+              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 5495 form to apply to manage your education benefits.
+          Please complete the 22-5495 form to apply to manage your education benefits.
         </SaveInProgressIntro>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

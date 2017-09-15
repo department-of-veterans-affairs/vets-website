@@ -10,7 +10,9 @@ body.va-pos-fixed {
   overflow-y: scroll;
   position: absolute;
   width: 100%;
-  z-index: 2;
+
+  // Just large enough to take precedence over any other dropdowns on the page and the VA Map
+  z-index: 1011; 
 
   @include media($medium-large-screen) {
     margin-top: 1rem;

@@ -12,6 +12,7 @@ import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import AdditionalEvidencePage from './containers/AdditionalEvidencePage.jsx';
 import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
+import AppealLayout from './components/AppealLayout';
 
 const routes = [
   <Redirect
@@ -28,13 +29,18 @@ const routes = [
     key="/your-claims/closed"
     path="/your-claims/closed"/>,
   <Route
-    component={AppealStatusPage}
-    key="/appeals/:id/status"
-    path="/appeals/:id/status"/>,
-  <Route
-    component={AppealLearnMorePage}
-    key="/appeals/learn-more"
-    path="/appeals/learn-more"/>,
+    component={AppealLayout}
+    key="/appeals"
+    path="/appeals">
+    <Route
+      component={AppealStatusPage}
+      key=":id/status"
+      path=":id/status"/>,
+    <Route
+      component={AppealLearnMorePage}
+      key="/appeals/learn-more"
+      path="/appeals/learn-more"/>,
+  </Route>,
   <Route
     component={ClaimPage}
     key="/your-claims/:id"

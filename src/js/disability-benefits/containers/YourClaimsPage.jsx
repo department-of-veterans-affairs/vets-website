@@ -20,6 +20,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const sortOptions = [
   {
@@ -137,7 +138,7 @@ class YourClaimsPage extends React.Component {
             <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
           </div>
         </div>);
-      } else {
+      } else if (!this.props.canAccessClaims) {
         innerContent = <NoClaims/>;
       }
 
@@ -173,17 +174,20 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="your-claims">
-        <div className="row">
-          {this.renderErrorMessages()}
-        </div>
-        <div className="row">
-          <div>
-            <h1>Your Claims and Appeals</h1>
-          </div>
-          {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
-        </div>
+        <Breadcrumbs/>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
+            <div className="row">
+              <div className="small-12 columns">
+                <h1>Your Claims and Appeals</h1>
+              </div>
+              <div className="small-12 columns">
+                {this.renderErrorMessages()}
+              </div>
+              <div className="small-12 columns">
+                {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+              </div>
+            </div>
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
