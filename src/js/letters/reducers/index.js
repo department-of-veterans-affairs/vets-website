@@ -9,6 +9,8 @@ import {
   INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
@@ -20,15 +22,16 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  benefitInfo: {},
-  destination: {},
   letters: [],
   lettersAvailability: 'awaitingResponse',
   letterDownloadStatus: {},
+  fullName: {},
+  address: {},
   optionsAvailable: false,
   requestOptions: {},
   serviceInfo: [],
-  savePending: false
+  savePending: false,
+  benefitInfo: {},
 };
 
 function letters(state = initialState, action) {
@@ -42,7 +45,7 @@ function letters(state = initialState, action) {
       return {
         ...state,
         letters: action.data.data.attributes.letters,
-        destination: action.data.data.attributes.address,
+        fullName: action.data.data.attributes.fullName,
         lettersAvailability: 'available',
         letterDownloadStatus
       };
@@ -57,6 +60,14 @@ function letters(state = initialState, action) {
       return _.set('lettersAvailability', 'unavailable', state);
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', 'letterEligibilityError', state);
+    case GET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        address: action.data.data.attributes.address,
+        addressAvailable: true
+      };
+    case GET_ADDRESS_FAILURE:
+      return _.set('addressAvailable', false, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
@@ -96,12 +107,12 @@ function letters(state = initialState, action) {
     case 'GET_LETTER_PDF_FAILURE':
       return _.set(['letterDownloadStatus', action.data], 'failure', state);
     case UPDATE_ADDRESS:
-      return _.set('destination', action.address, state);
+      return _.set('address', action.address, state);
     case SAVE_ADDRESS_PENDING:
       return _.set('savePending', true, state);
     case SAVE_ADDRESS_SUCCESS: {
       const newState = Object.assign({}, state, { savePending: false });
-      return _.set('destination', action.address, newState);
+      return _.set('address', action.address, newState);
     }
     // Add SAVE_ADDRESS_FAILURE
     default:

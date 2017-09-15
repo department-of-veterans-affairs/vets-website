@@ -14,12 +14,16 @@ export const formBenefits = {
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
-  titles[key] = key === '40-10007' // eslint-disable-line  
-    ? formBenefits[key]
-    : key === '1010ez'
-      ? `${formBenefits[key]} (10-10EZ)`
-      : `${formBenefits[key]} (${key})`;
-
+  let formNumber;
+  if (key === '40-10007') {
+    formNumber = '';
+  } else if (key === '1010ez') {
+    formNumber = ' (10-10EZ)';
+  } else {
+    formNumber = ` (${key})`;
+  }
+  const formTitle = `${formBenefits[key]}${formNumber}`;
+  titles[key] = formTitle; // eslint-disable-line no-param-reassign
   return titles;
 }, {});
 
