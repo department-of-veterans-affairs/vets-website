@@ -20,20 +20,6 @@ import {
   SAVE_ADDRESS_FAILURE
 } from '../utils/constants';
 
-// Copied from the vets-api v0/address POST swagger; TODO: delete once
-// actual form data is passed to updateAddress
-// const exampleAddress = {
-//   type: 'DOMESTIC',
-//   addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
-//   addressOne: '140 Rock Creek Church Rd NW',
-//   addressTwo: '',
-//   addressThree: '',
-//   city: 'Washington',
-//   stateCode: 'DC',
-//   zipCode: '20011',
-//   zipSuffix: '1865'
-// };
-
 export function getLetterList() {
   return (dispatch) => {
     apiRequest(

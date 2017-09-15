@@ -49,8 +49,8 @@ describe('<Address>', () => {
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
 
-    // I'm not sure why this is 12 and not 11 like it is when I look at it locally...
-    form.fillData('#errorable-text-input-12', '321 Niam');
+    // NOTE: All address lines are currently named "address", but querySelector just picks the first one
+    form.fillData('input[name="address"]', '321 Niam');
 
     // Match the first param of the first call with what we changed
     expect(updateSpy.args[0][0].addressOne).to.equal('321 Niam');
