@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -87,6 +88,19 @@ export class ApplicationStatus extends React.Component {
     return null;
   }
 }
+
+ApplicationStatus.propTypes = {
+  formId: PropTypes.string.isRequired,
+  titleText: PropTypes.string.isRequired,
+  applyText: PropTypes.string.isRequired,
+  login: PropTypes.shape({
+    currentlyLoggedIn: PropTypes.bool.isRequired
+  }),
+  profile: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    savedForms: PropTypes.array.isRequired
+  })
+};
 
 function mapStateToProps(state) {
   const { login, profile } = state.user;
