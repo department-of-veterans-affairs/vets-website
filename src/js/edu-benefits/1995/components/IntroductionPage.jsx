@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
                 <div><h6>To fill out this application, you'll need your:</h6></div>
                 <ul>
                   <li>Social Security number (required)</li>
-                  <li>Basic information about the school or training facility you want to attend (required)</li>                  
+                  <li>Basic information about the school or training facility you want to attend (required)</li>
                   <li>Bank account direct deposit information</li>
                   <li>Military history</li>
                   <li>Education history</li>
@@ -51,8 +51,9 @@ class IntroductionPage extends React.Component {
               <div  itemProp="name"><h5>VA Review</h5></div>
               <div itemProp="itemListElement">
                 <p>We usually process claims within 30 days.</p>
-                <p>We’ll let you know by mail if we need more information.</p> 
-                <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
+                <p>We’ll let you know by mail if we need more information.</p>
+                <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></p>
+              </div>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>

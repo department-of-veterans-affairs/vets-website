@@ -35,7 +35,7 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>              
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
@@ -47,10 +47,10 @@ class IntroductionPage extends React.Component {
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
-              <div><h5>VA Review</h5></div>              
+              <div><h5>VA Review</h5></div>
               <p>We usually process claims within 30 days.</p>
               <p>We’ll let you know by mail if we need more information.</p>
-              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>            
+              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>

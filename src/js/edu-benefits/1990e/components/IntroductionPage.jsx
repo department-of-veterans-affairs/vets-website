@@ -28,12 +28,12 @@ class IntroductionPage extends React.Component {
               <div><h6>To fill out this application, you'll need your:</h6></div>
               <ul>
                 <li>Social Security number (required)</li>
-                <li>Sponsor’s Social Security number (required)</li>                
+                <li>Sponsor’s Social Security number (required)</li>
                 <li>Basic information about the school or training facility you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-               <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
