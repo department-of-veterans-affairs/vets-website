@@ -13,8 +13,10 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS_SUCCESS,
-  UPDATE_ADDRESS_FAILURE
+  UPDATE_ADDRESS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_FAILURE
 } from '../utils/constants';
 
 // Copied from the vets-api v0/address POST swagger; TODO: delete once
@@ -158,33 +160,48 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
-export function updateAddressSuccess(address) {
-  return {
-    type: UPDATE_ADDRESS_SUCCESS,
-    address
-  };
-}
-
-export function updateAddressFailure(address) {
-  return {
-    type: UPDATE_ADDRESS_FAILURE,
-    address
-  };
-}
-
 export function updateAddress(address) {
+  return {
+    type: UPDATE_ADDRESS,
+    address
+  };
+}
+
+export function saveAddressPending() {
+  return {
+    type: SAVE_ADDRESS_PENDING
+  };
+}
+
+export function saveAddressSuccess(address) {
+  return {
+    type: SAVE_ADDRESS_SUCCESS,
+    address
+  };
+}
+
+export function saveAddressFailure(address) {
+  return {
+    type: SAVE_ADDRESS_FAILURE,
+    address
+  };
+}
+
+export function saveAddress(address) {
   const settings = {
     method: 'PATCH',  // TODO: decide whether to use PATCH or PUT here; check with Alastair
     headers: { 'Content-Type': 'application/json' },
-    // TODO: pass in an address argument instead of using exampleAddress
     body: JSON.stringify(address)
   };
   return (dispatch) => {
+    // TODO: Show a spinner or some kind of indication we're waiting on this to return
+    dispatch(saveAddressPending());
+
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(updateAddressSuccess(address)),
-      () => dispatch(updateAddressFailure(address))
+      () => dispatch(saveAddressSuccess(address)),
+      () => dispatch(saveAddressFailure(address))
     );
   };
 }
