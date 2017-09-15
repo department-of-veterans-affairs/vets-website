@@ -56,7 +56,7 @@ class SideBarMenu {
       setTimeout(() => {
         this.menu.classList.remove('va-sidebarnav--opened');
         document.body.classList.remove('va-pos-fixed');
-      }, 300)
+      }, 300);
       
     })
   }  
