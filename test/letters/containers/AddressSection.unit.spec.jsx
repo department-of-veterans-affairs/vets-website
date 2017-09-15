@@ -7,12 +7,10 @@ import _ from 'lodash';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection.jsx';
 
 const defaultProps = {
-  destination: {
-    addressLine1: '2476 Main Street',
+  address: {
+    addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',
-    foreignCode: '865',
-    fullName: 'Mark Webb',
     state: 'VA',
     zipCode: '12345'
   }
@@ -31,16 +29,16 @@ describe('<AddressSection>', () => {
   });
 
   it('should format address 2 address lines', () => {
-    const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
+    const props = _.merge({}, defaultProps, { address: { addressTwo: 'ste #12' } });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
   });
 
   it('should format address 3 address lines', () => {
     const props = _.merge({}, defaultProps, {
-      destination: {
-        addressLine2: 'ste #12',
-        addressLine3: 'west'
+      address: {
+        addressTwo: 'ste #12',
+        addressThree: 'west'
       }
     });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
