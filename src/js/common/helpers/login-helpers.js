@@ -99,13 +99,13 @@ export function getLoginUrls(onUpdateLoginUrls) {
   return loginUrlsRequest;
 }
 
-export function handleLogin(loginUrl, onUpdateLoginUrls) {
+export function handleLogin(loginUrl) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
     const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-    return getLoginUrls(onUpdateLoginUrls);
+    return null;
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
 }
