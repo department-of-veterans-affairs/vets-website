@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import includes from 'lodash/fp/includes';
+import Raven from 'raven-js';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
+import { STATE_CODE_TO_NAME } from './constants.js';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -244,3 +246,36 @@ export const benefitOptionsMap = {
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };
+
+export function isDomesticAddress(address) {
+  return (address.type === 'DOMESTIC');
+}
+
+export function isInternationalAddress(address) {
+  return (address.type === 'INTERNATIONAL');
+}
+
+export function isMilitaryAddress(address) {
+  return (address.type === 'MILITARY');
+}
+
+export function getZipCode(address) {
+  if (isInternationalAddress(address)) {
+    return '';
+  }
+  const parts = [
+    address.zipCode,
+    address.zipSuffix ? `-${address.zipSuffix}` : ''
+  ];
+  return parts.join('');
+}
+
+export function getStateName(stateCode) {
+  const stateName = STATE_CODE_TO_NAME[stateCode];
+
+  if (stateName === undefined) {
+    Raven.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
+  }
+
+  return stateName || '';
+}

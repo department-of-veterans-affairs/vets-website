@@ -57,7 +57,8 @@ function mapStateToProps(state) {
   return {
     profile: userState.profile,
     letters: letterState.letters,
-    destination: letterState.destination,
+    fullName: letterState.fullName,
+    address: letterState.address,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {
