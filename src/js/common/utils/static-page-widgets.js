@@ -26,7 +26,7 @@ function mountWidgets(widgets) {
         setTimeout(function() {
           var replacedWithWidget = !root.querySelector('.static-content');
           if (!replacedWithWidget && widget.errorMessage) {
-            root.innerHTML = '<div class="usa-alert usa-alert-error">' +
+            root.innerHTML = '<div class="usa-alert usa-alert-error sip-application-error">' +
               '<div class="usa-alert-body">' + widget.errorMessage + '</div>' +
             '</div>';
           } else if (!replacedWithWidget) {

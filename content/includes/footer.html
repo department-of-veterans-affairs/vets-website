@@ -124,6 +124,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 {% if widgets %}
 <script type="text/javascript">
 var widgets = {{ widgets | json }};
+var module = {};
 {% include "src/js/common/utils/static-page-widgets.js" %}
 mountWidgets(widgets);
 </script>

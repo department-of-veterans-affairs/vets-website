@@ -75,13 +75,17 @@ export class ApplicationStatus extends React.Component {
 
     if (!profile.loading && showApplyButton) {
       return (
-        <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+        <div className="sip-application-status">
+          <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+        </div>
       );
     }
 
     if (profile.loading) {
       return (
-        <LoadingIndicator message="Checking your application status"/>
+        <div className="sip-application-status">
+          <LoadingIndicator message="Checking your application status"/>
+        </div>
       );
     }
 
