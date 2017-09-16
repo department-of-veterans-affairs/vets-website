@@ -73,7 +73,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the 22-1990 form to apply for education benefits.
+          Please complete the 22-1995 form to apply to manage your education benefits.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="05/31/2018"/>
