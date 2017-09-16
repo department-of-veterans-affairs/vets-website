@@ -120,7 +120,7 @@ SaveInProgressErrorPage.propTypes = {
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
-  loginUrls: PropTypes.array,
+  loginUrls: PropTypes.object,
   updateLogInUrls: PropTypes.func.isRequired
 };
 

@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl } from '../actions';
+import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
+    this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
@@ -20,6 +21,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     if (sessionStorage.userToken) {
+      this.getLoginUrls();
       this.getLogoutUrl();
     }
     addEvent(window, 'message', (evt) => {
@@ -29,6 +31,7 @@ class Main extends React.Component {
   }
 
   componentWillUnmount() {
+    this.loginUrlRequest.abort();
     this.logoutUrlRequest.abort();
   }
 
@@ -37,6 +40,10 @@ class Main extends React.Component {
       this.getUserData(this.props.dispatch);
       this.getLogoutUrl();
     }
+  }
+
+  getLoginUrls() {
+    this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
   }
 
   getLogoutUrl() {
@@ -99,6 +106,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onUpdateLoginUrls: (update) => {
+      dispatch(updateLogInUrls(update));
+    },
     onUpdateLogoutUrl: (update) => {
       dispatch(updateLogoutUrl(update));
     },

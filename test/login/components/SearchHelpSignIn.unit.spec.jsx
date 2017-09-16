@@ -30,6 +30,11 @@ function buildProps(defaultProps, props = {}) {
 describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
     global.sessionStorage = {};
+    global.window = {
+      location: {
+        replace: () => {},
+      }
+    };
     global.window.location.pathname = '/';
   });
 
