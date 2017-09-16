@@ -30,7 +30,12 @@ function buildProps(defaultProps, props = {}) {
 describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
     global.sessionStorage = {};
-    global.window.location = {};
+    global.window = {
+      location: {
+        replace: () => {},
+      }
+    };
+    global.window.location.pathname = '/';
   });
 
   let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps} profile={{ loading: false }}/>);

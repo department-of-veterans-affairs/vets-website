@@ -4,8 +4,18 @@ import React from 'react';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 class Verify extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleVerify = this.handleVerify.bind(this);
+  }
+
   componentDidMount() {
     window.dataLayer.push({ event: 'verify-prompt-displayed' });
+  }
+
+  handleVerify() {
+    handleVerify(this.props.verifyUrl);
   }
 
   render() {
@@ -33,7 +43,7 @@ class Verify extends React.Component {
                 <a href="/faq#dbq2">Why does Vets.gov verify identity?</a>
               </p>
               <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
-              <button className="usa-button-primary va-button-primary" onClick={() => handleVerify(this.props.verifyUrl)}>
+              <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
                 <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
               </button>
               <span className="sidelines">OR</span>
@@ -41,7 +51,7 @@ class Verify extends React.Component {
               <h4>Already using other VA online services?</h4>
               <p>If you have a <strong>premium account</strong> with My HealtheVet or DS Logon, you can use it to verify your identity automatically:</p>
 
-              <button className="dslogon" onClick={() => handleVerify(this.props.verifyUrl)}>
+              <button className="dslogon" onClick={this.handleVerify}>
                 <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
               </button>
               <span>(Used for eBenefits and milConnect)</span>

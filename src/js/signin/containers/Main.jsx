@@ -5,7 +5,7 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, handleLogin, getLoginUrls } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
+import { updateLoggedInStatus, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
@@ -35,6 +35,10 @@ class Main extends React.Component {
     window.onload = this.checkTokenStatus();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.getVerifyUrl(!this.props.login.currentlyLoggedIn && nextProps.login.currentlyLoggedIn);
+  }
+
   componentWillUnmount() {
     this.loginUrlRequest.abort();
     this.verifyUrlRequest.abort();
@@ -45,11 +49,14 @@ class Main extends React.Component {
     this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
   }
 
-  getVerifyUrl() {
-    if (!this.props.login.currentlyLoggedIn) return;
+  getVerifyUrl(forceRequest) {
+    if (!forceRequest && !this.props.login.currentlyLoggedIn) return;
 
     this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
       method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${sessionStorage.userToken}`
+      })
     }).then(response => {
       return response.json();
     }).then(json => {
@@ -150,9 +157,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
-    },
     onUpdateLoginUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },

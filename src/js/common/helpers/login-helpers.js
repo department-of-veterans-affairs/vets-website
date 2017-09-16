@@ -1,5 +1,5 @@
 import environment from './environment.js';
-import { updateLoggedInStatus } from '../../login/actions';
+import { updateLoggedInStatus, updateLogInUrls } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
@@ -87,18 +87,6 @@ export function addEvent(element, eventName, callback) {
   }
 }
 
-export function getLoginUrl(onUpdateLoginUrl) {
-  const loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
-    method: 'GET',
-  }).then(response => {
-    return response.json();
-  }).then(json => {
-    onUpdateLoginUrl(json.authenticate_via_get);
-  });
-
-  return loginUrlRequest;
-}
-
 export function getLoginUrls(onUpdateLoginUrls) {
   const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
     method: 'GET',
@@ -111,13 +99,13 @@ export function getLoginUrls(onUpdateLoginUrls) {
   return loginUrlsRequest;
 }
 
-export function handleLogin(loginUrl, onUpdateLoginUrl) {
+export function handleLogin(loginUrl, onUpdateLoginUrls) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
     const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-    return getLoginUrl(onUpdateLoginUrl);
+    return getLoginUrls(onUpdateLoginUrls || updateLogInUrls);
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
 }
