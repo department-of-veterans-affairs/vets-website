@@ -53,7 +53,16 @@ export const trackingPrefixes = {
   '40-10007': 'preneed-'
 };
 
-export const sipEnabledForms = new Set(['1010ez', '21P-527EZ', '21P-530', '22-1990', '22-1990E', '22-5495', '22-1990N']);
+export const sipEnabledForms = new Set([
+  '1010ez',
+  '21P-527EZ',
+  '21P-530',
+  '22-1990',
+  '22-1990E',
+  '22-1990N',
+  '22-1995',
+  '22-5495'
+]);
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
