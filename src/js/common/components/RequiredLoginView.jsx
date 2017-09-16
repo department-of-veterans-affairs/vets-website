@@ -1,3 +1,4 @@
+import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
@@ -30,14 +31,16 @@ class RequiredLoginView extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    const currentPath = window.location.pathname;
+    const nextQuery = { next: window.location.pathname };
+    const signInUrl = appendQuery('/signin', nextQuery);
+    const verifyUrl = appendQuery('/verify', nextQuery);
 
     if (this.props.authRequired === 1) {
       if (this.props.userProfile.accountType >= 1) {
         return this.props.children;
       }
 
-      return window.location.replace(`/signin?next=${currentPath}`);
+      return window.location.replace(signInUrl);
 
     } else if (this.props.authRequired === 3) {
       if (this.props.userProfile.accountType === 3) {
@@ -81,10 +84,10 @@ class RequiredLoginView extends React.Component {
           return React.cloneElement(child, props);
         });
       } else if (this.props.userProfile.accountType === 1) {
-        return window.location.replace(`/verify?next=${currentPath}`);
+        return window.location.replace(verifyUrl);
       }
 
-      return window.location.replace(`/signin?next=${currentPath}`);
+      return window.location.replace(signInUrl);
     }
 
     return this.props.children;

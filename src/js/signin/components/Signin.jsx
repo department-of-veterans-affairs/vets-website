@@ -21,10 +21,7 @@ class Signin extends React.Component {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
 
-      if (nextPath) {
-        return window.location.replace(nextPath);
-      }
-      return window.location.replace('/');
+      return window.location.replace(nextPath || '/');
     }
 
     return window.dataLayer.push({ event: 'login-prompt-displayed' });

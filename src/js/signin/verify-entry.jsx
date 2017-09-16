@@ -14,16 +14,12 @@ require('../../sass/login.scss');
 
 const commonStore = createCommonStore(reducer);
 
-export default function createLoginWidget(store, rootElementId = 'login-root') {
-  function init() {
-    ReactDOM.render((
-      <Provider store={store}>
-        <Main verify/>
-      </Provider>
-    ), document.getElementById(rootElementId));
-  }
-
-  initReact(init);
+function init() {
+  ReactDOM.render((
+    <Provider store={commonStore}>
+      <Main verify/>
+    </Provider>
+  ), document.getElementById('react-root'));
 }
 
-createLoginWidget(commonStore, 'react-root');
+initReact(init);
