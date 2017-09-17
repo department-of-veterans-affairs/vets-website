@@ -47,6 +47,82 @@ describe('Schemaform <FormPage>', () => {
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
+  it('should display SaveLink and SaveStatus for SiP enabled forms', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).not.to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).not.to.be.empty;
+  });
+  it('should not display SaveLink or SaveStatus for non-SiP enabled forms', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: true,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).to.be.empty;
+  });
   describe('should handle', () => {
     let tree;
     let setData;

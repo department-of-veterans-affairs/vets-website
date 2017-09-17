@@ -29,7 +29,7 @@ class SaveStatus extends React.Component {
           {savedAt && !isSaving && <div className="panel saved-success-container">
             <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
           </div>}
-          {isSaving && <p style={{ fontStyle: 'italic' }}>Saving...</p>}
+          {isSaving && <p className="saving">Saving...</p>}
           {this.props.children}
         </div>
       </div>
