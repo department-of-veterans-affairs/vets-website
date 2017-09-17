@@ -160,7 +160,7 @@ class SchemaForm extends React.Component {
           liveValidate
           noHtml5Validate
           onError={this.onError}
-          autoSave={this.autoSave}
+          onBlur={this.onBlur}
           onChange={({ formData }) => onChange(formData)}
           onSubmit={onSubmit}
           schema={schema}
