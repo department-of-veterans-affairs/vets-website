@@ -1,5 +1,5 @@
 import environment from './environment.js';
-import { updateLoggedInStatus } from '../../login/actions';
+import { updateLoggedInStatus, updateLogInUrls } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
@@ -9,6 +9,30 @@ export function handleVerify(verifyUrl) {
     const receiver = window.open(`${verifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
+}
+
+export function handleMultifactor(multifactorUrl) {
+  window.dataLayer.push({ event: 'multifactor-link-clicked' });
+  if (multifactorUrl) {
+    window.dataLayer.push({ event: 'multifactor-link-opened' });
+    const receiver = window.open(multifactorUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+}
+
+export function getMultifactorUrl(onUpdateMultifactorUrl) {
+  const getMultifactorUrlRequest = fetch(`${environment.API_URL}/v0/sessions/multifactor`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Token token=${sessionStorage.userToken}`
+    })
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateMultifactorUrl(json.multifactor_url);
+  });
+
+  return getMultifactorUrlRequest;
 }
 
 export function getUserData(dispatch) {
@@ -37,6 +61,9 @@ export function getUserData(dispatch) {
           middle: userData.middle_name,
           last: userData.last_name,
         },
+        authnContext: userData.authn_context,
+        loa: userData.loa,
+        multifactor: userData.multifactor,
         gender: userData.gender,
         dob: userData.birth_date,
         status: json.data.attributes.va_profile.status,
@@ -60,25 +87,25 @@ export function addEvent(element, eventName, callback) {
   }
 }
 
-export function getLoginUrl(onUpdateLoginUrl) {
-  const loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+export function getLoginUrls(onUpdateLoginUrls) {
+  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
     method: 'GET',
   }).then(response => {
     return response.json();
   }).then(json => {
-    onUpdateLoginUrl(json.authenticate_via_get);
+    onUpdateLoginUrls(json);
   });
 
-  return loginUrlRequest;
+  return loginUrlsRequest;
 }
 
-export function handleLogin(loginUrl, onUpdateLoginUrl) {
+export function handleLogin(loginUrl, onUpdateLoginUrls) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
     const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-    return getLoginUrl(onUpdateLoginUrl);
+    return getLoginUrls(onUpdateLoginUrls || updateLogInUrls);
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
 }
