@@ -105,7 +105,7 @@ export function notQualifiedWarning() {
 
 export function noChapter33BenefitsWarning() {
   return (
-    <div className="record-not-found">
+    <div id="noChapter33Benefits">
       <header>
         <h1>We couldn’t find your Post-9/11 GI Bill information.</h1>
       </header>
