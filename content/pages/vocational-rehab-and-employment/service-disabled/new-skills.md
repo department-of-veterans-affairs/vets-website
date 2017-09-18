@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to succeed in your career path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training through VR&E. 
+If you have a service-connected disability that makes it hard for you to succeed in your career path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training with VR&E. 
 
 </div>
 
