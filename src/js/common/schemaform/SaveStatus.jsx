@@ -6,17 +6,11 @@ import { SAVE_STATUSES } from './save-load-actions';
 
 class SaveStatus extends React.Component {
   render() {
-    const { form, profile } = this.props;
+    const { form } = this.props;
     let savedAt;
     let savedAtMessage;
-    const savedForm = profile && profile.savedForms.length > 0 && profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
-      .find(f => f.form === form.formId);
-    if (savedForm || form.lastSavedDate) {
-
-      savedAt = form.lastSavedDate
-        ? moment(this.props.lastSavedDate)
-        : moment.unix(savedForm.last_updated);
+    if (form.lastSavedDate) {
+      savedAt = moment(this.props.lastSavedDate);
       savedAtMessage = ` Last saved at ${savedAt.format('M/D/YYYY [at] h:mm a')}`;
     } else {
       savedAtMessage = '';
