@@ -3,8 +3,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
+import sinon from 'sinon';
 
-import { AddressSection } from '../../../src/js/letters/containers/AddressSection.jsx';
+import { getFormDOM } from '../../util/schemaform-utils';
+import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
+
+const saveSpy = sinon.spy();
 
 const defaultProps = {
   address: {
@@ -13,7 +17,8 @@ const defaultProps = {
     country: 'US',
     state: 'VA',
     zipCode: '12345'
-  }
+  },
+  saveAddress: saveSpy
 };
 
 describe('<AddressSection>', () => {
@@ -47,26 +52,30 @@ describe('<AddressSection>', () => {
 
   it('should expand address fields when Edit button is clicked', () => {
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    const tree = getFormDOM(component);
+
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    ReactTestUtils.Simulate.click(editButton);
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
   });
 
-  it('should collase address fields when Update button is clicked', () => {
+  it('should collapse address fields when Update button is clicked', () => {
+    saveSpy.reset();
+
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    const tree = getFormDOM(component);
+
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    ReactTestUtils.Simulate.click(editButton);
+    tree.click('button.usa-button-outline');
 
-    const updateButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
-    ReactTestUtils.Simulate.click(updateButton);
+    tree.click('button.usa-button-primary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    expect(saveSpy.calledWith(defaultProps.address)).to.be.true;
   });
 });

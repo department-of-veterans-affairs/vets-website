@@ -56,6 +56,11 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('should update request option when checked', () => {
+    const oldWindow = global.window;
+    global.window = {
+      dataLayer: [],
+    };
+
     const updateOption = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
@@ -78,6 +83,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     });
 
     expect(updateOption.calledTwice).to.be.true;
+    global.window = oldWindow;
   });
 
   it('Does not render dependent options for veterans', () => {

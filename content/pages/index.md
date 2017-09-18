@@ -48,8 +48,8 @@ you’ve earned.</div>
     Apply for health care
   </a>
 
-  <a href="/facilities/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-facility' });">
-    Find nearby VA locations
+  <a href="/education/apply/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-education' });">
+    Apply for education benefits
   </a>
 
   <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">

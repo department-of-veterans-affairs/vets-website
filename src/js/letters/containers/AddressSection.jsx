@@ -10,13 +10,19 @@ import {
   isInternationalAddress,
   invalidAddressProperty
 } from '../utils/helpers.jsx';
-import { updateAddress } from '../actions/letters';
+import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 
 export class AddressSection extends React.Component {
   constructor() {
     super();
     this.state = { isEditingAddress: false };
+  }
+
+  handleUpdate = () => {
+    this.setState({ isEditingAddress: false });
+
+    this.props.saveAddress(this.props.address);
   }
 
   render() {
@@ -52,7 +58,7 @@ export class AddressSection extends React.Component {
             value={address}
             onUserInput={(addr) => {this.props.updateAddress(addr);}}
             required/>
-          <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
+          <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
@@ -106,7 +112,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  updateAddress
+  updateAddress,
+  saveAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
+
