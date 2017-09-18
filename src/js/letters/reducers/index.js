@@ -9,22 +9,34 @@ import {
   INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
+  GET_LETTER_PDF_SUCCESS,
+  GET_LETTER_PDF_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  AVAILABILITY_STATUSES,
+  DOWNLOAD_STATUSES,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  // SAVE_ADDRESS_FAILURE
 } from '../utils/constants';
 
 const initialState = {
-  benefitInfo: {},
-  destination: {},
   letters: [],
-  lettersAvailability: 'awaitingResponse',
+  lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
+  fullName: {},
+  address: {},
   optionsAvailable: false,
   requestOptions: {},
-  serviceInfo: []
+  serviceInfo: [],
+  savePending: false,
+  benefitInfo: {},
 };
 
 function letters(state = initialState, action) {
@@ -32,27 +44,35 @@ function letters(state = initialState, action) {
     case GET_LETTERS_SUCCESS: {
       const letterDownloadStatus = {};
       _.forEach((letter) => {
-        letterDownloadStatus[letter.letterType] = 'pending';
+        letterDownloadStatus[letter.letterType] = DOWNLOAD_STATUSES.pending;
       }, action.data.data.attributes.letters);
 
       return {
         ...state,
         letters: action.data.data.attributes.letters,
-        destination: action.data.data.attributes.address,
-        lettersAvailability: 'available',
+        fullName: action.data.data.attributes.fullName,
+        lettersAvailability: AVAILABILITY_STATUSES.available,
         letterDownloadStatus
       };
     }
     case BACKEND_SERVICE_ERROR:
-      return _.set('lettersAvailability', 'backendServiceError', state);
+      return _.set('lettersAvailability', AVAILABILITY_STATUSES.backendServiceError, state);
     case BACKEND_AUTHENTICATION_ERROR:
-      return _.set('lettersAvailability', 'backendAuthenticationError', state);
+      return _.set('lettersAvailability', AVAILABILITY_STATUSES.backendAuthenticationError, state);
     case INVALID_ADDRESS_PROPERTY:
-      return _.set('lettersAvailability', 'invalidAddressProperty', state);
+      return _.set('lettersAvailability', AVAILABILITY_STATUSES.invalidAddressProperty, state);
     case GET_LETTERS_FAILURE:
-      return _.set('lettersAvailability', 'unavailable', state);
+      return _.set('lettersAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case LETTER_ELIGIBILITY_ERROR:
-      return _.set('lettersAvailability', 'letterEligibilityError', state);
+      return _.set('lettersAvailability', AVAILABILITY_STATUSES.letterEligibilityError, state);
+    case GET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        address: action.data.data.attributes.address,
+        addressAvailable: true
+      };
+    case GET_ADDRESS_FAILURE:
+      return _.set('addressAvailable', false, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
@@ -85,14 +105,21 @@ function letters(state = initialState, action) {
       return _.set('optionsAvailable', false, state);
     case UPDATE_BENFIT_SUMMARY_REQUEST_OPTION:
       return _.set(['requestOptions', action.propertyPath], action.value, state);
-    case 'GET_LETTER_PDF_DOWNLOADING':
-      return _.set(['letterDownloadStatus', action.data], 'downloading', state);
-    case 'GET_LETTER_PDF_SUCCESS':
-      return _.set(['letterDownloadStatus', action.data], 'success', state);
-    case 'GET_LETTER_PDF_FAILURE':
-      return _.set(['letterDownloadStatus', action.data], 'failure', state);
+    case GET_LETTER_PDF_DOWNLOADING:
+      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.downloading, state);
+    case GET_LETTER_PDF_SUCCESS:
+      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.success, state);
+    case GET_LETTER_PDF_FAILURE:
+      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
     case UPDATE_ADDRESS:
-      return _.set('destination', action.address, state);
+      return _.set('address', action.address, state);
+    case SAVE_ADDRESS_PENDING:
+      return _.set('savePending', true, state);
+    case SAVE_ADDRESS_SUCCESS: {
+      const newState = Object.assign({}, state, { savePending: false });
+      return _.set('address', action.address, newState);
+    }
+    // Add SAVE_ADDRESS_FAILURE
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
 
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';
+import formConfig from '../../../../src/js/edu-benefits/1990/config/form.js';
 
 describe('Edu 1990 applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;

@@ -3,19 +3,22 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
+import sinon from 'sinon';
 
-import { AddressSection } from '../../../src/js/letters/containers/AddressSection.jsx';
+import { getFormDOM } from '../../util/schemaform-utils';
+import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
+
+const saveSpy = sinon.spy();
 
 const defaultProps = {
-  destination: {
-    addressLine1: '2476 Main Street',
+  address: {
+    addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',
-    foreignCode: '865',
-    fullName: 'Mark Webb',
     state: 'VA',
     zipCode: '12345'
-  }
+  },
+  saveAddress: saveSpy
 };
 
 describe('<AddressSection>', () => {
@@ -31,16 +34,16 @@ describe('<AddressSection>', () => {
   });
 
   it('should format address 2 address lines', () => {
-    const props = _.merge({}, defaultProps, { destination: { addressLine2: 'ste #12' } });
+    const props = _.merge({}, defaultProps, { address: { addressTwo: 'ste #12' } });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
   });
 
   it('should format address 3 address lines', () => {
     const props = _.merge({}, defaultProps, {
-      destination: {
-        addressLine2: 'ste #12',
-        addressLine3: 'west'
+      address: {
+        addressTwo: 'ste #12',
+        addressThree: 'west'
       }
     });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
@@ -49,26 +52,30 @@ describe('<AddressSection>', () => {
 
   it('should expand address fields when Edit button is clicked', () => {
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    const tree = getFormDOM(component);
+
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    ReactTestUtils.Simulate.click(editButton);
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
   });
 
-  it('should collase address fields when Update button is clicked', () => {
+  it('should collapse address fields when Update button is clicked', () => {
+    saveSpy.reset();
+
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    const tree = getFormDOM(component);
+
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    ReactTestUtils.Simulate.click(editButton);
+    tree.click('button.usa-button-outline');
 
-    const updateButton = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'button')[0];
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
-    ReactTestUtils.Simulate.click(updateButton);
+    tree.click('button.usa-button-primary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    expect(saveSpy.calledWith(defaultProps.address)).to.be.true;
   });
 });

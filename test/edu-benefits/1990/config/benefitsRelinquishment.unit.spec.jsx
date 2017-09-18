@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import _ from 'lodash/fp';
 
 import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1990-rjsf/config/form.js';
+import formConfig from '../../../../src/js/edu-benefits/1990/config/form.js';
 
 describe('Edu 1990 benefitsRelinquishment', () => {
   const { schema, uiSchema, initialData } = formConfig.chapters.benefitsEligibility.pages.benefitsRelinquishment;
