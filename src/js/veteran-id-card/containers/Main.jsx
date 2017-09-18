@@ -36,7 +36,7 @@ class Main extends React.Component {
   renderErrors() {
     const { errors } = this.props;
     const code = head(errors).code;
-    const detail = has(messages, code) ? messages.code : messages.default;
+    const detail = has(messages, code) ? messages[code] : messages.default;
     const content = (
       <div>
         <h4>We can't process your request</h4>
