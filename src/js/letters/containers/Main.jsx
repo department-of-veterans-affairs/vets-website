@@ -10,9 +10,8 @@ import {
   getLetterList,
   getMailingAddress,
   getAddressCountries,
-  // getAddressStates
+  getAddressStates
 } from '../actions/letters';
-import { invalidAddressProperty } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -20,7 +19,7 @@ export class Main extends React.Component {
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
     this.props.getAddressCountries();
-    // this.props.getAddressStates();
+    this.props.getAddressStates();
   }
 
   render() {
@@ -39,7 +38,6 @@ export class Main extends React.Component {
       case AVAILABILITY_STATUSES.backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      // Need a permanent UI for this
       case AVAILABILITY_STATUSES.invalidAddressProperty:
         appContent = systemDownMessage;
         break;
@@ -93,7 +91,7 @@ const mapDispatchToProps = {
   getLetterList,
   getMailingAddress,
   getAddressCountries,
-  // getAddressStates
+  getAddressStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

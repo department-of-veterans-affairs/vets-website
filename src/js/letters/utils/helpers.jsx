@@ -233,6 +233,12 @@ export const benefitOptionsMap = {
   militaryService: 'militaryService'
 };
 
+export const militaryStateNames = [
+  { label: 'Armed Forces Americas (AA)', value: 'AA' },
+  { label: 'Armed Forces Europe (AE)', value: 'AE' },
+  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
+];
+
 export function isDomesticAddress(address) {
   return (address.type === 'DOMESTIC');
 }

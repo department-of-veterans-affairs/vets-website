@@ -24,10 +24,10 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   // SAVE_ADDRESS_FAILURE,
-  // GET_ADDRESS_COUNTRIES_SUCCESS,
-  // GET_ADDRESS_COUNTRIES_FAILURE,
-  // GET_ADDRESS_STATES_SUCCESS,
-  // GET_ADDRESS_STATES_FAILURE
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 const setStates = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'AS', 'DC', 'FM', 'GU', 'MH', 'MP', 'PW', 'PR', 'UM', 'VI', 'PI'];
@@ -35,7 +35,9 @@ const setCountries = ['Afghanistan', 'Albania', 'Algeria', 'Angola', 'Anguilla',
 
 const initialState = {
   countries: setCountries,
+  countriesAvailable: false,
   states: setStates,
+  statesAvailable: false,
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
@@ -133,9 +135,23 @@ function letters(state = initialState, action) {
     }
     // Add SAVE_ADDRESS_FAILURE
     case GET_ADDRESS_COUNTRIES_SUCCESS:
-      return _.set('countries', action.countries, state);
+      // return _.set('countries', action.countries, state);
+      return {
+        ...state,
+        countries: action.countries,
+        countriesAvailable: true
+      };
+    case GET_ADDRESS_COUNTRIES_FAILURE:
+      return _.set('countriesAvailable', false, state);
     case GET_ADDRESS_STATES_SUCCESS:
-      return _.set('states', action.states, state);
+      // return _.set('states', action.states, state);
+      return {
+        ...state,
+        states: action.states,
+        statesAvailable: true
+      };
+    case GET_ADDRESS_STATES_FAILURE:
+      return _.set('statesAvailable', false, state);
     default:
       return state;
   }
