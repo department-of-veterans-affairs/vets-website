@@ -15,6 +15,15 @@ export class ApplicationStatus extends React.Component {
     this.state = {
       modalOpen: false
     };
+
+    moment.updateLocale('en', {
+      meridiem: (hour) => {
+        if (hour < 12) {
+          return 'a.m.';
+        }
+        return 'p.m.';
+      }
+    });
   }
 
   removeForm = () => {
@@ -61,11 +70,11 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={this.removeForm}
-                buttonText="Yes, delete it"
+                buttonText="Start Over"
                 buttonClass="usa-button-primary"/>
               <ProgressButton
                 onButtonClick={this.toggleModal}
-                buttonText="No, keep it"
+                buttonText="Cancel"
                 buttonClass="usa-button-outline"/>
             </Modal>
           </div>

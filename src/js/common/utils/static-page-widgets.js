@@ -1,6 +1,5 @@
 function mountWidgets(widgets) {
   widgets
-    .filter(function (widget) { return widget.spinner; })
     .forEach(function (widget) {
       var root = document.getElementById(widget.root);
       var timeout = (widget.timeout || 0) * 1000;
