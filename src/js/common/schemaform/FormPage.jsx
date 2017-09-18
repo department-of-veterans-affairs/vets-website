@@ -105,14 +105,11 @@ class FormPage extends React.Component {
   }
 
   autoSave() {
-    const { route, params, form } = this.props;
-    let data = form.data;
+    const { form } = this.props;
+    const data = form.data;
     const { formId, version } = form;
     const returnUrl = this.props.locationPathname;
 
-    if (route.pageConfig.showPagePerItem) {
-      data = _.get([route.pageConfig.arrayPath, params.index], data);
-    }
     this.props.saveInProgressForm(formId, version, returnUrl, data, true);
   }
 
@@ -175,15 +172,13 @@ class FormPage extends React.Component {
           {!form.disableSave && <SaveStatus
             form={form}
             profile={profile}>
-            <div className="small-12 columns">
-              <SaveFormLink
-                locationPathname={this.props.location.pathname}
-                form={form}
-                user={this.props.user}
-                saveInProgressForm={this.props.saveInProgressForm}
-                onUpdateLoginUrl={this.props.updateLogInUrls}/>
-            </div>
           </SaveStatus>}
+          {!form.disableSave && <SaveFormLink
+            locationPathname={this.props.location.pathname}
+            form={form}
+            user={this.props.user}
+            saveInProgressForm={this.props.saveInProgressForm}
+            onUpdateLoginUrl={this.props.updateLogInUrls}/>}
         </SchemaForm>
       </div>
     );

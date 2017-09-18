@@ -7,7 +7,6 @@ import { SAVE_STATUSES } from './save-load-actions';
 class SaveStatus extends React.Component {
   render() {
     const { form, profile } = this.props;
-
     let savedAt;
     let savedAtMessage;
     const savedForm = profile && profile.savedForms.length > 0 && profile.savedForms
@@ -24,14 +23,11 @@ class SaveStatus extends React.Component {
     }
     const isSaving = form.savedStatus === SAVE_STATUSES.autoPending;
     return (
-      <div className="row">
-        <div className="small-12 columns">
-          {savedAt && !isSaving && <div className="panel saved-success-container">
-            <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
-          </div>}
-          {isSaving && <p className="saving">Saving...</p>}
-          {this.props.children}
-        </div>
+      <div>
+        {savedAt && !isSaving && <div className="panel saved-success-container">
+          <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
+        </div>}
+        {isSaving && <p className="saving">Saving...</p>}
       </div>
     );
   }
