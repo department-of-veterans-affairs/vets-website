@@ -9,17 +9,7 @@ describe('<SaveStatus>', () => {
   const props = {
     form: {
       formId: '1010ez',
-    },
-    profile: {
-      savedForms: [
-        {
-          form: '1010ez',
-          metadata: {
-            last_updated: 1503688891,  // eslint-disable-line camelcase
-            expires_at: 2504788891  // eslint-disable-line camelcase
-          }
-        }
-      ]
+      lastSavedDate: 1505770055
     }
   };
   it('should render', () => {
@@ -38,7 +28,7 @@ describe('<SaveStatus>', () => {
   });
   it('should not show a status for an unsaved form', () => {
     props.form.savedStatus = undefined;
-    props.profile.savedForms = [];
+    props.form.lastSavedDate = undefined;
     const tree = SkinDeep.shallowRender(<SaveStatus {...props}/>);
     expect(tree.text()).to.not.have.string('Application has been saved.');
     expect(tree.text()).to.not.have.string('Saving...');
