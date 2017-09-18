@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 
-export function removeInProgressForm(formId) {
+export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -26,6 +26,6 @@ export function removeInProgressForm(formId) {
       Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
     }
 
-    return Promise.resolve();
+    return Promise.reject(res);
   });
 }

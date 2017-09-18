@@ -10,7 +10,6 @@ describe('schemaform <ApplicationStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
-        titleText="Application"
         login={{}}
         profile={{
           loading: true
@@ -23,14 +22,14 @@ describe('schemaform <ApplicationStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
-        titleText="Application"
         login={{
           currentlyLoggedIn: false
         }}
         showApplyButton
         applyText="Apply for benefit"
         profile={{
-          loading: false
+          loading: false,
+          savedForms: []
         }}/>
     );
 
@@ -40,7 +39,6 @@ describe('schemaform <ApplicationStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
-        titleText="Application"
         login={{
           currentlyLoggedIn: true
         }}
@@ -60,7 +58,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal('Continue Your Application');
-    expect(tree.subTree('.form-title').text()).to.equal('Application in progress');
+    expect(tree.subTree('.form-title').text()).to.contain('application in progress');
   });
   it('should not render expired form', () => {
     const tree = SkinDeep.shallowRender(

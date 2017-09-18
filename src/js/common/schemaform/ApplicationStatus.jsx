@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { formLinks } from '../../user-profile/helpers';
+import { formLinks, formTitles } from '../../user-profile/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import Modal from '../../common/components/Modal';
-import { removeInProgressForm } from '../../common/schemaform/sip-api';
+import { removeFormApi } from '../../common/schemaform/sip-api';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      loading: false
     };
 
     moment.updateLocale('en', {
@@ -27,8 +28,8 @@ export class ApplicationStatus extends React.Component {
   }
 
   removeForm = () => {
-    this.toggleModal();
-    removeInProgressForm(this.props.formId).then(() => {
+    this.setState({ modalOpen: false, loading: true });
+    removeFormApi(this.props.formId).then(() => {
       window.location.href = formLinks[this.props.formId];
     });
   }
@@ -38,11 +39,24 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formId, profile, login, applyText, titleText, showApplyButton } = this.props;
+    const { formId, profile, login, applyText, showApplyButton } = this.props;
 
-    if (login.currentlyLoggedIn && !profile.loading && profile.savedForms.some(({ form }) => form === formId)) {
-      const formData = profile.savedForms.find(({ form }) => form === formId);
-      const { last_updated: lastSaved, expires_at: expirationTime } = formData.metadata;
+    if (profile.loading || this.state.loading) {
+      const message = profile.loading
+        ? 'Checking your application status.'
+        : 'Deleting your form.';
+
+      return (
+        <div className="sip-application-status">
+          <LoadingIndicator message={message}/>
+        </div>
+      );
+    }
+
+    const savedForm = profile.savedForms.find(({ form }) => form === formId);
+
+    if (login.currentlyLoggedIn && savedForm) {
+      const { last_updated: lastSaved, expires_at: expirationTime } = savedForm.metadata;
       const expirationDate = moment.unix(expirationTime).format('M/D/YYYY');
       const isExpired = moment(expirationDate).isBefore();
 
@@ -51,7 +65,7 @@ export class ApplicationStatus extends React.Component {
 
         return (
           <div className="usa-alert usa-alert-info no-background-image sip-application-status">
-            <h5 className="form-title saved">{titleText} in progress</h5>
+            <h5 className="form-title saved">{formTitles[formId]} application in progress</h5>
             <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
             <br/>
             <p>
@@ -82,18 +96,10 @@ export class ApplicationStatus extends React.Component {
       }
     }
 
-    if (!profile.loading && showApplyButton) {
+    if (showApplyButton) {
       return (
         <div className="sip-application-status">
           <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-        </div>
-      );
-    }
-
-    if (profile.loading) {
-      return (
-        <div className="sip-application-status">
-          <LoadingIndicator message="Checking your application status"/>
         </div>
       );
     }

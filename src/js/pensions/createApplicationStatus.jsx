@@ -14,7 +14,6 @@ export default function createPensionApplicationStatus(store) {
         <Provider store={store}>
           <ApplicationStatus
             formId="21P-527EZ"
-            titleText="Pension application"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             applyText="Apply for a Veterans Pension"/>
         </Provider>
