@@ -20,6 +20,21 @@ export function handleMultifactor(multifactorUrl) {
   }
 }
 
+export function getVerifyUrl(onUpdateVerifyUrl) {
+  const verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Token token=${sessionStorage.userToken}`
+    })
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateVerifyUrl(json.identity_proof_url);
+  });
+
+  return verifyUrlRequest;
+}
+
 export function getMultifactorUrl(onUpdateMultifactorUrl) {
   const getMultifactorUrlRequest = fetch(`${environment.API_URL}/v0/sessions/multifactor`, {
     method: 'GET',

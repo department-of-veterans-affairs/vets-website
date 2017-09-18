@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent, handleLogin, getLoginUrls } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, handleLogin, getLoginUrls, getVerifyUrl } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
 import Signin from '../components/Signin';
@@ -58,18 +58,9 @@ class Main extends React.Component {
 
   getVerifyUrl() {
     const { currentlyLoggedIn, verifyUrl } = this.props.login;
-    if (!currentlyLoggedIn || verifyUrl) return;
-
-    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.props.onUpdateVerifyUrl(json.identity_proof_url);
-    });
+    if (currentlyLoggedIn && !verifyUrl) {
+      this.verifyUrlRequest = getVerifyUrl(this.props.onUpdateVerifyUrl);
+    }
   }
 
   setMyToken(event) {
