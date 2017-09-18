@@ -123,7 +123,6 @@ class FormPage extends React.Component {
 
   render() {
     const { route, params, form } = this.props;
-    const { profile } = this.props.user;
     let {
       schema,
       uiSchema
