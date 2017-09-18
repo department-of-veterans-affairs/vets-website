@@ -14,7 +14,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro" itemScope itemType="http://schema.org/HowTo">
         <FormTitle title="Manage your education benefits"/>
-        <p itemProp="description">This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training).</p>
+        <p itemProp="description">Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).</p>
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -26,7 +26,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-one" itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
               <div itemProp="name"><h5>Prepare</h5></div>
               <div itemProp="itemListElement">
-                <div><h6>To fill out this application, you'll need your:</h6></div>
+                <div><h6>To fill out this application, you’ll need your:</h6></div>
                 <ul>
                   <li>Social Security number (required)</li>
                   <li>Basic information about the school or training facility you want to attend (required)</li>
@@ -34,7 +34,7 @@ class IntroductionPage extends React.Component {
                   <li>Military history</li>
                   <li>Education history</li>
                 </ul>
-                <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
+                <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
                 <h6>Learn about educational programs</h6>
                 <ul>
                   <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
