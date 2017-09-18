@@ -54,7 +54,7 @@ If you're a Blue Water Veteran with non-Hodgkin's lymphoma (a type of cancer), y
 
 #### How can I find out if it's likely I had contact with Agent Orange?
 
-Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship means you likely had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship means you likely had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](https://www.benefits.va.gov/compensation/claims-postservice-agent_orange.asp).
 
 ### Need help?
 Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
