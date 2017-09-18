@@ -10,11 +10,16 @@ import {
   GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
   GET_LETTER_PDF_FAILURE,
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS
+  UPDATE_ADDRESS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_FAILURE,
+  LETTER_TYPES
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -42,22 +47,21 @@ export function getLetterList() {
             // of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
           }
-          // All other error codes
           return Promise.reject(
-            new Error(`vets_letters_error_server_get: ${error.status}`)
+            new Error(`vets_letters_error_server_get: error status ${error.status}`)
           );
         }
         return Promise.reject(
-          new Error('vets_letters_error_server_get')
+          new Error('vets_letters_error_server_get: unknown error status')
         );
-      })
-      .catch((error) => {
-        if (error.message.match('vets_letters_error_server_get')) {
-          Raven.captureException(error);
-          return dispatch({ type: GET_LETTERS_FAILURE });
-        }
-        throw error;
-      });
+      }
+    ).catch((error) => {
+      if (error.message.match('vets_letters_error_server_get')) {
+        Raven.captureException(error);
+        return dispatch({ type: GET_LETTERS_FAILURE });
+      }
+      throw error;
+    });
   };
 }
 
@@ -89,14 +93,14 @@ export function getMailingAddress() {
         return Promise.reject(
           new Error('vets_address_error_server_get')
         );
-      })
-      .catch((error) => {
-        if (error.message.match('vets_address_error_server_get')) {
-          Raven.captureException(error);
-          return dispatch({ type: GET_ADDRESS_FAILURE });
-        }
-        throw error;
-      });
+      }
+    ).catch((error) => {
+      if (error.message.match('vets_address_error_server_get')) {
+        Raven.captureException(error);
+        return dispatch({ type: GET_ADDRESS_FAILURE });
+      }
+      throw error;
+    });
   };
 }
 
@@ -116,7 +120,7 @@ export function getBenefitSummaryOptions() {
 
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
-  if (letterType === 'benefit_summary') {
+  if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -143,7 +147,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
   let downloadUrl;
   return (dispatch) => {
-    dispatch({ type: 'GET_LETTER_PDF_DOWNLOADING', data: letterType });
+    dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
     apiRequest(
       `/v0/letters/${letterType}`,
       settings,
@@ -167,7 +171,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
             }
           }
         });
-        window.URL.revokeObjectURL(downloadUrl); // make sure this doesn't cause problems
+        window.URL.revokeObjectURL(downloadUrl);
         dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
@@ -187,5 +191,44 @@ export function updateAddress(address) {
   return {
     type: UPDATE_ADDRESS,
     address
+  };
+}
+
+export function saveAddressPending() {
+  return {
+    type: SAVE_ADDRESS_PENDING
+  };
+}
+
+export function saveAddressSuccess(address) {
+  return {
+    type: SAVE_ADDRESS_SUCCESS,
+    address
+  };
+}
+
+export function saveAddressFailure(address) {
+  return {
+    type: SAVE_ADDRESS_FAILURE,
+    address
+  };
+}
+
+export function saveAddress(address) {
+  const settings = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(address)
+  };
+  return (dispatch) => {
+    // TODO: Show a spinner or some kind of indication we're waiting on this to return
+    dispatch(saveAddressPending());
+
+    apiRequest(
+      '/v0/address',
+      settings,
+      () => dispatch(saveAddressSuccess(address)),
+      () => dispatch(saveAddressFailure(address))
+    );
   };
 }
