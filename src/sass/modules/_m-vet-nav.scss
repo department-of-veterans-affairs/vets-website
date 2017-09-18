@@ -12,7 +12,7 @@ body.va-pos-fixed {
   width: 100%;
 
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
-  z-index: 1011;
+  z-index: 1011; 
 
   @include media($medium-large-screen) {
     margin-top: 1rem;
