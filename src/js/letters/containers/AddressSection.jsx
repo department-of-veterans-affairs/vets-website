@@ -8,7 +8,8 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
-  invalidAddressProperty
+  invalidAddressProperty,
+  addressUpdateUnavailable
 } from '../utils/helpers.jsx';
 import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
@@ -84,6 +85,14 @@ export class AddressSection extends React.Component {
           {invalidAddressProperty}
         </div>
       );
+    // If countries and states are not available when they try to update their address,
+    // they will see this warning message instead of the address fields.
+    } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+      addressContent = (
+        <div className="step-content">
+          {addressUpdateUnavailable}
+        </div>
+      );
     } else {
       addressContent = (
         <div className="step-content">
@@ -114,7 +123,9 @@ function mapStateToProps(state) {
     address,
     canUpdate,
     countries,
-    states
+    countriesAvailable,
+    states,
+    statesAvailable
   };
 }
 

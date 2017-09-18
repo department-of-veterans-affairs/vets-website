@@ -29,6 +29,26 @@ export const invalidAddressProperty = (
   </div>
 );
 
+export const addressUpdateUnavailable = (
+  <div>
+    <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert-body">
+        <h4 className="usa-alert-heading">Address update unavailable</h4>
+        <p className="usa-alert-text">
+          We’re sorry. We can’t update your address right now. Your <strong>
+          VA letters and documents are still valid</strong> with your old
+          address.
+        </p>
+        <br/>
+        <p className="usa-alert-text">
+          <strong>Please continue to download your VA letter or document</strong>.
+          You can come back later and try again.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const characterOfServiceContent = {
   honorable: 'Honorable',
