@@ -63,12 +63,15 @@ export class ApplicationStatus extends React.Component {
       const expirationDate = moment.unix(expirationTime).format('M/D/YYYY');
       const isExpired = moment(expirationDate).isBefore();
 
+      const [firstLetter, ...restOfTitle] = formTitles[formId];
+      const cardTitle = `${firstLetter.toUpperCase()}${restOfTitle.join('')} application in progress`;
+
       if (!isExpired) {
         const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
 
         return (
           <div className="usa-alert usa-alert-info no-background-image sip-application-status">
-            <h5 className="form-title saved">{formTitles[formId]} application in progress</h5>
+            <h5 className="form-title saved">{cardTitle}</h5>
             <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
             <br/>
             <p>

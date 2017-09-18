@@ -1,6 +1,5 @@
 import { removeFormApi } from '../../common/schemaform/sip-api';
 import { apiRequest } from '../../common/helpers/api';
-// import { savedFormRequest } from '../../common/schemaform/savedFormRequest';
 import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
