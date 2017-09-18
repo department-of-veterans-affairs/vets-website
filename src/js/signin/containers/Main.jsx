@@ -35,8 +35,15 @@ class Main extends React.Component {
     window.onload = this.checkTokenStatus();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.getVerifyUrl(!this.props.login.currentlyLoggedIn && nextProps.login.currentlyLoggedIn);
+  componentDidUpdate(prevProps) {
+    const shouldGetVerifyUrl =
+      !prevProps.login.currentlyLoggedIn &&
+      this.props.login.currentlyLoggedIn &&
+      !this.props.login.verifyUrl;
+
+    if (shouldGetVerifyUrl) {
+      this.getVerifyUrl();
+    }
   }
 
   componentWillUnmount() {
@@ -49,8 +56,9 @@ class Main extends React.Component {
     this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
   }
 
-  getVerifyUrl(forceRequest) {
-    if (!forceRequest && !this.props.login.currentlyLoggedIn) return;
+  getVerifyUrl() {
+    const { currentlyLoggedIn, verifyUrl } = this.props.login;
+    if (!currentlyLoggedIn || verifyUrl) return;
 
     this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
       method: 'GET',
