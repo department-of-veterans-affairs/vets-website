@@ -52,7 +52,7 @@ You’ll have to show that you had contact with Agent Orange in another way whil
 
 If you're a Blue Water Veteran with non-Hodgkin's lymphoma (a type of cancer), you don’t need to show where you came into contact with Agent Orange. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange through service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
-#### How do I know if it's likely that I had contact with Agent Orange?
+#### How do I know if it's likely I had contact with Agent Orange?
 
 Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship means you likely had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
