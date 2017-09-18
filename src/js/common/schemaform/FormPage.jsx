@@ -73,19 +73,6 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
-  autoSave() {
-    console.log('autosaving');
-    const { route, params, form } = this.props;
-    let data = form.data;
-    const { formId, version } = form;
-    const returnUrl = this.props.locationPathname;
-
-    if (route.pageConfig.showPagePerItem) {
-      data = _.get([route.pageConfig.arrayPath, params.index], data);
-    }
-    this.props.saveInProgressForm(formId, version, returnUrl, data, true);
-  }
-
   onSubmit({ formData }) {
     const { route, params, form } = this.props;
 
@@ -115,6 +102,18 @@ class FormPage extends React.Component {
       ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
       : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
     return { pages: expandedPageList, pageIndex };
+  }
+
+  autoSave() {
+    const { route, params, form } = this.props;
+    let data = form.data;
+    const { formId, version } = form;
+    const returnUrl = this.props.locationPathname;
+
+    if (route.pageConfig.showPagePerItem) {
+      data = _.get([route.pageConfig.arrayPath, params.index], data);
+    }
+    this.props.saveInProgressForm(formId, version, returnUrl, data, true);
   }
 
   goBack() {

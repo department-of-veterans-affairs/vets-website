@@ -6,7 +6,7 @@ import SaveStatus from '../../../src/js/common/schemaform/SaveStatus.jsx';
 import { SAVE_STATUSES } from '../../../src/js/common/schemaform/save-load-actions';
 
 describe('<SaveStatus>', () => {
-  let props = {
+  const props = {
     form: {
       formId: '1010ez',
     },
