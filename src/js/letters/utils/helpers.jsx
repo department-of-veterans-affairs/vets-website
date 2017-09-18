@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import includes from 'lodash/fp/includes';
 import Raven from 'raven-js';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
-import { STATE_CODE_TO_NAME } from './constants.js';
+import { AVAILABILITY_STATUSES, BENEFIT_OPTIONS, STATE_CODE_TO_NAME } from './constants';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -41,7 +40,7 @@ export const characterOfServiceContent = {
   dishonorable: 'Dishonorable'
 };
 
-// Define jsx for service_verification letter to add alert informing user that 
+// Define jsx for service_verification letter to add alert informing user that
 // service_verification letter is being phased out in favor of benefit_summary
 // letter
 const serviceVerificationLetterContent = (
@@ -83,12 +82,12 @@ export const letterContent = {
 // the checkbox list regardless of their values (e.g., true, false, 'unavailable', or other)
 // All other options are conditionally displayed, depending on the value
 export const optionsToAlwaysDisplay = [
-  'hasChapter35Eligibility',
-  'hasDeathResultOfDisability',
-  'hasServiceConnectedDisabilities',
-  'hasSurvivorsIndemnityCompensationAward',
-  'hasSurvivorsPensionAward',
-  'serviceConnectedPercentage'
+  BENEFIT_OPTIONS.hasChapter35Eligibility,
+  BENEFIT_OPTIONS.hasDeathResultOfDisability,
+  BENEFIT_OPTIONS.hasServiceConnectedDisabilities,
+  BENEFIT_OPTIONS.hasSurvivorsIndemnityCompensationAward,
+  BENEFIT_OPTIONS.hasSurvivorsPensionAward,
+  BENEFIT_OPTIONS.serviceConnectedPercentage
 ];
 
 const benefitOptionText = {
@@ -195,36 +194,23 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     valueString = value;
   }
 
-  if (!includes(option, ['awardEffectiveDate', 'monthlyAwardAmount', 'serviceConnectedPercentage'])) {
+  const isAvailable = value && value !== AVAILABILITY_STATUSES.unavailable;
+  const availableOptions = new Set([BENEFIT_OPTIONS.awardEffectiveDate, BENEFIT_OPTIONS.monthlyAwardAmount, BENEFIT_OPTIONS.serviceConnectedPercentage]);
+
+  if (!availableOptions.has(option)) {
     return benefitOptionText[option][valueString][personType];
+  } else if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
+    return (
+      <div>
+        <div>Your current monthly award is <strong>${value}</strong>.</div>
+        <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
+      </div>
+    );
+  } else if (option === BENEFIT_OPTIONS.serviceConnectedPercentage && isAvailable && isVeteran) {
+    return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
   }
-  switch (option) {
-    case 'awardEffectiveDate': {
-      return undefined;
-    }
 
-    case 'monthlyAwardAmount': {
-      if (value && value !== 'unavailable') {
-        return (
-          <div>
-            <div>Your current monthly award is <strong>${value}</strong>.</div>
-            <div>The effective date of the last change to your current award was <strong>{formatDateShort(awardEffectiveDate)}</strong>.</div>
-          </div>
-        );
-      }
-      return undefined;
-    }
-
-    case 'serviceConnectedPercentage': {
-      if (value && value !== 'unavailable' && isVeteran) {
-        return (<div>Your combined service-connected rating is <strong>{value}%</strong>.</div>);
-      }
-      return undefined;
-    }
-
-    default:
-      return undefined;
-  }
+  return undefined;
 }
 
 // Lookup table to convert the benefit and military service options
