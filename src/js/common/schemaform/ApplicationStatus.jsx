@@ -29,9 +29,12 @@ export class ApplicationStatus extends React.Component {
 
   removeForm = () => {
     this.setState({ modalOpen: false, loading: true });
-    removeFormApi(this.props.formId).then(() => {
-      window.location.href = formLinks[this.props.formId];
-    });
+    removeFormApi(this.props.formId)
+      // Swallow any errors and redirect anyway
+      .catch(x => x)
+      .then(() => {
+        window.location.href = formLinks[this.props.formId];
+      });
   }
 
   toggleModal = () => {
