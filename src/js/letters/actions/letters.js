@@ -214,7 +214,7 @@ export function saveAddressFailure(address) {
 
 export function saveAddress(address) {
   const settings = {
-    method: 'PATCH',  // TODO: decide whether to use PATCH or PUT here; check with Alastair
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(address)
   };
