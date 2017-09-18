@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { has, head } from 'lodash';
 import { initiateIdRequest } from '../actions';
+import { messages } from '../config';
 import AlertBox from '../../common/components/AlertBox';
 
 class Main extends React.Component {
@@ -32,11 +34,14 @@ class Main extends React.Component {
   }
 
   renderErrors() {
+    const { errors } = this.props;
+    const code = head(errors).code;
+    const detail = has(messages, code) ? messages.code : messages.default;
     const content = (
       <div>
         <h4>We can't process your request</h4>
         <div>
-          We're sorry. We couldn't gather the information needed for your ID card request. You can try again, or call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          <p>{detail}</p>
         </div>
       </div>
     );
