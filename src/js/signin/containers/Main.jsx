@@ -3,36 +3,65 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, handleLogin, getLoginUrls } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls } from '../actions';
-import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import { updateLoggedInStatus, updateVerifyUrl, updateLogoutUrl, updateLogInUrls } from '../../login/actions';
+import Signin from '../components/Signin';
+import Verify from '../components/Verify';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
-    this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
+    this.getLoginUrls = this.getLoginUrls.bind(this);
+    this.getVerifyUrl = this.getVerifyUrl.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getUserData = getUserData;
   }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
-      this.getLoginUrls();
       this.getLogoutUrl();
     }
+    this.getLoginUrls();
+    this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
     window.onload = this.checkTokenStatus();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.getVerifyUrl(!this.props.login.currentlyLoggedIn && nextProps.login.currentlyLoggedIn);
+  }
+
   componentWillUnmount() {
     this.loginUrlRequest.abort();
+    this.verifyUrlRequest.abort();
     this.logoutUrlRequest.abort();
+  }
+
+  getLoginUrls() {
+    this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
+  }
+
+  getVerifyUrl(forceRequest) {
+    if (!forceRequest && !this.props.login.currentlyLoggedIn) return;
+
+    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${sessionStorage.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateVerifyUrl(json.identity_proof_url);
+    });
   }
 
   setMyToken(event) {
@@ -40,10 +69,6 @@ class Main extends React.Component {
       this.getUserData(this.props.dispatch);
       this.getLogoutUrl();
     }
-  }
-
-  getLoginUrls() {
-    this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
   }
 
   getLogoutUrl() {
@@ -57,6 +82,20 @@ class Main extends React.Component {
     }).then(json => {
       this.props.onUpdateLogoutUrl(json.logout_via_get);
     });
+  }
+
+  handleLogin(loginUrl = 'idme') {
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
+  }
+
+  handleSignup() {
+    window.dataLayer.push({ event: 'register-link-clicked' });
+    const myLoginUrl = this.props.login.loginUrls.idmeUrl;
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleLogout() {
@@ -89,8 +128,20 @@ class Main extends React.Component {
   }
 
   render() {
+    const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
+
+    if (this.props.verify && currentlyLoggedIn) {
+      return (
+        <Verify
+          verifyUrl={this.props.login.verifyUrl}/>
+      );
+    }
+
     return (
-      <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+      <Signin
+        currentlyLoggedIn={currentlyLoggedIn}
+        handleSignup={this.handleSignup}
+        handleLogin={this.handleLogin}/>
     );
   }
 }
@@ -108,6 +159,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoginUrls: (update) => {
       dispatch(updateLogInUrls(update));
+    },
+    onUpdateVerifyUrl: (update) => {
+      dispatch(updateVerifyUrl(update));
     },
     onUpdateLogoutUrl: (update) => {
       dispatch(updateLogoutUrl(update));

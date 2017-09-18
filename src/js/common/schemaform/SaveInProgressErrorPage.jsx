@@ -14,7 +14,7 @@ import {
 import SignInLink from '../components/SignInLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 
-import { updateLogInUrl } from '../../login/actions';
+import { updateLogInUrls } from '../../login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked
@@ -68,7 +68,7 @@ class SaveInProgressErrorPage extends React.Component {
                   className="usa-button-primary"
                   onLogin={this.reloadForm}
                   isLoggedIn={this.props.isLoggedIn}
-                  loginUrl={this.props.loginUrl}
+                  loginUrl={this.props.loginUrls.idme}
                   onUpdateLoginUrl={this.props.updateLogInUrl}>Sign in</SignInLink>
               </div>
             </div>
@@ -120,20 +120,20 @@ SaveInProgressErrorPage.propTypes = {
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
-  loginUrl: PropTypes.string,
-  updateLogInUrl: PropTypes.func.isRequired
+  loginUrls: PropTypes.object,
+  updateLogInUrls: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (store) => ({
   loadedStatus: store.form.loadedStatus,
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
-  loginUrl: store.user.login.loginUrl,
+  loginUrls: store.user.login.loginUrls,
   isStartingOver: store.form.isStartingOver
 });
 
 const mapDispatchToProps = {
-  updateLogInUrl,
+  updateLogInUrls,
   fetchInProgressForm,
   removeInProgressForm,
   setFetchFormStatus
