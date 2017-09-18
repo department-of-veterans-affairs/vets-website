@@ -7,9 +7,9 @@ widgets:
   - root: react-pensionApplicationStatus
     timeout: 20
     spinner: true
-    loadingMessage: Checking your application status
-    slowMessage: Sorry, this is taking longer than expected
-    errorMessage: Sorry, something went wrong while checking your application status
+    loadingMessage: Checking your application status.
+    slowMessage: Sorry, this is taking longer than expected.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
