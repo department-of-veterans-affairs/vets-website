@@ -10,7 +10,7 @@ class SaveStatus extends React.Component {
     let savedAt;
     let savedAtMessage;
     if (form.lastSavedDate) {
-      savedAt = moment(this.props.lastSavedDate);
+      savedAt = moment(form.lastSavedDate);
       savedAtMessage = ` Last saved at ${savedAt.format('M/D/YYYY [at] h:mm a')}`;
     } else {
       savedAtMessage = '';
@@ -29,8 +29,7 @@ class SaveStatus extends React.Component {
 
 
 SaveStatus.propTypes = {
-  form: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequied
+  form: PropTypes.object.isRequired
 };
 
 export default SaveStatus;

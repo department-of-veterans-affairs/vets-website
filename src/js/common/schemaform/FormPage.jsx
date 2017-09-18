@@ -170,8 +170,7 @@ class FormPage extends React.Component {
             </div>
           </div>
           {!form.disableSave && <SaveStatus
-            form={form}
-            profile={profile}>
+            form={form}>
           </SaveStatus>}
           {!form.disableSave && <SaveFormLink
             locationPathname={this.props.location.pathname}
