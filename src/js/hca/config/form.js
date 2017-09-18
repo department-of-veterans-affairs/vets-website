@@ -21,17 +21,17 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning,
-  resumeMessage
+  disclosureWarning
 } from '../helpers';
 
 import migrations from './migrations';
 
-import SIPIntroductionPage from '../components/SIPIntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
+import DemographicField from '../components/DemographicField';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
@@ -124,12 +124,10 @@ const formConfig = {
   migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.',
-    success: resumeMessage,
-    startOver: 'This will remove anything you have put into the Health Care Application.'
+    noAuth: 'Please sign in again to resume your application for health care.'
   },
   transformForSubmit: transform,
-  introduction: SIPIntroductionPage,
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
@@ -230,6 +228,7 @@ const formConfig = {
               'ui:title': 'Marital status'
             },
             'view:demographicCategories': {
+              'ui:field': DemographicField,
               'ui:title': 'Which categories best describe you?',
               'ui:description': 'You may check more than one.',
               isSpanishHispanicLatino: {

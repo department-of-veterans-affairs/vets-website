@@ -7,6 +7,7 @@ display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 2
+description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
 ---
 <div class="va-introtext">
 

@@ -5,10 +5,10 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { dateDiffDesc, focusElement } from '../utils/helpers';
+import { focusElement } from '../utils/helpers';
 import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
-
+import { formTitles } from '../../user-profile/helpers';
 import FormStartControls from './FormStartControls';
 
 const scroller = Scroll.scroller;
@@ -39,18 +39,22 @@ class FormSaved extends React.Component {
   render() {
     const { profile } = this.props.user;
     const lastSavedDate = this.props.lastSavedDate;
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const formId = this.props.formId;
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(formId));
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
     const notVerified = profile.accountType !== verifiedAccountType;
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const expirationDate = moment.unix(this.props.expirationDate);
+    const expirationDate = moment.unix(this.props.expirationDate).format('M/D/YYYY');
 
     return (
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>Your application has been saved.</strong><br/>
-            {!!lastSavedDate && !!expirationDate && <p>Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')} <span className="schemaform-sip-expires">Your saved application will expire in {dateDiffDesc(expirationDate)}</span>.</p>}
+            <strong>Your {formTitles[formId]} application has been saved.</strong><br/>
+            {!!lastSavedDate && !!expirationDate && <div className="saved-form-metadata-container">
+              <span className="saved-form-metadata">Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}</span>
+              <p className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
+            </div>}
             {success}
             If you’re logged in through a public computer, please sign out of your account before you log off to keep your information secure.
           </div>

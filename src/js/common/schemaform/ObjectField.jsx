@@ -147,6 +147,7 @@ class ObjectField extends React.Component {
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
     const uiOptions = uiSchema['ui:options'] || {};
+    const hasApplicantPrefillInfo = !_.values(formData).some(x => x !== undefined);
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
@@ -210,7 +211,7 @@ class ObjectField extends React.Component {
             {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
-          {uiOptions.showPrefillMessage && formContext.prefilled && <PrefillMessage/>}
+          {uiOptions.showPrefillMessage && formContext.prefilled && hasApplicantPrefillInfo && <PrefillMessage/>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;

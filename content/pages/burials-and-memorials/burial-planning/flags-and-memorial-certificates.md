@@ -21,7 +21,7 @@ You can get a burial flag if you’re the next of kin or a close friend of the d
 - Died while on active duty after May 27, 1941, **or**
 - Served after January 31, 1955, **or**
 - Served in peacetime and left military service before June 27, 1950, after serving at least 1 enlistment, or because of a disability that was caused—or made worse—by their active military service, **or**
-- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">800-827-1000</a>.
+- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">1-800-827-1000</a>.
 
 </div>
 
@@ -58,6 +58,6 @@ Send the PMC request form and discharge papers to:
 </p>
 <br>
 
-  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
+  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">1-800-697-6947</a>.
 </div>
 

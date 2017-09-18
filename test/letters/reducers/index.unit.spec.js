@@ -4,7 +4,7 @@ import lettersReducer from '../../../src/js/letters/reducers';
 
 const initialState = {
   letters: [],
-  destination: {},
+  address: {},
   lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
   serviceInfo: [],
@@ -81,10 +81,6 @@ describe('letters reducer', () => {
         data: {
           data: {
             attributes: {
-              address: {
-                addressLine1: '2476 MAIN STREET',
-                fullName: 'MARK WEBB'
-              },
               letters: [
                 {
                   letterType: 'commissary',
@@ -98,7 +94,6 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
-    expect(state.destination.addressLine1).to.eql('2476 MAIN STREET');
     expect(state.lettersAvailability).to.equal('available');
   });
 
@@ -137,5 +132,34 @@ describe('letters reducer', () => {
     );
     expect(state.requestOptions.chapter35Eligibility).to.be.true;
     expect(state.requestOptions.monthlyAward).to.be.true;
+  });
+
+  it('should handle a successful request for the address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: 'GET_ADDRESS_SUCCESS',
+        data: {
+          data: {
+            attributes: {
+              address: {
+                addressOne: '2746 Main St'
+              }
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.address.addressOne).to.equal('2746 Main St');
+  });
+
+  it('should handle failure to fetch the address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'GET_ADDRESS_FAILURE' }
+    );
+
+    expect(state.address).to.be.empty;
   });
 });

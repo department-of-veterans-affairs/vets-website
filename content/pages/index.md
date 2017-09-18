@@ -4,6 +4,7 @@ body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
 enablewarning: true
+description: Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.
 majorlinks:
   - heading:
     links:
@@ -47,8 +48,8 @@ you’ve earned.</div>
     Apply for health care
   </a>
 
-  <a href="/facilities/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-facility' });">
-    Find nearby VA locations
+  <a href="/education/apply/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-education' });">
+    Apply for education benefits
   </a>
 
   <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">

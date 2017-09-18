@@ -46,26 +46,24 @@ class FormStartControls extends React.Component {
   }
 
   render() {
-    const { startOver } = this.props.messages || {};
 
     if (this.props.formSaved) {
       return (
         <div>
           <ProgressButton
             onButtonClick={this.handleLoadForm}
-            buttonText="Continue with Application"
+            buttonText="Continue Your Application"
             buttonClass="usa-button-primary no-text-transform"/>
           {!this.props.resumeOnly && <ProgressButton
             onButtonClick={this.toggleModal}
-            buttonText="Start over"
-            buttonClass="usa-button-outline"
-            afterText="»"/>}
+            buttonText="Start Over"
+            buttonClass="usa-button-outline"/>}
           <Modal
             cssClass="va-modal-large"
             id="start-over-modal"
             onClose={this.toggleModal}
             visible={this.state.modalOpen}>
-            <h4>{startOver || 'Starting over would erase your in progress form.'}</h4>
+            <h4>Starting over would delete your in progress form.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}

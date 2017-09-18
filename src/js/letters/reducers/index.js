@@ -9,6 +9,8 @@ import {
   INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_LETTER_PDF_DOWNLOADING,
@@ -22,13 +24,14 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  benefitInfo: {},
-  destination: {},
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
+  fullName: {},
+  address: {},
   optionsAvailable: false,
   requestOptions: {},
+  benefitInfo: {},
   serviceInfo: []
 };
 
@@ -43,7 +46,7 @@ function letters(state = initialState, action) {
       return {
         ...state,
         letters: action.data.data.attributes.letters,
-        destination: action.data.data.attributes.address,
+        fullName: action.data.data.attributes.fullName,
         lettersAvailability: AVAILABILITY_STATUSES.available,
         letterDownloadStatus
       };
@@ -58,6 +61,14 @@ function letters(state = initialState, action) {
       return _.set('lettersAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', AVAILABILITY_STATUSES.letterEligibilityError, state);
+    case GET_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        address: action.data.data.attributes.address,
+        addressAvailable: true
+      };
+    case GET_ADDRESS_FAILURE:
+      return _.set('addressAvailable', false, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
@@ -97,7 +108,7 @@ function letters(state = initialState, action) {
     case GET_LETTER_PDF_FAILURE:
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
     case UPDATE_ADDRESS:
-      return _.set('destination', action.address, state);
+      return _.set('address', action.address, state);
     default:
       return state;
   }

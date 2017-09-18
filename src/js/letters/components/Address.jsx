@@ -4,7 +4,7 @@ import { set } from 'lodash/fp';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { isNotBlank, isBlankAddress, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
+import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
 
 /**
@@ -47,16 +47,8 @@ class Address extends React.Component {
   isValidPostalCode(postalCodeField) {
     let isValid = true;
 
-    if (this.props.required || !isBlankAddress(this.props.value)) {
-      isValid = isValid && isNotBlank(postalCodeField);
-    }
-
     if (this.props.value.country === 'USA' && isNotBlank(postalCodeField)) {
       isValid = isValid && isValidUSZipCode(postalCodeField);
-    }
-
-    if (this.props.value.country === 'CAN' && isNotBlank(postalCodeField)) {
-      isValid = isValid && isValidCanPostalCode(postalCodeField);
     }
 
     return isValid;
@@ -69,8 +61,37 @@ class Address extends React.Component {
   }
 
   render() {
+    const addressType = this.props.value.type;
+
+    // Depending on the type of address, the fields for state and city
+    // are called different things. Set new variables for the name of
+    // the appropriate city and state field, and use those below for
+    // the field components.
+    let cityField;
+    let stateField;
+    if (addressType === 'MILITARY') {
+      cityField = 'militaryPostOfficeTypeCode';
+      stateField = 'militaryStateCode';
+    } else {
+      cityField = 'city';
+      stateField = 'state';
+    }
+
+    // Our hard-coded list of countries has the value for the U.S. as
+    // 'USA', but the value sent to us from EVSS is 'US'. This will cause
+    // the field to not populate correctly.
+    // This will be changed once we pull the real country list from the
+    // address endpoint.
+    let selectedCountry;
+    if (this.props.value.country === undefined && addressType === 'MILITARY') {
+      selectedCountry = 'USA';
+    } else if (this.props.value.country === 'US') {
+      selectedCountry = 'USA';
+    } else {
+      selectedCountry = this.props.value.country;
+    }
+
     let stateList = [];
-    const selectedCountry = this.props.value.country === 'US' ? 'USA' : this.props.value.country;
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
       if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
@@ -78,66 +99,66 @@ class Address extends React.Component {
       }
     }
 
-    const stateProvince = _.hasIn(states, this.props.value.country === 'US' ? 'USA' : this.props.value.country)
-      ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.value.state) ? undefined : 'Please enter a valid state/province'}
-        label={this.props.value.country === 'CAN' ? 'Province' : 'State'}
+    const stateProvince = _.hasIn(states, selectedCountry)
+      ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.value[stateField]) ? undefined : 'Please enter a valid state/province'}
+        label="State"
         name="state"
         autocomplete="address-level1"
         options={stateList}
-        value={this.props.value.state}
+        value={this.props.value[stateField]}
         required={this.props.required}
-        onValueChange={(update) => {this.handleChange('state', update);}}/>)
+        onValueChange={(update) => {this.handleChange(stateField, update);}}/>)
       : (<ErrorableTextInput label="State/province"
         name="province"
         autocomplete="address-level1"
-        value={this.props.value.state}
+        value={this.props.value[stateField]}
         required={false}
-        onValueChange={(update) => {this.handleChange('state', update);}}/>);
+        onValueChange={(update) => {this.handleChange(stateField, update);}}/>);
 
     return (
       <div>
-        <ErrorableSelect errorMessage={this.isValidAddressField(this.props.value.country) ? undefined : 'Please enter a country'}
+        <ErrorableSelect errorMessage={this.isValidAddressField(selectedCountry) ? undefined : 'Please enter a country'}
           label="Country"
           name="country"
           autocomplete="country"
           options={countries}
-          value={this.props.value.country === 'US' ? 'USA' : this.props.value.country }
+          value={selectedCountry}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
-        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value.addressLine1) ? undefined : 'Please enter a street address'}
+        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value.addressOne) ? undefined : 'Please enter a street address'}
           label="Street address"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressLine1}
+          value={this.props.value.addressOne}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('addressLine1', update);}}/>
+          onValueChange={(update) => {this.handleChange('addressOne', update);}}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressLine2}
-          onValueChange={(update) => {this.handleChange('addressLine2', update);}}/>
+          value={this.props.value.addressTwo}
+          onValueChange={(update) => {this.handleChange('addressTwo', update);}}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressLine3}
-          onValueChange={(update) => {this.handleChange('addressLine3', update);}}/>
-        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value.city) ? undefined : 'Please enter a city'}
+          value={this.props.value.addressThree}
+          onValueChange={(update) => {this.handleChange('addressThree', update);}}/>
+        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value[cityField]) ? undefined : 'Please enter a city'}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
           charMax={30}
-          value={this.props.value.city}
+          value={this.props.value[cityField]}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('city', update);}}/>
+          onValueChange={(update) => {this.handleChange(cityField, update);}}/>
         {stateProvince}
         <ErrorableTextInput errorMessage={this.isValidPostalCode(this.props.value.zipCode) ? undefined : 'Please enter a valid Postal code'}
           additionalClass="usa-input-medium"
-          label={this.props.value.country === 'USA' ? 'Zip code' : 'Postal code'}
+          label={selectedCountry === 'USA' ? 'Zip code' : 'Postal code'}
           name="postalCode"
           autocomplete="postal-code"
           value={this.props.value.zipCode}
