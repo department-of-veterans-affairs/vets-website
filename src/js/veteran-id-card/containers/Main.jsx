@@ -19,14 +19,14 @@ class Main extends React.Component {
   renderButton() {
     if (this.props.fetching === true || this.props.redirect) {
       return (
-        <button onClick={this.handleSubmit} disabled="true">
-          Initiating Request...
+        <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
+          Requesting...
         </button>
       );
     }
     return (
-      <button onClick={this.handleSubmit}>
-        Initiate ID Card Request
+      <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
+        Go to [ID Card Site] to request a card <span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
@@ -34,7 +34,7 @@ class Main extends React.Component {
   renderErrors() {
     const content = (
       <div>
-        <h4>We couldn't gather your ID card information</h4>
+        <h4>We can't process your request</h4>
         <div>
           We're sorry. We couldn't gather the information needed for your ID card request. You can try again, or call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
         </div>
@@ -44,7 +44,7 @@ class Main extends React.Component {
       <AlertBox
         content={content}
         isVisible
-        status="warning"/>
+        status="error"/>
     );
   }
 
@@ -62,9 +62,9 @@ class Main extends React.Component {
 
     const view = (
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 columns">
+        <div className="usa-width-two-thirds medium-8 vet-id-card">
           <h1>Request a Veteran ID Card</h1>
-          <p>Verified Veterans may request a printed ID card. Click below to request a card. You will be redirected to a site where you can upload a photo and make sure your information is up to date.</p>
+          <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card. This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
           <div style={{ paddingBottom: '2em' }}>
             {this.renderButton()}
             <div>{message}</div>

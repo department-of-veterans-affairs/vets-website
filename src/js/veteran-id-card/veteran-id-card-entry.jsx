@@ -12,8 +12,7 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
 require('../common');  // Bring in the common javascript.
-require('../../sass/rx/rx.scss');
-require('../../sass/user-profile.scss');
+require('../../sass/veteran-id-card.scss');
 
 const commonStore = createCommonStore(reducer);
 createLoginWidget(commonStore);
