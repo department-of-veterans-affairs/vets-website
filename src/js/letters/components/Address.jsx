@@ -59,6 +59,37 @@ class Address extends React.Component {
     return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
 
+  adjustStateNames(stateList, militaryStates, city) {
+    // Reformat the state name data so that it can be
+    // accepted by ErrorableSelect,
+    // e.g., from this: `IL: 'Illinois'`
+    // to this: `{ value: 'Illinois', label: 'IL' }`
+    let states = [];
+    _.mapKeys(stateList, (value, key) => {
+      states.push({ label: value, value: key });
+    });
+    // Add military states to full state list
+    militaryStates.forEach((militaryState) => {
+      states.push(militaryState);
+    });
+    // Alphabetize the list
+    states.sort((a, b) => {
+      if (a.label < b.label) {
+        return -1;
+      }
+      if (a.label > b.label) {
+        return 1;
+      }
+      return 0;
+    });
+    // Filter state list if military city is entered
+    if (this.props.value[city] && this.isMilitaryCity(this.props.value[city])) {
+      states = states.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
+    }
+
+    return states;
+  }
+
   render() {
     const addressType = this.props.value.type;
 
@@ -90,31 +121,7 @@ class Address extends React.Component {
       selectedCountry = this.props.value.country;
     }
 
-    // Reformat the state name data so that it can be
-    // accepted by ErrorableSelect,
-    // e.g., { value: 'Illinois', label: 'IL' }
-    let adjustedStateNames = [];
-    _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
-      adjustedStateNames.push({ label: value, value: key });
-    });
-    // Add military states to full state list
-    militaryStateNames.forEach((militaryState) => {
-      adjustedStateNames.push(militaryState);
-    });
-    // Alphabetize the list
-    adjustedStateNames.sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      }
-      if (a.label > b.label) {
-        return 1;
-      }
-      return 0;
-    });
-    // Filter state list if military city is entered
-    if (this.props.value[cityField] && this.isMilitaryCity(this.props.value[cityField])) {
-      adjustedStateNames = adjustedStateNames.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
-    }
+    const adjustedStateNames = this.adjustStateNames(STATE_CODE_TO_NAME, militaryStateNames, cityField);
 
     const stateProvince = selectedCountry === 'USA'
       ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.value[stateField]) ? undefined : 'Please enter a valid state/province'}
