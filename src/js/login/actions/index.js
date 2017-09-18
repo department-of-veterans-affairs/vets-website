@@ -1,12 +1,11 @@
 import { gaClientId } from '../../common/helpers/login-helpers';
 
-export const LOG_OUT = 'LOG_OUT';
 export const UPDATE_LOGGEDIN_STATUS = 'UPDATE_LOGGEDIN_STATUS';
-export const UPDATE_LOGIN_URLS = 'UPDATE_LOGIN_URLS';
-export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
-export const UPDATE_MULTIFACTOR_URL = 'UPDATE_MULTIFACTOR_URL';
-export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
+export const UPDATE_LOGIN_URL = 'UPDATE_LOGIN_URL';
 export const UPDATE_VERIFY_URL = 'UPDATE_VERIFY_URL';
+export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
+export const LOG_OUT = 'LOG_OUT';
+export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
 
 export function updateLoggedInStatus(value) {
   return {
@@ -15,17 +14,9 @@ export function updateLoggedInStatus(value) {
   };
 }
 
-export function updateLogInUrls(value) {
+export function updateLogInUrl(value) {
   return {
-    type: UPDATE_LOGIN_URLS,
-    value,
-    gaClientId: gaClientId()
-  };
-}
-
-export function updateMultifactorUrl(value) {
-  return {
-    type: UPDATE_MULTIFACTOR_URL,
+    type: UPDATE_LOGIN_URL,
     value,
     gaClientId: gaClientId()
   };
