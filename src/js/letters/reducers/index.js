@@ -20,7 +20,10 @@ import {
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   UPDATE_ADDRESS,
   AVAILABILITY_STATUSES,
-  DOWNLOAD_STATUSES
+  DOWNLOAD_STATUSES,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  // SAVE_ADDRESS_FAILURE
 } from '../utils/constants';
 
 const initialState = {
@@ -31,8 +34,9 @@ const initialState = {
   address: {},
   optionsAvailable: false,
   requestOptions: {},
+  serviceInfo: [],
+  savePending: false,
   benefitInfo: {},
-  serviceInfo: []
 };
 
 function letters(state = initialState, action) {
@@ -109,6 +113,13 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
     case UPDATE_ADDRESS:
       return _.set('address', action.address, state);
+    case SAVE_ADDRESS_PENDING:
+      return _.set('savePending', true, state);
+    case SAVE_ADDRESS_SUCCESS: {
+      const newState = Object.assign({}, state, { savePending: false });
+      return _.set('address', action.address, newState);
+    }
+    // Add SAVE_ADDRESS_FAILURE
     default:
       return state;
   }
