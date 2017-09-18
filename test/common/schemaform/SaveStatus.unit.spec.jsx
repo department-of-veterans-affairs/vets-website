@@ -37,8 +37,10 @@ describe('<SaveStatus>', () => {
     expect(tree.text()).to.have.string('Saving...');
   });
   it('should not show a status for an unsaved form', () => {
+    props.form.savedStatus = undefined;
     props.profile.savedForms = [];
     const tree = SkinDeep.shallowRender(<SaveStatus {...props}/>);
-    expect(tree.everySubTree('.card information')).to.be.empty;
+    expect(tree.text()).to.not.have.string('Application has been saved.');
+    expect(tree.text()).to.not.have.string('Saving...');
   });
 });
