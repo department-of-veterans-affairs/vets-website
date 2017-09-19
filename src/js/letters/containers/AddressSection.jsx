@@ -20,6 +20,11 @@ export class AddressSection extends React.Component {
   }
 
   handleUpdate = () => {
+    // TODO: Make sure to run all the validations
+    // To do this, we may end up handling all the validations here and pass along
+    //  an errorMessages prop to Address
+    // One consideration when handling all the validation here is to use selectors
+    //  to avoid running _all_ the validations when only one thing changes.
     this.setState({ isEditingAddress: false });
 
     this.props.saveAddress(this.props.address);

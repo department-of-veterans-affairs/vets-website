@@ -4,8 +4,17 @@ import { set } from 'lodash/fp';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
+import { addressTypes } from '../utils/constants';
+
+import {
+  addressOneValidations,
+  postalCodeValidations,
+  stateValidations,
+  countryValidations,
+  cityValidations
+} from '../utils/validations';
+
 
 /**
  * Input component for an address.
@@ -13,11 +22,11 @@ import { countries, states } from '../../common/utils/options-for-select';
  * No validation is provided through a currently stubbed isAddressValid function.
  */
 class Address extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.isValidAddressField = this.isValidAddressField.bind(this);
-    this.isValidPostalCode = this.isValidPostalCode.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      addressType: props.value.type
+    };
   }
 
   componentWillMount() {
@@ -26,42 +35,57 @@ class Address extends React.Component {
 
   // TODO: Look into if this is the best way to update address,
   // it is incredibly slow right now
-  handleChange(path, update) {
+  handleChange = (path, update) => {
     let address = set(path, update, this.props.value);
     // if country is changing we should clear the state
     if (path === 'country') {
       address = set('state', '', address);
     }
 
-    this.props.onUserInput(address);
+    // TODO: Run the validations with the new address type
+    this.props.onUserInput(this.inferAddressType(address));
   }
 
-  isValidAddressField(field) {
-    if (this.props.required || !isBlankAddress(this.props.value)) {
-      return isNotBlank(field);
-    }
-
-    return true;
-  }
-
-  isValidPostalCode(postalCodeField) {
-    let isValid = true;
-
-    if (this.props.value.country === 'USA' && isNotBlank(postalCodeField)) {
-      isValid = isValid && isValidUSZipCode(postalCodeField);
-    }
-
-    return isValid;
-  }
-
-  isMilitaryCity(city) {
+  isMilitaryCity = (city) => {
     const lowerCity = city.toLowerCase().trim();
 
     return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
 
+  /**
+   * Infers the address type from the address supplied and returns the address
+   *  with the "new" type.
+   */
+  inferAddressType = (address) => {
+    let type = addressTypes.domestic;
+    if (!['USA', 'US'].includes(address.country)) {
+      type = addressTypes.international;
+    } else if (address.militaryStateCode) {
+      // TODO: Make sure we clear this out if a state code is selected
+      type = addressTypes.military;
+    }
+
+    // console.log('Address:', address, ' Type:', type);
+
+    return Object.assign({}, address, { type });
+  }
+
+  validateInput = (value, validations) => {
+    let errorMessage = false;
+    for (let i = 0; i < validations.length; i++) {
+      // value = changed field value; this.props.value = address prop
+      errorMessage = validations[i](value, this.props.value);
+      if (typeof errorMessage === 'string') {
+        return errorMessage;
+      }
+    }
+
+    // All validations passed; there are no error messages to report
+    return undefined;
+  }
+
   render() {
-    const addressType = this.props.value.type;
+    const addressType = this.state.addressType;
 
     // Depending on the type of address, the fields for state and city
     // are called different things. Set new variables for the name of
@@ -69,7 +93,7 @@ class Address extends React.Component {
     // the field components.
     let cityField;
     let stateField;
-    if (addressType === 'MILITARY') {
+    if (addressType === addressTypes.military) {
       cityField = 'militaryPostOfficeTypeCode';
       stateField = 'militaryStateCode';
     } else {
@@ -83,7 +107,7 @@ class Address extends React.Component {
     // This will be changed once we pull the real country list from the
     // address endpoint.
     let selectedCountry;
-    if (this.props.value.country === undefined && addressType === 'MILITARY') {
+    if (this.props.value.country === undefined && addressType === addressTypes.military) {
       selectedCountry = 'USA';
     } else if (this.props.value.country === 'US') {
       selectedCountry = 'USA';
@@ -100,7 +124,7 @@ class Address extends React.Component {
     }
 
     const stateProvince = _.hasIn(states, selectedCountry)
-      ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.value[stateField]) ? undefined : 'Please enter a valid state/province'}
+      ? (<ErrorableSelect errorMessage={this.validateInput(this.props.value[stateField], stateValidations)}
         label="State"
         name="state"
         autocomplete="address-level1"
@@ -117,7 +141,7 @@ class Address extends React.Component {
 
     return (
       <div>
-        <ErrorableSelect errorMessage={this.isValidAddressField(selectedCountry) ? undefined : 'Please enter a country'}
+        <ErrorableSelect errorMessage={this.validateInput(selectedCountry, countryValidations)}
           label="Country"
           name="country"
           autocomplete="country"
@@ -125,7 +149,7 @@ class Address extends React.Component {
           value={selectedCountry}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('country', update);}}/>
-        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value.addressOne) ? undefined : 'Please enter a street address'}
+        <ErrorableTextInput errorMessage={this.validateInput(this.props.value.addressOne, addressOneValidations)}
           label="Street address"
           name="address"
           autocomplete="street-address"
@@ -147,7 +171,7 @@ class Address extends React.Component {
           charMax={30}
           value={this.props.value.addressThree}
           onValueChange={(update) => {this.handleChange('addressThree', update);}}/>
-        <ErrorableTextInput errorMessage={this.isValidAddressField(this.props.value[cityField]) ? undefined : 'Please enter a city'}
+        <ErrorableTextInput errorMessage={this.validateInput(this.props.value[cityField], cityValidations)}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
@@ -156,7 +180,7 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => {this.handleChange(cityField, update);}}/>
         {stateProvince}
-        <ErrorableTextInput errorMessage={this.isValidPostalCode(this.props.value.zipCode) ? undefined : 'Please enter a valid Postal code'}
+        <ErrorableTextInput errorMessage={this.validateInput(this.props.value.zipCode, postalCodeValidations, { country: selectedCountry })}
           additionalClass="usa-input-medium"
           label={selectedCountry === 'USA' ? 'Zip code' : 'Postal code'}
           name="postalCode"
