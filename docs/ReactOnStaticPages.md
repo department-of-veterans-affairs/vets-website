@@ -14,7 +14,7 @@ All that said, we should be careful to not create a bad user experience when usi
 
 ### Common widget code
 
-There's a simple static page widget feature that you can use to help with the first two points above. The code is in src/common/utils/static-page-widgets.js. Using this will inline some JS that can handle displaying a loading spinner and showing an error message if something goes wrong before the React code can take over rendering. Several pension pages use this functionality (content/pages/pension/index.md, content/pages/pension/apply.md). It's controlled by defining a widgets list in the front matter for the static content page you're on. The options are:
+There's a simple static page widget feature that you can use to help with the first two points above. The code is in `src/common/utils/static-page-widgets.js`. Using this will inline some JS that can handle displaying a loading spinner and showing an error message if something goes wrong before the React code can take over rendering. Several pension pages use this functionality (`content/pages/pension/index.md`, `content/pages/pension/apply.md`). It's controlled by defining a widgets list in the front matter for the static content page you're on. The options are:
 
 ```
 - widgets
@@ -27,10 +27,10 @@ There's a simple static page widget feature that you can use to help with the fi
     errorMessage: Sorry, something went wrong.
 ```
 
-root: The id of the div where the React component will mount.
-timeout: The amount of time in seconds before the error message is shown.
+- root: The id of the div where the React component will mount.
+- timeout: The amount of time in seconds before the error message is shown.
 showSpinnerUnauthed: By default, a spinner is shown only if a user has a session token. This will override that and show it always.
-slowLoadingThreshold: The amount of time in seconds before the slow loading message is shown. This is skipped if the threshold is greater than the overall timeout. Defaulted to 6 seconds.
-slowMessage: Message shown when the slowThreshold is passed. Defaulted to message above.
-loadingMessage: Message shown while the JS code is loading. This should probably match any loading message in your React code.
-errorMessage: Message shown when the JS code fails or times out.
+- slowLoadingThreshold: The amount of time in seconds before the slow loading message is shown. This is skipped if the threshold is greater than the overall timeout. Defaulted to 6 seconds.
+- slowMessage: Message shown when the slowThreshold is passed. Defaulted to message above.
+- loadingMessage: Message shown while the JS code is loading. This should probably match any loading message in your React code.
+- errorMessage: Message shown when the JS code fails or times out.
