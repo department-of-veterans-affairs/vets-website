@@ -1,22 +1,27 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { focusElement } from '../../../common/utils/helpers';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/FormTitle';
+
+import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-  goForward = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits as an eligible dependent"/>
         <p>Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
+        <SaveInProgressIntro
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -29,18 +34,10 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
-              <p><strong>What if I need help filling out my application?</strong> 
-              <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about educational programs</h6>
-              <ul>
               <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
-              </ul>
+            </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
@@ -58,21 +55,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/education/apply-for-education-benefits/">
-              <button className="usa-button-outline">« Back</button>
-            </a>
-          </div>
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-              onButtonClick={this.goForward}
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
-          </div>
-        </div>
-        <div className="omb-info--container">
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          messages={this.props.route.formConfig.savedFormMessages}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 22-5490 form to apply for education benefits.
+        </SaveInProgressIntro>
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018"/>
         </div>
       </div>
@@ -80,4 +70,18 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+
+export { IntroductionPage };

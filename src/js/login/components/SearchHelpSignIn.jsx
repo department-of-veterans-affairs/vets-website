@@ -32,7 +32,7 @@ class SearchHelpSignIn extends React.Component {
       content = null;
     } else {
       content = (<div>
-        <a href={signInUrl}>Sign in</a><span className="signin-spacer">|</span><a href={signInUrl}>Sign up</a>
+        <a href={signInUrl}>Sign In</a><span className="signin-spacer">|</span><a href={signInUrl}>Sign Up</a>
       </div>
       );
     }

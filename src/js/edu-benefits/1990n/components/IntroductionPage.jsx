@@ -26,18 +26,10 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong>
-              <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about educational programs</h6>
-              <ul>
               <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
-              </ul>
+            </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
@@ -46,7 +38,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <p>We usually process claims within 30 days. We’ll let you know by mail if we need more information.</p>
-              <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
+              <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>

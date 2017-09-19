@@ -27,18 +27,10 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong>
-              <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about educational programs</h6>
-              <ul>
               <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
-              </ul>
+            </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
@@ -54,6 +46,8 @@ class IntroductionPage extends React.Component {
               <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
+          </ol>
+        </div>
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
