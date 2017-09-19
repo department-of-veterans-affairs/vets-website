@@ -12,6 +12,7 @@ import {
 } from '../utils/helpers.jsx';
 import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
+import AddressUpdateFailure from '../components/AddressUpdateFailure';
 
 export class AddressSection extends React.Component {
   constructor() {
@@ -82,6 +83,8 @@ export class AddressSection extends React.Component {
           {invalidAddressProperty}
         </div>
       );
+    } else if (this.props.saveAddressError) {
+      addressContent = <AddressUpdateFailure/>
     } else {
       addressContent = (
         <div className="step-content">
@@ -106,11 +109,12 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate } = state.letters;
+  const { fullName, address, canUpdate, saveAddressError } = state.letters;
   return {
     recipientName: fullName,
     address,
     canUpdate,
+    saveAddressError,
   };
 }
 

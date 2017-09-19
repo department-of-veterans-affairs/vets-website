@@ -207,11 +207,8 @@ export function saveAddressSuccess(address) {
   };
 }
 
-export function saveAddressFailure(address) {
-  return {
-    type: SAVE_ADDRESS_FAILURE,
-    address
-  };
+export function saveAddressFailure() {
+  return { type: SAVE_ADDRESS_FAILURE };
 }
 
 export function saveAddress(address) {
@@ -223,12 +220,13 @@ export function saveAddress(address) {
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
-
+    
     apiRequest(
       '/v0/address',
       settings,
       () => dispatch(saveAddressSuccess(address)),
-      () => dispatch(saveAddressFailure(address))
+      // Currently we treat all error codes the same but this may change
+      () => dispatch(saveAddressFailure()),
     );
   };
 }

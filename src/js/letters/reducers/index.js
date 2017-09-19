@@ -123,7 +123,7 @@ function letters(state = initialState, action) {
       return _.set('address', action.address, newState);
     }
     case SAVE_ADDRESS_FAILURE:
-      return { ...state, savePending: false, saveAddressFailure: true };
+      return { ...state, savePending: false, saveAddressError: true };
     default:
       return state;
   }
