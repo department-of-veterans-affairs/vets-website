@@ -95,27 +95,41 @@ You may qualify for VA health care and other benefits. View the Application for 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-##### By phone
+<ul>
+<li>
+
+**By phone**
 
 Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+</li>
 
-##### By mail
+<li>
+
+**By mail**
 
 [Download an Application for Health Benefits (VA Form 10-10EZ)](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
+
 
 <p class="va-address-block">
 Health Eligibility Center<br>
 2957 Clairmont Rd., Suite 200<br>
 Atlanta, GA 30329<br>
 </p>
+</li>
 
-##### In person
+<li>
+
+**In person**
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
 [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+
+</li>
+
+</ul>
 
 </div>
 </div>
