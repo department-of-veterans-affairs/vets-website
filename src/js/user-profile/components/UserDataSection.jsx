@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
+import AlertBox from '../../common/components/AlertBox';
 import _ from 'lodash';
 
 import moment from 'moment';
+
+import { getMultifactorUrl, handleMultifactor } from '../../common/helpers/login-helpers';
+import { updateMultifactorUrl } from '../../login/actions';
 
 import {
   fetchLatestTerms,
@@ -16,6 +20,20 @@ class UserDataSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
+    this.getMultifactorUrl();
+    this.handleMultifactorRequest = this.handleMultifactorRequest.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.multifactorUrlRequest.abort();
+  }
+
+  getMultifactorUrl() {
+    this.multifactorUrlRequest = getMultifactorUrl(this.props.updateMultifactorUrl);
+  }
+
+  handleMultifactorRequest() {
+    handleMultifactor(this.props.login.multifactorUrl);
   }
 
   openModal = () => {
@@ -69,13 +87,38 @@ class UserDataSection extends React.Component {
     );
   }
 
+  renderMultifactorMessage() {
+    if (this.props.profile.multifactor) { return null; }
+
+    const content = (
+      <div className="mfa-message">
+        <div className="medium-8 column">
+          <h2>Add extra security to your account</h2>
+          <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
+        </div>
+        <div className="medium-4 column">
+          <button className="usa-button usa-button-outline" onClick={this.handleMultifactorRequest}>Add security step</button>
+        </div>
+      </div>
+    );
+
+    return (
+      <div>
+        <AlertBox
+          content={content}
+          isVisible
+          status="warning"/>
+      </div>
+    );
+  }
+
   render() {
     const {
       profile: {
         accountType,
         dob,
         email,
-        gender
+        gender,
       },
       name: {
         first: firstName,
@@ -100,6 +143,7 @@ class UserDataSection extends React.Component {
     return (
       <div className="profile-section">
         <h4 className="section-header">Account information</h4>
+        {this.renderMultifactorMessage()}
         <div className="info-container">
           {content}
           <p><span className="label">Email address:</span> {email}</p>
@@ -120,6 +164,7 @@ class UserDataSection extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
+    login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
     terms: userState.profile.terms
@@ -129,6 +174,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchLatestTerms,
   acceptTerms,
+  updateMultifactorUrl,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);
