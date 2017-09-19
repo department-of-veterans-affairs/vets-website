@@ -31,9 +31,9 @@ class GlossaryList extends React.Component {
         {title}
         <dl className="rx-glossary">
           {termsList}
-          <p>Terms length: {termsList.length}</p>
-          <p>Contents: {termsList}</p>
         </dl>
+        <dl>Terms length: {termsList.length}</dl>
+        <dl>Contents: {termsList}</dl>
       </section>
     );
   }
