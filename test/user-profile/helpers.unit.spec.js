@@ -77,7 +77,7 @@ describe('profile helpers:', () => {
       expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
     });
     it('should throw an error if a form is not included the list of sipEnabledForms', () => {
-      expect(() => isSIPEnabledForm({ form: '22-5490' })).to.throw('Could not find form');
+      expect(() => isSIPEnabledForm({ form: '40-10007' })).to.throw('Could not find form');
     });
   });
 });

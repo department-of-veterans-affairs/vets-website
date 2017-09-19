@@ -10,13 +10,19 @@ import {
   isInternationalAddress,
   invalidAddressProperty
 } from '../utils/helpers.jsx';
-import { updateAddress } from '../actions/letters';
+import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 
 export class AddressSection extends React.Component {
   constructor() {
     super();
     this.state = { isEditingAddress: false };
+  }
+
+  handleUpdate = () => {
+    this.setState({ isEditingAddress: false });
+
+    this.props.saveAddress(this.props.address);
   }
 
   render() {
@@ -50,9 +56,9 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             value={address}
-            onUserInput={(addr) => {this.props.updateAddress(addr);}}
+            onUserInput={(addr) => { this.props.updateAddress(addr); }}
             required/>
-          <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
+          <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
@@ -62,7 +68,9 @@ export class AddressSection extends React.Component {
           <div className="letters-address">{streetAddress}</div>
           <div className="letters-address">{cityStatePostal}</div>
           <div className="letters-address">{country}</div>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          {this.props.canUpdateAddress &&
+            <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          }
         </div>
       );
     }
@@ -98,15 +106,18 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const letterState = state.letters;
+  const { fullName, address, canUpdateAddress } = state.letters;
   return {
-    recipientName: letterState.fullName,
-    address: letterState.address
+    recipientName: fullName,
+    address,
+    canUpdateAddress,
   };
 }
 
 const mapDispatchToProps = {
-  updateAddress
+  updateAddress,
+  saveAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
+

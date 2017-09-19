@@ -86,3 +86,19 @@
     }
   }
 }
+
+#noChapter33Benefits {
+  h2 {
+    margin-top: 2em;
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-color: $color-primary;
+  }
+
+  .gi-phone-nowrap {
+    white-space: nowrap;
+  }
+}

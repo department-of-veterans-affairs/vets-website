@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { getLetterPdf } from '../actions/letters';
+import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 export class DownloadLetterLink extends React.Component {
   constructor(props) {
@@ -29,12 +30,12 @@ export class DownloadLetterLink extends React.Component {
     let buttonDisabled;
     let message;
     switch (this.props.downloadStatus) {
-      case 'downloading':
+      case DOWNLOAD_STATUSES.downloading:
         buttonClasses = 'usa-button-disabled';
         buttonText = 'Downloading...';
         buttonDisabled = true;
         break;
-      case 'success':
+      case DOWNLOAD_STATUSES.success:
         buttonClasses = 'usa-button-primary va-button-primary';
         buttonText = 'Download Letter';
         buttonDisabled = false;
@@ -49,7 +50,7 @@ export class DownloadLetterLink extends React.Component {
           </div>
         );
         break;
-      case 'failure':
+      case DOWNLOAD_STATUSES.failure:
         buttonClasses = 'usa-button-primary va-button-primary';
         buttonText = 'Retry Download';
         buttonDisabled = false;
