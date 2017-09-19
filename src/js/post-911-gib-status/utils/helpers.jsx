@@ -120,7 +120,8 @@ export function noChapter33BenefitsWarning() {
       <h2>Need GI Bill help?</h2>
       <hr className="divider"/>
       <p>If you have questions or need help looking up your GI Bill information, please call <a
-        className="gi-phone-help" href="tel:1-888-442-4551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. to 7:00 pm (ET).</p>
+        className="gi-phone-nowrap" href="tel:1-888-442-4551">1-888-442-4551</a> <span className="gi-phone-nowrap">
+          (1-888-GI-BILL-1)</span> from 8:00 a.m. to 7:00 pm (ET).</p>
     </div>
   );
 }
