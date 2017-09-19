@@ -106,7 +106,7 @@ class FormPage extends React.Component {
   }
 
   autoSave() {
-    if (this.props.isLoggedIn) {
+    if (this.props.user.login.currentlyLoggedIn) {
       const { form } = this.props;
       const data = form.data;
       const { formId, version } = form;
@@ -125,7 +125,8 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const { route, params, form, isLoggedIn } = this.props;
+    const { route, params, form, user } = this.props;
+    const { isLoggedIn } = user.login.currentlyLoggedIn;
     let {
       schema,
       uiSchema
