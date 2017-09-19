@@ -40,7 +40,7 @@ export class DefinitionTester extends React.Component {
       uiSchema
     };
   }
-  autoSave = sinon.spy();
+  debouncedAutoSave = sinon.spy();
   handleChange = (data) => {
     const {
       schema,
@@ -78,7 +78,7 @@ export class DefinitionTester extends React.Component {
 
     return (
       <SchemaForm
-        autoSave={this.autoSave}
+        onBlur={this.debouncedAutoSave}
         safeRenderCompletion
         reviewMode={this.props.reviewMode}
         name="test"
