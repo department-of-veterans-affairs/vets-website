@@ -20,6 +20,12 @@ class GlossaryList extends React.Component {
 
     // check if the array has length 1, then render a certain way
     // else render the way it is
+
+    if (termsList.length === 1) {
+      return (
+        <h3>Terms: {termsList}</h3>
+      );
+    }
     return (
       <section className="rx-glossary-section">
         {title}
