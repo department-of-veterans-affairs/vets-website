@@ -4,6 +4,7 @@ function mountWidgets(widgets) {
       var root = document.getElementById(widget.root);
       var timeout = (widget.timeout || 0) * 1000;
       var slowLoadingThreshold = (widget.slowLoadingThreshold || 6) * 1000;
+      var slowMessage = widget.slowMessage || 'Sorry, this is taking longer than expected.';
 
       if (!widget.showSpinnerUnauthed && sessionStorage.userToken) {
         root.innerHTML = '<div class="loading-indicator-container">' +
@@ -16,7 +17,7 @@ function mountWidgets(widgets) {
         setTimeout(function() {
           var replacedWithWidget = !root.querySelector('.static-content');
           if (!replacedWithWidget) {
-            root.querySelector('.loading-indicator-message').innerHTML = widget.slowMessage;
+            root.querySelector('.loading-indicator-message').innerHTML = slowMessage;
           }
         }, slowLoadingThreshold);
       }
