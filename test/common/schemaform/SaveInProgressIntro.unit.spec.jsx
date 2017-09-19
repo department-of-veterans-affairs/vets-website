@@ -24,10 +24,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl'
-        }
+        currentlyLoggedIn: true
       }
     };
 
@@ -81,10 +78,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl'
-        }
+        currentlyLoggedIn: false
       }
     };
 
