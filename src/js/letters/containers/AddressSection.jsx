@@ -68,7 +68,10 @@ export class AddressSection extends React.Component {
           <div className="letters-address">{streetAddress}</div>
           <div className="letters-address">{cityStatePostal}</div>
           <div className="letters-address">{country}</div>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          { this.props.canUpdateAddress
+            ? <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+            : <div>Here goes helper text when a vet isn't allowed to edit his or her address</div>
+          }
         </div>
       );
     }
@@ -104,10 +107,11 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const letterState = state.letters;
+  const {fullName, address, canUpdateAddress} = state.letters;
   return {
-    recipientName: letterState.fullName,
-    address: letterState.address
+    recipientName: fullName,
+    address,
+    canUpdateAddress,
   };
 }
 
