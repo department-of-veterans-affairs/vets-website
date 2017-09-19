@@ -46,6 +46,7 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
+    this.debouncedAutoSave = _.debounce(1000, this.autosave);
   }
 
   componentDidMount() {
@@ -108,7 +109,7 @@ class FormPage extends React.Component {
     const { form } = this.props;
     const data = form.data;
     const { formId, version } = form;
-    const returnUrl = this.props.locationPathname;
+    const returnUrl = this.props.location.pathname;
 
     this.props.saveInProgressForm(formId, version, returnUrl, data, true);
   }
@@ -122,7 +123,7 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const { route, params, form } = this.props;
+    const { route, params, form, isLoggedIn } = this.props;
     let {
       schema,
       uiSchema
@@ -149,7 +150,7 @@ class FormPage extends React.Component {
           pagePerItemIndex={params ? params.index : undefined}
           uploadFile={this.props.uploadFile}
           prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-          autoSave={this.autoSave}
+          onBlur={this.debouncedAutoSave}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
@@ -168,7 +169,7 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && <SaveStatus
+          {!form.disableSave && !isLoggedIn && <SaveStatus
             form={form}>
           </SaveStatus>}
           {!form.disableSave && <SaveFormLink
