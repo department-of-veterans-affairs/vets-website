@@ -34,10 +34,11 @@ class IntroductionPage extends React.Component {
                   <li>Military history</li>
                   <li>Education history</li>
                 </ul>
-                <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+                <p><strong>What if I need help filling out my application?</strong>
+                <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
                 <h6>Learn about educational programs</h6>
                 <ul>
-                  <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
+                <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
                 </ul>
               </div>
             </li>
@@ -49,14 +50,13 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three" itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
               <div  itemProp="name"><h5>VA Review</h5></div>
               <div itemProp="itemListElement">
-                <p>We usually process claims within 30 days.</p>
-                <p>We’ll let you know by mail if we need more information.</p>
+                <p>We usually process claims within 30 days. We’ll let you know by mail if we need more information.</p>
                 <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></p>
               </div>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we’ve approved your application. Bring this to the VA certifying official at your school.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
