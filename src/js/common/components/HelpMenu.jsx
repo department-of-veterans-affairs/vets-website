@@ -13,7 +13,7 @@ class HelpMenu extends React.Component {
         <p><a href="tel:18555747286">1-855-574-7286</a></p>
         <p>TTY: <a href="tel:18008294833">1-800-829-4833</a></p>
         <p>Monday &ndash; Friday</p>
-        <p>8:00am &ndash; 8:00pm <abbr title="Eastern Time">ET</abbr></p>
+        <p>8:00 a.m. &ndash; 8:00 p.m. <abbr title="Eastern Time">(ET)</abbr></p>
       </div>
     );
 
