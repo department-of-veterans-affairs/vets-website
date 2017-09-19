@@ -60,8 +60,8 @@ export class ApplicationStatus extends React.Component {
 
     if (login.currentlyLoggedIn && savedForm) {
       const { last_updated: lastSaved, expires_at: expirationTime } = savedForm.metadata;
-      const expirationDate = moment.unix(expirationTime).format('M/D/YYYY');
-      const isExpired = moment(expirationDate).isBefore();
+      const expirationDate = moment.unix(expirationTime);
+      const isExpired = expirationDate.isBefore();
 
       const [firstLetter, ...restOfTitle] = formTitles[formId];
       const cardTitle = `${firstLetter.toUpperCase()}${restOfTitle.join('')} application in progress`;
@@ -80,7 +80,7 @@ export class ApplicationStatus extends React.Component {
               </a>
               <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
             </p>
-            <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate}.</strong></p>
+            <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
             <Modal
               cssClass="va-modal-large"
               id="start-over-modal"
