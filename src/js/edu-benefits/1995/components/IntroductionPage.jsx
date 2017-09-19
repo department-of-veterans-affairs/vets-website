@@ -40,8 +40,6 @@ class IntroductionPage extends React.Component {
                 <ul>
                 <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
                 </ul>
-              </div>
-            </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this education benefits form.</p>
@@ -59,8 +57,6 @@ class IntroductionPage extends React.Component {
               <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we’ve approved your application. Bring this to the VA certifying official at your school.</li></ul>
               <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
-          </ol>
-        </div>
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
