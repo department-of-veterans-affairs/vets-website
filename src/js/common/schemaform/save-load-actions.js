@@ -3,6 +3,8 @@ import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
+import { removeFormApi } from './sip-api';
+
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
@@ -326,44 +328,31 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
 export function removeInProgressForm(formId, migrations) {
   return (dispatch, getState) => {
-    const userToken = sessionStorage.userToken;
     const trackingPrefix = getState().form.trackingPrefix;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());
 
-    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${userToken}`
-      },
-    }).catch(res => {
-      if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_sip_error_delete');
-        return Promise.resolve();
-      } else if (!res.ok) {
-        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
-      }
+    return removeFormApi(formId)
+      .catch(res => {
+        // If there’s some error when deleting, there’s not much we can
+        // do aside from not stop the user from continuing on
+        if (res instanceof Error || res.status !== 401) {
+          return Promise.resolve();
+        }
 
-      return Promise.resolve(res);
-    }).then((res) => {
-      // If there’s some error when deleting, there’s not much we can
-      // do aside from not stop the user from continuing on
-      if (!res || res.status !== 401) {
+        return Promise.reject(res);
+      })
+      .then(() => {
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-start-over`
         });
         // after deleting, go fetch prefill info if they’ve got it
         return dispatch(fetchInProgressForm(formId, migrations, true));
-      }
-
-      dispatch(logOut());
-      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
-
-      return Promise.resolve();
-    });
+      })
+      .catch(() => {
+        dispatch(logOut());
+        dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+      });
   };
 }

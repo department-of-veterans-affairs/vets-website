@@ -9,8 +9,8 @@ body.va-pos-fixed {
 #vetnav {
   background-color: $color-primary-darkest;
   height: calc(100% - #{$height-offset});
-  
-  // This value should be equal to the default y-position of the menu so that removing it 
+
+  // This value should be equal to the default y-position of the menu so that removing it
   // shouldn't affect anything. However, it's here to show how the height is offset by the
   // vertical positioning.
   top: $height-offset;
