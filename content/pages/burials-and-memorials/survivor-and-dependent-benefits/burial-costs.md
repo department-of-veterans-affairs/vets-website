@@ -64,9 +64,6 @@ You may need a copy of:
 
 #### Other ways to apply
 
-<ul>
-<li>
-
 ##### By mail
 
 Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](http://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
@@ -74,9 +71,6 @@ Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Down
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
 If you have questions, call <a href="tel:+18008271000">1-800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
-
-</li>
-</ul>
 
 #### What are the burial allowance amounts for a service-connected death?
 
