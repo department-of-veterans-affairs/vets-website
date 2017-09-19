@@ -46,7 +46,7 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.debouncedAutoSave = _.debounce(1000, this.autosave);
+    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
   componentDidMount() {
