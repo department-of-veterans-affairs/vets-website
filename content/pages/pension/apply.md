@@ -5,6 +5,11 @@ title: Pension Benefits Application Process
 concurrence: ""
 order: 2
 children: pensionApplication
+widgets:
+  - root: react-pensionApplicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -33,7 +38,9 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/introduction">Apply for a Veterans Pension</a> 
+<div id="react-pensionApplicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
+</div>
 
 ### Other ways to apply
 
