@@ -109,7 +109,7 @@ describe('<LoginModal>', () => {
 
     // Not exactly definitive tests...and possibly brittle...
     // url called to get a new user session
-    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/authn_urls');
+    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/new?level=1');
     expect(global.window.open.calledOnce).to.be.true;
     expect(global.window.dataLayer).to.eql([
       { event: 'login-link-clicked' },
