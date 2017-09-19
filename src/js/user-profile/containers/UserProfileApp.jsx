@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { removeSavedForm } from '../actions/index';
+import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
+import { updateVerifyUrl } from '../../login/actions';
+import { removeSavedForm } from '../actions';
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
@@ -18,9 +20,13 @@ moment.updateLocale('en', {
 });
 
 class UserProfileApp extends React.Component {
+  componentDidMount() {
+    if (!this.props.verifyUrl) {
+      getVerifyUrl(this.props.updateVerifyUrl);
+    }
+  }
 
   render() {
-
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
@@ -65,7 +71,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeSavedForm
+  removeSavedForm,
+  updateVerifyUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
