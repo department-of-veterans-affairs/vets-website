@@ -117,7 +117,7 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate, countries, states } = state.letters;
+  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable } = state.letters;
   return {
     recipientName: fullName,
     address,
