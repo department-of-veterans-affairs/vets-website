@@ -65,9 +65,6 @@ $sidebar-width: 80%;
       &.in > div {
         right: 0;
       }
-      &.out > div {
-        right: -$sidebar-width;
-      }
     }
 
     &-close {

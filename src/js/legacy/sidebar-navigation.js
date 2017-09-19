@@ -35,12 +35,9 @@ class SideBarMenu {
     menu.classList.add('va-sidebarnav--opened');
     document.body.classList.add('va-pos-fixed');
 
-    // Delay the animation classes slightly so that switching the display property
-    // to block doesn't cause the animations to skip.
-    setTimeout(() => {
-      menu.classList.remove('out');
-      menu.classList.add('in');
-    }, 10);
+    // Delay the animation classes slightly because switching the display property
+    // to block at the same time causes the animations to skip.
+    setTimeout(() => menu.classList.add('in'), 10);
 
     this.closeMenu(trigger);
   }
@@ -50,7 +47,6 @@ class SideBarMenu {
     close.addEventListener('click', (domEvent) => {
 
       this.menu.classList.remove('in');
-      this.menu.classList.add('out');
 
       // Give the animations time to complete before removing the display classes.
       setTimeout(() => {
