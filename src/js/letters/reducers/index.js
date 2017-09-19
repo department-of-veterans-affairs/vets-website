@@ -23,7 +23,7 @@ import {
   DOWNLOAD_STATUSES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
-  // SAVE_ADDRESS_FAILURE
+  SAVE_ADDRESS_FAILURE,
 } from '../utils/constants';
 
 const initialState = {
@@ -122,7 +122,8 @@ function letters(state = initialState, action) {
       const newState = Object.assign({}, state, { savePending: false });
       return _.set('address', action.address, newState);
     }
-    // Add SAVE_ADDRESS_FAILURE
+    case SAVE_ADDRESS_FAILURE:
+      return { ...state, savePending: false, saveAddressFailure: true };
     default:
       return state;
   }
