@@ -22,13 +22,13 @@ class Main extends React.Component {
     if (this.props.fetching === true || this.props.redirect) {
       return (
         <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
-          Requesting...
+          Redirecting...
         </button>
       );
     }
     return (
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
-        Go to [ID Card Site] to request a card <span className="exit-icon">&nbsp;</span>
+        Apply for a Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
@@ -59,9 +59,6 @@ class Main extends React.Component {
     if (this.props.errors) {
       message = this.renderErrors();
     } else if (this.props.redirect) {
-      message = (
-        <p>Redirecting to Veteran ID Card site...</p>
-      );
       window.location.href = this.props.redirect;
     }
 
@@ -69,7 +66,9 @@ class Main extends React.Component {
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
           <h1>Request a Veteran ID Card</h1>
-          <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card. This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
+          <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card.</p>
+          <p>This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
+          <h3>Ready to apply?</h3>
           <div style={{ paddingBottom: '2em' }}>
             {this.renderButton()}
             <div>{message}</div>
