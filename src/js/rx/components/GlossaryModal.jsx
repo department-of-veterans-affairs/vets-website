@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { Link } from 'react-router';
-import { glossary } from '../config.js';
+import { Link } from 'react-router';
 import Modal from '../../common/components/Modal';
 import GlossaryList from './GlossaryList';
 
@@ -17,26 +16,24 @@ class GlossaryModal extends React.Component {
   }
 
   render() {
-
-    let key = 0;
-    const sections = Object.keys(glossary).map((sect) => {
-      return (<GlossaryList
-        key={key++}
-        title={`${sect} statuses`}
-        terms={glossary[sect]}/>);
-    });
-
     let element;
     if (this.props.isVisible) {
       element = (
         <div>
-          {this.props.content}
-          {sections}
+          <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
+          <GlossaryList terms={this.props.content}/>
           <div className="va-modal-button-group cf">
             <button type="button" onClick={this.handleCloseModal}>Close</button>
+            <Link
+              to="/glossary"
+              onClick={this.props.onCloseModal}>
+              See all status definitions
+            </Link>
           </div>
         </div>
       );
+    } else {
+      element = (<div/>);
     }
 
     return (

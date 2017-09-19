@@ -18,6 +18,8 @@ class GlossaryList extends React.Component {
       title = <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>;
     }
 
+    // check if the array has length 1, then render a certain way
+    // else render the way it is
     return (
       <section className="rx-glossary-section">
         {title}
