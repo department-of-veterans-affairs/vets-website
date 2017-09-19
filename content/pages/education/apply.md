@@ -42,12 +42,23 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Other ways to apply
 
-#### In person
+<ul>
+<li>
+
+<strong>In person</strong>
+
 - Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
 - Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
-#### By mail
+</li>
+<li>
+
+<strong>By mail</strong>
+
 - Call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
+
+</li>
+</ul>
 
 ### What happens after I apply?
 

@@ -8,9 +8,7 @@ require('../legacy/menu.js');
 require('./utils/sticky-action-box.js');
 
 // New navigation menu
-if (document.querySelector('#vetnav')) {
-  require('../legacy/mega-menu.js');
-}
+require('../legacy/mega-menu.js');
 
 // Prevent some browsers from changing the value when scrolling while hovering
 //  over an input[type="number"] with focus.

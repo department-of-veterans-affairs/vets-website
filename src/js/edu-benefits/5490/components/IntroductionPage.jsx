@@ -1,22 +1,27 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { focusElement } from '../../../common/utils/helpers';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/FormTitle';
+
+import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-  }
-  goForward = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits as an eligible dependent"/>
         <p>This application is equivalent to Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
+        <SaveInProgressIntro
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -29,12 +34,6 @@ class IntroductionPage extends React.Component {
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
-                </div>
-              </div>
-              <br/>
               <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">1-888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
               <h6>Learn about educational programs</h6>
               <ul>
@@ -62,21 +61,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 columns">
-            <a href="/education/apply-for-education-benefits/">
-              <button className="usa-button-outline">« Back</button>
-            </a>
-          </div>
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-              onButtonClick={this.goForward}
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
-          </div>
-        </div>
-        <div className="omb-info--container">
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          messages={this.props.route.formConfig.savedFormMessages}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 22-5490 form to apply for education benefits.
+        </SaveInProgressIntro>
+        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018"/>
         </div>
       </div>
@@ -84,4 +76,18 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+
+export { IntroductionPage };
