@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
                 <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
                 <li>In addition to your claim for Aid and Attendance or Housebound benefits, if you live in a nursing home, please have the nursing home fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">Download VA Form 21-0779</a></li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong></p>
+              <p><strong>What if I need help filling out my application?</strong>
               <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/rates" target="_blank">Find out how we decide pension rates.</a>
