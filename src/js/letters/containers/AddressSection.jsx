@@ -12,7 +12,8 @@ import {
 } from '../utils/helpers.jsx';
 import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
-import AddressUpdateFailure from '../components/AddressUpdateFailure';
+import InvalidAddress from '../components/InvalidAddress';
+import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
   constructor() {
@@ -76,33 +77,15 @@ export class AddressSection extends React.Component {
       );
     }
 
-    let addressContent;
-    if (isEmpty(address)) {
-      addressContent = (
-        <div className="step-content">
-          {invalidAddressProperty}
-        </div>
-      );
-    } else if (this.props.saveAddressError) {
-      addressContent = <AddressUpdateFailure/>
-    } else {
-      addressContent = (
-        <div className="step-content">
-          <p>
-            Downloaded documents will list your address as:
-          </p>
-          <div className="address-block">
-            <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
-            {addressFields}
-          </div>
-          <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
-        </div>
-      );
-    }
-
     return (
       <div>
-        {addressContent}
+        { isEmpty(address)
+          ? <InvalidAddress/>
+          : <AddressContent
+              saveError={this.props.saveAddressError}
+              name={(this.props.recipientName || '').toLowerCase()}
+              fields={addressFields}/>
+        }
       </div>
     );
   }

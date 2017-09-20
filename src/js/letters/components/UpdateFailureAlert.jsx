@@ -1,9 +1,9 @@
 import React from 'react';
 
-const AddressUpdateFailure = () => {
+const UpdateFailureAlert = () => {
   return (
     <div><p>Alert! Address update failed :(</p></div>    
   );
 };
 
-export default AddressUpdateFailure;
+export default UpdateFailureAlert;
