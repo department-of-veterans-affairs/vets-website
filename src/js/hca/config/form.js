@@ -579,23 +579,23 @@ const formConfig = {
         },
         childInformation: {
           path: 'household-information/child-information',
-          title: 'Child information',
+          title: 'Dependent information',
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'view:reportChildren': {
-              'ui:title': 'Do you have any children to report?',
+              'ui:title': 'Do you have any dependents to report?',
               'ui:widget': 'yesNo'
             },
             children: {
               items: childUI,
               'ui:options': {
                 expandUnder: 'view:reportChildren',
-                itemName: 'Child',
+                itemName: 'Dependent',
                 hideTitle: true,
                 viewField: ChildView
               },
               'ui:errorMessages': {
-                minItems: 'You must add at least one child.'
+                minItems: 'You must add at least one dependent.'
               }
             }
           },
