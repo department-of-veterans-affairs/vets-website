@@ -40,7 +40,7 @@ class SearchHelpSignIn extends React.Component {
       );
     }
     return (
-      <div>
+      <div className="profileNav">
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
