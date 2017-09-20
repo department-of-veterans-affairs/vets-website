@@ -34,11 +34,11 @@ class IntroductionPage extends React.Component {
                   <li>Military history</li>
                   <li>Education history</li>
                 </ul>
-                <p><strong>What if I need help filling out my application?</strong></p>
+                <p><strong>What if I need help filling out my application?</strong>
                 <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
                 <h6>Learn about educational programs</h6>
-                <p>See what benefits you’ll get at the school you want to attend.</p>
-                <p><a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
+                <p>See what benefits you’ll get at the school you want to attend.
+                <p><a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.
               </div>
             </li>
             <li className="process-step list-two">
