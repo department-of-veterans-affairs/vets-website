@@ -18,11 +18,13 @@ class Signin extends React.Component {
 
   checkLoggedInStatus(loggedIn) {
     if (this.props.currentlyLoggedIn || loggedIn) {
-      // const nextParams = new URLSearchParams(window.location.search);
-      // const nextPath = nextParams.get('next');
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
 
       if (this.props.onLoggedIn) {
         this.props.onLoggedIn();
+      } else {
+        window.location.replace(nextPath || '/');
       }
     }
   }

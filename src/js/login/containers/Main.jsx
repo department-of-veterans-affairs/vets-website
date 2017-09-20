@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent, getLoginUrls, getVerifyUrl } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -12,12 +12,14 @@ import LoginModal from '../../common/components/authentication/LoginModal';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.setMyToken = this.setMyToken.bind(this);
+    this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.getVerifyUrl = this.getVerifyUrl.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.checkTokenStatus = this.checkTokenStatus.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
+    this.setMyToken = this.setMyToken.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +94,20 @@ class Main extends React.Component {
       const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
+  }
+
+  handleSignup() {
+    window.dataLayer.push({ event: 'register-link-clicked' });
+    const myLoginUrl = this.props.login.loginUrls.idmeUrl;
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
+  }
+
+  handleLogin(loginUrl = 'idme') {
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
   }
 
   checkTokenStatus() {
