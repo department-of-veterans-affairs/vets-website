@@ -43,7 +43,7 @@ class IntroductionPage extends React.Component {
                 <li>A copy of the Veteran’s death certificate</li>
                 <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran’s remains)</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong>
+              <p><strong>What if I need help filling out my application?</strong></p>
               <p>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
               <ul>
