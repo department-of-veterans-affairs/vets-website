@@ -31,6 +31,12 @@ span.sidelines {
   }
 }
 
+#login-root {
+  .va-modal-inner {
+    
+  }
+}
+
 .verify, .login {
   button {
     display: flex;
@@ -68,6 +74,7 @@ span.sidelines {
 
   .container {
     padding: 2em 0;
+    color: $color-base;
   }
 
   .logo {
