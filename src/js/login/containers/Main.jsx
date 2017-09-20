@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl } from '../actions';
+import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import LoginModal from '../../common/components/authentication/LoginModal';
+import Modal from '../../common/components/Modal';
 import Signin from '../../signin/components/Signin';
 import Verify from '../../signin/components/Verify';
 
@@ -26,17 +26,15 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.renderType !== 'signinModal') {
-      if (sessionStorage.userToken) {
-        this.getLogoutUrl();
-        this.getVerifyUrl();
-      }
-      this.getLoginUrls();
-      addEvent(window, 'message', (evt) => {
-        this.setMyToken(evt);
-      });
-      window.onload = this.checkTokenStatus();
+    if (sessionStorage.userToken) {
+      this.getLogoutUrl();
+      this.getVerifyUrl();
     }
+    this.getLoginUrls();
+    addEvent(window, 'message', (evt) => {
+      this.setMyToken(evt);
+    });
+    window.onload = this.checkTokenStatus();
   }
 
   componentDidUpdate(prevProps) {
@@ -51,11 +49,9 @@ class Main extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.props.renderType !== 'signinModal') {
-      this.loginUrlRequest.abort();
-      this.verifyUrlRequest.abort();
-      this.logoutUrlRequest.abort();
-    }
+    this.loginUrlRequest.abort();
+    this.verifyUrlRequest.abort();
+    this.logoutUrlRequest.abort();
   }
 
   getVerifyUrl() {
@@ -101,7 +97,7 @@ class Main extends React.Component {
 
   handleSignup() {
     window.dataLayer.push({ event: 'register-link-clicked' });
-    const myLoginUrl = this.props.login.loginUrls.idmeUrl;
+    const myLoginUrl = this.props.login.loginUrls.idme;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -140,16 +136,14 @@ class Main extends React.Component {
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <LoginModal/>
+            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={() => this.props.toggleLoginModal(false)}>
+              <Signin
+                onLoggedIn={() => this.props.toggleLoginModal(false)}
+                currentlyLoggedIn={currentlyLoggedIn}
+                handleSignup={this.handleSignup}
+                handleLogin={this.handleLogin}/>
+            </Modal>
           </div>
-        );
-      case 'signinModal':
-        return (
-          <Signin
-            onLoggedIn={this.props.onLoggedIn}
-            currentlyLoggedIn={currentlyLoggedIn}
-            handleSignup={this.handleSignup}
-            handleLogin={this.handleLogin}/>
         );
       case 'verifyPage':
         return (
@@ -183,6 +177,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
+    },
+    toggleLoginModal: (update) => {
+      dispatch(toggleLoginModal(update));
     },
     getUserData: () => {
       getUserData(dispatch);
