@@ -13,20 +13,86 @@ import {
 import { updateAddress, saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 
+import {
+  addressOneValidations,
+  postalCodeValidations,
+  stateValidations,
+  countryValidations,
+  cityValidations
+} from '../utils/validations';
+
+const fieldValidations = {
+  addressOne: addressOneValidations,
+  zipCode: postalCodeValidations,
+  state: stateValidations,
+  country: countryValidations,
+  city: cityValidations
+};
+
 export class AddressSection extends React.Component {
   constructor() {
     super();
-    this.state = { isEditingAddress: false };
+    this.state = {
+      isEditingAddress: false,
+      errorMessages: {}
+    };
   }
 
-  handleUpdate = () => {
-    // TODO: Make sure to run all the validations
-    // To do this, we may end up handling all the validations here and pass along
-    //  an errorMessages prop to Address
-    // One consideration when handling all the validation here is to use selectors
-    //  to avoid running _all_ the validations when only one thing changes.
-    this.setState({ isEditingAddress: false });
+  /**
+   * Runs all the valiations against the address passed as a prop for a given field.
+   *
+   * @param {String} fieldName   The name of the address field to validate. Maps to
+   *                              the fieldValidations key.
+   * @return {String|undefined}  If there's a validation error, return the error
+   *                              message. If not, return undefined.
+   */
+  validateField = (fieldName) => {
+    const validations = fieldValidations[fieldName];
+    // If there is no validations array for that field, assume it has no validations
+    if (!validations) {
+      return undefined;
+    }
 
+    let errorMessage = false;
+    for (let i = 0; i < validations.length; i++) {
+      // this.props.value = address
+      errorMessage = validations[i](this.props.value[fieldName], this.props.value);
+      if (typeof errorMessage === 'string') {
+        return errorMessage;
+      }
+    }
+
+    // All validations passed; there are no error messages to report
+    return undefined;
+  }
+
+  /**
+   * Runs validation for all fields, returning a complete errorMessages object.
+   *
+   * @return {Object}  Holds all the error messages for all the fields that have them.
+   */
+  validateAll = () => {
+    const errorMessages = {};
+    Object.keys(fieldValidations).forEach((fieldName) => {
+      errorMessages[fieldName] = this.validateField(fieldName);
+    });
+
+    return errorMessages;
+  }
+
+  saveAddress = () => {
+    const errorMessages = this.validateAll();
+    // If there are errors, show them, but don't stop editing and don't save
+    if (Object.keys(errorMessages).length === 0) {
+      this.setState({ errorMessages });
+      return;
+    }
+
+    this.setState({
+      isEditingAddress: false,
+      // Reset all the error messages in case they go to edit again; should be pointless
+      errorMessages
+    });
     this.props.saveAddress(this.props.address);
   }
 
@@ -62,8 +128,9 @@ export class AddressSection extends React.Component {
           <Address
             value={address}
             onUserInput={(addr) => {this.props.updateAddress(addr);}}
+            errorMessages={this.state.errorMessages}
             required/>
-          <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
+          <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );

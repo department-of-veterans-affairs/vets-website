@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
@@ -6,14 +7,6 @@ import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
 import { countries, states } from '../../common/utils/options-for-select';
 import { addressTypes } from '../utils/constants';
-
-import {
-  addressOneValidations,
-  postalCodeValidations,
-  stateValidations,
-  countryValidations,
-  cityValidations
-} from '../utils/validations';
 
 
 /**
@@ -70,22 +63,9 @@ class Address extends React.Component {
     return Object.assign({}, address, { type });
   }
 
-  validateInput = (value, validations) => {
-    let errorMessage = false;
-    for (let i = 0; i < validations.length; i++) {
-      // value = changed field value; this.props.value = address prop
-      errorMessage = validations[i](value, this.props.value);
-      if (typeof errorMessage === 'string') {
-        return errorMessage;
-      }
-    }
-
-    // All validations passed; there are no error messages to report
-    return undefined;
-  }
-
   render() {
     const addressType = this.state.addressType;
+    const errorMessages = this.props.errorMessages;
 
     // Depending on the type of address, the fields for state and city
     // are called different things. Set new variables for the name of
@@ -94,6 +74,7 @@ class Address extends React.Component {
     let cityField;
     let stateField;
     if (addressType === addressTypes.military) {
+      // I think we'll only need to change this when we actually save the data
       cityField = 'militaryPostOfficeTypeCode';
       stateField = 'militaryStateCode';
     } else {
@@ -124,73 +105,90 @@ class Address extends React.Component {
     }
 
     const stateProvince = _.hasIn(states, selectedCountry)
-      ? (<ErrorableSelect errorMessage={this.validateInput(this.props.value[stateField], stateValidations)}
+      ? (<ErrorableSelect errorMessage={errorMessages[stateField]}
         label="State"
         name="state"
         autocomplete="address-level1"
         options={stateList}
         value={this.props.value[stateField]}
         required={this.props.required}
-        onValueChange={(update) => {this.handleChange(stateField, update);}}/>)
+        onValueChange={(update) => this.handleChange(stateField, update)}/>)
       : (<ErrorableTextInput label="State/province"
         name="province"
         autocomplete="address-level1"
         value={this.props.value[stateField]}
         required={false}
-        onValueChange={(update) => {this.handleChange(stateField, update);}}/>);
+        onValueChange={(update) => this.handleChange(stateField, update)}/>);
 
     return (
       <div>
-        <ErrorableSelect errorMessage={this.validateInput(selectedCountry, countryValidations)}
+        <ErrorableSelect errorMessage={errorMessages.country}
           label="Country"
           name="country"
           autocomplete="country"
           options={countries}
           value={selectedCountry}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('country', update);}}/>
-        <ErrorableTextInput errorMessage={this.validateInput(this.props.value.addressOne, addressOneValidations)}
+          onValueChange={(update) => this.handleChange('country', update)}/>
+        <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
           name="address"
           autocomplete="street-address"
           charMax={30}
           value={this.props.value.addressOne}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('addressOne', update);}}/>
+          onValueChange={(update) => this.handleChange('addressOne', update)}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
           value={this.props.value.addressTwo}
-          onValueChange={(update) => {this.handleChange('addressTwo', update);}}/>
+          onValueChange={(update) => this.handleChange('addressTwo', update)}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
           value={this.props.value.addressThree}
-          onValueChange={(update) => {this.handleChange('addressThree', update);}}/>
-        <ErrorableTextInput errorMessage={this.validateInput(this.props.value[cityField], cityValidations)}
+          onValueChange={(update) => this.handleChange('addressThree', update)}/>
+        <ErrorableTextInput errorMessage={errorMessages.city}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
           charMax={30}
           value={this.props.value[cityField]}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange(cityField, update);}}/>
+          onValueChange={(update) => this.handleChange(cityField, update)}/>
         {stateProvince}
-        <ErrorableTextInput errorMessage={this.validateInput(this.props.value.zipCode, postalCodeValidations, { country: selectedCountry })}
+        <ErrorableTextInput errorMessage={errorMessages.zipCode}
           additionalClass="usa-input-medium"
           label={selectedCountry === 'USA' ? 'Zip code' : 'Postal code'}
           name="postalCode"
           autocomplete="postal-code"
           value={this.props.value.zipCode}
           required={this.props.required}
-          onValueChange={(update) => {this.handleChange('zipCode', update);}}/>
+          onValueChange={(update) => this.handleChange('zipCode', update)}/>
       </div>
     );
   }
 }
+
+const addressShape = PropTypes.shape({
+  addressOne: PropTypes.string,
+  addressTwo: PropTypes.string,
+  addressThree: PropTypes.string,
+  city: PropTypes.string,
+  state: PropTypes.string,
+  country: PropTypes.string,
+  zipCode: PropTypes.string
+});
+
+Address.propTypes = {
+  // value = address
+  value: addressShape.isRequired,
+  errorMessages: addressShape.isRequired,
+  validateField: PropTypes.func.isRequired
+};
 
 export default Address;
