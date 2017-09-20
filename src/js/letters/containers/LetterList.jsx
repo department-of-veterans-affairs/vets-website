@@ -5,7 +5,8 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { letterContent } from '../utils/helpers.jsx';
+import { letterContent } from '../utils/helpers';
+import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
   render() {
@@ -13,7 +14,7 @@ export class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
       let bslHelpInstructions;
-      if (letter.letterType === 'benefit_summary') {
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
         content = (<VeteranBenefitSummaryLetter/>);
         bslHelpInstructions = (
           <p>
@@ -42,7 +43,7 @@ export class LetterList extends React.Component {
     });
 
     let eligibilityMessage;
-    if (this.props.lettersAvailability === 'letterEligibilityError') {
+    if (this.props.lettersAvailability === AVAILABILITY_STATUSES.letterEligibilityError) {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">

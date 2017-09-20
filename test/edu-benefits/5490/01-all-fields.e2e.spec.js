@@ -13,9 +13,9 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5490`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
-      .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+      .waitForElementVisible('.usa-button-primary', Timeouts.slow)
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+      .click('.usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
