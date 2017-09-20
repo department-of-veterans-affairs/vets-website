@@ -53,6 +53,10 @@ body.va-pos-fixed {
     position: relative;
   }
 
+  .vetnav--submenu-expanded & {
+    height: 0;
+  }
+
   > li {
     margin-bottom: 6px;
 
@@ -334,7 +338,8 @@ body.va-pos-fixed {
     width: 100%;
     top: 0;
     left: 0;
-    height: 420px;
+    height: auto;
+    margin: 1rem 0;
 
     @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
