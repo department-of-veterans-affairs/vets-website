@@ -10,8 +10,8 @@ import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '
 import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Modal from '../../common/components/Modal';
-import Signin from '../../signin/components/Signin';
-import Verify from '../../signin/components/Verify';
+import Signin from '../components/Signin';
+import Verify from '../components/Verify';
 
 class Main extends React.Component {
   constructor(props) {
