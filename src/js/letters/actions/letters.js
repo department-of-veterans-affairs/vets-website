@@ -19,7 +19,8 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
-  LETTER_TYPES
+  LETTER_TYPES,
+  addressTypes
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -70,10 +71,21 @@ export function getMailingAddress() {
     apiRequest(
       '/v0/address',
       null,
-      response => dispatch({
-        type: GET_ADDRESS_SUCCESS,
-        data: response,
-      }),
+      response => {
+        const address = Object.assign({}, response);
+        // Translate military-only fields into generic ones; we'll translate them back later if necessary
+        if (address.type === addressTypes.military) {
+          address.city = address.militaryPostOfficeTypeCode;
+          address.state = address.militaryStateCode;
+          delete address.militaryPostOfficeTypeCode;
+          delete address.militaryStateCode;
+        }
+
+        dispatch({
+          type: GET_ADDRESS_SUCCESS,
+          data: address,
+        });
+      },
       (response) => {
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
@@ -215,10 +227,18 @@ export function saveAddressFailure(address) {
 }
 
 export function saveAddress(address) {
+  const transformedAddress = Object.assign({}, address);
+  if (transformedAddress.type === addressTypes.military) {
+    transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
+    transformedAddress.militaryStateCode = transformedAddress.state;
+    delete transformedAddress.city;
+    delete transformedAddress.state;
+  }
+
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(address)
+    body: JSON.stringify(transformedAddress)
   };
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
