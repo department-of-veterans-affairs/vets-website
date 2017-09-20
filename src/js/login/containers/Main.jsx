@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
@@ -8,6 +9,8 @@ import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '
 import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import LoginModal from '../../common/components/authentication/LoginModal';
+import Signin from '../../signin/components/Signin';
+import Verify from '../../signin/components/Verify';
 
 class Main extends React.Component {
   constructor(props) {
@@ -23,15 +26,17 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    if (sessionStorage.userToken) {
-      this.getLogoutUrl();
-      this.getVerifyUrl();
+    if (this.props.renderType !== 'signinModal') {
+      if (sessionStorage.userToken) {
+        this.getLogoutUrl();
+        this.getVerifyUrl();
+      }
+      this.getLoginUrls();
+      addEvent(window, 'message', (evt) => {
+        this.setMyToken(evt);
+      });
+      window.onload = this.checkTokenStatus();
     }
-    this.getLoginUrls();
-    addEvent(window, 'message', (evt) => {
-      this.setMyToken(evt);
-    });
-    window.onload = this.checkTokenStatus();
   }
 
   componentDidUpdate(prevProps) {
@@ -46,11 +51,9 @@ class Main extends React.Component {
   }
 
   componentWillUnmount() {
-    this.loginUrlRequest.abort();
-    if (this.verifyUrlRequest) {
+    if (this.props.renderType !== 'signinModal') {
+      this.loginUrlRequest.abort();
       this.verifyUrlRequest.abort();
-    }
-    if (this.logoutUrlRequest) {
       this.logoutUrlRequest.abort();
     }
   }
@@ -130,12 +133,32 @@ class Main extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-        <LoginModal/>
-      </div>
-    );
+    const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
+
+    switch (this.props.renderType) {
+      case 'navComponent':
+        return (
+          <div>
+            <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+            <LoginModal/>
+          </div>
+        );
+      case 'signinModal':
+        return (
+          <Signin
+            onLoggedIn={this.props.onLoggedIn}
+            currentlyLoggedIn={currentlyLoggedIn}
+            handleSignup={this.handleSignup}
+            handleLogin={this.handleLogin}/>
+        );
+      case 'verifyPage':
+        return (
+          <Verify
+            verifyUrl={this.props.login.verifyUrl}/>
+        );
+      default:
+        return null;
+    }
   }
 }
 
@@ -165,6 +188,15 @@ const mapDispatchToProps = (dispatch) => {
       getUserData(dispatch);
     },
   };
+};
+
+Main.propTypes = {
+  onLoggedIn: PropTypes.func,
+  renderType: PropTypes.oneOf([
+    'navComponent',
+    'signinModal',
+    'verifyPage',
+  ]).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

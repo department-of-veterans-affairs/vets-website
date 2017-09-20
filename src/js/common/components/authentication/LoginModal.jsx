@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Main from '../../../signin/containers/Main';
+import Main from '../../../login/containers/Main';
 import Modal from '../Modal';
 import { toggleLoginModal } from '../../../login/actions';
 
@@ -13,7 +13,7 @@ class LoginModal extends React.Component {
       <div>
         {this.props.children}
         <Modal cssClass="va-modal-large" visible={showModal} onClose={() => this.props.toggleLoginModal(false)}>
-          <Main onLoggedIn={() => this.props.toggleLoginModal(false)}/>
+          <Main onLoggedIn={() => this.props.toggleLoginModal(false)} renderType="signinModal"/>
         </Modal>
       </div>
     );

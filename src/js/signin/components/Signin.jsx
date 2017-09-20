@@ -23,7 +23,9 @@ class Signin extends React.Component {
 
       if (this.props.onLoggedIn) {
         this.props.onLoggedIn();
-      } else {
+      }
+
+      if (nextPath) {
         window.location.replace(nextPath || '/');
       }
     }
