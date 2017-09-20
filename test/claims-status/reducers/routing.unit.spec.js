@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import routingReducer from '../../../src/js/disability-benefits/reducers/routing';
-import { SET_LAST_PAGE } from '../../../src/js/disability-benefits/actions';
+import routingReducer from '../../../src/js/claims-status/reducers/routing';
+import { SET_LAST_PAGE } from '../../../src/js/claims-status/actions';
 
 describe('routingReducer', () => {
   it('should set the last page to null on first call', () => {

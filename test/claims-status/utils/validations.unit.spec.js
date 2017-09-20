@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isValidFileSize, isValidFileType, isValidFile, isValidDocument } from '../../../src/js/disability-benefits/utils/validations';
+import { isValidFileSize, isValidFileType, isValidFile, isValidDocument } from '../../../src/js/claims-status/utils/validations';
 
 describe('Disability benefits validation:', () => {
   describe('isValidFileSize', () => {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { isTab, setFocus, setPageFocus } from '../../../src/js/disability-benefits/utils/page';
+import { isTab, setFocus, setPageFocus } from '../../../src/js/claims-status/utils/page';
 
 describe('Page utils:', () => {
   describe('isTab', () => {

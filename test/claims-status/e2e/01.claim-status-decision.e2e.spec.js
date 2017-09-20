@@ -8,26 +8,21 @@ module.exports = E2eHelpers.createE2eTest(
     const token = LoginHelpers.getUserToken();
 
     DisabilityHelpers.initClaimsListMock(token);
-
-    DisabilityHelpers.initClaimDetailMocks(token, false, false, false, 3);
+    DisabilityHelpers.initClaimDetailMocks(token, true, true, false, null);
 
     LoginHelpers.logIn(token, client, '/track-claims', 3)
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+
     client
       .click('a.claim-list-item:first-child')
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.claim-title', Timeouts.normal);
-
-    const selector = '.claim-completion-estimation a';
+      .waitForElementVisible('.claim-title', Timeouts.slow);
 
     client
-      .pause(500) // Since the link is below the fold, we must wait for the full render to finish
-      .waitForElementVisible(selector, Timeouts.normal)
-      .click(selector)
-      .waitForElementVisible('.estimation-header', Timeouts.normal);
+      .expect.element('.claim-decision-is-ready').to.be.visible;
 
     client
-      .expect.element('.disability-benefits-content h1').text.to.equal('How We Come Up with Your Estimated Decision Date');
+      .expect.element('.claims-status-timeline').not.to.be.present;
 
     client.end();
   }

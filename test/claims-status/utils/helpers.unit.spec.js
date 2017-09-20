@@ -16,7 +16,7 @@ import {
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType
-} from '../../../src/js/disability-benefits/utils/helpers';
+} from '../../../src/js/claims-status/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
   describe('groupTimelineActivity', () => {

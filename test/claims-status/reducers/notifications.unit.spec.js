@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { SET_NOTIFICATION, CLEAR_NOTIFICATION } from '../../../src/js/disability-benefits/actions';
-import notificationsReducer from '../../../src/js/disability-benefits/reducers/notifications';
+import { SET_NOTIFICATION, CLEAR_NOTIFICATION } from '../../../src/js/claims-status/actions';
+import notificationsReducer from '../../../src/js/claims-status/reducers/notifications';
 
 describe('notificationsReducer', () => {
   it('should set a notification', () => {

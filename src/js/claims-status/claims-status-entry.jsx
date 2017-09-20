@@ -5,7 +5,7 @@ import { createHistory } from 'history';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import DisabilityBenefitsApp from './containers/DisabilityBenefitsApp.jsx';
+import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
 import initReact from '../common/init-react';
 import createCommonStore from '../common/store';
 import routes from './routes.jsx';
@@ -32,7 +32,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>
-        <Route path="/" component={DisabilityBenefitsApp}>
+        <Route path="/" component={ClaimsStatusApp}>
           <IndexRedirect to="/your-claims"/>
           {routes}
         </Route>

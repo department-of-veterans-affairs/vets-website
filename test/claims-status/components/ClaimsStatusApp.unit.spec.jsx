@@ -2,16 +2,16 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { DisabilityBenefitsApp, AppContent } from '../../../src/js/disability-benefits/containers/DisabilityBenefitsApp';
+import { ClaimsStatusApp, AppContent } from '../../../src/js/disability-benefits/containers/ClaimsStatusApp';
 
-describe('<DisabilityBenefitsApp>', () => {
+describe('<ClaimsStatusApp>', () => {
   it('should render children and login view', () => {
     const tree = SkinDeep.shallowRender(
-      <DisabilityBenefitsApp
+      <ClaimsStatusApp
         available
         authorized>
         <div className="test-child"/>
-      </DisabilityBenefitsApp>
+      </ClaimsStatusApp>
     );
 
     expect(tree.everySubTree('.test-child')).not.to.be.empty;

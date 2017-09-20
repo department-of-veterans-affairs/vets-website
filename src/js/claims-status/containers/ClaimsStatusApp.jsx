@@ -19,7 +19,7 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-class DisabilityBenefitsApp extends React.Component {
+class ClaimsStatusApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
@@ -45,6 +45,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DisabilityBenefitsApp);
+export default connect(mapStateToProps)(ClaimsStatusApp);
 
-export { DisabilityBenefitsApp, AppContent };
+export { ClaimsStatusApp, AppContent };

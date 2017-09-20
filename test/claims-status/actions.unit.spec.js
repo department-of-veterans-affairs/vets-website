@@ -42,7 +42,7 @@ import {
   submitRequest,
   UPDATE_FIELD,
   updateField,
-} from '../../src/js/disability-benefits/actions';
+} from '../../src/js/claims-status/actions';
 
 let fetchMock;
 let oldFetch;
