@@ -22,7 +22,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('.claim-decision-is-ready').to.be.visible;
 
     client
-      .expect.element('.claims-status-timeline').not.to.be.present;
+      .expect.element('.disability-benefits-timeline').not.to.be.present;
 
     client.end();
   }

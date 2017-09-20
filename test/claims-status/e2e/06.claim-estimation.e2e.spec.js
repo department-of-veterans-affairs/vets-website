@@ -27,7 +27,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.estimation-header', Timeouts.normal);
 
     client
-      .expect.element('.claims-status-content h1').text.to.equal('How We Come Up with Your Estimated Decision Date');
+      .expect.element('.disability-benefits-content h1').text.to.equal('How We Come Up with Your Estimated Decision Date');
 
     client.end();
   }
