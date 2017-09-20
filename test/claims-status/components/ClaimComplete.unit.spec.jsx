@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimComplete from '../../../src/js/disability-benefits/components/ClaimComplete';
+import ClaimComplete from '../../../src/js/claims-status/components/ClaimComplete';
 
 describe('<ClaimComplete>', () => {
   it('should render message', () => {

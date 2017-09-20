@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimDetailLayout from '../../../src/js/disability-benefits/components/ClaimDetailLayout';
+import ClaimDetailLayout from '../../../src/js/claims-status/components/ClaimDetailLayout';
 
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {

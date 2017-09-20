@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import NeedFilesFromYou from '../../../src/js/disability-benefits/components/NeedFilesFromYou';
+import NeedFilesFromYou from '../../../src/js/claims-status/components/NeedFilesFromYou';
 
 describe('<NeedFilesFromYou>', () => {
   it('should render single file needed', () => {

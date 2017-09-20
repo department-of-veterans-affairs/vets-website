@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimsListItem from '../../../src/js/disability-benefits/components/ClaimsListItem';
+import ClaimsListItem from '../../../src/js/claims-status/components/ClaimsListItem';
 
 describe('<ClaimsListItem>', () => {
   it('should not show any flags', () => {

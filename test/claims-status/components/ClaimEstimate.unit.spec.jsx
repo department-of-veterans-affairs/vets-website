@@ -3,7 +3,7 @@ import moment from 'moment';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimEstimate from '../../../src/js/disability-benefits/components/ClaimEstimate';
+import ClaimEstimate from '../../../src/js/claims-status/components/ClaimEstimate';
 
 describe('<ClaimEstimate>', () => {
   it('should render estimated date', () => {

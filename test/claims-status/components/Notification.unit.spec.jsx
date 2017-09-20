@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Notification from '../../../src/js/disability-benefits/components/Notification';
+import Notification from '../../../src/js/claims-status/components/Notification';
 
 describe('<Notification>', () => {
   it('should render success class', () => {

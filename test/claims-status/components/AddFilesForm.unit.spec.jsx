@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import AddFilesForm from '../../../src/js/disability-benefits/components/AddFilesForm';
+import AddFilesForm from '../../../src/js/claims-status/components/AddFilesForm';
 
 describe('<AddFilesForm>', () => {
   it('should render component', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import AdditionalEvidenceItem from '../../../src/js/disability-benefits/components/AdditionalEvidenceItem';
+import AdditionalEvidenceItem from '../../../src/js/claims-status/components/AdditionalEvidenceItem';
 
 describe('<AdditionalEvidenceItem>', () => {
   it('should render additional evidence item', () => {

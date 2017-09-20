@@ -15,7 +15,7 @@ import reducer from './reducers';
 import createLoginWidget from '../login/login-entry';
 
 require('../common');  // Bring in the common javascript.
-require('../../sass/disability-benefits.scss');
+require('../../sass/claims-status.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

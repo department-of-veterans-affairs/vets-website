@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DocumentRequestPage } from '../../../src/js/disability-benefits/containers/DocumentRequestPage';
+import { DocumentRequestPage } from '../../../src/js/claims-status/containers/DocumentRequestPage';
 
 describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {

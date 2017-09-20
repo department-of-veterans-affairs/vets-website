@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { TabItem } from '../../../src/js/disability-benefits/components/TabItem';
+import { TabItem } from '../../../src/js/claims-status/components/TabItem';
 
 describe('<TabItem>', () => {
   it('should render tab', () => {

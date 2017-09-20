@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import SubmittedTrackedItem from '../../../src/js/disability-benefits/components/SubmittedTrackedItem';
+import SubmittedTrackedItem from '../../../src/js/claims-status/components/SubmittedTrackedItem';
 
 describe('<SubmittedTrackedItem>', () => {
   it('should render submitted item with no docs', () => {

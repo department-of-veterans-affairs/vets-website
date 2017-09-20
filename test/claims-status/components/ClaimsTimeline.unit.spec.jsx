@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import ClaimsTimeline from '../../../src/js/disability-benefits/components/ClaimsTimeline';
+import ClaimsTimeline from '../../../src/js/claims-status/components/ClaimsTimeline';
 
 describe('<ClaimsTimeline>', () => {
   it('should render 5 phases', () => {

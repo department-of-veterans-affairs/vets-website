@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ClaimStatusPage } from '../../../src/js/disability-benefits/containers/ClaimStatusPage';
+import { ClaimStatusPage } from '../../../src/js/claims-status/containers/ClaimStatusPage';
 
 describe('<ClaimStatusPage>', () => {
   it('should render page with no alerts and a timeline', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import RequestedFilesInfo from '../../../src/js/disability-benefits/components/RequestedFilesInfo';
+import RequestedFilesInfo from '../../../src/js/claims-status/components/RequestedFilesInfo';
 
 describe('<RequestedFilesInfo>', () => {
   it('should display no documents messages', () => {

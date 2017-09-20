@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import AppealLayout from '../../../src/js/disability-benefits/components/AppealLayout';
+import AppealLayout from '../../../src/js/claims-status/components/AppealLayout';
 
 describe('<AppealLayout>', () => {
   it('should render breadcrumbs and children', () => {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import claimDetail from '../../../src/js/disability-benefits/reducers/claim-detail';
-import { SET_CLAIM_DETAIL, GET_CLAIM_DETAIL } from '../../../src/js/disability-benefits/actions';
+import claimDetail from '../../../src/js/claims-status/reducers/claim-detail';
+import { SET_CLAIM_DETAIL, GET_CLAIM_DETAIL } from '../../../src/js/claims-status/actions';
 
 describe('Claim detail reducer', () => {
   it('should set detail', () => {

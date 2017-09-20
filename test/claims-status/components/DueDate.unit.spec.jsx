@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import DueDate from '../../../src/js/disability-benefits/components/DueDate';
+import DueDate from '../../../src/js/claims-status/components/DueDate';
 
 describe('<DueDate>', () => {
   it('should render past due class', () => {

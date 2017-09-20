@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import UploadStatus from '../../../src/js/disability-benefits/components/UploadStatus';
+import UploadStatus from '../../../src/js/claims-status/components/UploadStatus';
 
 describe('<UploadStatus>', () => {
   it('should render single file needed', () => {

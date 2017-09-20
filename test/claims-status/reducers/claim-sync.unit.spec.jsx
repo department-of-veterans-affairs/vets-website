@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import claimSync from '../../../src/js/disability-benefits/reducers/claim-sync';
-import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_CLAIMS_UNAVAILABLE, SET_UNAUTHORIZED } from '../../../src/js/disability-benefits/actions';
+import claimSync from '../../../src/js/claims-status/reducers/claim-sync';
+import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_CLAIMS_UNAVAILABLE, SET_UNAUTHORIZED } from '../../../src/js/claims-status/actions';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {

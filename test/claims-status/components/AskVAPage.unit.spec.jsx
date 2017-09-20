@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { AskVAPage } from '../../../src/js/disability-benefits/containers/AskVAPage';
+import { AskVAPage } from '../../../src/js/claims-status/containers/AskVAPage';
 
 describe('<AskVAPage>', () => {
   it('should render disabled button', () => {

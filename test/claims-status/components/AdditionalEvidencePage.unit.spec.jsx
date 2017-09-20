@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { AdditionalEvidencePage } from '../../../src/js/disability-benefits/containers/AdditionalEvidencePage';
+import { AdditionalEvidencePage } from '../../../src/js/claims-status/containers/AdditionalEvidencePage';
 
 describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {

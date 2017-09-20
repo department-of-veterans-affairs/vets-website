@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { YourClaimsPage } from '../../../src/js/disability-benefits/containers/YourClaimsPage';
+import { YourClaimsPage } from '../../../src/js/claims-status/containers/YourClaimsPage';
 
 describe('<YourClaimsPage>', () => {
   it('should render tabs', () => {

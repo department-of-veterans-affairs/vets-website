@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import claimsList from '../../../src/js/disability-benefits/reducers/claims-list';
-import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../../src/js/disability-benefits/actions';
+import claimsList from '../../../src/js/claims-status/reducers/claims-list';
+import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../../src/js/claims-status/actions';
 
 describe('Claims list reducer', () => {
   it('should populate the claims list', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { DetailsPage } from '../../../src/js/disability-benefits/containers/DetailsPage';
+import { DetailsPage } from '../../../src/js/claims-status/containers/DetailsPage';
 
 describe('<DetailsPage>', () => {
   it('should render contention list', () => {

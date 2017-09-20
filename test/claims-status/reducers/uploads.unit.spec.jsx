@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import uploads from '../../../src/js/disability-benefits/reducers/uploads';
+import uploads from '../../../src/js/claims-status/reducers/uploads';
 import {
   RESET_UPLOADS,
   ADD_FILE,
@@ -14,7 +14,7 @@ import {
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY
-} from '../../../src/js/disability-benefits/actions';
+} from '../../../src/js/claims-status/actions';
 
 describe('Uploads reducer', () => {
   it('should reset uploads state', () => {

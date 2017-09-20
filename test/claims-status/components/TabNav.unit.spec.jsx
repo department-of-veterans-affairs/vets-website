@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import TabNav from '../../../src/js/disability-benefits/components/TabNav';
+import TabNav from '../../../src/js/claims-status/components/TabNav';
 
 describe('<TabNav>', () => {
   it('should render three tabs', () => {

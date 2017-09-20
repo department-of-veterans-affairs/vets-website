@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import claimAsk from '../../../src/js/disability-benefits/reducers/claim-ask';
-import { SET_DECISION_REQUESTED, SUBMIT_DECISION_REQUEST, SET_DECISION_REQUEST_ERROR } from '../../../src/js/disability-benefits/actions';
+import claimAsk from '../../../src/js/claims-status/reducers/claim-ask';
+import { SET_DECISION_REQUESTED, SUBMIT_DECISION_REQUEST, SET_DECISION_REQUEST_ERROR } from '../../../src/js/claims-status/actions';
 
 describe('Claim ask reducer', () => {
   it('should set loading request', () => {

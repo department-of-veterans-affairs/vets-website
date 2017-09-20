@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { ClaimsStatusApp, AppContent } from '../../../src/js/disability-benefits/containers/ClaimsStatusApp';
+import { ClaimsStatusApp, AppContent } from '../../../src/js/claims-status/containers/ClaimsStatusApp';
 
 describe('<ClaimsStatusApp>', () => {
   it('should render children and login view', () => {

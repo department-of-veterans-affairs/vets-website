@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimsDecision from '../../../src/js/disability-benefits/components/ClaimsDecision';
+import ClaimsDecision from '../../../src/js/claims-status/components/ClaimsDecision';
 
 describe('<ClaimsDecision>', () => {
   it('should render message without date sentence', () => {

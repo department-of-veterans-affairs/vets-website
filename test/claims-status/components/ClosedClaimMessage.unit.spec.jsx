@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import ClosedClaimMessage from '../../../src/js/disability-benefits/components/ClosedClaimMessage';
+import ClosedClaimMessage from '../../../src/js/claims-status/components/ClosedClaimMessage';
 
 describe('<ClosedClaimMessage>', () => {
   it('should render closed claims within 30 days', () => {

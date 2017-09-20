@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { FilesPage } from '../../../src/js/disability-benefits/containers/FilesPage';
+import { FilesPage } from '../../../src/js/claims-status/containers/FilesPage';
 
 describe('<FilesPage>', () => {
   it('should render notification', () => {
