@@ -95,6 +95,7 @@ class Main extends React.Component {
         const nextQuery = { next: el.getAttribute('href') };
         const nextPath = appendQuery('/', nextQuery);
         history.pushState({}, el.textContent, nextPath);
+        this.props.toggleLoginModal(true);
       });
     });
   }
