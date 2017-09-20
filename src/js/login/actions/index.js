@@ -1,6 +1,7 @@
 import { gaClientId } from '../../common/helpers/login-helpers';
 
 export const LOG_OUT = 'LOG_OUT';
+export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
 export const UPDATE_LOGGEDIN_STATUS = 'UPDATE_LOGGEDIN_STATUS';
 export const UPDATE_LOGIN_URLS = 'UPDATE_LOGIN_URLS';
 export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
@@ -58,5 +59,12 @@ export function toggleSearchHelpUserMenu(menu, isOpen) {
     type: UPDATE_SEARCH_HELP_USER_MENU,
     menu,
     isOpen
+  };
+}
+
+export function toggleLoginModal(isOpen) {
+  return {
+    type: TOGGLE_LOGIN_MODAL,
+    isOpen,
   };
 }

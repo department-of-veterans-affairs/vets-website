@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls, getVerifyUrl } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls } from '../actions';
+import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import LoginModal from '../../common/components/authentication/LoginModal';
 
 class Main extends React.Component {
   constructor(props) {
@@ -14,36 +15,60 @@ class Main extends React.Component {
     this.setMyToken = this.setMyToken.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
+    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
-    this.getUserData = getUserData;
   }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
-      this.getLoginUrls();
       this.getLogoutUrl();
+      this.getVerifyUrl();
     }
+    this.getLoginUrls();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
     window.onload = this.checkTokenStatus();
   }
 
+  componentDidUpdate(prevProps) {
+    const shouldGetVerifyUrl =
+      !prevProps.login.currentlyLoggedIn &&
+      this.props.login.currentlyLoggedIn &&
+      !this.props.login.verifyUrl;
+
+    if (shouldGetVerifyUrl) {
+      this.getVerifyUrl();
+    }
+  }
+
   componentWillUnmount() {
     this.loginUrlRequest.abort();
-    this.logoutUrlRequest.abort();
+    if (this.verifyUrlRequest) {
+      this.verifyUrlRequest.abort();
+    }
+    if (this.logoutUrlRequest) {
+      this.logoutUrlRequest.abort();
+    }
+  }
+
+  getVerifyUrl() {
+    const { currentlyLoggedIn, verifyUrl } = this.props.login;
+    if (currentlyLoggedIn && !verifyUrl) {
+      this.verifyUrlRequest = getVerifyUrl(this.props.updateVerifyUrl);
+    }
   }
 
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
-      this.getUserData(this.props.dispatch);
+      this.props.getUserData();
       this.getLogoutUrl();
     }
   }
 
   getLoginUrls() {
-    this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
+    this.loginUrlRequest = getLoginUrls(this.props.updateLogInUrls);
   }
 
   getLogoutUrl() {
@@ -55,7 +80,7 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.props.onUpdateLogoutUrl(json.logout_via_get);
+      this.props.updateLogoutUrl(json.logout_via_get);
     });
   }
 
@@ -79,18 +104,21 @@ class Main extends React.Component {
           this.handleLogout();
         }
       } else {
-        if (this.getUserData(this.props.dispatch)) {
-          this.props.onUpdateLoggedInStatus(true);
+        if (this.props.getUserData()) {
+          this.props.updateLoggedInStatus(true);
         }
       }
     } else {
-      this.props.onUpdateLoggedInStatus(false);
+      this.props.updateLoggedInStatus(false);
     }
   }
 
   render() {
     return (
-      <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+      <div>
+        <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+        <LoginModal/>
+      </div>
     );
   }
 }
@@ -103,19 +131,23 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrls: (update) => {
+    updateLogInUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },
-    onUpdateLogoutUrl: (update) => {
+    updateVerifyUrl: (update) => {
+      dispatch(updateVerifyUrl(update));
+    },
+    updateLogoutUrl: (update) => {
       dispatch(updateLogoutUrl(update));
     },
-    onUpdateLoggedInStatus: (update) => {
+    updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
-    dispatch
+    getUserData: () => {
+      getUserData(dispatch);
+    },
   };
 };
 
