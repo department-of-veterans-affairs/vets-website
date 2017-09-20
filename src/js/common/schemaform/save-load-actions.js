@@ -14,10 +14,12 @@ export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
+  autoPending: 'autoPending',
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
   clientFailure: 'clientFailure',
+  autoSuccess: 'autoSuccess',
   success: 'success'
 });
 
@@ -129,7 +131,7 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {String}  returnUrl The last URL the user was at before saving
  * @param  {Object}  formData  The data the user has entered so far
  */
-export function saveInProgressForm(formId, version, returnUrl, formData) {
+export function saveInProgressForm(formId, version, returnUrl, formData, auto = false) {
   const savedAt = Date.now();
   // Double stringify because of api reasons. Olive Branch issues, methinks.
   // TODO: Stop double stringifying
@@ -155,8 +157,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
     }
 
     // Update UI while we’re waiting for the API
-    dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
-
+    if (auto) {
+      dispatch(setSaveFormStatus(SAVE_STATUSES.autoPending));
+    } else {
+      dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
+    }
     // Query the api
     // (returning for testing purposes only)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
@@ -174,7 +179,11 @@ export function saveInProgressForm(formId, version, returnUrl, formData) {
 
       return Promise.reject(res);
     }).then((json) => {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
+      if (auto) {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.autoSuccess, savedAt, json.data.attributes.metadata.expiresAt));
+      } else {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
+      }
       window.dataLayer.push({
         event: `${trackingPrefix}sip-form-saved`
       });

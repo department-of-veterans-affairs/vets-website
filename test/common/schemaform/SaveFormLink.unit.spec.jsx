@@ -42,7 +42,7 @@ describe('Schemaform <SaveFormLink>', () => {
         onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('Save and finish later');
+    expect(tree.text()).to.contain('Finish this application later');
   });
   it('should render expired message when not logged in and noAuth status', () => {
     const tree = SkinDeep.shallowRender(
@@ -63,7 +63,7 @@ describe('Schemaform <SaveFormLink>', () => {
         onUpdateLoginUrl={updateLoginSpy}/>
     );
 
-    expect(tree.text()).to.contain('Save and finish later');
+    expect(tree.text()).to.contain('Finish this application later');
   });
   it('should show error message', () => {
     const tree = SkinDeep.shallowRender(
@@ -74,7 +74,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('having some issues');
-    expect(tree.subTree('button').text()).to.contain('Save and finish later');
+    expect(tree.subTree('button').text()).to.contain('Finish this application later');
   });
   it('should show client error message', () => {
     const tree = SkinDeep.shallowRender(
@@ -85,7 +85,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('connect to Vets.gov');
-    expect(tree.subTree('button').text()).to.contain('Save and finish later');
+    expect(tree.subTree('button').text()).to.contain('Finish this application later');
   });
   it('should open LoginModal', () => {
     const tree = ReactTestUtils.renderIntoDocument(

@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -25,7 +26,6 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
-
     const definitions = _.assign(props.definitions || {}, props.schema.definitions);
     const schema = replaceRefSchemas(props.schema, definitions);
 
@@ -40,6 +40,7 @@ export class DefinitionTester extends React.Component {
       uiSchema
     };
   }
+  debouncedAutoSave = sinon.spy();
   handleChange = (data) => {
     const {
       schema,
@@ -77,6 +78,7 @@ export class DefinitionTester extends React.Component {
 
     return (
       <SchemaForm
+        onBlur={this.debouncedAutoSave}
         safeRenderCompletion
         reviewMode={this.props.reviewMode}
         name="test"
