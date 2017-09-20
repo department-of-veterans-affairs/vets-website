@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import appendQuery from 'append-query';
 
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
@@ -35,6 +36,7 @@ class Main extends React.Component {
       this.setMyToken(evt);
     });
     window.onload = this.checkTokenStatus();
+    this.bindNavbarLinks();
   }
 
   componentDidUpdate(prevProps) {
@@ -52,6 +54,7 @@ class Main extends React.Component {
     this.loginUrlRequest.abort();
     this.verifyUrlRequest.abort();
     this.logoutUrlRequest.abort();
+    this.unbindNavbarLinks();
   }
 
   getVerifyUrl() {
@@ -82,6 +85,23 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.updateLogoutUrl(json.logout_via_get);
+    });
+  }
+
+  bindNavbarLinks() {
+    document.querySelectorAll('.login-required').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const nextQuery = { next: el.getAttribute('href') };
+        const nextPath = appendQuery('/', nextQuery);
+        history.pushState({}, el.textContent, nextPath);
+      });
+    });
+  }
+
+  unbindNavbarLinks() {
+    document.querySelectorAll('.login-required').forEach(el => {
+      el.removeEventListener('click');
     });
   }
 
