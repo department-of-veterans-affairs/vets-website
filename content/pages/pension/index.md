@@ -3,6 +3,11 @@ layout: page-breadcrumbs.html
 template: level2-index
 title: Pension Benefits
 permalink: /pension/index.html
+widgets:
+  - root: react-pensionApplicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
@@ -31,3 +36,5 @@ majorlinks:
 If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. If you’re a survivor of a wartime Veteran, you may also qualify for monthly payments if your income and net worth are within certain limits. Find out if you can get this tax-free benefit. 
 
 </div>
+
+<div id="react-pensionApplicationStatus" data-hide-apply-button></div>

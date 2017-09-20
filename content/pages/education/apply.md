@@ -42,31 +42,23 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Other ways to apply
 
-<ul>
-<li>
+#### In person
+Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
 
-<strong>In person</strong>
+Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
-- Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
-- Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
-
-</li>
-<li>
-
-<strong>By mail</strong>
-
-- Call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
-
-</li>
-</ul>
+#### By mail
+Call <a href="tel:+18884424551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What happens after I apply?
 
-- [Find out what happens after you apply](/education/after-you-apply).
-- You can’t make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
-- If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
+[Find out what happens after you apply](/education/after-you-apply).
 
-#### How long does it take us to make a decision?
+You can’t make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
+
+If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
+
+#### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">30 days</span>

@@ -447,6 +447,14 @@ fieldset.schemaform-field-template {
   }
 }
 
+#content .panel.saved-success-container {
+  background-color: $color-green-lightest;
+}
+
+.saved-success-icon {
+  margin: 0 .5em 0 0;
+}
+
 .usa-alert-no-color {
   background-color: transparent;
 }
@@ -474,4 +482,7 @@ fieldset.schemaform-field-template {
 }
 .saved-form-metadata {
   display: block;
+}
+.saving {
+  font-style: 'italic';
 }
