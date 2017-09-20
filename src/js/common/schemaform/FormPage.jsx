@@ -12,7 +12,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import { SAVE_STATUSES, PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
 
 import { updateLogInUrl } from '../../login/actions';
 
@@ -106,8 +106,8 @@ class FormPage extends React.Component {
   }
 
   autoSave() {
-    if (this.props.user.login.currentlyLoggedIn) {
-      const { form } = this.props;
+    const { form, user } = this.props;
+    if (user.login.currentlyLoggedIn) {
       const data = form.data;
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
@@ -126,7 +126,7 @@ class FormPage extends React.Component {
 
   render() {
     const { route, params, form, user } = this.props;
-    const { isLoggedIn } = user.login.currentlyLoggedIn;
+    const isLoggedIn = user.login.currentlyLoggedIn && form.savedStatus !== SAVE_STATUSES.noAuth;
     let {
       schema,
       uiSchema
@@ -172,7 +172,7 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && !isLoggedIn && <SaveStatus
+          {!form.disableSave && isLoggedIn && <SaveStatus
             form={form}>
           </SaveStatus>}
           {!form.disableSave && <SaveFormLink
