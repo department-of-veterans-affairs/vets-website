@@ -16,6 +16,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
 
+// TO-DO: This was extracted into own component, check to ensure all refs updated and delete
 export const invalidAddressProperty = (
   <div id="invalidAddress">
     <div className="usa-alert usa-alert-error">

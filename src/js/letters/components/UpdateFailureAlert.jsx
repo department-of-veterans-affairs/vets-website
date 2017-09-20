@@ -1,8 +1,34 @@
 import React from 'react';
 
-const UpdateFailureAlert = () => {
+const UpdateFailureAlert = (props) => {
+  const addressLines = Object.keys(props.addressObject)
+    .map((key) => {
+      return (
+        <div className="letters-address" key={key}>
+          {props.addressObject[key]}
+        </div>
+      );
+    });
   return (
-    <div><p>Alert! Address update failed :(</p></div>    
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h2 className="usa-alert-heading">Address update unsuccessful</h2>
+      <div className="usa-alert-text">
+        <div>
+          We weren't able to save your updated address. But your <strong>VA 
+          letters and documents are still valid</strong> even with your old
+          address:
+        </div>
+        <div id="warning-address-block">
+          {addressLines}
+        </div>
+        <div>
+          <strong>Please continue to download your letter or document.
+          </strong> You can come back later to update your address.
+        </div>
+      </div>
+    </div>
+  </div>    
   );
 };
 

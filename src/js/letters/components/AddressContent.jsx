@@ -2,13 +2,14 @@ import React from 'react';
 import UpdateFailureAlert from './UpdateFailureAlert';
 import AddressBlock from './AddressBlock';
 
-const AddressContent = ({ saveError, name, fields }) => {
+const AddressContent = (props) => {
   return (
     <div className="step-content">
       <p>Downloaded documents will list your address as:</p>
-      {saveError
-        ? <UpdateFailureAlert/>
-        : <AddressBlock name={name} fields={fields}/>
+      {props.saveError
+        ? <UpdateFailureAlert
+            addressObject={props.addressObject}/>
+        : <AddressBlock name={props.name} fields={props.fields}/>
       }
     </div>
   );

@@ -51,6 +51,7 @@ export class AddressSection extends React.Component {
       cityStatePostal = `${militaryPostOfficeTypeCode}, ${militaryStateCode} ${zipCode}`;
     }
     const country = isInternationalAddress(address) ? address.countryName : '';
+    const addressContentLines = { streetAddress, cityStatePostal, country };
 
     let addressFields;
     if (this.state.isEditingAddress) {
@@ -84,7 +85,8 @@ export class AddressSection extends React.Component {
           : <AddressContent
               saveError={this.props.saveAddressError}
               name={(this.props.recipientName || '').toLowerCase()}
-              fields={addressFields}/>
+              fields={addressFields}
+              addressObject={addressContentLines}/>
         }
       </div>
     );
