@@ -25,6 +25,12 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
+  isMilitaryCity = (city) => {
+    const lowerCity = city.toLowerCase().trim();
+
+    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+  }
+
   render() {
     const addressType = this.state.addressType;
     const errorMessages = this.props.errorMessages;

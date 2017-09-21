@@ -32,11 +32,12 @@ const fieldValidations = {
 };
 
 export class AddressSection extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isEditingAddress: false,
-      errorMessages: {}
+      errorMessages: {},
+      editableAddress: props.address
     };
   }
 
@@ -58,7 +59,7 @@ export class AddressSection extends React.Component {
     let errorMessage = false;
     for (let i = 0; i < validations.length; i++) {
       // this.props.value = address
-      errorMessage = validations[i](this.props.value[fieldName], this.props.value);
+      errorMessage = validations[i](this.state.editableAddress[fieldName], this.state.editableAddress);
       if (typeof errorMessage === 'string') {
         return errorMessage;
       }
@@ -114,34 +115,26 @@ export class AddressSection extends React.Component {
     return Object.assign({}, address, { type });
   }
 
-  // TODO: Look into if this is the best way to update address,
-  // it is incredibly slow right now
   handleChange = (fieldName, update) => {
-    let address = _.set(fieldName, update, this.props.value);
+    let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
     // if country is changing we should clear the state
     if (fieldName === 'country') {
-      address = _.set('state', '', address);
+      address.state = '';
     }
 
     address = this.inferAddressType(address);
     // Add a new error message if necessary
     // TODO: This might get super slow, so we can debounce this part if necessary...probably
-    const errorMessages = _.merge({}, this.state.address, { [fieldName]: this.validateField(fieldName, address) });
+    const errorMessages = _.merge({}, this.state.editableAddress, { [fieldName]: this.validateField(fieldName, address) });
     this.setState({
       address,
       errorMessages
     });
   }
 
-  isMilitaryCity = (city) => {
-    const lowerCity = city.toLowerCase().trim();
-
-    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
-  }
-
 
   render() {
-    const address = this.props.address || {};
+    const address = this.state.editableAddress || {};
 
     // Street address: first line of address
     const streetAddressLines = [
@@ -171,7 +164,7 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             value={address}
-            onUserInput={(addr) => this.props.updateAddress(addr)}
+            onUserInput={this.handleChange}
             errorMessages={this.state.errorMessages}
             required/>
           <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
