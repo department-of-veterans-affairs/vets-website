@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
-import sinon from 'sinon'
+// import sinon from 'sinon'
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
@@ -44,6 +44,7 @@ function setupJSDom() {
     /* eslint-enable */
 
     // Mock fetch
+    // This was causing some tests to fail, so we'll have to loop back around to it later
     // global.fetch = sinon.stub();
 
     // Mock sessionStorage

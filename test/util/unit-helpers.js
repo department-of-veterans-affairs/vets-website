@@ -63,13 +63,13 @@ function fillDate(formDOM, partialId, dateString) {
 }
 
 export function mockFetch(returnVal, shouldResolve = true) {
-  console.log('mocking fetch');
+  console.log('mocking fetch'); // eslint-disable-line
   global.fetch = sinon.stub().returns(shouldResolve ? Promise.resolve(returnVal) : Promise.reject(returnVal));
 }
 
 export function resetFetch() {
   global.fetch.reset();
-  console.log('resetting fetch');
+  console.log('resetting fetch'); // eslint-disable-line
 }
 
 // This doesn't so much _mock_ the function as it does set up the fetch to return what we
