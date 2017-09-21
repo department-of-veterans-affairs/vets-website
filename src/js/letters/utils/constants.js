@@ -133,3 +133,9 @@ export const STATE_CODE_TO_NAME = {
   PI: 'Virgin Islands'
 };
 
+export const addressTypes = Object.freeze({
+  domestic: 'DOMESTIC',
+  international: 'INTERNATIONAL',
+  military: 'MILITARY'
+});
+

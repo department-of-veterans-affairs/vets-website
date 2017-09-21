@@ -37,5 +37,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       return data;
     })
-    .then(success, error);
+    .then(success)
+    .catch(error);
 }

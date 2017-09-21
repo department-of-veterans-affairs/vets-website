@@ -247,8 +247,8 @@ export function saveAddress(address) {
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(address)),
-      () => dispatch(saveAddressFailure(address))
+      () => dispatch(saveAddressSuccess(transformedAddress)),
+      () => dispatch(saveAddressFailure(transformedAddress))
     );
   };
 }
