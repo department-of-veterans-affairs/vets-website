@@ -21,19 +21,20 @@ class GlossaryList extends React.Component {
     // check if the array has length 1, then render a certain way
     // else render the way it is
 
-    if (termsList.length === 1) {
+    if (termsList.length === 2) {
       return (
-        <h3>Terms: {termsList}</h3>
+        <div>
+          <h3>Glossary: <dl>{termsList[0]}</dl></h3>
+          <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
+          <dl>{termsList[1]}</dl>
+        </div>
       );
     }
     return (
       <section className="rx-glossary-section">
         {title}
         <div className="rx-glossary">
-          <dl>{termsList}</dl>
-          <p>length: {termsList.length}</p>
-          <dl>{termsList[0]}</dl>
-          <dl>{termsList[1]}</dl>
+          <dl>{termsList}</dl>w
         </div>
       </section>
     );
