@@ -47,7 +47,7 @@ describe('<SearchHelpSignIn>', () => {
 
   it('should present login link when currentlyLoggedIn is false', () => {
     const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(2);
+    expect(link).to.have.lengthOf(1);
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
