@@ -157,7 +157,7 @@ class Main extends React.Component {
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={() => this.props.toggleLoginModal(false)}>
+            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={() => this.props.toggleLoginModal(false)} id="signin-signup-modal" title="Sign in to Vets.gov">
               <Signin
                 onLoggedIn={() => this.props.toggleLoginModal(false)}
                 currentlyLoggedIn={currentlyLoggedIn}
