@@ -48,9 +48,19 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const tree = SkinDeep.shallowRender(
       <ReviewPage
         form={form}
+        user={user}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -112,11 +122,21 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const tree = SkinDeep.shallowRender(
       <ReviewPage
         router={router}
         setData={setData}
         form={form}
+        user={user}
         onSubmit={onSubmit}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -164,6 +184,15 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const pageList = [
       {
         path: 'previous-page'
@@ -183,6 +212,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         submitForm={submitForm}
         form={form}
+        user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -226,6 +256,15 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const pageList = [
       {
         path: 'previous-page'
@@ -247,6 +286,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -287,6 +327,15 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const pageList = [
       {
         path: 'previous-page'
@@ -308,6 +357,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -344,6 +394,15 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const router = {
       push: sinon.spy()
     };
@@ -365,6 +424,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         router={router}
         form={form}
+        user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -421,11 +481,21 @@ describe('Schemaform review: ReviewPage', () => {
       }
     };
 
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
     const setEditMode = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <ReviewPage
         form={form}
+        user={user}
         route={{ formConfig, pageList }}
         setEditMode={setEditMode}
         setPrivacyAgreement={f => f}
