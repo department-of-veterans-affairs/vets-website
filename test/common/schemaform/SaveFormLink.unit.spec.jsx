@@ -87,34 +87,6 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(tree.text()).to.contain('connect to Vets.gov');
     expect(tree.subTree('button').text()).to.contain('Save and finish later');
   });
-  it('should open LoginModal', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
-      <SaveFormLink
-        user={user}
-        form={form}
-        toggleLoginModal={toggleLoginModalSpy}/>
-    );
-    const findDOM = findDOMNode(tree);
-
-    // Modal uses document.querySelector, so we have to bind it to the formDOM
-    //  to actually get the right result.
-    const oldQuerySelector = document.querySelector;
-    document.querySelector = findDOM.querySelector.bind(findDOM);
-
-    // Open the login modal
-    // NOTE: I'm not sure why we have to use ReactTestUtils.Simulate.click() here,
-    //  but just querying for the link and .click()ing it didn't call SaveFormLink's
-    //  openLoginModal().
-    ReactTestUtils.Simulate.click(findDOM.querySelector('button'));
-
-    // Reset it for subsequent tests
-    document.querySelector = oldQuerySelector;
-
-    const modal = findDOM.querySelector('.va-modal');
-
-    // Find the login modal
-    expect(modal).to.not.be.null;
-  });
   it('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
