@@ -1,49 +1,78 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import appendQuery from 'append-query';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls } from '../actions';
+import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import Modal from '../../common/components/Modal';
+import Signin from '../components/Signin';
+import Verify from '../components/Verify';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.setMyToken = this.setMyToken.bind(this);
+    this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
+    this.getVerifyUrl = this.getVerifyUrl.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.checkTokenStatus = this.checkTokenStatus.bind(this);
-    this.getUserData = getUserData;
+    this.handleSignup = this.handleSignup.bind(this);
+    this.setMyToken = this.setMyToken.bind(this);
   }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
-      this.getLoginUrls();
       this.getLogoutUrl();
+      this.getVerifyUrl();
     }
+    this.getLoginUrls();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
     window.onload = this.checkTokenStatus();
+    this.bindNavbarLinks();
+  }
+
+  componentDidUpdate(prevProps) {
+    const shouldGetVerifyUrl =
+      !prevProps.login.currentlyLoggedIn &&
+      this.props.login.currentlyLoggedIn &&
+      !this.props.login.verifyUrl;
+
+    if (shouldGetVerifyUrl) {
+      this.getVerifyUrl();
+    }
   }
 
   componentWillUnmount() {
     this.loginUrlRequest.abort();
+    this.verifyUrlRequest.abort();
     this.logoutUrlRequest.abort();
+    this.unbindNavbarLinks();
+  }
+
+  getVerifyUrl() {
+    const { currentlyLoggedIn, verifyUrl } = this.props.login;
+    if (currentlyLoggedIn && !verifyUrl) {
+      this.verifyUrlRequest = getVerifyUrl(this.props.updateVerifyUrl);
+    }
   }
 
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
-      this.getUserData(this.props.dispatch);
+      this.props.getUserData();
       this.getLogoutUrl();
     }
   }
 
   getLoginUrls() {
-    this.loginUrlRequest = getLoginUrls(this.props.onUpdateLoginUrls);
+    this.loginUrlRequest = getLoginUrls(this.props.updateLogInUrls);
   }
 
   getLogoutUrl() {
@@ -55,7 +84,25 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.props.onUpdateLogoutUrl(json.logout_via_get);
+      this.props.updateLogoutUrl(json.logout_via_get);
+    });
+  }
+
+  bindNavbarLinks() {
+    document.querySelectorAll('.login-required').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const nextQuery = { next: el.getAttribute('href') };
+        const nextPath = appendQuery('/', nextQuery);
+        history.pushState({}, el.textContent, nextPath);
+        this.props.toggleLoginModal(true);
+      });
+    });
+  }
+
+  unbindNavbarLinks() {
+    document.querySelectorAll('.login-required').forEach(el => {
+      el.removeEventListener('click');
     });
   }
 
@@ -69,6 +116,20 @@ class Main extends React.Component {
     }
   }
 
+  handleSignup() {
+    window.dataLayer.push({ event: 'register-link-clicked' });
+    const myLoginUrl = this.props.login.loginUrls.idme;
+    if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
+  }
+
+  handleLogin(loginUrl = 'idme') {
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
+  }
+
   checkTokenStatus() {
     if (sessionStorage.userToken) {
       if (moment() > moment(sessionStorage.entryTime).add(45, 'm')) {
@@ -79,19 +140,41 @@ class Main extends React.Component {
           this.handleLogout();
         }
       } else {
-        if (this.getUserData(this.props.dispatch)) {
-          this.props.onUpdateLoggedInStatus(true);
+        if (this.props.getUserData()) {
+          this.props.updateLoggedInStatus(true);
         }
       }
     } else {
-      this.props.onUpdateLoggedInStatus(false);
+      this.props.updateLoggedInStatus(false);
     }
   }
 
   render() {
-    return (
-      <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-    );
+    const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
+
+    switch (this.props.renderType) {
+      case 'navComponent':
+        return (
+          <div>
+            <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={() => this.props.toggleLoginModal(false)} id="signin-signup-modal" title="Sign in to Vets.gov">
+              <Signin
+                onLoggedIn={() => this.props.toggleLoginModal(false)}
+                currentlyLoggedIn={currentlyLoggedIn}
+                handleSignup={this.handleSignup}
+                handleLogin={this.handleLogin}/>
+            </Modal>
+          </div>
+        );
+      case 'verifyPage':
+        return (
+          <Verify
+            profile={this.props.profile}
+            verifyUrl={this.props.login.verifyUrl}/>
+        );
+      default:
+        return null;
+    }
   }
 }
 
@@ -103,20 +186,35 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrls: (update) => {
+    updateLogInUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },
-    onUpdateLogoutUrl: (update) => {
+    updateVerifyUrl: (update) => {
+      dispatch(updateVerifyUrl(update));
+    },
+    updateLogoutUrl: (update) => {
       dispatch(updateLogoutUrl(update));
     },
-    onUpdateLoggedInStatus: (update) => {
+    updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
-    dispatch
+    toggleLoginModal: (update) => {
+      dispatch(toggleLoginModal(update));
+    },
+    getUserData: () => {
+      getUserData(dispatch);
+    },
   };
+};
+
+Main.propTypes = {
+  onLoggedIn: PropTypes.func,
+  renderType: PropTypes.oneOf([
+    'navComponent',
+    'verifyPage',
+  ]).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

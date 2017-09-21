@@ -2,21 +2,23 @@ import _ from 'lodash/fp';
 import appendQuery from 'append-query';
 
 import {
+  LOG_OUT,
+  TOGGLE_LOGIN_MODAL,
   UPDATE_LOGGEDIN_STATUS,
   UPDATE_LOGIN_URLS,
-  UPDATE_VERIFY_URL,
   UPDATE_LOGOUT_URL,
   UPDATE_MULTIFACTOR_URL,
   UPDATE_SEARCH_HELP_USER_MENU,
-  LOG_OUT
+  UPDATE_VERIFY_URL,
 } from '../actions';
 
 const initialState = {
   currentlyLoggedIn: false,
   loginUrls: {},
-  multifactorUrl: null,
-  verifyUrl: null,
   logoutUrl: null,
+  multifactorUrl: null,
+  showModal: false,
+  verifyUrl: null,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -53,6 +55,9 @@ function loginStuff(state = initialState, action) {
 
     case UPDATE_LOGOUT_URL:
       return _.set('logoutUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
+
+    case TOGGLE_LOGIN_MODAL:
+      return _.set('showModal', action.isOpen, state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);

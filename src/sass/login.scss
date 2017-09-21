@@ -31,6 +31,22 @@ span.sidelines {
   }
 }
 
+#login-root {
+  .profileNav {
+    display: flex;
+    align-items: center;
+  }
+
+  .va-modal-title {
+    display: none;
+  }
+
+  .va-modal-inner {
+    max-width: 95vw;
+    width: 95vw;
+  }
+}
+
 .verify, .login {
   button {
     display: flex;
@@ -68,6 +84,7 @@ span.sidelines {
 
   .container {
     padding: 2em 0;
+    color: $color-base;
   }
 
   .logo {
