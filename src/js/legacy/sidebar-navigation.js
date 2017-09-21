@@ -38,8 +38,8 @@ class SideBarMenu {
   closeMenu(trigger) {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', (domEvent) => {
-        this.menu.classList.remove('va-sidebarnav--opened');
-        document.body.classList.remove('va-pos-fixed');
+      this.menu.classList.remove('va-sidebarnav--opened');
+      document.body.classList.remove('va-pos-fixed');
     })
   }  
 }
