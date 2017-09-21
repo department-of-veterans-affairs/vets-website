@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import ErrorableSelect from '../components/ErrorableSelect';
-import ErrorableTextInput from '../components/ErrorableTextInput';
+import ErrorableSelect from './ErrorableSelect';
+import ErrorableTextInput from './ErrorableTextInput';
 import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
 

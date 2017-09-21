@@ -11,7 +11,7 @@ import {
   invalidAddressProperty
 } from '../utils/helpers.jsx';
 import { updateAddress, saveAddress } from '../actions/letters';
-import Address from './Address';
+import Address from '../components/Address';
 import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
@@ -19,40 +19,50 @@ export class AddressSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hasLoadedAddress: false,
       isEditingAddress: false,
-      address: this.props.inititalAddress,
+      editableAddress: {},
     };
+  }
 
-    console.log('initial address:', this.state.address);
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.hasLoadedAddress && Object.keys(this.state.editableAddress).length === 0) {
+      if (Object.keys(nextProps.savedAddress).length > 0) {
+        this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress});
+      }
+    }
   }
 
   handleSave = () => {
     this.setState({ isEditingAddress: false });
-
-    this.props.saveAddress(this.state.address);
+    
+    this.props.saveAddress(this.state.editableAddress);
   }
-
+  
   handleChange = (path, update) => {
-    this.setState(({address}) => {
+    this.setState(({editableAddress}) => {
       // reset state code when user changes address country but don't add or
       // modify state property otherwise
       return (path === 'country'
-        ? { address: {
-            ...address,
+        ? { editableAddress: {
+            ...editableAddress,
             [path]: update,
             state: '',
           }}
-        : { address: {
-            ...address,
+        : { editableAddress: {
+            ...editableAddress,
             [path]: update,
           }}
       );
     // TO-DO: Remove console.log once state updates verified to work
-    }, () => console.log(this.state.address));
+    }, () => console.log(this.state.editableAddress));
   }
 
   render() {
-    const address = this.props.address || {};
+    // We want to use the Redux address as source of truth. Address in
+    // container state is only used to control the form input for the
+    // <Address/> component
+    const address = this.props.savedAddress || {};
 
     // Street address: first line of address
     const streetAddressLines = [
@@ -83,13 +93,14 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             onInput={this.handleChange}
-            address={this.state.address}
+            address={this.state.editableAddress}
             required/>
           <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
     } else {
+      console.log('props.savedAddress:', this.props.savedAddress);
       addressFields = (
         <div>
           <div className="letters-address">{streetAddress}</div>
@@ -121,16 +132,14 @@ function mapStateToProps(state) {
   const { fullName, address, canUpdate, saveAddressError } = state.letters;
   return {
     recipientName: fullName,
-    address,
     canUpdate,
-    inititalAddress: address,
+    savedAddress: address,
     saveAddressError,
   };
 }
 
 const mapDispatchToProps = {
-  updateAddress,
-  saveAddress
+  saveAddress,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
