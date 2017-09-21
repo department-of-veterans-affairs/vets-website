@@ -3,7 +3,7 @@ import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
-import { removeFormApi } from './sip-api';
+import { removeFormApi, saveFormApi } from './sip-api';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
@@ -212,6 +212,30 @@ export function saveInProgressForm(formId, version, returnUrl, formData, auto = 
           window.dataLayer.push({
             event: `${trackingPrefix}sip-form-save-failed-client`
           });
+        }
+      });
+  };
+}
+
+export function autoSaveForm(formId, version, returnUrl, formData) {
+  const savedAt = Date.now();
+  return (dispatch, getState) => {
+    const trackingPrefix = getState().form.trackingPrefix;
+    return saveFormApi(formId, version, returnUrl, formData, savedAt, trackingPrefix)
+      .then(json => {
+        dispatch(setSaveFormStatus(SAVE_STATUSES.autoSuccess, savedAt, json.data.attributes.metadata.expiresAt));
+        return Promise.resolve(json);
+      })
+      .catch(resOrError => {
+        if (resOrError.status === 401) {
+          dispatch(logOut());
+          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+        } else if (resOrError instanceof Response) {
+          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+        } else if (resOrError.message === 'Missing token') {
+          dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+        } else {
+          dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
         }
       });
   };
