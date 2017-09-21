@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import _ from 'lodash/fp';
 
 import {
   getStateName,
@@ -20,6 +21,7 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+import { addressTypes } from '../utils/constants';
 
 const fieldValidations = {
   addressOne: addressOneValidations,
@@ -95,6 +97,48 @@ export class AddressSection extends React.Component {
     });
     this.props.saveAddress(this.props.address);
   }
+
+  /**
+   * Infers the address type from the address supplied and returns the address
+   *  with the "new" type.
+   */
+  inferAddressType = (address) => {
+    let type = addressTypes.domestic;
+    if (!['USA', 'US'].includes(address.country)) {
+      type = addressTypes.international;
+    } else if (address.militaryStateCode) {
+      // TODO: Make sure we clear this out if a state code is selected
+      type = addressTypes.military;
+    }
+
+    return Object.assign({}, address, { type });
+  }
+
+  // TODO: Look into if this is the best way to update address,
+  // it is incredibly slow right now
+  handleChange = (fieldName, update) => {
+    let address = _.set(fieldName, update, this.props.value);
+    // if country is changing we should clear the state
+    if (fieldName === 'country') {
+      address = _.set('state', '', address);
+    }
+
+    address = this.inferAddressType(address);
+    // Add a new error message if necessary
+    // TODO: This might get super slow, so we can debounce this part if necessary...probably
+    const errorMessages = _.merge({}, this.state.address, { [fieldName]: this.validateField(fieldName, address) });
+    this.setState({
+      address,
+      errorMessages
+    });
+  }
+
+  isMilitaryCity = (city) => {
+    const lowerCity = city.toLowerCase().trim();
+
+    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+  }
+
 
   render() {
     const address = this.props.address || {};
