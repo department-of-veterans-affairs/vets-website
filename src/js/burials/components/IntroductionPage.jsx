@@ -48,6 +48,7 @@ class IntroductionPage extends React.Component {
               <ul>
                If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.
               </ul>
+            </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this burial benefits form.</p>
