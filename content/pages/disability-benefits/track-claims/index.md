@@ -1,7 +1,7 @@
 ---
 title: Track Claims
 display_title: Check Claim Status
-entryname: disability-benefits
+entryname: claims-status
 layout: page-react.html
 gatePage: true
 collection: [disability, disabilityBeta]
