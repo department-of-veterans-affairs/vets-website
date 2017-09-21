@@ -16,8 +16,8 @@ import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       hasLoadedAddress: false,
       isEditingAddress: false,
@@ -26,10 +26,8 @@ export class AddressSection extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.hasLoadedAddress && Object.keys(this.state.editableAddress).length === 0) {
-      if (Object.keys(nextProps.savedAddress).length > 0) {
+    if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
         this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress});
-      }
     }
   }
 
