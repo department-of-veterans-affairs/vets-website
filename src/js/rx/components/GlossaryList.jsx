@@ -24,8 +24,8 @@ class GlossaryList extends React.Component {
     if (termsList.length === 2) {
       return (
         <div>
-          <h3>Glossary: {termsList[0]}</h3>
-          {termsList[1]}
+          <h3 className="modalTitle">Glossary: <dl>{termsList[0]}</dl></h3>
+          <dl>{termsList[1]}</dl>
         </div>
       );
     }

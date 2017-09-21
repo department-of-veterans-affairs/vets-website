@@ -10,4 +10,11 @@
   .rx-glossary {
     margin: 0 auto;
   }
+
+  .modalTitle {
+    display:inline-block;
+    &dl {
+      display:inline-block;
+    }
+  }
 }

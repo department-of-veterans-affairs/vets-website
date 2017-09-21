@@ -42,7 +42,7 @@ class GlossaryModal extends React.Component {
         contents={element}
         hideCloseButton
         id="rx-glossary-modal"
-        title="Glossary"
+        title=""
         onClose={this.handleCloseModal}
         visible={this.props.isVisible}/>
     );

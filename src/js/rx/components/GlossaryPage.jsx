@@ -2,7 +2,6 @@ import React from 'react';
 
 import { glossary } from '../config.js';
 import GlossaryList from '../components/GlossaryList';
-// import GlossaryModal from '../components/GlossaryModal';
 import SettingsButton from '../components/SettingsButton';
 
 class GlossaryPage extends React.Component {
