@@ -34,13 +34,143 @@ describe('Schemaform <FormPage>', () => {
       },
       data: {}
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} location={location}/>
+      <FormPage form={form} route={route} user={user} location={location}/>
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+  });
+  it('should display SaveLink and SaveStatus for SiP enabled forms if user is logged in', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).not.to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).not.to.be.empty;
+  });
+  it('should not display SaveLink or SaveStatus for non-SiP enabled forms', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: true,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).to.be.empty;
+  });
+  it('should not display SaveStatus if user is not logged in', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: true,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).to.be.empty;
   });
   describe('should handle', () => {
     let tree;
@@ -49,6 +179,7 @@ describe('Schemaform <FormPage>', () => {
     let onSubmit;
     let form;
     let route;
+    let user;
     beforeEach(() => {
       setData = sinon.spy();
       onSubmit = sinon.spy();
@@ -90,12 +221,21 @@ describe('Schemaform <FormPage>', () => {
           data: {}
         }
       };
+      user = {
+        profile: {
+          savedForms: []
+        },
+        login: {
+          currentlyLoggedIn: false
+        }
+      };
 
       tree = SkinDeep.shallowRender(
         <FormPage
           router={router}
           setData={setData}
           form={form}
+          user={user}
           onSubmit={onSubmit}
           location={location}
           route={route}/>
@@ -150,6 +290,14 @@ describe('Schemaform <FormPage>', () => {
       },
       data: {}
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
     const router = {
       push: sinon.spy()
     };
@@ -158,6 +306,7 @@ describe('Schemaform <FormPage>', () => {
       <FormPage
         router={router}
         form={form}
+        user={user}
         route={route}
         location={location}/>
     );
@@ -202,10 +351,19 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
         form={form}
+        user={user}
         route={route}
         params={{ index: 0 }}
         location={location}/>
@@ -252,11 +410,20 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
         setData={setData}
         form={form}
+        user={user}
         route={route}
         params={{ index: 0 }}
         location={location}/>
@@ -316,10 +483,19 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
         form={form}
+        user={user}
         route={route}
         location={location}
         params={{ index: 0 }}/>
@@ -366,6 +542,14 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
     const router = {
       push: sinon.spy()
     };
@@ -375,6 +559,7 @@ describe('Schemaform <FormPage>', () => {
         setData={setData}
         router={router}
         form={form}
+        user={user}
         route={route}
         location={location}
         params={{ index: 0 }}/>
