@@ -18,6 +18,7 @@ class Verify extends React.Component {
     this.checkAccountAccess(nextProps.profile.accountType);
   }
 
+  // TODO: fix this to depend on list of services
   checkAccountAccess(accountType) {
     if (accountType > 1) {
       const nextParams = new URLSearchParams(window.location.search);
