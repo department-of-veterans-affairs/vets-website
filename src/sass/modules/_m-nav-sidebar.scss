@@ -2,8 +2,6 @@
 // SCSS for content/components/navigation-sidebar.html
 //====================================
 
-$sidebar-width: 80%;
-
 .va-sidebarnav {
   li {
     border-top-color: $color-gray-lighter;
@@ -24,7 +22,7 @@ $sidebar-width: 80%;
     padding: 1.6rem;
     position: absolute;
     top: 0;
-    display: none;
+    visibility: hidden;
 
     // Necessary to override .usa-grid .usa-width-one-fourth
     .va-l-detail-page & {
@@ -44,26 +42,28 @@ $sidebar-width: 80%;
     }
 
     > div {
+      visibility: visible;
       background: $color-white;
       border-left: 1px solid $color-gray-light;
       height: 100%;
       max-width: 30rem;
       overflow: auto;
       padding: 3.2rem 1.6rem 1.6rem;
+      z-index: 2;
       position: absolute;
       top: 0;
-      right: -$sidebar-width;
-      width: $sidebar-width;
-      z-index: 2;
-      -webkit-transition: 100ms right linear;
-              transition: 100ms right linear;
+      right: 0;
+      width: 80%;
+      transform: translateX(100%);
+      -webkit-transition: 100ms transform linear;
+              transition: 100ms transform linear;
     }
 
     &--opened {
-      display: block;
+      visibility: visible;
 
-      &.in > div {
-        right: 0;
+      & > div {
+        transform: translateX(0%);
       }
     }
 

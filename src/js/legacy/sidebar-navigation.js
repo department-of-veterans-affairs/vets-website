@@ -30,30 +30,16 @@ class SideBarMenu {
   }
 
   openMenu(trigger) {
-    const menu = this.getMenu(trigger);
-
-    menu.classList.add('va-sidebarnav--opened');
+    this.getMenu(trigger).classList.add('va-sidebarnav--opened');
     document.body.classList.add('va-pos-fixed');
-
-    // Delay the animation classes slightly because switching the display property
-    // to block at the same time causes the animations to skip.
-    setTimeout(() => menu.classList.add('in'), 10);
-
     this.closeMenu(trigger);
   }
 
   closeMenu(trigger) {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', (domEvent) => {
-
-      this.menu.classList.remove('in');
-
-      // Give the animations time to complete before removing the display classes.
-      setTimeout(() => {
         this.menu.classList.remove('va-sidebarnav--opened');
         document.body.classList.remove('va-pos-fixed');
-      }, 300);
-      
     })
   }  
 }
