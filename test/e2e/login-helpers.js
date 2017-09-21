@@ -108,12 +108,14 @@ function testUnauthedUserFlow(client, path) {
     .waitForElementVisible('body', Timeouts.normal);
 
   client
-    .waitForElementVisible('.login', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign in to Vets.gov');
+    .waitForElementVisible('.react-container', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Log In to Your Vets.gov Account');
 
   logIn(token, client, path, 1)
-    .waitForElementVisible('.verify', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Verify your identity');
+    .waitForElementVisible('.react-container', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
+  client
+    .expect.element('button.usa-button-big').text.to.equal('Get Started');
 }
 
 module.exports = {

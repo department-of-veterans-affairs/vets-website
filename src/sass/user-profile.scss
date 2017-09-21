@@ -12,29 +12,6 @@
   margin-bottom: 1.5em;
   padding: 0;
 
-  .mfa-message {
-    h2:first-of-type {
-      padding-top: 0.15em;
-    }
-
-    div + div {
-      padding-right: 0;
-      text-align: right;
-
-      button {
-        margin-right: 0;
-      }
-    }
-  }
-
-  .usa-alert {
-    margin-bottom: 1em;
-
-    .usa-alert-body {
-      padding-right: 0;
-    }
-  }
-
   h4 {
     border-bottom: 2px solid $color-primary;
     margin-bottom: 0.5em !important;
@@ -86,8 +63,8 @@
       padding-left: 8px;
     }
   }
-
-
+  
+  
   .saved-form-information {
     margin: 0;
 
@@ -119,7 +96,7 @@
   .remove-saved-application-button {
     float: right;
   }
-
+  
   .remove-saved-application-container {
     margin-bottom: 16px;
     float: right;
