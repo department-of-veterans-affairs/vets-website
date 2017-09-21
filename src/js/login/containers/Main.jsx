@@ -169,6 +169,7 @@ class Main extends React.Component {
       case 'verifyPage':
         return (
           <Verify
+            profile={this.props.profile}
             verifyUrl={this.props.login.verifyUrl}/>
         );
       default:

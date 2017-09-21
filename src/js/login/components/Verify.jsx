@@ -14,6 +14,23 @@ class Verify extends React.Component {
     window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.checkAccountAccess(nextProps.profile.accountType);
+  }
+
+  checkAccountAccess(accountType) {
+    if (accountType > 1) {
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
+
+      if (nextPath) {
+        window.location.replace(nextPath || '/');
+      } else {
+        window.location.replace('/');
+      }
+    }
+  }
+
   handleVerify() {
     handleVerify(this.props.verifyUrl);
   }
@@ -76,7 +93,8 @@ class Verify extends React.Component {
 }
 
 Verify.propTypes = {
-  verifyUrl: PropTypes.string
+  verifyUrl: PropTypes.string,
+  profile: PropTypes.object,
 };
 
 export default Verify;
