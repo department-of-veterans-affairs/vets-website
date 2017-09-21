@@ -12,7 +12,7 @@ import SaveStatus from '../SaveStatus';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
-import { updateLogInUrls } from '../../../login/actions';
+import { toggleLoginModal, updateLogInUrls } from '../../../login/actions';
 
 import { SAVE_STATUSES, saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
@@ -218,6 +218,7 @@ const mapDispatchToProps = {
   setData,
   uploadFile,
   saveInProgressForm,
+  toggleLoginModal,
   updateLogInUrls
 };
 
