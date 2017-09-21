@@ -11,7 +11,7 @@ import {
   invalidAddressProperty
 } from '../utils/helpers.jsx';
 import { updateAddress, saveAddress } from '../actions/letters';
-import Address from '../components/Address';
+import Address from './Address';
 import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
@@ -58,7 +58,6 @@ export class AddressSection extends React.Component {
       addressFields = (
         <div>
           <Address
-            value={address}
             onUserInput={(addr) => { this.props.updateAddress(addr); }}
             required/>
           <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
