@@ -5,6 +5,11 @@ title: Pension Benefits Eligibility
 concurrence:
 order: 1
 children: pensionEligibility
+widgets:
+  - root: react-pensionApplicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -44,7 +49,9 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/introduction">Apply for a Veterans Pension</a>
+<div id="react-pensionApplicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
+</div>
 
 [Learn about the application process](/pension/apply/).
 

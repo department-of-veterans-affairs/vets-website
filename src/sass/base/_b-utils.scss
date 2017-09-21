@@ -10,6 +10,10 @@
   text-transform: none;
 }
 
+.no-bottom-margin {
+  margin-bottom: 0;
+}
+
 // This is intended to override button styles and make a button
 // look like a link. We have plenty of overspecified button styles, so there are
 // several instances in here of !important.

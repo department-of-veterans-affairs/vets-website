@@ -7,7 +7,6 @@ import FormTitle from '../../../common/schemaform/FormTitle';
 
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/SaveInProgressIntro';
 
-
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -17,6 +16,12 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Manage your education benefits"/>
         <p>This application is equivalent to Form 22-5495 (Dependents’ Request for Change of Program or Place of Training).</p>
+        <SaveInProgressIntro
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
