@@ -23,7 +23,7 @@ class SaveFormLink extends React.Component {
       modalOpened: false
     };
 
-    this.loginButtonClicked = false;
+    this.loginAttemptInProgress = false;
   }
 
   componentDidMount() {
@@ -34,13 +34,15 @@ class SaveFormLink extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.user.login.showOverlay === true && newProps.user.login.showOverlay === false
-      && this.loginButtonClicked && newProps.user.login.currentlyLoggedIn) {
-      this.loginButtonClicked = false;
+    const loginAttemptCompleted = this.props.user.login.showModal === true
+      && newProps.user.login.showModal === false
+      && this.loginAttemptInProgress;
+
+    if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
       this.saveFormAfterLogin();
-    } else if (this.props.user.login.showOverlay === true && newProps.user.login.showOverlay === false
-      && this.loginButtonClicked && !newProps.user.login.currentlyLoggedIn) {
-      this.loginButtonClicked = false;
+    } else if (loginAttemptCompleted && !newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
     }
   }
 
@@ -69,7 +71,8 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  openLoginModal() {
+  openLoginModal = () => {
+    this.loginAttemptInProgress = true;
     this.props.toggleLoginModal(true);
   }
 
