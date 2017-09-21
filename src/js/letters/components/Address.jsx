@@ -28,10 +28,10 @@ class Address extends React.Component {
 
   // TODO: Look into if this is the best way to update address,
   // it is incredibly slow right now
-  handleChange = (path, update) => {
-    let address = set(path, update, this.props.value);
+  handleChange = (fieldName, update) => {
+    let address = set(fieldName, update, this.props.value);
     // if country is changing we should clear the state
-    if (path === 'country') {
+    if (fieldName === 'country') {
       address = set('state', '', address);
     }
 
@@ -57,8 +57,6 @@ class Address extends React.Component {
       // TODO: Make sure we clear this out if a state code is selected
       type = addressTypes.military;
     }
-
-    // console.log('Address:', address, ' Type:', type);
 
     return Object.assign({}, address, { type });
   }
