@@ -13,7 +13,6 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { toggleLoginModal, updateLogInUrl } from '../../../login/actions';
-
 import { SAVE_STATUSES, saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
@@ -145,7 +144,6 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-
     const { route, form, user } = this.props;
     const isLoggedIn = user.login.currentlyLoggedIn && form.savedStatus !== SAVE_STATUSES.noAuth;
     const formConfig = route.formConfig;
