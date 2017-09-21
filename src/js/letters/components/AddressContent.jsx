@@ -8,7 +8,7 @@ const AddressContent = (props) => {
       <p>Downloaded documents will list your address as:</p>
       {props.saveError
         ? <UpdateFailureAlert
-            addressObject={props.addressObject}/>
+          addressObject={props.addressObject}/>
         : <AddressBlock name={props.name} fields={props.fields}/>
       }
     </div>

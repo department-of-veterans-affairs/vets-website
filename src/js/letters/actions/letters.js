@@ -15,7 +15,6 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
@@ -187,13 +186,6 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
-export function updateAddress(address) {
-  return {
-    type: UPDATE_ADDRESS,
-    address
-  };
-}
-
 export function saveAddressPending() {
   return {
     type: SAVE_ADDRESS_PENDING
@@ -220,7 +212,7 @@ export function saveAddress(address) {
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
-    
+
     apiRequest(
       '/v0/address',
       settings,

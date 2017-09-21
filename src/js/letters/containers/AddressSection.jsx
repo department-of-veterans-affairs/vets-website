@@ -8,9 +8,8 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
-  invalidAddressProperty
 } from '../utils/helpers.jsx';
-import { updateAddress, saveAddress } from '../actions/letters';
+import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
@@ -27,33 +26,32 @@ export class AddressSection extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
-        this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress});
+      this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress });
     }
   }
 
   handleSave = () => {
     this.setState({ isEditingAddress: false });
-    
+
     this.props.saveAddress(this.state.editableAddress);
   }
-  
+
   handleChange = (path, update) => {
-    this.setState(({editableAddress}) => {
+    this.setState(({ editableAddress }) => {
       // reset state code when user changes address country but don't add or
       // modify state property otherwise
       return (path === 'country'
         ? { editableAddress: {
-            ...editableAddress,
-            [path]: update,
-            state: '',
-          }}
+          ...editableAddress,
+          [path]: update,
+          state: '',
+        } }
         : { editableAddress: {
-            ...editableAddress,
-            [path]: update,
-          }}
+          ...editableAddress,
+          [path]: update,
+        } }
       );
-    // TO-DO: Remove console.log once state updates verified to work
-    }, () => console.log(this.state.editableAddress));
+    });
   }
 
   render() {
@@ -98,7 +96,6 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
-      console.log('props.savedAddress:', this.props.savedAddress);
       addressFields = (
         <div>
           <div className="letters-address">{streetAddress}</div>
@@ -116,10 +113,10 @@ export class AddressSection extends React.Component {
         { isEmpty(address)
           ? <InvalidAddress/>
           : <AddressContent
-              saveError={this.props.saveAddressError}
-              name={(this.props.recipientName || '').toLowerCase()}
-              fields={addressFields}
-              addressObject={addressContentLines}/>
+            saveError={this.props.saveAddressError}
+            name={(this.props.recipientName || '').toLowerCase()}
+            fields={addressFields}
+            addressObject={addressContentLines}/>
         }
       </div>
     );
@@ -141,4 +138,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
-

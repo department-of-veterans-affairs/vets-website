@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
-import { set } from 'lodash/fp';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
