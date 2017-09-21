@@ -2,13 +2,17 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
-
+import sinon from 'sinon';
 import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
 
 describe('<RequiredLoginView>', () => {
   beforeEach(() => {
     global.sessionStorage = { userToken: 'abcdefg' };
   });
+
+  const redirectFunc = sinon.spy();
+  global.window.location.replace = redirectFunc;
+
   const anonymousUser = {
     accountType: null,
     dob: null,
@@ -127,8 +131,7 @@ describe('<RequiredLoginView>', () => {
   describe('logged in at LOA 1', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
-        const { tree } = setup({ userProfile: loa1User });
-        expect(tree.everySubTree('VerifyPrompt')).to.not.be.empty;
+        expect(redirectFunc.calledWith(sinon.match(/verify/))).to.be.true;
       });
     });
     describe('authRequired=1', () => {
@@ -160,8 +163,8 @@ describe('<RequiredLoginView>', () => {
   });
   describe('not logged in', () => {
     it('should prompt for login', () => {
-      const { tree } = setup({ userProfile: anonymousUser });
-      expect(tree.everySubTree('LoginPrompt')).to.not.be.empty;
+      setup({ userProfile: anonymousUser });
+      expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
     });
     it('should display children when no LOA required', () => {
       const { tree } = setup({ userProfile: anonymousUser, authRequired: null });
