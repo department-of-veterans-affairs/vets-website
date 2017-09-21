@@ -45,9 +45,7 @@ class IntroductionPage extends React.Component {
               </ul>
               <p><strong>What if I need help filling out my application?</strong>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
-              <ul>
-               If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.
-              </ul>
+              <p>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.</p>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
