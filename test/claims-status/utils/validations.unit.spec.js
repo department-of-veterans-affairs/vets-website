@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { isValidFileSize, isValidFileType, isValidFile, isValidDocument } from '../../../src/js/claims-status/utils/validations';
 
-describe('Disability benefits validation:', () => {
+describe('Claims status validation:', () => {
   describe('isValidFileSize', () => {
     it('should validate size is less than max', () => {
       const result = isValidFileSize({ size: 10 });
