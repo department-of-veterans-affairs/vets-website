@@ -212,7 +212,6 @@ Main.propTypes = {
   onLoggedIn: PropTypes.func,
   renderType: PropTypes.oneOf([
     'navComponent',
-    'signinModal',
     'verifyPage',
   ]).isRequired,
 };
