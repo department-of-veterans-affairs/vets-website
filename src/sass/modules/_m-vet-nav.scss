@@ -54,7 +54,10 @@ body.va-pos-fixed {
   }
 
   .vetnav--submenu-expanded & {
-    height: 0;
+    // height: 0;
+    visibility: hidden;
+    height: 100%;
+    margin: 0;
   }
 
   > li {
@@ -338,7 +341,9 @@ body.va-pos-fixed {
     width: 100%;
     top: 0;
     left: 0;
+    visibility: visible;
     height: auto;
+    overflow-y: scroll;
     margin: 1rem 0;
 
     @include media($medium-large-screen) {
