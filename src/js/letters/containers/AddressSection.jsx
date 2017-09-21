@@ -16,15 +16,39 @@ import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
-  constructor() {
-    super();
-    this.state = { isEditingAddress: false };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditingAddress: false,
+      address: this.props.inititalAddress,
+    };
+
+    console.log('initial address:', this.state.address);
   }
 
-  handleUpdate = () => {
+  handleSave = () => {
     this.setState({ isEditingAddress: false });
 
-    this.props.saveAddress(this.props.address);
+    this.props.saveAddress(this.state.address);
+  }
+
+  handleChange = (path, update) => {
+    this.setState(({address}) => {
+      // reset state code when user changes address country but don't add or
+      // modify state property otherwise
+      return (path === 'country'
+        ? { address: {
+            ...address,
+            [path]: update,
+            state: '',
+          }}
+        : { address: {
+            ...address,
+            [path]: update,
+          }}
+      );
+    // TO-DO: Remove console.log once state updates verified to work
+    }, () => console.log(this.state.address));
   }
 
   render() {
@@ -58,9 +82,10 @@ export class AddressSection extends React.Component {
       addressFields = (
         <div>
           <Address
-            onUserInput={(addr) => { this.props.updateAddress(addr); }}
+            onInput={this.handleChange}
+            address={this.state.address}
             required/>
-          <button className="usa-button-primary" onClick={this.handleUpdate}>Update</button>
+          <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
       );
@@ -98,6 +123,7 @@ function mapStateToProps(state) {
     recipientName: fullName,
     address,
     canUpdate,
+    inititalAddress: address,
     saveAddressError,
   };
 }
