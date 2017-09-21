@@ -9,7 +9,7 @@ import { getFormDOM } from '../../util/schemaform-utils';
 import Address from '../../../src/js/letters/components/Address.jsx';
 
 const defaultProps = {
-  value: {
+  address: {
     type: 'DOMESTIC',
     addressOne: '2746 Main St',
     addressTwo: 'Apt 2',
@@ -28,13 +28,14 @@ describe('<Address>', () => {
   });
 
   it('should change the city and state fields for a military address', () => {
-    const props = _.merge({}, defaultProps, {
-      value: {
-        type: 'MILITARY',
-        militaryPostOfficeTypeCode: 'APO',
-        militaryStateCode: 'AE'
-      }
-    });
+    const militaryFields = {
+      type: 'MILITARY',
+      militaryPostOfficeTypeCode: 'APO',
+      militaryStateCode: 'AE'
+    };
+    const props = { ...defaultProps, address: {
+      ...defaultProps.address, ...militaryFields
+    } };
 
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
@@ -43,9 +44,9 @@ describe('<Address>', () => {
     expect(form.getElement('select[name="state"]').value).to.contain('AE');
   });
 
-  it('should update the redux store when fields are updated', () => {
+  it('should update <AddressSection/> local state on user update', () => {
     const updateSpy = sinon.spy();
-    const props = _.merge({}, defaultProps, { onUserInput: updateSpy });
+    const props = _.merge({}, defaultProps, { onInput: updateSpy });
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
 
