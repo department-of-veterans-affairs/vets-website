@@ -33,13 +33,13 @@ describe('Schemaform <SaveFormLink>', () => {
   // Define these spies out here because they are only used to satisfy the
   //  prop requirements; they're only passed to LoginModal which we test elsewhere
   const saveInProgressForm = sinon.spy();
-  const updateLoginSpy = sinon.spy();
+  const toggleLoginModalSpy = sinon.spy();
   it('should render login message when not logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
         form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Save and finish later');
@@ -49,7 +49,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Sorry, you’re signed out.');
@@ -60,7 +60,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={loggedInUser}
         form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Save and finish later');
@@ -70,7 +70,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.failure })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('having some issues');
@@ -81,7 +81,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.clientFailure })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('connect to Vets.gov');
@@ -92,7 +92,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -125,7 +125,7 @@ describe('Schemaform <SaveFormLink>', () => {
           user={loggedInUser}
           form={form}
           saveInProgressForm={saveInProgressForm}
-          onUpdateLoginUrl={updateLoginSpy}/>
+          toggleLoginModal={toggleLoginModalSpy}/>
       </div>
     );
     const findDOM = findDOMNode(tree);
