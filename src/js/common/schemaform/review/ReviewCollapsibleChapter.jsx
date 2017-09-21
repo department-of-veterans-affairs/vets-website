@@ -19,6 +19,7 @@ const scroller = Scroll.scroller;
 export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
+    this.onBlur = this.onBlur.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.toggleChapter = this.toggleChapter.bind(this);
@@ -33,6 +34,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
     if (!oldState.open && this.state.open) {
       this.scrollToTop();
     }
+  }
+
+  onBlur() {
+    this.props.onBlur();
   }
 
   onChange(formData, path = null, index = null) {
