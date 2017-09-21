@@ -189,15 +189,15 @@ class ReviewPage extends React.Component {
           saveInProgressForm={this.props.saveInProgressForm}
           onUpdateLoginUrl={this.props.updateLogInUrls}
           sipEnabled={!formConfig.disableSave}/>
-          {!form.disableSave && isLoggedIn && <SaveStatus
-            form={form}>
-          </SaveStatus>}
-          {!form.disableSave && <SaveFormLink
-            locationPathname={this.props.location.pathname}
-            form={form}
-            user={this.props.user}
-            saveInProgressForm={this.props.saveInProgressForm}
-            toggleLoginModal={this.props.toggleLoginModal}/>}
+        {!form.disableSave && isLoggedIn && <SaveStatus
+          form={form}>
+        </SaveStatus>}
+        {!form.disableSave && <SaveFormLink
+          locationPathname={this.props.location.pathname}
+          form={form}
+          user={this.props.user}
+          saveInProgressForm={this.props.saveInProgressForm}
+          toggleLoginModal={this.props.toggleLoginModal}/>}
       </div>
     );
   }
