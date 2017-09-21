@@ -12,7 +12,7 @@ import SaveStatus from '../SaveStatus';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
-import { toggleLoginModal, updateLogInUrls } from '../../../login/actions';
+import { toggleLoginModal, updateLogInUrl } from '../../../login/actions';
 
 import { SAVE_STATUSES, saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
@@ -187,7 +187,7 @@ class ReviewPage extends React.Component {
           form={form}
           user={this.props.user}
           saveInProgressForm={this.props.saveInProgressForm}
-          onUpdateLoginUrl={this.props.updateLogInUrls}
+          onUpdateLoginUrl={this.props.updateLogInUrl}
           sipEnabled={!formConfig.disableSave}/>
         {!form.disableSave && isLoggedIn && <SaveStatus
           form={form}>
@@ -219,7 +219,7 @@ const mapDispatchToProps = {
   uploadFile,
   saveInProgressForm,
   toggleLoginModal,
-  updateLogInUrls
+  updateLogInUrl
 };
 
 ReviewPage.propTypes = {

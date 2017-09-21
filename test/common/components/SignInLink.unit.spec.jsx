@@ -30,8 +30,7 @@ const setup = () => {
     dataLayer: [],
     open: sinon.spy(() => {
       return { focus: sinon.stub() };
-    }),
-    addEventListener: () => {},
+    })
   };
 };
 const teardown = () => {
@@ -44,13 +43,13 @@ describe('<SignInLink>', () => {
   // beforeEach(setup);
   // afterEach(teardown);
 
-  const toggleLoginModal = sinon.spy();
+  const onUpdateLoginUrl = sinon.spy();
   it('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -65,7 +64,7 @@ describe('<SignInLink>', () => {
         <SignInLink
           type="button"
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -79,7 +78,7 @@ describe('<SignInLink>', () => {
         <SignInLink
           loginUrl="login/url"
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}>Sign in</SignInLink>
+          onUpdateLoginUrl={onUpdateLoginUrl}>Sign in</SignInLink>
       </div>
     );
     const findDOM = findDOMNode(tree);
@@ -87,12 +86,14 @@ describe('<SignInLink>', () => {
     // Poke the button!
     ReactTestUtils.Simulate.click(findDOM.querySelector('a'));
 
-    expect(toggleLoginModal.calledOnce).to.be.true;
-    // TODO: make sure we test for these once analytics are set up for new modal-based signin flow
-    // expect(global.window.dataLayer).to.eql([
-    //   { event: 'login-link-clicked' },
-    //   { event: 'login-link-opened' }
-    // ]);
+    // Not exactly definitive tests...and possibly brittle...
+    // url called to get a new user session
+    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/new?level=1');
+    expect(global.window.open.calledOnce).to.be.true;
+    expect(global.window.dataLayer).to.eql([
+      { event: 'login-link-clicked' },
+      { event: 'login-link-opened' }
+    ]);
 
     teardown();
   });
@@ -108,7 +109,7 @@ describe('<SignInLink>', () => {
         <SignInLink
           loginUrl="login/url"
           isLoggedIn={false}
-          toggleLoginModal={toggleLoginModal}
+          onUpdateLoginUrl={onUpdateLoginUrl}
           onLogin={loginSpy}>Sign in</SignInLink>
       </div>
     );
