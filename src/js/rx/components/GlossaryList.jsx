@@ -25,7 +25,6 @@ class GlossaryList extends React.Component {
       return (
         <div>
           <h3>Glossary: {termsList[0]}</h3>
-          <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
           {termsList[1]}
         </div>
       );
