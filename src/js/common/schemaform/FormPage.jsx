@@ -14,7 +14,7 @@ import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
 import { SAVE_STATUSES, PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
 
-import { updateLogInUrl } from '../../login/actions';
+import { toggleLoginModal } from '../../login/actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
@@ -180,7 +180,7 @@ class FormPage extends React.Component {
             form={form}
             user={this.props.user}
             saveInProgressForm={this.props.saveInProgressForm}
-            onUpdateLoginUrl={this.props.updateLogInUrl}/>}
+            toggleLoginModal={this.props.toggleLoginModal}/>}
         </SchemaForm>
       </div>
     );
@@ -197,7 +197,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   setData,
   saveInProgressForm,
-  updateLogInUrl,
+  toggleLoginModal,
   uploadFile
 };
 
