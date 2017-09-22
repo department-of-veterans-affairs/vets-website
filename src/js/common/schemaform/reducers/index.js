@@ -29,7 +29,8 @@ import {
   SET_PREFILL_UNFILLED,
   SAVE_STATUSES,
   LOAD_STATUSES,
-  PREFILL_STATUSES
+  PREFILL_STATUSES,
+  saveErrors
 } from '../save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
@@ -166,6 +167,12 @@ export default function createSchemaFormReducer(formConfig) {
           newState.expirationDate = action.expirationDate;
         }
 
+        // We don't want to show two errors at once, so reset the status
+        // of the other save method when there's an error
+        if (saveErrors.has(action.status)) {
+          newState.autoSavedStatus = SAVE_STATUSES.notAttempted;
+        }
+
         return newState;
       }
       case SET_AUTO_SAVE_FORM_STATUS: {
@@ -175,6 +182,10 @@ export default function createSchemaFormReducer(formConfig) {
         if (action.status === SAVE_STATUSES.success) {
           newState.lastSavedDate = action.lastSavedDate;
           newState.expirationDate = action.expirationDate;
+        }
+
+        if (saveErrors.has(action.status)) {
+          newState.savedStatus = SAVE_STATUSES.notAttempted;
         }
 
         return newState;

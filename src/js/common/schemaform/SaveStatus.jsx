@@ -7,24 +7,29 @@ import { SAVE_STATUSES } from './save-load-actions';
 class SaveStatus extends React.Component {
   render() {
     const { form } = this.props;
-    let savedAt;
+
     let savedAtMessage;
     if (form.lastSavedDate) {
-      savedAt = moment(form.lastSavedDate);
+      const savedAt = moment(form.lastSavedDate);
       savedAtMessage = ` Last saved at ${savedAt.format('M/D/YYYY [at] h:mm a')}`;
     } else {
       savedAtMessage = '';
     }
 
-    const isSaving = form.autoSavedStatus === SAVE_STATUSES.pending;
-    const isSaved = form.autoSavedStatus === SAVE_STATUSES.success;
+    const savedStatus = form.autoSavedStatus;
 
     return (
       <div>
-        {savedAt && isSaved && <div className="panel saved-success-container">
+        {savedStatus === SAVE_STATUSES.success && <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
         </div>}
-        {isSaving && <p className="saving">Saving...</p>}
+        {savedStatus === SAVE_STATUSES.pending && <p className="saving">Saving...</p>}
+        {savedStatus === SAVE_STATUSES.clientFailure &&
+          'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet, so we can save your application as you fill it out.'}
+        {savedStatus === SAVE_STATUSES.failure &&
+          'We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the form, but it will not be automatically saved as you fill it out.'}
+        {savedStatus === SAVE_STATUSES.noAuth &&
+          <span>Sorry, you’re no longer signed in. Please <button className="va-button-link" onClick={this.openLoginModal}>sign in</button> again so that we can save your application as you fill it out.</span>}
       </div>
     );
   }
