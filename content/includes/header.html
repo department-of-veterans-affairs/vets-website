@@ -92,8 +92,65 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 
 <a class="show-on-focus" href="#content">Skip to Content</a>
 
-{% if !noHeader %}
-  {% include "content/includes/top-nav.html" %}
-{% endif %}
+<header class="header">
+  <div class="incompatible-browser-warning">
+    <div class="row full">
+      <div class="small-12">
+        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+      </div>
+    </div>
+  </div>
+
+  <div class="va-notice--banner">
+    <div class="va-notice--banner-inner">
+      <div class="va-wip">
+        <p>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
+      </div>
+      <div class="va-crisis-line">
+        <div class="va-flex">
+          <button data-show="#modal-crisisline" class="va-crisis-line-button va-overlay-trigger">
+            <span class="va-flex">
+              <span class="vcl"></span>
+              Get help from Veterans Crisis Line
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /header alert box -->
+
+  <div class="row va-flex" id="va-header-logo-menu">
+    <div role="banner" class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo">
+      {% include "assets/img/svglogo.svg" %}
+      </a>
+    </div>
+    {% if body_class != 'page-playbook' %}
+      <div id="vetnav-controls">
+        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
+          <span class="va-flex">
+            {% include "assets/img/icons/close.svg" %}
+            Close
+          </span>
+        </button>
+        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
+          <span class="va-flex">
+            {% include "assets/img/arrow-down.svg" %}
+            Menu
+          </span>
+        </button>
+      </div>
+    {% endif %}
+
+    <div id="login-root" class="vet-toolbar"></div>
+
+
+    {% if body_class != 'page-playbook' %}
+    {% include "content/includes/veteran-navigation.html" %}
+    {% endif %}
+  </div>
+
+</header>
 
 <script async src="/js/usa-search.js"></script>

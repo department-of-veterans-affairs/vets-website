@@ -20,7 +20,7 @@ import {
   saveAndRedirectToReturnUrl
 } from './save-load-actions';
 
-import { toggleLoginModal } from '../../login/actions';
+import { updateLogInUrl } from '../../login/actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
@@ -186,7 +186,7 @@ class FormPage extends React.Component {
             form={form}
             user={this.props.user}
             saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-            toggleLoginModal={this.props.toggleLoginModal}/>}
+            onUpdateLoginUrl={this.props.updateLogInUrl}/>}
         </SchemaForm>
       </div>
     );
@@ -204,7 +204,7 @@ const mapDispatchToProps = {
   setData,
   saveAndRedirectToReturnUrl,
   autoSaveForm,
-  toggleLoginModal,
+  updateLogInUrl,
   uploadFile
 };
 

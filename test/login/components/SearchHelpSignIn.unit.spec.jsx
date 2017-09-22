@@ -28,16 +28,6 @@ function buildProps(defaultProps, props = {}) {
 }
 
 describe('<SearchHelpSignIn>', () => {
-  beforeEach(() => {
-    global.sessionStorage = {};
-    global.window = {
-      location: {
-        replace: () => {},
-      }
-    };
-    global.window.location.pathname = '/';
-  });
-
   let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps} profile={{ loading: false }}/>);
 
   it('should render', () => {
@@ -47,7 +37,7 @@ describe('<SearchHelpSignIn>', () => {
 
   it('should present login link when currentlyLoggedIn is false', () => {
     const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(1);
+    expect(link).to.have.lengthOf(2);
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
