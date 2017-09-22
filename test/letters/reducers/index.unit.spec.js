@@ -146,7 +146,7 @@ describe('letters reducer', () => {
                 addressOne: '2746 Main St'
               },
               controlInformation: {
-                canUpdateAddress: true,
+                canUpdate: true,
               }
             }
           }
