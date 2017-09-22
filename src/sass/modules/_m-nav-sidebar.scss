@@ -22,7 +22,7 @@
     padding: 1.6rem;
     position: absolute;
     top: 0;
-    display: none;
+    visibility: hidden;
 
     // Necessary to override .usa-grid .usa-width-one-fourth
     .va-l-detail-page & {
@@ -42,21 +42,29 @@
     }
 
     > div {
+      visibility: visible;
       background: $color-white;
       border-left: 1px solid $color-gray-light;
       height: 100%;
       max-width: 30rem;
       overflow: auto;
       padding: 3.2rem 1.6rem 1.6rem;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 80%;
       z-index: 2;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80%;
+      transform: translateX(100%);
+      -webkit-transition: 100ms transform linear;
+              transition: 100ms transform linear;
     }
 
     &--opened {
-      display: block;
+      visibility: visible;
+
+      & > div {
+        transform: translateX(0);
+      }
     }
 
     &-close {

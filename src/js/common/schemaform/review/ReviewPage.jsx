@@ -10,7 +10,7 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
-import { updateLogInUrls } from '../../../login/actions';
+import { updateLogInUrl } from '../../../login/actions';
 import { saveInProgressForm } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
@@ -168,7 +168,7 @@ class ReviewPage extends React.Component {
           form={form}
           user={this.props.user}
           saveInProgressForm={this.props.saveInProgressForm}
-          onUpdateLoginUrl={this.props.updateLogInUrls}
+          onUpdateLoginUrl={this.props.updateLogInUrl}
           sipEnabled={!formConfig.disableSave}/>
       </div>
     );
@@ -190,7 +190,7 @@ const mapDispatchToProps = {
   setData,
   uploadFile,
   saveInProgressForm,
-  updateLogInUrls
+  updateLogInUrl
 };
 
 ReviewPage.propTypes = {

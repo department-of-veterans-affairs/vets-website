@@ -62,22 +62,13 @@ For all disability claims, please provide:
 
 ### Other ways to apply
 
-<ul>
-<li>
-
-<strong>Work with a trained professional</strong>
+#### Work with a trained professional
 
 You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
-</li>
-<li>
-
-<strong>Apply in person</strong>
+#### Apply in person
 
 [Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
-
-</li>
-</ul>
 
 ### What happens after I apply?
 
