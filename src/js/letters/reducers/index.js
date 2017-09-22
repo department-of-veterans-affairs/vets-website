@@ -70,7 +70,7 @@ function letters(state = initialState, action) {
       return {
         ...state,
         address: attributes.address,
-        canUpdateAddress: attributes.controlInformation.canUpdateAddress,
+        canUpdate: attributes.controlInformation.canUpdate,
         addressAvailable: true
       };
     }
