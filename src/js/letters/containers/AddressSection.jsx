@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import _ from 'lodash/fp';
 
 import {
   getStateName,
@@ -37,6 +36,7 @@ export class AddressSection extends React.Component {
     this.state = {
       isEditingAddress: false,
       errorMessages: {},
+      shouldValidate: {},
       editableAddress: props.address
     };
   }
@@ -44,12 +44,26 @@ export class AddressSection extends React.Component {
   /**
    * Runs all the valiations against the address passed as a prop for a given field.
    *
-   * @param {String} fieldName   The name of the address field to validate. Maps to
-   *                              the fieldValidations key.
-   * @return {String|undefined}  If there's a validation error, return the error
-   *                              message. If not, return undefined.
+   * @param {String} fieldName             The name of the address field to validate.
+   *                                         Maps to the fieldValidations key.
+   * @param {Object} fullAddress            Contains the full mailing address.
+   * @param {Boolean} ignoreShouldValidate  Because we'll need to update the error
+   *                                         messages on multiple fields sometimes,
+   *                                         we need to run validations on all fields.
+   *                                         This ensures that we only run validation
+   *                                         if the field has been modified.
+   *                                         saveAddress will need to validate all
+   *                                         fields regardless of whether they've been
+   *                                         modified.
+   * @return {String|undefined}             If there's a validation error, return the
+   *                                         error message. If not, return undefined.
    */
-  validateField = (fieldName) => {
+  validateField = (fieldName, fullAddress, ignoreShouldValidate = false) => {
+    // Only validate the field if it's been modified
+    if (!this.state.shouldValidate[fieldName] || ignoreShouldValidate) {
+      return undefined;
+    }
+
     const validations = fieldValidations[fieldName];
     // If there is no validations array for that field, assume it has no validations
     if (!validations) {
@@ -59,7 +73,7 @@ export class AddressSection extends React.Component {
     let errorMessage = false;
     for (let i = 0; i < validations.length; i++) {
       // this.props.value = address
-      errorMessage = validations[i](this.state.editableAddress[fieldName], this.state.editableAddress);
+      errorMessage = validations[i](fullAddress[fieldName], fullAddress);
       if (typeof errorMessage === 'string') {
         return errorMessage;
       }
@@ -74,10 +88,10 @@ export class AddressSection extends React.Component {
    *
    * @return {Object}  Holds all the error messages for all the fields that have them.
    */
-  validateAll = () => {
+  validateAll = (address = this.state.editableAddress) => {
     const errorMessages = {};
     Object.keys(fieldValidations).forEach((fieldName) => {
-      errorMessages[fieldName] = this.validateField(fieldName);
+      errorMessages[fieldName] = this.validateField(fieldName, address);
     });
 
     return errorMessages;
@@ -116,18 +130,25 @@ export class AddressSection extends React.Component {
   }
 
   handleChange = (fieldName, update) => {
+    // When a field is changed, make sure we validate it
+    if (!this.state.shouldValidate[fieldName]) {
+      this.setState({ shouldValidate: Object.assign({}, this.state.shouldValidate, { [fieldName]: true }) });
+    }
+
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
     // if country is changing we should clear the state
     if (fieldName === 'country') {
       address.state = '';
     }
 
+    // Make sure we've got the right address type (domestic, military, international)
     address = this.inferAddressType(address);
-    // Add a new error message if necessary
+
+    // Update the error messages
     // TODO: This might get super slow, so we can debounce this part if necessary...probably
-    const errorMessages = _.merge({}, this.state.editableAddress, { [fieldName]: this.validateField(fieldName, address) });
+    const errorMessages = this.validateAll(address);
     this.setState({
-      address,
+      editableAddress: address,
       errorMessages
     });
   }

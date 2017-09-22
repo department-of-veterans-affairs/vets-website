@@ -135,7 +135,7 @@ class Address extends React.Component {
           name="postalCode"
           autocomplete="postal-code"
           value={this.props.value.zipCode}
-          required={this.props.required}
+          required={selectedCountry === 'USA' ? this.props.required : false}
           onValueChange={(update) => this.props.onUserInput('zipCode', update)}/>
       </div>
     );
@@ -156,7 +156,6 @@ Address.propTypes = {
   // value = address
   value: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
-  validateField: PropTypes.func.isRequired
 };
 
 export default Address;
