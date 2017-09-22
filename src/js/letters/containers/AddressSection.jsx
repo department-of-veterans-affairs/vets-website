@@ -97,6 +97,7 @@ export class AddressSection extends React.Component {
     return errorMessages;
   }
 
+  // TODO: Make sure this doesn't allow us to save the address if there are validation errors
   saveAddress = () => {
     const errorMessages = this.validateAll();
     // If there are errors, show them, but don't stop editing and don't save
