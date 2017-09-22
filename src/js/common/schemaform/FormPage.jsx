@@ -118,7 +118,7 @@ class FormPage extends React.Component {
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
 
-      this.props.autoSaveForm(formId, version, returnUrl, data);
+      this.props.autoSaveForm(formId, data, version, returnUrl);
     }
   }
 
