@@ -131,7 +131,8 @@ describe('<RequiredLoginView>', () => {
   describe('logged in at LOA 1', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
-        expect(redirectFunc.calledWith(sinon.match(/verify/))).to.be.true;
+        const { tree } = setup({ userProfile: loa1User });
+        expect(tree.everySubTree('Verify')).to.not.be.empty;
       });
     });
     describe('authRequired=1', () => {
