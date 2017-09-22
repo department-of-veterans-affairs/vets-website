@@ -5,6 +5,7 @@ import { intersection } from 'lodash';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Verify from '../../login/components/Verify';
 
 class RequiredLoginView extends React.Component {
   isServiceAvailable() {
@@ -33,7 +34,6 @@ class RequiredLoginView extends React.Component {
 
     const nextQuery = { next: window.location.pathname };
     const signInUrl = appendQuery('/', nextQuery);
-    const verifyUrl = appendQuery('/verify', nextQuery);
 
     if (this.props.authRequired === 1) {
       if (this.props.userProfile.accountType >= 1) {
@@ -84,7 +84,7 @@ class RequiredLoginView extends React.Component {
           return React.cloneElement(child, props);
         });
       } else if (this.props.userProfile.accountType === 1) {
-        return window.location.replace(verifyUrl);
+        return <Verify profile={this.props.userProfile} verifyUrl={this.props.verifyUrl}/>;
       }
 
       return window.location.replace(signInUrl);
