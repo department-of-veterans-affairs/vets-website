@@ -25,15 +25,11 @@ class VeteranIDCard extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const idState = state.idcard;
   const userState = state.user;
   return {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    redirect: idState.idcard.redirect,
-    isLoading: idState.idcard.loading,
-    errors: idState.idcard.errors,
   };
 };
 

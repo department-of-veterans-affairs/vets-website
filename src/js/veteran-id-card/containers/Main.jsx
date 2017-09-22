@@ -19,7 +19,7 @@ class Main extends React.Component {
   }
 
   renderButton() {
-    if (this.props.fetching === true || this.props.redirect) {
+    if (this.props.fetching || this.props.redirect) {
       return (
         <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
           Redirecting...
@@ -69,7 +69,7 @@ class Main extends React.Component {
           <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card.</p>
           <p>This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
           <h3>Ready to apply?</h3>
-          <div style={{ paddingBottom: '2em' }}>
+          <div>
             {this.renderButton()}
             <div>{message}</div>
           </div>

@@ -1,4 +1,3 @@
-
 import {
   ATTRS_FETCHING,
   ATTRS_SUCCESS,

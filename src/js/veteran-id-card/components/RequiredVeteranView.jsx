@@ -4,18 +4,6 @@ import React from 'react';
 import SystemDownView from '../../common/components/SystemDownView';
 
 class RequiredVeteranView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
-  }
 
   render() {
     let view;
