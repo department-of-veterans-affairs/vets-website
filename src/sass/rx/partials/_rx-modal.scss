@@ -10,15 +10,15 @@
   .rx-glossary {
     margin: 0 auto;
   }
+}
 
-  .modalTitle {
-    border: 1px solid red;
+.modalTitle {
+  border: 1px solid red;
+  display: inline-block;
+  padding-bottom: 0;
+  dl {
+    padding: 0;
+    margin: 0;
     display: inline-block;
-    padding-bottom: 0;
-    dl {
-      padding: 0;
-      margin: 0;
-      display: inline-block;
-    }
   }
 }
