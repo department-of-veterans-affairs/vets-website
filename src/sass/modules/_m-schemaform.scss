@@ -241,7 +241,7 @@ fieldset.schemaform-field-template {
   }
 }
 
-//duplicated from disability-benefits.scss
+//duplicated from claims-status.scss
 .ask-va-questions {
   .talk {
     margin: 0.5em 0;
@@ -256,7 +256,7 @@ fieldset.schemaform-field-template {
     }
   }
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .ask-va-questions.help-sidebar-box {
   padding: 2em 0;
   @include media($medium-large-screen) {
@@ -264,16 +264,16 @@ fieldset.schemaform-field-template {
     padding-left: inherit;
   }
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-sidebar-box {
   padding-top: 0.3em;
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-h2-border {
   border-bottom: 3px solid $color-primary;
   margin: 0.3em 0;
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-h2 {
   font-size: 1.35em;
   line-height: 1.5;
