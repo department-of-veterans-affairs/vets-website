@@ -66,26 +66,28 @@ class Address extends React.Component {
     // e.g., from this: `IL: 'Illinois'`
     // to this: `{ value: 'Illinois', label: 'IL' }`
     let states = [];
-    _.mapKeys(stateList, (value, key) => {
-      states.push({ label: value, value: key });
-    });
-    // Add military states to full state list
-    militaryStates.forEach((militaryState) => {
-      states.push(militaryState);
-    });
-    // Alphabetize the list
-    states.sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      }
-      if (a.label > b.label) {
-        return 1;
-      }
-      return 0;
-    });
-    // Filter state list if military city is entered
+    // If the city is a military city, just add the military states to the list
     if (this.props.value[city] && this.isMilitaryCity(this.props.value[city])) {
-      states = states.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
+      states = militaryStates;
+    } else {
+      // Add states to list in the correct format
+      _.mapKeys(stateList, (value, key) => {
+        states.push({ label: value, value: key });
+      });
+      // Add military states to full state list
+      militaryStates.forEach((militaryState) => {
+        states.push(militaryState);
+      });
+      // Alphabetize the list
+      states.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      });
     }
 
     return states;
