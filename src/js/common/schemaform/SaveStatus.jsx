@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
+import SignInLink from '../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
 
 class SaveStatus extends React.Component {
   render() {
-    const { form, isLoggedIn } = this.props;
+    const { form, isLoggedIn, loginUrl, onUpdateLogInUrl } = this.props;
 
     let savedAtMessage;
     if (form.lastSavedDate) {
@@ -21,6 +22,14 @@ class SaveStatus extends React.Component {
     const hasError = saveErrors.has(savedStatus) &&
       ((savedStatus === SAVE_STATUSES.noAuth && !isLoggedIn) || savedStatus !== SAVE_STATUSES.noAuth);
 
+    const signInLink = (
+      <SignInLink
+        className="va-button-link"
+        isLoggedIn={isLoggedIn}
+        loginUrl={loginUrl}
+        onUpdateLoginUrl={onUpdateLogInUrl}>sign in</SignInLink>
+    );
+
     return (
       <div>
         {savedStatus === SAVE_STATUSES.success && <div className="panel saved-success-container">
@@ -34,7 +43,7 @@ class SaveStatus extends React.Component {
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the form, but it will not be automatically saved as you fill it out.'}
             {!isLoggedIn && savedStatus === SAVE_STATUSES.noAuth &&
-              <span>Sorry, you’re no longer signed in. Please <button className="va-button-link" onClick={this.openLoginModal}>sign in</button> again so that we can save your application as you fill it out.</span>}
+              <span>Sorry, you’re no longer signed in. Please {signInLink} again so that we can save your application as you fill it out.</span>}
           </div>}
       </div>
     );
