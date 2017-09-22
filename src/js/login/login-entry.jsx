@@ -14,7 +14,7 @@ export default function createLoginWidget(store) {
   function init() {
     ReactDOM.render((
       <Provider store={store}>
-        <Main renderType="navComponent"/>
+        <Main/>
       </Provider>
     ), document.getElementById('login-root'));
   }

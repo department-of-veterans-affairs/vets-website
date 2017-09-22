@@ -158,6 +158,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     hideHeaderRow={page.hideHeaderRow}
                     hideTitle={expandedPages.length === 1}
                     pagePerItemIndex={page.index}
+                    onBlur={this.props.onBlur}
                     onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
                     onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
                     onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}

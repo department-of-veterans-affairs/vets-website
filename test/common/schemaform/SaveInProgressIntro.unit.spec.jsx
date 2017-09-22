@@ -13,7 +13,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   }];
   const fetchInProgressForm = () => {};
   const removeInProgressForm = () => {};
-  const toggleLoginModal = () => {};
+  const updateLogInUrl = () => {};
 
   it('should render in progress message', () => {
     const user = {
@@ -24,10 +24,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: true,
-        loginUrls: {
-          idme: '/mockLoginUrl'
-        }
+        currentlyLoggedIn: true
       }
     };
 
@@ -38,7 +35,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
@@ -67,7 +64,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
@@ -81,10 +78,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl'
-        }
+        currentlyLoggedIn: false
       }
     };
 
@@ -95,10 +89,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
-    expect(tree.subTree('.va-button-link')).not.to.be.false;
+    expect(tree.subTree('SignInLink')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
@@ -120,7 +114,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
@@ -148,7 +142,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
@@ -174,7 +168,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}/>
+        updateLogInUrl={updateLogInUrl}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
