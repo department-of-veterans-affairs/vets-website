@@ -15,6 +15,12 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits under the National Call to Service program"/>
         <p>Equal to VA Form 22-1990N (Application for VA Education Benefits Under the National Call to Service (NCS) Program).</p>
+        <SaveInProgressIntro
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
