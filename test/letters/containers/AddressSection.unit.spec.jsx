@@ -11,7 +11,7 @@ import { AddressSection } from '../../../src/js/letters/containers/AddressSectio
 const saveSpy = sinon.spy();
 
 const defaultProps = {
-  address: {
+  savedAddress: {
     addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',
@@ -24,14 +24,33 @@ const defaultProps = {
 
 describe('<AddressSection>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<AddressSection { ...defaultProps }/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
+  it('should display an address if one is provided in props', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection { ...defaultProps }/>);
+    const addressContent = tree.dive(['AddressContent']);
+    expect(addressContent).to.exist;
+  });
+
+  it('should display an error message if address is empty', () => {
+    const newProps = { ...defaultProps, savedAddress: {} };
+    const tree = SkinDeep.shallowRender(<AddressSection { ...newProps }/>);
+    const invalidAddress = tree.dive(['InvalidAddress']);
+    expect(invalidAddress).to.exist;
+    
+  });
+
+  // TO-DO:
+  //  1. Move following tests into new testfile for new component
+  //  2. Test other new components
+  //  3. Test new functionality of AddressSection (ie. conditional rendering);
+
   it('should format 1 address line', () => {
     const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
+    expect(tree.subTree('.address-block').text()).to.be.false;
   });
 
   it('should format address 2 address lines', () => {
