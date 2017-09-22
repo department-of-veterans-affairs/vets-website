@@ -1,3 +1,5 @@
+import Raven from 'raven-js';
+
 import _ from 'lodash/fp';
 import {
   benefitOptionsMap,
@@ -131,20 +133,39 @@ function letters(state = initialState, action) {
       return _.set('address', action.address, newState);
     }
     // Add SAVE_ADDRESS_FAILURE
-    case GET_ADDRESS_COUNTRIES_SUCCESS:
+    case GET_ADDRESS_COUNTRIES_SUCCESS: {
+      let countriesAvailable = true;
+      const countryList = action.countries.data.attributes.countries;
+
+      // Log error if the countries response is not what we expect
+      if (!_.isArray(countryList) || countryList.length === 0) {
+        Raven.captureMessage(`vets_letters_unexpected_country_response: ${countryList}`);
+        countriesAvailable = false;
+      }
+
       return {
         ...state,
-        countries: action.countries.data.attributes.countries,
-        countriesAvailable: true
+        countries: countryList,
+        countriesAvailable
       };
+    }
     case GET_ADDRESS_COUNTRIES_FAILURE:
       return _.set('countriesAvailable', false, state);
-    case GET_ADDRESS_STATES_SUCCESS:
+    case GET_ADDRESS_STATES_SUCCESS: {
+      let statesAvailable = true;
+      const stateList = action.states.data.attributes.states;
+
+      // Log error if the states response is not what we expect
+      if (!_.isArray(stateList) || stateList.length === 0) {
+        Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
+        statesAvailable = false;
+      }
       return {
         ...state,
-        states: action.states.data.attributes.states,
-        statesAvailable: true
+        states: stateList,
+        statesAvailable
       };
+    }
     case GET_ADDRESS_STATES_FAILURE:
       return _.set('statesAvailable', false, state);
     default:
