@@ -22,14 +22,11 @@ class GlossaryModal extends React.Component {
         <div>
           <GlossaryList terms={this.props.content}/>
           <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
-          <div className="va-modal-button-group cf">
-            <button type="button" onClick={this.handleCloseModal}>Close</button>
-            <Link
-              to="/glossary"
-              onClick={this.props.onCloseModal}>
-              See all status definitions
-            </Link>
-          </div>
+          <Link
+            to="/glossary"
+            onClick={this.props.onCloseModal}>
+            See all status definitions
+          </Link>
         </div>
       );
     } else {

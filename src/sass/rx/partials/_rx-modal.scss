@@ -12,8 +12,14 @@
   }
 
   .modalTitle {
+
+    border: 1px solid red;
     display: inline-block;
-    &dl {
+    padding-bottom: 0;
+
+    dl {
+      padding: 0;
+      margin: 0;
       display: inline-block;
     }
   }
