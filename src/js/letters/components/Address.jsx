@@ -3,8 +3,9 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
+import { STATE_CODE_TO_NAME } from '../utils/constants';
+import { militaryStateNames } from '../utils/helpers';
 import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
-import { countries, states } from '../../common/utils/options-for-select';
 
 /**
  * Input component for an address.
@@ -47,6 +48,39 @@ class Address extends React.Component {
     return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
 
+  adjustStateNames(stateList, militaryStates, city) {
+    // Reformat the state name data so that it can be
+    // accepted by ErrorableSelect,
+    // e.g., from this: `IL: 'Illinois'`
+    // to this: `{ value: 'Illinois', label: 'IL' }`
+    let states = [];
+    // If the city is a military city, just add the military states to the list
+    if (this.props.address[city] && this.isMilitaryCity(this.props.address[city])) {
+      states = militaryStates;
+    } else {
+      // Add states to list in the correct format
+      _.mapKeys(stateList, (value, key) => {
+        states.push({ label: value, value: key });
+      });
+      // Add military states to full state list
+      militaryStates.forEach((militaryState) => {
+        states.push(militaryState);
+      });
+      // Alphabetize the list
+      states.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
+    return states;
+  }
+
   render() {
     const addressType = this.props.address.type;
 
@@ -78,19 +112,15 @@ class Address extends React.Component {
       selectedCountry = this.props.address.country;
     }
 
-    let stateList = [];
-    if (states[selectedCountry]) {
-      stateList = states[selectedCountry];
-      if (this.props.address.city && this.isMilitaryCity(this.props.address.city)) {
-        stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
-      }
-    }
-    const stateProvince = _.hasIn(states, selectedCountry)
+
+    const adjustedStateNames = this.adjustStateNames(STATE_CODE_TO_NAME, militaryStateNames, cityField);
+
+    const stateProvince = selectedCountry === 'USA'
       ? (<ErrorableSelect errorMessage={this.isValidAddressField(this.props.address[stateField]) ? undefined : 'Please enter a valid state/province'}
         label="State"
         name="state"
         autocomplete="address-level1"
-        options={stateList}
+        options={adjustedStateNames}
         value={this.props.address[stateField]}
         required={this.props.required}
         onValueChange={(update) => {this.props.onInput(stateField, update);}}/>)
@@ -107,7 +137,7 @@ class Address extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={countries}
+          options={this.props.countries}
           value={selectedCountry}
           required={this.props.required}
           onValueChange={(update) => {this.props.onInput('country', update);}}/>

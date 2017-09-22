@@ -18,7 +18,11 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
-  LETTER_TYPES
+  LETTER_TYPES,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -219,6 +223,34 @@ export function saveAddress(address) {
       () => dispatch(saveAddressSuccess(address)),
       // Currently we treat all error codes the same but this may change
       () => dispatch(saveAddressFailure()),
+    );
+  };
+}
+
+export function getAddressCountries() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/countries',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
+        countries: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+    );
+  };
+}
+
+export function getAddressStates() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/states',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_STATES_SUCCESS,
+        states: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
     );
   };
 }

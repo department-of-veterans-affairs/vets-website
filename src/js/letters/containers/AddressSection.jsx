@@ -8,6 +8,8 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
+  invalidAddressProperty,
+  addressUpdateUnavailable
 } from '../utils/helpers.jsx';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
@@ -41,15 +43,20 @@ export class AddressSection extends React.Component {
       // reset state code when user changes address country but don't add or
       // modify state property otherwise
       return (path === 'country'
-        ? { editableAddress: {
-          ...editableAddress,
-          [path]: update,
-          state: '',
-        } }
-        : { editableAddress: {
-          ...editableAddress,
-          [path]: update,
-        } }
+        ? {
+          editableAddress: {
+            ...editableAddress,
+            [path]: update,
+            state: '',
+            militaryStateCode: '',
+          },
+        }
+        : {
+          editableAddress: {
+            ...editableAddress,
+            [path]: update,
+          },
+        }
       );
     });
   }
@@ -90,7 +97,9 @@ export class AddressSection extends React.Component {
           <Address
             onInput={this.handleChange}
             address={this.state.editableAddress}
-            required/>
+            countries={this.props.countries}
+            states={this.props.states}
+            required />
           <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
@@ -108,29 +117,43 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return (
-      <div>
-        { isEmpty(address)
-          ? <InvalidAddress/>
-          : <AddressContent
-            saveError={this.props.saveAddressError}
-            name={(this.props.recipientName || '').toLowerCase()}
-            addressObject={addressContentLines}>
-            {addressFields}
-          </AddressContent>
-        }
-      </div>
-    );
+    let addressContent;
+    // If countries and states are not available when they try to update their address,
+    // they will see this warning message instead of the address fields.
+    if (isEmpty(address)) {
+      addressContent = <InvalidAddress/>;
+    } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+      addressContent = (
+        <div className="step-content">
+          {addressUpdateUnavailable}
+        </div>
+      );
+    } else {
+      addressContent = (
+        <AddressContent
+          saveError={this.props.saveAddressError}
+          name={(this.props.recipientName || '').toLowerCase()}
+          addressObject={addressContentLines}>
+          {addressFields}
+        </AddressContent>
+      );
+    }
+
+    return (addressContent);
   }
 }
 
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate, saveAddressError } = state.letters;
+  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable, saveAddressError } = state.letters;
   return {
     recipientName: fullName,
     canUpdate,
     savedAddress: address,
     saveAddressError,
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable
   };
 }
 
