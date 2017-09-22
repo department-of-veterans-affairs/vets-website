@@ -5,15 +5,15 @@ import { createHistory } from 'history';
 import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import initReact from '../common/init-react';
-import routes from './1995-routes';
-import form1995Reducer from './1995/reducer';
-import createLoginWidget from '../login/login-entry';
-import createCommonStore from '../common/store';
+import initReact from '../../common/init-react';
+import routes from './routes';
+import reducer from './reducer';
+import createLoginWidget from '../../login/login-entry';
+import createCommonStore from '../../common/store';
 
-require('../../sass/edu-benefits.scss');
+require('../../../sass/edu-benefits.scss');
 
-const store = createCommonStore(form1995Reducer);
+const store = createCommonStore(reducer);
 
 createLoginWidget(store);
 
