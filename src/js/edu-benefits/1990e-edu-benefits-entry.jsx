@@ -6,16 +6,15 @@ import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
-import createRoutes from './1990e-routes';
+import routes from './1995-routes';
+import form1995Reducer from './1995/reducer';
 import createLoginWidget from '../login/login-entry';
 import createCommonStore from '../common/store';
 
 require('../../sass/edu-benefits.scss');
 
-const emptyState = {};
-const reducer = () => emptyState;
+const store = createCommonStore(form1995Reducer);
 
-const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const browserHistory = useRouterHistory(createHistory)({
@@ -26,7 +25,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
-        {createRoutes(store)}
+        {routes}
       </Router>
     </Provider>
   ), document.getElementById('react-root'));

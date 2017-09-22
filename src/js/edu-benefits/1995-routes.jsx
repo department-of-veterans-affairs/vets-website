@@ -1,18 +1,14 @@
-import Form1995App from './1995/Form1995App';
-import routes from './1995/routes';
+import { createRoutes as createFormRoutes } from '../common/schemaform/helpers';
+import Edu1995App from './1995/Form1995App';
+import formConfig from './1995/config/form';
 
-export default function createRoutes() {
-  const childRoutes = routes;
-
-  childRoutes.push({
-    path: '*',
-    onEnter: (nextState, replace) => replace('/')
-  });
-
-  return {
+const routes = [
+  {
     path: '/',
+    component: Edu1995App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-    component: Form1995App,
-    childRoutes
-  };
-}
+    childRoutes: createFormRoutes(formConfig)
+  }
+];
+
+export default routes;

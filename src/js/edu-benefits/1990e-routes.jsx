@@ -1,41 +1,14 @@
-import _ from 'lodash/fp';
-import { combineReducers } from 'redux';
-import asyncLoader from '../common/components/asyncLoader';
-import { commonReducer } from '../common/store';
+import { createRoutes as createFormRoutes } from '../common/schemaform/helpers';
+import Edu1995App from './1995/Form1995App';
+import formConfig from './1995/config/form';
 
-function createCommonReducer(reducer) {
-  return combineReducers(_.assign(reducer, commonReducer));
-}
-
-export default function createRoutes(store) {
-  const childRoutes = [
-    {
-      path: '1990e',
-      indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
-      component: asyncLoader(() => {
-        return new Promise((resolve) => {
-          require.ensure([], (require) => {
-            store.replaceReducer(createCommonReducer(require('./1990e/reducer').default));
-            resolve(require('./1990e/Form1990eApp').default);
-          }, 'edu-1990e');
-        });
-      }, 'Loading Form 22-1990E'),
-      getChildRoutes(partialNextState, callback) {
-        require.ensure([], (require) => {
-          callback(null, require('./1990e/routes').default);
-        }, 'edu-1990e');
-      },
-    },
-  ];
-
-  childRoutes.push({
-    path: '*',
-    onEnter: (nextState, replace) => replace('/')
-  });
-
-  return {
+const routes = [
+  {
     path: '/',
-    indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
-    childRoutes
-  };
-}
+    component: Edu1995App,
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+    childRoutes: createFormRoutes(formConfig)
+  }
+];
+
+export default routes;

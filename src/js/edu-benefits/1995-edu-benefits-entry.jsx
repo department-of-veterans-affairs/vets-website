@@ -6,7 +6,7 @@ import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
-import createRoutes from './1995-routes';
+import routes from './1995-routes';
 import form1995Reducer from './1995/reducer';
 import createLoginWidget from '../login/login-entry';
 import createCommonStore from '../common/store';
@@ -25,7 +25,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
-        {createRoutes()}
+        {routes}
       </Router>
     </Provider>
   ), document.getElementById('react-root'));
