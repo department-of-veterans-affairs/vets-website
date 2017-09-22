@@ -88,7 +88,7 @@ describe('<AddressSection>', () => {
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
-    const cannotEditProps = { ...defaultProps, canUpdateAddress: false };
+    const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
     expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
   });
