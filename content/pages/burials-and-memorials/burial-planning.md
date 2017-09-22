@@ -24,13 +24,13 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 <br>
 
-### How do I plan a burial for a family member who's just died?
+### How do I plan a burial for a family member who has just died?
 
 <br>
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
 
-To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">800-535-1117</a> to request a burial.
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). 
 
@@ -38,7 +38,7 @@ You don’t need to do anything else except prepare yourself and your family for
 
 #### If you don't have a pre-need decision letter:
 
-To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 3 steps to apply for a burial.
 
 <ol class="process">
 <li class="process-step list-one">
