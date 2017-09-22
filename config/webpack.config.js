@@ -17,7 +17,12 @@ const timestamp = new Date().getTime();
 const entryFiles = {
   burials: './src/js/burials/burials-entry.jsx',
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+  '1990-edu-benefits': './src/js/edu-benefits/1990-edu-benefits-entry.jsx',
+  '1990e-edu-benefits': './src/js/edu-benefits/1990e-edu-benefits-entry.jsx',
+  '1990n-edu-benefits': './src/js/edu-benefits/1990n-edu-benefits-entry.jsx',
+  '1995-edu-benefits': './src/js/edu-benefits/1995-edu-benefits-entry.jsx',
+  '5490-edu-benefits': './src/js/edu-benefits/5490-edu-benefits-entry.jsx',
+  '5495-edu-benefits': './src/js/edu-benefits/5495-edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',

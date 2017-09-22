@@ -6,7 +6,7 @@ import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
-import createRoutes from './routes';
+import createRoutes from './5490-routes';
 import createLoginWidget from '../login/login-entry';
 import createCommonStore from '../common/store';
 
