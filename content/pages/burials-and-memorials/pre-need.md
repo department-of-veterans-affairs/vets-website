@@ -120,7 +120,7 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 <dl class="va-address-block">
 <dd>National Cemetery Scheduling Office</dd>
-<dd>PO Box 510543</dd>
+<dd>P.O. Box 510543</dd>
 <dd>St. Louis, MO 63151</dd>
 </dl>
 
