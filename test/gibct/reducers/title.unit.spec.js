@@ -4,7 +4,10 @@ import titleReducer from '../../../src/js/gi/reducers/title.js';
 
 describe('title reducer', () => {
   it('should set the page title', () => {
-    window.document = {};
+    const oldWindow = global.window;
+    global.window = {
+      document: {}
+    };
 
     const state = titleReducer(
       'initialTitle',
@@ -15,5 +18,6 @@ describe('title reducer', () => {
     );
 
     expect(state).to.eql('newTitle');
+    global.window = oldWindow;
   });
 });

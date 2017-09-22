@@ -220,7 +220,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
@@ -537,7 +537,7 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             'view:workedBeforeDisabled': {
-              'ui:title': 'Have you been employed, including self employed, from one year before you became disabled to the present?',
+              'ui:title': 'Have you had a job (including being self-employed) from 1 year before you became disabled to now?',
               'ui:widget': 'yesNo'
             },
             'view:history': {
@@ -770,7 +770,7 @@ const formConfig = {
                 expandUnder: 'spouseIsVeteran'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             liveWithSpouse: {
