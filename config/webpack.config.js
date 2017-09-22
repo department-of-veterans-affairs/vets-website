@@ -16,7 +16,7 @@ const timestamp = new Date().getTime();
 
 const entryFiles = {
   burials: './src/js/burials/burials-entry.jsx',
-  'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
+  'claims-status': './src/js/claims-status/claims-status-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
