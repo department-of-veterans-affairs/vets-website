@@ -22,6 +22,17 @@ body.va-pos-fixed {
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
   z-index: 1011; 
 
+  &.vetnav--submenu-expanded {
+    #vetnav-menu {
+      overflow: hidden;
+      height: 0;
+      @include media($medium-large-screen) {
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+
   @include media($medium-large-screen) {
     margin-top: 1rem;
     overflow-y: visible;
@@ -34,13 +45,6 @@ body.va-pos-fixed {
   .va-wip-message {
     padding: 0 1.6rem;
     white-space: normal;
-  }
-
-  &.vetnav--submenu-expanded {
-    #vetnav-menu {
-      overflow: hidden;
-      height: 0;
-    }
   }
 }
 
