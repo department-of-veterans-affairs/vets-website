@@ -48,7 +48,7 @@ class SaveFormLink extends React.Component {
       data
     } = this.props.form;
     const returnUrl = this.props.locationPathname;
-    this.props.saveAndRedirectToReturnUrl(formId, version, returnUrl, data);
+    this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
   }
 
   saveFormAfterLogin = () => {

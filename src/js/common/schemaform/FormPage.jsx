@@ -178,7 +178,8 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && isLoggedIn && <SaveStatus
+          {!form.disableSave && <SaveStatus
+            isLoggedIn={isLoggedIn}
             form={form}>
           </SaveStatus>}
           {!form.disableSave && <SaveFormLink
