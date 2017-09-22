@@ -109,7 +109,7 @@ class Signin extends React.Component {
                   <strong>A secure account powered by ID.me</strong><br/>
                   ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information.
                 </p>
-                <p><a href="#">Learn more about ID.me</a></p>
+                <p><a href="/faq#what-is-idme">Learn more about ID.me</a></p>
               </div>
             </div>
           </div>
