@@ -115,8 +115,9 @@ export class AddressSection extends React.Component {
           : <AddressContent
             saveError={this.props.saveAddressError}
             name={(this.props.recipientName || '').toLowerCase()}
-            fields={addressFields}
-            addressObject={addressContentLines}/>
+            addressObject={addressContentLines}>
+            {addressFields}  
+          </AddressContent>
         }
       </div>
     );

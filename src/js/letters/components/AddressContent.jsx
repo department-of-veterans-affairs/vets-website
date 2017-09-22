@@ -7,12 +7,14 @@ const AddressContent = (props) => {
     <div className="step-content">
       <p>Downloaded documents will list your address as:</p>
       {props.saveError
-        ? <UpdateFailureAlert
-          addressObject={props.addressObject}/>
-        : <AddressBlock name={props.name} fields={props.fields}/>
+        ? <UpdateFailureAlert addressObject={props.addressObject}/>
+        : <AddressBlock name={props.name}>
+            {props.children}
+          </AddressBlock>
       }
     </div>
   );
 };
 
 export default AddressContent;
+
