@@ -71,7 +71,7 @@ class MegaMenu {
 
     event.stopPropagation();
     target.setAttribute('aria-expanded', false);
-    dropdown.setAttribute('hidden','hidden');
+    dropdown.setAttribute('hidden', 'hidden');
     
     this.menu.classList.remove('vetnav--submenu-expanded');
   }
