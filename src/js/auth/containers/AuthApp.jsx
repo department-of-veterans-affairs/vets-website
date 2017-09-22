@@ -36,6 +36,7 @@ class AuthApp extends React.Component {
     if (isIE || isEdge) {
       window.opener.location.reload();
     }
+
     window.close();
   }
 

@@ -19,6 +19,7 @@ class SearchHelpSignIn extends React.Component {
 
   handleSigninSignup = (e) => {
     e.preventDefault();
+    window.dataLayer.push({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
   }
 
