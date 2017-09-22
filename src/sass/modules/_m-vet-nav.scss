@@ -46,13 +46,6 @@ body.va-pos-fixed {
     padding: 0 1.6rem;
     white-space: normal;
   }
-
-  &.vetnav--submenu-expanded {
-    #vetnav-menu {
-      overflow: hidden;
-      height: 0;
-    }
-  }
 }
 
 #vetnav-menu {
