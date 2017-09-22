@@ -10,6 +10,7 @@ class Signin extends React.Component {
 
   componentDidMount() {
     this.checkLoggedInStatus();
+    window.dataLayer.push({ event: 'login-modal-opened' });
   }
 
   componentWillReceiveProps(nextProps) {
