@@ -69,6 +69,10 @@ class SaveFormLink extends React.Component {
   render() {
     const { savedStatus } = this.props.form;
 
+    const saveLinkMessage = this.props.user.login.currentlyLoggedIn
+      ? 'Finish this application later'
+      : 'Save and finish this application later';
+
     // TODO: Remove LoginModal from here
     return (
       <div style={{ display: this.props.children ? 'inline' : null }}>
@@ -92,7 +96,7 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || 'Finish this application later'}</button>}
+          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>}
       </div>
     );
   }

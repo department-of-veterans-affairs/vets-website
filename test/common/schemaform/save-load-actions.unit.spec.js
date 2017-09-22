@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import {
   SET_SAVE_FORM_STATUS,
+  SET_AUTO_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
   SAVE_STATUSES,
@@ -11,12 +12,12 @@ import {
   setFetchFormStatus,
   setInProgressForm,
   migrateFormData,
-  saveInProgressForm,
+  saveAndRedirectToReturnUrl,
   fetchInProgressForm,
   removeInProgressForm,
   setPrefillComplete,
   setFetchFormPending,
-  setStartOver
+  setStartOver,
 } from '../../../src/js/common/schemaform/save-load-actions';
 
 import { logOut } from '../../../src/js/login/actions';
@@ -42,9 +43,16 @@ describe('Schemaform save / load actions:', () => {
   describe('setSaveFormStatus', () => {
     it('should return action', () => {
       const status = SAVE_STATUSES.success;
-      const action = setSaveFormStatus(SAVE_STATUSES.success);
+      const action = setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.success);
 
       expect(action.type).to.equal(SET_SAVE_FORM_STATUS);
+      expect(action.status).to.equal(status);
+    });
+    it('should return different action for auto saveType', () => {
+      const status = SAVE_STATUSES.success;
+      const action = setSaveFormStatus('auto', SAVE_STATUSES.success);
+
+      expect(action.type).to.equal(SET_AUTO_SAVE_FORM_STATUS);
       expect(action.status).to.equal(status);
     });
   });
@@ -104,33 +112,33 @@ describe('Schemaform save / load actions:', () => {
       });
     });
   });
-  describe('saveInProgressForm', () => {
+  describe('saveAndRedirectToReturnUrl', () => {
     beforeEach(setup);
     afterEach(teardown);
 
     it('dispatches a no-auth if the user has no session token', () => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
       delete sessionStorage.userToken;
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.false;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.noAuth))).to.be.true;
       });
     });
     it('dispatches a pending', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.pending))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
       });
     });
     it('calls the api to save the form', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
@@ -141,7 +149,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a success if the form is saved', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
         ok: true,
@@ -169,7 +177,7 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a no-auth if the api returns a 401', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.reset();
       global.fetch.returns(Promise.resolve(new Response(null, {
@@ -177,7 +185,7 @@ describe('Schemaform save / load actions:', () => {
       })));
 
       thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.noAuth))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.noAuth))).to.be.true;
         expect(dispatch.calledWith(logOut())).to.be.true;
         done();
       }).catch((err) => {
@@ -185,26 +193,26 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a failure on any other failure', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve(new Response(null, {
         status: 404
       })));
 
       thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.failure))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.failure))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
       });
     });
     it('dispatches a client failure when a network error occurs', (done) => {
-      const thunk = saveInProgressForm('1010ez', {});
+      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
       thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setSaveFormStatus(SAVE_STATUSES.clientFailure))).to.be.true;
+        expect(dispatch.calledWith(setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.clientFailure))).to.be.true;
         done();
       }).catch((err) => {
         done(err);
