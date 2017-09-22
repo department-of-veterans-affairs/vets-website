@@ -12,7 +12,7 @@ export default function SubmitButtons(props) {
     locationPathname,
     form,
     user,
-    saveInProgressForm,
+    saveAndRedirectToReturnUrl,
     onUpdateLoginUrl,
     sipEnabled,
   } = props;
@@ -22,7 +22,7 @@ export default function SubmitButtons(props) {
     locationPathname={locationPathname}
     form={form}
     user={user}
-    saveInProgressForm={saveInProgressForm}
+    saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
     onUpdateLoginUrl={onUpdateLoginUrl}>
     save your application
   </SaveFormLink>);

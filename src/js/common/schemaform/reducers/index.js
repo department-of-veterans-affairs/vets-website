@@ -21,6 +21,7 @@ import { SET_DATA,
 
 import {
   SET_SAVE_FORM_STATUS,
+  SET_AUTO_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_FETCH_FORM_PENDING,
   SET_IN_PROGRESS_FORM,
@@ -105,6 +106,7 @@ export default function createSchemaFormReducer(formConfig) {
         hasAttemptedSubmit: false
       },
       savedStatus: SAVE_STATUSES.notAttempted,
+      autoSavedStatus: SAVE_STATUSES.notAttempted,
       loadedStatus: LOAD_STATUSES.notAttempted,
       version: formConfig.version,
       formId: formConfig.formId,
@@ -159,7 +161,18 @@ export default function createSchemaFormReducer(formConfig) {
         newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
         // This is the only time we have a saved datetime
-        if (action.status === SAVE_STATUSES.success || action.status === SAVE_STATUSES.autoSuccess) {
+        if (action.status === SAVE_STATUSES.success) {
+          newState.lastSavedDate = action.lastSavedDate;
+          newState.expirationDate = action.expirationDate;
+        }
+
+        return newState;
+      }
+      case SET_AUTO_SAVE_FORM_STATUS: {
+        const newState = _.set('autoSavedStatus', action.status, state);
+
+        // This is the only time we have a saved datetime
+        if (action.status === SAVE_STATUSES.success) {
           newState.lastSavedDate = action.lastSavedDate;
           newState.expirationDate = action.expirationDate;
         }

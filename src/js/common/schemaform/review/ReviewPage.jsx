@@ -11,7 +11,7 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 import { updateLogInUrls } from '../../../login/actions';
-import { saveInProgressForm } from '../save-load-actions';
+import { saveAndRedirectToReturnUrl } from '../save-load-actions';
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
@@ -167,7 +167,7 @@ class ReviewPage extends React.Component {
           locationPathname={this.props.location.pathname}
           form={form}
           user={this.props.user}
-          saveInProgressForm={this.props.saveInProgressForm}
+          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           onUpdateLoginUrl={this.props.updateLogInUrls}
           sipEnabled={!formConfig.disableSave}/>
       </div>
@@ -189,7 +189,7 @@ const mapDispatchToProps = {
   setPrivacyAgreement,
   setData,
   uploadFile,
-  saveInProgressForm,
+  saveAndRedirectToReturnUrl,
   updateLogInUrls
 };
 

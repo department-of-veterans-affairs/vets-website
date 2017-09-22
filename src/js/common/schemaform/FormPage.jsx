@@ -12,7 +12,13 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { SAVE_STATUSES, PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import {
+  SAVE_STATUSES,
+  PREFILL_STATUSES,
+  saveErrors,
+  autoSaveForm,
+  saveAndRedirectToReturnUrl
+} from './save-load-actions';
 
 import { toggleLoginModal } from '../../login/actions';
 
@@ -112,7 +118,7 @@ class FormPage extends React.Component {
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
 
-      this.props.saveInProgressForm(formId, version, returnUrl, data, true);
+      this.props.autoSaveForm(formId, version, returnUrl, data);
     }
   }
 
@@ -179,7 +185,7 @@ class FormPage extends React.Component {
             locationPathname={this.props.location.pathname}
             form={form}
             user={this.props.user}
-            saveInProgressForm={this.props.saveInProgressForm}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
             toggleLoginModal={this.props.toggleLoginModal}/>}
         </SchemaForm>
       </div>
@@ -196,7 +202,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setData,
-  saveInProgressForm,
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
   toggleLoginModal,
   uploadFile
 };

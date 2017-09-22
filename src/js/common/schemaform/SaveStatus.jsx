@@ -15,10 +15,13 @@ class SaveStatus extends React.Component {
     } else {
       savedAtMessage = '';
     }
-    const isSaving = form.savedStatus === SAVE_STATUSES.autoPending;
+
+    const isSaving = form.autoSavedStatus === SAVE_STATUSES.pending;
+    const isSaved = form.autoSavedStatus === SAVE_STATUSES.success;
+
     return (
       <div>
-        {savedAt && !isSaving && <div className="panel saved-success-container">
+        {savedAt && isSaved && <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
         </div>}
         {isSaving && <p className="saving">Saving...</p>}

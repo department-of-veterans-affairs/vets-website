@@ -6,6 +6,7 @@ import { logOut } from '../../login/actions';
 import { removeFormApi, saveFormApi } from './sip-api';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
+export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
 export const SET_FETCH_FORM_STATUS = 'SET_FETCH_FORM_STATUS';
 export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
@@ -14,16 +15,19 @@ export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
-  autoPending: 'autoPending',
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
   clientFailure: 'clientFailure',
-  autoSuccess: 'autoSuccess',
   success: 'success'
 });
 
 export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
+
+const statusActionsByType = new Map([
+  ['auto', SET_AUTO_SAVE_FORM_STATUS],
+  ['saveAndRedirect', SET_SAVE_FORM_STATUS]
+]);
 
 export const LOAD_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -42,9 +46,9 @@ export const PREFILL_STATUSES = Object.freeze({
   unfilled: 'unfilled'
 });
 
-export function setSaveFormStatus(status, lastSavedDate = null, expirationDate = null) {
+export function setSaveFormStatus(saveType, status, lastSavedDate = null, expirationDate = null) {
   return {
-    type: SET_SAVE_FORM_STATUS,
+    type: statusActionsByType.get(saveType),
     status,
     lastSavedDate,
     expirationDate
@@ -131,114 +135,123 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * @param  {String}  returnUrl The last URL the user was at before saving
  * @param  {Object}  formData  The data the user has entered so far
  */
-export function saveInProgressForm(formId, version, returnUrl, formData, auto = false) {
+// export function saveInProgressForm(formId, version, returnUrl, formData, auto = false) {
+//   const savedAt = Date.now();
+//   // Double stringify because of api reasons. Olive Branch issues, methinks.
+//   // TODO: Stop double stringifying
+//   const body = JSON.stringify({
+//     metadata: JSON.stringify({
+//       version,
+//       returnUrl,
+//       savedAt
+//     }),
+//     formData: JSON.stringify(formData)
+//   });
+//   return (dispatch, getState) => {
+//     const trackingPrefix = getState().form.trackingPrefix;
+//     const userToken = sessionStorage.userToken;
+//     // If we don’t have a userToken, fail safely
+//     if (!userToken) {
+//       dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn’t get here, but...
+//       Raven.captureMessage('vets_sip_missing_token');
+//       window.dataLayer.push({
+//         event: `${trackingPrefix}sip-form-save-failed`
+//       });
+//       return Promise.resolve();
+//     }
+//
+//     // Update UI while we’re waiting for the API
+//     if (auto) {
+//       dispatch(setSaveFormStatus(SAVE_STATUSES.autoPending));
+//     } else {
+//       dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
+//     }
+//     // Query the api
+//     // (returning for testing purposes only)
+//     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+//       method: 'PUT',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'X-Key-Inflection': 'camel',
+//         Authorization: `Token token=${userToken}`
+//       },
+//       body
+//     }).then((res) => {
+//       if (res.ok) {
+//         return res.json();
+//       }
+//
+//       return Promise.reject(res);
+//     }).then((json) => {
+//       if (auto) {
+//         dispatch(setSaveFormStatus(SAVE_STATUSES.autoSuccess, savedAt, json.data.attributes.metadata.expiresAt));
+//       } else {
+//         dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
+//       }
+//       window.dataLayer.push({
+//         event: `${trackingPrefix}sip-form-saved`
+//       });
+//       return Promise.resolve();
+//     })
+//       .catch((resOrError) => {
+//         if (resOrError instanceof Response) {
+//           if (resOrError.status === 401) {
+//           // This likely means their session expired, so mark them as logged out
+//             dispatch(logOut());
+//             dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+//             window.dataLayer.push({
+//               event: `${trackingPrefix}sip-form-save-signed-out`
+//             });
+//           } else {
+//             dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+//             Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
+//             window.dataLayer.push({
+//               event: `${trackingPrefix}sip-form-save-failed`
+//             });
+//           }
+//         } else {
+//           dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
+//           Raven.captureException(resOrError);
+//           Raven.captureMessage('vets_sip_error_save');
+//           window.dataLayer.push({
+//             event: `${trackingPrefix}sip-form-save-failed-client`
+//           });
+//         }
+//       });
+//   };
+// }
+
+function saveForm(saveType, formId, version, returnUrl, formData) {
   const savedAt = Date.now();
-  // Double stringify because of api reasons. Olive Branch issues, methinks.
-  // TODO: Stop double stringifying
-  const body = JSON.stringify({
-    metadata: JSON.stringify({
-      version,
-      returnUrl,
-      savedAt
-    }),
-    formData: JSON.stringify(formData)
-  });
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
-    const userToken = sessionStorage.userToken;
-    // If we don’t have a userToken, fail safely
-    if (!userToken) {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth)); // Shouldn’t get here, but...
-      Raven.captureMessage('vets_sip_missing_token');
-      window.dataLayer.push({
-        event: `${trackingPrefix}sip-form-save-failed`
-      });
-      return Promise.resolve();
-    }
-
-    // Update UI while we’re waiting for the API
-    if (auto) {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.autoPending));
-    } else {
-      dispatch(setSaveFormStatus(SAVE_STATUSES.pending));
-    }
-    // Query the api
-    // (returning for testing purposes only)
-    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${userToken}`
-      },
-      body
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).then((json) => {
-      if (auto) {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.autoSuccess, savedAt, json.data.attributes.metadata.expiresAt));
-      } else {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
-      }
-      window.dataLayer.push({
-        event: `${trackingPrefix}sip-form-saved`
-      });
-      return Promise.resolve();
-    })
-      .catch((resOrError) => {
-        if (resOrError instanceof Response) {
-          if (resOrError.status === 401) {
-          // This likely means their session expired, so mark them as logged out
-            dispatch(logOut());
-            dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
-            window.dataLayer.push({
-              event: `${trackingPrefix}sip-form-save-signed-out`
-            });
-          } else {
-            dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
-            Raven.captureException(new Error(`vets_sip_error_server: ${resOrError.statusText}`));
-            window.dataLayer.push({
-              event: `${trackingPrefix}sip-form-save-failed`
-            });
-          }
-        } else {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
-          Raven.captureException(resOrError);
-          Raven.captureMessage('vets_sip_error_save');
-          window.dataLayer.push({
-            event: `${trackingPrefix}sip-form-save-failed-client`
-          });
-        }
-      });
-  };
-}
-
-export function autoSaveForm(formId, version, returnUrl, formData) {
-  const savedAt = Date.now();
-  return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
     return saveFormApi(formId, version, returnUrl, formData, savedAt, trackingPrefix)
       .then(json => {
-        dispatch(setSaveFormStatus(SAVE_STATUSES.autoSuccess, savedAt, json.data.attributes.metadata.expiresAt));
+        dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.success, savedAt, json.data.attributes.metadata.expiresAt));
         return Promise.resolve(json);
       })
       .catch(resOrError => {
         if (resOrError.status === 401) {
           dispatch(logOut());
-          dispatch(setSaveFormStatus(SAVE_STATUSES.noAuth));
+          dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.noAuth));
         } else if (resOrError instanceof Response) {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.failure));
+          dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.failure));
         } else if (resOrError.message === 'Missing token') {
-          dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+          dispatch(setSaveFormStatus(saveType, LOAD_STATUSES.noAuth));
         } else {
-          dispatch(setSaveFormStatus(SAVE_STATUSES.clientFailure));
+          dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.clientFailure));
         }
       });
   };
+}
+
+export function autoSaveForm(...args) {
+  return saveForm('auto', ...args);
+}
+
+export function saveAndRedirectToReturnUrl(...args) {
+  return saveForm('saveAndRedirect', ...args);
 }
 
 /**
