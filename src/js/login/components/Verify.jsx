@@ -14,40 +14,32 @@ class Verify extends React.Component {
     window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.checkAccountAccess(nextProps.profile.accountType);
-  }
-
-  // TODO: fix this to depend on list of services
-  checkAccountAccess(accountType) {
-    if (accountType > 1) {
-      const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next');
-
-      if (nextPath) {
-        window.location.replace(nextPath || '/');
-      } else {
-        window.location.replace('/');
-      }
-    }
-  }
-
   handleVerify() {
     handleVerify(this.props.verifyUrl);
+  }
+
+  renderAlternateVerificationMethods() {
+    if (!this.props.profile.authnContext) {
+      return (
+        <div>
+          <span className="sidelines">OR</span>
+
+          <h4>Already using other VA online services?</h4>
+          <p>If you have a <strong>premium account</strong> with DS Logon, you can use it to verify your identity automatically:</p>
+
+          <button className="dslogon" onClick={this.handleVerify}>
+            <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
+          </button>
+          <span>(Used for eBenefits and milConnect)</span>
+        </div>
+      );
+    }
+    return null;
   }
 
   render() {
     return (
       <main className="verify">
-        <div className="row">
-          <div className="columns">
-            <div className="logo">
-              <a href="/">
-                <img alt="vets.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
-              </a>
-            </div>
-          </div>
-        </div>
         <div className="container">
           <div className="row">
             <div className="columns small-12">
@@ -64,15 +56,7 @@ class Verify extends React.Component {
               <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
                 <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
               </button>
-              <span className="sidelines">OR</span>
-
-              <h4>Already using other VA online services?</h4>
-              <p>If you have a <strong>premium account</strong> with My HealtheVet or DS Logon, you can use it to verify your identity automatically:</p>
-
-              <button className="dslogon" onClick={this.handleVerify}>
-                <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
-              </button>
-              <span>(Used for eBenefits and milConnect)</span>
+              {this.renderAlternateVerificationMethods()}
             </div>
           </div>
           <div className="row">
