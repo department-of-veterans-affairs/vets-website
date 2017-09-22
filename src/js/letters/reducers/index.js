@@ -65,12 +65,15 @@ function letters(state = initialState, action) {
       return _.set('lettersAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case LETTER_ELIGIBILITY_ERROR:
       return _.set('lettersAvailability', AVAILABILITY_STATUSES.letterEligibilityError, state);
-    case GET_ADDRESS_SUCCESS:
+    case GET_ADDRESS_SUCCESS: {
+      const { attributes } = action.data.data;
       return {
         ...state,
-        address: action.data.data.attributes.address,
+        address: attributes.address,
+        canUpdateAddress: attributes.controlInformation.canUpdateAddress,
         addressAvailable: true
       };
+    }
     case GET_ADDRESS_FAILURE:
       return _.set('addressAvailable', false, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {

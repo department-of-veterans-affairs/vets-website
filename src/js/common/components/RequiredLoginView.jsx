@@ -32,7 +32,7 @@ class RequiredLoginView extends React.Component {
     }
 
     const nextQuery = { next: window.location.pathname };
-    const signInUrl = appendQuery('/signin', nextQuery);
+    const signInUrl = appendQuery('/', nextQuery);
     const verifyUrl = appendQuery('/verify', nextQuery);
 
     if (this.props.authRequired === 1) {

@@ -63,7 +63,7 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    z-index: 10;
+    z-index: 2000;
 
     h1 {
       margin-top: 1em;
@@ -84,5 +84,21 @@
     @media print {
       padding: 0;
     }
+  }
+}
+
+#noChapter33Benefits {
+  h2 {
+    margin-top: 2em;
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-color: $color-primary;
+  }
+
+  .gi-phone-nowrap {
+    white-space: nowrap;
   }
 }

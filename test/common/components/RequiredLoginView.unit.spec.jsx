@@ -164,7 +164,7 @@ describe('<RequiredLoginView>', () => {
   describe('not logged in', () => {
     it('should prompt for login', () => {
       setup({ userProfile: anonymousUser });
-      expect(redirectFunc.calledWith(sinon.match(/signin/))).to.be.true;
+      expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
     });
     it('should display children when no LOA required', () => {
       const { tree } = setup({ userProfile: anonymousUser, authRequired: null });

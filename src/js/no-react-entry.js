@@ -1,5 +1,6 @@
 import createCommonStore from './common/store';
 import createLoginWidget from './login/login-entry';
+import createPensionApplicationStatus from './pensions/createApplicationStatus';
 
 const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
 
@@ -22,4 +23,7 @@ if (wizardPages.has(location.pathname)) {
   require('./edu-benefits/education-wizard.js');
 }
 
-createLoginWidget(createCommonStore());
+const store = createCommonStore();
+
+createLoginWidget(store);
+createPensionApplicationStatus(store);

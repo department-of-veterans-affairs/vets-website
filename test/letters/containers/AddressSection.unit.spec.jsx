@@ -18,7 +18,8 @@ const defaultProps = {
     state: 'VA',
     zipCode: '12345'
   },
-  saveAddress: saveSpy
+  canUpdateAddress: true,
+  saveAddress: saveSpy,
 };
 
 describe('<AddressSection>', () => {
@@ -48,6 +49,18 @@ describe('<AddressSection>', () => {
     });
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12 west');
+  });
+
+  it('should not render an edit button if user not allowed to edit address', () => {
+    const cannotEditProps = { ...defaultProps, canUpdateAddress: false };
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
+    expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
+  });
+
+  it('should render an edit button if user is allowed to edit address', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const editButton = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
+    expect(editButton).to.not.be.empty;
   });
 
   it('should expand address fields when Edit button is clicked', () => {
