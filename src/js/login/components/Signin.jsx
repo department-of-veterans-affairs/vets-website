@@ -126,13 +126,13 @@ class Signin extends React.Component {
               <hr/>
               <div className="fed-warning">
                 <p>
-                  By entering authentication information, you are attempting to access a United States Federal Government information system. This system is for the use of authorized users only.
+                  <strong>Please note:</strong> When you sign in to Vets.gov, you're accessing a United States Federal Government information system.
                 </p>
                 <p>
-                  System usage may be monitored, recorded, and subject to audit. By accessing this system, you are consenting to have your activities monitored, recorded, and made available to auditors or law enforcement officials.
+                  By signing in, you're agreeing to access only information you have the legal authority to view and use. You're also agreeing to allow us to monitor and record your activity on the system—and to share this information with auditors or law enforcement officials as needed.
                 </p>
                 <p>
-                  Unauthorized use of this information system or use in excess of your approved authority is prohibited, and may be subject to disciplinary action including criminal or civil penalties.
+                  By signing in, you're also confirming that you understand unauthorized use of this system (like gaining unauthorized access to data, changing data, causing harm to the system or its data, or misusing the system) is prohibited and may result in criminal, civil, or administrative penalties. We can suspend or stop your use of this system if we suspect any unauthorized use.
                 </p>
               </div>
             </div>
