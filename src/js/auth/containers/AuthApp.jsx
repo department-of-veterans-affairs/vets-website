@@ -51,8 +51,12 @@ class AuthApp extends React.Component {
       return response.json();
     }).then(json => {
       const userData = json.data.attributes.profile;
+
+      const loginMethod = userData.authnContext || 'idme';
+      window.dataLayer.push({ event: `login-success-${loginMethod}` });
+
       if (userData.loa.highest === 3) {
-        if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext !== null) {
+        if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext) {
           this.setMyToken(myToken);
         } else {
           sessionStorage.setItem('mfa_start', true);
