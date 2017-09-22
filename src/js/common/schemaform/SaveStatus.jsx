@@ -27,7 +27,7 @@ class SaveStatus extends React.Component {
         className="va-button-link"
         isLoggedIn={isLoggedIn}
         loginUrl={loginUrl}
-        onUpdateLoginUrl={onUpdateLogInUrl}>sign in</SignInLink>
+        onUpdateLoginUrl={onUpdateLogInUrl}>Sign in to save your form in progress</SignInLink>
     );
 
     return (
@@ -39,11 +39,11 @@ class SaveStatus extends React.Component {
         {hasError &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.clientFailure &&
-              'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet, so we can save your application as you fill it out.'}
+              'We’re sorry. We’re unable to connect to Vets.gov. Please check that you’re connected to the Internet, so we can save your form in progress.'}
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the form, but it will not be automatically saved as you fill it out.'}
             {!isLoggedIn && savedStatus === SAVE_STATUSES.noAuth &&
-              <span>Sorry, you’re no longer signed in. Please {signInLink} again so that we can save your application as you fill it out.</span>}
+              <span>Sorry, you’re no longer signed in. {signInLink}.</span>}
           </div>}
       </div>
     );
