@@ -64,6 +64,8 @@ class Address extends React.Component {
       selectedCountry = this.props.value.country;
     }
 
+    const isUSA = selectedCountry === 'USA';
+
     let stateList = [];
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
@@ -129,14 +131,16 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => this.props.onUserInput(cityField, update)}/>
         {stateProvince}
-        <ErrorableTextInput errorMessage={errorMessages.zipCode}
+        {/* Hide the zip code for addresseses that aren't in the US */}
+        {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
           additionalClass="usa-input-medium"
-          label={selectedCountry === 'USA' ? 'Zip code' : 'Postal code'}
+          label={'Zip code'}
           name="postalCode"
           autocomplete="postal-code"
           value={this.props.value.zipCode}
-          required={selectedCountry === 'USA' ? this.props.required : false}
+          required={this.props.required}
           onValueChange={(update) => this.props.onUserInput('zipCode', update)}/>
+        }
       </div>
     );
   }
