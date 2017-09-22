@@ -8,7 +8,6 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
-  invalidAddressProperty,
   addressUpdateUnavailable
 } from '../utils/helpers.jsx';
 import { saveAddress } from '../actions/letters';
@@ -99,7 +98,7 @@ export class AddressSection extends React.Component {
             address={this.state.editableAddress}
             countries={this.props.countries}
             states={this.props.states}
-            required />
+            required/>
           <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
           <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
         </div>
