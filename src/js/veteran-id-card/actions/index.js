@@ -8,7 +8,7 @@ export function initiateIdRequest() {
   return dispatch => {
     dispatch({ type: ATTRS_FETCHING });
 
-    apiRequest('/id_card_attributes',
+    apiRequest('/id_card/request_url',
       {},
       (response) => dispatch({
         type: ATTRS_SUCCESS,
