@@ -42,7 +42,7 @@ describe('<AddressSection>', () => {
   });
 
   it('should format 1 address line', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps} />);
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
     const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
     const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
     // NOTE: have to pass in uncapitalized addresses to assert against because shallowRender apparently strips caps...
@@ -58,7 +58,7 @@ describe('<AddressSection>', () => {
       }
     };
 
-    const tree = SkinDeep.shallowRender(<AddressSection {...props} />);
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
     const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
 
@@ -75,7 +75,7 @@ describe('<AddressSection>', () => {
       }
     };
 
-    const tree = SkinDeep.shallowRender(<AddressSection {...props} />);
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
     const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
     const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
     expect(addressBlockText).to.contain('2476 main street, ste #12 west');
@@ -86,7 +86,7 @@ describe('<AddressSection>', () => {
     const editButton = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
     expect(editButton).to.not.be.empty;
   });
-  
+
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdateAddress: false };
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);

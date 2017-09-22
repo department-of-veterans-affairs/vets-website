@@ -32,9 +32,12 @@ describe('<Address>', () => {
       militaryPostOfficeTypeCode: 'APO',
       militaryStateCode: 'AE'
     };
-    const props = { ...defaultProps, address: {
-      ...defaultProps.address, ...militaryFields
-    } };
+    const props = {
+      ...defaultProps,
+      address: {
+        ...defaultProps.address, ...militaryFields
+      }
+    };
 
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);

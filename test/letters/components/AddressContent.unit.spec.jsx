@@ -1,9 +1,7 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Address from '../../../src/js/letters/components/Address';
 import AddressContent from '../../../src/js/letters/components/AddressContent';
 
 const addressLines = {

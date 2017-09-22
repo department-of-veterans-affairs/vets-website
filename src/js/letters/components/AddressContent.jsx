@@ -9,8 +9,8 @@ const AddressContent = ({ saveError, addressObject, name, children }) => {
       {saveError
         ? <UpdateFailureAlert addressObject={addressObject}/>
         : <AddressBlock name={name}>
-            {children}
-          </AddressBlock>
+          {children}
+        </AddressBlock>
       }
     </div>
   );
