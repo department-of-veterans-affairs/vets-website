@@ -18,7 +18,7 @@ const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/education/apply-for-education-benefits/application'
+  basename: '/education/apply-for-education-benefits/application/5490'
 });
 
 function init() {
