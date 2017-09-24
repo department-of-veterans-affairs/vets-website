@@ -40,7 +40,7 @@ const {
 } = fullSchema1990e.definitions;
 
 const formConfig = {
-  urlPrefix: '/1990e/',
+  urlPrefix: '/',
   submitUrl: '/v0/education_benefits_claims/1990e',
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',

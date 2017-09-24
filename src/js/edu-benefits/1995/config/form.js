@@ -39,7 +39,7 @@ const {
 } = fullSchema1995.definitions;
 
 const formConfig = {
-  urlPrefix: '/1995/',
+  urlPrefix: '/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
   formId: '22-1995',

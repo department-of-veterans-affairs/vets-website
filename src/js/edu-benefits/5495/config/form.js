@@ -38,7 +38,7 @@ const {
 } = fullSchema5495.definitions;
 
 const formConfig = {
-  urlPrefix: '/5495/',
+  urlPrefix: '/',
   submitUrl: '/v0/education_benefits_claims/5495',
   trackingPrefix: 'edu-5495-',
   formId: '22-5495',
