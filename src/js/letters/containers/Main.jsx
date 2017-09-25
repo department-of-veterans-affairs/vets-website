@@ -26,10 +26,25 @@ export class Main extends React.Component {
     this.props.getAddressStates();
   }
 
+
+  appAvailability(lettersAvailability, addressAvailability) {
+    // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
+    if (lettersAvailability === AVAILABILITY_STATUSES.awaitingResponse || addressAvailability === AVAILABILITY_STATUSES.awaitingResponse) {
+      return AVAILABILITY_STATUSES.awaitingResponse;
+    // If letters have an eligibility error, the regular app content is still rendered,
+    // but address may still be awaiting response. In this case, consider the entire app
+    // to be awaiting response.
+    } else if (lettersAvailability === AVAILABILITY_STATUSES.letterEligibilityError && addressAvailability === AVAILABILITY_STATUSES.awaitingResponse) {
+      return AVAILABILITY_STATUSES.awaitingResponse;
+    }
+
+    return lettersAvailability;
+  }
+
   render() {
     let appContent;
 
-    switch (this.props.addressAvailability) {
+    switch (this.appAvailability(this.props.lettersAvailability, this.props.addressAvailability)) {
       case AVAILABILITY_STATUSES.available:
         appContent = this.props.children;
         break;
@@ -80,6 +95,7 @@ function mapStateToProps(state) {
   const letterState = state.letters;
   return {
     letters: letterState.letters,
+    lettersAvailability: letterState.lettersAvailability,
     destination: letterState.destination,
     addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
