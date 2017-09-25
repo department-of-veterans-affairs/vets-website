@@ -200,6 +200,6 @@
     "eslint-stats": "^1.0.0",
     "nyc": "^11.1.0",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6a3b3a07eec17ab06483930c8ffff2e66c0c7288"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9a710a7dba6195e4e7906d45fe080aeebe1c6ec5"
   }
 }
