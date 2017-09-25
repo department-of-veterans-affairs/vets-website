@@ -7,7 +7,7 @@ import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
-import { updateLoggedInStatus, toggleSearchHelpUserMenu } from '../actions';
+import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 
 class SearchHelpSignIn extends React.Component {
   componentDidMount() {
@@ -36,7 +36,7 @@ class SearchHelpSignIn extends React.Component {
 
       content = (<SignInProfileMenu
         clickHandler={() => {
-          this.props.onClickSearchHelpSignIn('account', !login.utilitiesMenuIsOpen.account);
+          this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
@@ -50,16 +50,16 @@ class SearchHelpSignIn extends React.Component {
       );
     }
     return (
-      <div>
+      <div className="profileNav">
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
-            this.props.onClickSearchHelpSignIn('search', !login.utilitiesMenuIsOpen.search);
+            this.props.toggleSearchHelpUserMenu('search', !login.utilitiesMenuIsOpen.search);
           }}/>
         <HelpMenu
           isOpen={login.utilitiesMenuIsOpen.help}
           clickHandler={() => {
-            this.props.onClickSearchHelpSignIn('help', !login.utilitiesMenuIsOpen.help);
+            this.props.toggleSearchHelpUserMenu('help', !login.utilitiesMenuIsOpen.help);
           }}/>
         <div className="sign-in-link">
           {content}
@@ -77,15 +77,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    },
-    onClickSearchHelpSignIn: (menu, isOpen) => {
-      dispatch(toggleSearchHelpUserMenu(menu, isOpen));
-    }
-  };
+const mapDispatchToProps = {
+  toggleLoginModal,
+  toggleSearchHelpUserMenu,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
