@@ -19,6 +19,7 @@ import {
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
   LETTER_TYPES,
+  ADDRESS_TYPES,
   GET_ADDRESS_COUNTRIES_SUCCESS,
   GET_ADDRESS_COUNTRIES_FAILURE,
   GET_ADDRESS_STATES_SUCCESS,
@@ -73,10 +74,21 @@ export function getMailingAddress() {
     apiRequest(
       '/v0/address',
       null,
-      response => dispatch({
-        type: GET_ADDRESS_SUCCESS,
-        data: response,
-      }),
+      response => {
+        const address = Object.assign({}, response);
+        // Translate military-only fields into generic ones; we'll translate them back later if necessary
+        if (address.type === ADDRESS_TYPES.military) {
+          address.city = address.militaryPostOfficeTypeCode;
+          address.state = address.militaryStateCode;
+          delete address.militaryPostOfficeTypeCode;
+          delete address.militaryStateCode;
+        }
+
+        dispatch({
+          type: GET_ADDRESS_SUCCESS,
+          data: address,
+        });
+      },
       (response) => {
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
@@ -208,10 +220,18 @@ export function saveAddressFailure() {
 }
 
 export function saveAddress(address) {
+  const transformedAddress = Object.assign({}, address);
+  if (transformedAddress.type === ADDRESS_TYPES.military) {
+    transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
+    transformedAddress.militaryStateCode = transformedAddress.state;
+    delete transformedAddress.city;
+    delete transformedAddress.state;
+  }
+
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(address)
+    body: JSON.stringify(transformedAddress)
   };
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
@@ -220,9 +240,8 @@ export function saveAddress(address) {
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(address)),
-      // Currently we treat all error codes the same but this may change
-      () => dispatch(saveAddressFailure()),
+      () => dispatch(saveAddressSuccess(transformedAddress)),
+      () => dispatch(saveAddressFailure())
     );
   };
 }
