@@ -1,5 +1,5 @@
 // The distance from the top of the sceen that the mobile navigation menu should appear
-$height-offset: 111.16px;
+$height-offset: 121.16px;
 
 body.va-pos-fixed {
   width: 100%;
@@ -22,6 +22,17 @@ body.va-pos-fixed {
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
   z-index: 1011;
 
+  &.vetnav--submenu-expanded {
+    #vetnav-menu {
+      overflow: hidden;
+      height: 0;
+      @include media($medium-large-screen) {
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+
   @include media($medium-large-screen) {
     margin-top: 1rem;
     overflow-y: visible;
@@ -40,13 +51,13 @@ body.va-pos-fixed {
 #vetnav-menu {
   height: auto;
   list-style: none;
-  margin: 1rem 0;
-  overflow-y: auto;
+  margin: 0;
   padding-left: 0;
 
   @include media($medium-large-screen) {
     display: flex;
     height: auto;
+    margin-top: 1rem;
     margin-bottom: 0;
     overflow-y: visible;
     position: relative;
@@ -291,6 +302,7 @@ body.va-pos-fixed {
   padding: 1.6rem 1.6rem 1.6rem 3rem;
   text-align: left;
   width: 100%;
+  margin: 0;
 
   @include media($medium-large-screen) {
     display: none;
@@ -332,7 +344,9 @@ body.va-pos-fixed {
     width: 100%;
     top: 0;
     left: 0;
-    height: 420px;
+    visibility: visible;
+    margin: 0;
+    height: auto;
 
     @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
