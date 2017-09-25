@@ -9,7 +9,7 @@ class GlossaryList extends React.Component {
 
     Object.keys(terms).forEach(o => {
       const id = terms[o].term.toLowerCase().replace(/\s/g, '');
-      termsList.push(<p id={id} key={++tKey}>{terms[o].term}</p>);
+      termsList.push(<p className="glossary-title" id={id} key={++tKey}>{terms[o].term}</p>);
       termsList.push(<p key={++tKey}>{terms[o].definition}</p>);
     });
 
