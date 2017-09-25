@@ -75,7 +75,8 @@ export function getMailingAddress() {
       '/v0/address',
       null,
       response => {
-        const address = Object.assign({}, response);
+        const responseCopy = Object.assign({}, response);
+        const address = Object.assign({}, response.data.attributes.address);
         // Translate military-only fields into generic ones; we'll translate them back later if necessary
         if (address.type === ADDRESS_TYPES.military) {
           address.city = address.militaryPostOfficeTypeCode;
@@ -83,10 +84,11 @@ export function getMailingAddress() {
           delete address.militaryPostOfficeTypeCode;
           delete address.militaryStateCode;
         }
+        responseCopy.data.attributes.address = address;
 
         dispatch({
           type: GET_ADDRESS_SUCCESS,
-          data: address,
+          data: responseCopy
         });
       },
       (response) => {
@@ -240,7 +242,7 @@ export function saveAddress(address) {
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(transformedAddress)),
+      () => dispatch(saveAddressSuccess(address)),
       () => dispatch(saveAddressFailure())
     );
   };

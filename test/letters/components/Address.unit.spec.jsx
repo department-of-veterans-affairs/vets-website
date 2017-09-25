@@ -29,8 +29,8 @@ describe('<Address>', () => {
   it('should change the city and state fields for a military address', () => {
     const militaryFields = {
       type: 'MILITARY',
-      militaryPostOfficeTypeCode: 'APO',
-      militaryStateCode: 'AE'
+      city: 'APO',
+      state: 'AE'
     };
     const props = {
       ...defaultProps,

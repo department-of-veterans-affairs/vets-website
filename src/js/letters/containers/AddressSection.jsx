@@ -88,12 +88,12 @@ export class AddressSection extends React.Component {
     let cityStatePostal;
     if (isDomesticAddress(address)) {
       const city = (address.city || '').toLowerCase();
-      const state = getStateName(address.stateCode);
+      const state = getStateName(address.state);
       cityStatePostal = `${city}, ${state} ${zipCode}`;
     } else if (isMilitaryAddress(address)) {
-      const militaryPostOfficeTypeCode = address.militaryPostOfficeTypeCode || '';
-      const militaryStateCode = address.militaryStateCode || '';
-      cityStatePostal = `${militaryPostOfficeTypeCode}, ${militaryStateCode} ${zipCode}`;
+      const city = address.city || '';
+      const militaryStateCode = address.state || '';
+      cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
     }
     const country = isInternationalAddress(address) ? address.countryName : '';
     const addressContentLines = { streetAddress, cityStatePostal, country };
