@@ -28,6 +28,9 @@ majorlinks:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
       title: Conditions Related to When and Where You Served
       description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
+    - url: /health-care/health-records/
+      title: Get Your VA Health Records
+      description: View, print, and download your VA health records.
 ---
 
 <div class="va-introtext">
