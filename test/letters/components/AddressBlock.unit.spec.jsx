@@ -8,7 +8,8 @@ const defaultProps = { name: 'Gary Todd' };
 describe('<AddressBlock/>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<AddressBlock { ...defaultProps }/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
+    const helpText = tree.subTree('p').text();
+
+    expect(helpText).to.contain('A correct address is not required, but');
   });
 });

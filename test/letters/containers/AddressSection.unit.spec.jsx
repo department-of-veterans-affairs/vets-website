@@ -26,23 +26,22 @@ const defaultProps = {
 };
 
 describe('<AddressSection>', () => {
-  it('should render', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection { ...defaultProps }/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
-  });
-
+  // we expect a render with default props to show the AddressContent component
   it('should display an address if one is provided in props', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection { ...defaultProps }/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
     const addressContent = tree.dive(['AddressContent']);
-    expect(addressContent).to.exist;
+    const contentHeader = addressContent.subTree('p').text();
+
+    expect(contentHeader).to.contain('Downloaded documents will list your address as:');
   });
 
   it('should display an error message if address is empty', () => {
     const newProps = { ...defaultProps, savedAddress: {} };
-    const tree = SkinDeep.shallowRender(<AddressSection { ...newProps }/>);
+    const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
     const invalidAddress = tree.dive(['InvalidAddress']);
-    expect(invalidAddress).to.exist;
+    const invalidContent = invalidAddress.subTree('p').text();
+
+    expect(invalidContent).to.contain('We’re encountering an error with your');
   });
 
   it('should format 1 address line', () => {
