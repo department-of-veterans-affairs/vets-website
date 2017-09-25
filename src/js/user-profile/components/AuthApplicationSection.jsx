@@ -1,13 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { handleVerify } from '../../common/helpers/login-helpers.js';
-
 class AuthApplicationSection extends React.Component {
-  verifyUser = () => {
-    handleVerify(this.props.verifyUrl);
-  }
-
   render() {
     let content;
     const verifiedAccountType = 3;// verified ID.me accounts are type 3
