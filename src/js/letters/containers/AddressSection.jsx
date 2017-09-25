@@ -16,13 +16,20 @@ import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       hasLoadedAddress: false,
       isEditingAddress: false,
-      editableAddress: {},
+      editableAddress: this.props.savedAddress || {},
     };
+
+    // On the off chance that savedAddress is available in constructor, ensure
+    // we tell React that editableAddress has already been initialized with the
+    // savedAddress values
+    if (Object.keys(this.state.editableAddress).length > 0) {
+      this.state.hasLoadedAddress = true;
+    }
   }
 
   /* editableAddress is initialized from redux store in the constructor
