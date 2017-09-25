@@ -238,9 +238,17 @@ span.sidelines {
       color: inherit;
     }
 
-    &:hover {
-      color: $color-gold;
-      text-decoration: underline;
+    span {
+      &:hover {
+        color: $color-gold;
+        text-decoration: underline;
+      }
+
+      &.signin-spacer {
+        &:hover {
+          color: $color-white;
+        }
+      }
     }
   }
 };
