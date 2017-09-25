@@ -24,7 +24,7 @@ majorlinks:
       description: Refill prescriptions online, and track the status of your refills.
     - url: /health-care/health-records/
       title: Get Your VA Health Records
-      description: View, print, and download your VA health records.
+      description: View, download, and print your VA health records.
     - url: /health-care/messaging/
       title: Send a Secure Message to Your Health Care Team
       description: Send a secure, private note to your primary care provider or other members of your VA health care team.
