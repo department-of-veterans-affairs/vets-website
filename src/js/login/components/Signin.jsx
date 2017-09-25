@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import URLSearchParams from 'url-search-params';
 
 class Signin extends React.Component {
   constructor(props) {
