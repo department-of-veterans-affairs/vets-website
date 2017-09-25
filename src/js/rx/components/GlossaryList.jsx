@@ -9,8 +9,8 @@ class GlossaryList extends React.Component {
 
     Object.keys(terms).forEach(o => {
       const id = terms[o].term.toLowerCase().replace(/\s/g, '');
-      termsList.push(<dt id={id} key={++tKey}>{terms[o].term}</dt>);
-      termsList.push(<dd key={++tKey}>{terms[o].definition}</dd>);
+      termsList.push(<p id={id} key={++tKey}>{terms[o].term}</p>);
+      termsList.push(<p key={++tKey}>{terms[o].definition}</p>);
     });
 
     let title;
@@ -24,8 +24,8 @@ class GlossaryList extends React.Component {
     if (termsList.length === 2) {
       return (
         <div>
-          <h3 className="modalTitle">Glossary: <dl>{termsList[0]}</dl></h3>
-          <dl><dt></dt>{termsList[1]}</dl>
+          <h3 className="modalTitle">Glossary: {termsList[0]}</h3>
+          {termsList[1]}
         </div>
       );
     }
