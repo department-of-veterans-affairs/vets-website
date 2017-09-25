@@ -96,7 +96,7 @@ function mapStateToProps(state) {
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
-    destination: letterState.destination,
+    address: letterState.address,
     addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
