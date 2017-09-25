@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
 import sinon from 'sinon';
 
 import { getFormDOM } from '../../util/schemaform-utils';
@@ -11,7 +10,7 @@ import { AddressSection } from '../../../src/js/letters/containers/AddressSectio
 const saveSpy = sinon.spy();
 
 const defaultProps = {
-  address: {
+  savedAddress: {
     addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',
@@ -27,44 +26,73 @@ const defaultProps = {
 };
 
 describe('<AddressSection>', () => {
-  it('should render', () => {
+  // we expect a render with default props to show the AddressContent component
+  it('should display an address if one is provided in props', () => {
     const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
+    const addressContent = tree.dive(['AddressContent']);
+    const contentHeader = addressContent.subTree('p').text();
+
+    expect(contentHeader).to.contain('Downloaded documents will list your address as:');
+  });
+
+  it('should display an error message if address is empty', () => {
+    const newProps = { ...defaultProps, savedAddress: {} };
+    const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
+    const invalidAddress = tree.subTree('p').text();
+
+    expect(invalidAddress).to.contain('We’re encountering an error with your');
   });
 
   it('should format 1 address line', () => {
     const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 main street');
+    const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
+    const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
+    // NOTE: have to pass in uncapitalized addresses to assert against because shallowRender apparently strips caps...
+    expect(addressBlockText).to.contain('2476 main street');
   });
 
   it('should format address 2 address lines', () => {
-    const props = _.merge({}, defaultProps, { address: { addressTwo: 'ste #12' } });
+    const props = {
+      ...defaultProps,
+      savedAddress: {
+        ...defaultProps.savedAddress,
+        addressTwo: 'ste #12'
+      }
+    };
+
     const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12');
+    const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
+    const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
+
+    expect(addressBlockText).to.contain('2476 main street, ste #12');
   });
 
   it('should format address 3 address lines', () => {
-    const props = _.merge({}, defaultProps, {
-      address: {
+    const props = {
+      ...defaultProps,
+      savedAddress: {
+        ...defaultProps.savedAddress,
         addressTwo: 'ste #12',
         addressThree: 'west'
       }
-    });
-    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
-    expect(tree.subTree('.step-content').text()).to.contain('2476 main street, ste #12 west');
-  });
+    };
 
-  it('should not render an edit button if user not allowed to edit address', () => {
-    const cannotEditProps = { ...defaultProps, canUpdate: false };
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
-    expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    const addressBlock = tree.dive(['AddressContent', 'AddressBlock']);
+    const addressBlockText = addressBlock.subTree('.address-block', 'div.letters-address').text();
+    expect(addressBlockText).to.contain('2476 main street, ste #12 west');
   });
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
     const editButton = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
     expect(editButton).to.not.be.empty;
+  });
+
+  it('should not render an edit button if user not allowed to edit address', () => {
+    const cannotEditProps = { ...defaultProps, canUpdate: false };
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
+    expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
   });
 
   it('should expand address fields when Edit button is clicked', () => {
@@ -93,6 +121,6 @@ describe('<AddressSection>', () => {
     tree.click('button.usa-button-primary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
-    expect(saveSpy.calledWith(defaultProps.address)).to.be.true;
+    expect(saveSpy.calledWith(component.state.editableAddress)).to.be.true;
   });
 });
