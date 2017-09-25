@@ -19,7 +19,7 @@ createLoginWidget(store);
 function init() {
   ReactDOM.render((
     <Provider store={store}>
-      <Main renderType="verifyPage"/>
+      <Main renderType="verifyPage" shouldRedirect/>
     </Provider>
   ), document.getElementById('react-root'));
 }
