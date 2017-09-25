@@ -13,6 +13,8 @@ import {
   transform
 } from '../helpers';
 
+import migrations from './migrations';
+
 import {
   stateLabels,
   survivorBenefitsLabels
@@ -80,7 +82,8 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/5490',
   trackingPrefix: 'edu-5490-',
   formId: '22-5490',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'

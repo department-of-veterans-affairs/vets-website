@@ -18,6 +18,8 @@ import {
   transform
 } from '../helpers';
 
+import migrations from './migrations';
+
 const {
   payHighestRateBenefit
 } = fullSchema1990n.properties;
@@ -32,7 +34,8 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/1990n',
   trackingPrefix: 'edu-1990n-',
   formId: '22-1990N',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'

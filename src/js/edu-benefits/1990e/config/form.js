@@ -25,6 +25,8 @@ import {
   benefitsLabels
 } from '../helpers';
 
+import migrations from './migrations';
+
 const {
   benefit,
   faaFlightCertificatesInformation,
@@ -44,7 +46,8 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/1990e',
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply to use transferred education benefits.',
     noAuth: 'Please sign in again to resume your application for transferred education benefits.'

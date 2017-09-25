@@ -35,6 +35,8 @@ import {
   reserveKickerWarning
 } from '../helpers';
 
+import migrations from './migrations';
+
 import {
   hasServiceBefore1977
 } from '../../utils/helpers.jsx';
@@ -79,7 +81,8 @@ const formConfig = {
   submitUrl: '/v0/education_benefits_claims/1990',
   trackingPrefix: 'edu-',
   formId: '22-1990',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
