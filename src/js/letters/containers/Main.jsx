@@ -29,7 +29,7 @@ export class Main extends React.Component {
   render() {
     let appContent;
 
-    switch (this.props.lettersAvailability) {
+    switch (this.props.addressAvailability) {
       case AVAILABILITY_STATUSES.available:
         appContent = this.props.children;
         break;
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
   return {
     letters: letterState.letters,
     destination: letterState.destination,
-    lettersAvailability: letterState.lettersAvailability,
+    addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
