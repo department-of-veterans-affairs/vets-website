@@ -31,10 +31,13 @@ class ConfirmationPage extends React.Component {
         </div>
         <div className="usa-width-five-sixths medium-10 columns">
           <h4 className="success-copy">You have successfully submitted your application for health care.</h4>
-          <p>Please print this page for your records.</p>
         </div>
         <div>
-          <p>We are processing your application. The Department of Veterans Affairs will contact you when we finish our review.</p>
+          <p>
+            We are processing your application.<br/>
+            The Department of Veterans Affairs will contact you when we finish our review.<br/>
+            <i>Please print this page for your records.</i>
+          </p>
           {time &&
             <div className="success-alert-box">
               <p className="success-copy">Form submitted: {moment(time).format('MMMM D, YYYY, h:mm a')}</p>
