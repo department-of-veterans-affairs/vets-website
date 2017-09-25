@@ -4,7 +4,7 @@ display_title: Download Health Records
 layout: page-react.html
 entryname: health-records
 collection: healthCare
-order: 8
+order: 7
 ---
 
 <div id="main">

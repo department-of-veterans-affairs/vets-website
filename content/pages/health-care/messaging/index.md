@@ -4,7 +4,7 @@ layout: page-react.html
 entryname: messaging
 gatePage: true
 collection: healthCare
-order: 7
+order: 8
 includeBreadcrumbs: true
 ---
 
