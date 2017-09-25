@@ -25,7 +25,7 @@ class GlossaryList extends React.Component {
       return (
         <div>
           <h3 className="modalTitle">Glossary: <dl>{termsList[0]}</dl></h3>
-          <dl>{termsList[1]}</dl>
+          <dl><dt></dt>{termsList[1]}</dl>
         </div>
       );
     }
