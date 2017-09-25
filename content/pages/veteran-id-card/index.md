@@ -1,11 +1,15 @@
 ---
-title: Verify
-entryname: verify
+title: Veteran ID Card
 layout: page-react.html
-noHeader: true
+entryname: veteran-id-card
 ---
-
 <div id="main">
+  <nav class="va-nav-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+      <li><a href="/">Home</a></li>
+    </ul>
+  </nav>
+
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
@@ -14,4 +18,5 @@ noHeader: true
       </div>
     </div>
   </div>
+  <!-- Veteran ID Card End -->
 </div>
