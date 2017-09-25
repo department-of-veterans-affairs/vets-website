@@ -61,15 +61,12 @@ class AuthApp extends React.Component {
         } else {
           sessionStorage.setItem('mfa_start', true);
 
-          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
+          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
             method: 'GET',
-            headers: new Headers({
-              Authorization: `Token token=${myToken}`
-            })
           }).then(response => {
             return response.json();
           }).then(innerJson => {
-            window.location.href = appendQuery(innerJson.identity_proof_url, { clientId: gaClientId() });
+            window.location.href = appendQuery(innerJson.authenticate_via_get, { clientId: gaClientId() });
           });
         }
       } else {

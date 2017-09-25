@@ -23,6 +23,7 @@ const entryFiles = {
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',

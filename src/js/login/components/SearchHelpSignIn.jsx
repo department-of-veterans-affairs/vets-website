@@ -7,7 +7,7 @@ import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
-import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
+import { updateLoggedInStatus, toggleSearchHelpUserMenu } from '../actions';
 
 class SearchHelpSignIn extends React.Component {
   componentDidMount() {
@@ -36,7 +36,7 @@ class SearchHelpSignIn extends React.Component {
 
       content = (<SignInProfileMenu
         clickHandler={() => {
-          this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
+          this.props.onClickSearchHelpSignIn('account', !login.utilitiesMenuIsOpen.account);
         }}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
@@ -50,16 +50,16 @@ class SearchHelpSignIn extends React.Component {
       );
     }
     return (
-      <div className="profileNav">
+      <div>
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('search', !login.utilitiesMenuIsOpen.search);
+            this.props.onClickSearchHelpSignIn('search', !login.utilitiesMenuIsOpen.search);
           }}/>
         <HelpMenu
           isOpen={login.utilitiesMenuIsOpen.help}
           clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('help', !login.utilitiesMenuIsOpen.help);
+            this.props.onClickSearchHelpSignIn('help', !login.utilitiesMenuIsOpen.help);
           }}/>
         <div className="sign-in-link">
           {content}
@@ -77,9 +77,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-  toggleSearchHelpUserMenu,
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateLoggedInStatus: (update) => {
+      dispatch(updateLoggedInStatus(update));
+    },
+    onClickSearchHelpSignIn: (menu, isOpen) => {
+      dispatch(toggleSearchHelpUserMenu(menu, isOpen));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
