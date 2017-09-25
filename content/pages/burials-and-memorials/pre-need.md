@@ -6,23 +6,23 @@ display_title: Pre-need Eligibility Determination
 collection: burials
 children: burialsPreNeed
 order: 2
-majorlinks: 
-  - heading: 
-    links: 
-    - url: 
-      title: 
-      description: 
+majorlinks:
+  - heading:
+    links:
+    - url:
+      title:
+      description:
 relatedlinks:
-  - heading: 
-    links: 
-    - url: 
-      title: 
-      description: 
+  - heading:
+    links:
+    - url:
+      title:
+      description:
 ---
 
 <div class="va-introtext">
 
-You can apply to find out in advance if you can be buried in a VA national cemetery. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members in the event of your death. Follow the steps below to apply. 
+You can apply to find out in advance if you can be buried in a VA national cemetery. This is called a pre-need determination of eligibility—and it can help make the burial planning process easier for your family members in the event of your death. Follow the steps below to apply.
 
 </div>
 
@@ -34,7 +34,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 <ol class="process">
 <li class="process-step list-one">
-  
+
 #### Make sure one of these describes you:
 - A Servicemember on active duty, **or**
 - A Veteran who was discharged from the military under conditions other than dishonorable, **or**
@@ -44,13 +44,13 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 </li>
 
 <li class="process-step list-two">
-  
+
 #### Choose the VA national cemetery where you’d prefer to be buried. <br>
-[Find a VA national cemetery](/facilities/). 
-  
+[Find a VA national cemetery](/facilities/).
+
 **Please note:**
 
-- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp). 
+- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">1-877-907-8585</a>.
 
@@ -79,7 +79,7 @@ If both you and your spouse are applying, you’ll each need to fill out your ow
 
 ### What documents and information do I need to apply?
 
-We base our decision of whether or not you qualify for burial in a VA national cemetery on your service history—or the service history of the Servicemember or Veteran who's sponsoring your application for burial as a spouse, surviving spouse, or unmarried adult child. 
+We base our decision of whether or not you qualify for burial in a VA national cemetery on your service history—or the service history of the Servicemember or Veteran who's sponsoring your application for burial as a spouse, surviving spouse, or unmarried adult child.
 
 To apply, you’ll need your (or your sponsor's):
 
@@ -118,11 +118,11 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 #### By mail to:
 
-<dl class="va-address-block">
-<dd>National Cemetery Scheduling Office</dd>
-<dd>P.O. Box 510543</dd>
-<dd>St. Louis, MO 63151</dd>
-</dl>
+<p class="va-address-block">
+	    National Cemetery Scheduling Office<br>
+	    P.O. Box 510543<br>
+	    St. Louis, MO 63151<br>
+</p>
 
 **Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
 
