@@ -21,20 +21,14 @@ export class AddressSection extends React.Component {
     this.state = {
       hasLoadedAddress: false,
       isEditingAddress: false,
-      // editableAddress: this.props.savedAddress || {},
       editableAddress: {},
     };
-
-    // If address has come back from store already, make sure we know about it
-    // if (Object.keys(this.state.editableAddress) !== 0) {
-    //   this.state.hasLoadedAddress = true;
-    // }
   }
 
-  /* editableAddress is initialized from redux store (savedAddress) in the constructor
-   * but this object will likely not be available at time of mounting, which means users
+  /* editableAddress is initialized from redux store in the constructor
+   * but the prop it initializes from is not available at time of mounting, which means users
    * will get a blank form instead of one prefilled with their existing data. This hook
-   * ensures we populate the form as soon as the prop becomes available
+   * ensures we populate the form's initial state as soon as the prop becomes available
    */
   componentWillReceiveProps(nextProps) {
     if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
@@ -68,8 +62,10 @@ export class AddressSection extends React.Component {
 
   render() {
     // We want to use the Redux address as source of truth. Address in
-    // container state is only used to control the form input for the
-    // <Address/> component
+    // this container's state is only used to control the form input for the
+    // <Address/> component. If form update fails, we still want to show
+    // users their original address instead of always over-riding what's
+    // saved in Redux with what the user types into the form.
     const address = this.props.savedAddress || {};
 
     // Street address: first line of address
@@ -144,7 +140,7 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return (addressContent);
+    return addressContent;
   }
 }
 
