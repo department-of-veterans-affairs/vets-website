@@ -37,13 +37,30 @@ span.sidelines {
     align-items: center;
   }
 
+  .va-modal-body {
+    padding-top: 0;
+  }
+
   .va-modal-title {
     display: none;
   }
 
   .va-modal-inner {
-    max-width: 95vw;
+    max-width: 62.5em;
     width: 95vw;
+  }
+
+  .login {
+    .explanation-content {
+      ul {
+        list-style: square;
+        padding-left: 1.5em;
+      }
+
+      p {
+        margin: 1em 0;
+      }
+    }
   }
 }
 
@@ -133,10 +150,6 @@ span.sidelines {
   @include media-maxwidth($small-screen) {
     .hide-for-small {
       display: none;
-    }
-
-    .help-info {
-      padding: 2em !important;
     }
   }
 
@@ -235,6 +248,9 @@ span.sidelines {
 .signin-spacer {
   color: $color-white;
   margin: 0 0.6em;
+   &:hover {
+     text-decoration: none;
+   }
 }
 
 .signin-greeting {

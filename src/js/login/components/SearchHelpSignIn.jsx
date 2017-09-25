@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import URLSearchParams from 'url-search-params';
 
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
@@ -19,6 +20,7 @@ class SearchHelpSignIn extends React.Component {
 
   handleSigninSignup = (e) => {
     e.preventDefault();
+    window.dataLayer.push({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
   }
 
