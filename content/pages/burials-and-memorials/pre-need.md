@@ -26,7 +26,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who's died](/burials-and-memorials/burial-planning/).
+**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
 
 <br>
 
@@ -102,7 +102,7 @@ To apply, you’ll need your (or your sponsor's):
 
 ### What if I need help filling out my application forms?
 
-Call our toll-free hotline at 1-877-222-VETS ( <a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
@@ -128,7 +128,7 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 <br>
 
-#### By fax to <a href="tel:+18558408299">1-855-840-8299</a>.
+#### By fax to 1-855-840-8299.
 
 <br>
 
