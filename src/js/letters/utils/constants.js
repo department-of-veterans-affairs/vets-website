@@ -133,7 +133,7 @@ export const STATE_CODE_TO_NAME = {
   PI: 'Virgin Islands'
 };
 
-export const addressTypes = Object.freeze({
+export const ADDRESS_TYPES = Object.freeze({
   domestic: 'DOMESTIC',
   international: 'INTERNATIONAL',
   military: 'MILITARY'

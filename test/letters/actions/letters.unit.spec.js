@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { addressTypes, SAVE_ADDRESS_SUCCESS } from '../../../src/js/letters/utils/constants';
+import { ADDRESS_TYPES, SAVE_ADDRESS_SUCCESS } from '../../../src/js/letters/utils/constants';
 import { mockApiRequest, resetFetch } from '../../util/unit-helpers';
 
 import {
@@ -10,13 +10,13 @@ import {
 } from '../../../src/js/letters/actions/letters';
 
 const backendAddress = {
-  type: addressTypes.military,
+  type: ADDRESS_TYPES.military,
   militaryPostOfficeTypeCode: 'apo',
   militaryStateCode: 'secret'
 };
 
 const frontEndAddress = {
-  type: addressTypes.military,
+  type: ADDRESS_TYPES.military,
   city: 'apo',
   state: 'secret'
 };

@@ -20,7 +20,7 @@ import {
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
   LETTER_TYPES,
-  addressTypes
+  ADDRESS_TYPES
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -74,7 +74,7 @@ export function getMailingAddress() {
       response => {
         const address = Object.assign({}, response);
         // Translate military-only fields into generic ones; we'll translate them back later if necessary
-        if (address.type === addressTypes.military) {
+        if (address.type === ADDRESS_TYPES.military) {
           address.city = address.militaryPostOfficeTypeCode;
           address.state = address.militaryStateCode;
           delete address.militaryPostOfficeTypeCode;
@@ -228,7 +228,7 @@ export function saveAddressFailure(address) {
 
 export function saveAddress(address) {
   const transformedAddress = Object.assign({}, address);
-  if (transformedAddress.type === addressTypes.military) {
+  if (transformedAddress.type === ADDRESS_TYPES.military) {
     transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
     transformedAddress.militaryStateCode = transformedAddress.state;
     delete transformedAddress.city;
