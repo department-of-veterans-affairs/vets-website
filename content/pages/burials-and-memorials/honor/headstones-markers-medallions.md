@@ -2,7 +2,6 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Headstones, Markers, Niche Covers, and Medallions
-collection: burialsPlanning
 order: 1
 concurrence: incomplete
 ---
@@ -28,7 +27,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 - Any Veteran who died before November 1, 1990
 - Any Veteran who served on or after April 6, 1917
-- Any Veteran whose grave is privately marked 
+- Any Veteran whose grave is privately marked
 
 </div>
 
@@ -48,7 +47,7 @@ You can apply for this benefit if you’re:
 
 <br>
 
-### How do I apply for a memorial item? 
+### How do I apply for a memorial item?
 
 **For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
@@ -56,7 +55,7 @@ You can apply for this benefit if you’re:
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
-- Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address: 
+- Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address:
 
 <p class="va-address-block">
     Memorial Products Service (41B)<br>
@@ -75,10 +74,10 @@ You must put a legal name, service branch, and birth and death year on a headsto
 
 <br>
 
-### Special arrangements 
+### Special arrangements
 
-We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered. 
+We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered.
 
-For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
+For Veterans, dependents, and Servicemembers who qualify for a memorial headstone or marker, the words engraved on the memorial item must begin, “IN MEMORY OF,” and the headstone or marker must be placed in a national cemetery, state Veterans cemetery, or military base cemetery.
 
 Get help applying for a headstone, marker, niche cover, or medallion by calling <a href="tel:+8006976947">1-800-697-6947</a>.
