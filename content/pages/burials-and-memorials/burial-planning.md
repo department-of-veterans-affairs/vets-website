@@ -87,7 +87,7 @@ You'll need to tell us:
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
  - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
- - [If you're interested in other possible military honors beyond the playing of "Taps" and flag folding and presentation](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services)
+ - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
 
  [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
 
