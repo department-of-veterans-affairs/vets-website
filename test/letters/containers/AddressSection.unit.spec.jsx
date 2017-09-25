@@ -20,6 +20,10 @@ const defaultProps = {
   },
   canUpdate: true,
   saveAddress: saveSpy,
+  countries: [],
+  countriesAvailable: true,
+  states: [],
+  statesAvailable: true
 };
 
 describe('<AddressSection>', () => {

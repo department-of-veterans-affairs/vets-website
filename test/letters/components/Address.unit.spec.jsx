@@ -31,8 +31,8 @@ describe('<Address>', () => {
     const props = _.merge({}, defaultProps, {
       value: {
         type: 'MILITARY',
-        militaryPostOfficeTypeCode: 'APO',
-        militaryStateCode: 'AE'
+        city: 'APO',
+        state: 'AE'
       }
     });
 
