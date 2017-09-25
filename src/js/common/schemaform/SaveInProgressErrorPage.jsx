@@ -14,7 +14,7 @@ import {
 import SignInLink from '../components/SignInLink';
 import ProgressButton from '../components/form-elements/ProgressButton';
 
-import { updateLogInUrl } from '../../login/actions';
+import { toggleLoginModal } from '../../login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked
@@ -24,10 +24,10 @@ class SaveInProgressErrorPage extends React.Component {
     const buttonClass = primary ? 'usa-button-primary' : 'usa-button-outline';
     return (
       <ProgressButton
-          onButtonClick={this.goBack}
-          buttonClass={buttonClass}
-          buttonText="Back"
-          beforeText="«"/>
+        onButtonClick={this.goBack}
+        buttonClass={buttonClass}
+        buttonText="Back"
+        beforeText="«"/>
     );
   }
 
@@ -64,12 +64,12 @@ class SaveInProgressErrorPage extends React.Component {
               <div style={{ marginTop: '30px' }}>
                 {this.getBackButton()}
                 <SignInLink
-                    type="button"
-                    className="usa-button-primary"
-                    onLogin={this.reloadForm}
-                    isLoggedIn={this.props.isLoggedIn}
-                    loginUrl={this.props.loginUrl}
-                    onUpdateLoginUrl={this.props.updateLogInUrl}>Sign in</SignInLink>
+                  type="button"
+                  className="usa-button-primary"
+                  onLogin={this.reloadForm}
+                  isLoggedIn={this.props.isLoggedIn}
+                  showLoginModal={this.props.showLoginModal}
+                  toggleLoginModal={this.props.toggleLoginModal}>Sign in</SignInLink>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.failure:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. Please try applying again in a few moments.</div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. Please try applying again in a few moments.</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>Resume previous application</button>
@@ -89,15 +89,15 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.notFound:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We're sorry, but something went wrong. We can't find your application. {notFound}</div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. We can’t find your application. {notFound}</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton(true)}
             </div>
           </div>
-          // <button className="usa-button-primary" onClick={this.startOver}>Start over</button>
+        // <button className="usa-button-primary" onClick={this.startOver}>Start over</button>
         );
         break;
-      default: // Shouldn't get here...
+      default: // Shouldn’t get here...
         content = null;
         break;
     }
@@ -119,24 +119,23 @@ SaveInProgressErrorPage.propTypes = {
 
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
-  isLoggedIn: PropTypes.bool.isRequired,
-  loginUrl: PropTypes.string,
-  updateLogInUrl: PropTypes.func.isRequired
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (store) => ({
   loadedStatus: store.form.loadedStatus,
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
-  loginUrl: store.user.login.loginUrl,
+  showLoginModal: store.user.login.showModal,
+  loginUrls: store.user.login.loginUrls,
   isStartingOver: store.form.isStartingOver
 });
 
 const mapDispatchToProps = {
-  updateLogInUrl,
   fetchInProgressForm,
   removeInProgressForm,
-  setFetchFormStatus
+  setFetchFormStatus,
+  toggleLoginModal
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SaveInProgressErrorPage));

@@ -95,7 +95,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
 
     // Child Information Page
-    client.expect.element('label[for="root_view:reportChildren"]').to.be.visible;
+    client.expect.element('label[for="root_view:reportChildrenYes"]').to.be.visible;
     HcaHelpers.completeChildInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
@@ -118,14 +118,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
 
     // Medicare and Medicaid Page.
-    client.expect.element('label[for="root_isMedicaidEligible"]').to.be.visible;
+    client.expect.element('label[for="root_isMedicaidEligibleYes"]').to.be.visible;
     HcaHelpers.completeMedicareAndMedicaid(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/medicare');
 
     // Insurance Information Page.
-    client.expect.element('label[for="root_isCoveredByHealthInsurance"]').to.be.visible;
+    client.expect.element('label[for="root_isCoveredByHealthInsuranceYes"]').to.be.visible;
     HcaHelpers.completeInsuranceInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');

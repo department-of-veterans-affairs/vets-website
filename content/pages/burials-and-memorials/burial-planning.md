@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Plan a Burial for a Family Member
-display_title: 
+display_title:
 collection: burials
 order: 3
 relatedlinks:
@@ -18,7 +18,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-When a Servicemember or Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. Find out  what to do if your family member has just died. 
+When a Servicemember or Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. Find out  what to do if your family member has just died.
 
 </div>
 
@@ -32,7 +32,7 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). 
+You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
 
 <br>
 
@@ -47,8 +47,8 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You'll need:
 
- - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
- 
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+
 You'll need the deceased's:
 
  - Name
@@ -66,15 +66,15 @@ You'll need information about the deceased's next-of-kin (the deceased's closest
    - Social Security number
    - Phone number
    - Address
- 
+
 You may also need more information in certain cases:
 
 - **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member.
 - **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery.
 - **If the deceased's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried.
- 
+
  </li>
- 
+
  <li class="process-step list-two">
 
 ##### Decide on the burial details and gather all related information
@@ -88,26 +88,26 @@ You'll need to tell us:
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
  - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
  - [If you're interested in other possible military honors beyond the playing of "Taps" and flag folding and presentation](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services)
- 
+
  [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
- 
+
 </li>
 
 <li class="process-step list-three">
 
 ##### Contact the National Cemetery Scheduling Office
 
-The funeral director you've chosen can help you with these steps too:
+The funeral director you’ve chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line.
 
-- Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
+- Then call <a href="tel:+18005351117">1-800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the “Prepare” section.
 
 <br>
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 <br>
 

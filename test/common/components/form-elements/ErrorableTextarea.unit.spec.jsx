@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
-import { default as chai, expect } from 'chai';
+import chai, { expect } from 'chai';
 import sinon from 'sinon';
 
 import ErrorableTextarea from '../../../../src/js/common/components/form-elements/ErrorableTextarea';
@@ -43,7 +43,7 @@ describe('<ErrorableTextarea>', () => {
   });
 
   it('ensure value doesn\'t propagate when using more than charMax', () => {
-    let valueChangedSpy = sinon.spy();
+    const valueChangedSpy = sinon.spy();
 
     const errorableInput = ReactTestUtils.renderIntoDocument(
       <ErrorableTextarea field={makeField(1)} charMax={1} label="test" onValueChange={valueChangedSpy}/>

@@ -8,16 +8,6 @@ const initialState = {
 };
 
 describe('post911GIBStatus reducer', () => {
-  it('should handle failure to fetch enrollment information', () => {
-    const state = post911GIBStatus.post911GIBStatus(
-      initialState,
-      { type: 'GET_ENROLLMENT_DATA_FAILURE' }
-    );
-
-    expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('unavailable');
-  });
-
   it('should handle a successful request for enrollment information', () => {
     const state = post911GIBStatus.post911GIBStatus(
       initialState,
@@ -34,5 +24,45 @@ describe('post911GIBStatus reducer', () => {
 
     expect(state.enrollmentData.firstName).to.equal('Jane');
     expect(state.availability).to.equal('available');
+  });
+
+  it('should handle backend service error', () => {
+    const state = post911GIBStatus.post911GIBStatus(
+      initialState,
+      { type: 'BACKEND_SERVICE_ERROR' }
+    );
+
+    expect(state.enrollmentData).to.be.null;
+    expect(state.availability).to.equal('backendServiceError');
+  });
+
+  it('should handle backend authentication error', () => {
+    const state = post911GIBStatus.post911GIBStatus(
+      initialState,
+      { type: 'BACKEND_AUTHENTICATION_ERROR' }
+    );
+
+    expect(state.enrollmentData).to.be.null;
+    expect(state.availability).to.equal('backendAuthenticationError');
+  });
+
+  it('should handle no Chapter 33 record error', () => {
+    const state = post911GIBStatus.post911GIBStatus(
+      initialState,
+      { type: 'NO_CHAPTER33_RECORD_AVAILABLE' }
+    );
+
+    expect(state.enrollmentData).to.be.null;
+    expect(state.availability).to.equal('noChapter33Record');
+  });
+
+  it('should handle failure to fetch enrollment information', () => {
+    const state = post911GIBStatus.post911GIBStatus(
+      initialState,
+      { type: 'GET_ENROLLMENT_DATA_FAILURE' }
+    );
+
+    expect(state.enrollmentData).to.be.null;
+    expect(state.availability).to.equal('unavailable');
   });
 });

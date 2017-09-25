@@ -24,7 +24,7 @@ class SortableTable extends React.Component {
 
     // Determine what sort order the header will yield on the next click.
     // By default, clicking this header will sort in ascending order.
-    // If it's already ascending, next click will sort it in descending order.
+    // If it’s already ascending, next click will sort it in descending order.
     let nextSortOrder = 'ASC';
     let sortIcon;
 

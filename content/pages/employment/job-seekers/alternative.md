@@ -37,7 +37,7 @@ relatedlinks:
       description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
     - url: /employment/commitments
       title: Commitments
-      description: Learn about employers who've committed to hiring Veterans and military family members.
+      description: Learn about employers who’ve committed to hiring Veterans and military family members.
     - url: /employment/job-seekers/create-resume
       title: Résumé Builder
       description: Use this tool to build a civilian or federal résumé.      

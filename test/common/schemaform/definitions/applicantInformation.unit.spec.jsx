@@ -47,9 +47,9 @@ describe('Edu basic applicantInformation', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -59,10 +59,10 @@ describe('Edu basic applicantInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -73,10 +73,10 @@ describe('Edu basic applicantInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -99,7 +99,7 @@ describe('Edu basic applicantInformation', () => {
 
     // Error disappears when no-SSN is checked
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                                   .find(input => input.id === 'root_view:noSSN');
+      .find(input => input.id === 'root_view:noSSN');
     ReactTestUtils.Simulate.change(noSSNBox,
       {
         target: {

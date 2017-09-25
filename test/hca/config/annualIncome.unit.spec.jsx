@@ -32,10 +32,10 @@ describe('Hca annual income', () => {
   it('should render without spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={{}}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        data={{}}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -46,40 +46,40 @@ describe('Hca annual income', () => {
   it('should render with spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={{ maritalStatus: 'Married' }}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        data={{ maritalStatus: 'Married' }}/>
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length)
-    .to.equal(6);
+      .to.equal(6);
   });
 
   it('should render with children information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={marriedWithChildren}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        data={marriedWithChildren}/>
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length)
-    .to.equal(12); // Change me!
+      .to.equal(12); // Change me!
   });
 
   it('should not submit an empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-          data={marriedWithChildren}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+        data={marriedWithChildren}/>
     );
     const formDOM = findDOMNode(form);
 

@@ -31,13 +31,13 @@ export const outcomeNumbers = createSelector(
   (constant, institution) => {
     const veteranRetentionRate =
       institution.highestDegree === 4 ?
-      institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb :
-      institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
+        institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb :
+        institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
 
     const allStudentRetentionRate =
       institution.highestDegree === 4 ?
-      institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb :
-      institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
+        institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb :
+        institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
 
     const retention = whenDataAvailable(
       veteranRetentionRate,

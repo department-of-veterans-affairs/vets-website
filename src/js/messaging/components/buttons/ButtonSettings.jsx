@@ -6,9 +6,9 @@ class ButtonSettings extends React.Component {
   render() {
     return (
       <Link
-          className="va-icon-link msg-btn-settings"
-          to="/settings"
-          onClick={this.props.onClick}>
+        className="va-icon-link msg-btn-settings"
+        to="/settings"
+        onClick={this.props.onClick}>
         <i className="fa fa-cog"></i>
         <span>Settings</span>
       </Link>

@@ -9,9 +9,9 @@ order: 1
 
 <div class="va-introtext">
 
-If you'd like us to help you gather evidence (supporting documents like a doctor's report and medical test results) to support your disability benefits claim, please file a standard claim. [File a claim now](/disability-benefits/apply/).
+If you’d like us to help you gather evidence (supporting documents like a doctor’s report and medical test results) to support your disability benefits claim, please file a standard claim. [File a claim now](/disability-benefits/apply/).
 
-With a standard claim, we'll get your permission to gather any needed evidence for you. This may include medical records from:
+With a standard claim, we’ll get your permission to gather any needed evidence for you. This may include medical records from:
 
 </div>
 
@@ -22,7 +22,7 @@ With a standard claim, we'll get your permission to gather any needed evidence f
 
 ### What evidence will VA look for to support my claim?
 
-We'll look for evidence of:
+We’ll look for evidence of:
 
 - A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
 - An event, injury, or illness that happened while you were serving in the military to cause the disability

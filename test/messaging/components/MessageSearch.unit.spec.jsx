@@ -69,9 +69,9 @@ describe('MessageSearch', () => {
 
     const messageSearch = ReactTestUtils.renderIntoDocument(
       <MessageSearch
-          {...props }
-          params={params}
-          onSubmit={onSubmit}/>
+        {...props }
+        params={params}
+        onSubmit={onSubmit}/>
     );
 
     messageSearch.handleSubmit({ preventDefault: () => {} });
@@ -100,10 +100,10 @@ describe('MessageSearch', () => {
 
     const messageSearch = ReactTestUtils.renderIntoDocument(
       <MessageSearch
-          {...props }
-          isAdvancedVisible
-          params={params}
-          onSubmit={onSubmit}/>
+        {...props }
+        isAdvancedVisible
+        params={params}
+        onSubmit={onSubmit}/>
     );
 
     messageSearch.handleSubmit({ preventDefault: () => {} });

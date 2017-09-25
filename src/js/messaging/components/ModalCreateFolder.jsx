@@ -48,20 +48,20 @@ class ModalCreateFolder extends React.Component {
             Create new folder
           </h3>
           <ErrorableTextInput
-              errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
-              label="Please enter a new folder name:"
-              onValueChange={this.handleValueChange}
-              name="newFolderName"
-              charMax={createNewFolderSettings.maxLength}
-              field={this.props.newFolderName}/>
+            errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
+            label="Please enter a new folder name:"
+            onValueChange={this.handleValueChange}
+            name="newFolderName"
+            charMax={createNewFolderSettings.maxLength}
+            field={this.props.newFolderName}/>
           <div className="va-modal-button-group">
             <button
-                disabled={error.hasError || !this.props.newFolderName.dirty}
-                type="submit">Create</button>
+              disabled={error.hasError || !this.props.newFolderName.dirty}
+              type="submit">Create</button>
             <button
-                className="usa-button-outline"
-                onClick={this.props.onClose}
-                type="button">Cancel</button>
+              className="usa-button-outline"
+              onClick={this.props.onClose}
+              type="button">Cancel</button>
           </div>
         </form>
       );
@@ -69,11 +69,11 @@ class ModalCreateFolder extends React.Component {
 
     return (
       <Modal
-          cssClass={this.props.cssClass}
-          contents={modalContents}
-          id={this.props.id}
-          onClose={this.props.onClose}
-          visible={this.props.visible}/>
+        cssClass={this.props.cssClass}
+        contents={modalContents}
+        id={this.props.id}
+        onClose={this.props.onClose}
+        visible={this.props.visible}/>
     );
   }
 }

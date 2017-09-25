@@ -30,10 +30,26 @@ export default class DateWidget extends React.Component {
     }
   }
 
+  isTouched = ({ year, month, day }) => {
+    if (_.get('options.monthYear', this.props)) {
+      return year && month;
+    }
+
+    return year && day && month;
+  }
+
+  isIncomplete = ({ month, year, day }) => {
+    if (_.get('options.monthYear', this.props)) {
+      return !year || !month;
+    }
+
+    return !year || !month || !day;
+  }
+
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
     this.setState(newState, () => {
-      if (newState.touched.year && newState.touched.month && newState.touched.day) {
+      if (this.isTouched(newState.touched)) {
         this.props.onBlur(this.props.id);
       }
     });
@@ -44,7 +60,7 @@ export default class DateWidget extends React.Component {
     newState = _.set(['touched', field], true, newState);
 
     this.setState(newState, () => {
-      if (this.props.required && (!newState.value.month || !newState.value.day || !newState.value.year)) {
+      if (this.props.required && (this.isIncomplete(newState.value))) {
         this.props.onChange();
       } else {
         this.props.onChange(formatISOPartialDate(newState.value));
@@ -53,10 +69,11 @@ export default class DateWidget extends React.Component {
   }
 
   render() {
-    const { id } = this.props;
+    const { id, options = {} } = this.props;
     const { month, day, year } = this.state.value;
     let daysForSelectedMonth;
 
+    const monthYear = options.monthYear;
     if (month) {
       daysForSelectedMonth = days[month];
     }
@@ -65,39 +82,39 @@ export default class DateWidget extends React.Component {
         <div className="form-datefield-month">
           <label className="input-date-label" htmlFor={`${id}Month`}>Month</label>
           <select
-              autoComplete="false"
-              name={`${id}Month`}
-              id={`${id}Month`}
-              value={month}
-              onChange={(event) => this.handleChange('month', event.target.value)}>
+            autoComplete="false"
+            name={`${id}Month`}
+            id={`${id}Month`}
+            value={month}
+            onChange={(event) => this.handleChange('month', event.target.value)}>
             <option value=""/>
-              {months.map(mnth => <option key={mnth.value} value={mnth.value}>{mnth.label}</option>)}
+            {months.map(mnth => <option key={mnth.value} value={mnth.value}>{mnth.label}</option>)}
           </select>
         </div>
-        <div className="form-datefield-day">
+        {!monthYear && <div className="form-datefield-day">
           <label className="input-date-label" htmlFor={`${id}Day`}>Day</label>
           <select
-              autoComplete="false"
-              name={`${id}Day`}
-              id={`${id}Day`}
-              value={day}
-              onChange={(event) => this.handleChange('day', event.target.value)}>
+            autoComplete="false"
+            name={`${id}Day`}
+            id={`${id}Day`}
+            value={day}
+            onChange={(event) => this.handleChange('day', event.target.value)}>
             <option value=""/>
-              {daysForSelectedMonth && daysForSelectedMonth.map(dayOpt => <option key={dayOpt} value={dayOpt}>{dayOpt}</option>)}
+            {daysForSelectedMonth && daysForSelectedMonth.map(dayOpt => <option key={dayOpt} value={dayOpt}>{dayOpt}</option>)}
           </select>
-        </div>
+        </div>}
         <div className="usa-datefield usa-form-group usa-form-group-year">
           <label className="input-date-label" htmlFor={`${id}Year`}>Year</label>
           <input type="number"
-              autoComplete="false"
-              name={`${id}Year`}
-              id={`${id}Year`}
-              max="3000"
-              min="1900"
-              pattern="[0-9]{4}"
-              value={year}
-              onBlur={() => this.handleBlur('year')}
-              onChange={(event) => this.handleChange('year', event.target.value)}/>
+            autoComplete="false"
+            name={`${id}Year`}
+            id={`${id}Year`}
+            max="3000"
+            min="1900"
+            pattern="[0-9]{4}"
+            value={year}
+            onBlur={() => this.handleBlur('year')}
+            onChange={(event) => this.handleChange('year', event.target.value)}/>
         </div>
       </div>
     );

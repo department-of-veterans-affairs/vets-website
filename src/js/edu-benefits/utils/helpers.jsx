@@ -77,6 +77,13 @@ export function hasServiceBefore1978(data) {
   });
 }
 
+export function hasServiceBefore1977(data) {
+  return data.toursOfDuty && data.toursOfDuty.some(tour => {
+    const fromDate = moment(tour.dateRange.from);
+    return fromDate.isValid() && fromDate.isBefore('1977-01-02');
+  });
+}
+
 export function showRelinquishedEffectiveDate(benefitsRelinquished) {
   return benefitsRelinquished !== '' && benefitsRelinquished !== 'unknown';
 }
@@ -97,7 +104,7 @@ export function getListOfBenefits(veteran) {
   }
 
   if (veteran.chapter32) {
-    benefitList.push('Post-Vietnam Era Veterans\' Educational Assistance Program (VEAP or chapter 32)');
+    benefitList.push('Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or chapter 32)');
   }
 
   return benefitList;

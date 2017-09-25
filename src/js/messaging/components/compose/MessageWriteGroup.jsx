@@ -17,27 +17,27 @@ class MessageWriteGroup extends React.Component {
     return (
       <div className={errItemClass}>
         <MessageWrite
-            disabled={this.props.disabled}
-            cssClass="msg-write"
-            errorMessage={this.props.errorMessage}
-            onValueChange={this.props.onTextChange}
-            placeholder={this.props.placeholder}
-            text={this.props.messageText}/>
+          disabled={this.props.disabled}
+          cssClass="msg-write"
+          errorMessage={this.props.errorMessage}
+          onValueChange={this.props.onTextChange}
+          placeholder={this.props.placeholder}
+          text={this.props.messageText}/>
         <MessageAttachments
-            files={this.props.files}
-            onClose={this.props.onAttachmentsClose}/>
+          files={this.props.files}
+          onClose={this.props.onAttachmentsClose}/>
         <MessageSend
-            disabled={!this.props.messageText.value.length || this.props.disabled}
-            allowedMimeTypes={this.props.allowedMimeTypes}
-            attachedFiles={this.props.files}
-            maxFiles={this.props.maxFiles}
-            maxFileSize={this.props.maxFileSize}
-            maxTotalFileSize={this.props.maxTotalFileSize}
-            onAttachmentUpload={this.props.onAttachmentUpload}
-            onAttachmentsError={this.props.onAttachmentsError}
-            onSave={this.props.onSave}
-            onSend={this.props.onSend}
-            onDelete={this.props.onDelete}/>
+          disabled={!this.props.messageText.value.length || this.props.disabled}
+          allowedMimeTypes={this.props.allowedMimeTypes}
+          attachedFiles={this.props.files}
+          maxFiles={this.props.maxFiles}
+          maxFileSize={this.props.maxFileSize}
+          maxTotalFileSize={this.props.maxTotalFileSize}
+          onAttachmentUpload={this.props.onAttachmentUpload}
+          onAttachmentsError={this.props.onAttachmentsError}
+          onSave={this.props.onSave}
+          onSend={this.props.onSend}
+          onDelete={this.props.onDelete}/>
       </div>
     );
   }

@@ -32,7 +32,7 @@ You may be able to get disability benefits if you have a current illness or inju
 - You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
 - You had an illness or injury before you joined the military—and serving made it worse
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans 
 - Qualified dependents

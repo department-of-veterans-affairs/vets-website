@@ -22,7 +22,7 @@ You may be able to get money for books, tuition, and housing if:
 - You’re enrolled at an approved Institution of Higher Learning (IHL), **and**
 - You’re in an educational program that requires part-time study and part-time work or training
 
-### Who's covered?
+### Who’s covered?
 Veterans
 </div>
 

@@ -13,9 +13,9 @@ export class Settings extends React.Component {
       <div>
         <div id="messaging-content-header">
           <button
-              className="messaging-menu-button"
-              type="button"
-              onClick={this.props.toggleFolderNav}>
+            className="messaging-menu-button"
+            type="button"
+            onClick={this.props.toggleFolderNav}>
             Menu
           </button>
           <h3>Settings</h3>

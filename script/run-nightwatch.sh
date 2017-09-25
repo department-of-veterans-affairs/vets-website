@@ -1,5 +1,20 @@
 #!/bin/bash
 
+SAUCE=false
+
+for i in "$@"
+do
+case $i in
+    --sauce)
+    SAUCE=true
+    shift # past argument=value
+    ;;
+    *)
+      # unknown option
+    ;;
+esac
+done
+
 # Harness for running end to end tests. The end to end test framework requires
 # a mock API server as well as a webserver with the content to provide
 # endpoints that selenium can run against.
@@ -42,4 +57,8 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 3; done
 #curl http://localhost:3001/generated/hca.entry.js > /dev/null 2>&1
 
 # Execute the actual tests.
-BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
+if [ $SAUCE == true ]; then
+  BABEL_ENV=test npm --no-color run nightwatch-sauce -- "${@}"
+else
+  BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
+fi

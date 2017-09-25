@@ -19,7 +19,8 @@ const defaultProfileProps = {
   email: 'fake@aol.com',
   userFullName: {
     first: 'Sharon'
-  }
+  },
+  loading: false
 };
 
 function buildProps(defaultProps, props = {}) {
@@ -27,7 +28,17 @@ function buildProps(defaultProps, props = {}) {
 }
 
 describe('<SearchHelpSignIn>', () => {
-  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps}/>);
+  beforeEach(() => {
+    global.sessionStorage = {};
+    global.window = {
+      location: {
+        replace: () => {},
+      }
+    };
+    global.window.location.pathname = '/';
+  });
+
+  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps} profile={{ loading: false }}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
@@ -36,7 +47,7 @@ describe('<SearchHelpSignIn>', () => {
 
   it('should present login link when currentlyLoggedIn is false', () => {
     const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(2);
+    expect(link).to.have.lengthOf(1);
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {

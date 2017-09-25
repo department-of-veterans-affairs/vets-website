@@ -61,7 +61,7 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
 
     // Benefit Selection page
-    client.waitForElementVisible('label[for$="claimedBenefits"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_view:claimedBenefits_burialAllowance"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
     PageHelpers.completeBenefitSelection(client, testData.data);
     client.axeCheck('.main')
@@ -70,7 +70,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Burial Allowance page -- conditional
     if (testData.data['view:claimedBenefits'].burialAllowance) {
-      client.waitForElementVisible('label[for="root_burialAllowanceRequested"]', Timeouts.normal);
+      client.waitForElementVisible('label[for="root_burialAllowanceRequested_0"]', Timeouts.normal);
       PageHelpers.completeBurialAllowance(client, testData.data);
       client.axeCheck('.main')
         .click('.form-panel .usa-button-primary');
@@ -96,6 +96,9 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
 
     // TODO: Test file upload
+    client.axeCheck('.main')
+      .click('.form-panel .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(6)', 'progress-segment-complete');
 
@@ -111,15 +114,12 @@ const runTest = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client.expect.element('.edu-benefits-submit-success').to.be.visible;
+    client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
     client.axeCheck('.main');
-
 
     client.end();
   }
 );
 
-if (process.env.BUILDTYPE !== 'production') {
-  module.exports = runTest;
-}
+module.exports = runTest;

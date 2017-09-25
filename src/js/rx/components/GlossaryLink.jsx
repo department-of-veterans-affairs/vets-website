@@ -18,10 +18,10 @@ class GlossaryLink extends React.Component {
   render() {
     return (
       <button
-          className="rx-trigger"
-          data-term={this.props.term}
-          onClick={this.handleClick}
-          type="button">{this.props.term}</button>
+        className="rx-trigger"
+        data-term={this.props.term}
+        onClick={this.handleClick}
+        type="button">{this.props.term}</button>
     );
   }
 }

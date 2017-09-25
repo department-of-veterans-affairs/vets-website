@@ -31,18 +31,18 @@ class MessageAttachments extends React.Component {
       return (
         <li key={key}>
           <MessageUploadedAttachment
-              attachmentIndex={index}
-              fileName={file.name}
-              fileSize={fileSize}
-              onClose={this.handleAttachmentDelete}/>
+            attachmentIndex={index}
+            fileName={file.name}
+            fileSize={fileSize}
+            onClose={this.handleAttachmentDelete}/>
         </li>
       );
     });
 
     return (
       <div
-          className={cssClass}
-          hidden={!this.props.files.length}>
+        className={cssClass}
+        hidden={!this.props.files.length}>
         <div>
           <div className="msg-attachments-title">Attachments:</div>
           <ul className="msg-attachments-list">

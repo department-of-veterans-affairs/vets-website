@@ -13,11 +13,11 @@ export default class LoadingIndicator extends React.Component {
     return (
       <div className="loading-indicator-container">
         <div
-            ref={(div) => { this.spinnerDiv = div; }}
-            className="loading-indicator"
-            role="progressbar"
-            aria-valuetext={message}
-            tabIndex="0"></div>
+          ref={(div) => { this.spinnerDiv = div; }}
+          className="loading-indicator"
+          role="progressbar"
+          aria-valuetext={message}
+          tabIndex="0"></div>
         {message}
       </div>
     );

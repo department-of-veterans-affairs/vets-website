@@ -39,10 +39,17 @@ describe('Schemaform review widgets', () => {
   describe('<DateWidget>', () => {
     it('should render', () => {
       const tree = SkinDeep.shallowRender(
-        <DateWidget value="2010-01-02"/>
+        <DateWidget value="2010-01-02" options={{}}/>
       );
 
       expect(tree.text()).to.equal('01/02/2010');
+    });
+    it('should render month year', () => {
+      const tree = SkinDeep.shallowRender(
+        <DateWidget value="2010-01-02" options={{ monthYear: true }}/>
+      );
+
+      expect(tree.text()).to.equal('01/2010');
     });
   });
   describe('<SelectWidget>', () => {
@@ -55,8 +62,8 @@ describe('Schemaform review widgets', () => {
       ];
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions }}
-            value="Test"/>
+          options={{ enumOptions }}
+          value="Test"/>
       );
 
       expect(tree.text()).to.equal('Label');
@@ -70,8 +77,8 @@ describe('Schemaform review widgets', () => {
       ];
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions }}
-            value=""/>
+          options={{ enumOptions }}
+          value=""/>
       );
 
       expect(tree.text()).to.be.empty;
@@ -89,8 +96,8 @@ describe('Schemaform review widgets', () => {
       };
       const tree = SkinDeep.shallowRender(
         <SelectWidget
-            options={{ enumOptions, labels }}
-            value="Test"/>
+          options={{ enumOptions, labels }}
+          value="Test"/>
       );
 
       expect(tree.text()).to.equal('Other');
@@ -120,6 +127,32 @@ describe('Schemaform review widgets', () => {
       );
 
       expect(tree.text()).to.be.empty;
+    });
+    it('should render labels', () => {
+      const YesNo = yesNo;
+      const tree = SkinDeep.shallowRender(
+        <YesNo
+          value
+          options={{
+            labels: {
+              Y: 'Whatever'
+            }
+          }}/>
+      );
+
+      expect(tree.text()).to.equal('Whatever');
+    });
+    it('should render reversed', () => {
+      const YesNo = yesNo;
+      const tree = SkinDeep.shallowRender(
+        <YesNo
+          value={false}
+          options={{
+            yesNoReverse: true
+          }}/>
+      );
+
+      expect(tree.text()).to.equal('Yes');
     });
   });
 });

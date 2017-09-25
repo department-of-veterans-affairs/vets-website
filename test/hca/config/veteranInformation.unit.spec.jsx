@@ -13,11 +13,11 @@ describe('HCA veteranInformation', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -37,10 +37,10 @@ describe('HCA veteranInformation', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.birthInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -58,10 +58,10 @@ describe('HCA veteranInformation', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.demographicInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -79,10 +79,10 @@ describe('HCA veteranInformation', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranAddress;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -99,9 +99,9 @@ describe('HCA veteranInformation', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.contactInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

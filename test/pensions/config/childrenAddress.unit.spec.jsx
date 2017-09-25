@@ -7,9 +7,8 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child address page', () => {
-  const schema = formConfig.chapters.householdInformation.pages.childrenAddress.schema.properties.dependents.items;
-  const uiSchema = formConfig.chapters.householdInformation.pages.childrenAddress.uiSchema.dependents.items;
-  let nameData = {
+  const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenAddress;
+  const nameData = {
     'view:hasDependents': true,
     dependents: [
       {
@@ -24,25 +23,46 @@ describe('Child address page', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={nameData}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={nameData}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
   });
 
+  it('should render address fields', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={nameData}
+        uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+    formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
+
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(13);
+  });
+
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={nameData}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={nameData}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
@@ -54,11 +74,13 @@ describe('Child address page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={nameData}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={nameData}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -66,6 +88,6 @@ describe('Child address page', () => {
     formDOM.fillData('#root_childInHouseholdYes', 'Y');
 
     formDOM.submitForm(form);
-    // expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.true;
   });
 });

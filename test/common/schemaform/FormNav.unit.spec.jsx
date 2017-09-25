@@ -17,10 +17,18 @@ describe('Schemaform FormNav', () => {
           }
         },
         chapter2: {
-          pages: {}
+          pages: {
+            page2: {
+              path: 'testing'
+            }
+          }
         },
         chapter3: {
-          pages: {}
+          pages: {
+            page3: {
+              path: 'testing'
+            }
+          }
         }
       }
 
@@ -29,8 +37,8 @@ describe('Schemaform FormNav', () => {
 
     const tree = SkinDeep.shallowRender(
       <FormNav
-          formConfig={formConfig}
-          currentPath={currentPath}/>
+        formConfig={formConfig}
+        currentPath={currentPath}/>
     );
 
     expect(tree.subTree('SegmentedProgressBar').props.total).to.equal(4);

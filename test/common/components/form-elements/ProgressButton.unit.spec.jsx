@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
-import { default as chai, expect } from 'chai';
+import chai, { expect } from 'chai';
 
 import ProgressButton from '../../../../src/js/common/components/form-elements/ProgressButton';
 

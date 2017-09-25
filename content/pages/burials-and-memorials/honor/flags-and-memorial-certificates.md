@@ -18,12 +18,12 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 ### Can I get a burial flag?
 
-You can get a burial flag if you're the next of kin or a close friend of the deceased, and that person: 
+You can get a burial flag if you’re the next of kin or a close friend of the deceased, and that person: 
 - Served in wartime, **or**
 - Died while on active duty after May 27, 1941, **or**
 - Served after January 31, 1955, **or**
 - Served in peacetime and left military service before June 27, 1950, after serving at least 1 enlistment, or because of a disability that was caused—or made worse—by their active military service, **or**
-- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">800-827-1000</a>.
+- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">1-800-827-1000</a>.
 
 </div>
 
@@ -48,18 +48,18 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 ### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who's eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
+A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
 Send the PMC request form and discharge papers to: 
+<br><br>
+<p class="va-address-block">
+    Memorial Products Service (41B)<br>
+    Department of Veterans Affairs<br>
+    5109 Russell Road<br>
+    Quantico, VA 22134-3903<br>
+</p>
+<br>
 
-<dl class="va-address-block">
-    <dt></dt>
-    <dd>Memorial Products Service (41B)</dd>
-    <dd>Department of Veterans Affairs</dd>
-    <dd>5109 Russell Road</dd>
-    <dd>Quantico, VA 22134-3903</dd>
-</dl>
-
-  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
+  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">1-800-697-6947</a>.
 </div>
 

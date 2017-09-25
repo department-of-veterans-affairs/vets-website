@@ -3,6 +3,7 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
@@ -16,7 +17,21 @@ import {
   directDepositWarning,
   isMarried,
   applicantDescription,
-  otherExpensesWarning
+  uploadMessage,
+  dependentsMinItem,
+  wartimeWarning,
+  servedDuringWartime,
+  disabilityDocs,
+  schoolAttendanceWarning,
+  marriageWarning,
+  fdcWarning,
+  noFDCWarning,
+  expeditedProcessDescription,
+  aidAttendanceEvidence,
+  dependentWarning,
+  expectedIncomeDescription,
+  spouseExpectedIncomeDescription,
+  dependentExpectedIncomeDescription
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import DisabilityField from '../components/DisabilityField';
@@ -27,6 +42,7 @@ import FullNameField from '../../common/schemaform/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
@@ -41,6 +57,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
+import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 const {
@@ -69,7 +86,8 @@ const {
   veteranFullName,
   veteranDateOfBirth,
   veteranSocialSecurityNumber,
-  vamcTreatmentCenters
+  vamcTreatmentCenters,
+  noRapidProcessing
 } = fullSchemaPensions.properties;
 
 const {
@@ -92,16 +110,18 @@ const {
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 function isUnder65(formData) {
-  return moment().startOf('day').subtract(65, 'years').isBefore(formData.veteranDateOfBirth);
+  return moment().startOf('day').subtract(65, 'years')
+    .isBefore(formData.veteranDateOfBirth);
 }
 
 function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(moment().startOf('day').subtract(23, 'years'), moment().startOf('day').subtract(18, 'years'));
 }
 
-// Checks to see if they're under 17.75 years old
+// Checks to see if they’re under 17.75 years old
 function isEligibleForDisabilitySupport(childDOB) {
-  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months').isBefore(childDOB);
+  return moment().startOf('day').subtract(17, 'years').subtract(9, 'months')
+    .isBefore(childDOB);
 }
 
 function isCurrentMarriage(form, index) {
@@ -157,7 +177,6 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: __BUILDTYPE__ === 'production',
   formId: '21P-527EZ',
   version: 0,
   savedFormMessages: {
@@ -165,7 +184,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
   title: 'Apply for pension',
-  subTitle: 'Form 21-527EZ',
+  subTitle: 'Form 21P-527EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
@@ -201,7 +220,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
@@ -245,7 +264,32 @@ const formConfig = {
                   'Date entered service must be before date left service'
                 )
               }
-            }
+            },
+            'view:wartimeWarning': (() => {
+              const hideWartimeWarning = createSelector(
+                form => form.servicePeriods,
+                (periods) => {
+                  const completePeriods = (periods || []).filter(period => {
+                    return period.activeServiceDateRange &&
+                      isFullDate(period.activeServiceDateRange.to) &&
+                      isFullDate(period.activeServiceDateRange.from);
+                  });
+                  if (!completePeriods.length) {
+                    return true;
+                  }
+                  return completePeriods.some(period => {
+                    return servedDuringWartime(period.activeServiceDateRange);
+                  });
+                }
+              );
+
+              return {
+                'ui:description': wartimeWarning,
+                'ui:options': {
+                  hideIf: hideWartimeWarning
+                }
+              };
+            })()
           },
           schema: {
             type: 'object',
@@ -265,6 +309,10 @@ const formConfig = {
                     })
                   }
                 }
+              },
+              'view:wartimeWarning': {
+                type: 'object',
+                properties: {}
               }
             }
           }
@@ -293,10 +341,8 @@ const formConfig = {
                 form => form.servicePeriods,
                 (periods) => {
                   return (periods || []).every(period => {
-                    const isFullDate = /^\d{4}-\d{2}-\d{2}$/;
-
                     return !period.activeServiceDateRange ||
-                      !isFullDate.test(period.activeServiceDateRange.to) ||
+                      !isFullDate(period.activeServiceDateRange.to) ||
                       !moment('2001-09-11').isBefore(period.activeServiceDateRange.to);
                   });
                 }
@@ -350,7 +396,7 @@ const formConfig = {
                 }
               }),
               phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service Activation Date')
+              date: currentOrPastDateUI('Service activation date')
             }
           },
           schema: {
@@ -373,9 +419,9 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             powDateRange: _.set('ui:options.expandUnder', 'view:powStatus', dateRangeUI(
-                  'Start of confinement',
-                  'End of confinement',
-                  'Confinement start date must be before end date'
+              'Start of confinement',
+              'End of confinement',
+              'Confinement start date must be before end date'
             )),
             'view:receivedSeverancePay': {
               'ui:title': 'Have you received any type of severance or separation pay?',
@@ -389,12 +435,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:receivedSeverancePay'
               },
-              amount: {
-                'ui:title': 'Amount',
-                'ui:options': {
-                  classNames: 'schemaform-currency-input'
-                }
-              },
+              amount: currencyUI('Amount'),
               type: {
                 'ui:title': 'Pay Type',
                 'ui:widget': 'radio',
@@ -439,6 +480,9 @@ const formConfig = {
                 viewField: DisabilityField,
                 reviewTitle: 'Disability history',
                 itemName: 'Disability'
+              },
+              'ui:errorMessages': {
+                minItems: 'Please add at least one disability.'
               },
               items: {
                 name: {
@@ -493,7 +537,7 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             'view:workedBeforeDisabled': {
-              'ui:title': 'Have you been employed, including self employed, from one year before you became disabled to the present?',
+              'ui:title': 'Have you had a job (including being self-employed) from 1 year before you became disabled to now?',
               'ui:widget': 'yesNo'
             },
             'view:history': {
@@ -517,12 +561,7 @@ const formConfig = {
                   daysMissed: {
                     'ui:title': 'How many days lost to disability'
                   },
-                  annualEarnings: {
-                    'ui:title': 'Total annual earnings',
-                    'ui:options': {
-                      classNames: 'schemaform-currency-input'
-                    }
-                  }
+                  annualEarnings: currencyUI('Total annual earnings')
                 }
               }
             }
@@ -572,7 +611,7 @@ const formConfig = {
               'ui:required': (form) => !!_.get('maritalStatus', form)
                   && form.maritalStatus !== 'Never Married',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
                 expandUnderCondition: (status) => !!status
@@ -639,6 +678,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['marriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 'view:pastMarriage': {
                   'ui:options': {
                     hideIf: isCurrentMarriage
@@ -678,6 +723,7 @@ const formConfig = {
                     locationOfMarriage: marriageProperties.locationOfMarriage,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
@@ -724,7 +770,7 @@ const formConfig = {
                 expandUnder: 'spouseIsVeteran'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             liveWithSpouse: {
@@ -750,21 +796,19 @@ const formConfig = {
                 expandUnderCondition: false
               }
             },
-            monthlySpousePayment: {
-              'ui:title': spouseContribution,
+            monthlySpousePayment: _.merge(currencyUI(spouseContribution), {
               'ui:required': form => form.liveWithSpouse === false,
               'ui:options': {
-                classNames: 'schemaform-currency-input',
                 expandUnder: 'liveWithSpouse',
                 expandUnderCondition: false
               }
-            },
+            }),
             spouseMarriages: {
               'ui:title': 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
-                showFieldLabel: true,
+                showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 countOffset: -1
               },
@@ -845,6 +889,12 @@ const formConfig = {
                     expandUnderCondition: 'Other'
                   }
                 },
+                'view:marriageWarning': {
+                  'ui:description': marriageWarning,
+                  'ui:options': {
+                    hideIf: (form, index) => _.get(['spouseMarriages', index, 'marriageType'], form) !== 'Common-law'
+                  }
+                },
                 reasonForSeparation: {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
@@ -878,6 +928,7 @@ const formConfig = {
                     spouseFullName: marriageProperties.spouseFullName,
                     marriageType,
                     otherExplanation: marriageProperties.otherExplanation,
+                    'view:marriageWarning': { type: 'object', properties: {} },
                     reasonForSeparation,
                     dateOfSeparation: marriageProperties.dateOfSeparation,
                     locationOfSeparation: marriageProperties.locationOfSeparation
@@ -900,6 +951,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
+              },
+              'ui:errorMessages': {
+                minItems: dependentsMinItem
               },
               items: {
                 fullName: fullNameUI,
@@ -948,7 +1002,19 @@ const formConfig = {
                     'view:noSSN': { type: 'boolean' },
                     childRelationship: dependents.items.properties.childRelationship,
                     attendingCollege: dependents.items.properties.attendingCollege,
+                    'view:schoolWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     disabled: dependents.items.properties.disabled,
+                    'view:disabilityDocs': {
+                      type: 'object',
+                      properties: {}
+                    },
+                    'view:dependentWarning': {
+                      type: 'object',
+                      properties: {}
+                    },
                     previouslyMarried: dependents.items.properties.previouslyMarried,
                     married: dependents.items.properties.married,
                   }
@@ -989,6 +1055,12 @@ const formConfig = {
                     hideIf: (formData, index) => !isBetween18And23(_.get(['dependents', index, 'childDateOfBirth'], formData)),
                   }
                 },
+                'view:schoolWarning': {
+                  'ui:description': schoolAttendanceWarning,
+                  'ui:options': {
+                    expandUnder: 'attendingCollege'
+                  }
+                },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
                   'ui:required': (formData, index) => !isEligibleForDisabilitySupport(_.get(['dependents', index, 'childDateOfBirth'], formData)),
@@ -997,9 +1069,22 @@ const formConfig = {
                   },
                   'ui:widget': 'yesNo',
                 },
+                'view:disabilityDocs': {
+                  'ui:description': disabilityDocs,
+                  'ui:options': {
+                    expandUnder: 'disabled'
+                  }
+                },
+                'view:dependentWarning': {
+                  'ui:description': dependentWarning,
+                  'ui:options': {
+                    hideIf: (formData, index) => _.get(['dependents', index, 'disabled'], formData) !== false
+                      || _.get(['dependents', index, 'attendingCollege'], formData) !== false
+                  }
+                },
                 previouslyMarried: {
                   'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
+                  'ui:widget': 'yesNo'
                 },
                 married: {
                   'ui:title': 'Are they currently married?',
@@ -1067,15 +1152,13 @@ const formConfig = {
                     }
                   }
                 ),
-                monthlyPayment: {
-                  'ui:title': 'How much do you contribute per month to their support?',
+                monthlyPayment: _.merge(currencyUI('How much do you contribute per month to their support?'), {
                   'ui:required': (form, index) => !_.get(['dependents', index, 'childInHousehold'], form),
                   'ui:options': {
-                    classNames: 'schemaform-currency-input',
                     expandUnder: 'childInHousehold',
                     expandUnderCondition: false
                   }
-                }
+                })
               }
             }
           }
@@ -1084,6 +1167,7 @@ const formConfig = {
     },
     financialDisclosure: {
       title: 'Financial Disclosure',
+      reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
@@ -1133,7 +1217,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('veteranFullName', 'Expected income'),
-            'ui:description': 'Any income you expect to receive in the next 12 months',
+            'ui:description': expectedIncomeDescription,
             expectedIncome: expectedIncomeUI
           }
         },
@@ -1147,11 +1231,7 @@ const formConfig = {
               'view:hasOtherExpenses': {
                 type: 'boolean'
               },
-              otherExpenses,
-              'view:otherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              otherExpenses
             }
           },
           uiSchema: {
@@ -1164,13 +1244,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:hasOtherExpenses'
               }
-            }),
-            'view:otherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses'
-              }
-            }
+            })
           }
         },
         spouseNetWorth: {
@@ -1223,7 +1297,7 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': 'Any income you expect your spouse to receive in the next 12 months',
+            'ui:description': spouseExpectedIncomeDescription,
             spouseExpectedIncome: expectedIncomeUI
           }
         },
@@ -1238,11 +1312,7 @@ const formConfig = {
               'view:spouseHasOtherExpenses': {
                 type: 'boolean'
               },
-              spouseOtherExpenses: otherExpenses,
-              'view:spouseOtherExpensesWarning': {
-                type: 'object',
-                properties: {}
-              }
+              spouseOtherExpenses: otherExpenses
             }
           },
           uiSchema: {
@@ -1255,13 +1325,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:spouseHasOtherExpenses'
               }
-            }),
-            'view:spouseOtherExpensesWarning': {
-              'ui:description': otherExpensesWarning,
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses'
-              }
-            }
+            })
           }
         },
         dependentsNetWorth: {
@@ -1349,7 +1413,7 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Expected income'),
-                'ui:description': 'Any income you expect this dependent to receive in the next 12 months',
+                'ui:description': dependentExpectedIncomeDescription,
                 expectedIncome: expectedIncomeUI
               }
             }
@@ -1372,11 +1436,7 @@ const formConfig = {
                     'view:hasOtherExpenses': {
                       type: 'boolean'
                     },
-                    otherExpenses,
-                    'view:otherExpensesWarning': {
-                      type: 'object',
-                      properties: {}
-                    }
+                    otherExpenses
                   }
                 }
               }
@@ -1394,13 +1454,7 @@ const formConfig = {
                   'ui:options': {
                     expandUnder: 'view:hasOtherExpenses'
                   }
-                }),
-                'view:otherExpensesWarning': {
-                  'ui:description': otherExpensesWarning,
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses'
-                  }
-                }
+                })
               }
             }
           }
@@ -1412,7 +1466,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
+          path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
             'ui:title': 'Direct deposit',
@@ -1491,24 +1545,94 @@ const formConfig = {
               mobilePhone
             }
           }
-        }
-      }
-    },
-    documentUpload: {
-      title: 'Document Upload',
-      pages: {
+        },
+        aidAttendance: {
+          path: 'additional-information/aid-attendance',
+          title: 'Aid and Attendance and Housebound Benefits',
+          uiSchema: {
+            'ui:title': 'Aid and Attendance and Housebound Benefits',
+            'view:evidenceInfo': {
+              'ui:description': aidAttendanceEvidence
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:evidenceInfo': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
         documentUpload: {
           title: 'Document upload',
           path: 'documents',
           editModeOnReviewPage: true,
           uiSchema: {
+            'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            files: fileUploadUI('Please upload any documentation that you need to support your claim')
+            files: fileUploadUI('', {
+              hideLabelText: true,
+            }),
+            'view:uploadMessage': {
+              'ui:description': uploadMessage
+            }
           },
           schema: {
             type: 'object',
             properties: {
-              files
+              files,
+              'view:uploadMessage': {
+                type: 'object',
+                properties: {}
+              }
+            }
+          }
+        },
+        expedited: {
+          title: 'Fully developed claim program',
+          path: 'additional-information/fdc',
+          uiSchema: {
+            'ui:description': expeditedProcessDescription,
+            noRapidProcessing: {
+              'ui:title': 'Do you want to apply using the Fully Developed Claim program?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes, I have uploaded all my documentation.',
+                  N: 'No, I have some extra information that I will submit to VA later.'
+                }
+              }
+            },
+            fdcWarning: {
+              'ui:description': fdcWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: false
+              }
+            },
+            noFDCWarning: {
+              'ui:description': noFDCWarning,
+              'ui:options': {
+                expandUnder: 'noRapidProcessing',
+                expandUnderCondition: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              noRapidProcessing,
+              fdcWarning: {
+                type: 'object',
+                properties: {}
+              },
+              noFDCWarning: {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

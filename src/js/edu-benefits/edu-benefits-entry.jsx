@@ -29,7 +29,7 @@ function init() {
         {createRoutes(store)}
       </Router>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 // Start react.

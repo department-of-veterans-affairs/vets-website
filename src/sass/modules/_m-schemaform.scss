@@ -25,7 +25,7 @@ legend {
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
+.va-nav-breadcrumbs-list, legend, .nav-header > h4, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
   &:focus {
     outline: none;
   }
@@ -161,12 +161,6 @@ label {
   margin-bottom: 7rem;
 }
 
-// Align the intro content of the 22-1990 to match the title
-// Necessary for the 22-1990 and HCA since they don't use schemaform
-.intro-content {
-  margin-left: -2rem;
-}
-
 // Align the process ol with the title
 .schemaform-process {
   ol {
@@ -201,6 +195,22 @@ label {
   }
 }
 
+legend.schemaform-label {
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 46rem;
+  padding-bottom: 0;
+}
+
+fieldset.schemaform-field-template {
+  margin-top: 3rem;
+  &.schemaform-first-field {
+    margin-top: 0;
+  }
+}
+
 .schemaform-warning-header {
   margin-top: 9px;
 }
@@ -226,12 +236,12 @@ label {
     top: 9px;
     left: 10px;
   }
-  > input[type=number] {
+  > input {
     padding-left: 25px !important;
   }
 }
 
-//duplicated from disability-benefits.scss
+//duplicated from claims-status.scss
 .ask-va-questions {
   .talk {
     margin: 0.5em 0;
@@ -246,7 +256,7 @@ label {
     }
   }
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .ask-va-questions.help-sidebar-box {
   padding: 2em 0;
   @include media($medium-large-screen) {
@@ -254,16 +264,16 @@ label {
     padding-left: inherit;
   }
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-sidebar-box {
   padding-top: 0.3em;
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-h2-border {
   border-bottom: 3px solid $color-primary;
   margin: 0.3em 0;
 }
-//duplicated/renamed from disability-benefits.scss
+//duplicated/renamed from claims-status.scss
 .help-h2 {
   font-size: 1.35em;
   line-height: 1.5;
@@ -322,6 +332,12 @@ label {
 
 .schemaform-address-view {
   white-space: pre-wrap;
+  p {
+    margin-bottom: 0;
+  }
+  p:not(:first-child) {
+    margin-top: 0;
+  }
 }
 
 .schemaform-array-readonly-header {
@@ -342,6 +358,10 @@ label {
   margin-top: 0;
 }
 
+.schemaform-sip-alert-title {
+  padding-bottom: 16px;
+}
+
 .schemaform-label-no-top-margin {
   > .schemaform-label {
     margin-top: 1rem;
@@ -350,4 +370,119 @@ label {
 
 .schemaform-file-uploading {
   width: 100%;
+}
+
+.schemaform-review-array-warning {
+  margin: -1em -0.8em 0;
+  border: 2px solid $color-gold-lightest;
+  > .form-review-panel-page-header-row {
+    padding: 1em 0.8em;
+    background-color: $color-gold-lightest;
+  }
+  > .va-growable-review {
+    padding: 0 1em;
+  }
+}
+
+.schemaform-review-array-warning-icon {
+  background-image: url("~uswds/dist/img/alerts/warning.png");
+  background-image: url("~uswds/dist/img/alerts/warning.svg");
+  width: 2em;
+  height: 1.4em;
+  background-size: 2em;
+  margin-right: 1em;
+}
+
+.schemaform-review-page-warning {
+  margin: -1em -1em 5rem;
+  .form-review-panel-page-header-row {
+    padding: 1em 1em;
+    background-color: $color-gold-lightest;
+    &:after {
+      display: block;
+      order: 2;
+      content: " ";
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.3em;
+      background-size: 2em;
+      margin-right: 1em;
+    }
+    .edit-btn {
+      order: 3;
+    }
+  }
+  dl.review {
+    padding: 0 1em;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.schemaform-review-chapter-warning {
+  .schemaform-chapter-accordion-header {
+    position: relative;
+    > .usa-button-unstyled {
+      background-color: $color-gold-lightest;
+    }
+    .schemaform-review-chapter-warning-icon {
+      position: absolute;
+      top: 2.8rem;
+      right: 4rem;
+      display: block;
+      background-image: url("~uswds/dist/img/alerts/warning.png");
+      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      width: 2em;
+      height: 1.2em;
+      background-size: 1.8em;
+      margin-right: 1em;
+    }
+  }
+  .schemaform-chapter-accordion-content {
+    border-right-color: $color-gold-lightest;
+    border-left-color: $color-gold-lightest;
+    border-bottom-color: $color-gold-lightest;
+  }
+}
+
+#content .panel.saved-success-container {
+  background-color: $color-green-lightest;
+}
+
+.saved-success-icon {
+  margin: 0 .5em 0 0;
+}
+
+.usa-alert-no-color {
+  background-color: transparent;
+}
+.usa-alert-mini {
+  margin-top: 0;
+  margin-bottom: 1em;
+  background-size: 3rem;
+  background-position: 1rem 1.8rem;
+  > .usa-alert-body {
+    padding-left: 3rem;
+  }
+}
+
+.expires-container {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.expires {
+  font-weight: bold;
+}
+
+.saved-form-metadata-container {
+  margin-bottom: 16px;
+}
+.saved-form-metadata {
+  display: block;
+}
+.saving {
+  font-style: "italic";
 }

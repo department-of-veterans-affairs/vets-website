@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
 display_title: Conditions
-order: 5
+order: 4
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -41,7 +41,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents

@@ -74,18 +74,26 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('submitForm', () => {
-    let fetchMock;
-    let oldFetch;
+    let xhr;
+    let requests = [];
 
     beforeEach(() => {
-      oldFetch = global.fetch;
-      fetchMock = sinon.stub();
-      global.fetch = fetchMock;
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy()
+      });
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = (req) => {
+        requests.push(req);
+      };
       window.dataLayer = [];
     });
 
     afterEach(() => {
-      global.fetch = oldFetch;
+      delete global.FormData;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+      window.dataLayer = [];
     });
 
     it('should set submitted', () => {
@@ -103,17 +111,8 @@ describe('Schemaform actions:', () => {
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
       const response = { data: {} };
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve(response)
-          }
-        )
-      });
 
-      return thunk(dispatch).then(() => {
+      const promise = thunk(dispatch).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
@@ -124,6 +123,10 @@ describe('Schemaform actions:', () => {
           response: {}
         });
       });
+
+      requests[0].respond(200, null, JSON.stringify(response));
+
+      return promise;
     });
     it('should submit with auth header', () => {
       const formConfig = {
@@ -137,23 +140,18 @@ describe('Schemaform actions:', () => {
           test: 1
         }
       };
-      global.sessionStorage = { userToken: 'testing' };
+      window.sessionStorage = { userToken: 'testing' };
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
       const response = { data: {} };
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve(response)
-          }
-        )
+
+      const promise = thunk(dispatch).then(() => {
+        expect(requests[0].requestHeaders.Authorization).to.equal('Token token=testing');
       });
 
-      return thunk(dispatch).then(() => {
-        expect(fetchMock.firstCall.args[1].headers.Authorization).to.equal('Token token=testing');
-      });
+      requests[0].respond(200, null, JSON.stringify(response));
+
+      return promise;
     });
     it('should set submission error', () => {
       const formConfig = {
@@ -170,17 +168,8 @@ describe('Schemaform actions:', () => {
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
       const response = { data: {} };
-      fetchMock.returns({
-        then: (fn) => fn(
-          {
-            ok: false,
-            status: 500,
-            json: () => Promise.resolve(response)
-          }
-        )
-      });
 
-      return thunk(dispatch).then(() => {
+      const promise = thunk(dispatch).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
@@ -192,6 +181,10 @@ describe('Schemaform actions:', () => {
           value: 'error'
         });
       });
+
+      requests[0].respond(400, null, JSON.stringify(response));
+
+      return promise;
     });
   });
   describe('uploadFile', () => {

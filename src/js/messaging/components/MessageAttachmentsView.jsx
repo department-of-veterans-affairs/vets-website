@@ -13,9 +13,9 @@ class MessageAttachmentsView extends React.Component {
 
         return (
           <MessageAttachmentsViewItem
-              key={key}
-              name={attachment.attributes.name}
-              url={attachment.links.download}/>
+            key={key}
+            name={attachment.attributes.name}
+            url={attachment.links.download}/>
         );
       });
     } else {

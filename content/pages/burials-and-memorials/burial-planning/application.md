@@ -9,7 +9,6 @@ layout: page-react.html
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
       <li><a href="/burials-and-memorials/burial-planning">Burial Planning</a></li>
-      <li class="active">Apply Online</li>
     </ul>
   </nav>
 

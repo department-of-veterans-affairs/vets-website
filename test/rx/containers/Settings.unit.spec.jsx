@@ -50,9 +50,9 @@ describe('<Settings>', () => {
   it('should enable save button and show cancel button if email is modified', () => {
     const tree = SkinDeep.shallowRender(
       <Settings
-          {...props }
-          email={makeField('new.test@vets.gov', true)}
-          flag={makeField('false')}/>
+        {...props }
+        email={makeField('new.test@vets.gov', true)}
+        flag={makeField('false')}/>
     );
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
@@ -65,9 +65,9 @@ describe('<Settings>', () => {
   it('should enable save button and show cancel button if flag is modified', () => {
     const tree = SkinDeep.shallowRender(
       <Settings
-          {...props }
-          email={makeField('test@vets.gov')}
-          flag={makeField('on', true)}/>
+        {...props }
+        email={makeField('test@vets.gov')}
+        flag={makeField('on', true)}/>
     );
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);

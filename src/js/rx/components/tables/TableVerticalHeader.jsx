@@ -16,9 +16,9 @@ class TableVerticalHeader extends React.Component {
 
       _.forEach(inputData, (value, key) => {
         rows.push(<TableRowVerticalHeader
-            key={rowKey++}
-            cellText={value}
-            headerText={key}/>);
+          key={rowKey++}
+          cellText={value}
+          headerText={key}/>);
       });
 
       return rows;

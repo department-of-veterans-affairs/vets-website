@@ -22,9 +22,9 @@ class ComposeButton extends React.Component {
 
     return (
       <button
-          disabled={disabled}
-          onClick={this.goToComposeMessage}
-          className={classes}>
+        disabled={disabled}
+        onClick={this.goToComposeMessage}
+        className={classes}>
         Compose a message
       </button>
     );

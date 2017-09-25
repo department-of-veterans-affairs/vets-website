@@ -5,11 +5,14 @@ import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
-  isValidFutureDate,
+  isValidCurrentOrPastYear,
+  isValidCurrentOrFutureMonthYear,
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
-  isValidCanPostalCode
+  isValidCanPostalCode,
+  isValidPartialMonthYear,
+  isValidPartialMonthYearInPast
 } from '../utils/validations';
 
 import { parseISODate } from './helpers';
@@ -176,7 +179,11 @@ export function isValidForm(form, pageListByChapters) {
 
   const v = new Validator();
 
-  return form.data.privacyAgreementAccepted && validPages.every(page => {
+  if (!form.data.privacyAgreementAccepted) {
+    return { isValid: false };
+  }
+
+  return validPages.reduce(({ isValid, errors }, page) => {
     const { uiSchema, schema, showPagePerItem, itemFilter, arrayPath } = form.pages[page];
     let formData = form.data;
 
@@ -195,14 +202,21 @@ export function isValidForm(form, pageListByChapters) {
     );
 
     if (result.valid) {
-      const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      const customErrors = {};
+      uiSchemaValidate(customErrors, uiSchema, schema, formData);
 
-      return errorSchemaIsValid(errors);
+      return {
+        isValid: isValid && errorSchemaIsValid(customErrors),
+        errors: errors.concat(customErrors)
+      };
     }
 
-    return false;
-  });
+    return {
+      isValid: false,
+      // removes PII
+      errors: errors.concat(result.errors.map(_.unset('instance')))
+    };
+  }, { isValid: true, errors: [] });
 }
 
 
@@ -215,6 +229,13 @@ export function validateSSN(errors, ssn) {
 export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
+  }
+}
+
+export function validateMonthYear(errors, dateString) {
+  const { month, year } = parseISODate(dateString);
+  if (!isValidPartialMonthYear(month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
@@ -233,14 +254,32 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
   }
 }
 
+export function validateCurrentOrPastMonthYear(errors, dateString, formData, schema, errorMessages = {}) {
+  const { futureDate = 'Please provide a valid current or past date' } = errorMessages;
+  validateMonthYear(errors, dateString);
+  const { month, year } = parseISODate(dateString);
+  if (!isValidPartialMonthYearInPast(month, year)) {
+    errors.addError(futureDate);
+  }
+}
+
 /**
  * Adds an error message to errors if a date is an invalid date or in the past.
  */
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);
-  const { day, month, year } = parseISODate(dateString);
-  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
+  const { month, year } = parseISODate(dateString);
+  if (formData.highSchool.status === 'graduationExpected' && !isValidCurrentOrFutureMonthYear(month, year)) {
     errors.addError('Please provide a valid future date');
+  }
+}
+
+/**
+ * Adds an error message to errors if an integer year value is not between 1900 and the current year.
+ */
+export function validateCurrentOrPastYear(errors, year) {
+  if (!isValidCurrentOrPastYear(year)) {
+    errors.addError('Please provide a valid year');
   }
 }
 

@@ -2,7 +2,7 @@ const initialState = {
   errors: [],
 };
 
-export default function errors(state = initialState, action) {
+export default function errors(state, action) {
   switch (action.type) {
     case 'REFILL_FAILURE': {
       return {

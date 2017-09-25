@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { truncate, kebabCase } from 'lodash';
@@ -59,6 +62,13 @@ class SearchControls extends Component {
     const { onSearch } = this.props;
     e.preventDefault();
 
+    const { facilityType } = this.props.currentQuery;
+    // Report event here to only send analytics event when a user clicks on the button
+    window.dataLayer.push({
+      event: 'fl-search',
+      'fl-search-fac-type': facilityType
+    });
+
     onSearch();
   }
 
@@ -85,17 +95,19 @@ class SearchControls extends Component {
     }
   }
 
-  handleFacilityFilterSelect(facilityType) {
-    if (['benefits', 'vet_center'].includes(facilityType)) {
+  handleFacilityFilterSelect(newFacilityType) {
+    const { currentQuery: { facilityType } } = this.props;
+    if (['benefits', 'vet_center'].includes(newFacilityType) &&
+        newFacilityType === facilityType) {
       return () => {
         this.props.updateSearchQuery({
-          facilityType,
+          facilityType: newFacilityType,
         });
       };
     }
     return () => {
       this.props.updateSearchQuery({
-        facilityType,
+        facilityType: newFacilityType,
         serviceType: null,
       });
     };

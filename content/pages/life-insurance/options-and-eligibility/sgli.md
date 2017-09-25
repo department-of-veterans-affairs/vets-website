@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Servicemembers’ Group Life Insurance (SGLI)
-display_title: Servicemembers' Group (SGLI)
+display_title: Servicemembers’ Group (SGLI)
 concurrence: 
 order: 1
 relatedlinks:
@@ -18,7 +18,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember who meets certain criteria, we'll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
+If you’re a Servicemember who meets certain criteria, we’ll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -105,7 +105,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 
 <br>
 
-**If your branch of service hasn't yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit's personnel officer. <br>
+**If your branch of service hasn’t yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit’s personnel officer. <br>
 [Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
@@ -141,7 +141,7 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 <span id="extension"></span>
 
 ### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
-You may be able to keep your coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and:
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
@@ -182,6 +182,3 @@ If you have a severe service-connected disability that we’ve concluded was cau
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-<br>
-

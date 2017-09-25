@@ -27,7 +27,7 @@ You can apply for S-DVI if you meet these 4 criteria:
 
 - You were released from active duty under other than dishonorable conditions on or after April 25, 1951
 - You were rated for a service-connected disability (even if only 0%)
-- You're in good health except for any service-connected conditions
+- You’re in good health except for any service-connected conditions
 - You apply within 2 years from the date we grant your new service-connected disability
 
 **Note:** An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
@@ -67,19 +67,18 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - [Apply for basic S-DVI online](https://www.insurance.va.gov/portal/), **or**
 
- - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
+ - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
  
  Fax it to 888-748-5822, or mail it to: 
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Department of Veterans Affairs</dd>
-  <dd>Regional Office and Insurance Center (RH)</dd>
-  <dd>PO Box 7208</dd>
-  <dd>Philadelphia, PA 19101</dd>
-</dl> 
+<p class="va-address-block">
+  Department of Veterans Affairs<br>
+  Regional Office and Insurance Center (RH)<br>
+  PO Box 7208<br>
+  Philadelphia, PA 19101<br>
+</p> 
 
-If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemental Service-Disabled Veterans Insurance [SRH]) or send a letter requesting this insurance over your signature. You must apply for the coverage within 1 year from the date you receive notice of the grant of waiver of premiums.
+If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.
 
 [Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
@@ -92,7 +91,8 @@ Your premium rate (the amount you’ll pay each month for your coverage) depends
 -	The amount of insurance you want, **and**
 - The coverage plan requested
 
-Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
+See the premium rates and a description of the plan options. <br>
+[Download Service-Disabled Veterans Insurance RH Information and Premium Rates (VA pamphlet 29-9)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
 <br>
 
@@ -117,6 +117,4 @@ If you have a severe service-connected disability that we’ve concluded was cau
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
-
-<br>
 

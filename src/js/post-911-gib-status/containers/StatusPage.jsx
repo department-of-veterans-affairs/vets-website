@@ -1,34 +1,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
-
 import FormTitle from '../../common/schemaform/FormTitle';
 
-import { getEnrollmentData } from '../actions/post-911-gib-status';
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
+  constructor() {
+    super();
+    this.navigateToPrint = this.navigateToPrint.bind(this);
+  }
+
+  navigateToPrint() {
+    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  }
+
   render() {
     const { enrollmentData } = this.props;
-
-    return (
-      <div>
-        <FormTitle title="Post-9/11 GI Bill Benefit Information"/>
+    let introText;
+    let printButton;
+    if (enrollmentData.veteranIsEligible) {
+      window.dataLayer.push({ event: 'post911-status-info-shown' });
+      introText = (
         <div className="va-introtext">
           <p>
-            The information on this page is the same information that's in your
+            The information on this page is the same information that’s in your
             Certificate of Eligibility (COE) letter for Post-9/11 GI Bill
             (Chapter 33) benefits. You can print this page and use it instead
             of your COE to show that you qualify for benefits.
           </p>
         </div>
+      );
+
+      printButton = (
         <div className="section">
-          <Link to="/print" target="_blank" className="usa-button-primary">
-            Print Benefit Information
-          </Link>
+          <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
+            Print Statement of Benefits
+          </button>
         </div>
+      );
+    }
+
+    return (
+      <div className="usa-width-two-thirds medium-8 columns gib-info">
+        <FormTitle title="Post-9/11 GI Bill Statement of Benefits"/>
+        {introText}
+        {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
@@ -46,8 +64,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);

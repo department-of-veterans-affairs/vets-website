@@ -2,7 +2,6 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
-import LoginModal from '../components/LoginModal';
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
 import { focusElement } from '../utils/helpers';
 
@@ -23,6 +22,8 @@ class SaveFormLink extends React.Component {
     this.state = {
       modalOpened: false
     };
+
+    this.loginAttemptInProgress = false;
   }
 
   componentDidMount() {
@@ -32,46 +33,55 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  openLoginModal = () => {
-    // console.log('opening login modal');
-    this.setState({ modalOpened: true });
+  componentWillReceiveProps(newProps) {
+    const loginAttemptCompleted = this.props.user.login.showModal === true
+      && newProps.user.login.showModal === false
+      && this.loginAttemptInProgress;
+
+    if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
+      this.saveFormAfterLogin();
+    } else if (loginAttemptCompleted && !newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
+    }
   }
 
-  closeLoginModal = () => {
-    this.setState({ modalOpened: false });
+  handleSave() {
+    const {
+      formId,
+      version,
+      data
+    } = this.props.form;
+    const returnUrl = this.props.locationPathname;
+    this.props.saveInProgressForm(formId, version, returnUrl, data);
   }
 
-  saveFormAfterLogin = (...args) => {
+  saveFormAfterLogin = () => {
     window.dataLayer.push({
-      event: `${this.props.trackingPrefix}sip-login-before-save`
+      event: `${this.props.form.trackingPrefix}sip-login-before-save`
     });
-    this.props.saveForm(...args);
+    this.handleSave();
   }
 
-  saveForm = (...args) => {
+  saveForm = () => {
     if (this.props.user.login.currentlyLoggedIn) {
-      this.props.saveForm(...args);
+      this.handleSave();
     } else {
       this.openLoginModal();
     }
   }
-  render() {
-    const {
-      savedStatus
-    } = this.props;
 
-    // TODO: Remove LoginModal from here
+  openLoginModal = () => {
+    this.loginAttemptInProgress = true;
+    this.props.toggleLoginModal(true);
+  }
+
+  render() {
+    const { savedStatus } = this.props.form;
+
     return (
-      <div>
+      <div style={{ display: this.props.children ? 'inline' : null }}>
         <Element name="saveFormLinkTop"/>
-        <LoginModal
-            key={1}
-            title="Sign in to save your application"
-            onClose={this.closeLoginModal}
-            visible={this.state.modalOpened}
-            user={this.props.user}
-            onUpdateLoginUrl={this.props.onUpdateLoginUrl}
-            onLogin={this.saveFormAfterLogin}/>
         {saveErrors.has(savedStatus) &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.failure &&
@@ -83,18 +93,23 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>Save and finish later</button>}
+          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || 'Finish this application later'}</button>}
       </div>
     );
   }
 }
 
 SaveFormLink.propTypes = {
-  saveForm: PropTypes.func.isRequired,
-  savedStatus: PropTypes.string.isRequired,
+  locationPathname: PropTypes.string.isRequired,
+  form: PropTypes.shape({
+    formId: PropTypes.string.isRequired,
+    version: PropTypes.number.isRequired,
+    data: PropTypes.object.isRequired,
+    trackingPrefix: PropTypes.string.isRequired,
+    savedStatus: PropTypes.string.isRequired
+  }).isRequired,
   user: PropTypes.object.isRequired,
-  onUpdateLoginUrl: PropTypes.func.isRequired,
-  trackingPrefix: PropTypes.string
+  toggleLoginModal: PropTypes.func.isRequired,
 };
 
 export default SaveFormLink;

@@ -13,10 +13,10 @@ describe('Pensions applicantInformation', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -26,10 +26,10 @@ describe('Pensions applicantInformation', () => {
   it('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -46,11 +46,11 @@ describe('Pensions applicantInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -83,7 +83,7 @@ describe('Pensions applicantInformation', () => {
       }
     });
     const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                              .find(input => input.id === 'root_veteranSocialSecurityNumber');
+      .find(input => input.id === 'root_veteranSocialSecurityNumber');
     ReactTestUtils.Simulate.change(ssn, {
       target: {
         value: '123456788'

@@ -13,19 +13,19 @@ describe('Edu 5490 schoolSelection', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          state={{
-            schoolSelection: {
-              uiSchema: {
-                educationProgram: {
-                  educationType: educationTypeUi
-                }
+        schema={schema}
+        data={{}}
+        state={{
+          schoolSelection: {
+            uiSchema: {
+              educationProgram: {
+                educationType: educationTypeUi
               }
             }
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

@@ -53,7 +53,7 @@ export class Folder extends React.Component {
     const redirect = this.props.redirect;
 
     // In the typical case of redirects, we go to the most recent folder
-    // and proceed with fetching its data. If that's not the case,
+    // and proceed with fetching its data. If that’s not the case,
     // go ahead to the URL specified in the redirect.
     if (redirect && redirect.url !== this.props.location.pathname) {
       this.context.router.push({
@@ -70,7 +70,7 @@ export class Folder extends React.Component {
 
       // Only proceed with fetching the requested folder
       // if a redirect has been set (as after moving a message)
-      // or if it's not the same as the most recent request.
+      // or if it’s not the same as the most recent request.
       const shouldFetchFolder =
         redirect ||
         !lastRequest ||
@@ -108,8 +108,8 @@ export class Folder extends React.Component {
   formattedSortParam(value, order) {
     const formattedValue = _.snakeCase(value);
     const sort = order === 'DESC'
-                    ? `-${formattedValue}`
-                    : formattedValue;
+      ? `-${formattedValue}`
+      : formattedValue;
     return sort;
   }
 
@@ -183,11 +183,11 @@ export class Folder extends React.Component {
 
     return (
       <MessageNav
-          currentRange={currentRange}
-          messageCount={totalEntries}
-          onItemSelect={this.handlePageSelect}
-          itemNumber={currentPage}
-          totalItems={totalPages}/>
+        currentRange={currentRange}
+        messageCount={totalEntries}
+        onItemSelect={this.handlePageSelect}
+        itemNumber={currentPage}
+        totalItems={totalPages}/>
     );
   }
 
@@ -210,7 +210,7 @@ export class Folder extends React.Component {
       fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
 
       // Disable sorting by 'Date' for Drafts. There is no
-      // save date available, and drafts don't have sent dates.
+      // save date available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.splice(0, 1);
       }
@@ -219,9 +219,9 @@ export class Folder extends React.Component {
     const sortOptions = fields.map(field => {
       return (
         <option
-            key={field.value}
-            value={field.value}
-            data-order={field.order}>
+          key={field.value}
+          value={field.value}
+          data-order={field.order}>
           Sort by {field.label}
         </option>
       );
@@ -239,9 +239,9 @@ export class Folder extends React.Component {
       <div className="msg-folder-sort-select">
         <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
         <select
-            id="folderSort"
-            value={this.props.sort.value}
-            onChange={handleSort}>
+          id="folderSort"
+          value={this.props.sort.value}
+          onChange={handleSort}>
           {sortOptions}
         </select>
       </div>
@@ -276,7 +276,7 @@ export class Folder extends React.Component {
       fields[0] = { label: 'To', value: 'recipientName' };
 
       // Hide 'Date' column for Drafts. There is no save date
-      // available, and drafts don't have sent dates.
+      // available, and drafts don’t have sent dates.
       if (isDraftsFolder) {
         fields.pop();
       }
@@ -305,13 +305,13 @@ export class Folder extends React.Component {
 
       const moveToButton = (
         <MoveTo
-            currentFolder={attributes}
-            folders={folders}
-            isOpen={id === this.props.moveToId}
-            messageId={id}
-            onChooseFolder={this.props.moveMessageToFolder}
-            onCreateFolder={this.props.openMoveToNewFolderModal}
-            onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
+          currentFolder={attributes}
+          folders={folders}
+          isOpen={id === this.props.moveToId}
+          messageId={id}
+          onChooseFolder={this.props.moveMessageToFolder}
+          onCreateFolder={this.props.openMoveToNewFolderModal}
+          onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
       );
 
       const attachmentIcon = message.attachment ? (<i className="fa fa-paperclip" aria-label="Message has an attachment"></i>) : null;
@@ -330,11 +330,11 @@ export class Folder extends React.Component {
 
     return (
       <SortableTable
-          className="usa-table-borderless va-table-list msg-table-list"
-          currentSort={this.props.sort}
-          data={data}
-          fields={fields}
-          onSort={this.handleSort}/>
+        className="usa-table-borderless va-table-list msg-table-list"
+        currentSort={this.props.sort}
+        data={data}
+        fields={fields}
+        onSort={this.handleSort}/>
     );
   }
 
@@ -381,14 +381,14 @@ export class Folder extends React.Component {
       let messageSearch;
       if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
-            hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
-            isAdvancedVisible={this.props.isAdvancedVisible}
-            onAdvancedSearch={this.props.toggleAdvancedSearch}
-            onDateChange={this.props.setDateRange}
-            onError={this.props.openAlert}
-            onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}
-            params={this.props.searchParams}/>);
+          hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
+          isAdvancedVisible={this.props.isAdvancedVisible}
+          onAdvancedSearch={this.props.toggleAdvancedSearch}
+          onDateChange={this.props.setDateRange}
+          onError={this.props.openAlert}
+          onFieldChange={this.props.setSearchParam}
+          onSubmit={this.handleSearch}
+          params={this.props.searchParams}/>);
       }
 
       componentContent = (
@@ -407,12 +407,12 @@ export class Folder extends React.Component {
     return (
       <div>
         <div
-            id="messaging-content-header"
-            className="messaging-folder-header">
+          id="messaging-content-header"
+          className="messaging-folder-header">
           <button
-              className="messaging-menu-button"
-              type="button"
-              onClick={this.props.toggleFolderNav}>
+            className="messaging-menu-button"
+            type="button"
+            onClick={this.props.toggleFolderNav}>
             Menu
           </button>
           <h3>{folderName}</h3>

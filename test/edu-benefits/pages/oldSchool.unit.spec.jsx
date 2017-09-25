@@ -13,9 +13,9 @@ describe('Edu oldSchool page', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
@@ -26,11 +26,11 @@ describe('Edu oldSchool page', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          onSubmit={onSubmit}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        onSubmit={onSubmit}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     // Submit the form with no information

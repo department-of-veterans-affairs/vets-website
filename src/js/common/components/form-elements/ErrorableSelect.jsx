@@ -49,13 +49,13 @@ class ErrorableSelect extends React.Component {
       errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`} role="alert">{this.props.errorMessage}</span>;
     }
 
-  // Addes ToolTip if text is provided.
+    // Addes ToolTip if text is provided.
     let toolTip;
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -85,20 +85,20 @@ class ErrorableSelect extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
-            className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
-            htmlFor={this.selectId}>
-              {this.props.label}
-              {requiredSpan}
+          className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
+          htmlFor={this.selectId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         <select
-            className={this.props.additionalClass}
-            aria-describedby={errorSpanId}
-            id={this.selectId}
-            name={this.props.name}
-            autoComplete={this.props.autocomplete}
-            value={selectedValue}
-            onChange={this.handleChange}>
+          className={this.props.additionalClass}
+          aria-describedby={errorSpanId}
+          id={this.selectId}
+          name={this.props.name}
+          autoComplete={this.props.autocomplete}
+          value={selectedValue}
+          onChange={this.handleChange}>
           {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
         </select>

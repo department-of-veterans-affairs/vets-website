@@ -12,9 +12,9 @@ describe('Pensions directDeposit', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -25,9 +25,9 @@ describe('Pensions directDeposit', () => {
   it('should render stop message', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -40,9 +40,9 @@ describe('Pensions directDeposit', () => {
   it('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -57,9 +57,9 @@ describe('Pensions directDeposit', () => {
   it('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -76,10 +76,10 @@ describe('Pensions directDeposit', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

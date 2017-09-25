@@ -3,17 +3,15 @@ import React from 'react';
 
 class GlossaryList extends React.Component {
   render() {
-    let termsList = [];
+    const termsList = [];
     let tKey = 0;
     const terms = this.props.terms;
 
-    for (const o in terms) {
-      if (terms.hasOwnProperty(o)) {
-        let id = terms[o].term.toLowerCase().replace(/\s/g, '');
-        termsList.push(<dt id={id} key={++tKey}>{terms[o].term}</dt>);
-        termsList.push(<dd key={++tKey}>{terms[o].definition}</dd>);
-      }
-    }
+    Object.keys(terms).forEach(o => {
+      const id = terms[o].term.toLowerCase().replace(/\s/g, '');
+      termsList.push(<dt id={id} key={++tKey}>{terms[o].term}</dt>);
+      termsList.push(<dd key={++tKey}>{terms[o].definition}</dd>);
+    });
 
     let title;
     if (this.props.title) {

@@ -7,7 +7,6 @@ entryname: health-beta
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
-      <li class="active">Beta Enrollment</li>
     </ul>
   </nav>
 

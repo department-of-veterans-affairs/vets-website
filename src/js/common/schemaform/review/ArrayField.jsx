@@ -24,7 +24,7 @@ const scroller = Scroll.scroller;
 class ArrayField extends React.Component {
   constructor(props) {
     super(props);
-    // In contrast to the normal array field, we don't want to add an empty item
+    // In contrast to the normal array field, we don’t want to add an empty item
     // and always show at least one item on the review page
     const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
     this.state = {
@@ -39,6 +39,20 @@ class ArrayField extends React.Component {
     this.isLocked = this.isLocked.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.arrayData !== this.props.arrayData) {
+      const arrayData = Array.isArray(newProps.arrayData) ? newProps.arrayData : [];
+      const newState = {
+        items: arrayData
+      };
+      if (arrayData.length !== this.state.items.length) {
+        newState.editing = arrayData.map(() => false);
+      }
+
+      this.setState(newState);
+    }
+  }
+
   getItemSchema(index) {
     const schema = this.props.schema;
     if (schema.items.length > index) {
@@ -50,7 +64,7 @@ class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      // Hacky; won't work if the array field is used in two pages and one isn't
+      // Hacky; won’t work if the array field is used in two pages and one isn’t
       //  a BasicArrayField nor if the array field is used in three pages.
       scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, {
         duration: 500,
@@ -114,8 +128,8 @@ class ArrayField extends React.Component {
   /*
    * Called on any form data change.
    *
-   * When data is changed, since we're only editing one array item at a time,
-   * we need to update the full page's form data and call the Redux setData action
+   * When data is changed, since we’re only editing one array item at a time,
+   * we need to update the full page’s form data and call the Redux setData action
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
@@ -150,22 +164,28 @@ class ArrayField extends React.Component {
       path,
       pageTitle
     } = this.props;
+
+    const uiOptions = uiSchema['ui:options'] || {};
     const fieldName = path[path.length - 1];
-    const title = _.get('ui:title', uiSchema) || _.get('ui:options.reviewTitle', uiSchema) || pageTitle;
+    const title = _.get('ui:title', uiSchema) || uiOptions.reviewTitle || pageTitle;
     const arrayPageConfig = {
       uiSchema: uiSchema.items,
       pageKey: fieldName
     };
 
-    // TODO: Make this better; it's super hacky for now.
+    // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
-    const items = itemCountLocked ? this.props.arrayData : this.state.items;
+    // Make sure we default to an empty array if the item count is locked and no
+    //  arrayData is passed (mysteriously)
+    const items = itemCountLocked ? (this.props.arrayData || []) : this.state.items;
+    const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
-      <div>
+      <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
+            {itemsNeeded && <span className="schemaform-review-array-warning-icon"/>}
             {!itemCountLocked &&
               <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
             }
@@ -185,19 +205,19 @@ class ArrayField extends React.Component {
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && uiSchema['ui:options'].itemName && items.length > 1
-                          ? <h5>New {uiSchema['ui:options'].itemName}</h5>
-                          : null}
+                      {isLast && uiOptions.itemName && items.length > 1
+                        ? <h5>New {uiOptions.itemName}</h5>
+                        : null}
                       <SchemaForm
-                          data={item}
-                          schema={itemSchema}
-                          uiSchema={arrayPageConfig.uiSchema}
-                          title={pageTitle}
-                          hideTitle
-                          name={fieldName}
-                          onChange={(data) => this.handleSetData(index, data)}
-                          onEdit={() => this.handleEdit(index, !isEditing)}
-                          onSubmit={() => this.handleSave(index)}>
+                        data={item}
+                        schema={itemSchema}
+                        uiSchema={arrayPageConfig.uiSchema}
+                        title={pageTitle}
+                        hideTitle
+                        name={fieldName}
+                        onChange={(data) => this.handleSetData(index, data)}
+                        onEdit={() => this.handleEdit(index, !isEditing)}
+                        onSubmit={() => this.handleSave(index)}>
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             <button className="float-left">Update</button>
@@ -216,21 +236,27 @@ class ArrayField extends React.Component {
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
                   <SchemaForm
-                      reviewMode
-                      data={item}
-                      schema={itemSchema}
-                      uiSchema={arrayPageConfig.uiSchema}
-                      title={itemTitle}
-                      name={fieldName}
-                      onChange={(data) => this.handleSetData(index, data)}
-                      onEdit={() => this.handleEdit(index, !isEditing)}
-                      onSubmit={() => this.handleSave(index)}>
+                    reviewMode
+                    data={item}
+                    schema={itemSchema}
+                    uiSchema={arrayPageConfig.uiSchema}
+                    title={itemTitle}
+                    name={fieldName}
+                    onChange={(data) => this.handleSetData(index, data)}
+                    onEdit={() => this.handleEdit(index, !isEditing)}
+                    onSubmit={() => this.handleSave(index)}>
                     <div/>
                   </SchemaForm>
                 </div>
               </div>
             );
           })}
+          {itemsNeeded &&
+            <div className="usa-alert usa-alert-warning usa-alert-no-color usa-alert-mini">
+              <div className="usa-alert-body">
+                {_.get('ui:errorMessages.minItems', uiSchema) || 'You need to add at least one item.'}
+              </div>
+            </div>}
         </div>
       </div>
     );

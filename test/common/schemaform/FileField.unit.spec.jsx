@@ -23,12 +23,12 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.everySubTree('label')[0].text()).to.contain('Upload');
@@ -47,13 +47,13 @@ describe('Schemaform <FileField>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('li').text()).to.contain('Test file name');
@@ -73,13 +73,13 @@ describe('Schemaform <FileField>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.everySubTree('ProgressBar')).not.to.be.empty;
@@ -99,13 +99,13 @@ describe('Schemaform <FileField>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('ProgressBar').props.percent).to.equal(0);
@@ -134,14 +134,14 @@ describe('Schemaform <FileField>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        errorSchema={errorSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('.va-growable-background').text()).to.contain('Bad error');
@@ -163,13 +163,13 @@ describe('Schemaform <FileField>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <FileField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.everySubTree('label')).to.be.empty;
@@ -184,17 +184,17 @@ describe('Schemaform <FileField>', () => {
     };
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            fileField: [
-              {
-                confirmationCode: 'asdfasfd'
-              }
-            ]
-          }}
-          uiSchema={{
-            fileField: uiSchema
-          }}/>
+        schema={schema}
+        data={{
+          fileField: [
+            {
+              confirmationCode: 'asdfasfd'
+            }
+          ]
+        }}
+        uiSchema={{
+          fileField: uiSchema
+        }}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -217,17 +217,17 @@ describe('Schemaform <FileField>', () => {
     };
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            fileField: [
-              {
-                confirmationCode: 'asdfasfd'
-              }
-            ]
-          }}
-          uiSchema={{
-            fileField: uiSchema
-          }}/>
+        schema={schema}
+        data={{
+          fileField: [
+            {
+              confirmationCode: 'asdfasfd'
+            }
+          ]
+        }}
+        uiSchema={{
+          fileField: uiSchema
+        }}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -250,14 +250,14 @@ describe('Schemaform <FileField>', () => {
     const uploadFile = sinon.stub().returns(Promise.resolve());
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            fileField: []
-          }}
-          uploadFile={uploadFile}
-          uiSchema={{
-            fileField: uiSchema
-          }}/>
+        schema={schema}
+        data={{
+          fileField: []
+        }}
+        uploadFile={uploadFile}
+        uiSchema={{
+          fileField: uiSchema
+        }}/>
     );
     const formDOM = getFormDOM(form);
 

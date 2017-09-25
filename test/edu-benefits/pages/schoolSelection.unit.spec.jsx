@@ -30,10 +30,10 @@ Object.keys(optionsFor).forEach((formName) => {
     it('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            data={{}}
-            definitions={configs[formName].defaultDefinitions}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          data={{}}
+          definitions={configs[formName].defaultDefinitions}
+          uiSchema={uiSchema}/>
       );
 
       const formDOM = findDOMNode(form);
@@ -53,11 +53,11 @@ Object.keys(optionsFor).forEach((formName) => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
-            schema={schema}
-            onSubmit={onSubmit}
-            data={{}}
-            definitions={configs[formName].defaultDefinitions}
-            uiSchema={uiSchema}/>
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          definitions={configs[formName].defaultDefinitions}
+          uiSchema={uiSchema}/>
       );
       const formDOM = findDOMNode(form);
       submitForm(form);

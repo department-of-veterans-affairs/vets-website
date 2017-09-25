@@ -1,6 +1,6 @@
 import environment from './environment.js';
-import { updateLoggedInStatus } from '../../login/actions';
-import { updateProfileField, profileLoadingFinished } from '../../user-profile/actions';
+import { updateLoggedInStatus, updateLogInUrls } from '../../login/actions';
+import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
   window.dataLayer.push({ event: 'verify-link-clicked' });
@@ -9,6 +9,45 @@ export function handleVerify(verifyUrl) {
     const receiver = window.open(`${verifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
+}
+
+export function handleMultifactor(multifactorUrl) {
+  window.dataLayer.push({ event: 'multifactor-link-clicked' });
+  if (multifactorUrl) {
+    window.dataLayer.push({ event: 'multifactor-link-opened' });
+    const receiver = window.open(multifactorUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+}
+
+export function getVerifyUrl(onUpdateVerifyUrl) {
+  const verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Token token=${sessionStorage.userToken}`
+    })
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateVerifyUrl(json.identity_proof_url);
+  });
+
+  return verifyUrlRequest;
+}
+
+export function getMultifactorUrl(onUpdateMultifactorUrl) {
+  const getMultifactorUrlRequest = fetch(`${environment.API_URL}/v0/sessions/multifactor`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Token token=${sessionStorage.userToken}`
+    })
+  }).then(response => {
+    return response.json();
+  }).then(json => {
+    onUpdateMultifactorUrl(json.multifactor_url);
+  });
+
+  return getMultifactorUrlRequest;
 }
 
 export function getUserData(dispatch) {
@@ -27,18 +66,27 @@ export function getUserData(dispatch) {
       if (userData.first_name) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
-      dispatch(updateProfileField('savedForms', json.data.attributes.in_progress_forms));
-      dispatch(updateProfileField('prefillsAvailable', json.data.attributes.prefills_available));
-      dispatch(updateProfileField('accountType', userData.loa.current));
-      dispatch(updateProfileField('email', userData.email));
-      dispatch(updateProfileField('userFullName.first', userData.first_name));
-      dispatch(updateProfileField('userFullName.middle', userData.middle_name));
-      dispatch(updateProfileField('userFullName.last', userData.last_name));
-      dispatch(updateProfileField('gender', userData.gender));
-      dispatch(updateProfileField('dob', userData.birth_date));
-      dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
-      dispatch(updateProfileField('services', json.data.attributes.services));
-      dispatch(updateProfileField('healthTermsCurrent', json.data.attributes.health_terms_current));
+      dispatch(updateProfileFields({
+        savedForms: json.data.attributes.in_progress_forms,
+        prefillsAvailable: json.data.attributes.prefills_available,
+        accountType: userData.loa.current,
+        email: userData.email,
+        userFullName: {
+          first: userData.first_name,
+          middle: userData.middle_name,
+          last: userData.last_name,
+        },
+        authnContext: userData.authn_context,
+        loa: userData.loa,
+        multifactor: userData.multifactor,
+        gender: userData.gender,
+        dob: userData.birth_date,
+        status: json.data.attributes.va_profile.status,
+        veteranStatus: json.data.attributes.veteran_status.status,
+        isVeteran: json.data.attributes.veteran_status.is_veteran,
+        services: json.data.attributes.services,
+        healthTermsCurrent: json.data.attributes.health_terms_current,
+      }));
       dispatch(updateLoggedInStatus(true));
     } else {
       dispatch(profileLoadingFinished());
@@ -54,25 +102,43 @@ export function addEvent(element, eventName, callback) {
   }
 }
 
-export function getLoginUrl(onUpdateLoginUrl) {
-  const loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+export function getLoginUrls(onUpdateLoginUrls) {
+  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
     method: 'GET',
   }).then(response => {
     return response.json();
   }).then(json => {
-    onUpdateLoginUrl(json.authenticate_via_get);
+    onUpdateLoginUrls(json);
   });
 
-  return loginUrlRequest;
+  return loginUrlsRequest;
 }
 
-export function handleLogin(loginUrl, onUpdateLoginUrl) {
+export function handleLogin(loginUrl, onUpdateLoginUrls) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
     const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-    return getLoginUrl(onUpdateLoginUrl);
+    return getLoginUrls(onUpdateLoginUrls || updateLogInUrls);
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
+}
+
+function isGaLoaded() {
+  return !!(window.ga && ga.create);
+}
+
+// google analytics client Id
+/* global gaClientId ga:true */
+export function gaClientId() {
+  let clientId;
+  if (isGaLoaded()) {
+    for (const data of ga.getAll()) {
+      if (data.get('cookieDomain') === 'vets.gov') {
+        clientId = data.get('clientId');
+      }
+    }
+  }
+  return clientId;
 }

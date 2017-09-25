@@ -26,7 +26,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### What conditions do these benefits cover?
 
-These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
+These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We’ve decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
 
 <br>
 
@@ -65,7 +65,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Pellagra 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>
@@ -79,4 +79,4 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, please include any documents that confirm you spent time as a POW. You'll also need to include a doctor's report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, please include any documents that confirm you spent time as a POW. You’ll also need to include a doctor’s report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](/disability-benefits/apply/).

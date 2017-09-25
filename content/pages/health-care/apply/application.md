@@ -2,9 +2,10 @@
 title: Apply for Health Care
 entryname: hca
 layout: page-react.html
+description: Apply for VA health care benefits. Find out which documents you’ll need, and start your online application today.
 body_class: page-healthcare
 in_maintenance: false
-maintenance_line1: We're sorry. The healthcare application is currently down while we fix a few things. We will be back up as soon as we can.
+maintenance_line1: We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.
 maintenance_line2: In the meantime, you can still call 1-877-222-VETS(8387) and press 2 to complete this application over the phone.
 ---
 <div id="main">
@@ -13,7 +14,6 @@ maintenance_line2: In the meantime, you can still call 1-877-222-VETS(8387) and 
       <li><a href="/">Home</a></li>
       <li><a href="/health-care/">Health Care</a></li>
       <li class="parent"><a href="/health-care/apply/">Apply for VA Health Care</a></li>
-      <li class="active">Apply Online</li>
     </ul>
   </nav>
 

@@ -7,7 +7,6 @@ entryname: user-profile
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
-      <li class="active">Your Account</li>
     </ul>
   </nav>
 

@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, getScrollOptions } from '../../common/utils/helpers';
+import { formatDateParsedZoneShort, getScrollOptions } from '../../common/utils/helpers';
 
 const scroller = Scroll.scroller;
 
@@ -37,7 +37,8 @@ class EnrollmentPeriod extends React.Component {
     const { enrollment, id } = this.props;
     const amendments = enrollment.amendments || [];
     const yellowRibbonStatus = enrollment.yellowRibbonAmount > 0 && (
-      <div>This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
+      <div className="yellow-ribbon-school">
+        This is a Yellow Ribbon School. <a href="/education/gi-bill/yellow-ribbon" target="_blank">Learn more about the Yellow Ribbon Program.</a>
       </div>
     );
 
@@ -51,13 +52,13 @@ class EnrollmentPeriod extends React.Component {
               <InfoPair label="Online Hours" value={amendment.onlineHours}/>
               <InfoPair label="Type of Change" value={amendment.type}/>
               <InfoPair
-                  label="Change Effective Date"
-                  value={formatDateShort(amendment.changeEffectiveDate)}/>
+                label="Change Effective Date"
+                value={formatDateParsedZoneShort(amendment.changeEffectiveDate)}/>
             </div>
           );
         })}
       </div>
-      ) : null;
+    ) : null;
 
     const changeHistory = amendments.length > 0 ? (
       <div className="usa-accordion">
@@ -65,10 +66,10 @@ class EnrollmentPeriod extends React.Component {
           <li>
             <div className="accordion-header clearfix">
               <button
-                  className="usa-button-unstyled"
-                  aria-expanded={this.state.historyExpanded ? 'true' : 'false'}
-                  aria-controls={`collapsible-${id}`}
-                  onClick={this.toggleHistory}>
+                className="usa-button-unstyled"
+                aria-expanded={this.state.historyExpanded ? 'true' : 'false'}
+                aria-controls={`collapsible-${id}`}
+                onClick={this.toggleHistory}>
                 See Change History
               </button>
             </div>
@@ -82,12 +83,12 @@ class EnrollmentPeriod extends React.Component {
 
     return (
       <div id={id}>
-        <hr/>
-        <h4>{formatDateShort(enrollment.beginDate)} to {formatDateShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
+        <h4>{formatDateParsedZoneShort(enrollment.beginDate)} to {formatDateParsedZoneShort(enrollment.endDate)} at <span className="facility">{(enrollment.facilityName || '').toLowerCase()}</span> ({enrollment.facilityCode})</h4>
         {yellowRibbonStatus}
         <InfoPair label="On-campus Hours" value={enrollment.onCampusHours}/>
         <InfoPair label="Online Hours" value={enrollment.onlineHours}/>
         {changeHistory}
+        <hr/>
       </div>
     );
   }

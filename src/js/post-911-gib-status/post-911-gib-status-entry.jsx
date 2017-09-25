@@ -33,7 +33,7 @@ function init() {
         </Route>
       </Router>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 initReact(init);

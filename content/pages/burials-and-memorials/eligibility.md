@@ -9,13 +9,13 @@ order: 1
 
 <div class="va-introtext">
 
-Servicemembers, Veterans, and family members may qualify for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out if you can get these benefits. 
+Servicemembers, Veterans, and family members may qualify for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out if you can get these benefits.
 
 </div>
 
 <div class="feature" markdown="0">
 
-### Can I get VA burial and memorial benefits? 
+### Can I get VA burial and memorial benefits?
 
 You may qualify for burial and memorial benefits if you're:
 
@@ -37,7 +37,7 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 In the event of your death, the person planning your burial can also request other honors and memorials. These may include a:
 - [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-and-memorials/honor/flags-and-memorial-certificates/)
 - [Presidential Memorial Certificate signed by the current President of the United States](/burials-and-memorials/honor/flags-and-memorial-certificates/)
-- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/) 
+- [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-and-memorials/honor/headstones-markers-medallions/)
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/). <br />
 [Learn about memorials and burial honors](/burials-and-memorials/honor/).

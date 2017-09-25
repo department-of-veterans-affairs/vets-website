@@ -5,8 +5,8 @@ class ButtonMove extends React.Component {
   render() {
     return (
       <button
-          className="messaging-move"
-          onClick={this.props.onClick}>
+        className="messaging-move"
+        onClick={this.props.onClick}>
         <span>Move</span>
         <i className="fa fa-caret-down"></i>
       </button>

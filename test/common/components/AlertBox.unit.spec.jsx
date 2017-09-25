@@ -11,9 +11,9 @@ describe('<AlertBox>', () => {
   it('should be an empty div if invisible', () => {
     const tree = SkinDeep.shallowRender(
       <AlertBox
-          content={Content}
-          status={'info'}
-          isVisible={false}/>
+        content={Content}
+        status={'info'}
+        isVisible={false}/>
     );
     expect(tree.toString()).to.equal('<div aria-live="assertive" />');
   });
@@ -21,9 +21,9 @@ describe('<AlertBox>', () => {
   it('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(
       <AlertBox
-          content={Content}
-          status={'info'}
-          isVisible/>
+        content={Content}
+        status={'info'}
+        isVisible/>
     );
     expect(tree.props.className).to.equal('va-alert usa-alert usa-alert-info');
   });

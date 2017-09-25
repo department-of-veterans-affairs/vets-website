@@ -9,7 +9,7 @@ order: 6
 
 <div class="va-introtext">
 
-If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam War Era, you may have had contact with Agent Orange, a toxic chemical used to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
+If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam Era, you may have had contact with Agent Orange, a toxic chemical used to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
 
 </div>
 
@@ -42,7 +42,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Qualified dependents
@@ -59,15 +59,15 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we'll conclude that your illness is likely caused by contact with Agent Orange.
+If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we’ll conclude that your illness is likely caused by contact with Agent Orange.
 
 If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 
 ### Need help?
 Get help from us in 1 of 2 ways:
-- Call <a href="tel:+18008271000">800-827-1000</a> or <a href="tel:+18008294833">800-829-4833</a> (TDD for hearing impaired).
+- Call <a href="tel:+18008271000">1-800-827-1000</a> or <a href="tel:+18008294833">1-800-829-4833</a> (TDD for hearing impaired).
 - Go to your [nearest VA benefits office](/facilities)
 
 Get more information about ships that may have been exposed to Agent Orange.

@@ -13,9 +13,9 @@ class GlossaryPage extends React.Component {
     let key = 0;
     const sections = Object.keys(glossary).map((sect) => {
       return (<GlossaryList
-          key={key++}
-          title={`${sect} statuses`}
-          terms={glossary[sect]}/>);
+        key={key++}
+        title={`${sect} statuses`}
+        terms={glossary[sect]}/>);
     });
 
     return (

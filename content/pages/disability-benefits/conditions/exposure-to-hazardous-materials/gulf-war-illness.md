@@ -50,7 +50,7 @@ We consider these illnesses to be presumed disabilities:
 [Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
 
-### Who's covered?
+### Who’s covered?
 
 Veterans
 </div>
@@ -69,7 +69,7 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 
 [Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
-### What's included in the Southwest Asia theater of military operations?
+### What’s included in the Southwest Asia theater of military operations?
 - Iraq, Kuwait, Saudi Arabia
 - The neutral zone between Iraq and Saudi Arabia
 - Bahrain, Qatar, and the United Arab Emirates (U.A.E.)

@@ -7,7 +7,7 @@ permalink: false
 
 <!--Question: What is the purpose of the `/dummy-placeholder.html` page?-->
 
-<!--Answer: It is for content team so they can write a page where the target doesn't't exist yet without the link checker freaking out. Having a single file made it easy to search for all occurrences before going to prod.-->
+<!--Answer: It is for content team so they can write a page where the target doesn’t exist yet without the link checker freaking out. Having a single file made it easy to search for all occurrences before going to prod.-->
 
 <div class="main home" role="main">
   <div class="splash">

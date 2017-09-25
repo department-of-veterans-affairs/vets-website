@@ -80,12 +80,12 @@ export function fetchThread(messageId) {
     Promise.all([messageUrl, threadUrl].map(
       url => apiRequest(url, null, response => response, errorHandler)
     ))
-    .then(data => dispatch({
-      type: FETCH_THREAD_SUCCESS,
-      message: data[0],
-      thread: data[1].data
-    }))
-    .catch(errorHandler);
+      .then(data => dispatch({
+        type: FETCH_THREAD_SUCCESS,
+        message: data[0],
+        thread: data[1].data
+      }))
+      .catch(errorHandler);
   };
 }
 
@@ -175,7 +175,7 @@ export function saveDraft(message) {
   }
 
   // Update the draft if it already has an id.
-  // Save a new draft if it doesn't have an id yet.
+  // Save a new draft if it doesn’t have an id yet.
   if (isSavedDraft) {
     url = `${url}/${message.messageId}`;
     method = 'PUT';

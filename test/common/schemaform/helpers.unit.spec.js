@@ -10,6 +10,7 @@ import {
   setItemTouched,
   getNonArraySchema,
   checkValidSchema,
+  formatReviewDate,
   expandArrayPages
 } from '../../../src/js/common/schemaform/helpers';
 
@@ -87,6 +88,26 @@ describe('Schemaform helpers:', () => {
 
       expect(routes[0].path).to.equal('introduction');
     });
+    it('should create routes with resume', () => {
+      const formConfig = {
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page'
+              }
+            }
+          }
+        }
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('test-page');
+      expect(routes[1].path).to.equal('form-saved');
+      expect(routes[2].path).to.equal('error');
+      expect(routes[3].path).to.equal('resume');
+    });
     it('should create routes with save', () => {
       const formConfig = {
         chapters: {
@@ -105,7 +126,7 @@ describe('Schemaform helpers:', () => {
       expect(routes[0].path).to.equal('test-page');
       expect(routes[1].path).to.equal('form-saved');
       expect(routes[2].path).to.equal('error');
-      expect(routes[3].path).to.equal('review-and-submit');
+      expect(routes[4].path).to.equal('review-and-submit');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
@@ -431,6 +452,38 @@ describe('Schemaform helpers:', () => {
       expect(output.someField).to.be.undefined;
       expect(output.someField2).to.be.undefined;
     });
+    it('should remove empty objects within an array', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        data: {
+          someField: {
+            subField: [
+              { foo: 'bar' },
+              {}
+            ]
+          },
+          arrayField: [
+            { foo: 'bar' },
+            {}
+          ],
+          emtpyArray: [{}, {}]
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output.someField.subField.length).to.equal(1);
+      expect(output.arrayField.length).to.equal(1);
+      expect(output.emptyArray).to.be.undefined;
+    });
   });
   describe('setItemTouched', () => {
     /* eslint-disable camelcase */
@@ -466,7 +519,7 @@ describe('Schemaform helpers:', () => {
     it('should skip array fields using option', () => {
       const result = getNonArraySchema({ type: 'array' }, { 'ui:option': { keepInPageOnReview: true } });
 
-      expect(result).to.be.defined;
+      expect(result).to.be.undefined;
     });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({
@@ -770,6 +823,17 @@ describe('Schemaform helpers:', () => {
 
       expect(newPageList.length).to.equal(pageList.length - 1);
       expect(newPageList[0].path).to.equal('test');
+    });
+  });
+  describe('formatReviewDate', () => {
+    it('should format full date', () => {
+      expect(formatReviewDate('2010-01-01')).to.equal('01/01/2010');
+    });
+    it('should format partial date', () => {
+      expect(formatReviewDate('2010-01-XX')).to.equal('01/XX/2010');
+    });
+    it('should format month year date', () => {
+      expect(formatReviewDate('2010-01-XX', true)).to.equal('01/2010');
     });
   });
 });

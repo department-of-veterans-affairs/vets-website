@@ -14,8 +14,8 @@ export function formatDate(date, options = {}) {
     momentDate.isSameOrBefore(moment().endOf('day')));
 
   return isValidDate
-         ? momentDate.format(options.format || 'MMM DD, YYYY')
-         : 'Not available';
+    ? momentDate.format(options.format || 'MMM DD, YYYY')
+    : 'Not available';
 }
 
 export function getModalTerm(term) {
@@ -29,8 +29,8 @@ export function getModalTerm(term) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/prescriptions`;
   const url = resource[0] === '/'
-            ? [baseUrl, resource].join('')
-            : resource;
+    ? [baseUrl, resource].join('')
+    : resource;
 
   return commonApiClient(url, optionalSettings, success, error);
 }

@@ -4,31 +4,35 @@ export default function YesNoWidget({
   id,
   value,
   disabled,
-  onChange
+  onChange,
+  options = {}
 }) {
+  const { yesNoReverse = false, labels = {} } = options;
+  const yesValue = !yesNoReverse;
+  const noValue = !yesValue;
   return (
     <div className="form-radio-buttons">
       <input type="radio"
-          autoComplete="false"
-          checked={value === true}
-          id={`${id}Yes`}
-          name={`${id}Yes`}
-          value="Y"
-          disabled={disabled}
-          onChange={_ => onChange(true)}/>
+        autoComplete="false"
+        checked={value === yesValue}
+        id={`${id}Yes`}
+        name={`${id}`}
+        value="Y"
+        disabled={disabled}
+        onChange={_ => onChange(yesValue)}/>
       <label htmlFor={`${id}Yes`}>
-        Yes
+        {labels.Y || 'Yes'}
       </label>
       <input type="radio"
-          autoComplete="false"
-          checked={value === false}
-          id={`${id}No`}
-          name={`${id}No`}
-          value="N"
-          disabled={disabled}
-          onChange={_ => onChange(false)}/>
+        autoComplete="false"
+        checked={value === noValue}
+        id={`${id}No`}
+        name={`${id}`}
+        value="N"
+        disabled={disabled}
+        onChange={_ => onChange(noValue)}/>
       <label htmlFor={`${id}No`}>
-        No
+        {labels.N || 'No'}
       </label>
     </div>
   );

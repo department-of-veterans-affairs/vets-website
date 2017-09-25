@@ -58,8 +58,8 @@ describe('<MoveTo>', () => {
 
     const moveTo = ReactTestUtils.renderIntoDocument(
       <MoveTo
-          {...props }
-          onCreateFolder={onCreateFolder}/>
+        {...props }
+        onCreateFolder={onCreateFolder}/>
     );
 
     moveTo.openCreateFolderModal();
@@ -71,8 +71,8 @@ describe('<MoveTo>', () => {
 
     const moveTo = ReactTestUtils.renderIntoDocument(
       <MoveTo
-          {...props }
-          onChooseFolder={onChooseFolder}/>
+        {...props }
+        onChooseFolder={onChooseFolder}/>
     );
     const mockDomEvent = {
       currentTarget: {

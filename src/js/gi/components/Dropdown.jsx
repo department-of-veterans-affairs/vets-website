@@ -14,11 +14,11 @@ class Dropdown extends React.Component {
           {this.props.label}
         </label>
         <select
-            id={this.props.name}
-            name={this.props.name}
-            alt={this.props.alt}
-            value={this.props.value}
-            onChange={this.props.onChange}>
+          id={this.props.name}
+          name={this.props.name}
+          alt={this.props.alt}
+          value={this.props.value}
+          onChange={this.props.onChange}>
           {this.props.options.map(({ value, label }) =>
             <option key={value} value={value}>{label}</option>
           )}

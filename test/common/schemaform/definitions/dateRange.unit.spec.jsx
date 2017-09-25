@@ -30,14 +30,14 @@ describe('Schemaform definition dateRange', () => {
   it('should render dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={uiSchema()}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={uiSchema()}/>
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('label').length).to.equal(8);
+    expect(formDOM.querySelectorAll('label,legend').length).to.equal(8);
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
     expect(formDOM.querySelectorAll('select').length).to.equal(4);
   });
@@ -45,9 +45,9 @@ describe('Schemaform definition dateRange', () => {
     const dateRangeUISchema = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={dateRangeUISchema}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={dateRangeUISchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -64,14 +64,14 @@ describe('Schemaform definition dateRange', () => {
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={{ date }}
-          uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
+        schema={schema}
+        definitions={{ date }}
+        uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('label')[0].textContent).to.equal('My from date');
-    expect(formDOM.querySelectorAll('label')[4].textContent).to.equal('My to date');
+    expect(formDOM.querySelectorAll('legend')[0].textContent).to.equal('My from date');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.equal('My to date');
   });
 });

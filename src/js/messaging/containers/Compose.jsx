@@ -127,44 +127,44 @@ export class Compose extends React.Component {
       <div>
         <div id="messaging-content-header">
           <a
-              className="messaging-cancel-link"
-              onClick={this.props.toggleConfirmDelete}>
+            className="messaging-cancel-link"
+            onClick={this.props.toggleConfirmDelete}>
             Cancel
           </a>
           <h3>New message</h3>
           <button
-              className="messaging-send-button"
-              type="button"
-              onClick={this.sendMessage}
-              disabled={!this.props.message.body.value.length}>
+            className="messaging-send-button"
+            type="button"
+            onClick={this.sendMessage}
+            disabled={!this.props.message.body.value.length}>
             Send
           </button>
         </div>
         <NewMessageForm
-            message={this.props.message}
-            recipients={this.props.recipients}
-            onAttachmentsClose={this.props.deleteComposeAttachment}
-            onAttachmentUpload={this.props.addComposeAttachments}
-            onAttachmentsError={this.props.openAttachmentsModal}
-            onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
-            onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
-            onFetchRecipients={this.props.fetchRecipients}
-            onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
-            onSaveMessage={this.saveDraftIfNoAttachments}
-            onSendMessage={this.sendMessage}
-            onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
-            toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+          message={this.props.message}
+          recipients={this.props.recipients}
+          onAttachmentsClose={this.props.deleteComposeAttachment}
+          onAttachmentUpload={this.props.addComposeAttachments}
+          onAttachmentsError={this.props.openAttachmentsModal}
+          onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
+          onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+          onFetchRecipients={this.props.fetchRecipients}
+          onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
+          onSaveMessage={this.saveDraftIfNoAttachments}
+          onSendMessage={this.sendMessage}
+          onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
+          toggleConfirmDelete={this.props.toggleConfirmDelete}/>
         <NoticeBox/>
         <ModalConfirmDelete
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmDelete}
-            onDelete={this.handleConfirmDelete}
-            visible={this.props.deleteConfirmModal.visible}/>
+          cssClass="messaging-modal"
+          onClose={this.props.toggleConfirmDelete}
+          onDelete={this.handleConfirmDelete}
+          visible={this.props.deleteConfirmModal.visible}/>
         <ModalConfirmSave
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmSave}
-            onSave={this.saveDraft}
-            visible={this.props.saveConfirmModal.visible}/>
+          cssClass="messaging-modal"
+          onClose={this.props.toggleConfirmSave}
+          onSave={this.saveDraft}
+          visible={this.props.saveConfirmModal.visible}/>
       </div>
     );
   }

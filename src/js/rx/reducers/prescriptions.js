@@ -27,7 +27,7 @@ const initialState = {
 };
 
 function sortByName(items) {
- /*
+  /*
   Making all values the same case, to prevent
   alphabetization from getting wonky.
   */

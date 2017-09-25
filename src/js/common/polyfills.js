@@ -12,6 +12,7 @@ require('babel-polyfill');
 // The polyfill is always loaded. require.ensure() should be used instead but
 // then load ordering needs to be worked out. Fix later.
 const Modernizr = require('modernizr');
+
 if (!Modernizr.classlist) {
   require('classlist-polyfill'); // DOM element classList support.
 }

@@ -50,10 +50,9 @@ describe('schemaform createSchemaFormReducer', () => {
     const reducer = createSchemaFormReducer(formConfig);
     const state = reducer(undefined, {});
 
-    expect(state.submission).to.be.defined;
+    expect(state.submission).not.to.be.undefined;
     expect(state.data.privacyAgreementAccepted).to.be.false;
     expect(state.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
-    expect(state.page2).to.be.defined;
     expect(state.isStartingOver).to.be.false;
     expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     expect(state.initialData).to.equal(state.data);
@@ -240,7 +239,7 @@ describe('schemaform createSchemaFormReducer', () => {
       });
 
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
-      expect(state.prefillStatus).not.to.be.defined;
+      expect(state.prefillStatus).to.be.undefined;
     });
     it('should set fetch form pending and prefill', () => {
       const state = reducer({

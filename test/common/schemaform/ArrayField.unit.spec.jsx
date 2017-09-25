@@ -42,13 +42,13 @@ describe('Schemaform <ArrayField>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('TitleField').props.title).to.equal(uiSchema['ui:title']);
@@ -82,14 +82,14 @@ describe('Schemaform <ArrayField>', () => {
     ];
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
@@ -131,16 +131,16 @@ describe('Schemaform <ArrayField>', () => {
       onBlur = sinon.spy();
       tree = SkinDeep.shallowRender(
         <ArrayField
-            schema={schema}
-            errorSchema={errorSchema}
-            uiSchema={uiSchema}
-            idSchema={idSchema}
-            registry={registry}
-            formData={formData}
-            onChange={onChange}
-            onBlur={onBlur}
-            formContext={formContext}
-            requiredSchema={requiredSchema}/>
+          schema={schema}
+          errorSchema={errorSchema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}
+          formContext={formContext}
+          requiredSchema={requiredSchema}/>
       );
     });
     it('edit', () => {
@@ -226,15 +226,15 @@ describe('Schemaform <ArrayField>', () => {
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ArrayField
-          schema={schema}
-          errorSchema={errorSchema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          registry={registry}
-          onChange={onChange}
-          onBlur={onBlur}
-          formContext={formContext}
-          requiredSchema={requiredSchema}/>
+        schema={schema}
+        errorSchema={errorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        onChange={onChange}
+        onBlur={onBlur}
+        formContext={formContext}
+        requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('button').props.disabled).to.be.true;

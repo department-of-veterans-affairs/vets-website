@@ -5,7 +5,7 @@ title: Dental Care
 display_title: 
 concurrence: complete
 lastupdate: 2017-06-28
-order: 4
+order: 5
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -201,7 +201,7 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 <br>
 
-### If I can't get VA dental care benefits, can I get help buying dental insurance? 
+### If I can’t get VA dental care benefits, can I get help buying dental insurance? 
 
 You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
 

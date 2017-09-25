@@ -26,7 +26,7 @@ Schools that are a part of the program must:
 - Make sure their refund policies follow Title IV rules, which guide federal student financial aid programs.
 - End fraudulent (deceitful) and aggressive methods of recruiting.
 
-Schools that don't charge tuition and fees don't have to follow the Principles of Excellence guidelines. These include:
+Schools that don’t charge tuition and fees don’t have to follow the Principles of Excellence guidelines. These include:
 
 - Foreign schools
 - High schools

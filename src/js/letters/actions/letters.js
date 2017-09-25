@@ -1,4 +1,30 @@
-import { apiRequest } from '../utils/helpers';
+import Raven from 'raven-js';
+
+import { apiRequest } from '../utils/helpers.jsx';
+import {
+  BACKEND_AUTHENTICATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  GET_LETTERS_FAILURE,
+  GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
+  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
+  GET_LETTER_PDF_FAILURE,
+  GET_LETTER_PDF_SUCCESS,
+  LETTER_ELIGIBILITY_ERROR,
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  UPDATE_ADDRESS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_FAILURE,
+  LETTER_TYPES,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
+} from '../utils/constants';
 
 export function getLetterList() {
   return (dispatch) => {
@@ -6,11 +32,79 @@ export function getLetterList() {
       '/v0/letters',
       null,
       response => dispatch({
-        type: 'GET_LETTERS_SUCCESS',
+        type: GET_LETTERS_SUCCESS,
         data: response,
       }),
-      () => dispatch({ type: 'GET_LETTERS_FAILURE' })
-    );
+      (response) => {
+        const error = response.errors.length > 0 ? response.errors[0] : undefined;
+        if (error) {
+          if (error.status === '503' || error.status === '504') {
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          }
+          if (error.status === '403') {
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          }
+          if (error.status === '502') {
+            // Some of the partner services are down, so we cannot verify the eligibility
+            // of some letters
+            return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+          }
+          return Promise.reject(
+            new Error(`vets_letters_error_server_get: error status ${error.status}`)
+          );
+        }
+        return Promise.reject(
+          new Error('vets_letters_error_server_get: unknown error status')
+        );
+      }
+    ).catch((error) => {
+      if (error.message.match('vets_letters_error_server_get')) {
+        Raven.captureException(error);
+        return dispatch({ type: GET_LETTERS_FAILURE });
+      }
+      throw error;
+    });
+  };
+}
+
+export function getMailingAddress() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_SUCCESS,
+        data: response,
+      }),
+      (response) => {
+        const error = response.errors.length > 0 ? response.errors[0] : undefined;
+        if (error) {
+          if (error.status === '503' || error.status === '504') {
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          }
+          if (error.status === '403') {
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          }
+          // All other error codes
+          return Promise.reject(
+            new Error(`vets_address_error_server_get: ${error.status}`)
+          );
+        }
+        return Promise.reject(
+          new Error('vets_address_error_server_get')
+        );
+      }
+    ).catch((error) => {
+      if (error.message.match('vets_address_error_server_get')) {
+        Raven.captureException(error);
+        return dispatch({ type: GET_ADDRESS_FAILURE });
+      }
+      throw error;
+    });
   };
 }
 
@@ -20,17 +114,17 @@ export function getBenefitSummaryOptions() {
       '/v0/letters/beneficiary',
       null,
       response => dispatch({
-        type: 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS',
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       }),
-      () => dispatch({ type: 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE' })
+      () => dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })
     );
   };
 }
 
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
-  if (letterType === 'benefit_summary') {
+  if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -57,6 +151,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
   let downloadUrl;
   return (dispatch) => {
+    dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
     apiRequest(
       `/v0/letters/${letterType}`,
       settings,
@@ -80,19 +175,92 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
             }
           }
         });
-        window.URL.revokeObjectURL(downloadUrl); // make sure this doesn't cause problems
-        dispatch({ type: 'GET_LETTER_PDF_SUCCESS' });
+        window.URL.revokeObjectURL(downloadUrl);
+        dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => dispatch({ type: 'GET_LETTER_PDF_FAILURE', data: letterType })
+      () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
     );
   };
 }
 
-
 export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
-    type: 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION',
+    type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
     value
+  };
+}
+
+export function updateAddress(address) {
+  return {
+    type: UPDATE_ADDRESS,
+    address
+  };
+}
+
+export function saveAddressPending() {
+  return {
+    type: SAVE_ADDRESS_PENDING
+  };
+}
+
+export function saveAddressSuccess(address) {
+  return {
+    type: SAVE_ADDRESS_SUCCESS,
+    address
+  };
+}
+
+export function saveAddressFailure(address) {
+  return {
+    type: SAVE_ADDRESS_FAILURE,
+    address
+  };
+}
+
+export function saveAddress(address) {
+  const settings = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(address)
+  };
+  return (dispatch) => {
+    // TODO: Show a spinner or some kind of indication we're waiting on this to return
+    dispatch(saveAddressPending());
+
+    apiRequest(
+      '/v0/address',
+      settings,
+      () => dispatch(saveAddressSuccess(address)),
+      () => dispatch(saveAddressFailure(address))
+    );
+  };
+}
+
+export function getAddressCountries() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/countries',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
+        countries: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+    );
+  };
+}
+
+export function getAddressStates() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/states',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_STATES_SUCCESS,
+        states: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
+    );
   };
 }

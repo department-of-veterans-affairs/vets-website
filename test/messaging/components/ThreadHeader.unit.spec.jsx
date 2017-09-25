@@ -62,8 +62,8 @@ describe('ThreadHeader', () => {
   it('should not show delete or move buttons for drafts or sent messages', () => {
     let tree = SkinDeep.shallowRender(
       <ThreadHeader
-          {...props }
-          currentFolder={{ name: 'Drafts' }}/>
+        {...props }
+        currentFolder={{ name: 'Drafts' }}/>
     );
 
     expect(tree.subTree('ButtonDelete')).to.be.false;
@@ -71,8 +71,8 @@ describe('ThreadHeader', () => {
 
     tree = SkinDeep.shallowRender(
       <ThreadHeader
-          {...props }
-          currentFolder={{ name: 'Sent' }}/>
+        {...props }
+        currentFolder={{ name: 'Sent' }}/>
     );
 
     expect(tree.subTree('ButtonDelete')).to.be.false;
@@ -87,8 +87,8 @@ describe('ThreadHeader', () => {
   it('should show only on mobile the subject line for a draft of a new message', () => {
     const tree = SkinDeep.shallowRender(
       <ThreadHeader
-          {...props }
-          isNewMessage/>
+        {...props }
+        isNewMessage/>
     );
     expect(tree.subTree('.messaging-thread-title', '.show-for-small-only')).to.be.ok;
   });

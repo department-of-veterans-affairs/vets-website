@@ -10,8 +10,8 @@ function isJson(response) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/'
-            ? [baseUrl, resource].join('')
-            : resource;
+    ? [baseUrl, resource].join('')
+    : resource;
 
   const defaultSettings = {
     method: 'GET',
@@ -26,8 +26,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return fetch(url, settings)
     .then((response) => {
       const data = isJson(response)
-                 ? response.json()
-                 : Promise.resolve(response);
+        ? response.json()
+        : Promise.resolve(response);
 
       if (!response.ok) {
         // Refresh to show login view when requests are unauthorized.

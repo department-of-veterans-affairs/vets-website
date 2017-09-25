@@ -21,14 +21,14 @@ const scroller = Scroll.scroller;
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
-    // Throw an error if there's no viewField (should be React component)
+    // Throw an error if there’s no viewField (should be React component)
     if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
       throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
     }
 
     /*
-     * We're keeping the editing state in local state because it's easier to manage and
-     * doesn't need to persist from page to page
+     * We’re keeping the editing state in local state because it’s easier to manage and
+     * doesn’t need to persist from page to page
      */
 
     this.state = {
@@ -46,7 +46,7 @@ export default class ArrayField extends React.Component {
 
   // This fills in an empty item in the array if it has minItems set
   // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // in the array. This shouldn’t be necessary, but there’s a fix in rjsf
   // that has not been released yet
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
@@ -98,7 +98,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking edit on an item that's not last and so is in view mode
+   * Clicking edit on an item that’s not last and so is in view mode
    */
   handleEdit(index, status = true) {
     this.setState(_.set(['editing', index], status, this.state), () => {
@@ -107,7 +107,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Update on an item that's not last and is in edit mode
+   * Clicking Update on an item that’s not last and is in edit mode
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
@@ -198,7 +198,7 @@ export default class ArrayField extends React.Component {
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
 
-    let containerClassNames = classNames({
+    const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription
     });
@@ -207,10 +207,10 @@ export default class ArrayField extends React.Component {
       <div className={containerClassNames}>
         {hasTitleOrDescription && <div className="schemaform-block-header">
           {title && !hideTitle
-              ? <TitleField
-                  id={`${idSchema.$id}__title`}
-                  title={title}
-                  formContext={formContext}/> : null}
+            ? <TitleField
+              id={`${idSchema.$id}__title`}
+              title={title}
+              formContext={formContext}/> : null}
           {textDescription && <p>{textDescription}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
           {!textDescription && !DescriptionField && description}
@@ -233,21 +233,21 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && items.length > 1 && uiSchema['ui:options'].itemName
-                          ? <h5>New {uiSchema['ui:options'].itemName}</h5>
-                          : null}
+                        ? <h5>New {uiSchema['ui:options'].itemName}</h5>
+                        : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemSchema}
-                            uiSchema={uiSchema.items}
-                            errorSchema={errorSchema ? errorSchema[index] : undefined}
-                            idSchema={itemIdSchema}
-                            formData={item}
-                            onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={onBlur}
-                            registry={this.props.registry}
-                            required={false}
-                            disabled={disabled}
-                            readonly={readonly}/>
+                          schema={itemSchema}
+                          uiSchema={uiSchema.items}
+                          errorSchema={errorSchema ? errorSchema[index] : undefined}
+                          idSchema={itemIdSchema}
+                          formData={item}
+                          onChange={(value) => this.onItemChange(index, value)}
+                          onBlur={onBlur}
+                          registry={this.props.registry}
+                          required={false}
+                          disabled={disabled}
+                          readonly={readonly}/>
                       </div>
                       {notLastOrMultipleRows &&
                         <div className="row small-collapse">
@@ -268,8 +268,8 @@ export default class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <div className="small-9 columns">
                     <ViewField
-                        formData={item}
-                        onEdit={() => this.handleEdit(index)}/>
+                      formData={item}
+                      onEdit={() => this.handleEdit(index)}/>
                   </div>
                   <div className="small-3 columns">
                     <button className="usa-button-outline float-right" onClick={() => this.handleEdit(index)}>Edit</button>
@@ -279,16 +279,16 @@ export default class ArrayField extends React.Component {
             );
           })}
           <button
-              type="button"
-              className={classNames(
-                'usa-button-outline',
-                'va-growable-add-btn',
-                {
-                  'usa-button-disabled': !this.props.formData
-                }
-              )}
-              disabled={!this.props.formData}
-              onClick={this.handleAdd}>
+            type="button"
+            className={classNames(
+              'usa-button-outline',
+              'va-growable-add-btn',
+              {
+                'usa-button-disabled': !this.props.formData
+              }
+            )}
+            disabled={!this.props.formData}
+            onClick={this.handleAdd}>
             Add Another {uiOptions.itemName}
           </button>
         </div>

@@ -17,7 +17,7 @@ function setUserToken(token, client) {
 }
 
 function getLogoutUrl() {
-  return 'http://fake_logout_url';
+  return 'http://example.com/fake_logout_url';
 }
 
 /* eslint-disable camelcase */
@@ -39,6 +39,12 @@ function initUserMock(token, level) {
             gender: 'F',
             birth_date: '1985-01-01'
           },
+          veteran_status: {
+            status: 'OK',
+            is_veteran: true,
+          },
+          in_progress_forms: [],
+          prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           health_terms_current: true,
           va_profile: {
@@ -102,14 +108,12 @@ function testUnauthedUserFlow(client, path) {
     .waitForElementVisible('body', Timeouts.normal);
 
   client
-    .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign In to Your Vets.gov Account');
+    .waitForElementVisible('.login', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Sign in to Vets.gov');
 
   logIn(token, client, path, 1)
-    .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
-  client.
-    expect.element('button.usa-button-big').text.to.equal('Get Started');
+    .waitForElementVisible('.verify', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Verify your identity');
 }
 
 module.exports = {

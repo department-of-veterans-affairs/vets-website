@@ -56,8 +56,8 @@ class SortMenu extends React.Component {
       return (
         <li key={label}>
           <a
-              className={selectedClass}
-              onClick={this.handleClick(value, options[label])}>
+            className={selectedClass}
+            onClick={this.handleClick(value, options[label])}>
             {label}
           </a>
         </li>
@@ -71,8 +71,8 @@ class SortMenu extends React.Component {
     const sortOptions = this.props.options.map((option) => {
       return (
         <option
-            key={option.value}
-            value={option.value}>
+          key={option.value}
+          value={option.value}>
           {option.label}
         </option>
       );
@@ -83,9 +83,9 @@ class SortMenu extends React.Component {
         <form className="rx-sort va-dnp">
           <label htmlFor={this.selectId}>Sort by</label>
           <select
-              id={this.selectId}
-              value={this.props.selected.value}
-              onChange={this.handleChange}>
+            id={this.selectId}
+            value={this.props.selected.value}
+            onChange={this.handleChange}>
             {sortOptions}
           </select>
           {this.renderSortLinks()}

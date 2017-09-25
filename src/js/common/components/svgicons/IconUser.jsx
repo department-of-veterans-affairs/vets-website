@@ -6,7 +6,7 @@ class IconUser extends React.Component {
     return (
       <svg width="57" height="63" viewBox="308 246 57 63" pointerEvents="none" className={this.props.cssClass} id={this.props.id}>
         <path fill={this.props.color}
-            d="M364.571429,297.736607 C364.571429,300.950909 363.59376,303.48883
+          d="M364.571429,297.736607 C364.571429,300.950909 363.59376,303.48883
             361.638393,305.350446 C359.683026,307.212063 357.084838,308.142857
             353.84375,308.142857 L318.727679,308.142857 C315.486591,308.142857
             312.888403,307.212063 310.933036,305.350446 C308.977669,303.48883
@@ -41,9 +41,9 @@ class IconUser extends React.Component {
             332.026764,246.428571 336.285714,246.428571 C340.544664,246.428571
             344.180789,247.935253 347.194196,250.948661 C350.207604,253.962069
             351.714286,257.598193 351.714286,261.857143 Z"
-            id="user"
-            stroke="none"
-            fillRule="evenodd"></path>
+          id="user"
+          stroke="none"
+          fillRule="evenodd"></path>
       </svg>
     );
   }

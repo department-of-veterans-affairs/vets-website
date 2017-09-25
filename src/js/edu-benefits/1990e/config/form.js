@@ -8,11 +8,11 @@ import GetFormHelp from '../../components/GetFormHelp';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
-import dateUi from '../../../common/schemaform/definitions/date';
-import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
@@ -36,7 +36,6 @@ const {
   dateRange,
   educationType,
   fullName,
-  nonMilitaryJobs,
   postHighSchoolTrainings
 } = fullSchema1990e.definitions;
 
@@ -44,9 +43,12 @@ const formConfig = {
   urlPrefix: '/1990e/',
   submitUrl: '/v0/education_benefits_claims/1990e',
   trackingPrefix: 'edu-1990e-',
-  formId: '1990e',
+  formId: '22-1990E',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply to use transferred education benefits.',
+    noAuth: 'Please sign in again to resume your application for transferred education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -87,7 +89,7 @@ const formConfig = {
             properties: {
               benefit
             }
-          },
+          }
         }
       }
     },
@@ -117,7 +119,7 @@ const formConfig = {
                 'ui:title': 'Sponsor Social Security number'
               },
               'view:noSSN': {
-                'ui:title': 'I don\'t know my sponsor’s Social Security number',
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
                 'ui:title': 'Sponsor file number',
@@ -150,7 +152,7 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
-            highSchoolOrGedCompletionDate: dateUi('When did you earn your high school diploma or equivalency certificate?'),
+            highSchoolOrGedCompletionDate: monthYearUI('When did you earn your high school diploma or equivalency certificate?'),
             postHighSchoolTrainings: postHighSchoolTrainingsUi,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',
@@ -171,26 +173,7 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
-          uiSchema: {
-            'view:hasNonMilitaryJobs': {
-              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
-              'ui:widget': 'yesNo'
-            },
-            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:hasNonMilitaryJobs': {
-                type: 'boolean'
-              },
-              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
-            }
-          }
-        }
+        employmentHistory: employmentHistoryPage(fullSchema1990e, false)
       }
     },
     schoolSelection: {

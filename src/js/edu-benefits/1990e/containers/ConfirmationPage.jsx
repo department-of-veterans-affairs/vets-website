@@ -26,7 +26,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.edu-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -44,8 +44,8 @@ class ConfirmationPage extends React.Component {
     const benefit = form.data.benefit;
 
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="edu-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           We may contact you for more information or documents.<br/>
@@ -75,7 +75,7 @@ class ConfirmationPage extends React.Component {
           </ul>
         </div>
         <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
-        <p>Need help? If you have questions, call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
+        <p>Need help? If you have questions, call <a href="tel:888-442-4551">1-888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

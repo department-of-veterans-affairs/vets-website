@@ -1,13 +1,22 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import ReactDOM from 'react-dom';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import DropDown from '../../../src/js/common/components/DropDown.jsx';
 
 describe('<DropDown>', () => {
+
+  const clickHandler = sinon.stub();
+  const container = window.document.createElement('div');
+
+  container.addEventListener = sinon.spy(container.addEventListener.bind(container));
+  container.removeEventListener = sinon.spy(container.removeEventListener.bind(container));
+
   const props = {
     buttonText: 'Button text',
-    clickHandler: () => {},
+    clickHandler,
+    container,
     contents: (<h1>Hi</h1>),
     cssClass: 'testClass',
     isOpen: true,
@@ -15,10 +24,26 @@ describe('<DropDown>', () => {
     id: 'testId'
   };
 
-  const tree = SkinDeep.shallowRender(<DropDown {...props}/>);
+  ReactDOM.render(<DropDown {...props}/>, container);
 
   it('should render', () => {
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    const dropdownDOM = ReactDOM.findDOMNode(container);
+    expect(dropdownDOM).to.not.be.undefined;
   });
+
+  it('should register event listeners on the parent element', () => {
+    expect(container.addEventListener.called).to.be.true;
+  });
+
+  it('should call clickHandler when the parent element\'s click event occurs', () => {
+    expect(clickHandler.called).to.be.false;
+    container.dispatchEvent(new window.MouseEvent('click'));
+    expect(clickHandler.called).to.be.true;
+  });
+
+  it('should unregister event listeners on the parent element', () => {
+    ReactDOM.unmountComponentAtNode(container);
+    expect(container.removeEventListener.called).to.be.true;
+  });
+
 });

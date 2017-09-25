@@ -7,14 +7,14 @@ import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form';
 
 describe('Pensions document upload', () => {
-  const { schema, uiSchema } = formConfig.chapters.documentUpload.pages.documentUpload;
+  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -26,10 +26,10 @@ describe('Pensions document upload', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -44,17 +44,17 @@ describe('Pensions document upload', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            files: [{
-              confirmationCode: 'testing'
-            }, {
-              confirmationCode: 'testing2'
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          files: [{
+            confirmationCode: 'testing'
+          }, {
+            confirmationCode: 'testing2'
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

@@ -104,11 +104,11 @@
   }
   .edit-btn {
     &.primary-outline {
-      background-color: $color-white;
+      background-color: transparent;
       border: 2px solid $color-primary;
       color: $color-primary;
       &:hover {
-        background-color: $color-white;
+        background-color: transparent;
         border: 2px solid $color-primary-darker;
         color: $color-primary-darker;
       }

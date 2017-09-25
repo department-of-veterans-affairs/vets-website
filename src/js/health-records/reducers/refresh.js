@@ -20,7 +20,7 @@ export default function refresh(state = initialState, action) {
     case 'INITIAL_REFRESH_FAILURE':
       return { ...state, loading: false, errors: action.errors };
     case 'REFRESH_POLL_SUCCESS': {
-      // returns group in form {'succeeded': [], 'failed': []}
+    // returns group in form {'succeeded': [], 'failed': []}
       const statuses = _.groupBy(action.data, (e) => {
         const isCurrentDay = moment().isSame(e.attributes.last_updated, 'day');
         const isStatusOK = e.attributes.status === 'OK';

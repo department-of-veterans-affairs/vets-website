@@ -11,9 +11,9 @@ describe('Pensions service periods', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -24,10 +24,10 @@ describe('Pensions service periods', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -38,14 +38,52 @@ describe('Pensions service periods', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should display warning if the veteran did not serve during a wartime period', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1983-1-1');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1984-1-1');
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
+  });
+
+  it('should not display warning if the veteran did serve during a wartime period', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1995-1-1');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2004-1-1');
+
+    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
+  });
+
   it('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -53,12 +91,8 @@ describe('Pensions service periods', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '2002-1-1');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2003-1-1');
 
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
@@ -70,21 +104,17 @@ describe('Pensions service periods', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_toYear', '2003');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromMonth', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromDay', '1');
-    formDOM.fillData('#root_servicePeriods_0_activeServiceDateRange_fromYear', '2002');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '2002-1-1');
+    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2003-1-1');
 
     formDOM.submitForm();
 

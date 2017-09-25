@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -7,7 +8,7 @@ import {
   characterOfServiceContent,
   optionsToAlwaysDisplay,
   getBenefitOptionText
-} from '../utils/helpers';
+} from '../utils/helpers.jsx';
 import { formatDateShort } from '../../common/utils/helpers';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
@@ -17,6 +18,11 @@ export class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
+    window.dataLayer.push({
+      event: 'letter-benefit-option-clicked',
+      'letter-benefit-option': domEvent.target.id,
+      'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
+    });
     this.props.updateBenefitSummaryRequestOption(
       benefitOptionsMap[domEvent.target.id],
       domEvent.target.checked);
@@ -29,7 +35,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         <tr key={`service${index}`}>
           <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
           <td className="service-info">
-            {characterOfServiceContent[(service.characterOfService).toLowerCase()]}
+            {characterOfServiceContent[(service.characterOfService || '').toLowerCase()]}
           </td>
           <td>{formatDateShort(service.enteredDate)}</td>
           <td>{formatDateShort(service.releasedDate)}</td>
@@ -40,7 +46,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
     let vaBenefitInformation;
-    let vaBenefitInfoRows = [];
+    const vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
@@ -54,24 +60,23 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
       const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
-      // TODO: find out if there is anything in the profile or from EVSS that can tell
-      // us whether the user is a veteran or a user. For now we just pass in
-      // true for the isVeteran parameter
-      const optionText = getBenefitOptionText(key, value, true);
+      const { isVeteran } = this.props;
+      const optionText = getBenefitOptionText(key, value, isVeteran, benefitInfo.awardEffectiveDate);
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
             <th scope="row">
               <input
-                  aria-labelledby={`${key}Label`}
-                  autoComplete="false"
-                  checked={requestOptions[benefitOptionsMap[key]]}
-                  id={key}
-                  name={key}
-                  type="checkbox"
-                  onChange={this.handleChange}/>
+                aria-labelledby={`${key}Label`}
+                autoComplete="false"
+                checked={requestOptions[benefitOptionsMap[key]]}
+                id={key}
+                name={key}
+                type="checkbox"
+                onChange={this.handleChange}/>
+              <label/>
             </th>
-            <td><label id={`${key}Label`}>{optionText}</label></td>
+            <td><label id={`${key}Label`} htmlFor={key}>{optionText}</label></td>
           </tr>
         );
       }
@@ -95,7 +100,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       vaBenefitInformation = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren't able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
+          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
         </div>
       );
     }
@@ -103,53 +108,46 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows the benefits you're receiving from VA,
-          your military service history, and statements regarding your disability status. You can choose
-          what information you want to include in your letter.
+          This letter is for disabled Veterans. It gives a summary of VA benefits that are available to them, such as housing assistance, civil service preference, and state or local property or car tax relief.
         </p>
         <h2>Choose the information you want to include.</h2>
+        <h2>Military service information</h2>
         <p>
-          The 3 most recent periods of service are available to show in your letter. Select whether or not you want them included.
+          Our records show the 3 most recent service periods. There may be additional service periods not shown here.
         </p>
-        <h2>Military Service Information</h2>
         <div className="form-checkbox">
           <input
-              autoComplete="false"
-              checked={requestOptions.militaryService}
-              id="militaryService"
-              name="militaryService"
-              type="checkbox"
-              onChange={this.handleChange}/>
+            autoComplete="false"
+            checked={requestOptions.militaryService}
+            id="militaryService"
+            name="militaryService"
+            type="checkbox"
+            onChange={this.handleChange}/>
           <label
-              className="schemaform-label"
-              name="militaryService-label"
-              htmlFor="militaryService">
-            Include all periods of service
+            className="schemaform-label"
+            name="militaryService-label"
+            htmlFor="militaryService">
+            Include military service information
           </label>
         </div>
         <table className="usa-table-borderless" id="militaryServiceTable">
           <thead>
             <tr>
-              <th scope="col">Branch of Service</th>
-              <th scope="col">Discharge Type</th>
-              <th scope="col">Began Active Duty</th>
-              <th scope="col">Separated</th>
+              <th scope="col">Branch of service</th>
+              <th scope="col">Discharge type</th>
+              <th scope="col">Active duty start</th>
+              <th scope="col">Separation date</th>
             </tr>
           </thead>
           <tbody>
             {militaryServiceRows}
           </tbody>
         </table>
-        <h2>VA Benefit Information</h2>
+        <h2>VA benefit and disability information</h2>
         <p>
-          Select which statements you want to include in your letter.
+          Please choose what information you want to include in your letter.
         </p>
         {vaBenefitInformation}
-        <p>
-          If you see incorrect information for service periods or disability status,
-          please send a question using VA's <a target="_blank" href="https://iris.custhelp.com/app/ask">Inquiry Routing & Information
-          System (IRIS)</a>. You should expect a response from VA in 5 business days.
-        </p>
       </div>
     );
   }
@@ -157,11 +155,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const { profile } = state.user;
+
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
     },
+    // default isVeteran to true if service for determining this is down
+    // this decision may need to be revisited.
+    isVeteran: (profile.veteranStatus === 'OK' ? profile.isVeteran : true),
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };

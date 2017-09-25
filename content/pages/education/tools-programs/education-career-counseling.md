@@ -17,7 +17,7 @@ If you’re leaving active service soon, find out how to get free educational an
 
 ### Can I get educational and career counseling?
 
-You can get these services if you'll be discharged from active duty within 6 months or:
+You can get these services if you’ll be discharged from active duty within 6 months or:
 -	You were discharged from active duty not more than 1 year ago under conditions other than dishonorable, **and**
 -	You qualify as a Veteran for educational assistance under a VA educational program. 
 
@@ -26,7 +26,7 @@ You can get these services if you'll be discharged from active duty within 6 mon
 - [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
 - [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
 
-### Who's covered? 
+### Who’s covered? 
 
 - Veterans
 - Qualified dependents 
@@ -43,11 +43,11 @@ You can get these services if you'll be discharged from active duty within 6 mon
 
 ### How do I get these benefits? 
 
-You'll need to apply:
+You’ll need to apply:
 
 1. Log in to [eBenefits](https://www.ebenefits.va.gov).
-2. Select "Apply."
-3. Select "Vocational Rehabilitation and Employment Benefits."
-4. Apply for "Educational and Career Counseling."<br /><br />
+2. Select “Apply.”
+3. Select “Vocational Rehabilitation and Employment Benefits.”
+4. Apply for “Educational and Career Counseling.”<br /><br />
 
-If you qualify, we'll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. Use [CareerScope](/education/tools-programs/careerscope/). 
+If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. Use [CareerScope](/education/tools-programs/careerscope/). 

@@ -21,7 +21,7 @@ You can get this benefit if you went into the service for the first time between
   - You put in $25–$2,700 on your own, **and**
   - You finished your first period of service and were discharged or released from service under conditions other than dishonorable.
 
-### Who's covered?
+### Who’s covered?
 Veterans
 </div>
 
@@ -32,7 +32,7 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+You’ll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
 You can use VEAP benefits for these programs:
 
@@ -53,10 +53,10 @@ You can use VEAP benefits for these programs:
 How much you put in every month will determine how many months of benefits you get (1–36 months). You have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can ask for a refund for the amount left in your fund.
 
 **Active Duty:**
-If you're currently on active duty and want to use VEAP, you must have at least 3 months of contributions in the fund.
+If you’re currently on active duty and want to use VEAP, you must have at least 3 months of contributions in the fund.
 
 **Withdrawals:**
-You can withdraw the money in your VEAP account if you don't meet basic qualifying requirements or if you formally ask for a refund.
+You can withdraw the money in your VEAP account if you don’t meet basic qualifying requirements or if you formally ask for a refund.
 
 
 ### Get more information

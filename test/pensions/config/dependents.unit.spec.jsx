@@ -11,10 +11,10 @@ describe('Pensions dependent list', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -24,10 +24,10 @@ describe('Pensions dependent list', () => {
   it('should render dependent list', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -40,11 +40,11 @@ describe('Pensions dependent list', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
@@ -56,11 +56,11 @@ describe('Pensions dependent list', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
@@ -74,10 +74,10 @@ describe('Pensions dependent list', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -98,10 +98,10 @@ describe('Pensions dependent list', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

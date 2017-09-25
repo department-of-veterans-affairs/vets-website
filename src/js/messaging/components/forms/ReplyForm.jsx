@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -17,8 +18,8 @@ class ReplyForm extends React.Component {
 
     const replyDetails = (
       <div
-          className={detailsClass}
-          onClick={this.props.toggleDetails}>
+        className={detailsClass}
+        onClick={this.props.toggleDetails}>
         <div className="msg-reply-detail">
           <label>Reply to:</label> {this.props.recipient}
         </div>
@@ -32,22 +33,22 @@ class ReplyForm extends React.Component {
       <form id="msg-reply">
         {replyDetails}
         <MessageWriteGroup
-            disabled={this.props.disabled}
-            allowedMimeTypes={allowedMimeTypes}
-            errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
-            files={reply.attachments}
-            maxFiles={composeMessage.attachments.maxNum}
-            maxFileSize={composeMessage.attachments.maxSingleFile}
-            maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-            onAttachmentsClose={this.props.onAttachmentsClose}
-            onAttachmentUpload={this.props.onAttachmentUpload}
-            onAttachmentsError={this.props.onAttachmentsError}
-            onDelete={this.props.toggleConfirmDelete}
-            onTextChange={this.props.onBodyChange}
-            onSave={this.props.onSaveReply}
-            onSend={this.props.onSendReply}
-            messageText={reply.body}
-            placeholder={composeMessage.placeholders.message}/>
+          disabled={this.props.disabled}
+          allowedMimeTypes={allowedMimeTypes}
+          errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
+          files={reply.attachments}
+          maxFiles={composeMessage.attachments.maxNum}
+          maxFileSize={composeMessage.attachments.maxSingleFile}
+          maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
+          onAttachmentsClose={this.props.onAttachmentsClose}
+          onAttachmentUpload={this.props.onAttachmentUpload}
+          onAttachmentsError={this.props.onAttachmentsError}
+          onDelete={this.props.toggleConfirmDelete}
+          onTextChange={this.props.onBodyChange}
+          onSave={this.props.onSaveReply}
+          onSend={this.props.onSendReply}
+          messageText={reply.body}
+          placeholder={composeMessage.placeholders.message}/>
       </form>
     );
   }

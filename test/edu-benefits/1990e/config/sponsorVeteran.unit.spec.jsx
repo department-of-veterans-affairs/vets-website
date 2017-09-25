@@ -12,9 +12,9 @@ describe('Edu 1990e sponsorVeteran', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
@@ -25,9 +25,9 @@ describe('Edu 1990e sponsorVeteran', () => {
   it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     submitForm(form);
 
@@ -44,7 +44,7 @@ describe('Edu 1990e sponsorVeteran', () => {
 
     // Check no-SSN box
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                                   .find(input => input.id === 'root_view:veteranId_view:noSSN');
+      .find(input => input.id === 'root_view:veteranId_view:noSSN');
     ReactTestUtils.Simulate.change(noSSNBox,
       {
         target: {
@@ -61,10 +61,10 @@ describe('Edu 1990e sponsorVeteran', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

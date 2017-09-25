@@ -16,10 +16,10 @@ class PrescriptionList extends React.Component {
       const uniqId = _.uniqueId('rx-');
       return (
         <PrescriptionCard
-            { ...rx }
-            glossaryModalHandler={this.props.glossaryModalHandler}
-            refillModalHandler={this.props.refillModalHandler}
-            key={uniqId}/>
+          { ...rx }
+          glossaryModalHandler={this.props.glossaryModalHandler}
+          refillModalHandler={this.props.refillModalHandler}
+          key={uniqId}/>
       );
     };
 
@@ -52,11 +52,11 @@ class PrescriptionList extends React.Component {
         const uniqId = _.uniqueId('rx-g');
 
         return (<PrescriptionGroup
-            glossaryModalHandler={this.props.glossaryModalHandler}
-            refillModalHandler={this.props.refillModalHandler}
-            title={value}
-            key={uniqId}
-            items={groupChildren}/>);
+          glossaryModalHandler={this.props.glossaryModalHandler}
+          refillModalHandler={this.props.refillModalHandler}
+          title={value}
+          key={uniqId}
+          items={groupChildren}/>);
       });
     } else {
       prescriptions = items.map(makeItem);
@@ -71,10 +71,10 @@ class PrescriptionList extends React.Component {
 
     const sortMenu = (
       <SortMenu
-          onChange={this.props.handleSort}
-          onClick={this.props.handleSort}
-          options={sortOptions}
-          selected={this.props.currentSort}/>
+        onChange={this.props.handleSort}
+        onClick={this.props.handleSort}
+        options={sortOptions}
+        selected={this.props.currentSort}/>
     );
 
     return (

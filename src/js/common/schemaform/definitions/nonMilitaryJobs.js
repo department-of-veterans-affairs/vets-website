@@ -2,6 +2,17 @@ import EmploymentPeriodView from '../../../edu-benefits/components/EmploymentPer
 
 const uiSchema = {
   items: {
+    postMilitaryJob: {
+      'ui:title': 'When did you do this work?',
+      'ui:widget': 'yesNo',
+      'ui:options': {
+        labels: {
+          Y: 'Before military service',
+          N: 'After military service'
+        },
+        yesNoReverse: true
+      }
+    },
     name: {
       'ui:title': 'Main job'
     },

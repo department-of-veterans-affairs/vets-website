@@ -13,7 +13,7 @@ majorlinks:
       title: Burial Allowance Application Process
       description: Find out if you can get paid back for funeral and other burial costs.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation
-      title: Compensation for Survivors and Dependents 
+      title: Compensation for Survivors and Dependents
       description: Find out if you can get tax-free monetary benefits.
 relatedlinks:
   - heading: Other benefits you may be interested in

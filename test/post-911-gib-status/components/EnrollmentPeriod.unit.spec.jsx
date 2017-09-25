@@ -51,19 +51,19 @@ describe('<EnrollmentPeriod>', () => {
 
   it('should not show change history there are no amendments', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...defaultProps}/>);
-    expect(tree.subTree('.usa-accordion')).to.be.empty;
+    expect(tree.subTree('.usa-accordion')).to.be.false;
   });
 
   it('should show change history if there are amendments', () => {
     const props = _.merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
-    expect(tree.subTree('.usa-accordion')).not.to.be.empty;
+    expect(tree.subTree('.usa-accordion')).not.to.be.false;
   });
 
   it('should not show change history contents when panel is collapsed', () => {
     const props = _.merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
-    expect(tree.subTree('.usa-accordion-content')).to.be.empty;
+    expect(tree.subTree('.usa-accordion-content')).to.be.false;
   });
 
   it('should show or hide change history contents when panel is expanded or collapsed', () => {
@@ -72,10 +72,10 @@ describe('<EnrollmentPeriod>', () => {
 
     // Expand
     tree.getMountedInstance().toggleHistory();
-    expect(tree.subTree('.usa-accordion-content')).not.to.be.empty;
+    expect(tree.subTree('.usa-accordion-content')).not.to.be.false;
 
     // Collapse
     tree.getMountedInstance().toggleHistory();
-    expect(tree.subTree('.usa-accordion-content')).to.be.empty;
+    expect(tree.subTree('.usa-accordion-content')).to.be.false;
   });
 });

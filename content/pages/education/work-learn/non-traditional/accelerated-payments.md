@@ -16,17 +16,17 @@ Are you enrolled in a high-tech program with the goal of working in a high-tech 
 <div class="feature" markdown="1">
 
 ### Can I get this education benefit?
-You can get this benefit if you're an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify, and:
--	You're a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for 2 years or less, **and**
+You can get this benefit if you’re an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify, and:
+-	You’re a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for 2 years or less, **and**
 -	Your tuition and fees are more than 200% of the monthly amount of educational assistance you would otherwise qualify to get during the certified enrollment period.
 <br />
 
 **Exception:** 
-You can't get this benefit under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
+You can’t get this benefit under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
 
 <br/>
 
-### Who's covered?
+### Who’s covered?
 Veterans
 
 </div>

@@ -12,10 +12,10 @@ describe('Burials claimant contact information', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -24,14 +24,14 @@ describe('Burials claimant contact information', () => {
   it('should render official position', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{
-            relationship: {
-              isEntity: true
-            }
-          }}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          relationship: {
+            isEntity: true
+          }
+        }}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -41,11 +41,11 @@ describe('Burials claimant contact information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -56,11 +56,11 @@ describe('Burials claimant contact information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 

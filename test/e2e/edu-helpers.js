@@ -25,7 +25,7 @@ function completeVeteranInformation(client, data, root = 'root') {
   if (data['view:veteranId']) {
     client
       .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
-      .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
+      .fillCheckbox(`input[name="${root}_view:veteranId_view:noSSN"]`)
       .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
   } else {
     client.fill(`input[name="${root}_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
@@ -69,11 +69,11 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
   }
   if (data.relativeVaFileNumber) {
     client
-      .click('input[name="root_view:noSSN"]')
+      .fillCheckbox('input[name="root_view:noSSN"]')
       .fill('input[name="root_relativeVaFileNumber"]', data.relativeVaFileNumber);
   } else if (data.vaFileNumber) {
     client
-      .click('input[name="root_view:noSSN"]')
+      .fillCheckbox('input[name="root_view:noSSN"]')
       .fill('input[name="root_vaFileNumber"]', data.vaFileNumber);
   }
 
@@ -84,20 +84,20 @@ function completeApplicantInformation(client, data, prefix = 'relative') {
 
   if (typeof data.relationship !== 'undefined') {
     client
-      .click('input[name="root_relationship_0"]');
+      .click('input#root_relationship_0');
   }
 
   if (data.gender) {
-    client.click(data.gender === 'M' ? 'input[name=root_gender_0' : 'input[name=root_gender_1');
+    client.click(data.gender === 'M' ? 'input#root_gender_0' : 'input#root_gender_1');
   }
 }
 
 function completeAdditionalBenefits(client, data) {
   if (typeof data.nonVaAssistance !== 'undefined') {
-    client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
+    client.click(data.nonVaAssistance ? '#root_nonVaAssistanceYes' : '#root_nonVaAssistanceNo');
   }
   if (typeof data.civilianBenefitsAssistance !== 'undefined') {
-    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+    client.click(data.civilianBenefitsAssistance ? '#root_civilianBenefitsAssistanceYes' : '#root_civilianBenefitsAssistanceNo');
 
     if (typeof data.civilianBenefitsSource !== 'undefined') {
       client.fill('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
@@ -127,16 +127,39 @@ function completeBenefitsSelection(client, data) {
 function completeServicePeriods(client, data, serviceName = 'view:newService') {
   if (serviceName) {
     client
-      .click(`input[name="root_${serviceName}Yes"]`);
+      .selectYesNo(`root_${serviceName}`, true);
   }
+
   client
     .fill('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
     .fillDate('root_toursOfDuty_0_dateRange_from', data.toursOfDuty[0].dateRange.from)
-    .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to)
+    .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to);
+
+  if (data.toursOfDuty[0].serviceStatus) {
+    client.fill('input[name="root_toursOfDuty_0_serviceStatus"]', data.toursOfDuty[0].serviceStatus);
+  }
+
+  if (data.toursOfDuty[0].applyPeriodToSelected === false) {
+    client
+      .fillCheckbox('input[name="root_toursOfDuty_0_applyPeriodToSelected"]')
+      .fill('textarea[id="root_toursOfDuty_0_benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
+  }
+
+  client
     .click('button.va-growable-add-btn')
     .fill('input[name="root_toursOfDuty_1_serviceBranch"]', data.toursOfDuty[1].serviceBranch)
     .fillDate('root_toursOfDuty_1_dateRange_from', data.toursOfDuty[1].dateRange.from)
     .fillDate('root_toursOfDuty_1_dateRange_to', data.toursOfDuty[1].dateRange.to);
+
+  if (data.toursOfDuty[1].serviceStatus) {
+    client.fill('input[name="root_toursOfDuty_1_serviceStatus"]', data.toursOfDuty[1].serviceStatus);
+  }
+
+  if (data.toursOfDuty[1].applyPeriodToSelected === false) {
+    client
+      .fillCheckbox('input[name="root_toursOfDuty_1_applyPeriodToSelected"]')
+      .fill('textarea[id="root_toursOfDuty_1_benefitsToApplyTo"]', data.toursOfDuty[1].benefitsToApplyTo);
+  }
 }
 
 function completeVeteranAddress(client, data) {
@@ -148,7 +171,7 @@ function completeVeteranAddress(client, data) {
     .clearValue('input[name="root_veteranAddress_city"]')
     .setValue('input[name="root_veteranAddress_city"]', data.veteranAddress.city)
     .clearValue('select[name="root_veteranAddress_state"]')
-    .setValue('select[name="root_veteranAddress_state"]', data.veteranAddress.state)
+    .selectDropdown('root_veteranAddress_state', data.veteranAddress.state)
     .clearValue('input[name="root_veteranAddress_postalCode"]')
     .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode);
 }
@@ -162,7 +185,7 @@ function completeRelativeAddress(client, data) {
     .clearValue('input[name="root_relativeAddress_city"]')
     .setValue('input[name="root_relativeAddress_city"]', data.relativeAddress.city)
     .clearValue('select[name="root_relativeAddress_state"]')
-    .setValue('select[name="root_relativeAddress_state"]', data.relativeAddress.state)
+    .selectDropdown('root_relativeAddress_state', data.relativeAddress.state)
     .clearValue('input[name="root_relativeAddress_postalCode"]')
     .setValue('input[name="root_relativeAddress_postalCode"]', data.relativeAddress.postalCode);
 }
@@ -180,7 +203,7 @@ function completeContactInformation(client, data, isRelative = false) {
     .setValue('input[name="root_view:otherContactInfo_view:confirmEmail"]', data['view:otherContactInfo']['view:confirmEmail']);
 
   client
-    .click('input[name="root_preferredContactMethod_2"]')
+    .click('input#root_preferredContactMethod_2')
     .clearValue('input[name="root_view:otherContactInfo_homePhone"]')
     .setValue('input[name="root_view:otherContactInfo_homePhone"]', data['view:otherContactInfo'].homePhone)
     .clearValue('input[name="root_view:otherContactInfo_mobilePhone"]')
@@ -189,12 +212,12 @@ function completeContactInformation(client, data, isRelative = false) {
 
 function completePaymentChange(client) {
   client
-    .click('input[name="root_bankAccountChange_1"]');
+    .click('input#root_bankAccountChange_1');
 }
 
 function completeDirectDeposit(client, data) {
   client
-    .click('input[name="root_bankAccount_accountType_1"]')
+    .click('input#root_bankAccount_accountType_1')
     .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
     .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
 }
@@ -209,15 +232,23 @@ function completeSchoolSelection(client, data) {
     .fill('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
     .fill('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
     .fill('textarea[id="root_educationObjective"]', data.educationObjective);
+
+  if (data.educationStartDate) {
+    client.fillDate('root_educationStartDate', data.educationStartDate);
+  }
 }
 
 function completeEmploymentHistory(client, data) {
-  const nonMilitaryJobs = data.nonMilitaryJobs[0];
+  const nonMilitaryJob = data.nonMilitaryJobs[0];
   client
-    .click('input[name="root_view:hasNonMilitaryJobsYes"]')
-    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJobs.name)
-    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJobs.months)
-    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJobs.licenseOrRating);
+    .click('input#root_view\\:hasNonMilitaryJobsYes')
+    .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJob.name)
+    .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJob.months)
+    .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJob.licenseOrRating);
+
+  if (nonMilitaryJob.postMilitaryJob) {
+    client.selectYesNo('root_nonMilitaryJobs_0_postMilitaryJob', nonMilitaryJob.postMilitaryJob);
+  }
 }
 
 

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import 'babel-polyfill';
 import { set } from 'lodash/fp';
 
 import { calculatorConstants } from '../../e2e/gibct-helpers';

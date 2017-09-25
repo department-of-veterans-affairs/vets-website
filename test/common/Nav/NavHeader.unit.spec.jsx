@@ -30,8 +30,8 @@ describe('<NavHeader>', () => {
 
     const tree = SkinDeep.shallowRender(
       <NavHeader
-          path={path}
-          chapters={chapters}/>
+        path={path}
+        chapters={chapters}/>
     );
     expect(tree.subTree('h4').text()).to.equal('2 of 2 Test chapter');
   });

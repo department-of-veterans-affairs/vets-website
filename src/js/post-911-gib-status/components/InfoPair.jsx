@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 class InfoPair extends React.Component {
   render() {
-    const { spacingClass } = this.props;
+    const { additionalClass } = this.props;
 
-    const gridRowClasses = spacingClass ?
-        `usa-grid-full ${this.props.spacingClass}`
-        : 'usa-grid-full';
+    const gridRowClasses = additionalClass ?
+      `usa-grid-full ${additionalClass}`
+      : 'usa-grid-full';
 
     const row = (
       <div className={gridRowClasses}>
         <div className="usa-width-one-third">
           <span><strong>{this.props.label}: </strong></span>
         </div>
-        <div className="usa-width-two-thirds">
+        <div className="usa-width-two-thirds" id={this.props.id}>
           {this.props.value}
         </div>
       </div>
@@ -40,7 +40,8 @@ class InfoPair extends React.Component {
 InfoPair.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.any,
-  spacingClass: PropTypes.string,
+  id: PropTypes.string,
+  additionalClass: PropTypes.string,
   displayIfZero: PropTypes.bool
 };
 

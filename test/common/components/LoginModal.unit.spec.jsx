@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import SkinDeep from 'skin-deep';
 
 import LoginModal from '../../../src/js/common/components/LoginModal';
 
@@ -54,10 +55,10 @@ describe('<LoginModal>', () => {
   it('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -67,10 +68,10 @@ describe('<LoginModal>', () => {
   it('should be hidden when not visible', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible={false}
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}/>
+        user={user}
+        visible={false}
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -80,11 +81,11 @@ describe('<LoginModal>', () => {
   it('should render a title', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -95,11 +96,11 @@ describe('<LoginModal>', () => {
     setup();
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"/>
     );
     const findDOM = findDOMNode(tree);
 
@@ -108,7 +109,7 @@ describe('<LoginModal>', () => {
 
     // Not exactly definitive tests...and possibly brittle...
     // url called to get a new user session
-    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/new?level=1');
+    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/authn_urls');
     expect(global.window.open.calledOnce).to.be.true;
     expect(global.window.dataLayer).to.eql([
       { event: 'login-link-clicked' },
@@ -118,34 +119,57 @@ describe('<LoginModal>', () => {
     teardown();
   });
 
-  // TODO: While this _does_ test that the function is called, it doesn't test
-  //  that the function is called _at the right time_. We should circle back to
-  //  this and fix that.
-  it('should call onLogin after a successful login', () => {
+  it('should call onUpdateLoginUrl after a login attempt', () => {
     setup();
     const loginSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <LoginModal
-          user={user}
-          visible
-          onClose={onCloseSpy}
-          onUpdateLoginUrl={updateLoginSpy}
-          title="Some title"
-          onLogin={loginSpy}/>
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"
+        onLogin={loginSpy}/>
     );
     const findDOM = findDOMNode(tree);
 
     // Poke the button!
     ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
+    const promise = ReactTestUtils.findRenderedComponentWithType(tree, LoginModal).loginUrlRequest;
 
-    // setTimeout is gross, but the test doesn't have visibility into
-    //  LoginModal's loginUrlRequest, so...we have to wait until it's done doing
-    //  its thing
-    // If this fails consistently, increase the timeout
-    setTimeout(() => {
-      expect(loginSpy.called).to.be.true;
-    }, 500);
+    return promise.then(() => {
+      expect(updateLoginSpy.called).to.be.true;
+      teardown();
+    }).catch((e) => {
+      teardown();
+      throw e;
+    });
+  });
 
-    teardown();
+  it('should call onLogin after a successful login', () => {
+    const loginSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <LoginModal
+        user={user}
+        visible
+        onClose={onCloseSpy}
+        onUpdateLoginUrl={updateLoginSpy}
+        title="Some title"
+        onLogin={loginSpy}/>
+    );
+
+    const instance = tree.getMountedInstance();
+    instance.loginButtonClicked = true;
+    instance.componentWillReceiveProps({
+      user: {
+        login: {
+          currentlyLoggedIn: true
+        }
+      }
+    });
+
+    expect(loginSpy.called).to.be.true;
+    expect(instance.loginButtonClicked).to.be.false;
+    expect(onCloseSpy.called).to.be.true;
   });
 });

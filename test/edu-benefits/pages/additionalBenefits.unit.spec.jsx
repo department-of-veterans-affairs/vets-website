@@ -15,9 +15,9 @@ describe('Edu additionalBenefits page', () => {
     const { schema, uiSchema } = additionalBenefitsPage(fullSchema1990e);
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -30,9 +30,9 @@ describe('Edu additionalBenefits page', () => {
     });
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

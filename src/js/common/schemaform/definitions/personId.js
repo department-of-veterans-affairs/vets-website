@@ -35,7 +35,7 @@ export function uiSchema(
       'ui:required': (formData) => !!_.get(noSSN, formData),
       'ui:title': 'VA file number',
       'ui:errorMessages': {
-        pattern: 'File number must be 8 digits'
+        pattern: 'Your VA file number must be between 7 to 9 digits'
       },
       'ui:options': {
         expandUnder: 'view:noSSN'

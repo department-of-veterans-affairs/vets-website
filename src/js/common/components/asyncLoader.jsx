@@ -22,7 +22,7 @@ export default function asyncLoader(getComponent, message) {
       }
       return (
         <div className="async-loader">
-          <LoadingIndicator message={message || 'Loading page'}/>
+          <LoadingIndicator message={message || 'Loading page...'}/>
         </div>
       );
     }

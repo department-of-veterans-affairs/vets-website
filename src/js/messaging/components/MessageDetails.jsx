@@ -83,13 +83,13 @@ class MessageDetails extends React.Component {
 
     return (
       <div
-          className="messaging-message-details-control"
-          tabIndex="-1"
-          onBlur={() => { this.setState({ expandedFull: false }); }}
-          onClick={(e) => e.stopPropagation()}>
+        className="messaging-message-details-control"
+        tabIndex="-1"
+        onBlur={() => { this.setState({ expandedFull: false }); }}
+        onClick={(e) => e.stopPropagation()}>
         <button
-            className="usa-button-unstyled"
-            onClick={this.toggleFullDetails}>
+          className="usa-button-unstyled"
+          onClick={this.toggleFullDetails}>
           <i className="fa fa-caret-down"></i>
           <span className="usa-sr-only">
             {this.state.expandedFull ? 'Hide details' : 'Details'}
@@ -97,7 +97,7 @@ class MessageDetails extends React.Component {
         </button>
         <div className="messaging-compact-details-control">
           {compactSentDate}
-          <a role="button" onClick={this.toggleCompactDetails}>
+          <a tabIndex="0" role="button" onClick={this.toggleCompactDetails}>
             {this.state.expandedCompact ? 'Hide details' : 'Details'}
           </a>
         </div>

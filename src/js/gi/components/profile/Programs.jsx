@@ -40,7 +40,7 @@ export class Programs extends React.Component {
       },
 
       vetSuccessName: {
-        modal: false,
+        modal: 'vsoc',
         text: 'VetSuccess on Campus',
         link: {
           href: institution.vetSuccessEmail && `mailto:${institution.vetSuccessEmail}`,
@@ -73,7 +73,7 @@ export class Programs extends React.Component {
         {program.text}
       </a>) : program.text;
 
-    return <p key={programKey}><i className={icon}/> {label} {link}</p>;
+    return <div key={programKey}><i className={icon}/> {label} {link}</div>;
   }
 
   render() {

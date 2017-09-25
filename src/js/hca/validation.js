@@ -27,7 +27,7 @@ export function validateMarriageDate(errors, marriageDate, { spouseDateOfBirth, 
   const marriage = moment(marriageDate);
 
   if (discloseFinancialInformation && (vetDOB.isAfter(marriage) || spouseDOB.isAfter(marriage))) {
-    errors.addError('Date of marriage cannot be before the Veteran\'s or the spouse\'s date of birth');
+    errors.addError('Date of marriage cannot be before the Veteran’s or the spouse’s date of birth');
   }
   validateCurrentOrPastDate(errors, marriageDate);
 }
@@ -37,7 +37,7 @@ export function validateDependentDate(errors, dependentDate, formData, schema, m
   const dob = moment(_.get(`children[${index}].childDateOfBirth`, formData));
 
   if (formData.discloseFinancialInformation && dob.isAfter(dependent)) {
-    errors.addError('This date must come after the child\'s birth date');
+    errors.addError('This date must come after the child’s birth date');
   }
   validateCurrentOrPastDate(errors, dependentDate);
 }

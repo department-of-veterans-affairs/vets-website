@@ -23,6 +23,6 @@ If you’re a Guardsman, Reservist, or Veteran who doesn’t qualify for the Pos
 
 An accredited representative (a trained professional trusted to help with VA-related claims) who works with a Veterans Service Organization (VSO) can help you pick the right program. [Get help from an accredited representative](/disability-benefits/apply/help/index.html).
 
-The GI Bill Comparison Tool shows you what benefits you'll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
+The GI Bill Comparison Tool shows you what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 
 **Note:** The Post-9/11 GI Bill has replaced the Reserve Educational Assistance Program (REAP) for Reserve and National Guard members called to active duty on or after September 11, 2001. But if you applied for REAP on or after November 25, 2015, you may still qualify for benefits. [Learn more about REAP](/education/other-educational-assistance-programs/reap/).

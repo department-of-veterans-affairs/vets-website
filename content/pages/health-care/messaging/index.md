@@ -1,5 +1,5 @@
 ---
-title: Send a Message to Your Provider
+title: Send a Secure Message to Your Health Care Team
 layout: page-react.html
 entryname: messaging
 gatePage: true

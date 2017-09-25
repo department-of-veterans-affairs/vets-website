@@ -66,11 +66,29 @@ export default function createSchoolSelectionPage(schema, options) {
     civilianBenefitsAssistance: {
       'ui:title': civilianBenefitsLabel,
       'ui:widget': 'yesNo'
+    },
+    currentlyActiveDuty: {
+      nonVaAssistance: {
+        'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
+        'ui:widget': 'yesNo',
+        'ui:options': {
+          hideIf: formData => _.get('currentlyActiveDuty.yes', formData) === true
+        }
+      }
     }
   };
   const pickFields = _.pick(fields);
 
   const schemaProperties = pickFields(schema.properties);
+
+  if (schemaProperties.currentlyActiveDuty) {
+    schemaProperties.currentlyActiveDuty = {
+      type: 'object',
+      properties: {
+        nonVaAssistance: schema.definitions.currentlyActiveDuty.properties.nonVaAssistance
+      }
+    };
+  }
 
   // educationProgram.schema is a function, so pull out the schema
   if (schemaProperties.educationProgram) {

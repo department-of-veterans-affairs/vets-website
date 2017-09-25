@@ -71,6 +71,10 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isFullDate(date) {
+  return /\d{4}-\d{1,2}-\d{1,2}/.test(date);
+}
+
 function isValidDate(day, month, year) {
   // Use the date class to see if the date parses back sanely as a
   // validation check. Not sure is a great idea...
@@ -184,6 +188,11 @@ function isValidFutureDate(day, month, year) {
   return momentDate.isAfter(moment().endOf('day'), 'day');
 }
 
+function isValidCurrentOrFutureMonthYear(month, year) {
+  const momentDate = moment({ month: parseInt(month, 10) - 1, year });
+  return momentDate.isSameOrAfter(moment(), 'month');
+}
+
 function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
 }
@@ -205,7 +214,7 @@ function isValidDateOver17(day, month, year) {
  * Field Validations *
 */
 function isValidName(value) {
-  return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
+  return /^[a-zA-Z][a-zA-Z '-]*$/.test(value);
 }
 
 function isValidFullNameField(field) {
@@ -270,6 +279,7 @@ function isValidPhone(value) {
 
 function isValidEmail(value) {
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+  // eslint-disable-next-line no-useless-escape
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
 }
 
@@ -327,6 +337,7 @@ export {
   isBlankAddress,
   isBlankMonthYear,
   isDirtyDate,
+  isFullDate,
   isNotBlank,
   isNotBlankDateField,
   isValidAddressField,
@@ -334,6 +345,7 @@ export {
   isValidCanPostalCode,
   isValidCurrentOrPastYear,
   isValidCurrentOrPastDate,
+  isValidCurrentOrFutureMonthYear,
   isValidFutureDate,
   isValidDate,
   isValidDateField,

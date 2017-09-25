@@ -42,7 +42,8 @@ export function groupPagesIntoChapters(routes, prefix = '') {
   });
 }
 
-export function isInProgress(trimmedPathname) {
+export function isInProgress(pathName) {
+  const trimmedPathname = pathName.replace(/\/$/, '');
   return !(
     trimmedPathname.endsWith('introduction')
     || trimmedPathname.endsWith('confirmation')
@@ -105,8 +106,16 @@ export function formatDateLong(date) {
   return moment(date).format('MMMM DD, YYYY');
 }
 
+export function formatDateParsedZoneLong(date) {
+  return moment.parseZone(date).format('MMMM DD, YYYY');
+}
+
 export function formatDateShort(date) {
   return moment(date).format('MM/DD/YYYY');
+}
+
+export function formatDateParsedZoneShort(date) {
+  return moment.parseZone(date).format('MM/DD/YYYY');
 }
 
 export function focusElement(selectorOrElement) {
@@ -134,7 +143,7 @@ export function getScrollOptions(additionalOptions) {
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
-    // document.body.scrollTop doesn't work with all browsers, so we'll cover them all like so:
+    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
     Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
@@ -161,4 +170,42 @@ export function displayFileSize(size) {
 
   const mbSize = kbSize / 1024;
   return `${Math.round(mbSize)}MB`;
+}
+
+function formatDiff(diff, desc) {
+  return `${diff} ${desc}${diff === 1 ? '' : 's'}`;
+}
+
+/**
+ * dateDiffDesc returns the number of days, hours, or minutes until
+ * the provided date occurs. It’s meant to be less fuzzy than moment’s
+ * dateDiffDesc so it can be used for expiration dates
+ *
+ * @param date {Moment Date} The future date to check against
+ * @param userFromDate {Moment Date} The earlier date in the range. Defaults to today.
+ * @returns {string} The string description of how long until date occurs
+ */
+export function dateDiffDesc(date, userFromDate = null) {
+  // Not using defaulting because we want today to be when this function
+  // is called, not when the file is parsed and run
+  const fromDate = userFromDate || moment();
+  const dayDiff = date.diff(fromDate, 'days');
+
+  if (dayDiff >= 1) {
+    return formatDiff(dayDiff, 'day');
+  }
+
+  const hourDiff = date.diff(fromDate, 'hours');
+
+  if (hourDiff >= 1) {
+    return formatDiff(hourDiff, 'hour');
+  }
+
+  const minuteDiff = date.diff(fromDate, 'minutes');
+
+  if (minuteDiff >= 1) {
+    return formatDiff(minuteDiff, 'minute');
+  }
+
+  return 'less than a minute';
 }
