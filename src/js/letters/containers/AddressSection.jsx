@@ -8,11 +8,11 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
-  addressUpdateUnavailable
+  addressUpdateUnavailable,
+  invalidAddressProperty,
 } from '../utils/helpers.jsx';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
-import InvalidAddress from '../components/InvalidAddress';
 import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
@@ -129,7 +129,7 @@ export class AddressSection extends React.Component {
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
     if (isEmpty(address)) {
-      addressContent = <InvalidAddress/>;
+      addressContent = invalidAddressProperty;
     } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
         <div className="step-content">

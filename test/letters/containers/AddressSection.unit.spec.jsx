@@ -38,10 +38,9 @@ describe('<AddressSection>', () => {
   it('should display an error message if address is empty', () => {
     const newProps = { ...defaultProps, savedAddress: {} };
     const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
-    const invalidAddress = tree.dive(['InvalidAddress']);
-    const invalidContent = invalidAddress.subTree('p').text();
+    const invalidAddress = tree.subTree('p').text();
 
-    expect(invalidContent).to.contain('We’re encountering an error with your');
+    expect(invalidAddress).to.contain('We’re encountering an error with your');
   });
 
   it('should format 1 address line', () => {

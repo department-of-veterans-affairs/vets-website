@@ -1,11 +1,11 @@
 import React from 'react';
 
-const UpdateFailureAlert = (props) => {
-  const addressLines = Object.keys(props.addressObject)
+const UpdateFailureAlert = ({ addressObject }) => {
+  const addressLines = Object.keys(addressObject)
     .map((key) => {
       return (
         <div className="letters-address" key={key}>
-          {props.addressObject[key]}
+          {addressObject[key]}
         </div>
       );
     });
