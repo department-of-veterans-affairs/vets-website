@@ -21,10 +21,21 @@ export class AddressSection extends React.Component {
     this.state = {
       hasLoadedAddress: false,
       isEditingAddress: false,
+      // editableAddress: this.props.savedAddress || {},
       editableAddress: {},
     };
+
+    // If address has come back from store already, make sure we know about it
+    // if (Object.keys(this.state.editableAddress) !== 0) {
+    //   this.state.hasLoadedAddress = true;
+    // }
   }
 
+  /* editableAddress is initialized from redux store (savedAddress) in the constructor
+   * but this object will likely not be available at time of mounting, which means users
+   * will get a blank form instead of one prefilled with their existing data. This hook
+   * ensures we populate the form as soon as the prop becomes available
+   */
   componentWillReceiveProps(nextProps) {
     if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
       this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress });
@@ -39,24 +50,19 @@ export class AddressSection extends React.Component {
 
   handleChange = (path, update) => {
     this.setState(({ editableAddress }) => {
-      // reset state code when user changes address country but don't add or
-      // modify state property otherwise
-      return (path === 'country'
+      // reset state code when user updates country
+      const newFragment = (path === 'country'
         ? {
-          editableAddress: {
-            ...editableAddress,
-            [path]: update,
-            state: '',
-            militaryStateCode: '',
-          },
+          [path]: update,
+          state: '',
+          militaryStateCode: '',
         }
-        : {
-          editableAddress: {
-            ...editableAddress,
-            [path]: update,
-          },
-        }
+        : { [path]: update }
       );
+
+      return {
+        editableAddress: Object.assign({}, editableAddress, newFragment),
+      };
     });
   }
 
