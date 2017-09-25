@@ -11,7 +11,22 @@ class Verify extends React.Component {
   }
 
   componentDidMount() {
-    window.dataLayer.push({ event: 'verify-prompt-displayed' });
+    if (!this.props.accountType) {
+      return window.location.replace('/');
+    }
+    return window.dataLayer.push({ event: 'verify-prompt-displayed' });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.checkAccountAccess(nextProps.profile.accountType);
+  }
+
+  checkAccountAccess(accountType) {
+    if (accountType > 1 && this.props.shouldRedirect) {
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
+      window.location.replace(nextPath || '/');
+    }
   }
 
   handleVerify() {
@@ -78,6 +93,7 @@ class Verify extends React.Component {
 }
 
 Verify.propTypes = {
+  shouldRedirect: PropTypes.bool,
   verifyUrl: PropTypes.string,
   profile: PropTypes.object,
 };
