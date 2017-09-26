@@ -7,6 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
 order: 3
+description: Applying for VA health care benefits is easy. Find out which documents you’ll need, and start your online application today.
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">

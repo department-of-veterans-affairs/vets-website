@@ -56,7 +56,7 @@ describe('Schemaform <FormSaved>', () => {
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
-    expect(tree.subTree('.usa-alert').text()).to.contain('will expire in');
+    expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
   });
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(

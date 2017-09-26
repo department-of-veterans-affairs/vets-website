@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import includes from 'lodash/fp/includes';
+import Raven from 'raven-js';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
+import { STATE_CODE_TO_NAME } from './constants.js';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -57,16 +59,24 @@ const serviceVerificationLetterContent = (
   </div>
 );
 
+// Commissary letter contains a link so gets its own jsx to correctly display the anchor tag
+const commissaryLetterContent = (
+  <div>
+    If you’re a Veteran with a 100% service-connected disability rating take this letter, a copy of your DD214 or other discharge papers, and your DD2765 to a local military ID and pass office. You can schedule an appointment to get a Retiree Military ID card at the office or use the <a
+      target="_blank" href="https://rapids-appointments.dmdc.osd.mil/">Rapid Appointments Scheduler</a>. The Retiree Military ID card gives you access to your local base facilities, including the commissary and post exchange.
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const letterContent = {
-  commissary: 'If you’re a Veteran who is permanently and totally disabled, use this letter to access the commissary on your local base.',
-  proof_of_service: 'This card serves as proof of honorable service in the uniformed services and can replace a VA ID card.',
+  commissary: commissaryLetterContent,
+  proof_of_service: 'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
   minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
   service_verification: serviceVerificationLetterContent,
   civil_service: 'This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
-  benefit_summary: 'This letter shows what benefits you’re receiving from the VA, military service, and disability status. Below, you can choose if you want military service and disability status to be included.',
-  benefit_verification: 'This letter shows what benefits you’re receiving from the VA. It is different from the benefit summary because it includes [x] and does not give you the option to choose what is included in the letter.'
+  benefit_summary: 'This letter can be customized and used for many things, including to verify income and apply for housing assistance, civil service preference jobs, and state or local property or car tax relief.',
+  benefit_verification: 'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.'
 };
 
 // Options returned by the benefit summary letter request that should be offered in
@@ -164,7 +174,7 @@ const benefitOptionText = {
   },
   hasSpecialMonthlyCompensation: {
     'true': {
-      veteran: <div>Your service-connected disability includes a loss, or loss of use, of a limb, or you’re totally blind or missing an eye.</div>,
+      veteran: <div>You’re receiving special monthly payments due to your service-connected disabilities.</div>,
       dependent: undefined
     },
     'false': {
@@ -236,3 +246,36 @@ export const benefitOptionsMap = {
   serviceConnectedPercentage: 'serviceConnectedEvaluation',
   militaryService: 'militaryService'
 };
+
+export function isDomesticAddress(address) {
+  return (address.type === 'DOMESTIC');
+}
+
+export function isInternationalAddress(address) {
+  return (address.type === 'INTERNATIONAL');
+}
+
+export function isMilitaryAddress(address) {
+  return (address.type === 'MILITARY');
+}
+
+export function getZipCode(address) {
+  if (isInternationalAddress(address)) {
+    return '';
+  }
+  const parts = [
+    address.zipCode,
+    address.zipSuffix ? `-${address.zipSuffix}` : ''
+  ];
+  return parts.join('');
+}
+
+export function getStateName(stateCode) {
+  const stateName = STATE_CODE_TO_NAME[stateCode];
+
+  if (stateName === undefined) {
+    Raven.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
+  }
+
+  return stateName || '';
+}
