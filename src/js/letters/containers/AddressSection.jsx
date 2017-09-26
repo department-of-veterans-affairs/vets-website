@@ -133,7 +133,7 @@ export class AddressSection extends React.Component {
       // Reset all the error messages in case they go to edit again; should be pointless
       errorMessages: {}
     });
-    this.props.saveAddress(this.props.address);
+    this.props.saveAddress(this.state.editableAddress);
   }
 
   /**
