@@ -174,6 +174,7 @@ class Main extends React.Component {
       case 'verifyPage':
         return (
           <Verify
+            shouldRedirect={this.props.shouldRedirect}
             profile={this.props.profile}
             verifyUrl={this.props.login.verifyUrl}/>
         );
@@ -220,6 +221,7 @@ Main.propTypes = {
     'navComponent',
     'verifyPage',
   ]).isRequired,
+  shouldRedirect: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
