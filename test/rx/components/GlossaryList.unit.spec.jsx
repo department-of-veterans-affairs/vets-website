@@ -33,6 +33,7 @@ describe('<GlossaryList>', () => {
   it('should render terms', () => {
     const tree = SkinDeep.shallowRender(<GlossaryList {...props}/>);
 
-    expect(tree.subTree('p')).to.be.ok;
+    expect(tree.subTree('dt')).to.be.ok;
+    expect(tree.subTree('dd')).to.be.ok;
   });
 });
