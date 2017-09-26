@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import URLSearchParams from 'url-search-params';
 
 class Signin extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Signin extends React.Component {
 
   componentDidMount() {
     this.checkLoggedInStatus();
+    window.dataLayer.push({ event: 'login-modal-opened' });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,9 +33,10 @@ class Signin extends React.Component {
     }
   }
 
-  handleLogin(loginUrl) {
+  handleLogin(loginType) {
     return () => {
-      this.props.handleLogin(loginUrl);
+      window.dataLayer.push({ event: `login-attempted-${loginType}` });
+      this.props.handleLogin(loginType);
     };
   }
 

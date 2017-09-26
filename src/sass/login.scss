@@ -37,13 +37,30 @@ span.sidelines {
     align-items: center;
   }
 
+  .va-modal-body {
+    padding-top: 0;
+  }
+
   .va-modal-title {
     display: none;
   }
 
   .va-modal-inner {
-    max-width: 95vw;
+    max-width: 62.5em;
     width: 95vw;
+  }
+
+  .login {
+    .explanation-content {
+      ul {
+        list-style: square;
+        padding-left: 1.5em;
+      }
+
+      p {
+        margin: 1em 0;
+      }
+    }
   }
 }
 
@@ -134,10 +151,6 @@ span.sidelines {
     .hide-for-small {
       display: none;
     }
-
-    .help-info {
-      padding: 2em !important;
-    }
   }
 
   @include media($small-screen) {
@@ -225,9 +238,18 @@ span.sidelines {
       color: inherit;
     }
 
-    &:hover {
-      color: $color-gold;
-      text-decoration: underline;
+    span {
+      &:hover {
+        color: $color-gold;
+        text-decoration: underline;
+      }
+
+      &.signin-spacer {
+        &:hover {
+          color: $color-white;
+          text-decoration: none;
+        }
+      }
     }
   }
 };
