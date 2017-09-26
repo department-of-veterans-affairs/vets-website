@@ -178,7 +178,7 @@ class Main extends React.Component {
         );
       }
       case 'verifyPage':
-        return (this.props.profile.loading || !this.props.login.verifyUrl) ?
+        return this.props.profile.loading ?
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
