@@ -5,6 +5,7 @@ title: Education Benefits
 display_title: Education
 permalink: /education/index.html
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
+description: Find out which VA education benefits you may qualify for through the GI Bill and other educational assistance programs—and start your online application today.
 majorlinks:
   - heading: Apply for Education Benefits
     links:

@@ -5,15 +5,18 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { letterContent } from '../utils/helpers.jsx';
+import { letterContent } from '../utils/helpers';
+import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
+      let letterTitle;
       let bslHelpInstructions;
-      if (letter.letterType === 'benefit_summary') {
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        letterTitle = 'Service Verification and Benefit Summary Letter';
         content = (<VeteranBenefitSummaryLetter/>);
         bslHelpInstructions = (
           <p>
@@ -23,12 +26,13 @@ export class LetterList extends React.Component {
           </p>
         );
       } else {
+        letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
       }
 
       return (
         <CollapsiblePanel
-          panelName={letter.name}
+          panelName={letterTitle}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
           <DownloadLetterLink
@@ -42,7 +46,7 @@ export class LetterList extends React.Component {
     });
 
     let eligibilityMessage;
-    if (this.props.lettersAvailability === 'letterEligibilityError') {
+    if (this.props.lettersAvailability === AVAILABILITY_STATUSES.letterEligibilityError) {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
@@ -51,10 +55,6 @@ export class LetterList extends React.Component {
               One of our systems appears to be down. If you believe you are missing a
               letter or document from the list above, please try again later.
             </p>
-            <ul>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for health-related documents</li>
-              <li><a href="tel:888-888-8888">1-888-888-8888</a> for benefits-related documents</li>
-            </ul>
           </div>
         </div>
       );
@@ -74,7 +74,7 @@ export class LetterList extends React.Component {
         <br/>
         <h4>Can’t find what you’re looking for?</h4>
         <p>
-          This system doesn’t include every VA letter. Learn more about how to access other VA letters and documents you might need.
+          This system doesn’t include every VA letter. Find out how to access other VA letters and documents you might need.
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill benefits summary and eligibility.</strong></a></li>

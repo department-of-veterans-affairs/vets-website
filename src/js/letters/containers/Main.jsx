@@ -3,39 +3,48 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
+import { AVAILABILITY_STATUSES } from '../utils/constants';
 
-import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+import {
+  getBenefitSummaryOptions,
+  getLetterList,
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates
+} from '../actions/letters';
 
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
+    this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
+    this.props.getAddressCountries();
+    this.props.getAddressStates();
   }
 
   render() {
     let appContent;
 
     switch (this.props.lettersAvailability) {
-      case 'available':
+      case AVAILABILITY_STATUSES.available:
         appContent = this.props.children;
         break;
-      case 'awaitingResponse':
+      case AVAILABILITY_STATUSES.awaitingResponse:
         appContent = <LoadingIndicator message="Loading your letters..."/>;
         break;
-      case 'backendServiceError':
+      case AVAILABILITY_STATUSES.backendServiceError:
         appContent = systemDownMessage;
         break;
-      case 'backendAuthenticationError':
+      case AVAILABILITY_STATUSES.backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      // Need a permanent UI for this
-      case 'invalidAddressProperty':
+      case AVAILABILITY_STATUSES.invalidAddressProperty:
         appContent = systemDownMessage;
         break;
-      case 'letterEligibilityError':
+      case AVAILABILITY_STATUSES.letterEligibilityError:
         appContent = this.props.children;
         break;
-      case 'unavailable':
+      case AVAILABILITY_STATUSES.unavailable:
         appContent = (
           <div id="lettersUnavailable">
             <div className="usa-alert usa-alert-error" role="alert">
@@ -79,7 +88,10 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
-  getLetterList
+  getLetterList,
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

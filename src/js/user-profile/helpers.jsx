@@ -14,12 +14,16 @@ export const formBenefits = {
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
-  titles[key] = key === '40-10007' // eslint-disable-line  
-    ? formBenefits[key]
-    : key === '1010ez'
-      ? `${formBenefits[key]} (10-10EZ)`
-      : `${formBenefits[key]} (${key})`;
-
+  let formNumber;
+  if (key === '40-10007') {
+    formNumber = '';
+  } else if (key === '1010ez') {
+    formNumber = ' (10-10EZ)';
+  } else {
+    formNumber = ` (${key})`;
+  }
+  const formTitle = `${formBenefits[key]}${formNumber}`;
+  titles[key] = formTitle; // eslint-disable-line no-param-reassign
   return titles;
 }, {});
 
@@ -49,7 +53,17 @@ export const trackingPrefixes = {
   '40-10007': 'preneed-'
 };
 
-export const sipEnabledForms = new Set(['1010ez', '21P-527EZ', '21P-530', '22-1990', '22-1990E', '22-5495', '22-1990N']);
+export const sipEnabledForms = new Set([
+  '1010ez',
+  '21P-527EZ',
+  '21P-530',
+  '22-1990',
+  '22-1990E',
+  '22-1990N',
+  '22-1995',
+  '22-5490',
+  '22-5495'
+]);
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;

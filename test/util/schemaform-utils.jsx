@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -25,7 +26,6 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
-
     const definitions = _.assign(props.definitions || {}, props.schema.definitions);
     const schema = replaceRefSchemas(props.schema, definitions);
 
@@ -40,6 +40,7 @@ export class DefinitionTester extends React.Component {
       uiSchema
     };
   }
+  debouncedAutoSave = sinon.spy();
   handleChange = (data) => {
     const {
       schema,
@@ -77,6 +78,7 @@ export class DefinitionTester extends React.Component {
 
     return (
       <SchemaForm
+        onBlur={this.debouncedAutoSave}
         safeRenderCompletion
         reviewMode={this.props.reviewMode}
         name="test"
@@ -100,22 +102,18 @@ export function submitForm(form) {
 
 function getIdentifier(node) {
   const tagName = node.tagName.toLowerCase();
-  if (node.id) {
-    return `${tagName}#${node.id}`;
-  }
-
-  if (node.name) {
-    return `${tagName}[name='${node.name}']`;
-  }
+  const id = node.id ? `#${node.id}` : '';
+  const name = node.name ? `[name='${node.name}']` : '';
+  let classList = '';
 
   const classes = node.getAttribute('class');
   if (classes) {
     // Make a dot-separated list of class names
-    const classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
+    classList = classes.split(' ').reduce((c, carry) => `${c}.${carry}`, '');
     return `${tagName}${classList}`;
   }
 
-  return tagName;
+  return `${tagName}${id}${name}${classList}`;
 }
 
 const bar = '\u2551';
