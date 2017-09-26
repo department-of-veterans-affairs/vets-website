@@ -15,17 +15,17 @@ class AuthApp extends React.Component {
     this.setError = this.setError.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
 
-    this.state = { error: false };
-
+    const { token } = props.location.query;
+    this.state = { error: !token };
     this.authSettings = {
       headers: {
-        Authorization: `Token token=${props.location.query.token}`
+        Authorization: `Token token=${token}`
       }
     };
   }
 
   componentDidMount() {
-    this.checkUserLevel();
+    if (!this.state.error) { this.checkUserLevel(); }
   }
 
   setMyToken(token) {
