@@ -1,6 +1,5 @@
 ---
-title: Get your VA health records
-display_title: Download Health Records
+title: Get Your VA Health Records
 layout: page-react.html
 entryname: health-records
 collection: healthCare
