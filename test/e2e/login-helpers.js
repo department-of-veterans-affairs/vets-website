@@ -110,10 +110,6 @@ function testUnauthedUserFlow(client, path) {
   client
     .waitForElementVisible('.login', Timeouts.normal)
     .expect.element('h1').text.to.equal('Sign in to Vets.gov');
-
-  logIn(token, client, path, 1)
-    .waitForElementVisible('.verify', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Verify your identity');
 }
 
 module.exports = {
