@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { addressTypes, STATE_CODE_TO_NAME } from '../utils/constants';
+import { ADDRESS_TYPES, STATE_CODE_TO_NAME } from '../utils/constants';
 import { militaryStateNames } from '../utils/helpers';
 import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 
@@ -85,7 +85,7 @@ class Address extends React.Component {
     // This will be changed once we pull the real country list from the
     // address endpoint.
     let selectedCountry;
-    if (this.props.address.country === undefined && this.props.address.type === addressTypes.military) {
+    if (this.props.address.country === undefined && this.props.address.type === ADDRESS_TYPES.military) {
       selectedCountry = 'USA';
     } else if (this.props.address.country === 'US') {
       selectedCountry = 'USA';

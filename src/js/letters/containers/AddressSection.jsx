@@ -22,7 +22,7 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
-import { addressTypes } from '../utils/constants';
+import { ADDRESS_TYPES } from '../utils/constants';
 
 const fieldValidations = {
   addressOne: addressOneValidations,
@@ -141,12 +141,12 @@ export class AddressSection extends React.Component {
    *  with the "new" type.
    */
   inferAddressType = (address) => {
-    let type = addressTypes.domestic;
+    let type = ADDRESS_TYPES.domestic;
     if (!['USA', 'US'].includes(address.country)) {
-      type = addressTypes.international;
+      type = ADDRESS_TYPES.international;
     } else if (address.militaryStateCode) {
       // TODO: Make sure we clear this out if a state code is selected
-      type = addressTypes.military;
+      type = ADDRESS_TYPES.military;
     }
 
     return Object.assign({}, address, { type });
