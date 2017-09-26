@@ -6,22 +6,31 @@ template: level2-index
 showactionbar: false
 extraspace: true
 majorlinks:
-  - heading:
+  - heading: Who Can Get Benefits
     links:
-    - url: /burials-and-memorials/burial-planning
-      title: Burial Planning
-      description: Find out how to plan for the future or what to do if your family member has just died.
-    - url: /burials-and-memorials/eligibility
-      title: Burial and Memorial Benefits Eligibility
-      description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
+    - url: /burials-and-memorials/eligibility/
+      title: Eligibility
+      description: Find out if you—or a family member—can be buried in a VA national cemetery or get other burial honors.
+  - heading: How to Plan in Advance for Your Burial
+    links:
+    - url: /burials-and-memorials/pre-need/
+      title: Pre-Need Eligibility Determination for Burial in a VA National Cemetery
+      description: Find out ahead of time if you can be buried in a VA national cemetery—and make the process of planning your burial easier for your family members in the event of your death. 
+  - heading: What to Do When a Family Member Dies
+    links:
+    - url: /burials-and-memorials/burial-planning/
+      title: Plan a Burial for a Family Member
+      description: Find out the steps you'll need to take to arrange for a family member's burial.
+    - url: /burials-and-memorials/honor/
+      title: Honor the Deceased with Memorial Items
+      description: Find out how to honor the military service of a deceased Servicemember or Veteran with memorial items such as a headstone, medallion, flag, or Presidential Memorial Certificate. Spouses and other family members may qualify for certain memorial items as well.
     - url: /burials-and-memorials/survivor-and-dependent-benefits
-      title: Survivor and Dependent Benefits
-      description: Find out if you can get help paying for funeral costs and if you qualify for tax-free monetary benefits.
-    - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates/
-      title: Burial Flags and Presidential Memorial Certificates
-      description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.
-    - url: /burials-and-memorials/what-to-expect-at-a-funeral
-      title: What to Expect at a Memorial Service
+      title: Learn about Burial Allowances and Survivor Compensation
+      description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
+  - heading: More Helpful Information
+    links:
+    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+      title: What to Expect at a Funeral
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/find-a-cemetery
       title: Find a Cemetery or Gravesite 
@@ -30,6 +39,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-We can help Veterans and family members plan a burial or memorial service. Find out how to get burial benefits. 
+We can help Servicemembers, Veterans, and family members plan a burial or memorial service. Find out how to get burial benefits.
 
 </div>
