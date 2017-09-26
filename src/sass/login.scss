@@ -247,6 +247,7 @@ span.sidelines {
       &.signin-spacer {
         &:hover {
           color: $color-white;
+          text-decoration: none;
         }
       }
     }
