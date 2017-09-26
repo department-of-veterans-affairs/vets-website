@@ -90,7 +90,7 @@ class Main extends React.Component {
   }
 
   bindNavbarLinks() {
-    document.querySelectorAll('.login-required').forEach(el => {
+    [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
         e.preventDefault();
         const nextQuery = { next: el.getAttribute('href') };
@@ -102,7 +102,7 @@ class Main extends React.Component {
   }
 
   unbindNavbarLinks() {
-    document.querySelectorAll('.login-required').forEach(el => {
+    [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
     });
   }
