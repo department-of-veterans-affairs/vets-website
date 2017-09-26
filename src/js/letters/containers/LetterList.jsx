@@ -27,6 +27,7 @@ export class LetterList extends React.Component {
         );
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
+        content = letterContent[letter.letterType] || '';
       } else {
         letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
