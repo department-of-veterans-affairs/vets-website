@@ -153,7 +153,6 @@ const addressShape = PropTypes.shape({
 });
 
 Address.propTypes = {
-  // value = address
   value: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
 };
