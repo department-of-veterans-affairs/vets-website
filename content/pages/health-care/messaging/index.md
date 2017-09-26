@@ -1,5 +1,5 @@
 ---
-title: Secure Message Health Care Team
+title: Secure Message Your Health Care Team
 layout: page-react.html
 entryname: messaging
 gatePage: true
