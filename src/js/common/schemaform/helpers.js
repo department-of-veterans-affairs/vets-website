@@ -536,12 +536,9 @@ export function getActiveChapters(formConfig, formData) {
 
 export function sanitizeForm(formData) {
   try {
-    const keys = new Set(['first', 'last', 'accountNumber']);
-    const suffixes = ['socialSecurityNumber', 'dateOfBirth'];
+    const suffixes = ['first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
     return JSON.stringify(formData, (key, value) => {
-      if (value && keys.has(key)) {
-        return 'removed';
-      } else if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
         return 'removed';
       }
 
