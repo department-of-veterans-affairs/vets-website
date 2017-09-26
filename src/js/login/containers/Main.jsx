@@ -149,6 +149,11 @@ class Main extends React.Component {
     }
   }
 
+  handleCloseModal = () => {
+    this.props.toggleLoginModal(false);
+    window.dataLayer.push({ event: 'login-modal-closed' });
+  }
+
   render() {
     const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
 
@@ -157,7 +162,7 @@ class Main extends React.Component {
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={() => this.props.toggleLoginModal(false)} id="signin-signup-modal" title="Sign in to Vets.gov">
+            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={this.handleCloseModal} id="signin-signup-modal" title="Sign in to Vets.gov">
               <Signin
                 onLoggedIn={() => this.props.toggleLoginModal(false)}
                 currentlyLoggedIn={currentlyLoggedIn}
@@ -169,6 +174,7 @@ class Main extends React.Component {
       case 'verifyPage':
         return (
           <Verify
+            shouldRedirect={this.props.shouldRedirect}
             profile={this.props.profile}
             verifyUrl={this.props.login.verifyUrl}/>
         );
@@ -215,6 +221,7 @@ Main.propTypes = {
     'navComponent',
     'verifyPage',
   ]).isRequired,
+  shouldRedirect: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

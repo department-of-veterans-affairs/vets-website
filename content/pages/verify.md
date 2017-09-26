@@ -2,7 +2,6 @@
 title: Verify
 entryname: verify
 layout: page-react.html
-noHeader: true
 ---
 
 <div id="main">
