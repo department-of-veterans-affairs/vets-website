@@ -64,7 +64,7 @@ export class AddressSection extends React.Component {
   }
 
   /**
-   * Runs all the valiations against the address passed as a prop for a given field.
+   * Runs all the validations against the address passed as a prop for a given field.
    *
    * @param {String} fieldName             The name of the address field to validate.
    *                                         Maps to the fieldValidations key.
