@@ -205,7 +205,7 @@ describe('Actions', () => {
     it('should fetch claims', (done) => {
       const appeals = [];
       fetchMock.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve(appeals) })
+        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(appeals) }) }),
       });
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
@@ -223,7 +223,7 @@ describe('Actions', () => {
     it('should fail on error', (done) => {
       const appeals = [];
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(appeals) })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(appeals) }) }),
       });
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
@@ -245,7 +245,7 @@ describe('Actions', () => {
     it('should fetch claims', (done) => {
       const claims = [];
       fetchMock.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) })
+        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) }) }),
       });
       const thunk = getClaims();
       const dispatchSpy = sinon.spy();
@@ -263,7 +263,7 @@ describe('Actions', () => {
     it('should fail on error', (done) => {
       const claims = [];
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) }) }),
       });
       const thunk = getClaims();
       const dispatchSpy = sinon.spy();
@@ -285,7 +285,7 @@ describe('Actions', () => {
     it('should fetch claim', (done) => {
       const claim = { data: {}, meta: {} };
       fetchMock.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve(claim) })
+        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claim) }) }),
       });
       const thunk = getClaimDetail();
       const dispatchSpy = sinon.spy();
@@ -309,7 +309,7 @@ describe('Actions', () => {
     it('should fail on 500 error', (done) => {
       const claim = { data: {}, meta: {} };
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claim) })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claim) }) }),
       });
       const thunk = getClaimDetail();
       const dispatchSpy = sinon.spy();
@@ -331,7 +331,7 @@ describe('Actions', () => {
     it('should redirect on 404 error', (done) => {
       const claim = { data: {}, meta: {} };
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 404, json: () => Promise.resolve(claim) })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 404, json: () => Promise.resolve(claim) }) }),
       });
       const dispatchSpy = sinon.spy();
       const routerSpy = (path) => {
@@ -351,7 +351,7 @@ describe('Actions', () => {
     beforeEach(mockFetch);
     it('should submit request', (done) => {
       fetchMock.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve() }) }),
       });
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();
@@ -375,7 +375,7 @@ describe('Actions', () => {
     });
     it('should fail on error', (done) => {
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() }) }),
       });
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();

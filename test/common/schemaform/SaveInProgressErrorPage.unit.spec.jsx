@@ -38,13 +38,17 @@ describe('<SaveInProgressErrorPage>', () => {
     goBack: sinon.spy()
   };
 
+  const mockLoginUrl = {
+    idme: '/mockLoginUrl'
+  };
+
   it('should render the no auth error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.noAuth}/>
     );
@@ -57,10 +61,10 @@ describe('<SaveInProgressErrorPage>', () => {
   it('should render the unrecoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.notFound}/>
     );
@@ -72,10 +76,10 @@ describe('<SaveInProgressErrorPage>', () => {
   it('should render the recoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.failure}/>
     );
@@ -89,11 +93,11 @@ describe('<SaveInProgressErrorPage>', () => {
     const fetchFormStatusSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         setFetchFormStatus={fetchFormStatusSpy}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.noAuth}/>
     );
@@ -107,10 +111,10 @@ describe('<SaveInProgressErrorPage>', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.failure}
         fetchInProgressForm={fetchSpy}/>
@@ -125,10 +129,10 @@ describe('<SaveInProgressErrorPage>', () => {
     const removeSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
-        updateLogInUrl={f => f}
+        updateLogInUrls={f => f}
         isLoggedIn
         router={router}
-        loginUrl="login/url"
+        loginUrls={mockLoginUrl}
         route={route}
         isStartingOver
         loadedStatus={LOAD_STATUSES.failure}

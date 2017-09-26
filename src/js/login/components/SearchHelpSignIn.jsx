@@ -1,14 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import URLSearchParams from 'url-search-params';
 
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
-import { updateLoggedInStatus, toggleSearchHelpUserMenu } from '../actions';
+import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 
 class SearchHelpSignIn extends React.Component {
+  componentDidMount() {
+    const nextParams = new URLSearchParams(window.location.search);
+    const nextPath = nextParams.get('next');
+    if (nextPath) {
+      this.props.toggleLoginModal(true);
+    }
+  }
+
+  handleSigninSignup = (e) => {
+    e.preventDefault();
+    window.dataLayer.push({ event: 'login-link-clicked' });
+    this.props.toggleLoginModal(true);
+  }
+
   render() {
     let content;
     const login = this.props.login;
@@ -21,7 +36,7 @@ class SearchHelpSignIn extends React.Component {
 
       content = (<SignInProfileMenu
         clickHandler={() => {
-          this.props.onClickSearchHelpSignIn('account', !login.utilitiesMenuIsOpen.account);
+          this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
@@ -30,21 +45,21 @@ class SearchHelpSignIn extends React.Component {
       content = null;
     } else {
       content = (<div>
-        <a href="#" onClick={this.props.onUserLogin}>Sign In</a><span className="signin-spacer">|</span><a href="#" onClick={this.props.onUserSignup}>Sign up</a>
+        <a href="#" onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
       </div>
       );
     }
     return (
-      <div>
+      <div className="profileNav">
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
-            this.props.onClickSearchHelpSignIn('search', !login.utilitiesMenuIsOpen.search);
+            this.props.toggleSearchHelpUserMenu('search', !login.utilitiesMenuIsOpen.search);
           }}/>
         <HelpMenu
           isOpen={login.utilitiesMenuIsOpen.help}
           clickHandler={() => {
-            this.props.onClickSearchHelpSignIn('help', !login.utilitiesMenuIsOpen.help);
+            this.props.toggleSearchHelpUserMenu('help', !login.utilitiesMenuIsOpen.help);
           }}/>
         <div className="sign-in-link">
           {content}
@@ -62,15 +77,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    },
-    onClickSearchHelpSignIn: (menu, isOpen) => {
-      dispatch(toggleSearchHelpUserMenu(menu, isOpen));
-    }
-  };
+const mapDispatchToProps = {
+  toggleLoginModal,
+  toggleSearchHelpUserMenu,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);

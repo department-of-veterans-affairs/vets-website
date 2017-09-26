@@ -404,7 +404,7 @@ describe('Disability benefits helpers: ', () => {
     it('should make a fetch request', (done) => {
       global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve() }) })
       });
 
       const onSuccess = () => done();
@@ -417,7 +417,7 @@ describe('Disability benefits helpers: ', () => {
     it('should reject promise when there is an error', (done) => {
       global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() }) })
       });
 
       const onError = (resp) => {
@@ -433,7 +433,7 @@ describe('Disability benefits helpers: ', () => {
     it('should dispatch auth error', (done) => {
       global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() })
+        'catch': () => ({ then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() }) })
       });
 
       const onError = sinon.spy();
