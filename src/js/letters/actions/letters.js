@@ -4,9 +4,10 @@ import { apiRequest } from '../utils/helpers.jsx';
 import {
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  INVALID_ADDRESS_PROPERTY,
   GET_LETTERS_FAILURE,
   GET_LETTERS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_LETTER_PDF_FAILURE,
@@ -36,23 +37,65 @@ export function getLetterList() {
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
           }
-          if (error.status === '422') {
-            // Something about the address is invalid, unable to process the request
-            return dispatch({ type: INVALID_ADDRESS_PROPERTY });
-          }
           if (error.status === '502') {
             // Some of the partner services are down, so we cannot verify the eligibility
             // of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
           }
+          // All other error codes
+          return Promise.reject(
+            new Error(`vets_letters_error_server_get: ${error.status}`)
+          );
         }
         return Promise.reject(
-          new Error(`vets_letters_error_server_get: ${error.status}`)
+          new Error('vets_letters_error_server_get')
         );
       })
       .catch((error) => {
-        Raven.captureException(error);
-        return dispatch({ type: GET_LETTERS_FAILURE });
+        if (error.message.match('vets_letters_error_server_get')) {
+          Raven.captureException(error);
+          return dispatch({ type: GET_LETTERS_FAILURE });
+        }
+        throw error;
+      });
+  };
+}
+
+export function getMailingAddress() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_SUCCESS,
+        data: response,
+      }),
+      (response) => {
+        const error = response.errors.length > 0 ? response.errors[0] : undefined;
+        if (error) {
+          if (error.status === '503' || error.status === '504') {
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          }
+          if (error.status === '403') {
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          }
+          // All other error codes
+          return Promise.reject(
+            new Error(`vets_address_error_server_get: ${error.status}`)
+          );
+        }
+        return Promise.reject(
+          new Error('vets_address_error_server_get')
+        );
+      })
+      .catch((error) => {
+        if (error.message.match('vets_address_error_server_get')) {
+          Raven.captureException(error);
+          return dispatch({ type: GET_ADDRESS_FAILURE });
+        }
+        throw error;
       });
   };
 }

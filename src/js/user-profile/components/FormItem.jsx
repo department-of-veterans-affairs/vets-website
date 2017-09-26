@@ -17,8 +17,8 @@ class FormItem extends React.Component {
         <div className="saved-form-information">
           <h5 className="form-title saved">Application for {formTitles[formId]}</h5>
           {!!lastSaved && !!expirationDate && <div className="saved-form-metadata-container">
-            <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
-            <p className="saved-form-item-metadata">Your saved application <span className="saved-form-item-expires">will expire on {expirationDate}.</span></p>
+            <span className="saved-form-metadata">Last saved on {lastSavedDateTime}</span>
+            <p>Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
           </div>}
         </div>
         <div className="row small-collapse">

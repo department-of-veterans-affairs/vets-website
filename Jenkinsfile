@@ -10,7 +10,8 @@ env.CONCURRENCY = 10
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
     env.BRANCH_NAME == 'production') &&
-    !env.CHANGE_TARGET
+    !env.CHANGE_TARGET &&
+    !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
 }
 
 def buildDetails = { vars ->

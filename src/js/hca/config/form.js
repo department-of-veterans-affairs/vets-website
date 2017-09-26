@@ -21,8 +21,7 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning,
-  resumeMessage
+  disclosureWarning
 } from '../helpers';
 
 import migrations from './migrations';
@@ -125,9 +124,7 @@ const formConfig = {
   migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.',
-    success: resumeMessage,
-    startOver: 'This will remove anything you have put into the Health Care Application.'
+    noAuth: 'Please sign in again to resume your application for health care.'
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
