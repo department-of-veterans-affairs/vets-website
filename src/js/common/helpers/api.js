@@ -1,4 +1,5 @@
 import merge from 'lodash/fp/merge';
+import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import environment from './environment';
@@ -25,6 +26,15 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const settings = merge(defaultSettings, optionalSettings);
 
   return fetch(url, settings)
+    .catch(err => {
+      Raven.captureMessage(`vets_client_error: ${err.message}`, {
+        extra: {
+          error: err
+        }
+      });
+
+      return Promise.reject(err);
+    })
     .then((response) => {
       const data = isJson(response)
         ? response.json()

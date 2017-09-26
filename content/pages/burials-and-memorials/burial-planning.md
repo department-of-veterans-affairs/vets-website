@@ -1,88 +1,95 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Planning
+title: Plan a Burial for a Family Member
+display_title:
 collection: burials
-children: burialsPlanning
-order: 1
+order: 3
+relatedlinks:
+  - heading: Other helpful information
+    links:
+    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+      title: What to Expect at a Funeral
+      description: Find out what will happen to help you prepare for this day.
+    - url: /burials-and-memorials/survivor-and-dependent-benefits/
+      title: Burial Allowances and Survivor Compensation
+      description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.  
 ---
 
 <div class="va-introtext">
 
-When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of our 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
+When a Servicemember or Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. Find out  what to do if your family member has just died.
 
 </div>
 
-<div class="feature" markdown="0">
-
-### Can I plan ahead for my burial?
-
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. To do this:
-
-**First, check to see if you qualify** for VA burial and memorial benefits. [Find out if you qualify](/burials-and-memorials/eligibility/). 
-
-**Then, fill out the Application** for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf). (To save your information in this form, make sure you have the latest free version of [Adobe Reader](https://get.adobe.com/reader/).)
-
-**Send the application** to the National Cemetery Scheduling Office in 1 of 2 ways:
-- Send it by U.S. mail to: 
-
-<br>
-<p class="va-address-block">
-    National Cemetery Scheduling Office<br>
-    P.O. Box 510543<br>
-    St. Louis, MO 63151<br>
-</p>
 <br>
 
-- Fax it to 855-840-8299
+### How do I plan a burial for a family member who has just died?
 
-
-You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you’ve died. 
-
-</div>
-
-### How do I plan a burial for a deceased family member?
+<br>
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). 
+You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
 
-#### If you don’t have a pre-need decision letter:
+<br>
 
-To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
+#### If you don't have a pre-need decision letter:
+
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 3 steps to apply for a burial.
 
 <ol class="process">
 <li class="process-step list-one">
 
-##### Gather these documents and other information you’ll need to identify the deceased:
+##### Gather the information and documents you'll need to identify the deceased
 
- - DD214, or similar discharge papers. If you can’t find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
- - Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
- - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
+You'll need:
+
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+
+You'll need the deceased's:
+
+ - Name
+ - Gender
+ - Social Security number or Military Service number (Veteran ID)
+ - Date of birth
+ - Relationship to the Servicemember or Veteran whose military service will be used to decide eligibility
  - Marital status
- 
-You may also need:
+ - Date of death (and zip code and county at the time of death)
 
- - If the deceased was married, the surviving spouse’s status as Veteran or family member
- - The status and detailed information for any disabled children who may be buried in the future in a national cemetery
- - The Veteran’s zip code and county at the time of death
- - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
- 
+You'll need information about the deceased's next-of-kin (the deceased's closest living relative), including the person's:
+
+   - Name
+   - Relationship to the deceased
+   - Social Security number
+   - Phone number
+   - Address
+
+You may also need more information in certain cases:
+
+- **If the deceased was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member.
+- **If the deceased has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery.
+- **If the deceased's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried.
+
  </li>
- 
+
  <li class="process-step list-two">
 
-##### Decide on the burial details and gather all related information, including:
+##### Decide on the burial details and gather all related information
 
-  - Your cemetery of choice
-  - Type of gravesite memorial. [See your options for a headstone, marker, or niche cover](/burials-and-memorials/burial-planning/headstones-markers-medallions).
- - Type of burial: casket or cremation and size of the casket or cremation urn
- - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
- 
- [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
- [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
+You'll need to tell us:
+
+ - The cemetery where you'd prefer the deceased to be buried <br />
+ [Find a VA national cemetery](/facilities/).<br />
+ [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).   
+ - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
+ - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
+ - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
+ - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
+
+ [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
 
 </li>
 
@@ -92,17 +99,19 @@ You may also need:
 
 The funeral director you’ve chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran’s name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line.
 
-- Then call <a href="tel:+18005351117">1-800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the “Prepare” section. 
+- Then call <a href="tel:+18005351117">1-800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the “Prepare” section.
 
-</li>
-</ol>
-
-<div class="call-out" markdown="0">
+<br>
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>. <br> 
+[Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
-</div>
+<br>
+
+### Can I get help paying for burial costs?
+
+If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/).
