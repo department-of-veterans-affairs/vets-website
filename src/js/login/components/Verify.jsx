@@ -12,14 +12,16 @@ class Verify extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.profile.accountType) {
+    if (!sessionStorage.userToken) {
       return window.location.replace('/');
     }
     return window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.checkAccountAccess(nextProps.profile.accountType);
+    if (nextProps.profile.accountType !== this.props.profile.accountType) {
+      this.checkAccountAccess(nextProps.profile.accountType);
+    }
   }
 
   checkAccountAccess(accountType) {

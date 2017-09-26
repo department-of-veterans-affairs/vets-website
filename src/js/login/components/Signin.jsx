@@ -27,7 +27,7 @@ class Signin extends React.Component {
         this.props.onLoggedIn();
       }
 
-      if (nextPath) {
+      if (nextPath && window.location.pathname.indexOf('verify') === -1) {
         window.location.replace(nextPath || '/');
       }
     }
