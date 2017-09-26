@@ -49,6 +49,13 @@ export class AddressSection extends React.Component {
     this.props.saveAddress(this.state.editableAddress);
   }
 
+  handleCancel = () => {
+    this.setState({
+      isEditingAddress: false,
+      editableAddress: this.props.savedAddress
+    });
+  }
+
   handleChange = (path, update) => {
     this.setState(({ editableAddress }) => {
       // reset state code when user updates country
@@ -109,7 +116,7 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required/>
           <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
+          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
     } else {

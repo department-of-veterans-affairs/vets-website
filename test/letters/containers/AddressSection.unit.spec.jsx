@@ -123,4 +123,20 @@ describe('<AddressSection>', () => {
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
     expect(saveSpy.calledWith(component.state.editableAddress)).to.be.true;
   });
+
+  it('should collapse address fields when Cancel button is clicked', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+
+    tree.click('button.usa-button-outline');
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
+
+    tree.click('button.usa-button-outline');
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+  });
+
 });
