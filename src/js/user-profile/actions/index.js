@@ -1,5 +1,5 @@
+import { removeFormApi } from '../../common/schemaform/sip-api';
 import { apiRequest } from '../../common/helpers/api';
-import { savedFormRequest } from '../../common/schemaform/savedFormRequest';
 import { getUserData } from '../../common/helpers/login-helpers';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -89,23 +89,11 @@ export function acceptTerms(termsName) {
 export function removeSavedForm(formId) {
   return dispatch => {
     dispatch(removingSavedForm());
-    const userToken = sessionStorage.userToken;
-    const settings = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token token=${userToken}`
-      },
-    };
-
-    savedFormRequest(
-      `/in_progress_forms/${formId}`,
-      () => {
+    return removeFormApi(formId)
+      .then(() => {
         dispatch(removingSavedFormSuccess());
         getUserData(dispatch);
-      },
-      () => dispatch(removingSavedFormFailure()),
-      settings
-    );
+      })
+      .catch(() => dispatch(removingSavedFormFailure()));
   };
 }

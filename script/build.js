@@ -93,6 +93,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
+  ignoreList.push('veteran-id-card/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -120,16 +121,29 @@ smith.use(collections({
       name: 'Burials and Memorials'
     }
   },
-  burialsPlanning: {
-    pattern: 'burials-and-memorials/burial-planning/*.md',
+  burialsHonor: {
+    pattern: 'burials-and-memorials/honor/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Honor a Deceased Veteran'
+    }
+  },
+  burialsPreNeed: {
+    pattern: 'burials-and-memorials/pre-need/*.md',
     sortBy: 'title',
     metadata: {
-      name: 'Burials and Memorials'
+      name: 'Pre-need Determination'
+    }
+  },
+  burialsPlanning: {
+    sortBy: 'title',
+    metadata: {
+      name: 'Burial Planning'
     }
   },
   burialsSurvivors: {
     pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
-    sortBy: 'title',
+    sortBy: 'order',
     metadata: {
       name: 'Survivor and Dependent Benefits'
     }

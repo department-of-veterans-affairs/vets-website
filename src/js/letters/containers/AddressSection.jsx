@@ -8,19 +8,79 @@ import {
   isDomesticAddress,
   isMilitaryAddress,
   isInternationalAddress,
-  invalidAddressProperty
+  addressUpdateUnavailable,
+  invalidAddressProperty,
 } from '../utils/helpers.jsx';
-import { updateAddress } from '../actions/letters';
+import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
+import AddressContent from '../components/AddressContent';
 
 export class AddressSection extends React.Component {
-  constructor() {
-    super();
-    this.state = { isEditingAddress: false };
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasLoadedAddress: false,
+      isEditingAddress: false,
+      editableAddress: this.props.savedAddress || {},
+    };
+
+    // On the off chance that savedAddress is available in constructor, ensure
+    // we tell React that editableAddress has already been initialized with the
+    // savedAddress values
+    if (Object.keys(this.state.editableAddress).length > 0) {
+      this.state.hasLoadedAddress = true;
+    }
+  }
+
+  /* editableAddress is initialized from redux store in the constructor
+   * but the prop it initializes from is not available at time of mounting, which means users
+   * will get a blank form instead of one prefilled with their existing data. This hook
+   * ensures we populate the form's initial state as soon as the prop becomes available
+   */
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
+      this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress });
+    }
+  }
+
+  handleSave = () => {
+    this.setState({ isEditingAddress: false });
+
+    this.props.saveAddress(this.state.editableAddress);
+  }
+
+  handleCancel = () => {
+    this.setState({
+      isEditingAddress: false,
+      editableAddress: this.props.savedAddress
+    });
+  }
+
+  handleChange = (path, update) => {
+    this.setState(({ editableAddress }) => {
+      // reset state code when user updates country
+      const newFragment = (path === 'country'
+        ? {
+          [path]: update,
+          state: '',
+          militaryStateCode: '',
+        }
+        : { [path]: update }
+      );
+
+      return {
+        editableAddress: Object.assign({}, editableAddress, newFragment),
+      };
+    });
   }
 
   render() {
-    const address = this.props.address || {};
+    // We want to use the Redux address as source of truth. Address in
+    // this container's state is only used to control the form input for the
+    // <Address/> component. If form update fails, we still want to show
+    // users their original address instead of always over-riding what's
+    // saved in Redux with what the user types into the form.
+    const address = this.props.savedAddress || {};
 
     // Street address: first line of address
     const streetAddressLines = [
@@ -35,25 +95,28 @@ export class AddressSection extends React.Component {
     let cityStatePostal;
     if (isDomesticAddress(address)) {
       const city = (address.city || '').toLowerCase();
-      const state = getStateName(address.stateCode);
+      const state = getStateName(address.state);
       cityStatePostal = `${city}, ${state} ${zipCode}`;
     } else if (isMilitaryAddress(address)) {
-      const militaryPostOfficeTypeCode = address.militaryPostOfficeTypeCode || '';
-      const militaryStateCode = address.militaryStateCode || '';
-      cityStatePostal = `${militaryPostOfficeTypeCode}, ${militaryStateCode} ${zipCode}`;
+      const city = address.city || '';
+      const militaryStateCode = address.state || '';
+      cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
     }
     const country = isInternationalAddress(address) ? address.countryName : '';
+    const addressContentLines = { streetAddress, cityStatePostal, country };
 
     let addressFields;
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
           <Address
-            value={address}
-            onUserInput={(addr) => {this.props.updateAddress(addr);}}
+            onInput={this.handleChange}
+            address={this.state.editableAddress}
+            countries={this.props.countries}
+            states={this.props.states}
             required/>
-          <button className="usa-button-primary" onClick={() => this.setState({ isEditingAddress: false })}>Update</button>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
+          <button className="usa-button-primary" onClick={this.handleSave}>Update</button>
+          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
     } else {
@@ -62,51 +125,55 @@ export class AddressSection extends React.Component {
           <div className="letters-address">{streetAddress}</div>
           <div className="letters-address">{cityStatePostal}</div>
           <div className="letters-address">{country}</div>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          {this.props.canUpdate &&
+            <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+          }
         </div>
       );
     }
 
     let addressContent;
+    // If countries and states are not available when they try to update their address,
+    // they will see this warning message instead of the address fields.
     if (isEmpty(address)) {
+      addressContent = invalidAddressProperty;
+    } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
         <div className="step-content">
-          {invalidAddressProperty}
+          {addressUpdateUnavailable}
         </div>
       );
     } else {
       addressContent = (
-        <div className="step-content">
-          <p>
-            Downloaded documents will list your address as:
-          </p>
-          <div className="address-block">
-            <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
-            {addressFields}
-          </div>
-          <p>A correct address is not required, but keeping it up to date can help you on Vets.gov.</p>
-        </div>
+        <AddressContent
+          saveError={this.props.saveAddressError}
+          name={(this.props.recipientName || '').toLowerCase()}
+          addressObject={addressContentLines}>
+          {addressFields}
+        </AddressContent>
       );
     }
 
-    return (
-      <div>
-        {addressContent}
-      </div>
-    );
+    return addressContent;
   }
 }
 
 function mapStateToProps(state) {
-  const letterState = state.letters;
+  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable, saveAddressError } = state.letters;
   return {
-    recipientName: letterState.fullName,
-    address: letterState.address
+    recipientName: fullName,
+    canUpdate,
+    savedAddress: address,
+    saveAddressError,
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable
   };
 }
 
 const mapDispatchToProps = {
-  updateAddress
+  saveAddress,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);

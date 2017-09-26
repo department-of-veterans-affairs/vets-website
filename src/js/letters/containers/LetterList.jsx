@@ -5,15 +5,18 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { letterContent } from '../utils/helpers.jsx';
+import { letterContent } from '../utils/helpers';
+import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
+      let letterTitle;
       let bslHelpInstructions;
-      if (letter.letterType === 'benefit_summary') {
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        letterTitle = 'Service Verification and Benefit Summary Letter';
         content = (<VeteranBenefitSummaryLetter/>);
         bslHelpInstructions = (
           <p>
@@ -23,12 +26,13 @@ export class LetterList extends React.Component {
           </p>
         );
       } else {
+        letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
       }
 
       return (
         <CollapsiblePanel
-          panelName={letter.name}
+          panelName={letterTitle}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
           <DownloadLetterLink
@@ -42,7 +46,7 @@ export class LetterList extends React.Component {
     });
 
     let eligibilityMessage;
-    if (this.props.lettersAvailability === 'letterEligibilityError') {
+    if (this.props.lettersAvailability === AVAILABILITY_STATUSES.letterEligibilityError) {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">

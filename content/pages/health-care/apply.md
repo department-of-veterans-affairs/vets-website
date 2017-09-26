@@ -127,7 +127,7 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-[Find out what to expect after you send in your application](/health-care/after-you-apply/).
+[Find out what happens after you apply](/health-care/after-you-apply/).
 
 If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
 

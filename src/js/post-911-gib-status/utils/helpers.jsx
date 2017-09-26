@@ -104,25 +104,24 @@ export function notQualifiedWarning() {
 }
 
 export function noChapter33BenefitsWarning() {
-  // TODO: expand vertical spacing
   return (
-    <div className="feature" id="noChapter33Benefits">
-      <h4>You don’t currently have any Post-9/11 GI Bill Benefits</h4>
-      We may not have information about your Post-9/11 GI Bill benefit because
-      <ul>
-        <li>You haven’t applied for Post-9/11 GI Bill benefits, <strong>or</strong></li>
-        <li>Your application for Post-9/11 GI Bill benefits is still in process, <strong>or</strong></li>
-        <li>You have education benefits through a different benefit or chapter.</li>
-      </ul>
-      Need to apply?
-      <ul>
-        <li><a href="">Check to make sure you qualify for Post-9/11 GI Bill benefits</a></li>
-        <li><a href="">Apply for benefits</a></li>
-      </ul>
-      Not sure if you have benefits through another program?
-      <ul>
-        <li><a href="" target="_blank">Check your benefit status through our Web Automated Verification of Enrollment (W.A.V.E.) system</a></li>
-      </ul>
+    <div id="noChapter33Benefits">
+      <header>
+        <h1>We couldn’t find your Post-9/11 GI Bill information.</h1>
+      </header>
+      <div className="usa-alert usa-alert-warning">
+        <div className="usa-alert-body">
+          <p className="usa-alert-heading">
+            <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=post-911-gi-bill-enrollment-status">
+            If you’re a dependent, please go to eBenefits to look up your GI Bill information.</a>
+          </p>
+        </div>
+      </div>
+      <h2>Need GI Bill help?</h2>
+      <hr className="divider"/>
+      <p>If you have questions or need help looking up your GI Bill information, please call <a
+        className="gi-phone-nowrap" href="tel:1-888-442-4551">1-888-442-4551</a> <span className="gi-phone-nowrap">
+          (1-888-GI-BILL-1)</span> from 8:00 a.m. to 7:00 pm (ET).</p>
     </div>
   );
 }
