@@ -6,7 +6,6 @@ import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
 import { ADDRESS_TYPES, STATE_CODE_TO_NAME } from '../utils/constants';
 import { militaryStateNames } from '../utils/helpers';
-import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 
 /**
  * Input component for an address.
@@ -18,31 +17,7 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
-  isValidAddressField = (field) => {
-    if (this.props.required || !isBlankAddress(this.props.address)) {
-      return isNotBlank(field);
-    }
-
-    return true;
-  }
-
-  isValidPostalCode = (postalCodeField) => {
-    let isValid = true;
-
-    if (this.props.address.country === 'USA' && isNotBlank(postalCodeField)) {
-      isValid = isValid && isValidUSZipCode(postalCodeField);
-    }
-
-    return isValid;
-  }
-
-  isMilitaryCity = (city) => {
-    const lowerCity = city.toLowerCase().trim();
-
-    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
-  }
-
-  adjustStateNames(state, militaryStates) {
+  getAdjustedStateNames = () => {
     // Reformat the state name data so that it can be
     // accepted by ErrorableSelect,
     // e.g., from this: `IL: 'Illinois'`
@@ -51,14 +26,14 @@ class Address extends React.Component {
 
     // If the city is a military city, just add the military statesList to the list
     if (this.props.address.city && this.isMilitaryCity(this.props.address.city)) {
-      statesList = militaryStates;
+      statesList = militaryStateNames;
     } else {
       // Add statesList to list in the correct format
-      _.mapKeys(state, (value, key) => {
+      _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
         statesList.push({ label: value, value: key });
       });
       // Add military statesList to full state list
-      militaryStates.forEach((militaryState) => {
+      militaryStateNames.forEach((militaryState) => {
         statesList.push(militaryState);
       });
       // Alphabetize the list
@@ -74,6 +49,12 @@ class Address extends React.Component {
     }
 
     return statesList;
+  }
+
+  isMilitaryCity = (city) => {
+    const lowerCity = city.toLowerCase().trim();
+
+    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
 
   render() {
@@ -93,7 +74,7 @@ class Address extends React.Component {
       selectedCountry = this.props.address.country;
     }
 
-    const adjustedStateNames = this.adjustStateNames(STATE_CODE_TO_NAME, militaryStateNames);
+    const adjustedStateNames = this.getAdjustedStateNames();
 
     return (
       <div>
