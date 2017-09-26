@@ -1,6 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -40,12 +38,5 @@ describe('<AuthApplicationSection>', () => {
     props.userProfile.accountType = 3;
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     expect(tree.everySubTree('span').length).to.equal(1);
-  });
-  it('should call handler when verify link if clicked', () => {
-    props.userProfile.accountType = 1;
-    const section = ReactTestUtils.renderIntoDocument(<AuthApplicationSection {...props}/>);
-    ReactTestUtils.Simulate.click(
-      findDOMNode(section).querySelector('.va-button-link'));
-    expect(windowOpen.called).to.be.true;
   });
 });
