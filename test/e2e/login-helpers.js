@@ -72,6 +72,18 @@ function initLogoutMock(token) {
 }
 /* eslint-enable camelcase */
 
+function initLoginUrlsMock() {
+  mock(null, {
+    path: '/v0/sessions/authn_urls',
+    verb: 'get',
+    value: {
+      idme: 'http://example.com/idme_url',
+      dslogon: 'http://example.com/dslogon_url',
+      mhv: 'http://example.com/mhv_url',
+    }
+  });
+}
+
 let tokenCounter = 0;
 
 function getUserToken() {
@@ -106,6 +118,8 @@ function testUnauthedUserFlow(client, path) {
   client
     .url(appURL)
     .waitForElementVisible('body', Timeouts.normal);
+
+  initLoginUrlsMock();
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
