@@ -1,25 +1,25 @@
-import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import initReact from '../common/init-react';
-import routes from './routes';
 import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initReact from '../common/init-react';
+
+import createLoginWidget from './login-entry';
+import reducer from './reducers/login';
+import Main from './containers/Main';
 
 require('../common');  // Bring in the common javascript.
-require('../../sass/auth.scss');
+require('../../sass/login.scss');
 
-const store = createCommonStore();
+const store = createCommonStore(reducer);
 createLoginWidget(store);
 
 function init() {
   ReactDOM.render((
     <Provider store={store}>
-      <Router history={browserHistory} routes={routes}/>
+      <Main renderType="verifyPage" shouldRedirect/>
     </Provider>
   ), document.getElementById('react-root'));
 }

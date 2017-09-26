@@ -36,6 +36,7 @@ class AuthApp extends React.Component {
     if (isIE || isEdge) {
       window.opener.location.reload();
     }
+
     window.close();
   }
 
@@ -50,18 +51,25 @@ class AuthApp extends React.Component {
       return response.json();
     }).then(json => {
       const userData = json.data.attributes.profile;
+
+      const loginMethod = userData.authnContext || 'idme';
+      window.dataLayer.push({ event: `login-success-${loginMethod}` });
+
       if (userData.loa.highest === 3) {
-        if (userData.loa.current === 3 && sessionStorage.mfa_start) {
+        if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext) {
           this.setMyToken(myToken);
         } else {
           sessionStorage.setItem('mfa_start', true);
 
-          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
             method: 'GET',
+            headers: new Headers({
+              Authorization: `Token token=${myToken}`
+            })
           }).then(response => {
             return response.json();
           }).then(innerJson => {
-            window.location.href = appendQuery(innerJson.authenticate_via_get, { clientId: gaClientId() });
+            window.location.href = appendQuery(innerJson.identity_proof_url, { clientId: gaClientId() });
           });
         }
       } else {
