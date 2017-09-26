@@ -8,6 +8,7 @@ class Verify extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = this.handleVerify.bind(this);
   }
 
@@ -19,7 +20,7 @@ class Verify extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.profile.accountType !== this.props.profile.accountType) {
+    if (nextProps.login.currentlyLoggedIn && !this.props.login.currentlyLoggedIn) {
       this.checkAccountAccess(nextProps.profile.accountType);
     }
   }
@@ -32,8 +33,15 @@ class Verify extends React.Component {
     }
   }
 
+  handleLogin(loginType) {
+    return () => {
+      window.dataLayer.push({ event: `login-attempted-${loginType}` });
+      this.props.handleLogin(loginType);
+    };
+  }
+
   handleVerify() {
-    handleVerify(this.props.verifyUrl);
+    handleVerify(this.props.login.verifyUrl);
   }
 
   renderAlternateVerificationMethods() {
@@ -45,7 +53,7 @@ class Verify extends React.Component {
           <h4>Already using other VA online services?</h4>
           <p>If you have a <strong>premium account</strong> with DS Logon, you can use it to verify your identity automatically:</p>
 
-          <button className="dslogon" onClick={this.handleVerify}>
+          <button className="dslogon" onClick={this.handleLogin('dslogon')}>
             <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
           </button>
           <span>(Used for eBenefits and milConnect)</span>
@@ -97,7 +105,8 @@ class Verify extends React.Component {
 
 Verify.propTypes = {
   shouldRedirect: PropTypes.bool,
-  verifyUrl: PropTypes.string,
+  handleLogin: PropTypes.func,
+  login: PropTypes.object,
   profile: PropTypes.object,
 };
 
