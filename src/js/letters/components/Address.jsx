@@ -14,39 +14,22 @@ import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils
  * No validation is provided through a currently stubbed isAddressValid function.
  */
 class Address extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      addressType: props.value.type
-    };
-  }
-
   componentWillMount() {
     this.id = _.uniqueId('address-input-');
   }
 
-  handleChange(path, update) {
-    let address = _.set(path, update, this.props.value);
-    // if country is changing we should clear the state
-    if (path === 'country') {
-      address = _.set('state', '', address);
-    }
-
-    this.props.onUserInput(address);
-  }
-
-  isValidAddressField(field) {
-    if (this.props.required || !isBlankAddress(this.props.value)) {
+  isValidAddressField = (field) => {
+    if (this.props.required || !isBlankAddress(this.props.address)) {
       return isNotBlank(field);
     }
 
     return true;
   }
 
-  isValidPostalCode(postalCodeField) {
+  isValidPostalCode = (postalCodeField) => {
     let isValid = true;
 
-    if (this.props.value.country === 'USA' && isNotBlank(postalCodeField)) {
+    if (this.props.address.country === 'USA' && isNotBlank(postalCodeField)) {
       isValid = isValid && isValidUSZipCode(postalCodeField);
     }
 
@@ -65,8 +48,9 @@ class Address extends React.Component {
     // e.g., from this: `IL: 'Illinois'`
     // to this: `{ value: 'Illinois', label: 'IL' }`
     let statesList = [];
+
     // If the city is a military city, just add the military statesList to the list
-    if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
+    if (this.props.address.city && this.isMilitaryCity(this.props.address.city)) {
       statesList = militaryStates;
     } else {
       // Add statesList to list in the correct format
@@ -94,7 +78,6 @@ class Address extends React.Component {
 
   render() {
     const errorMessages = this.props.errorMessages;
-    const addressType = this.state.addressType;
 
     // Our hard-coded list of countries has the value for the U.S. as
     // 'USA', but the value sent to us from EVSS is 'US'. This will cause
@@ -102,12 +85,12 @@ class Address extends React.Component {
     // This will be changed once we pull the real country list from the
     // address endpoint.
     let selectedCountry;
-    if (this.props.value.country === undefined && addressType === addressTypes.military) {
+    if (this.props.address.country === undefined && this.props.address.type === addressTypes.military) {
       selectedCountry = 'USA';
-    } else if (this.props.value.country === 'US') {
+    } else if (this.props.address.country === 'US') {
       selectedCountry = 'USA';
     } else {
-      selectedCountry = this.props.value.country;
+      selectedCountry = this.props.address.country;
     }
 
     const adjustedStateNames = this.adjustStateNames(STATE_CODE_TO_NAME, militaryStateNames);
@@ -121,45 +104,45 @@ class Address extends React.Component {
           options={this.props.countries}
           value={selectedCountry}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput('country', update)}/>
+          onValueChange={(update) => this.props.onInput('country', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressOne}
+          value={this.props.address.addressOne}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput('addressOne', update)}/>
+          onValueChange={(update) => this.props.onInput('addressOne', update)}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressTwo}
-          onValueChange={(update) => this.props.onUserInput('addressTwo', update)}/>
+          value={this.props.address.addressTwo}
+          onValueChange={(update) => this.props.onInput('addressTwo', update)}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={30}
-          value={this.props.value.addressThree}
-          onValueChange={(update) => this.props.onUserInput('addressThree', update)}/>
+          value={this.props.address.addressThree}
+          onValueChange={(update) => this.props.onInput('addressThree', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.city}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
           autocomplete="address-level2"
           charMax={30}
-          value={this.props.value.city}
+          value={this.props.address.city}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput('city', update)}/>
+          onValueChange={(update) => this.props.onInput('city', update)}/>
         <ErrorableSelect errorMessage={errorMessages.state}
           label="State"
           name="state"
           autocomplete="address-level1"
           options={adjustedStateNames}
-          value={this.props.value.state}
+          value={this.props.address.state}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput('state', update)}/>)
+          onValueChange={(update) => this.props.onInput('state', update)}/>)
 
         {/* Hide the zip code for addresseses that aren't in the US */}
         {selectedCountry === 'USA' && <ErrorableTextInput errorMessage={errorMessages.zipCode}
@@ -167,9 +150,9 @@ class Address extends React.Component {
           label={'Zip code'}
           name="postalCode"
           autocomplete="postal-code"
-          value={this.props.value.zipCode}
+          value={this.props.address.zipCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput('zipCode', update)}/>
+          onValueChange={(update) => this.props.onInput('zipCode', update)}/>
         }
       </div>
     );

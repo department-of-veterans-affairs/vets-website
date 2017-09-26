@@ -20,12 +20,11 @@ import {
   GET_LETTER_PDF_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS,
   AVAILABILITY_STATUSES,
   DOWNLOAD_STATUSES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
-  // SAVE_ADDRESS_FAILURE,
+  SAVE_ADDRESS_FAILURE,
   GET_ADDRESS_COUNTRIES_SUCCESS,
   GET_ADDRESS_COUNTRIES_FAILURE,
   GET_ADDRESS_STATES_SUCCESS,
@@ -124,15 +123,14 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.success, state);
     case GET_LETTER_PDF_FAILURE:
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
-    case UPDATE_ADDRESS:
-      return _.set('address', action.address, state);
     case SAVE_ADDRESS_PENDING:
       return _.set('savePending', true, state);
     case SAVE_ADDRESS_SUCCESS: {
       const newState = Object.assign({}, state, { savePending: false });
       return _.set('address', action.address, newState);
     }
-    // Add SAVE_ADDRESS_FAILURE
+    case SAVE_ADDRESS_FAILURE:
+      return { ...state, savePending: false, saveAddressError: true };
     case GET_ADDRESS_COUNTRIES_SUCCESS: {
       let countriesAvailable = true;
       const countryList = action.countries.data.attributes.countries;
