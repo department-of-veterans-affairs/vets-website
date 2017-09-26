@@ -30,7 +30,7 @@ display_title: Frequently Asked Questions
               <h4>Signing In to Vets.gov</h4>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq0" itemprop="name">How do I sign in to Vets.gov—and what does signing in do for me? </button>
                     <div id="dbq0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
@@ -46,7 +46,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemprop="name">Do I have to sign in to Vets.gov to apply for benefits?</button>
                     <div id="dbq1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
@@ -55,7 +55,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemprop="name">
                       Why should I trust Vets.gov?
                     </button>
@@ -69,7 +69,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemprop="name">
                       Why do I need to verify my identity to use advanced tools and services on Vets.gov?
                     </button>
@@ -79,7 +79,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4" itemprop="name">
                       How do I verify my identity?
                     </button>
@@ -104,7 +104,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq5" itemprop="name">
                       How long does it take to create an account and verify my identity?
                     </button>
@@ -115,7 +115,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq6" itemprop="name">
                       What if I'm having trouble verifying my identity online?
                     </button>
@@ -132,7 +132,7 @@ display_title: Frequently Asked Questions
                 <a name="what-is-idme"></a>
                 <h4>Using ID.me to create your account</h4>
                 <ul class="usa-unstyled-list">
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7" itemprop="name">
                       What is ID.me?
                     </button>
@@ -143,7 +143,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq8" itemprop="name">
                       Why am I using ID.me to sign in to Vets.gov?
                     </button>
@@ -154,7 +154,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq9" itemprop="name">
                       Why should I trust ID.me?
                     </button>
@@ -165,7 +165,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq10" itemprop="name">
                       How does ID.me work with Vets.gov?
                     </button>
@@ -177,7 +177,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq11" itemprop="name">
                       What information does ID.me collect, and do they share it with anyone else?
                     </button>
@@ -191,7 +191,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq12" itemprop="name">
                       What if I already have an ID.me account?
                     </button>
@@ -207,7 +207,7 @@ display_title: Frequently Asked Questions
                 <br/><br/>
                 <h4>Signing in with your existing DS Logon account</h4>
                 <ul class="usa-unstyled-list">
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq14" itemprop="name">
                       Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?
                     </button>
@@ -221,7 +221,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq15" itemprop="name">
                       If I sign in with my DS Logon account, why do I still need to go through ID.me?
                     </button>
@@ -236,7 +236,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown=“1” itemscope itemtype="http://schema.org/Question">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq16" itemprop="name">
                       Can I sign in to Vets.gov with my My Health<em>e</em>Vet account?
                     </button>
