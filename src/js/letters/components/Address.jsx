@@ -4,9 +4,9 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { countries, states } from '../../common/utils/options-for-select';
-import { addressTypes } from '../utils/constants';
-
+import { addressTypes, STATE_CODE_TO_NAME } from '../utils/constants';
+import { militaryStateNames } from '../utils/helpers';
+import { isNotBlank, isBlankAddress, isValidUSZipCode } from '../../common/utils/validations';
 
 /**
  * Input component for an address.
@@ -25,30 +25,77 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
+  handleChange(path, update) {
+    let address = _.set(path, update, this.props.value);
+    // if country is changing we should clear the state
+    if (path === 'country') {
+      address = _.set('state', '', address);
+      address = _.set('militaryStateCode', '', address);
+    }
+
+    this.props.onUserInput(address);
+  }
+
+  isValidAddressField(field) {
+    if (this.props.required || !isBlankAddress(this.props.value)) {
+      return isNotBlank(field);
+    }
+
+    return true;
+  }
+
+  isValidPostalCode(postalCodeField) {
+    let isValid = true;
+
+    if (this.props.value.country === 'USA' && isNotBlank(postalCodeField)) {
+      isValid = isValid && isValidUSZipCode(postalCodeField);
+    }
+
+    return isValid;
+  }
+
   isMilitaryCity = (city) => {
     const lowerCity = city.toLowerCase().trim();
 
     return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
 
-  render() {
-    const addressType = this.state.addressType;
-    const errorMessages = this.props.errorMessages;
-
-    // Depending on the type of address, the fields for state and city
-    // are called different things. Set new variables for the name of
-    // the appropriate city and state field, and use those below for
-    // the field components.
-    let cityField;
-    let stateField;
-    if (addressType === addressTypes.military) {
-      // I think we'll only need to change this when we actually save the data
-      cityField = 'militaryPostOfficeTypeCode';
-      stateField = 'militaryStateCode';
+  adjustStateNames(state, militaryStates) {
+    // Reformat the state name data so that it can be
+    // accepted by ErrorableSelect,
+    // e.g., from this: `IL: 'Illinois'`
+    // to this: `{ value: 'Illinois', label: 'IL' }`
+    let statesList = [];
+    // If the city is a military city, just add the military statesList to the list
+    if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
+      statesList = militaryStates;
     } else {
-      cityField = 'city';
-      stateField = 'state';
+      // Add statesList to list in the correct format
+      _.mapKeys(state, (value, key) => {
+        statesList.push({ label: value, value: key });
+      });
+      // Add military statesList to full state list
+      militaryStates.forEach((militaryState) => {
+        statesList.push(militaryState);
+      });
+      // Alphabetize the list
+      statesList.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      });
     }
+
+    return statesList;
+  }
+
+  render() {
+    const errorMessages = this.props.errorMessages;
+    const addressType = this.state.addressType;
 
     // Our hard-coded list of countries has the value for the U.S. as
     // 'USA', but the value sent to us from EVSS is 'US'. This will cause
@@ -64,31 +111,7 @@ class Address extends React.Component {
       selectedCountry = this.props.value.country;
     }
 
-    const isUSA = selectedCountry === 'USA';
-
-    let stateList = [];
-    if (states[selectedCountry]) {
-      stateList = states[selectedCountry];
-      if (this.props.value.city && this.isMilitaryCity(this.props.value.city)) {
-        stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
-      }
-    }
-
-    const stateProvince = _.hasIn(states, selectedCountry)
-      ? (<ErrorableSelect errorMessage={errorMessages[stateField]}
-        label="State"
-        name="state"
-        autocomplete="address-level1"
-        options={stateList}
-        value={this.props.value[stateField]}
-        required={this.props.required}
-        onValueChange={(update) => this.props.onUserInput(stateField, update)}/>)
-      : (<ErrorableTextInput label="State/province"
-        name="province"
-        autocomplete="address-level1"
-        value={this.props.value[stateField]}
-        required={false}
-        onValueChange={(update) => this.props.onUserInput(stateField, update)}/>);
+    const adjustedStateNames = this.adjustStateNames(STATE_CODE_TO_NAME, militaryStateNames);
 
     return (
       <div>
@@ -96,7 +119,7 @@ class Address extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={countries}
+          options={this.props.countries}
           value={selectedCountry}
           required={this.props.required}
           onValueChange={(update) => this.props.onUserInput('country', update)}/>
@@ -127,12 +150,20 @@ class Address extends React.Component {
           name="city"
           autocomplete="address-level2"
           charMax={30}
-          value={this.props.value[cityField]}
+          value={this.props.value.city}
           required={this.props.required}
-          onValueChange={(update) => this.props.onUserInput(cityField, update)}/>
-        {stateProvince}
+          onValueChange={(update) => this.props.onUserInput('city', update)}/>
+        <ErrorableSelect errorMessage={errorMessages.state}
+          label="State"
+          name="state"
+          autocomplete="address-level1"
+          options={adjustedStateNames}
+          value={this.props.value.state}
+          required={this.props.required}
+          onValueChange={(update) => this.props.onUserInput('state', update)}/>)
+
         {/* Hide the zip code for addresseses that aren't in the US */}
-        {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
+        {selectedCountry === 'USA' && <ErrorableTextInput errorMessage={errorMessages.zipCode}
           additionalClass="usa-input-medium"
           label={'Zip code'}
           name="postalCode"

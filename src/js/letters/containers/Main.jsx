@@ -10,7 +10,9 @@ import { getAddressSuccessAction } from '../utils/helpers';
 import {
   getBenefitSummaryOptions,
   getLetterList,
-  getMailingAddress
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates
 } from '../actions/letters';
 
 export class Main extends React.Component {
@@ -20,6 +22,8 @@ export class Main extends React.Component {
     this.props.getBenefitSummaryOptions();
     // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
     this.props.getAddressSuccessAction();
+    this.props.getAddressCountries();
+    this.props.getAddressStates();
   }
 
   render() {
@@ -38,7 +42,6 @@ export class Main extends React.Component {
       case AVAILABILITY_STATUSES.backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      // Need a permanent UI for this
       case AVAILABILITY_STATUSES.invalidAddressProperty:
         appContent = systemDownMessage;
         break;
@@ -91,6 +94,8 @@ const mapDispatchToProps = {
   getBenefitSummaryOptions,
   getLetterList,
   getMailingAddress,
+  getAddressCountries,
+  getAddressStates,
   // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
   getAddressSuccessAction
 };
