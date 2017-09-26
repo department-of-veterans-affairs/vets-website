@@ -38,6 +38,8 @@ span.sidelines {
   }
 
   .va-modal-body {
+    // Overwrite white header color.
+    color: $color-gray-dark;
     padding-top: 0;
   }
 
