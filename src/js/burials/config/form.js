@@ -162,7 +162,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
