@@ -12,7 +12,7 @@ class Verify extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.accountType) {
+    if (!this.props.profile.accountType) {
       return window.location.replace('/');
     }
     return window.dataLayer.push({ event: 'verify-prompt-displayed' });
@@ -23,7 +23,7 @@ class Verify extends React.Component {
   }
 
   checkAccountAccess(accountType) {
-    if (accountType > 1 && this.props.shouldRedirect) {
+    if ((accountType > 1) && this.props.shouldRedirect) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       window.location.replace(nextPath || '/');
