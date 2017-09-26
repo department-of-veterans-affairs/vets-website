@@ -30,7 +30,6 @@ class Address extends React.Component {
     // if country is changing we should clear the state
     if (path === 'country') {
       address = _.set('state', '', address);
-      address = _.set('militaryStateCode', '', address);
     }
 
     this.props.onUserInput(address);
