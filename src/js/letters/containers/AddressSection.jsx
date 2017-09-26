@@ -144,8 +144,8 @@ export class AddressSection extends React.Component {
     let type = ADDRESS_TYPES.domestic;
     if (!['USA', 'US'].includes(address.country)) {
       type = ADDRESS_TYPES.international;
-    } else if (address.militaryStateCode) {
-      // TODO: Make sure we clear this out if a state code is selected
+    } else if (['AE', 'AA', 'AP'].includes(address.state)) {
+      // Are these ^^ constants anywhere?
       type = ADDRESS_TYPES.military;
     }
 
