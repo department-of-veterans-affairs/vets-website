@@ -422,9 +422,9 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/education/apply-for-education-benefits/application/1990(.*)', to: '/education/apply-for-education-benefits/application/1990/' },
-        { from: '^/education/apply-for-education-benefits/application/1990e(.*)', to: '/education/apply-for-education-benefits/application/1990e/' },
-        { from: '^/education/apply-for-education-benefits/application/1990n(.*)', to: '/education/apply-for-education-benefits/application/1990n/' },
+        { from: '^/education/apply-for-education-benefits/application/1990(?![ne])(\/.*)?$', to: '/education/apply-for-education-benefits/application/1990/' },
+        { from: '^/education/apply-for-education-benefits/application/1990E(.*)', to: '/education/apply-for-education-benefits/application/1990E/' },
+        { from: '^/education/apply-for-education-benefits/application/1990N(.*)', to: '/education/apply-for-education-benefits/application/1990N/' },
         { from: '^/education/apply-for-education-benefits/application/1995(.*)', to: '/education/apply-for-education-benefits/application/1995/' },
         { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
         { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
