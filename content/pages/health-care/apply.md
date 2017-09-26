@@ -97,8 +97,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 ##### By phone
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387
-</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 ##### By mail
 
