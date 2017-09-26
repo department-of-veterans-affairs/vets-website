@@ -8,7 +8,7 @@ import {
 } from '../../src/js/user-profile/helpers';
 
 import fullSchema1010ez from '../../src/js/hca/config/form';
-import fullSchema1990 from '../../src/js/edu-benefits/1990-rjsf/config/form';
+import fullSchema1990 from '../../src/js/edu-benefits/1990/config/form';
 import fullSchema1990e from '../../src/js/edu-benefits/1990e/config/form';
 import fullSchema1990n from '../../src/js/edu-benefits/1990n/config/form';
 import fullSchema1995 from '../../src/js/edu-benefits/1995/config/form';

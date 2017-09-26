@@ -7,6 +7,7 @@ display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 1
+description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description" >

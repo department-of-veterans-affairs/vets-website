@@ -21,7 +21,7 @@ If you haven’t gotten your decision notice:
 
 - [Check your status](/track-claims/), **or**
 - [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
-- Call us at <a href="tel:+18008271000">800-827-1000</a>, **or**
+- Call us at <a href="tel:+18008271000">1-800-827-1000</a>, **or**
 - [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D) 
 </div>
 
@@ -31,7 +31,7 @@ If you haven’t gotten your decision notice:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">800-827-1000</a>.
+If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>.
 
 </div>
 </div>
@@ -56,7 +56,7 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 <div itemprop="text">
 
 - **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/health-care/apply/).
-- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](http://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">800-669-8477</a>.
+- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](http://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">1-800-669-8477</a>.
 - **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education).
 - **For Dependent Benefits:** If you’re 30% or more disabled due to a disability caused by service in the military, you can get financial support and benefits for your qualified dependents. There are 2 ways to register:
   - [Register through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or

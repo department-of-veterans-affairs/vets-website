@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../../../src/js/edu-benefits/1990-rjsf/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../../../src/js/edu-benefits/1990/containers/ConfirmationPage';
 
 const form = {
   submission: {
