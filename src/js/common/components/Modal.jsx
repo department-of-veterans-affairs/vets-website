@@ -51,6 +51,7 @@ class Modal extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('focus', this.state.focusListener, true);
+    document.body.classList.remove('modal-open');
   }
 
   handleClose(e) {

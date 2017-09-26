@@ -152,6 +152,14 @@ export class AddressSection extends React.Component {
     return Object.assign({}, address, { type });
   }
 
+  handleCancel = () => {
+    this.setState({
+      isEditingAddress: false,
+      editableAddress: this.props.savedAddress
+    });
+  }
+
+
   handleChange = (fieldName, update) => {
     // When a field is changed, make sure we validate it
     if (!this.state.shouldValidate[fieldName]) {
@@ -214,7 +222,7 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required/>
           <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
-          <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: false })}>Cancel</button>
+          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
     } else {

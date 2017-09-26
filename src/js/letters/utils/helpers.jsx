@@ -68,7 +68,7 @@ const serviceVerificationLetterContent = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-text">
-          You can now use the Benefit Summary Letter in place of your Service Verification Letter.
+          You can now use the Service Verification and Benefit Summary Letter in place of your Service Verification Letter.
         </p>
       </div>
     </div>

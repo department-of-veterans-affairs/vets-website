@@ -1,4 +1,6 @@
 import _ from 'lodash/fp';
+import Raven from 'raven-js';
+
 import environment from '../../common/helpers/environment';
 import { SET_UNAUTHORIZED } from '../actions';
 
@@ -196,6 +198,15 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
   }, userOptions);
 
   fetch(`${environment.API_URL}${url}`, options)
+    .catch(err => {
+      Raven.captureMessage(`vets_client_error: ${err.message}`, {
+        extra: {
+          error: err
+        }
+      });
+
+      return Promise.reject(err);
+    })
     .then((resp) => {
       if (resp.ok) {
         if (options.responseType) {

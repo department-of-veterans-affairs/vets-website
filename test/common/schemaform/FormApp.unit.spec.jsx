@@ -6,7 +6,27 @@ import sinon from 'sinon';
 import { FormApp } from '../../../src/js/common/schemaform/FormApp';
 import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../src/js/common/schemaform/save-load-actions';
 
+let oldWindow;
+
+const setup = () => {
+  oldWindow = global.window;
+
+  global.window = {
+    ...oldWindow,
+    location: {
+      pathname: '/',
+    },
+  };
+};
+
+const teardown = () => {
+  global.window = oldWindow;
+};
+
 describe('Schemaform <FormApp>', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
   it('should render children', () => {
     const formConfig = {};
     const currentLocation = {

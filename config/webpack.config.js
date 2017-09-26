@@ -15,24 +15,25 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
-  burials: './src/js/burials/burials-entry.jsx',
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
+  'health-records': './src/js/health-records/health-records-entry.jsx',
+  'no-react': './src/js/no-react-entry.js',
+  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
+  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
+  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
+  auth: './src/js/auth/auth-entry.jsx',
+  burials: './src/js/burials/burials-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'health-records': './src/js/health-records/health-records-entry.jsx',
-  messaging: './src/js/messaging/messaging-entry.jsx',
-  rx: './src/js/rx/rx-entry.jsx',
-  'no-react': './src/js/no-react-entry.js',
-  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  auth: './src/js/auth/auth-entry.jsx',
   letters: './src/js/letters/letters-entry.jsx',
+  messaging: './src/js/messaging/messaging-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
-  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
-  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
-  'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
-  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
+  rx: './src/js/rx/rx-entry.jsx',
+  verify: './src/js/login/verify-entry.jsx',
   style: './src/sass/style.scss'
 };
 
