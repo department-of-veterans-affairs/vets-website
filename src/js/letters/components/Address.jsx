@@ -74,6 +74,8 @@ class Address extends React.Component {
       selectedCountry = this.props.address.country;
     }
 
+    const isUSA = selectedCountry === 'USA';
+
     const adjustedStateNames = this.getAdjustedStateNames();
 
     return (
@@ -116,25 +118,25 @@ class Address extends React.Component {
           value={this.props.address.city}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}/>
-        <ErrorableSelect errorMessage={errorMessages.state}
+        {/* Hide the state for addresses that aren't in the US */}
+        {isUSA && <ErrorableSelect errorMessage={errorMessages.state}
           label="State"
           name="state"
           autocomplete="address-level1"
           options={adjustedStateNames}
           value={this.props.address.state}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('state', update)}/>)
+          onValueChange={(update) => this.props.onInput('state', update)}/>}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
-        {selectedCountry === 'USA' && <ErrorableTextInput errorMessage={errorMessages.zipCode}
+        {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
           additionalClass="usa-input-medium"
           label={'Zip code'}
           name="postalCode"
           autocomplete="postal-code"
           value={this.props.address.zipCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('zipCode', update)}/>
-        }
+          onValueChange={(update) => this.props.onInput('zipCode', update)}/>}
       </div>
     );
   }
