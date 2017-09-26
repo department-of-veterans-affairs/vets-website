@@ -3,7 +3,7 @@ title: Get Your VA Health Records
 layout: page-react.html
 entryname: health-records
 collection: healthCare
-order: 7
+order: 8
 ---
 
 <div id="main">
