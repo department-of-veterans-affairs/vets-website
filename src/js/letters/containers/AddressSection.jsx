@@ -208,7 +208,11 @@ export class AddressSection extends React.Component {
       const city = address.city || '';
       const militaryStateCode = address.stateCode || '';
       cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
+    } else {
+      // Must be an international address, only show a city
+      cityStatePostal = `${address.city || ''}`;
     }
+
     const country = isInternationalAddress(address) ? address.countryName : '';
     const addressContentLines = { streetAddress, cityStatePostal, country };
 
