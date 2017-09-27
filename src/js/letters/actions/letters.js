@@ -81,6 +81,7 @@ export function getMailingAddress() {
         if (address.type === ADDRESS_TYPES.military) {
           address.city = address.militaryPostOfficeTypeCode;
           address.state = address.militaryStateCode;
+          address.country = 'USA';
           delete address.militaryPostOfficeTypeCode;
           delete address.militaryStateCode;
         }
@@ -228,6 +229,7 @@ export function saveAddress(address) {
     transformedAddress.militaryStateCode = transformedAddress.state;
     delete transformedAddress.city;
     delete transformedAddress.state;
+    delete transformedAddress.country;
   }
 
   const settings = {
