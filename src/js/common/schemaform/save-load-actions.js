@@ -282,6 +282,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       try {
         // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
+          formId,
           formData: Object.assign({}, resBody.form_data),
           metadata: Object.assign({}, resBody.metadata)
         };
