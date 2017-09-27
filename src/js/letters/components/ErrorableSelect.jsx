@@ -41,7 +41,7 @@ class ErrorableSelect extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.selectId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`} role="alert">{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={errorSpanId} role="alert">{this.props.errorMessage}</span>;
     }
 
     // Calculate required.
@@ -109,7 +109,10 @@ ErrorableSelect.propTypes = {
     ])).isRequired,
   required: PropTypes.bool,
   includeBlankOption: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
+  }).isRequired,
   onValueChange: PropTypes.func.isRequired,
   additionalClass: PropTypes.string,
   emptyDescription: PropTypes.string

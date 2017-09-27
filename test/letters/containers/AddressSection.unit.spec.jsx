@@ -6,11 +6,13 @@ import sinon from 'sinon';
 
 import { getFormDOM } from '../../util/schemaform-utils';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
+import { ADDRESS_TYPES } from '../../../src/js/letters/utils/constants';
 
 const saveSpy = sinon.spy();
 
 const defaultProps = {
   savedAddress: {
+    type: ADDRESS_TYPES.domestic,
     addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',

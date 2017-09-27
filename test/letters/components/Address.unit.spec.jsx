@@ -16,7 +16,8 @@ const defaultProps = {
     state: 'MA',
     country: 'US',
     zipCode: '02138'
-  }
+  },
+  errorMessages: {},
 };
 
 describe('<Address>', () => {
@@ -57,4 +58,5 @@ describe('<Address>', () => {
     form.fillData('input[name="address"]', addressLine1);
     expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
+  // TODO: Add a test for rendering error messages
 });
