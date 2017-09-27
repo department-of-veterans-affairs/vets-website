@@ -10,7 +10,8 @@ import {
   isInternationalAddress,
   addressUpdateUnavailable,
   invalidAddressProperty,
-  inferAddressType
+  inferAddressType,
+  resetDisallowedAddressFields
 } from '../utils/helpers.jsx';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
@@ -107,11 +108,11 @@ export class AddressSection extends React.Component {
    *                                         modified.
    * @return {Object}  Holds all the error messages for all the fields that have them.
    */
-  validateAll = (address = this.state.editableAddress, shouldValidateAll = false) => {
+  validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
     const errorMessages = {};
     Object.keys(fieldValidations).forEach((fieldName) => {
       // Only validate the field if it's been modified
-      if (!this.state.fieldsToValidate[fieldName] || shouldValidateAll) {
+      if (fieldsToValidate[fieldName] || shouldValidateAll) {
         errorMessages[fieldName] = this.validateField(fieldName, address);
       }
 
@@ -122,7 +123,7 @@ export class AddressSection extends React.Component {
 
   // TODO: Make sure this doesn't allow us to save the address if there are validation errors
   saveAddress = () => {
-    const errorMessages = this.validateAll(this.state.editableAddress, true);
+    const errorMessages = this.validateAll(this.state.editableAddress, this.state.fieldsToValidate, true);
     // If there are errors, show them, but don't stop editing and don't save
     // There may be properties that are initialized to undefined, so we're checking
     //  to see if any of the properties are truthy
@@ -155,7 +156,7 @@ export class AddressSection extends React.Component {
     if (!fieldsToValidate[fieldName]) {
       // If we set state here, the validation won't run when the field is modified the first time
       // This is because the state won't be updated in time for validateAll to catch it
-      fieldsToValidate = { fieldsToValidate: Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true }) };
+      fieldsToValidate =  Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
     }
 
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
@@ -164,15 +165,22 @@ export class AddressSection extends React.Component {
       address.stateCode = '';
     }
 
+    const oldAddressType = address.type;
     // Make sure we've got the right address type (domestic, military, international)
     address = inferAddressType(address);
 
+    // If our address type changes, make sure to clear out disallowed fields as necessary
+    if (oldAddressType !== address.type) {
+      address = resetDisallowedAddressFields(address);
+    }
+
     // Update the error messages
-    // TODO: This might get super slow, so we can debounce this part if necessary...probably
+    // TODO: This might get super slow, so we can debounce the validation if necessary...probably
     const errorMessages = this.validateAll(address, fieldsToValidate);
     this.setState({
       editableAddress: address,
-      errorMessages
+      errorMessages,
+      fieldsToValidate
     });
   }
 

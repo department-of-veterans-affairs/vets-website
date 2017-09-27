@@ -32,7 +32,7 @@ export const addressOneValidations = [
 export const postalCodeValidations = [
   // Require zip for US addresses
   (postalCode, fullAddress) => {
-    if (fullAddress.country === 'USA' && !postalCode) {
+    if (fullAddress.countryName === 'USA' && !postalCode) {
       return 'Please enter a Zip code';
     }
 
@@ -51,7 +51,7 @@ export const postalCodeValidations = [
 export const stateValidations = [
   // Require a state for US addresses
   (state, fullAddress) => {
-    if (fullAddress.country === 'USA' && !state) {
+    if (fullAddress.countryName === 'USA' && !state) {
       return 'Please enter a state';
     }
 

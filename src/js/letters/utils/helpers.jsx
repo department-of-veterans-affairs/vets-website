@@ -314,3 +314,12 @@ export function inferAddressType(address) {
   return Object.assign({}, address, { type });
 }
 
+export function resetDisallowedAddressFields(address) {
+  const newAddress = Object.assign({}, address);
+  if (address.type === ADDRESS_TYPES.international) {
+    newAddress.state = '';
+    newAddress.zipCode = '';
+  }
+
+  return newAddress;
+}
