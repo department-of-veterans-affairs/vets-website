@@ -80,7 +80,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Select non-transfer
     client
       .click('#create-non-transfer')
-      .waitForElementVisible('a#apply-now-button', Timeouts.normal)
+      .waitForElementVisible('#apply-now-button', Timeouts.normal)
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
