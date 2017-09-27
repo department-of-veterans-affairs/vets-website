@@ -6,7 +6,7 @@ import {
   transform,
 } from '../helpers';
 
-import migrations from './migrations';
+import migrations from '../../config/migrations';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import GetFormHelp from '../../components/GetFormHelp';
