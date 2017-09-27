@@ -155,9 +155,9 @@ export class AddressSection extends React.Component {
   handleCancel = () => {
     this.setState({
       isEditingAddress: false,
-      editableAddress: this.props.savedAddress,
       errorMessages: {},
-      shouldValidate: {}
+      shouldValidate: {},
+      editableAddress: this.props.savedAddress
     });
   }
 
