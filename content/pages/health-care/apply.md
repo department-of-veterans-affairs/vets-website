@@ -49,7 +49,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1phonenumber">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
