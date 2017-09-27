@@ -132,7 +132,7 @@ describe('<RequiredLoginView>', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ userProfile: loa1User });
-        expect(tree.everySubTree('Verify')).to.not.be.empty;
+        expect(tree.subTree('Connect(Main)').props.renderType).to.equal('verifyPage');
       });
     });
     describe('authRequired=1', () => {

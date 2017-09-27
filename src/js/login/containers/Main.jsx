@@ -4,12 +4,13 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 
-import environment from '../../common/helpers/environment.js';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
+import environment from '../../common/helpers/environment';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import Modal from '../../common/components/Modal';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
@@ -158,26 +159,32 @@ class Main extends React.Component {
     const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
 
     switch (this.props.renderType) {
-      case 'navComponent':
+      case 'navComponent': {
+        const modalContent = !this.props.login.loginUrls ?
+          (<LoadingIndicator message="Loading the application..."/>) :
+          (<Signin
+            onLoggedIn={() => this.props.toggleLoginModal(false)}
+            currentlyLoggedIn={currentlyLoggedIn}
+            handleSignup={this.handleSignup}
+            handleLogin={this.handleLogin}/>);
+
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
             <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={this.handleCloseModal} id="signin-signup-modal" title="Sign in to Vets.gov">
-              <Signin
-                onLoggedIn={() => this.props.toggleLoginModal(false)}
-                currentlyLoggedIn={currentlyLoggedIn}
-                handleSignup={this.handleSignup}
-                handleLogin={this.handleLogin}/>
+              {modalContent}
             </Modal>
           </div>
         );
+      }
       case 'verifyPage':
-        return (
-          <Verify
+        return this.props.profile.loading ?
+          (<LoadingIndicator message="Loading the application..."/>) :
+          (<Verify
             shouldRedirect={this.props.shouldRedirect}
+            login={this.props.login}
             profile={this.props.profile}
-            verifyUrl={this.props.login.verifyUrl}/>
-        );
+            handleLogin={this.handleLogin}/>);
       default:
         return null;
     }

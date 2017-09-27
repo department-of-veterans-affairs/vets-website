@@ -27,7 +27,7 @@ class Signin extends React.Component {
         this.props.onLoggedIn();
       }
 
-      if (nextPath) {
+      if (nextPath && window.location.pathname.indexOf('verify') === -1) {
         window.location.replace(nextPath || '/');
       }
     }
@@ -112,7 +112,7 @@ class Signin extends React.Component {
                   <strong>A secure account powered by ID.me</strong><br/>
                   ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information.
                 </p>
-                <p><a href="/faq#what-is-idme">Learn more about ID.me</a></p>
+                <p><a href="/faq#what-is-idme" target="_blank">Learn more about ID.me</a></p>
               </div>
             </div>
           </div>
@@ -120,7 +120,7 @@ class Signin extends React.Component {
             <div className="columns small-12">
               <div className="help-info">
                 <h4>Having trouble signing in?</h4>
-                <p><a href="/faq">Get answers to Frequently Asked Questions</a></p>
+                <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
                   Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).<br/>
                   We're here Monday – Friday, 8:00am – 8:00pm (ET).
