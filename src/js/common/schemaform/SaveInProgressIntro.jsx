@@ -49,7 +49,8 @@ export default class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this form, and come back later to finish filling it out. <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to save your form in progress</button>.
+              You can save this form, and come back later to finish filling it out.<br/>
+              <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to save your form in progress.</button>
             </div>
           </div>
           <br/>
