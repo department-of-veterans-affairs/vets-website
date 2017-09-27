@@ -124,7 +124,9 @@ export class AddressSection extends React.Component {
   saveAddress = () => {
     const errorMessages = this.validateAll(this.state.editableAddress, true);
     // If there are errors, show them, but don't stop editing and don't save
-    if (Object.keys(errorMessages).length === 0) {
+    // There may be properties that are initialized to undefined, so we're checking
+    //  to see if any of the properties are truthy
+    if (Object.keys(errorMessages).some(key => errorMessages[key])) {
       this.setState({ errorMessages });
       return;
     }
