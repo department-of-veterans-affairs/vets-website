@@ -95,7 +95,7 @@ export function setPrefillComplete() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-export function migrateFormData(savedData, savedVersion, migrations) {
+export function migrateFormData(savedData, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -116,6 +116,7 @@ export function migrateFormData(savedData, savedVersion, migrations) {
   }
 
   let savedDataCopy = Object.assign({}, savedData);
+  let savedVersion = savedData.metatadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
     savedVersion++; // eslint-disable-line no-param-reassign
@@ -280,7 +281,11 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       let formData;
       try {
         // NOTE: This may change to be migrated in the back end before sent over
-        formData = migrateFormData(resBody.form_data, resBody.metadata.version, migrations);
+        const dataToMigrate = {
+          formData: Object.assign({}, resBody.form_data),
+          metadata: Object.assign({}, resBody.metadata)
+        };
+        formData = migrateFormData(dataToMigrate, migrations);
       } catch (e) {
         // We don’t want to lose the stacktrace, but want to be able to search for migration errors
         // related to SiP
