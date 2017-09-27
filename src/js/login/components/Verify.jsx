@@ -7,7 +7,6 @@ import { handleVerify } from '../../common/helpers/login-helpers.js';
 class Verify extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = this.handleVerify.bind(this);
   }
@@ -19,10 +18,10 @@ class Verify extends React.Component {
     return window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.login.currentlyLoggedIn && !this.props.login.currentlyLoggedIn) {
-      this.checkAccountAccess(nextProps.profile.accountType);
-    }
+  componentDidUpdate(prevProps) {
+    const { accountType } = this.props.profile;
+    const shouldCheckAccount = prevProps.profile.accountType !== accountType;
+    if (shouldCheckAccount) { this.checkAccountAccess(accountType); }
   }
 
   checkAccountAccess(accountType) {
