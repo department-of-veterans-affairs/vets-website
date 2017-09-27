@@ -5,9 +5,9 @@ const requiredMessage = 'Please enter a valid address'; // Change me!
 /**
  * Ensures the input isn't blank
  */
-const requiredValidator = (input, fullAddress, message) => {
+const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   if (!input) {
-    return message || requiredMessage;
+    return message;
   }
 
   // Could return anything that isn't a string, really
@@ -16,7 +16,14 @@ const requiredValidator = (input, fullAddress, message) => {
 
 
 /**
- * These validation functions must return an error message string if the validation fails.
+ * The signature of all validation functions is always the following
+ *
+ * @param {Mixed} input        - The value of the field that was changed
+ * @param {Object} fullAddress - An object that contains the whole address with the modified
+ *                               field and updated address type
+ * @return {String|Mixed}      - If the validation fails, return the error message to display
+ *                               If the validation passes, return anything else (we only care
+ *                               if an error message is returned)
  */
 export const addressOneValidations = [
   (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter an address')
