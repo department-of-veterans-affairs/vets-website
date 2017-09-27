@@ -13,10 +13,11 @@ const defaultProps = {
     addressOne: '2746 Main St',
     addressTwo: 'Apt 2',
     city: 'Town',
-    state: 'MA',
-    country: 'US',
+    stateCode: 'MA',
+    countryName: 'US',
     zipCode: '02138'
-  }
+  },
+  errorMessages: {},
 };
 
 describe('<Address>', () => {
@@ -30,7 +31,7 @@ describe('<Address>', () => {
     const militaryFields = {
       type: 'MILITARY',
       city: 'APO',
-      state: 'AE'
+      stateCode: 'AE'
     };
     const props = {
       ...defaultProps,
@@ -57,4 +58,5 @@ describe('<Address>', () => {
     form.fillData('input[name="address"]', addressLine1);
     expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
+  // TODO: Add a test for rendering error messages
 });

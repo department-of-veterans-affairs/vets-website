@@ -16,7 +16,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/health-care/prescriptions', 3)
-      .assert.title('Refill Your Prescriptions: Vets.gov')
+      .assert.title('Refill Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
 

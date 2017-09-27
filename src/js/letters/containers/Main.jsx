@@ -5,6 +5,8 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 
+// import { getAddressSuccessAction } from '../utils/helpers';
+
 import {
   getBenefitSummaryOptions,
   getLetterList,
@@ -18,6 +20,8 @@ export class Main extends React.Component {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
+    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+    // this.props.getAddressSuccessAction();
     this.props.getAddressCountries();
     this.props.getAddressStates();
   }
@@ -91,7 +95,9 @@ const mapDispatchToProps = {
   getLetterList,
   getMailingAddress,
   getAddressCountries,
-  getAddressStates
+  getAddressStates,
+  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
