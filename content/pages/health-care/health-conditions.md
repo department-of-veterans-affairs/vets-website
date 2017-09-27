@@ -65,7 +65,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
-If you need help accessing services, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 <br>
 
