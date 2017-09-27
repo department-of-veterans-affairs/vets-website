@@ -279,6 +279,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // If we’ve made it this far, we’ve got valid form
 
       let formData;
+      let metadata;
       try {
         // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
@@ -286,7 +287,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
           formData: Object.assign({}, resBody.form_data),
           metadata: Object.assign({}, resBody.metadata)
         };
-        formData = migrateFormData(dataToMigrate, migrations);
+        ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
       } catch (e) {
         // We don’t want to lose the stacktrace, but want to be able to search for migration errors
         // related to SiP
@@ -295,7 +296,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
       // Set the data in the redux store
-      dispatch(setInProgressForm({ formData, metadata: resBody.metadata }, prefill));
+      dispatch(setInProgressForm({ formData, metadata }, prefill));
       window.dataLayer.push({
         event: `${trackingPrefix}sip-form-loaded`
       });
