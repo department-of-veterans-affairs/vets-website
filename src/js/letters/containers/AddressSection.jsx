@@ -253,8 +253,9 @@ export class AddressSection extends React.Component {
 
     let addressContent;
     // If countries and states are not available when they try to update their address,
+    // or if the fetch for address failed,
     // they will see this warning message instead of the address fields.
-    if (isEmpty(address)) {
+    if (isEmpty(address) || this.props.addressAvailability === AVAILABILITY_STATUSES.unavailable) {
       addressContent = invalidAddressProperty;
     } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
@@ -303,6 +304,7 @@ function mapStateToProps(state) {
     recipientName: fullName,
     canUpdate,
     savedAddress: address,
+    addressAvailability,
     saveAddressError,
     savePending,
     countries,
