@@ -182,8 +182,9 @@ class Main extends React.Component {
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
+            login={this.props.login}
             profile={this.props.profile}
-            verifyUrl={this.props.login.verifyUrl}/>);
+            handleLogin={this.handleLogin}/>);
       default:
         return null;
     }
