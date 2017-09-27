@@ -88,7 +88,7 @@ Once you’ve signed up:
 - Talk to your primary care provider, who will connect you with any services you may need, **or**
 - Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. To connect with your local Women Veterans Program Manager:
   - Contact your local medical center and ask for the Women Veterans Program Manager ([find a VA medical center near you](/facilities/)), **or** 
-  - Call our Women Veterans Call Center at 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>) and we’ll connect you with your local manager.
+  - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>) and we’ll connect you with your local manager.
 
 <br>
 
@@ -96,11 +96,11 @@ Once you’ve signed up:
 
 If you don’t have VA health care benefits, you may still be able to get care:
 
-- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).  
+- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).  
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
-  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
+  - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1-877-424-3838">1-877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 <br>
@@ -115,4 +115,4 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 - Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
 - Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/). 
-- Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential guidance. Call the Center at 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (ET) and Saturday, 8:00 a.m. to 6:30 p.m. (ET).
+- Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential guidance. Call the Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (ET) and Saturday, 8:00 a.m. to 6:30 p.m. (ET).

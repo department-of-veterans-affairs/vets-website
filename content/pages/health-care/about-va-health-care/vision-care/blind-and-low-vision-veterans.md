@@ -61,7 +61,7 @@ No. But we do work with non-VA agencies that provide guide dogs.
 
 To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you](/facilities/).
 
-Or, contact the Blind Rehabilitation Service Program office by phone (<a href="tel:+1-202-461-7317">202-461-7317</a>) or by mail:
+Or, contact the Blind Rehabilitation Service Program office by phone (<a href="tel:+1-202-461-7317">1-202-461-7317</a>) or by mail:
 
 <p class="va-address-block">
   Department of Veterans Affairs<br>

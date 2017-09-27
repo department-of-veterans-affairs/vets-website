@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { ADDRESS_TYPES, STATE_CODE_TO_NAME } from '../utils/constants';
+import { STATE_CODE_TO_NAME } from '../utils/constants';
 import { militaryStateNames } from '../utils/helpers';
 
 /**
@@ -59,23 +59,7 @@ class Address extends React.Component {
 
   render() {
     const errorMessages = this.props.errorMessages;
-
-    // Our hard-coded list of countries has the value for the U.S. as
-    // 'USA', but the value sent to us from EVSS is 'US'. This will cause
-    // the field to not populate correctly.
-    // This will be changed once we pull the real country list from the
-    // address endpoint.
-    let selectedCountry;
-    if (this.props.address.countryName === undefined && this.props.address.type === ADDRESS_TYPES.military) {
-      selectedCountry = 'USA';
-    } else if (this.props.address.countryName === 'US') {
-      selectedCountry = 'USA';
-    } else {
-      selectedCountry = this.props.address.countryName;
-    }
-
-    const isUSA = selectedCountry === 'USA';
-
+    const isUSA = this.props.address.countryName === 'USA';
     const adjustedStateNames = this.getAdjustedStateNames();
 
     return (
@@ -85,7 +69,7 @@ class Address extends React.Component {
           name="country"
           autocomplete="country"
           options={this.props.countries}
-          value={selectedCountry}
+          value={this.props.address.countryName}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('countryName', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}

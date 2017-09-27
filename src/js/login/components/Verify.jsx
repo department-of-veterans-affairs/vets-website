@@ -43,6 +43,7 @@ class Verify extends React.Component {
     handleVerify(this.props.login.verifyUrl);
   }
 
+  // TODO: bring back alternate methods after working out kinks with ID.me
   renderAlternateVerificationMethods() {
     if (!this.props.profile.authnContext) {
       return (
@@ -81,7 +82,6 @@ class Verify extends React.Component {
               <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
                 <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
               </button>
-              {this.renderAlternateVerificationMethods()}
             </div>
           </div>
           <div className="row">

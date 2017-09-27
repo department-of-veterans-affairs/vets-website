@@ -34,7 +34,7 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 ##### Are you in crisis? You have options.
 
-- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.
+- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.
 - [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
 - Text <a href="sms:838255">838255</a> to get help right away.
 - Call <a href="tel:911">911</a>.
@@ -97,7 +97,7 @@ Learn about common suicide myths and realities, Veteran-specific suicide risks, 
 
 Yes. If you’re a family member or friend of a Veteran who’s having trouble adjusting to life at home, we can help. Through our national Coaching Into Care program, our licensed psychologists and social workers will talk with you by phone, free of charge, to help you find your way around the VA system and figure out the best way to help the Veteran you care about. All calls are confidential (private).
 
-To speak with a VA coach, call <a href="tel:+1-888-823-7458">888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+To speak with a VA coach, call <a href="tel:+1-888-823-7458">1-888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
 To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching into Care](https://www.mirecc.va.gov/coaching/). 
 

@@ -89,7 +89,7 @@ You’ll need to apply for benefits:
 
 - [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
 <br>
-Fax it to 512-460-5536, or mail it to:
+Fax it to 1-512-460-5536, or mail it to:
 
 <p class="va-address-block">
 <b>Department of Veterans Affairs</b><br>
