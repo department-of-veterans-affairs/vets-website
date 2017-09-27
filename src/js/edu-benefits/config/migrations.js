@@ -8,7 +8,7 @@ export default [
 
     if (savedReturnUrl.includes(savedData.formId)) {
       const formId = new RegExp(`/${savedData.formId}`);
-      const newData = _.set(savedData.metadata.return_url, savedReturnUrl.replace(formId, ''));
+      const newData = _.set('metadata.return_url', savedReturnUrl.replace(formId, ''), savedData);
       return newData;
     }
     return savedData;

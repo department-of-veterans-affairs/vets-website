@@ -116,7 +116,7 @@ export function migrateFormData(savedData, migrations) {
   }
 
   let savedDataCopy = Object.assign({}, savedData);
-  let savedVersion = savedData.metatadata.version;
+  let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
     savedVersion++; // eslint-disable-line no-param-reassign
