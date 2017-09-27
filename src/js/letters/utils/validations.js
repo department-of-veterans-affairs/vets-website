@@ -1,4 +1,5 @@
 import { isValidUSZipCode } from '../../common/utils/validations';
+import { ADDRESS_TYPES } from './constants';
 
 const requiredMessage = 'Please enter a valid address'; // Change me! 
 
@@ -40,7 +41,7 @@ export const postalCodeValidations = [
   },
   // Check for valid US zip codes
   (postalCode, fullAddress) => {
-    if (['US', 'USA'].includes(fullAddress.country) && !isValidUSZipCode(postalCode)) {
+    if (fullAddress.countryName === 'USA' && !isValidUSZipCode(postalCode)) {
       return 'Please enter a valid Zip code';
     }
 
@@ -60,10 +61,17 @@ export const stateValidations = [
 ];
 
 export const countryValidations = [
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a country')
+  (countryName, fullAddress) => {
+    // Country is required for domestic and international, but not military
+    if (fullAddress.type !== ADDRESS_TYPES.military && !countryName) {
+      return 'Please enter select a country';
+    }
+
+    return true;
+  }
 ];
 
 export const cityValidations = [
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a city')
+  (city, fullAddress) => requiredValidator(city, fullAddress, 'Please enter a city')
 ];
 

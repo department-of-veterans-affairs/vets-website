@@ -307,7 +307,9 @@ export function inferAddressType(address) {
   let type = ADDRESS_TYPES.domestic;
   if (address.countryName !== 'USA') {
     type = ADDRESS_TYPES.international;
-  } else if (MILITARY_STATES.has(address.stateCode) || MILITARY_CITIES.has(address.city)) {
+  }
+
+  if (MILITARY_STATES.has(address.stateCode) || MILITARY_CITIES.has(address.city)) {
     type = ADDRESS_TYPES.military;
   }
 
