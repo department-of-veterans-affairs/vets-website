@@ -188,7 +188,7 @@ export class AddressSection extends React.Component {
 
 
   render() {
-    const address = this.state.editableAddress || {};
+    const address = this.props.savedAddress || {};
     // Street address: first line of address
     const streetAddressLines = [
       address.addressOne,
