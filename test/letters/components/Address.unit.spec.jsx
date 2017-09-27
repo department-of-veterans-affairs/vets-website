@@ -14,7 +14,7 @@ const defaultProps = {
     addressTwo: 'Apt 2',
     city: 'Town',
     stateCode: 'MA',
-    country: 'US',
+    countryName: 'US',
     zipCode: '02138'
   },
   errorMessages: {},

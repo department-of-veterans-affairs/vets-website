@@ -28,7 +28,7 @@ const fieldValidations = {
   addressOne: addressOneValidations,
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
-  country: countryValidations,
+  countryName: countryValidations,
   city: cityValidations
 };
 
@@ -142,7 +142,7 @@ export class AddressSection extends React.Component {
    */
   inferAddressType = (address) => {
     let type = ADDRESS_TYPES.domestic;
-    if (!['USA', 'US'].includes(address.country)) {
+    if (!['USA', 'US'].includes(address.countryName)) {
       type = ADDRESS_TYPES.international;
     } else if (['AE', 'AA', 'AP'].includes(address.stateCode)) {
       // Are these ^^ constants anywhere?
@@ -168,7 +168,7 @@ export class AddressSection extends React.Component {
 
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
     // if country is changing we should clear the state
-    if (fieldName === 'country') {
+    if (fieldName === 'countryName') {
       address.stateCode = '';
     }
 
