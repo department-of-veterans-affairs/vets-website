@@ -80,8 +80,8 @@ export function getMailingAddress() {
         // Translate military-only fields into generic ones; we'll translate them back later if necessary
         if (address.type === ADDRESS_TYPES.military) {
           address.city = address.militaryPostOfficeTypeCode;
-          address.state = address.militaryStateCode;
-          address.country = 'USA';
+          address.stateCode = address.militaryStateCode;
+          address.countryName = 'USA';
           delete address.militaryPostOfficeTypeCode;
           delete address.militaryStateCode;
         }
@@ -226,10 +226,10 @@ export function saveAddress(address) {
   const transformedAddress = Object.assign({}, address);
   if (transformedAddress.type === ADDRESS_TYPES.military) {
     transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
-    transformedAddress.militaryStateCode = transformedAddress.state;
+    transformedAddress.militaryStateCode = transformedAddress.stateCode;
     delete transformedAddress.city;
-    delete transformedAddress.state;
-    delete transformedAddress.country;
+    delete transformedAddress.stateCode;
+    delete transformedAddress.countryName;
   }
 
   const settings = {

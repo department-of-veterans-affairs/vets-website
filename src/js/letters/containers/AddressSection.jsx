@@ -27,8 +27,8 @@ import { ADDRESS_TYPES } from '../utils/constants';
 const fieldValidations = {
   addressOne: addressOneValidations,
   zipCode: postalCodeValidations,
-  state: stateValidations,
-  country: countryValidations,
+  stateCode: stateValidations,
+  countryName: countryValidations,
   city: cityValidations
 };
 
@@ -142,9 +142,9 @@ export class AddressSection extends React.Component {
    */
   inferAddressType = (address) => {
     let type = ADDRESS_TYPES.domestic;
-    if (!['USA', 'US'].includes(address.country)) {
+    if (!['USA', 'US'].includes(address.countryName)) {
       type = ADDRESS_TYPES.international;
-    } else if (['AE', 'AA', 'AP'].includes(address.state)) {
+    } else if (['AE', 'AA', 'AP'].includes(address.stateCode)) {
       // Are these ^^ constants anywhere?
       type = ADDRESS_TYPES.military;
     }
@@ -168,8 +168,8 @@ export class AddressSection extends React.Component {
 
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
     // if country is changing we should clear the state
-    if (fieldName === 'country') {
-      address.state = '';
+    if (fieldName === 'countryName') {
+      address.stateCode = '';
     }
 
     // Make sure we've got the right address type (domestic, military, international)
@@ -200,11 +200,11 @@ export class AddressSection extends React.Component {
     let cityStatePostal;
     if (isDomesticAddress(address)) {
       const city = (address.city || '').toLowerCase();
-      const state = getStateName(address.state);
+      const state = getStateName(address.stateCode);
       cityStatePostal = `${city}, ${state} ${zipCode}`;
     } else if (isMilitaryAddress(address)) {
       const city = address.city || '';
-      const militaryStateCode = address.state || '';
+      const militaryStateCode = address.stateCode || '';
       cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
     }
     const country = isInternationalAddress(address) ? address.countryName : '';

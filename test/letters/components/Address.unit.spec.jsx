@@ -13,8 +13,8 @@ const defaultProps = {
     addressOne: '2746 Main St',
     addressTwo: 'Apt 2',
     city: 'Town',
-    state: 'MA',
-    country: 'US',
+    stateCode: 'MA',
+    countryName: 'US',
     zipCode: '02138'
   },
   errorMessages: {},
@@ -31,7 +31,7 @@ describe('<Address>', () => {
     const militaryFields = {
       type: 'MILITARY',
       city: 'APO',
-      state: 'AE'
+      stateCode: 'AE'
     };
     const props = {
       ...defaultProps,

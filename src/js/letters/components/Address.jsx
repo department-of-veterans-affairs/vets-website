@@ -66,12 +66,12 @@ class Address extends React.Component {
     // This will be changed once we pull the real country list from the
     // address endpoint.
     let selectedCountry;
-    if (this.props.address.country === undefined && this.props.address.type === ADDRESS_TYPES.military) {
+    if (this.props.address.countryName === undefined && this.props.address.type === ADDRESS_TYPES.military) {
       selectedCountry = 'USA';
-    } else if (this.props.address.country === 'US') {
+    } else if (this.props.address.countryName === 'US') {
       selectedCountry = 'USA';
     } else {
-      selectedCountry = this.props.address.country;
+      selectedCountry = this.props.address.countryName;
     }
 
     const isUSA = selectedCountry === 'USA';
@@ -80,14 +80,14 @@ class Address extends React.Component {
 
     return (
       <div>
-        <ErrorableSelect errorMessage={errorMessages.country}
+        <ErrorableSelect errorMessage={errorMessages.countryName}
           label="Country"
           name="country"
           autocomplete="country"
           options={this.props.countries}
           value={selectedCountry}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('country', update)}/>
+          onValueChange={(update) => this.props.onInput('countryName', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
           name="address"
@@ -119,14 +119,14 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}/>
         {/* Hide the state for addresses that aren't in the US */}
-        {isUSA && <ErrorableSelect errorMessage={errorMessages.state}
+        {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
           label="State"
           name="state"
           autocomplete="address-level1"
           options={adjustedStateNames}
-          value={this.props.address.state}
+          value={this.props.address.stateCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('state', update)}/>}
+          onValueChange={(update) => this.props.onInput('stateCode', update)}/>}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
         {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
@@ -147,8 +147,8 @@ const addressShape = PropTypes.shape({
   addressTwo: PropTypes.string,
   addressThree: PropTypes.string,
   city: PropTypes.string,
-  state: PropTypes.string,
-  country: PropTypes.string,
+  stateCode: PropTypes.string,
+  countryName: PropTypes.string,
   zipCode: PropTypes.string
 });
 
