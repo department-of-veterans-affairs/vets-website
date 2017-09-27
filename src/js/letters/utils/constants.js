@@ -144,3 +144,6 @@ export const ADDRESS_TYPES = Object.freeze({
   military: 'MILITARY'
 });
 
+// These probably aren't the best names, but they work...
+export const MILITARY_CITIES = new Set(['APO', 'FPO', 'DPO']);
+export const MILITARY_STATES = new Set(['AA', 'AE', 'AP']);
