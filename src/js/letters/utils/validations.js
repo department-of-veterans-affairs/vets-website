@@ -30,7 +30,7 @@ export const addressOneValidations = [
 ];
 
 export const postalCodeValidations = [
-  // Require zip for US address
+  // Require zip for US addresses
   (postalCode, fullAddress) => {
     if (fullAddress.country === 'USA' && !postalCode) {
       return 'Please enter a Zip code';
@@ -49,8 +49,14 @@ export const postalCodeValidations = [
 ];
 
 export const stateValidations = [
-  // May not be true if the country isn't USA
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a state')
+  // Require a state for US addresses
+  (state, fullAddress) => {
+    if (fullAddress.country === 'USA' && !state) {
+      return 'Please enter a state';
+    }
+
+    return true;
+  }
 ];
 
 export const countryValidations = [

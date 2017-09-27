@@ -10,6 +10,7 @@ import {
   isInternationalAddress,
   addressUpdateUnavailable,
   invalidAddressProperty,
+  inferAddressType
 } from '../utils/helpers.jsx';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
@@ -22,11 +23,6 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
-import {
-  ADDRESS_TYPES,
-  MILITARY_CITIES,
-  MILITARY_STATES
-} from '../utils/constants';
 
 const fieldValidations = {
   addressOne: addressOneValidations,
@@ -143,21 +139,6 @@ export class AddressSection extends React.Component {
     this.props.saveAddress(this.state.editableAddress);
   }
 
-  /**
-   * Infers the address type from the address supplied and returns the address
-   *  with the "new" type.
-   */
-  inferAddressType = (address) => {
-    let type = ADDRESS_TYPES.domestic;
-    if (address.countryName !== 'USA') {
-      type = ADDRESS_TYPES.international;
-    } else if (MILITARY_STATES.has(address.stateCode) || MILITARY_CITIES.has(address.city)) {
-      type = ADDRESS_TYPES.military;
-    }
-
-    return Object.assign({}, address, { type });
-  }
-
   handleCancel = () => {
     this.setState({
       isEditingAddress: false,
@@ -184,7 +165,7 @@ export class AddressSection extends React.Component {
     }
 
     // Make sure we've got the right address type (domestic, military, international)
-    address = this.inferAddressType(address);
+    address = inferAddressType(address);
 
     // Update the error messages
     // TODO: This might get super slow, so we can debounce this part if necessary...probably

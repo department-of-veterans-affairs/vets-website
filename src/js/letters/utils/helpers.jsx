@@ -5,7 +5,14 @@ import Raven from 'raven-js';
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
-import { AVAILABILITY_STATUSES, BENEFIT_OPTIONS, STATE_CODE_TO_NAME } from './constants';
+import {
+  AVAILABILITY_STATUSES,
+  BENEFIT_OPTIONS,
+  STATE_CODE_TO_NAME,
+  ADDRESS_TYPES,
+  MILITARY_STATES,
+  MILITARY_CITIES
+} from './constants';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -292,66 +299,18 @@ export function getStateName(stateCode) {
   return stateName || '';
 }
 
-// FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO MASTER
-// export function getAddressSuccessAction() {
-//   return {
-//     type: 'GET_ADDRESS_SUCCESS',
-//     data: {
-//       data: {
-//         id: '',
-//         type: 'evss_letters_letters_responses',
-//         attributes: {
-//           letters: [
-//             {
-//               name: 'Commissary Letter',
-//               letterType: 'commissary'
-//             },
-//             {
-//               name: 'Proof of Service Letter',
-//               letterType: 'proof_of_service'
-//             },
-//             {
-//               name: 'Proof of Creditable Prescription Drug Coverage Letter',
-//               letterType: 'medicare_partd'
-//             },
-//             {
-//               name: 'Proof of Minimum Essential Coverage Letter',
-//               letterType: 'minimum_essential_coverage'
-//             },
-//             {
-//               name: 'Service Verification Letter',
-//               letterType: 'service_verification'
-//             },
-//             {
-//               name: 'Civil Service Preference Letter',
-//               letterType: 'civil_service'
-//             },
-//             {
-//               name: 'Benefit Summary Letter',
-//               letterType: 'benefit_summary'
-//             },
-//             {
-//               name: 'Benefit Verification Letter',
-//               letterType: 'benefit_verification'
-//             }
-//           ],
-//           fullName: 'Gary Todd',
-//           address: {
-//             addressOne: '123 Main St N',
-//             addressTwo: 'Apt B',
-//             addressThree: 'Attn: That Guy',
-//             type: 'DOMESTIC',
-//             city: 'Central City',
-//             state: 'OR',
-//             country: 'USA',
-//             zipCode: '55555'
-//           },
-//           controlInformation: {
-//             canUpdate: true
-//           }
-//         }
-//       }
-//     }
-//   };
-// }
+/**
+ * Infers the address type from the address supplied and returns the address
+ *  with the "new" type.
+ */
+export function inferAddressType(address) {
+  let type = ADDRESS_TYPES.domestic;
+  if (address.countryName !== 'USA') {
+    type = ADDRESS_TYPES.international;
+  } else if (MILITARY_STATES.has(address.stateCode) || MILITARY_CITIES.has(address.city)) {
+    type = ADDRESS_TYPES.military;
+  }
+
+  return Object.assign({}, address, { type });
+}
 
