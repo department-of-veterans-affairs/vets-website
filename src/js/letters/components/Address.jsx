@@ -119,14 +119,14 @@ class Address extends React.Component {
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}/>
         {/* Hide the state for addresses that aren't in the US */}
-        {isUSA && <ErrorableSelect errorMessage={errorMessages.state}
+        {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
           label="State"
           name="state"
           autocomplete="address-level1"
           options={adjustedStateNames}
-          value={this.props.address.state}
+          value={this.props.address.stateCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('state', update)}/>}
+          onValueChange={(update) => this.props.onInput('stateCode', update)}/>}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
         {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
@@ -147,7 +147,7 @@ const addressShape = PropTypes.shape({
   addressTwo: PropTypes.string,
   addressThree: PropTypes.string,
   city: PropTypes.string,
-  state: PropTypes.string,
+  stateCode: PropTypes.string,
   country: PropTypes.string,
   zipCode: PropTypes.string
 });

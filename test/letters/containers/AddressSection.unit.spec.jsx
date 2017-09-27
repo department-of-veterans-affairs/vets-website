@@ -16,7 +16,7 @@ const defaultProps = {
     addressOne: '2476 Main Street',
     city: 'Reston',
     country: 'US',
-    state: 'VA',
+    stateCode: 'VA',
     zipCode: '12345'
   },
   canUpdate: true,
