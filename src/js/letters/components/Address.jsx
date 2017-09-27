@@ -153,8 +153,11 @@ const addressShape = PropTypes.shape({
 });
 
 Address.propTypes = {
-  value: addressShape.isRequired,
+  onInput: PropTypes.func.isRequired,
+  address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
+  countries: PropTypes.array.isRequired,
+  states: PropTypes.array.isRequired,
 };
 
 export default Address;
