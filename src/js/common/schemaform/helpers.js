@@ -132,7 +132,7 @@ export function createRoutes(formConfig) {
     },
     {
       path: '*',
-      onEnter: (nextState, replace) => replace('/')
+      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/')
     }
   ]);
 }
