@@ -59,7 +59,7 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 
 ### Get more information
 - [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
-- Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
-- For TDD/TYY, use <span class="tel">800-829-4833</span>.
+- Call <span class="tel">1-888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
+- For TDD/TYY, use <span class="tel">1-800-829-4833</span>.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
