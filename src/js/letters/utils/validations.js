@@ -64,7 +64,7 @@ export const countryValidations = [
   (countryName, fullAddress) => {
     // Country is required for domestic and international, but not military
     if (fullAddress.type !== ADDRESS_TYPES.military && !countryName) {
-      return 'Please enter select a country';
+      return 'Please select a country';
     }
 
     return true;
