@@ -129,8 +129,8 @@ export default class NavButtons extends React.Component {
           <div className="usa-alert usa-alert-error">
             <div className="usa-alert-body">
               <p><strong>There is currently an issue with submitting this form. We apologize for the inconvenience.</strong></p>
-              <p>Please call 855-574-7286, M-F 8:00 a.m.to 8:00 p.m. (ET) for assistance.</p>
-              <p>TTY: 800-829-4833.</p>
+              <p>Please call 1-855-574-7286, M-F 8:00 a.m.to 8:00 p.m. (ET) for assistance.</p>
+              <p>TTY: 1-800-829-4833.</p>
             </div>
           </div>
         );

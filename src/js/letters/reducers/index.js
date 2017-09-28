@@ -1,3 +1,5 @@
+import Raven from 'raven-js';
+
 import _ from 'lodash/fp';
 import {
   benefitOptionsMap,
@@ -18,15 +20,22 @@ import {
   GET_LETTER_PDF_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS,
   AVAILABILITY_STATUSES,
   DOWNLOAD_STATUSES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
-  // SAVE_ADDRESS_FAILURE
+  SAVE_ADDRESS_FAILURE,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 const initialState = {
+  countries: [],
+  countriesAvailable: false,
+  states: [],
+  statesAvailable: false,
   letters: [],
   lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   letterDownloadStatus: {},
@@ -114,15 +123,49 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.success, state);
     case GET_LETTER_PDF_FAILURE:
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
-    case UPDATE_ADDRESS:
-      return _.set('address', action.address, state);
     case SAVE_ADDRESS_PENDING:
       return _.set('savePending', true, state);
     case SAVE_ADDRESS_SUCCESS: {
       const newState = Object.assign({}, state, { savePending: false });
       return _.set('address', action.address, newState);
     }
-    // Add SAVE_ADDRESS_FAILURE
+    case SAVE_ADDRESS_FAILURE:
+      return { ...state, savePending: false, saveAddressError: true };
+    case GET_ADDRESS_COUNTRIES_SUCCESS: {
+      let countriesAvailable = true;
+      const countryList = action.countries.data.attributes.countries;
+
+      // Log error if the countries response is not what we expect
+      if (!Array.isArray(countryList) || countryList.length === 0) {
+        Raven.captureMessage(`vets_letters_unexpected_country_response: ${countryList}`);
+        countriesAvailable = false;
+      }
+
+      return {
+        ...state,
+        countries: countryList,
+        countriesAvailable
+      };
+    }
+    case GET_ADDRESS_COUNTRIES_FAILURE:
+      return _.set('countriesAvailable', false, state);
+    case GET_ADDRESS_STATES_SUCCESS: {
+      let statesAvailable = true;
+      const stateList = action.states.data.attributes.states;
+
+      // Log error if the states response is not what we expect
+      if (!Array.isArray(stateList) || stateList.length === 0) {
+        Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
+        statesAvailable = false;
+      }
+      return {
+        ...state,
+        states: stateList,
+        statesAvailable
+      };
+    }
+    case GET_ADDRESS_STATES_FAILURE:
+      return _.set('statesAvailable', false, state);
     default:
       return state;
   }

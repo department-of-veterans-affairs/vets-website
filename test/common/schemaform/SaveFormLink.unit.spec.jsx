@@ -33,13 +33,13 @@ describe('Schemaform <SaveFormLink>', () => {
   // Define these spies out here because they are only used to satisfy the
   //  prop requirements; they're only passed to LoginModal which we test elsewhere
   const saveInProgressForm = sinon.spy();
-  const updateLoginSpy = sinon.spy();
+  const toggleLoginModalSpy = sinon.spy();
   it('should render save message when not logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
         form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Save and finish this application later');
@@ -48,8 +48,7 @@ describe('Schemaform <SaveFormLink>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
-        form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        form={form}/>
     );
 
     expect(tree.text()).to.contain('Finish this application later');
@@ -59,7 +58,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Sorry, you’re signed out.');
@@ -70,7 +69,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={loggedInUser}
         form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('Finish this application later');
@@ -80,7 +79,7 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.failure })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('having some issues');
@@ -91,39 +90,11 @@ describe('Schemaform <SaveFormLink>', () => {
       <SaveFormLink
         user={user}
         form={_.assign(form, { savedStatus: SAVE_STATUSES.clientFailure })}
-        onUpdateLoginUrl={updateLoginSpy}/>
+        toggleLoginModal={toggleLoginModalSpy}/>
     );
 
     expect(tree.text()).to.contain('connect to Vets.gov');
     expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
-  });
-  it('should open LoginModal', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
-      <SaveFormLink
-        user={user}
-        form={form}
-        onUpdateLoginUrl={updateLoginSpy}/>
-    );
-    const findDOM = findDOMNode(tree);
-
-    // Modal uses document.querySelector, so we have to bind it to the formDOM
-    //  to actually get the right result.
-    const oldQuerySelector = document.querySelector;
-    document.querySelector = findDOM.querySelector.bind(findDOM);
-
-    // Open the login modal
-    // NOTE: I'm not sure why we have to use ReactTestUtils.Simulate.click() here,
-    //  but just querying for the link and .click()ing it didn't call SaveFormLink's
-    //  openLoginModal().
-    ReactTestUtils.Simulate.click(findDOM.querySelector('button'));
-
-    // Reset it for subsequent tests
-    document.querySelector = oldQuerySelector;
-
-    const modal = findDOM.querySelector('.va-modal');
-
-    // Find the login modal
-    expect(modal).to.not.be.null;
   });
   it('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
@@ -135,7 +106,7 @@ describe('Schemaform <SaveFormLink>', () => {
           user={loggedInUser}
           form={form}
           saveInProgressForm={saveInProgressForm}
-          onUpdateLoginUrl={updateLoginSpy}/>
+          toggleLoginModal={toggleLoginModalSpy}/>
       </div>
     );
     const findDOM = findDOMNode(tree);

@@ -5,10 +5,14 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 
+// import { getAddressSuccessAction } from '../utils/helpers';
+
 import {
   getBenefitSummaryOptions,
   getLetterList,
-  getMailingAddress
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates
 } from '../actions/letters';
 
 export class Main extends React.Component {
@@ -16,6 +20,10 @@ export class Main extends React.Component {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
+    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+    // this.props.getAddressSuccessAction();
+    this.props.getAddressCountries();
+    this.props.getAddressStates();
   }
 
   render() {
@@ -34,7 +42,6 @@ export class Main extends React.Component {
       case AVAILABILITY_STATUSES.backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      // Need a permanent UI for this
       case AVAILABILITY_STATUSES.invalidAddressProperty:
         appContent = systemDownMessage;
         break;
@@ -86,7 +93,11 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
   getLetterList,
-  getMailingAddress
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates,
+  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

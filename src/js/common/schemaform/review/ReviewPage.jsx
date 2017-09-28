@@ -12,8 +12,10 @@ import SaveStatus from '../SaveStatus';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
-import { updateLogInUrl } from '../../../login/actions';
+
 import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-load-actions';
+import { toggleLoginModal } from '../../../login/actions';
+
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
@@ -184,12 +186,12 @@ class ReviewPage extends React.Component {
           form={form}
           user={this.props.user}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          onUpdateLoginUrl={this.props.updateLogInUrl}
+          onUpdateLoginUrl={this.props.updateLogInUrls}
           sipEnabled={!formConfig.disableSave}/>
         {!form.disableSave && <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           loginUrl={this.props.user.login.loginUrl}
-          onUpdateLogInUrl={this.props.updateLogInUrl}
+          toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>}
         {!form.disableSave && <SaveFormLink
@@ -197,7 +199,7 @@ class ReviewPage extends React.Component {
           form={form}
           user={this.props.user}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          onUpdateLoginUrl={this.props.updateLogInUrl}/>}
+          toggleLoginModal={this.props.toggleLoginModal}/>}
       </div>
     );
   }
@@ -219,7 +221,7 @@ const mapDispatchToProps = {
   uploadFile,
   saveAndRedirectToReturnUrl,
   autoSaveForm,
-  updateLogInUrl
+  toggleLoginModal
 };
 
 ReviewPage.propTypes = {

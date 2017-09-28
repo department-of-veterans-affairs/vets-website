@@ -15,11 +15,15 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
-  LETTER_TYPES
+  LETTER_TYPES,
+  ADDRESS_TYPES,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -70,10 +74,24 @@ export function getMailingAddress() {
     apiRequest(
       '/v0/address',
       null,
-      response => dispatch({
-        type: GET_ADDRESS_SUCCESS,
-        data: response,
-      }),
+      response => {
+        const responseCopy = Object.assign({}, response);
+        const address = Object.assign({}, response.data.attributes.address);
+        // Translate military-only fields into generic ones; we'll translate them back later if necessary
+        if (address.type === ADDRESS_TYPES.military) {
+          address.city = address.militaryPostOfficeTypeCode;
+          address.stateCode = address.militaryStateCode;
+          address.countryName = 'USA';
+          delete address.militaryPostOfficeTypeCode;
+          delete address.militaryStateCode;
+        }
+        responseCopy.data.attributes.address = address;
+
+        dispatch({
+          type: GET_ADDRESS_SUCCESS,
+          data: responseCopy
+        });
+      },
       (response) => {
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
@@ -187,13 +205,6 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
-export function updateAddress(address) {
-  return {
-    type: UPDATE_ADDRESS,
-    address
-  };
-}
-
 export function saveAddressPending() {
   return {
     type: SAVE_ADDRESS_PENDING
@@ -207,18 +218,24 @@ export function saveAddressSuccess(address) {
   };
 }
 
-export function saveAddressFailure(address) {
-  return {
-    type: SAVE_ADDRESS_FAILURE,
-    address
-  };
+export function saveAddressFailure() {
+  return { type: SAVE_ADDRESS_FAILURE };
 }
 
 export function saveAddress(address) {
+  const transformedAddress = Object.assign({}, address);
+  if (transformedAddress.type === ADDRESS_TYPES.military) {
+    transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
+    transformedAddress.militaryStateCode = transformedAddress.stateCode;
+    delete transformedAddress.city;
+    delete transformedAddress.stateCode;
+    delete transformedAddress.countryName;
+  }
+
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(address)
+    body: JSON.stringify(transformedAddress)
   };
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
@@ -228,7 +245,35 @@ export function saveAddress(address) {
       '/v0/address',
       settings,
       () => dispatch(saveAddressSuccess(address)),
-      () => dispatch(saveAddressFailure(address))
+      () => dispatch(saveAddressFailure())
+    );
+  };
+}
+
+export function getAddressCountries() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/countries',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
+        countries: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+    );
+  };
+}
+
+export function getAddressStates() {
+  return (dispatch) => {
+    apiRequest(
+      '/v0/address/states',
+      null,
+      response => dispatch({
+        type: GET_ADDRESS_STATES_SUCCESS,
+        states: response,
+      }),
+      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
     );
   };
 }

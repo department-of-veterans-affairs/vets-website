@@ -72,16 +72,16 @@ Fill out an Application in Acquiring Specially Adapted Housing or Special Home A
 
 Mail it to your nearest regional loan center. [Find a regional loan center near you](http://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
 
-If you have trouble accessing the form, call us toll-free at <a href="tel:+1-855-574-7286">800-827-1000</a> to have a claim form mailed to you.
+If you have trouble accessing the form, call us toll-free at <a href="tel:+1-855-574-7286">1-800-827-1000</a> to have a claim form mailed to you.
 
 #### Apply in person
 
 Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To find a regional office near you:
 - [Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
-- Call us at <a href="tel:+1-855-574-7286">800-827-1000</a>.
+- Call us at <a href="tel:+1-855-574-7286">1-800-827-1000</a>.
 
 ### Need help?
 
 <a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>
 
-Call an SAH staff member at <a href="tel:+18778273702">877-827-3702</a>.
+Call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.

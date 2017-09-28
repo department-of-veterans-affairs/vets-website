@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
+import { sanitizeForm } from './helpers';
 
 export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;
@@ -82,7 +83,11 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
       });
     } else {
       Raven.captureException(resOrError);
-      Raven.captureMessage('vets_sip_error_save');
+      Raven.captureMessage('vets_sip_error_save', {
+        extra: {
+          form: sanitizeForm(formData)
+        }
+      });
       window.dataLayer.push({
         event: `${trackingPrefix}sip-form-save-failed-client`
       });

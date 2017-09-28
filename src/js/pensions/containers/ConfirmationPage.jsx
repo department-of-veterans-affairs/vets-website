@@ -82,7 +82,10 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday - Friday, from 8:00 a.m. - 9:00 p.m. ET. Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, 8:00 a.m. - 9:00 p.m. (ET) Monday - Friday. Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
+        </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

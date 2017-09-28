@@ -5,6 +5,8 @@ import lettersReducer from '../../../src/js/letters/reducers';
 const initialState = {
   letters: [],
   address: {},
+  countries: [],
+  states: [],
   lettersAvailability: 'awaitingResponse',
   benefitInfo: {},
   serviceInfo: [],
@@ -164,5 +166,59 @@ describe('letters reducer', () => {
     );
 
     expect(state.address).to.be.empty;
+  });
+
+  it('should handle successful request for the countries', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: 'GET_ADDRESS_COUNTRIES_SUCCESS',
+        countries: {
+          data: {
+            attributes: {
+              countries: ['USA', 'France', 'India']
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.countries).to.contain('USA');
+  });
+
+  it('should handle failure to fetch countries', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'GET_ADDRESS_COUNTRIES_FAILURE' }
+    );
+
+    expect(state.countries).to.be.empty;
+  });
+
+  it('should handle successful request for the states', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: 'GET_ADDRESS_STATES_SUCCESS',
+        states: {
+          data: {
+            attributes: {
+              states: ['IL', 'MA', 'DC']
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.states).to.contain('IL');
+  });
+
+  it('should handle failure to fetch states', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: 'GET_ADDRESS_STATES_FAILURE' }
+    );
+
+    expect(state.states).to.be.empty;
   });
 });

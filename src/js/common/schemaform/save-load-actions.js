@@ -24,9 +24,14 @@ export const SAVE_STATUSES = Object.freeze({
 
 export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
 
+const saveTypes = {
+  AUTO: 'auto',
+  SAVE_AND_REDIRECT: 'saveAndRedirect'
+};
+
 const statusActionsByType = new Map([
-  ['auto', SET_AUTO_SAVE_FORM_STATUS],
-  ['saveAndRedirect', SET_SAVE_FORM_STATUS]
+  [saveTypes.auto, SET_AUTO_SAVE_FORM_STATUS],
+  [saveTypes.SAVE_AND_REDIRECT, SET_SAVE_FORM_STATUS]
 ]);
 
 export const LOAD_STATUSES = Object.freeze({
@@ -171,11 +176,11 @@ function saveForm(saveType, formId, version, returnUrl, formData) {
 }
 
 export function autoSaveForm(...args) {
-  return saveForm('auto', ...args);
+  return saveForm(saveTypes.AUTO, ...args);
 }
 
 export function saveAndRedirectToReturnUrl(...args) {
-  return saveForm('saveAndRedirect', ...args);
+  return saveForm(saveTypes.SAVE_AND_REDIRECT, ...args);
 }
 
 /**

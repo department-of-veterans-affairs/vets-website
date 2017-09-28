@@ -29,6 +29,26 @@ export const invalidAddressProperty = (
   </div>
 );
 
+export const addressUpdateUnavailable = (
+  <div>
+    <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert-body">
+        <h4 className="usa-alert-heading">Address update unavailable</h4>
+        <p className="usa-alert-text">
+          We’re sorry. We can’t update your address right now. Your <strong>
+          VA letters and documents are still valid</strong> with your old
+          address.
+        </p>
+        <br/>
+        <p className="usa-alert-text">
+          <strong>Please continue to download your VA letter or document</strong>.
+          You can come back later and try again.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const characterOfServiceContent = {
   honorable: 'Honorable',
@@ -48,7 +68,7 @@ const serviceVerificationLetterContent = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-text">
-          You can now use the Benefit Summary Letter in place of your Service Verification Letter.
+          You can now use the Service Verification and Benefit Summary Letter in place of your Service Verification Letter.
         </p>
       </div>
     </div>
@@ -233,6 +253,12 @@ export const benefitOptionsMap = {
   militaryService: 'militaryService'
 };
 
+export const militaryStateNames = [
+  { label: 'Armed Forces Americas (AA)', value: 'AA' },
+  { label: 'Armed Forces Europe (AE)', value: 'AE' },
+  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
+];
+
 export function isDomesticAddress(address) {
   return (address.type === 'DOMESTIC');
 }
@@ -265,3 +291,67 @@ export function getStateName(stateCode) {
 
   return stateName || '';
 }
+
+// FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO MASTER
+// export function getAddressSuccessAction() {
+//   return {
+//     type: 'GET_ADDRESS_SUCCESS',
+//     data: {
+//       data: {
+//         id: '',
+//         type: 'evss_letters_letters_responses',
+//         attributes: {
+//           letters: [
+//             {
+//               name: 'Commissary Letter',
+//               letterType: 'commissary'
+//             },
+//             {
+//               name: 'Proof of Service Letter',
+//               letterType: 'proof_of_service'
+//             },
+//             {
+//               name: 'Proof of Creditable Prescription Drug Coverage Letter',
+//               letterType: 'medicare_partd'
+//             },
+//             {
+//               name: 'Proof of Minimum Essential Coverage Letter',
+//               letterType: 'minimum_essential_coverage'
+//             },
+//             {
+//               name: 'Service Verification Letter',
+//               letterType: 'service_verification'
+//             },
+//             {
+//               name: 'Civil Service Preference Letter',
+//               letterType: 'civil_service'
+//             },
+//             {
+//               name: 'Benefit Summary Letter',
+//               letterType: 'benefit_summary'
+//             },
+//             {
+//               name: 'Benefit Verification Letter',
+//               letterType: 'benefit_verification'
+//             }
+//           ],
+//           fullName: 'Gary Todd',
+//           address: {
+//             addressOne: '123 Main St N',
+//             addressTwo: 'Apt B',
+//             addressThree: 'Attn: That Guy',
+//             type: 'DOMESTIC',
+//             city: 'Central City',
+//             state: 'OR',
+//             country: 'USA',
+//             zipCode: '55555'
+//           },
+//           controlInformation: {
+//             canUpdate: true
+//           }
+//         }
+//       }
+//     }
+//   };
+// }
+

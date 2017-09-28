@@ -8,7 +8,6 @@ import sinon from 'sinon';
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-const originalFetch = global.fetch;
 
 function wrapWithContext(context, contextTypes, children) {
   class WrapperWithContext extends React.Component {
@@ -63,12 +62,29 @@ function fillDate(formDOM, partialId, dateString) {
   });
 }
 
-export function mockFetch(returnVal) {
-  global.fetch = sinon.stub().returns(returnVal);
+export function mockFetch(returnVal, shouldResolve = true) {
+  global.fetch = sinon.stub().returns(shouldResolve ? Promise.resolve(returnVal) : Promise.reject(returnVal));
 }
 
 export function resetFetch() {
-  global.fetch = originalFetch();
+  global.fetch.reset();
+}
+
+// This doesn't so much _mock_ the function as it does set up the fetch to return what we
+//  need it to from apiRequest(). Feel free to rename this to something more appropriate.
+export function mockApiRequest(returnVal, shouldResolve = true, userToken = 'foo') {
+  const returnObj = {
+    headers: {
+      get: () => 'application/json',
+    },
+    ok: true,
+    json: () => Promise.resolve(returnVal)
+  };
+
+  mockFetch(returnObj, shouldResolve);
+  global.sessionStorage = {
+    userToken
+  };
 }
 
 export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };

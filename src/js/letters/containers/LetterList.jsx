@@ -13,8 +13,10 @@ export class LetterList extends React.Component {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
+      let letterTitle;
       let bslHelpInstructions;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        letterTitle = 'Service Verification and Benefit Summary Letter';
         content = (<VeteranBenefitSummaryLetter/>);
         bslHelpInstructions = (
           <p>
@@ -23,13 +25,17 @@ export class LetterList extends React.Component {
             Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
           </p>
         );
+      } else if (letter.letterType === LETTER_TYPES.proofOfService) {
+        letterTitle = 'Proof of Service Card';
+        content = letterContent[letter.letterType] || '';
       } else {
+        letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
       }
 
       return (
         <CollapsiblePanel
-          panelName={letter.name}
+          panelName={letterTitle}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
           <DownloadLetterLink
