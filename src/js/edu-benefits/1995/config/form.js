@@ -6,7 +6,7 @@ import {
   transform,
 } from '../helpers';
 
-import urlMigration from '../../config/migrations';
+import { urlMigration } from '../../config/migrations';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import GetFormHelp from '../../components/GetFormHelp';

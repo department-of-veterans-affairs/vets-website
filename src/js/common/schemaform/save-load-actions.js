@@ -2,6 +2,7 @@ import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
+import _ from 'lodash';
 
 import { removeFormApi } from './sip-api';
 
@@ -284,8 +285,8 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
           formId,
-          formData: Object.assign({}, resBody.form_data),
-          metadata: Object.assign({}, resBody.metadata)
+          formData: _.clone(resBody.form_data),
+          metadata: _.clone(resBody.metadata)
         };
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
       } catch (e) {

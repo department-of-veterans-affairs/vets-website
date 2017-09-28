@@ -35,7 +35,7 @@ import {
   reserveKickerWarning
 } from '../helpers';
 
-import urlMigration from '../../config/migrations';
+import { urlMigration } from '../../config/migrations';
 
 import {
   hasServiceBefore1977

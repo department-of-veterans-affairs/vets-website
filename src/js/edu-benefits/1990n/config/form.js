@@ -18,7 +18,7 @@ import {
   transform
 } from '../helpers';
 
-import urlMigration from '../../config/migrations';
+import { urlMigration } from '../../config/migrations';
 
 const {
   payHighestRateBenefit
