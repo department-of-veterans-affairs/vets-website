@@ -48,20 +48,17 @@ We can support you in all stages of your job search. We’ve teamed up with the 
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner">
       <br>
-        <p>We offer many programs and services—including education and job training—to support Veterans who are homeless or at risk of becoming homeless. We can also connect you with other non-VA resources in your community. Find the support you need by: </p>
+        <p>We offer many programs and services—including education and job training—to support Veterans who are homeless or at risk of becoming homeless. Find the support you need by: </p>
         <ul>
-          <li>Calling the National Call Center for Homeless Veterans at 877-4AID-VET (877-424-3838) for help 24 hours a day, 7 days a week, <b>or</b></li>
+           <li><a href="/facilities/">Contacting your local VA medical center</a> (for help getting connected with services you may qualify for in your community), <b>or</b></li>
+          <li>Calling the National Call Center for Homeless Veterans at 1-877-4AID-VET (1-877-424-3838) for help 24 hours a day, 7 days a week, <b>or</b></li>
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chatting online with a trained VA staff member</a>, <b>or</b></li>
-          <li>Getting job-placement help from a Community Employment Coordinator (CEC). <a href='http://www.va.gov/homeless/cec-contacts.asp'>Contact a CEC</a>.</li>
+          <li><a href='http://www.va.gov/homeless/cec-contacts.asp'>Getting job-placement help from a Community Employment Coordinator (CEC)</a></li>
         </ul>
-        <br>
-        <p><b>If you’re a female Veteran, you can also:</b></p>
-        <ul>
-          <li><a href="/facilities/">Contact your closest VA medical center</a>.<br>
-      	(Ask for the female program manager for help getting housing, health care, and other benefits.)</li>
-      	  <li><a href="http://nchv.org/index.php/help/help/women_veterans/">Find a women’s shelter in your state</a>.</li>
-      	</ul>
-      </div>
+<br>     
+<p>We can also connect you with other non-VA resources in your community.</p>
+<br>
+        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the women's program manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
     </div>
   </div>
 </div>
