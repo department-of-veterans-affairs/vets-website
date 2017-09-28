@@ -119,7 +119,7 @@ describe('Schemaform save / load actions:', () => {
           field: 'STUFF to do'
         },
         metadata: {
-        version: 0
+          version: 0
         }
       });
     });

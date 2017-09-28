@@ -8,14 +8,14 @@ describe('EDU migrations', () => {
       const data = {
         formId: '1990',
         metadata: {
-          return_url: '/1990/abc/'
+          return_url: '/1990/abc/' // eslint-disable-line camelcase
         }
       };
 
       expect(migrations[0](data)).to.eql({
         formId: '1990',
         metadata: {
-          return_url: '/abc/'
+          return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
     });
