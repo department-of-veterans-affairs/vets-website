@@ -161,7 +161,6 @@ export default function createSchemaFormReducer(formConfig) {
         newState.startingOver = false;
         newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
-        // This is the only time we have a saved datetime
         if (action.status === SAVE_STATUSES.success) {
           newState.lastSavedDate = action.lastSavedDate;
           newState.expirationDate = action.expirationDate;
@@ -178,7 +177,6 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_AUTO_SAVE_FORM_STATUS: {
         const newState = _.set('autoSavedStatus', action.status, state);
 
-        // This is the only time we have a saved datetime
         if (action.status === SAVE_STATUSES.success) {
           newState.lastSavedDate = action.lastSavedDate;
           newState.expirationDate = action.expirationDate;
