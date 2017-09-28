@@ -43,6 +43,10 @@ class VAMap extends Component {
       return;
     }
 
+    this.props.updateSearchQuery({
+      facilityType: location.query.facilityType,
+      serviceType: location.query.serviceType,
+    });
     if (location.query.address) {
       this.props.updateSearchQuery({
         searchString: location.query.address,
@@ -144,12 +148,13 @@ class VAMap extends Component {
   // TODO (bshyong): try out existing query-string npm library
   updateUrlParams = (params) => {
     const { location, currentQuery } = this.props;
-
     const queryParams = compact(map({
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
       address: currentQuery.searchString,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
@@ -191,13 +196,11 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
-    if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-      this.props.searchWithAddress(currentQuery);
-    }
+    this.props.searchWithAddress(currentQuery);
   }
 
   handleBoundsChanged = () => {
@@ -339,15 +342,15 @@ class VAMap extends Component {
             </TabList>
             <TabPanel>
               <div className="facility-search-results">
-                <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
+                <p>Search Results near <strong>“{currentQuery.context}”</strong></p>
                 <ResultsList facilities={facilities} pagination={pagination} isMobile currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>
             <TabPanel>
               <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
-                    url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                    attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
@@ -382,8 +385,8 @@ class VAMap extends Component {
           <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
             <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
-                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>

@@ -31,7 +31,7 @@ function init() {
         {route}
       </Router>
     </Provider>
-    ), document.getElementById('react-root'));
+  ), document.getElementById('react-root'));
 }
 
 // Start react.

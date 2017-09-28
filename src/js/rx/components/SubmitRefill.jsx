@@ -15,8 +15,8 @@ class SubmitRefill extends React.Component {
       <form className="rx-refill-form" onSubmit={this.props.onSubmit}>
         <input type="hidden" name="refillId" value={this.props.refillId}/>
         <button
-            className={classList}
-            type="submit">{this.props.text}</button>
+          className={classList}
+          type="submit">{this.props.text}</button>
       </form>
     );
   }

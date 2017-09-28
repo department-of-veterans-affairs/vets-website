@@ -50,7 +50,7 @@ describe('<TrackPackage>', () => {
   it('should show a message when tracking info is not yet available', () => {
     const tree = SkinDeep.shallowRender(<TrackPackage isPending items={[]}/>);
     expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
-      'You recently submitted a refill, and the tracking information isn\'t available yet.'
+      'You recently submitted a refill, and the tracking information isn’t available yet.'
     );
   });
 

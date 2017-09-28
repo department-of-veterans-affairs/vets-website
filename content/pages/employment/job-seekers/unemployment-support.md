@@ -17,7 +17,8 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.   
 ---
 
-<div class="va-introtext">
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
 If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
@@ -25,21 +26,37 @@ If you can’t find a job after you separate from active-duty service, you may b
 
 
 <div class="feature" markdown="1">
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">Are you eligible?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
-### Are you eligible?
 Yes, if:
 
 - You were honorably discharged from active-duty service.
 - You are actively seeking employment.
 - You are no longer on terminal leave.
 
-<br>
-
-### Who is eligible
-You
+</div>
+</div>
 </div>
 
-### How it works
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">Who is eligible</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+You
+
+</div>
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">How it works</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
 
@@ -54,3 +71,8 @@ Receiving unemployment will not affect your wages, but if you receive separation
 - Current résumé or military job history
 
 If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facilities/) or Community Resource and Referral Center where VA staff are ready to help.
+
+</div>
+</div>
+</div>
+</div>

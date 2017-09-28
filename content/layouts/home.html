@@ -1,5 +1,8 @@
 {% include "content/includes/header.html" %}
 <main>
+  {% if enablewarning %}
+    {% include "content/includes/homepage-warning.html" %}
+  {% endif %}
   {{ contents }}
 
   <div class="va-h-ruled--stars"></div>

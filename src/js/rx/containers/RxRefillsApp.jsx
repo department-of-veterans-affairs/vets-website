@@ -19,8 +19,8 @@ function AppContent({ children, isDataAvailable }) {
   if (unregistered) {
     view = (
       <h4>
-        Vets.gov health tools are only available for patients who've received care at a VA facility.
-        If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+        Vets.gov health tools are only available for patients who’ve received care at a VA facility.
+        If you think you should be able to access these health tools, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
       </h4>
     );
   } else {
@@ -44,28 +44,28 @@ class RxRefillsApp extends React.Component {
 
     return (
       <RequiredLoginView
-          authRequired={3}
-          serviceRequired={"rx"}
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+        authRequired={3}
+        serviceRequired="rx"
+        userProfile={this.props.profile}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
-            termsName={"mhvac"}
-            cancelPath={"/health-care"}
-            topContent={breadcrumbs}
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          termsName="mhvac"
+          cancelPath="/health-care"
+          topContent={breadcrumbs}
+          termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             {this.props.children}
             <ConfirmRefillModal
-                prescription={this.props.refillModal.prescription}
-                isLoading={this.props.refillModal.loading}
-                isVisible={this.props.refillModal.visible}
-                refillPrescription={this.props.refillPrescription}
-                onCloseModal={this.props.closeRefillModal}/>
+              prescription={this.props.refillModal.prescription}
+              isLoading={this.props.refillModal.loading}
+              isVisible={this.props.refillModal.visible}
+              refillPrescription={this.props.refillPrescription}
+              onCloseModal={this.props.closeRefillModal}/>
             <GlossaryModal
-                content={this.props.glossaryModal.content}
-                isVisible={this.props.glossaryModal.visible}
-                onCloseModal={this.props.closeGlossaryModal}/>
+              content={this.props.glossaryModal.content}
+              isVisible={this.props.glossaryModal.visible}
+              onCloseModal={this.props.closeGlossaryModal}/>
           </AppContent>
         </RequiredTermsAcceptanceView>
       </RequiredLoginView>

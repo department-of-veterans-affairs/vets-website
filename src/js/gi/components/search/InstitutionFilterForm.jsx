@@ -37,11 +37,11 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <RadioButtons
-          label="Type of institution"
-          name="category"
-          options={options}
-          value={this.props.filters.category}
-          onChange={this.handleDropdownChange}/>
+        label="Type of institution"
+        name="category"
+        options={options}
+        value={this.props.filters.category}
+        onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -56,13 +56,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-          label="Country"
-          name="country"
-          options={options}
-          value={this.props.filters.country}
-          alt="Filter results by country"
-          visible
-          onChange={this.handleDropdownChange}/>
+        label="Country"
+        name="country"
+        options={options}
+        value={this.props.filters.country}
+        alt="Filter results by country"
+        visible
+        onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -77,13 +77,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-          label="State"
-          name="state"
-          options={options}
-          value={this.props.filters.state}
-          alt="Filter results by state"
-          visible
-          onChange={this.handleDropdownChange}/>
+        label="State"
+        name="state"
+        options={options}
+        value={this.props.filters.state}
+        alt="Filter results by state"
+        visible
+        onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -94,25 +94,25 @@ class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.studentVeteranGroup}
-            name="studentVeteranGroup"
-            label="Student Vet Group"
-            onChange={this.handleCheckboxChange}/>
+          checked={filters.studentVeteranGroup}
+          name="studentVeteranGroup"
+          label="Student Vet Group"
+          onChange={this.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.yellowRibbonScholarship}
-            name="yellowRibbonScholarship"
-            label="Yellow Ribbon"
-            onChange={this.handleCheckboxChange}/>
+          checked={filters.yellowRibbonScholarship}
+          name="yellowRibbonScholarship"
+          label="Yellow Ribbon"
+          onChange={this.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.principlesOfExcellence}
-            name="principlesOfExcellence"
-            label="Principles of Excellence"
-            onChange={this.handleCheckboxChange}/>
+          checked={filters.principlesOfExcellence}
+          name="principlesOfExcellence"
+          label="Principles of Excellence"
+          onChange={this.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.eightKeysToVeteranSuccess}
-            name="eightKeysToVeteranSuccess"
-            label="8 Keys to Vet Success"
-            onChange={this.handleCheckboxChange}/>
+          checked={filters.eightKeysToVeteranSuccess}
+          name="eightKeysToVeteranSuccess"
+          label="8 Keys to Vet Success"
+          onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
@@ -128,13 +128,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-          label="Institution type"
-          name="type"
-          options={options}
-          value={this.props.filters.type}
-          alt="Filter results by institution type"
-          visible
-          onChange={this.handleDropdownChange}/>
+        label="Institution type"
+        name="type"
+        options={options}
+        value={this.props.filters.type}
+        alt="Filter results by institution type"
+        visible
+        onChange={this.handleDropdownChange}/>
     );
   }
 

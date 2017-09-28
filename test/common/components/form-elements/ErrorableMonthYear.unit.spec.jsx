@@ -81,12 +81,12 @@ describe('<ErrorableMonthYear>', () => {
 
     const tree = SkinDeep.shallowRender(
       <ErrorableMonthYear
-          date={date}
-          validation={[
-            { valid: true, message: 'NotShownMessage' },
-            { valid: false, message: 'Test' }
-          ]}
-          onValueChange={(_update) => {}}/>
+        date={date}
+        validation={[
+          { valid: true, message: 'NotShownMessage' },
+          { valid: false, message: 'Test' }
+        ]}
+        onValueChange={(_update) => {}}/>
     );
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;

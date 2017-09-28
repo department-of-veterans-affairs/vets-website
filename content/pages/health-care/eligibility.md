@@ -26,10 +26,10 @@ You should know:
 - **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
 
   - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
-  - Were discharged for a hardship or "early out," **or**
+  - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
 
-- **If you're a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.
+- **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
 
@@ -40,7 +40,7 @@ You should know:
 
 #### Enhanced Eligibility Status
 
-You may qualify for enhanced eligibility status (meaning you'll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty
@@ -62,13 +62,13 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 
 [Learn about the application process](/health-care/apply/).
 
-#### Need help filling out your application forms?
+#### What if I need help filling out my application?
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 
@@ -113,7 +113,7 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
-No. Whether or not you have other health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
 <br>
 

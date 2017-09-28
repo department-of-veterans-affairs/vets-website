@@ -12,8 +12,8 @@ describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={bankAccount}
-          uiSchema={uiSchema}/>
+        schema={bankAccount}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -30,8 +30,8 @@ describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount with routing number error', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={bankAccount}
-          uiSchema={uiSchema}/>
+        schema={bankAccount}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);

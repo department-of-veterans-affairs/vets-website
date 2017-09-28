@@ -47,16 +47,15 @@ This office serves:
 
 To submit a pension application to this office, mail it to:
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Department of Veterans Affairs</dd>
-  <dd>Claims Intake Center</dd>
-  <dd>Attention:  Philadelphia Pension Center</dd>
-  <dd>PO Box 5206</dd>
-  <dd>Janesville, WI  53547-5206</dd>
-</dl>
+<p class="va-address-block">
+  Department of Veterans Affairs<br>
+  Claims Intake Center<br>
+  Attention:  Philadelphia Pension Center<br>
+  PO Box 5206<br>
+  Janesville, WI  53547-5206
+</p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
+Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
 
 [Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
 
@@ -90,16 +89,15 @@ This office serves:
 
 To submit a pension application to this office, mail it to:
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Department of Veterans Affairs</dd>
-  <dd>Claims Intake Center</dd>
-  <dd>Attention:  Milwaukee Pension Center</dd>
-  <dd>PO Box 5192</dd>
-  <dd>Janesville, WI 53547-5192</dd>
-</dl>
+<p class="va-address-block">
+  Department of Veterans Affairs<br>
+  Claims Intake Center<br>
+  Attention:  Milwaukee Pension Center<br>
+  PO Box 5192<br>
+  Janesville, WI 53547-5192<br>
+</p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
+Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
 
 [Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
 
@@ -150,15 +148,14 @@ This office serves:
 
 To submit a pension application to this office, mail it to:
 
-<dl class="va-address-block">
-  <dt></dt>
-  <dd>Department of Veterans Affairs</dd>
-  <dd>Claims Intake Center</dd>
-  <dd>Attention:  St. Paul Pension Center</dd>
-  <dd>PO BOX 5365</dd>
-  <dd>Janesville, WI 53547-5365</dd>
-</dl>
+<p class="va-address-block">
+  Department of Veterans Affairs<br>
+  Claims Intake Center<br>
+  Attention:  St. Paul Pension Center<br>
+  PO BOX 5365<br>
+  Janesville, WI 53547-5365<br>
+</p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">844-655-1604</a>.
+Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
 
 [Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/). 

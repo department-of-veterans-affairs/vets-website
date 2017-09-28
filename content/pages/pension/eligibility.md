@@ -2,14 +2,19 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Benefits Eligibility
-concurrence: 
+concurrence:
 order: 1
 children: pensionEligibility
+widgets:
+  - root: react-pensionApplicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
 
-If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit. 
+If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit.
 
 </div>
 
@@ -44,6 +49,10 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply?
 
-[Learn about the application process](/pension/apply/). 
+<div id="react-pensionApplicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
+</div>
 
-<a class=“usa-button-primary” href="http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ (Application for Pension)</a>.
+[Learn about the application process](/pension/apply/).
+
+<div markdown="0"><br></div>

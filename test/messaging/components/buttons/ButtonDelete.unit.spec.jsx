@@ -27,7 +27,7 @@ describe('<ButtonDelete>', () => {
     const onClick = sinon.spy();
     const buttonDelete = ReactTestUtils.renderIntoDocument(
       <ButtonDelete
-          onClick={onClick}/>
+        onClick={onClick}/>
     );
 
     buttonDelete.handleClick();

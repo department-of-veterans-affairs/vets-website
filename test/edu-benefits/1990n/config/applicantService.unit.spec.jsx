@@ -11,10 +11,10 @@ describe('Edu 1990n applicantService', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
@@ -24,10 +24,10 @@ describe('Edu 1990n applicantService', () => {
   it('should expand tours and other questions', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

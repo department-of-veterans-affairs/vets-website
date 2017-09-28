@@ -31,8 +31,8 @@ describe('<GlossaryLink>', () => {
 
     const glossaryLink = ReactTestUtils.renderIntoDocument(
       <GlossaryLink
-          {...props}
-          onClick={onClick}/>
+        {...props}
+        onClick={onClick}/>
     );
 
     glossaryLink.handleClick({ target: { dataset: { term: 'Active' } } });

@@ -22,7 +22,7 @@ You can get this training if you qualify for any of these programs:
 - The Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) (MGIB-AD) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve) (MGIB-SR)
 - [The Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap)
 
-**Note:** Dependents can't get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
+**Note:** Dependents can’t get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
 
 </div>
 

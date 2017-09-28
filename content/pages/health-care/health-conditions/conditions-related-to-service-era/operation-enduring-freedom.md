@@ -77,9 +77,9 @@ Talk to your primary health care provider or your local VA environmental health 
 <li class="process-step list-three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. 
-<br />
+<br>
 [See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
-<br />
+<br>
 [See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
 </li>

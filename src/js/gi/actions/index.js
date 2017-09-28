@@ -188,9 +188,7 @@ export function fetchProfile(facilityCode, version) {
   };
 }
 
-export function calculatorInputChange(e) {
-  const field = e.target.name;
-  const value = e.target.value;
+export function calculatorInputChange({ field, value }) {
   return {
     type: CALCULATOR_INPUTS_CHANGED,
     field,

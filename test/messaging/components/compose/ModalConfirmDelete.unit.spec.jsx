@@ -29,8 +29,8 @@ describe('<ModalConfirmDelete>', () => {
     const onDelete = sinon.spy();
     const modalConfirmDelete = ReactTestUtils.renderIntoDocument(
       <ModalConfirmDelete
-          {...props }
-          onDelete={onDelete}/>
+        {...props }
+        onDelete={onDelete}/>
     );
 
     modalConfirmDelete.handleDelete({ preventDefault: () => {} });

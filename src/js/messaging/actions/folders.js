@@ -59,12 +59,12 @@ export function fetchFolder(id, query = {}) {
       Promise.all([folderUrl, messagesUrl].map(
         url => apiRequest(url, null, response => response, errorHandler)
       ))
-      .then(data => dispatch({
-        type: FETCH_FOLDER_SUCCESS,
-        folder: data[0],
-        messages: data[1]
-      }))
-      .catch(errorHandler);
+        .then(data => dispatch({
+          type: FETCH_FOLDER_SUCCESS,
+          folder: data[0],
+          messages: data[1]
+        }))
+        .catch(errorHandler);
     } else {
       errorHandler();
     }

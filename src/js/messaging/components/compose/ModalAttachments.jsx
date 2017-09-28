@@ -13,19 +13,19 @@ class ModalAttachments extends React.Component {
         <p>{this.props.text}</p>
         <div>
           <button
-              onClick={this.props.onClose}
-              type="button">Ok, got it</button>
+            onClick={this.props.onClose}
+            type="button">Ok, got it</button>
         </div>
       </div>
     );
 
     return (
       <Modal
-          cssClass={this.props.cssClass}
-          contents={modalContents}
-          id={this.props.id}
-          onClose={this.props.onClose}
-          visible={this.props.visible}/>
+        cssClass={this.props.cssClass}
+        contents={modalContents}
+        id={this.props.id}
+        onClose={this.props.onClose}
+        visible={this.props.visible}/>
     );
   }
 }

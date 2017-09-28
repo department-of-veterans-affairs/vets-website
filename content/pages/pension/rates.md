@@ -56,7 +56,7 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 
 #### For 2 Veterans who are married to each other:
 
-| **If you're 2 Veterans who are married to each other and:** | **Your MAPR amount is:** |
+| **If you’re 2 Veterans who are married to each other and:** | **Your MAPR amount is:** |
 | --- | --- | 
 | Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
 | 1 of you qualifies for Housebound benefits | $19,770 | 

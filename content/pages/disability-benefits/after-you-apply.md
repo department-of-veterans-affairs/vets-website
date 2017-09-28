@@ -26,8 +26,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">112.7 days</span>
-<span class="description">Average number of days to complete disability-related claims in June 2017</span>
+<span class="number">102.7 days</span>
+<span class="description">Average number of days to complete disability-related claims in August 2017</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
@@ -38,7 +38,7 @@ Find out what happens to your claim after you apply for disability benefits.
 
 ### What should I do while I wait?
 
-You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check the status of your claim online. The time frame you see there may vary based on how complex your claim is.
+You don’t need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check the status of your claim online. The time frame you see there may vary based on how complex your claim is.
 
 <a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 

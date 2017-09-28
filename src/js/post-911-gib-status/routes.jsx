@@ -7,15 +7,15 @@ import StatusPage from './containers/StatusPage';
 
 const routes = [
   <Route
-      component={Main}
-      key="/main">
+    component={Main}
+    key="/main">
     <IndexRoute
-        component={StatusPage}
-        key="/status"/>,
+      component={StatusPage}
+      key="/status"/>,
     <Route
-        component={PrintPage}
-        key="/print"
-        path="/print"/>
+      component={PrintPage}
+      key="/print"
+      path="/print"/>
   </Route>
 ];
 

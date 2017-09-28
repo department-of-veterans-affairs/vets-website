@@ -48,7 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(4) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // files tab
@@ -64,7 +64,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(4) a')
       .waitForElementVisible('.claim-title', Timeouts.normal)
       .click('.va-tabs li:nth-child(2) > a')
       .waitForElementVisible('.file-request-list-item', Timeouts.normal);
@@ -76,7 +76,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(4) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // turn in evidence page
@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(4) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // details tab

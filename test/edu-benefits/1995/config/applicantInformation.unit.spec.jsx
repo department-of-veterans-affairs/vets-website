@@ -14,10 +14,10 @@ describe('Edu 1995 applicantInformation', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{}}
-          definitions={definitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={uiSchema}/>
     );
 
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
@@ -26,11 +26,11 @@ describe('Edu 1995 applicantInformation', () => {
   it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          schema={schema}
-          definitions={definitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        formData={{}}
+        schema={schema}
+        definitions={definitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     submitForm(form);
 
@@ -47,7 +47,7 @@ describe('Edu 1995 applicantInformation', () => {
 
     // Check no-SSN box
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                                   .find(input => input.id === 'root_view:noSSN');
+      .find(input => input.id === 'root_view:noSSN');
     ReactTestUtils.Simulate.change(noSSNBox,
       {
         target: {
@@ -64,11 +64,11 @@ describe('Edu 1995 applicantInformation', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -86,7 +86,7 @@ describe('Edu 1995 applicantInformation', () => {
       }
     });
     const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-                              .find(input => input.id === 'root_veteranSocialSecurityNumber');
+      .find(input => input.id === 'root_veteranSocialSecurityNumber');
     ReactTestUtils.Simulate.change(ssn, {
       target: {
         value: '123456788'

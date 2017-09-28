@@ -24,8 +24,8 @@ class GlossaryModal extends React.Component {
           <div className="va-modal-button-group cf">
             <button type="button" onClick={this.handleCloseModal}>Close</button>
             <Link
-                to="/glossary"
-                onClick={this.props.onCloseModal}>
+              to="/glossary"
+              onClick={this.props.onCloseModal}>
               See all status definitions
             </Link>
           </div>
@@ -37,14 +37,14 @@ class GlossaryModal extends React.Component {
 
     return (
       <Modal
-          cssClass="va-modal rx-modal"
-          contents={element}
-          hideCloseButton
-          id="rx-glossary-modal"
-          onClose={this.handleCloseModal}
-          title="Glossary"
-          visible={this.props.isVisible}/>
-      );
+        cssClass="va-modal rx-modal"
+        contents={element}
+        hideCloseButton
+        id="rx-glossary-modal"
+        onClose={this.handleCloseModal}
+        title="Glossary"
+        visible={this.props.isVisible}/>
+    );
   }
 }
 

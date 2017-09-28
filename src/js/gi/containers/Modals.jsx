@@ -40,7 +40,7 @@ export class Modals extends React.Component {
             enrolled for the first time.
           </p>
           <p>
-            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student's
+            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student’s
             graduation reported within the VA system while the student is using benefits.
           </p>
         </Modal>
@@ -74,7 +74,7 @@ export class Modals extends React.Component {
             benefits attending this school in the last calendar year. This includes all chapters of
             the GI Bill program (e.g., Post-9/11, Montgomery GI Bill, Reserve Education Assistance
             Program, and Vocational Rehabilitation). Keep in mind that differences in attendee
-            numbers don't necessarily mean one school is more military friendly than another.
+            numbers don’t necessarily mean one school is more military friendly than another.
             This information will be updated annually.
           </p>
         </Modal>
@@ -89,15 +89,15 @@ export class Modals extends React.Component {
           <h2>Student Veterans Group</h2>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
-            If a school has a student Veterans group that's not represented here,
+            If a school has a student Veterans group that’s not represented here,
             please email <a title="224A.VBAVACO@va.gov"
-                href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
+              href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
             We make quarterly updates to this tool.
           </p>
           <p>
             Please note this email address is only for tool-related issues. For questions about your
             GI Bill benefits, please check this <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-                target="_blank">"Ask a Question" page</a>.
+              target="_blank">"Ask a Question" page</a>.
           </p>
         </Modal>
 
@@ -105,20 +105,20 @@ export class Modals extends React.Component {
           <h2>Yellow Ribbon</h2>
           <p>
             The <a title="Post-9/11 GI Bill"
-                href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
             Post-9/11 GI Bill</a> can cover all in-state tuition and fees at public degree granting
             schools, but may not cover all private degree granting schools and out-of-state tuition.
             The Yellow Ribbon Program provides additional support in those situations. Institutions
             voluntarily enter into an agreement with VA to fund uncovered charges. VA matches each
             dollar of unmet charges the institution agrees to contribute, up to the total cost of
             the tuition and fees. <a title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
           </p>
           <p>
             Only Veterans entitled to the maximum benefit rate (based on service requirements) or
             their designated transferees can receive this funding. Active duty Servicemembers and
-            their spouses aren't eligible for this program (child transferees of active duty
+            their spouses aren’t eligible for this program (child transferees of active duty
             Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
             This information will be updated quarterly.
           </p>
@@ -128,7 +128,7 @@ export class Modals extends React.Component {
           <h2>Principles of Excellence</h2>
           <p>
             The <a title="Principles of Excellence"
-                href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
+              href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
             Principles of Excellence</a> are guidelines for educational institutions receiving
             Federal funding. Schools that agree to participate will:
           </p>
@@ -143,7 +143,7 @@ export class Modals extends React.Component {
           </ul>
           <p>
             Foreign schools, high schools, on-the-job training and apprenticeship programs,
-            residency and internship programs, and those who don't charge tuition and fees aren't
+            residency and internship programs, and those who don’t charge tuition and fees aren’t
             asked to comply with the Principles of Excellence.
           </p>
           <p>
@@ -166,20 +166,37 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
           <h2>8 Keys to Veteran Success</h2>
           <p>
-            The "8 Keys to Veterans' Success" are steps that postsecondary institutions can take to
+            The “8 Keys to Veterans’ Success” are steps that postsecondary institutions can take to
             assist Veterans and Service members in transitioning to higher education, completing
             their college programs, and obtaining career-ready skills.
           </p>
           <p>
             Postsecondary institutions listed here have stated their support for the 8 Keys.
-            However, this isn't an assurance by the U.S. Department of Education that an institution
-            has actually implemented the 8 Keys. It also doesn't mean that these institutions are
+            However, this isn’t an assurance by the U.S. Department of Education that an institution
+            has actually implemented the 8 Keys. It also doesn’t mean that these institutions are
             endorsed by the U.S. Department of Education.
           </p>
           <p>
-            To learn more about accreditation, visit the U.S. Department of Education's <a
-                href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-                target="_blank">{"8 Keys to Veterans' Success"}</a> page.
+            To learn more about accreditation, visit the U.S. Department of Education’s <a
+              href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
+              target="_blank">8 Keys to Veterans’ Success</a> page.
+          </p>
+        </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vsoc')}>
+          <h2>VetSuccess on Campus (VSOC)</h2>
+          <p>
+            This program supports Servicemembers, Veterans, and qualified dependents through on-campus counseling and help overcoming barriers—like accommodating disabilities or getting referrals to health services. It's designed to help you succeed at school and get ready to enter the job market in a promising career field.
+          </p>
+          <p>
+            <a href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp" target="_blank">
+              Download the VSOC fact sheet.
+            </a>
+          </p>
+          <p>
+            <a href="http://www.benefits.va.gov/vocrehab/vsoc.asp" target="_blank">
+              Learn more about the VSOC program.
+            </a>
           </p>
         </Modal>
       </span>
@@ -197,15 +214,10 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('typeAccredited')}>
-          <h2>Accreditation types (Regional vs. National vs Hybrid)</h2>
+          <h2>Accreditation types (Regional vs. National vs. Hybrid)</h2>
           <p>Is the school regionally or nationally accredited at the institution level?</p>
           <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
           <p>To learn more about accreditation types, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
-        </Modal>
-
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('tuitionPolicy')}>
-          <h2>Link to Veterans Tuition Policy</h2>
-          <p>URL for tuition policies specifically related to veterans and military service members.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('singleContact')}>
@@ -236,7 +248,7 @@ export class Modals extends React.Component {
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('opeCode')}>
           <h2>ED OPE Code</h2>
-          <p>Identification number used by the U.S. Department of {'Education\'s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
+          <p>Identification number used by the U.S. Department of {'Education’s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
         </Modal>
       </span>
     );
@@ -265,8 +277,8 @@ export class Modals extends React.Component {
           <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">School operating under provisional accreditation (previously accredited by ACICS)</a></p>
           <p>
             To learn more, visit the "Caution Flag" section of the <a
-                href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-                target="_blank">"About this Tool"</a> page.
+              href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank">"About this Tool"</a> page.
           </p>
         </Modal>
       </span>
@@ -300,8 +312,8 @@ export class Modals extends React.Component {
             dollar of unmet charges that the institution agrees to contribute, up to the total cost
             of the tuition and fees. For Frequently Asked Questions about the Yellow Ribbon Program,
             visit <a title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank">this page.</a>
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank">this page.</a>
           </p>
           <p>
             Only Veterans entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
@@ -331,13 +343,13 @@ export class Modals extends React.Component {
           <p>
             Are you considered a full-time or part-time student by your school? Students attending
             school less than full-time will get a pro-rated monthly housing allowance. Students
-            attending school exactly ½ time or less won't get a monthly housing allowance.
+            attending school exactly ½ time or less won’t get a monthly housing allowance.
           </p>
           <p>
             For more information about MHA increases or decreases,
             visit <a title="For more information about MHA increases or decreases click here"
-                href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-                target="_blank">this page</a>.
+              href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
+              target="_blank">this page</a>.
           </p>
         </Modal>
 
@@ -353,7 +365,7 @@ export class Modals extends React.Component {
             Defense, to extend a tour of duty or retain highly skilled military personnel. The money
             is a bonus on top of any GI Bill payments paid directly to the Veteran. To learn more,
             visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                target="_blank">this page</a>.</p>
+              target="_blank">this page</a>.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
@@ -373,7 +385,7 @@ export class Modals extends React.Component {
           <h3>Which GI Bill benefit do you want to use?</h3>
           <p>
             You may be eligible for multiple types of education and training programs. Different
-            programs offer different benefits, so it's important to choose the program that will
+            programs offer different benefits, so it’s important to choose the program that will
             best meet your needs. Use this tool to compare programs and schools.
           </p>
           <p>
@@ -409,7 +421,7 @@ export class Modals extends React.Component {
             monthly payment amount when using the Montgomery GI Bill. To learn
             more about MGIB please visit
             &nbsp;<a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
-                id="anch_399" target="_blank">
+              id="anch_399" target="_blank">
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>.
           </p>
@@ -426,7 +438,7 @@ export class Modals extends React.Component {
             rates increasing at one year and again at two years of consecutive
             service. To learn more about REAP please visit
             &nbsp;<a href="http://www.benefits.va.gov/gibill/reap.asp"
-                id="anch_403" target="_blank">
+              id="anch_403" target="_blank">
               http://www.benefits.va.gov/gibill/reap.asp
             </a>.
           </p>

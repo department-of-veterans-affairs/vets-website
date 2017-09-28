@@ -17,9 +17,9 @@ If you had to take a test when you applied to a college or for a training course
 
 ### Can I get paid back for testing fees?
 
-We'll pay you back for the cost of exam and testing fees if you're a Veteran or Servicemember and you qualify for the GI Bill. 
+We’ll pay you back for the cost of exam and testing fees if you’re a Veteran or Servicemember and you qualify for the GI Bill. 
 
-### Who's covered?
+### Who’s covered?
 
 - Veterans
 - Servicemembers
@@ -37,12 +37,12 @@ Payment for testing fees, including:
 
 ### How do I get this benefit?
 
-We'll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
+We’ll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
 
 - You may need to provide your proof of payment.
-- We'll pay you back only for mandatory test fees.
+- We’ll pay you back only for mandatory test fees.
 
-#### We won't pay you back for:
+#### We won’t pay you back for:
 
 - Pretest costs (such as Kaplan tests)
 - Fees to get scores quickly
@@ -50,7 +50,7 @@ We'll charge your GI Bill benefit package for testing expenses. [Learn about how
 
 #### We have approved and will pay you back for these tests:
 
-- SAT (formerly "Scholastic Assessment Test")
+- SAT (formerly “Scholastic Assessment Test”)
 - LSAT (Law School Admission Test)
 - GRE (Graduate Record Examination)
 - GMAT (Graduate Management Admission Test)

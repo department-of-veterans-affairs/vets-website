@@ -46,8 +46,8 @@ class RadioButtons extends React.Component {
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -77,16 +77,16 @@ class RadioButtons extends React.Component {
       const radioButton = (
         <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
           <input
-              autoComplete="false"
-              checked={checked}
-              id={`${this.inputId}-${index}`}
-              name={this.props.name}
-              type="radio"
-              value={optionValue}
-              onChange={this.handleChange}/>
+            autoComplete="false"
+            checked={checked}
+            id={`${this.inputId}-${index}`}
+            name={this.props.name}
+            type="radio"
+            value={optionValue}
+            onChange={this.handleChange}/>
           <label
-              name={`${this.props.name}-${index}-label`}
-              htmlFor={`${this.inputId}-${index}`}>
+            name={`${this.props.name}-${index}-label`}
+            htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
         </div>
@@ -98,9 +98,9 @@ class RadioButtons extends React.Component {
       if (optionAdditional) {
         output = (
           <ExpandingGroup
-              additionalClass="form-expanding-group-active-radio"
-              open={checked}
-              key={index}>
+            additionalClass="form-expanding-group-active-radio"
+            open={checked}
+            key={index}>
             {radioButton}
             <div>{optionAdditional}</div>
           </ExpandingGroup>
@@ -113,10 +113,10 @@ class RadioButtons extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <label
-            className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
-            htmlFor={this.inputId}>
-            {this.props.label}
-            {requiredSpan}
+          className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+          htmlFor={this.inputId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         {optionElements}

@@ -15,9 +15,6 @@ class FacilityLocatorApp extends React.Component {
               Facility Locator
             </Link>
           </li>
-          <li className="active">
-            {selectedFacility.attributes.name}
-          </li>
         </ul>
       );
     }
@@ -25,9 +22,6 @@ class FacilityLocatorApp extends React.Component {
     return (
       <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
         <li><a href="/">Home</a></li>
-        <li className="active">
-          Facility Locator
-        </li>
       </ul>
     );
   }
@@ -38,7 +32,7 @@ class FacilityLocatorApp extends React.Component {
         <div className="row">
           <div className="title-section">
             <nav className="va-nav-breadcrumbs">
-                {this.renderBreadcrumbs()}
+              {this.renderBreadcrumbs()}
             </nav>
           </div>
           <div className="facility-locator">

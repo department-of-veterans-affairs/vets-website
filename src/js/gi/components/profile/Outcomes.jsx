@@ -60,7 +60,7 @@ class Outcomes extends React.Component {
           <GraphKey/>
           <p>
             Access a comprehensive spreadsheet of <a title="Veteran Outcome Measures"
-                href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>
+              href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>
           </p>
         </div>
       </div>

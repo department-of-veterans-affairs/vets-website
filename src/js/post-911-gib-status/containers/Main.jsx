@@ -2,13 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
-import {
-  unableToFindRecordWarning,
-  noChapter33BenefitsWarning,
-  systemDownMessage
-} from '../utils/helpers.jsx';
+import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -25,17 +22,17 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
         break;
       case 'backendServiceError':
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
         break;
       case 'backendAuthenticationError':
-        appContent = unableToFindRecordWarning();
+        appContent = unableToFindRecordWarning;
         break;
       case 'noChapter33Record':
         appContent = noChapter33BenefitsWarning();
         break;
       case 'unavailable':
       default:
-        appContent = systemDownMessage();
+        appContent = systemDownMessage;
     }
 
     return (

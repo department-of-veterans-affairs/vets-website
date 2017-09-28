@@ -11,7 +11,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -42,9 +42,12 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
-  formId: '1995',
+  formId: '22-1995',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

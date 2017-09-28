@@ -13,9 +13,9 @@ describe('MessagingApp', () => {
     const mockRoutes = [{ path: '/test' }];
     const app = (
       <MessagingApp
-          store={store}
-          location={{ pathname: '/messaging' }}
-          route={{ childRoutes: mockRoutes }}/>
+        store={store}
+        location={{ pathname: '/messaging' }}
+        route={{ childRoutes: mockRoutes }}/>
     );
     const tree = SkinDeep.shallowRender(app);
     const vdom = tree.getRenderOutput();

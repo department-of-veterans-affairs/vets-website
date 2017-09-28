@@ -5,7 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages } from '../utils/helpers';
+import { getInactivePages, getActivePages } from '../utils/helpers';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
@@ -59,7 +59,7 @@ export function createPageList(formConfig, formPages) {
       }
     ])
     .map(page => {
-      return _.set('path', `${formConfig.urlPrefix}${page.path}`, page);
+      return _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page);
     });
 }
 
@@ -111,6 +111,14 @@ export function createRoutes(formConfig) {
     });
   }
 
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'resume',
+      pageList,
+      formConfig
+    });
+  }
+
   return routes.concat([
     {
       path: 'review-and-submit',
@@ -154,10 +162,13 @@ export function formatISOPartialDate({ month, day, year }) {
   return undefined;
 }
 
-export function formatReviewDate(dateString) {
+export function formatReviewDate(dateString, monthYear = false) {
   if (dateString) {
     const [year, month, day] = dateString.split('-', 3);
-    return `${formatDayMonth(month)}/${formatDayMonth(day)}/${formatYear(year)}`;
+
+    return monthYear
+      ? `${formatDayMonth(month)}/${formatYear(year)}`
+      : `${formatDayMonth(month)}/${formatDayMonth(day)}/${formatYear(year)}`;
   }
 
   return undefined;
@@ -178,16 +189,6 @@ export function parseISODate(dateString) {
     day: '',
     year: ''
   };
-}
-
-/*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
 }
 
 /*
@@ -242,6 +243,13 @@ export function stringifyFormReplacer(key, value) {
     }
   }
 
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
   return value;
 }
 
@@ -289,7 +297,7 @@ export function getArrayFields(data) {
 
 /*
  * Checks to see if there are non array fields in a page schema, so that
- * we don't show a blank page header on the review page if a page is just
+ * we don’t show a blank page header on the review page if a page is just
  * a growable table
  */
 export function hasFieldsOtherThanArray(schema) {
@@ -308,7 +316,7 @@ export function hasFieldsOtherThanArray(schema) {
 
 /*
  * Return a schema without array fields. If the schema has only array fields,
- * then return undefined (because there's no reason to use an object schema with
+ * then return undefined (because there’s no reason to use an object schema with
  * no properties)
  */
 export function getNonArraySchema(schema, uiSchema = {}) {
@@ -406,7 +414,7 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
     }
   }
 
-  // We've recursed all the way back down to ['root']; throw an error containing
+  // We’ve recursed all the way back down to ['root']; throw an error containing
   //  all the error messages.
   if (path.length === 1 && errors.length > 0) {
     // console.log(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')} -- ${path.join('.')}`);
@@ -448,9 +456,9 @@ function generateArrayPages(arrayPages, data) {
           index
         })
       )),
-      []
+    []
     )
-    // doing this after the map so that we don't change indexes
+    // doing this after the map so that we don’t change indexes
     .filter(page => !page.itemFilter || page.itemFilter(items[page.index]));
 }
 
@@ -463,12 +471,12 @@ function generateArrayPages(arrayPages, data) {
 export function expandArrayPages(pageList, data) {
   const result = pageList.reduce((acc, nextPage) => {
     const { lastArrayPath, arrayPages, currentList } = acc;
-    // If we see an array page and we're starting a section or in the middle of one, just add it
+    // If we see an array page and we’re starting a section or in the middle of one, just add it
     // to the temporary array
     if (nextPage.showPagePerItem && (!lastArrayPath || nextPage.arrayPath === lastArrayPath)) {
       arrayPages.push(nextPage);
       return acc;
-    // Now we've hit the end of a section of array pages using the same array, so
+    // Now we’ve hit the end of a section of array pages using the same array, so
     // actually generate the pages now
     } else if (nextPage.arrayPath !== lastArrayPath && !!arrayPages.length) {
       const newList = currentList.concat(generateArrayPages(arrayPages, data), nextPage);
@@ -482,9 +490,61 @@ export function expandArrayPages(pageList, data) {
     return _.set('currentList', currentList.concat(nextPage), acc);
   }, { lastArrayPath: null, arrayPages: [], currentList: [] });
 
-  if (!!result.arrayPages.length) {
+  if (result.arrayPages.length > 0) {
     return result.currentList.concat(generateArrayPages(result.arrayPages, data));
   }
 
   return result.currentList;
+}
+
+/**
+ * getPageKeys returns a list of keys for the currently active pages
+ *
+ * @param pages {Array<Object>} List of page configs
+ * @param formData {Object} Current form data
+ * @returns {Array<string>} A list of page keys from the page config
+ *   and the index if it’s a pagePerItem page
+ */
+export function getPageKeys(pages, formData) {
+  const eligiblePageList = getActivePages(pages, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return expandedPageList.map(page => {
+    let pageKey = page.pageKey;
+    if (typeof page.index !== 'undefined') {
+      pageKey += page.index;
+    }
+    return pageKey;
+  });
+}
+
+/**
+ * getActiveChapters returns the list of chapter keys with active pages
+ *
+ * @param formConfig {Object} The form config object
+ * @param formData {Object} The current form data
+ * @returns {Array<string>} The list of chapter key strings for active chapters
+ */
+export function getActiveChapters(formConfig, formData) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const eligiblePageList = getActivePages(pageList, formData);
+  const expandedPageList = expandArrayPages(eligiblePageList, formData);
+
+  return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
+}
+
+export function sanitizeForm(formData) {
+  try {
+    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    return JSON.stringify(formData, (key, value) => {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+        return 'removed';
+      }
+
+      return value;
+    });
+  } catch (e) {
+    return null;
+  }
 }

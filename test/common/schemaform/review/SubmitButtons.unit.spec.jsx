@@ -11,7 +11,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
@@ -23,7 +23,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Sending...');
@@ -35,7 +35,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Submitted');
@@ -47,11 +47,24 @@ describe('Schemaform review: <SubmitButtons>', () => {
     };
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(2);
+  });
+  it('should render validation error', () => {
+    const submission = {
+      status: 'validationError'
+    };
+    const tree = SkinDeep.shallowRender(
+      <SubmitButtons
+        submission={submission}/>
+    );
+
+    // Make sure it displays an error--and the right one
+    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain('Some information in your application is missing or not valid');
+    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
   });
   it('should render error in prod mode', () => {
     const submission = {
@@ -62,7 +75,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
 
     const tree = SkinDeep.shallowRender(
       <SubmitButtons
-          submission={submission}/>
+        submission={submission}/>
     );
 
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;

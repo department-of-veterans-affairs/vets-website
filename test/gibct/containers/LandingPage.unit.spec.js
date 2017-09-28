@@ -20,7 +20,8 @@ describe('<LandingPage>', () => {
     const props = {
       ...defaultProps,
       router: { push: sinon.spy() },
-      location: { query: {} }
+      location: { query: {} },
+      autocomplete: { searchTerm: 'foo' }
     };
 
     const tree = SkinDeep.shallowRender(<LandingPage {...props}/>);

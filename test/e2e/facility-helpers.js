@@ -3,51 +3,6 @@ const mock = require('./mock-helpers');
 const resultsData = {
   data: [
     {
-      id: 'vba_343z',
-      type: 'va_facilities',
-      attributes: {
-        uniqueId: '343z',
-        name: 'VetSuccess on Campus at Los Angeles City College',
-        facilityType: 'va_benefits_facility',
-        classification: 'VETSUCCESS ON CAMPUS',
-        website: null,
-        lat: 34.08751109,
-        'long': -118.2917626,
-        address: {
-          physical: {
-            address1: '855 North Vermont',
-            address2: '',
-            address3: null,
-            city: 'Los Angeles',
-            state: 'CA',
-            zip: '90029'
-          },
-          mailing: {}
-        },
-        phone: {
-          main: '323-953-4000 Ext 1253',
-          fax: ''
-        },
-        hours: {
-          monday: 'Closed',
-          tuesday: 'Closed',
-          wednesday: '9:00AM-4:00PM',
-          thursday: 'Closed',
-          friday: 'Closed',
-          saturday: 'Closed',
-          sunday: 'Closed'
-        },
-        services: {
-          benefits: {
-            other: '',
-            standard: []
-          }
-        },
-        feedback: {},
-        access: {}
-      }
-    },
-    {
       id: 'vha_691GE',
       type: 'va_facilities',
       attributes: {
@@ -67,7 +22,7 @@ const resultsData = {
             state: 'CA',
             zip: '90012-3328'
           },
-          mailing: {}
+          mailing: { }
         },
         phone: {
           main: '213-253-5000 x',
@@ -88,7 +43,7 @@ const resultsData = {
           sunday: '-'
         },
         services: {
-          lastUpdated: '2017-05-03',
+          lastUpdated: '2017-07-24',
           health: [
             {
               sl1: [
@@ -112,23 +67,46 @@ const resultsData = {
         },
         feedback: {
           health: {
-            effectiveDateRange: 'Sep 2016 - Feb 2017',
-            primaryCareRoutine: 0.78,
-            primaryCareUrgent: 0.73,
-            specialtyCareRoutine: null,
-            specialtyCareUrgent: null
+            primaryCareUrgent: '0.78',
+            primaryCareRoutine: '0.77',
+            effectiveDate: '2017-03-24'
           }
         },
         access: {
           health: {
-            primaryCareWaitDays: 5.977272,
-            primaryCareWaitSampleSize: 44,
-            specialtyCareWaitDays: 4.327272,
-            specialtyCareWaitSampleSize: 110,
-            mentalHealthWaitDays: 3.962962,
-            mentalHealthWaitSampleSize: 27,
-            urgentConsultPercentage: null,
-            urgentConsultSampleSize: null
+            primaryCare: {
+              'new': 15,
+              established: 3
+            },
+            mentalHealth: {
+              'new': 12,
+              established: 2
+            },
+            womensHealth: {
+              'new': null,
+              established: 9
+            },
+            audiology: {
+              'new': 48,
+              established: 0
+            },
+            gastroenterology: {
+              'new': 7,
+              established: null
+            },
+            opthalmology: {
+              'new': 9,
+              established: 6
+            },
+            optometry: {
+              'new': 14,
+              established: 5
+            },
+            urologyClinic: {
+              'new': 23,
+              established: 3
+            },
+            effectiveDate: '2017-08-14'
           }
         }
       }
@@ -153,7 +131,7 @@ const resultsData = {
             state: 'CA',
             zip: '90012'
           },
-          mailing: {}
+          mailing: { }
         },
         phone: {
           main: '213-253-2677 Ext 24759',
@@ -174,8 +152,53 @@ const resultsData = {
             standard: []
           }
         },
-        feedback: {},
-        access: {}
+        feedback: { },
+        access: { }
+      }
+    },
+    {
+      id: 'vba_343z',
+      type: 'va_facilities',
+      attributes: {
+        uniqueId: '343z',
+        name: 'VetSuccess on Campus at Los Angeles City College',
+        facilityType: 'va_benefits_facility',
+        classification: 'VETSUCCESS ON CAMPUS',
+        website: null,
+        lat: 34.08751109,
+        'long': -118.2917626,
+        address: {
+          physical: {
+            address1: '855 North Vermont',
+            address2: '',
+            address3: null,
+            city: 'Los Angeles',
+            state: 'CA',
+            zip: '90029'
+          },
+          mailing: { }
+        },
+        phone: {
+          main: '323-953-4000 Ext 1253',
+          fax: ''
+        },
+        hours: {
+          monday: 'Closed',
+          tuesday: 'Closed',
+          wednesday: '9:00AM-4:00PM',
+          thursday: 'Closed',
+          friday: 'Closed',
+          saturday: 'Closed',
+          sunday: 'Closed'
+        },
+        services: {
+          benefits: {
+            other: '',
+            standard: []
+          }
+        },
+        feedback: { },
+        access: { }
       }
     },
   ],
@@ -191,7 +214,7 @@ const resultsData = {
       currentPage: 1,
       perPage: 20,
       totalPages: 1,
-      totalEntries: 13
+      totalEntries: 3
     }
   }
 };
@@ -205,7 +228,7 @@ function initApplicationMock(token) {
   });
 
   mock(token, {
-    path: '/v0/facilities/va/vba_343z',
+    path: '/v0/facilities/va/vha_691GE',
     verb: 'get',
     value: {
       data: resultsData.data[0]

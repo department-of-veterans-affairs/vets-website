@@ -14,10 +14,10 @@ const pageTests = (page) => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={commonDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={commonDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
@@ -27,10 +27,10 @@ const pageTests = (page) => {
   it('should expand', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={commonDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={commonDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -51,10 +51,10 @@ const pageTests = (page) => {
   it('should not have required fields errors after choosing no', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={commonDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={commonDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     const applicantServedNo = Array.from(formDOM.querySelectorAll('input'))
@@ -73,10 +73,10 @@ const pageTests = (page) => {
   it('should have required field errors when expanded', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={commonDefinitions}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={commonDefinitions}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -98,11 +98,11 @@ const pageTests = (page) => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={commonDefinitions}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={commonDefinitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

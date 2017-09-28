@@ -144,7 +144,20 @@ describe('Schemaform save / load actions:', () => {
       const thunk = saveInProgressForm('1010ez', {});
       const dispatch = sinon.spy();
       global.fetch.returns(Promise.resolve({
-        ok: true
+        ok: true,
+        json: () => ({
+          data: {
+            attributes: {
+              metadata: {
+                expiresAt: 1507504729,
+                lastUpdated: 1502320729,
+                returnUrl: '/veteran-information/personal-information',
+                savedAt: 1502320728979,
+                version: 0
+              }
+            }
+          }
+        })
       }));
 
       thunk(dispatch, getState).then(() => {
@@ -413,7 +426,7 @@ describe('Schemaform save / load actions:', () => {
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a.function;
+        expect(dispatch.lastCall.args[0]).to.be.a('function');
       });
     });
     it('handles remove error and fetches prefill data', () => {
@@ -426,7 +439,7 @@ describe('Schemaform save / load actions:', () => {
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a.function;
+        expect(dispatch.lastCall.args[0]).to.be.a('function');
       });
     });
     it('sets no-auth status if session expires', () => {
@@ -441,7 +454,7 @@ describe('Schemaform save / load actions:', () => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
         expect(dispatch.calledWith(logOut()));
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)));
-        expect(dispatch.lastCall.args[0]).not.to.be.a.function;
+        expect(dispatch.lastCall.args[0]).not.to.be.a('function');
       });
     });
   });

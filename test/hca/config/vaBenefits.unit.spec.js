@@ -13,9 +13,9 @@ describe('Hca vaBenefits', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={definitions}/>
     );
     const formDOM = findDOMNode(form);
 
@@ -26,10 +26,10 @@ describe('Hca vaBenefits', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -44,10 +44,10 @@ describe('Hca vaBenefits', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 

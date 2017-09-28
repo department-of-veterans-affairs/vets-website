@@ -49,11 +49,11 @@ describe('<EmailNotifications>', () => {
   it('should enable save button and show cancel button if email is modified', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications
-          {...props }
-          preferences={{
-            emailAddress: makeField('new.test@vets.gov', true),
-            frequency: makeField('none')
-          }}/>
+        {...props }
+        preferences={{
+          emailAddress: makeField('new.test@vets.gov', true),
+          frequency: makeField('none')
+        }}/>
     );
     const formButtons = tree.dive(['.msg-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
@@ -66,11 +66,11 @@ describe('<EmailNotifications>', () => {
   it('should enable save button and show cancel button if frequency is modified', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications
-          {...props }
-          preferences={{
-            emailAddress: makeField('test@vets.gov'),
-            frequency: makeField('daily', true)
-          }}/>
+        {...props }
+        preferences={{
+          emailAddress: makeField('test@vets.gov'),
+          frequency: makeField('daily', true)
+        }}/>
     );
     const formButtons = tree.dive(['.msg-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
@@ -92,11 +92,11 @@ describe('<EmailNotifications>', () => {
   it('should show frequency suboptions when notifications are on', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications
-          {...props }
-          preferences={{
-            emailAddress: makeField('test@vets.gov'),
-            frequency: makeField('each_message')
-          }}/>
+        {...props }
+        preferences={{
+          emailAddress: makeField('test@vets.gov'),
+          frequency: makeField('each_message')
+        }}/>
     );
     expect(tree.subTree('#notifications-on').props.checked).to.be.true;
     expect(tree.subTree('#notifications-off').props.checked).to.be.false;

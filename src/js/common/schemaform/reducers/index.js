@@ -54,7 +54,7 @@ function recalculateSchemaAndData(initialState) {
       if (page.showPagePerItem) {
         const arrayData = _.get(page.arrayPath, newState.data) || [];
         // If an item was added or removed for the data used by a showPagePerItem page,
-        // we have to reset everything because we can't match the edit states to rows directly
+        // we have to reset everything because we can’t match the edit states to rows directly
         // This will rarely ever be noticeable
         if (page.editMode.length !== arrayData.length) {
           newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
@@ -109,6 +109,7 @@ export default function createSchemaFormReducer(formConfig) {
       version: formConfig.version,
       formId: formConfig.formId,
       lastSavedDate: null,
+      expirationDate: null,
       disableSave: formConfig.disableSave,
       loadedData: {
         formData: {},
@@ -158,8 +159,9 @@ export default function createSchemaFormReducer(formConfig) {
         newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
         // This is the only time we have a saved datetime
-        if (action.status === SAVE_STATUSES.success) {
+        if (action.status === SAVE_STATUSES.success || action.status === SAVE_STATUSES.autoSuccess) {
           newState.lastSavedDate = action.lastSavedDate;
+          newState.expirationDate = action.expirationDate;
         }
 
         return newState;
@@ -179,7 +181,7 @@ export default function createSchemaFormReducer(formConfig) {
       case SET_IN_PROGRESS_FORM: {
         let newState;
 
-        // if we're prefilling, we want to use whatever initial data the form has
+        // if we’re prefilling, we want to use whatever initial data the form has
         if (state.prefillStatus === PREFILL_STATUSES.pending) {
           const formData = _.merge(state.data, action.data.formData);
           const loadedData = _.set('formData', formData, action.data);

@@ -25,8 +25,30 @@
     margin-left: 2em;
   }
 
+  .letters-progress-bar {
+    width: 6em;
+  }
+
+  .address-block {
+    background-color: $color-gray-lightest;
+    padding: 1em;
+
+    h5 {
+      color: $color-primary-darker;
+      padding: 0;
+    }
+
+    button {
+      margin-top: 2em;
+    }
+  }
+
   .letters-address {
     text-transform: capitalize;
+  }
+
+  .view-letters-button {
+    margin: 2em;
   }
 
   .accordion-header > button {
@@ -35,30 +57,66 @@
     padding-bottom: 1.5rem;
   }
 
+  .download-button {
+    margin: 1.5em 0 1em;
+
+    > button:disabled {
+      background-color: $color-gray-lighter;
+      color: $color-black;
+    }
+  }
+
   .service-info {
     text-transform: capitalize;
   }
 
-  table {
-    input[type="checkbox"] {
-      height: inherit;
-      margin: auto;
-      opacity: inherit;
-      position: inherit;
-      width: 50%;
+table > tbody > tr {
+  vertical-align: middle;
 
-      &:focus {
-        box-shadow: none;
-      }
+  th {
+    input, label {
+      cursor: pointer;
     }
 
     label {
-      margin: 0;
+      // The USWDS label controlling the checkbox enforces an 8px margin-bottom
+      // We are adding an equivalent top margin so that vertical-align works
+      // correctly without using !important to over-ride margin-bottom
+      margin-top: 8px;
+      text-align: center;
     }
   }
+
+  td > label {
+    margin: 0;
+    cursor: pointer;
+  }
+}
 
   th[scope="row"] {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .form-expanding-group {
+    margin-left: initial;
+    margin-top: 1.5em;
+  }
+
+  .form-expanding-group-open {
+    border-left: 0;
+    padding-left: initial;
+  }
+}
+
+#invalidAddress {
+  margin-bottom: 4em;
+}
+
+div.usa-alert {
+
+  #warning-address-block {
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 }

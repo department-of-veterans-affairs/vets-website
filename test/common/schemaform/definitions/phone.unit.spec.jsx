@@ -13,8 +13,8 @@ describe('Schemaform definition phone', () => {
     const phoneUiSchema = uiSchema();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={phoneUiSchema}/>
+        schema={schema}
+        uiSchema={phoneUiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -29,8 +29,8 @@ describe('Schemaform definition phone', () => {
   it('should render phone title', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema('My phone')}/>
+        schema={schema}
+        uiSchema={uiSchema('My phone')}/>
     );
 
     const formDOM = findDOMNode(form);
@@ -40,8 +40,8 @@ describe('Schemaform definition phone', () => {
   it('should render phone error', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema()}/>
+        schema={schema}
+        uiSchema={uiSchema()}/>
     );
 
     const formDOM = findDOMNode(form);

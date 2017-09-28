@@ -2,41 +2,74 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
+import { AVAILABILITY_STATUSES } from '../utils/constants';
 
-import { getBenefitSummaryOptions, getLetterList } from '../actions/letters';
+// import { getAddressSuccessAction } from '../utils/helpers';
 
-class Main extends React.Component {
+import {
+  getBenefitSummaryOptions,
+  getLetterList,
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates
+} from '../actions/letters';
+
+export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
+    this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
+    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+    // this.props.getAddressSuccessAction();
+    this.props.getAddressCountries();
+    this.props.getAddressStates();
   }
 
   render() {
     let appContent;
 
-    if (this.props.lettersAvailability === 'available') {
-      appContent = this.props.children;
-    } else if (this.props.lettersAvailability === 'awaitingResponse') {
-      appContent = <LoadingIndicator message="Loading your letters..."/>;
-    } else if (this.props.lettersAvailability === 'unavailable') {
-      appContent = (
-        <div>
-          <div className="usa-alert usa-alert-error" role="alert">
-            <div className="usa-alert-body">
-              <h4 className="usa-alert-heading">Letters Unavailable</h4>
-              <p className="usa-alert-text">
-                We weren't able to retrieve your VA letters. Please call
-                1-855-574-7286 between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
-              </p>
+    switch (this.props.lettersAvailability) {
+      case AVAILABILITY_STATUSES.available:
+        appContent = this.props.children;
+        break;
+      case AVAILABILITY_STATUSES.awaitingResponse:
+        appContent = <LoadingIndicator message="Loading your letters..."/>;
+        break;
+      case AVAILABILITY_STATUSES.backendServiceError:
+        appContent = systemDownMessage;
+        break;
+      case AVAILABILITY_STATUSES.backendAuthenticationError:
+        appContent = unableToFindRecordWarning;
+        break;
+      case AVAILABILITY_STATUSES.invalidAddressProperty:
+        appContent = systemDownMessage;
+        break;
+      case AVAILABILITY_STATUSES.letterEligibilityError:
+        appContent = this.props.children;
+        break;
+      case AVAILABILITY_STATUSES.unavailable:
+        appContent = (
+          <div id="lettersUnavailable">
+            <div className="usa-alert usa-alert-error" role="alert">
+              <div className="usa-alert-body">
+                <h4 className="usa-alert-heading">Letters Unavailable</h4>
+                <p className="usa-alert-text">
+                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">
+                  1-855-574-7286</a> between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+                </p>
+              </div>
             </div>
+            <br/>
           </div>
-          <br/>
-        </div>
-      );
+        );
+        break;
+      default:
+        appContent = systemDownMessage;
     }
 
     return (
-      <div className="letters">
+      <div>
         {appContent}
       </div>
     );
@@ -59,7 +92,12 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getBenefitSummaryOptions,
-  getLetterList
+  getLetterList,
+  getMailingAddress,
+  getAddressCountries,
+  getAddressStates,
+  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
+  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

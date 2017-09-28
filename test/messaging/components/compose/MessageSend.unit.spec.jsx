@@ -47,8 +47,8 @@ describe('<MessageSend>', () => {
     const onAttachmentUpload = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
       <MessageSend
-          {...props }
-          onAttachmentUpload={onAttachmentUpload}/>
+        {...props }
+        onAttachmentUpload={onAttachmentUpload}/>
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);
@@ -76,8 +76,8 @@ describe('<MessageSend>', () => {
     const onAttachmentsError = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
       <MessageSend
-          {...props }
-          onAttachmentsError={onAttachmentsError}/>
+        {...props }
+        onAttachmentsError={onAttachmentsError}/>
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);
@@ -101,8 +101,8 @@ describe('<MessageSend>', () => {
     const onAttachmentsError = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
       <MessageSend
-          {...props }
-          onAttachmentsError={onAttachmentsError}/>
+        {...props }
+        onAttachmentsError={onAttachmentsError}/>
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);

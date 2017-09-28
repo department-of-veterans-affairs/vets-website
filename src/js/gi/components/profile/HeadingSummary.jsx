@@ -37,9 +37,9 @@ class HeadingSummary extends React.Component {
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
-                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
-                isVisible={!!it.cautionFlag}
-                status="warning"/>
+              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+              isVisible={!!it.cautionFlag}
+              status="warning"/>
           </div>
           <div className="column">
             <p>
@@ -65,8 +65,7 @@ class HeadingSummary extends React.Component {
                 On-the-job training
               </IconWithInfo>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)}&nbsp;
-                {it.type === 'for profit' ? 'school' : 'institution'}
+                {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo icon="map" present={it.localeType && it.type && it.type !== 'ojt'}>
                 {_.capitalize(it.localeType)} locale

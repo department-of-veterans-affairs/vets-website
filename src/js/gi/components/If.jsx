@@ -4,7 +4,7 @@ import React from 'react';
 class If extends React.Component {
 
   render() {
-    if (!!this.props.condition) {
+    if (this.props.condition) {
       // may only contain one root child node
       return this.props.children;
     }

@@ -14,9 +14,9 @@ class ButtonPrint extends React.Component {
   render() {
     return (
       <button
-          className="msg-btn-print"
-          type="button"
-          onClick={this.handleClick}>
+        className="msg-btn-print"
+        type="button"
+        onClick={this.handleClick}>
         <i className="fa fa-print"></i>
         <span>Print</span>
       </button>

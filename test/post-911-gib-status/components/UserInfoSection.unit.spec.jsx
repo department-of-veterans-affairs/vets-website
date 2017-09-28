@@ -75,6 +75,7 @@ describe('<UserInfoSection>', () => {
       const newProps = {
         enrollmentData: {
           veteranIsEligible: false,
+          dateOfBirth: '1995-11-12T06:00:00.000+0000',
           originalEntitlement: {},
           usedEntitlement: {},
           remainingEntitlement: {},
@@ -112,6 +113,7 @@ describe('<UserInfoSection>', () => {
       const newProps = {
         enrollmentData: {
           veteranIsEligible: true,
+          dateOfBirth: '1995-11-12T06:00:00.000+0000',
           activeDuty: true,
           originalEntitlement: {},
           usedEntitlement: {},

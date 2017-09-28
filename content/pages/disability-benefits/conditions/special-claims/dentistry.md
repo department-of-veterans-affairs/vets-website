@@ -10,7 +10,7 @@ order: 5
 
 <div class="va-introtext">
 
-If you're a Veteran, you may be able to get VA dental care. 
+If you’re a Veteran, you may be able to get VA dental care. 
 
 </div>
 

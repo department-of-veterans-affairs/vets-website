@@ -23,7 +23,7 @@ class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.burial-page-title');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
@@ -35,17 +35,20 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = form.submission.response
-         ? form.submission.response.attributes
-         : {};
+      ? form.submission.response.attributes
+      : {};
     const { 'view:claimedBenefits': benefits,
-            claimantFullName: claimantName,
-            veteranFullName: veteranName } = form.data;
+      claimantFullName: claimantName,
+      veteranFullName: veteranName } = form.data;
     const hasDocuments = form.data.deathCertificate || form.data.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
 
+    const submittedAt = moment(form.submission.submittedAt);
+    const offset = submittedAt.isDST() ? '-0500' : '-0600';
+
     return (
-      <div className="edu-benefits-submit-success">
-        <h3 className="burial-page-title">Claim received</h3>
+      <div>
+        <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -61,7 +64,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
               <strong>Deceased Veteran</strong><br/>
@@ -82,7 +85,10 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <p>Need help? If you have questions, call <a href="tel:+1-800-827-1000">800-827-1000</a> from 8:00 a.m. - 9:00 p.m. EST Mon - Fri and have the Veteran’s Social security number or VA file number ready. For telecommunication relay services, dial <a href="tel:711">711</a>.</p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, 8:00 a.m. - 9:00 p.m. (ET) Monday - Friday. Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
+        </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

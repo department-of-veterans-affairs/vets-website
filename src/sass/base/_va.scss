@@ -196,12 +196,15 @@ hr {
   clear: both;
   margin: 0;
   padding: 0;
+  min-height: 147.19px;
 
   @include media($medium-screen) {
     position: relative;
+    min-height: 168.5px;
   }
 
 .login-container {
+  z-index: 2;
   background: $color-primary-darkest;
   flex-wrap: wrap;
   white-space: nowrap;
@@ -362,7 +365,6 @@ h6 {
 }
 
 .va-introtext {
-  color: $color-primary-darker;
   letter-spacing: normal;
   font-size: 1.25em;
 }
@@ -391,7 +393,6 @@ h6 {
   padding: 1em;
   clear: both;
   margin: 1.5em 0 1.5em 0;
-  min-height: 11em;
 
   p {
     color: inherit !important;
@@ -490,6 +491,11 @@ ul, ol {
   .text-center {
     margin: auto;
   }
+}
+
+.faq-page {
+  padding-top: 3em;
+  padding-bottom: 3em;
 }
 
 //========================
@@ -592,7 +598,9 @@ ul, ol {
       display: inline-block;
       padding: 0 .35em;
     }
-
+    &:last-child:after {
+      content: "";
+    }
     &.active {
       font-weight: bold;
       padding: .3em 0;
@@ -1169,14 +1177,6 @@ li {
     margin: 0;
   }
 }
-
-// List overrides
-
-ul li p {
-  margin: 0;
-  padding: 0;
-}
-
 
 // vets.gov branded apps
 .vets-app {

@@ -37,13 +37,13 @@ class MessageSearch extends React.Component {
       basicSearch = (
         <div className="va-flex va-flex--stretch msg-search-simple-wrap">
           <ErrorableTextInput
-              field={this.props.params.subject.field}
-              name="msg-search-simple"
-              label="Search messages"
-              onValueChange={this.handleSearchTermChange}/>
+            field={this.props.params.subject.field}
+            name="msg-search-simple"
+            label="Search messages"
+            onValueChange={this.handleSearchTermChange}/>
           <button
-              type="submit"
-              className="msg-search-btn">
+            type="submit"
+            className="msg-search-btn">
             <i className="fa fa-search"></i>
             <span className="msg-search-btn-text">Search</span>
           </button>
@@ -53,17 +53,17 @@ class MessageSearch extends React.Component {
 
     return (
       <form
-          className={this.props.cssClass}
-          id="msg-search"
-          onSubmit={this.handleSubmit}>
+        className={this.props.cssClass}
+        id="msg-search"
+        onSubmit={this.handleSubmit}>
         {basicSearch}
         <MessageSearchAdvanced
-            params={this.props.params}
-            hasRecipientField={this.props.hasRecipientField}
-            isVisible={this.props.isAdvancedVisible}
-            onAdvancedSearch={this.props.onAdvancedSearch}
-            onFieldChange={this.props.onFieldChange}
-            onDateChange={this.props.onDateChange}/>
+          params={this.props.params}
+          hasRecipientField={this.props.hasRecipientField}
+          isVisible={this.props.isAdvancedVisible}
+          onAdvancedSearch={this.props.onAdvancedSearch}
+          onFieldChange={this.props.onFieldChange}
+          onDateChange={this.props.onDateChange}/>
       </form>);
   }
 }

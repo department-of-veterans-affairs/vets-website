@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Compensation for Survivors and Dependents
 display_title: Compensation
+order: 2
 ---
 
 <div class="va-introtext">
@@ -18,7 +19,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 If you’re a surviving spouse, you can get compensation if you:
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
 - Were married to the Veteran for at least 1 year, **or**
-- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran's death or, if separated, weren’t at fault for the separation
+- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
 </div>
 
@@ -53,7 +54,7 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation. [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
 
 You can apply for this benefit in 1 of 3 ways:
 
@@ -72,7 +73,7 @@ You may be able to get compensation as a surviving parent if:
 
 ### As a surviving parent, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
 You can apply for this benefit in 1 of 3 ways:
 

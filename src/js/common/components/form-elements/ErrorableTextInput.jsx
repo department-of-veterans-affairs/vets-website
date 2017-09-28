@@ -62,8 +62,8 @@ class ErrorableTextInput extends React.Component {
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -83,27 +83,27 @@ class ErrorableTextInput extends React.Component {
     return (
       <div className={inputErrorClass}>
         <label
-            className={labelErrorClass}
-            htmlFor={this.inputId}>
-              {this.props.label}
-              {requiredSpan}
+          className={labelErrorClass}
+          htmlFor={this.inputId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         <input
-            className={this.props.additionalClass}
-            aria-describedby={errorSpanId}
-            id={this.inputId}
-            placeholder={this.props.placeholder}
-            name={this.props.name}
-            tabIndex={this.props.tabIndex}
-            autoComplete={this.props.autocomplete}
-            type={this.props.type}
-            maxLength={this.props.charMax}
-            value={this.props.field.value}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}/>
-            {maxCharacters}
-            {toolTip}
+          className={this.props.additionalClass}
+          aria-describedby={errorSpanId}
+          id={this.inputId}
+          placeholder={this.props.placeholder}
+          name={this.props.name}
+          tabIndex={this.props.tabIndex}
+          autoComplete={this.props.autocomplete}
+          type={this.props.type}
+          maxLength={this.props.charMax}
+          value={this.props.field.value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}/>
+        {maxCharacters}
+        {toolTip}
       </div>
     );
   }

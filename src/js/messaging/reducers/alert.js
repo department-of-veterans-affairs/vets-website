@@ -42,8 +42,8 @@ export default function alert(state = initialState, action) {
 
   switch (action.type) {
     case UPDATE_ROUTE: {
-      // Certain route changes set a flag to preserve alerts
-      // that would otherwise have been immediately dismissed.
+    // Certain route changes set a flag to preserve alerts
+    // that would otherwise have been immediately dismissed.
       const preserveAlert = _.get(action, 'location.state.preserveAlert', false);
       return preserveAlert ? state : initialState;
     }

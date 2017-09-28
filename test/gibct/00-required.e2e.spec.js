@@ -19,6 +19,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main', { rules: ['section508'] });
 
     client
+      .waitForElementVisible('.keyword-search input[type="text"]', Timeouts.normal)
       .clearValue('.keyword-search input[type="text"]')
       .setValue('.keyword-search input[type="text"]', 'washington dc');
 
@@ -29,6 +30,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main', { rules: ['section508'] });
 
     client
+      .waitForElementVisible('.search-result a', Timeouts.normal)
       .click('.search-result a')
       .waitForElementVisible('.profile-page', Timeouts.normal)
       .axeCheck('.main');

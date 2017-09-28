@@ -14,7 +14,7 @@ export default class SSNWidget extends React.Component {
     // If val is blank or undefined, pass undefined to onChange
     let strippedSSN;
     if (val) {
-      strippedSSN = val.replace(/[\- ]/g, '');
+      strippedSSN = val.replace(/[- ]/g, '');
     }
 
     this.setState({ val }, () => {

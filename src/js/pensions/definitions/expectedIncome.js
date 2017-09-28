@@ -1,4 +1,5 @@
 import { additionalSourcesUI } from './additionalSources';
+import currencyUI from '../../common/schemaform/definitions/currency';
 
 export default {
   'ui:order': [
@@ -6,17 +7,7 @@ export default {
     'interest',
     'additionalSources'
   ],
-  salary: {
-    'ui:title': 'Gross wages and salary',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
-  interest: {
-    'ui:title': 'Total dividends and interest',
-    'ui:options': {
-      classNames: 'schemaform-currency-input'
-    }
-  },
+  salary: currencyUI('Gross wages and salary'),
+  interest: currencyUI('Total dividends and interest'),
   additionalSources: additionalSourcesUI
 };

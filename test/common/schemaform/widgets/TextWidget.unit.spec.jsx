@@ -10,13 +10,13 @@ describe('Schemaform <TextWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <TextWidget
-          id="1"
-          value="testing"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{}}/>
     );
     expect(tree.subTree('input').props.value).to.equal('testing');
     expect(tree.subTree('input').props.type).to.equal('text');
@@ -25,12 +25,12 @@ describe('Schemaform <TextWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <TextWidget
-          id="1"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{}}/>
     );
     expect(tree.subTree('input').props.value).to.equal('');
   });
@@ -38,13 +38,13 @@ describe('Schemaform <TextWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <TextWidget
-          id="1"
-          value="1"
-          schema={{ type: 'number' }}
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value="1"
+        schema={{ type: 'number' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{}}/>
     );
     expect(tree.subTree('input').props.type).to.equal('number');
   });
@@ -52,13 +52,13 @@ describe('Schemaform <TextWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <TextWidget
-          id="1"
-          value="testing"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{}}/>
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{}}/>
     );
     tree.subTree('input').props.onChange({
       target: {
@@ -72,14 +72,14 @@ describe('Schemaform <TextWidget>', () => {
     const onBlur = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <TextWidget
-          id="1"
-          value="testing"
-          schema={{ type: 'string' }}
-          required
-          disabled={false}
-          onChange={onChange}
-          onBlur={onBlur}
-          options={{}}/>
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        onBlur={onBlur}
+        options={{}}/>
     );
     tree.subTree('input').props.onBlur();
     expect(onBlur.calledWith('1')).to.be.true;

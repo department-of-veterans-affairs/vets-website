@@ -92,7 +92,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
       }
 
       if (stateList) {
-        // We have a list and it's different, so we need to make schema updates
+        // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
           const withEnum = _.set('state.enum', stateList, schemaUpdate.properties);
           schemaUpdate.properties = _.set('state.enumNames', labelList, withEnum);
@@ -102,7 +102,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
             schemaUpdate.required = addressSchema.required.concat('state');
           }
         }
-      // We don't have a state list for the current country, but there's an enum in the schema
+      // We don’t have a state list for the current country, but there’s an enum in the schema
       // so we need to update it
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
@@ -119,7 +119,7 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
         schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
       }
 
-      // We constrain the state list when someone picks a city that's a military base
+      // We constrain the state list when someone picks a city that’s a military base
       if (country === 'USA' && isMilitaryCity(city) && schemaUpdate.properties.state.enum !== militaryStates) {
         const withEnum = _.set('state.enum', militaryStates, schemaUpdate.properties);
         schemaUpdate.properties = _.set('state.enumNames', militaryLabels, withEnum);

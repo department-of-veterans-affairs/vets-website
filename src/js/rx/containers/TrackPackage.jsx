@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import SortableTable from '../../common/components/SortableTable';
 import TrackPackageLink from '../components/TrackPackageLink';
-import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
 
 export class TrackPackage extends React.Component {
@@ -48,10 +47,10 @@ export class TrackPackage extends React.Component {
         shipmentDate: formatDate(shippedDate),
         carrier: deliveryService.toUpperCase(),
         trackingLink: (<TrackPackageLink
-            className="rx-history-tracking"
-            external
-            text={trackingNumber}
-            url={trackingUrl}/>),
+          className="rx-history-tracking"
+          external
+          text={trackingNumber}
+          url={trackingUrl}/>),
         prescriptions,
         shippedDate
       };
@@ -87,15 +86,15 @@ export class TrackPackage extends React.Component {
       <div>
         <p className="rx-tab-explainer">Tracking information for each order expires 30 days after shipment.</p>
         <SortableTable
-            className={tableClass}
-            currentSort={this.state.currentSort}
-            data={data}
-            fields={fields}
-            onSort={(value, order) => {
-              this.setState({
-                currentSort: { value, order }
-              });
-            }}/>
+          className={tableClass}
+          currentSort={this.state.currentSort}
+          data={data}
+          fields={fields}
+          onSort={(value, order) => {
+            this.setState({
+              currentSort: { value, order }
+            });
+          }}/>
       </div>
     );
   }
@@ -109,7 +108,7 @@ export class TrackPackage extends React.Component {
     } else if (isPending) {
       content = (
         <p className="rx-tab-explainer">
-          You recently submitted a refill, and the tracking information isn't available yet.
+          You recently submitted a refill, and the tracking information isn’t available yet.
         </p>
       );
     } else {
@@ -130,14 +129,13 @@ export class TrackPackage extends React.Component {
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
-  const { submitted, refillinprocess } = rxStatuses;
   const {
     rx: { attributes: { refillStatus } },
     trackings
   } = rxState.prescriptions.currentItem;
 
   return {
-    isPending: [submitted, refillinprocess].includes(refillStatus),
+    isPending: ['submitted', 'refillinprocess'].includes(refillStatus),
     items: trackings
   };
 };

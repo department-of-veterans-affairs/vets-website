@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
-  // if the containing object has a name, we're in the national guard object
+  // if the containing object has a name, we’re in the national guard object
   // and we want to keep addresses no matter what
   if (!this.name && typeof value !== 'undefined' && typeof value.country !== 'undefined' &&
     (!value.street || !value.city || (!value.postalCode && !value.zipcode))) {
@@ -27,7 +28,7 @@ export function transform(formConfig, form) {
     pensionClaim: {
       form: formData
     },
-    // can't use toISOString because we need the offset
+    // can’t use toISOString because we need the offset
     localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
   });
 }
@@ -73,32 +74,37 @@ export function getMarriageTitleWithCurrent(form, index) {
 
 export const spouseContribution = <span>How much do you <strong>contribute monthly</strong> to your spouse’s support?</span>;
 
-export function fileHelp({ formContext }) {
-  if (formContext.reviewMode) {
-    return null;
-  }
+export function fileHelp({ formData }) {
+  const hasSchoolChild = (formData.dependents || []).some(child => child.attendingCollege);
+
+  const hasDisabledChild = (formData.dependents || []).some(child => child.disabled);
 
   return (
-    <p>
-      Files we accept: pdf, jpg, png<br/>
-      Maximum file size: 20MB
-    </p>
+    <div>
+      <p>Please upload all documentation to support your claim. {(hasSchoolChild || hasDisabledChild) && 'This includes:'}</p>
+      <ul>
+        {hasSchoolChild &&
+          <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
+        {hasDisabledChild &&
+          <li>Private medical records documenting your child’s disability before the age of 18</li>}
+      </ul>
+      <p>If you’re claiming for Aid and Attendance or Housebound benefits, this includes:</p>
+      <ul>
+        <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>
+        <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>
+      </ul>
+      <p>File types you can upload: PDF, JPG, PNG</p>
+    </div>
   );
 }
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">1-888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
   </div>
 );
 
 export const applicantDescription = <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>;
-
-export const otherExpensesWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> At the end of the application, you will be asked to upload documentation for any medical, legal, or other unreimbursed expenses you incurred.</span>
-  </div>
-);
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
@@ -131,4 +137,96 @@ export const uploadMessage = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">If you have many documents to upload you can mail them to us.<br/><br/><em>We’ll provide an address after you finish the application.</em></div>
   </div>
+);
+
+export const aidAttendanceEvidence = (
+  <div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+        <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+        <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+        <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+        <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
+      </ul>
+    </div>
+    <div className="usa-alert usa-alert-info no-background-image">
+      <strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
+      <ul>
+        <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
+        <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+      </ul>
+    </div>
+  </div>
+);
+
+export const disabilityDocs = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      You’ll need to provide all private medical records for your child’s disability.
+    </div>
+  </div>
+);
+
+export const schoolAttendanceWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+    </div>
+  </div>
+);
+
+export const marriageWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h5 className="usa-alert-heading">Recognition of marriages</h5>
+      If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
+      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+    </div>
+  </div>
+);
+
+export const fdcWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    Your application will be submitted as a fully developed claim.
+  </div>
+);
+
+export const noFDCWarning = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+  </div>
+);
+
+export const expeditedProcessDescription = (
+  <div>
+    <h5>Fully developed claim program</h5>
+    <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
+    <a href="/pension/apply/fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
+  </div>
+);
+
+export const dependentWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      Your child won’t qualify as a dependent unless they’re in school or disabled.
+    </div>
+  </div>
+);
+
+export const dependentsMinItem = (
+  <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
+);
+
+export const expectedIncomeDescription = (
+  <span>Any income you didn’t already report in this form that you expect to receive in the next 12 months</span>
+);
+
+export const spouseExpectedIncomeDescription = (
+  <span>Any income you didn’t already report in this form that your spouse expects to receive in the next 12 months</span>
+);
+
+export const dependentExpectedIncomeDescription = (
+  <span>Any income you didn’t already report in this form that your dependent expects to receive in the next 12 months</span>
 );

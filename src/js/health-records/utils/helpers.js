@@ -1,5 +1,6 @@
 import environment from '../../common/helpers/environment';
 import merge from 'lodash/fp/merge';
+import Raven from 'raven-js';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
@@ -20,6 +21,15 @@ export function apiRequest(url, optionalSettings = {}, success, error) {
   const settings = merge(defaultSettings, optionalSettings);
 
   return fetch(requestUrl, settings)
+    .catch(err => {
+      Raven.captureMessage(`vets_client_error: ${err.message}`, {
+        extra: {
+          error: err
+        }
+      });
+
+      return Promise.reject(err);
+    })
     .then((response) => {
       if (!response.ok) {
         // Refresh to show login view when requests are unauthorized.

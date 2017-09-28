@@ -15,4 +15,4 @@ If you already had a disability when you started serving in the military—and t
 </div>
 
 ### How much compensation will I get for a preservice claim?
-If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you'll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
+If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you’ll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
@@ -18,13 +17,13 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for pension benefits"/>
-        <p>Equal to Form 21-527EZ</p>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            resumeOnly
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>}
+        <FormTitle title="Apply for Veterans pension benefits"/>
+        <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          resumeOnly
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -32,39 +31,39 @@ class IntroductionPage extends React.Component {
               <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number or VA file number (required)</li>
-                <li>Military history—information like service dates, discharge character, and rank that’s commonly found on the DD214 or other separation documents (required)</li>
+                <li>Military history (required)</li>
                 <li>Financial information—and your dependents’ financial information (required)</li>
                 <li>Bank account direct deposit information</li>
                 <li>Medical information</li>
               </ul>
               <h6>If you’re under 65 years old, you may also need:</h6>
               <ul>
-                <li>Work history</li>
+                <li>Your work history</li>
                 <li>Any medical evidence that supports your claim</li>
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <h6 className="usa-alert-heading">Fully Developed Claim program</h6><br/>
-                  <p>The Fully Developed Claim program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. If you want to use the FDC program for an expedited (faster than usual) application review process, you’ll need to fill out and hand in any additional forms before you give us your pension application. You’ll also need to include all the supporting documents you have access to. We won’t need to ask you for more information.</p>
-                  {/* <p><a href="/">Learn more about the FDC program</a></p> */}
-                  {/* <p>If you’re making a claim for Veterans non-service-connected pension benefits, submit your claim according to FDC Criteria.<br/><a href="/">Find out about FDC Criteria</a></p> */}
+                  <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
+                  <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there's no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
+                  <p><a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
                 </div>
               </div>
               <br/>
               <h6>Aid and Attendance and Housebound benefits</h6>
-              If you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.
+              If you need help with daily activities or you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
+              <a href="/pension/aid-attendance-housebound/" target="_blank">Find out if you're eligible</a>.<br/><br/>
               <ul>
-                <li>Aid and Attendance benefits. If you live in a nursing home, the nursing home will need to fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf">Download VA Form 21-0779</a></li>
-                <li>Housebound benefits. If you live at home and have visiting medical care, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680).<br/><a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf">Download VA Form 21-2680</a></li>
+                <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
+                <li>In addition to your claim for Aid and Attendance or Housebound benefits, if you live in a nursing home, please have the nursing home fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">Download VA Form 21-0779</a></li>
               </ul>
-              <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.</p>
-              <h6>Learn about Veterans Pension rates</h6>
-              <a href="/pension/rates">Find out more about how pension rates are decided.</a>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <h6>Learn about Veterans pension rates</h6>
+              <a href="/pension/rates" target="_blank">Find out how we decide pension rates.</a>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you'll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -77,21 +76,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {__BUILDTYPE__ !== 'production' && <SaveInProgressIntro
-            pageList={this.props.route.pageList}
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}>
-          Complete the form before submitting to apply for pension benefits with the 21-527EZ.
-        </SaveInProgressIntro>}
-        {__BUILDTYPE__ === 'production' && <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
-            <ProgressButton
-                onButtonClick={this.goForward}
-                buttonText="Get Started"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>}
+        <SaveInProgressIntro
+          pageList={this.props.route.pageList}
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 21-527EZ form to apply for pension benefits.
+        </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>

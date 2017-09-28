@@ -8,7 +8,7 @@ relatedlinks:
   - heading: Get answers to your questions about filing a disability claim
     links:
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: What's the fastest way to file a claim?
+      title: What’s the fastest way to file a claim?
       description: ""
     - url: /disability-benefits/apply/
       title: How do I file a claim?
@@ -20,7 +20,7 @@ relatedlinks:
       title: How do I file while on active duty?
       description: ""
     - url: /disability-benefits/apply/one-year/
-      title: How do I file for an illness that started after I was discharged from active-duty?
+      title: How do I file for an illness that started after I was discharged from active duty?
       description: ""
 ---
 
@@ -99,11 +99,11 @@ If the death happened after service and we get the claim more than 1 year after 
 
 #### Error in a Previous Decision
 
-If we find a clear and unmistakable error in a prior decision, the effective date of the new decision will be the date from which benefits would've been paid if there hadn't been an error in the prior decision.
+If we find a clear and unmistakable error in a prior decision, the effective date of the new decision will be the date from which benefits would’ve been paid if there hadn’t been an error in the prior decision.
 
 #### Difference of Opinion
 
-A decision that's based on a difference of opinion will have an effective date of the original decision, had it been favorable.
+A decision that’s based on a difference of opinion will have an effective date of the original decision, had it been favorable.
 
 #### Increases in the Disability
 

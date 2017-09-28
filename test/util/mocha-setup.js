@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import jsdom from 'jsdom';
+import { JSDOM } from 'jsdom';
+// import sinon from 'sinon'
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
@@ -15,12 +16,12 @@ function setupJSDom() {
   }
 
   // setup the simplest document possible
-  const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
 
   // get the window object out of the document
-  const win = doc.defaultView;
+  const win = dom.window;
 
-  global.document = doc;
+  global.document = win.document;
   global.window = win;
 
   win.VetsGov = {
@@ -33,12 +34,21 @@ function setupJSDom() {
 
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
   function propagateToGlobal(window) {
+    /* eslint-disable */
     for (const key in window) {
       if (!window.hasOwnProperty(key)) continue;
       if (key in global) continue;
 
       global[key] = window[key];
     }
+    /* eslint-enable */
+
+    // Mock fetch
+    // This was causing some tests to fail, so we'll have to loop back around to it later
+    // global.fetch = sinon.stub();
+
+    // Mock sessionStorage
+    // global.sessionStorage = {};
   }
 
   propagateToGlobal(win);

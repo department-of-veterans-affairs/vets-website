@@ -25,7 +25,7 @@ export function claimantHeader({ formData }) {
 
 export const veteranUISchema = {
   militaryServiceNumber: {
-    'ui:title': 'Military Service number (if you have one that\'s different than your Social Security number)'
+    'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)'

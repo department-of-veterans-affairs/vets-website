@@ -1,7 +1,9 @@
 ---
-title: Get your VA health records
+title: Get Your VA Health Records
 layout: page-react.html
 entryname: health-records
+collection: healthCare
+order: 8
 ---
 
 <div id="main">

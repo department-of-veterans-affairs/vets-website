@@ -18,7 +18,7 @@ title: Logout
 <script>
 if (location.search.substring(1) === 'success=true') {
   window.opener.sessionStorage.clear();
-  window.opener.location.reload();
+  window.opener.document.location.href = '/';
   window.close();
 }
 </script>

@@ -9,7 +9,7 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
 
-import * as toursOfDuty from '../../definitions/toursOfDuty';
+import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -31,9 +31,12 @@ const formConfig = {
   urlPrefix: '/1990n/',
   submitUrl: '/v0/education_benefits_claims/1990n',
   trackingPrefix: 'edu-1990n-',
-  formId: '1990n',
+  formId: '22-1990N',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

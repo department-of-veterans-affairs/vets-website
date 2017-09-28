@@ -74,7 +74,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 - Many employers have made [commitments](/employment/commitments) to hire Veterans and military spouses.
 - Consider a job with the [federal government](/employment/job-seekers/federal-employment).
 - Review job boards, search job banks, and research openings at companies that interest you.
-- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you've targeted.
+- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you’ve targeted.
 </li>
 
 <li class="process-step list-five" markdown="1">

@@ -19,19 +19,19 @@ import {
 } from '../../utils/labels';
 
 import {
-  validateDate,
+  validateMonthYear,
   validateFutureDateIfExpectedGrad
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
+import monthYearUI from '../../../common/schemaform/definitions/monthYear';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as personId from '../../../common/schemaform/definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
-import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import GetFormHelp from '../../components/GetFormHelp';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
@@ -41,6 +41,7 @@ import applicantInformationPage from '../../../common/schemaform/pages/applicant
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
+import employmentHistoryPage from '../../pages/employmentHistory';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -61,7 +62,6 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  nonMilitaryJobs,
   secondaryContact,
   date,
   dateRange,
@@ -79,9 +79,12 @@ const formConfig = {
   urlPrefix: '/5490/',
   submitUrl: '/v0/education_benefits_claims/5490',
   trackingPrefix: 'edu-5490-',
-  formId: '5490',
+  formId: '22-5490',
   version: 0,
-  disableSave: true,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for education benefits.',
+    noAuth: 'Please sign in again to resume your application for education benefits.'
+  },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -315,7 +318,7 @@ const formConfig = {
                   'properties.veteranFullName',
                   'properties.veteranSocialSecurityNumber',
                   'properties.vaFileNumber'],
-                  previousBenefits),
+                previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
@@ -345,7 +348,7 @@ const formConfig = {
                 'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
-                'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
+                'ui:title': 'If you’re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
               remarriageDate: _.assign(dateUI('Date you got remarried'), {
@@ -468,15 +471,16 @@ const formConfig = {
           uiSchema: {
             highSchool: {
               status: {
-                'ui:title': 'What\'s your current high school status?',
+                'ui:title': 'What’s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels,
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                dateUI(null), {
+                monthYearUI(null), {
                   'ui:options': {
+                    monthYear: true,
                     expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
@@ -490,7 +494,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [
-                    validateDate,
+                    validateMonthYear,
                     validateFutureDateIfExpectedGrad
                   ]
                 },
@@ -562,26 +566,7 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
-          uiSchema: {
-            'view:hasNonMilitaryJobs': {
-              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
-              'ui:widget': 'yesNo'
-            },
-            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:hasNonMilitaryJobs': {
-                type: 'boolean'
-              },
-              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
-            }
-          }
-        }
+        employmentHistory: employmentHistoryPage(fullSchema5490, false)
       }
     },
     schoolSelection: {

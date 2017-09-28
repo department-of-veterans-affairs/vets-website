@@ -74,8 +74,8 @@ class Pagination extends React.Component {
       currentPage < totalPages - maxPageListLength + 1;
 
     const limit = showEllipsisAndLastPage
-                ? maxPageListLength - 2
-                : maxPageListLength;
+      ? maxPageListLength - 2
+      : maxPageListLength;
 
     let end;
     let start;
@@ -110,10 +110,10 @@ class Pagination extends React.Component {
 
       return (
         <a
-            key={pageNumber}
-            className={pageClass}
-            aria-label={`Page ${pageNumber}`}
-            onClick={() => this.props.onPageSelect(pageNumber)}>
+          key={pageNumber}
+          className={pageClass}
+          aria-label={`Page ${pageNumber}`}
+          onClick={() => this.props.onPageSelect(pageNumber)}>
           {pageNumber}
         </a>
       );

@@ -9,9 +9,9 @@ describe('<ErrorableGroup>', () => {
   it('has sane looking features', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableGroup
-          required
-          validation
-          errorMessage="Test">
+        required
+        validation
+        errorMessage="Test">
         <first/><second/>
       </ErrorableGroup>
     );
@@ -23,10 +23,10 @@ describe('<ErrorableGroup>', () => {
   it('shows error message when invalid', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableGroup
-          required
-          validation={false}
-          isDirty
-          errorMessage="Test">
+        required
+        validation={false}
+        isDirty
+        errorMessage="Test">
         <first/><second/>
       </ErrorableGroup>
     );

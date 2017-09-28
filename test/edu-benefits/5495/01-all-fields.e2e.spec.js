@@ -13,9 +13,9 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5495`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
-      .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+      .waitForElementVisible('.usa-button-primary', Timeouts.slow)
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+      .click('.usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
@@ -40,7 +40,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility page.
     client
-      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_benefit_0"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
@@ -76,7 +76,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Contact information page.
     client
-      .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_preferredContactMethod_0"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.data, true);
     client
       .axeCheck('.main')
@@ -85,7 +85,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Direct deposit page.
     client
-      .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+      .waitForElementVisible('label[for="root_bankAccountChange_0"]', Timeouts.slow);
     EduHelpers.completePaymentChange(client, testData.data);
     EduHelpers.completeDirectDeposit(client, testData.data);
     client
@@ -101,11 +101,10 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary')
       .expect.element('.js-test-location').attribute('data-location')
-        .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page.
-    client
-      .expect.element('.edu-benefits-submit-success').to.be.visible;
+    client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
     client
       .axeCheck('.main')
       .end();

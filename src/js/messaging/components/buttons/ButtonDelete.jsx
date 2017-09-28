@@ -17,9 +17,9 @@ class ButtonDelete extends React.Component {
 
     return (
       <button
-          onClick={this.handleClick}
-          className={buttonClass}
-          type="button">
+        onClick={this.handleClick}
+        className={buttonClass}
+        type="button">
         <i className="fa fa-trash"></i>
         <span>Delete</span>
       </button>

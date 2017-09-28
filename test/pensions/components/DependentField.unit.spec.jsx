@@ -8,14 +8,14 @@ describe('Pensions DependentField', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <DependentField
-          id="id"
-          formData={{
-            fullName: {
-              first: 'Jane',
-              last: 'Doe'
-            },
-            relationship: 'child'
-          }}/>
+        id="id"
+        formData={{
+          fullName: {
+            first: 'Jane',
+            last: 'Doe'
+          },
+          relationship: 'child'
+        }}/>
     );
 
     expect(tree.text()).to.contain('Jane Doe');

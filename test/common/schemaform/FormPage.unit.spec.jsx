@@ -6,6 +6,10 @@ import sinon from 'sinon';
 import { FormPage } from '../../../src/js/common/schemaform/FormPage';
 
 describe('Schemaform <FormPage>', () => {
+  const location = {
+    pathname: '/testing/0'
+  };
+
   it('should render', () => {
     const route = {
       pageConfig: {
@@ -30,13 +34,143 @@ describe('Schemaform <FormPage>', () => {
       },
       data: {}
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route}/>
+      <FormPage form={form} route={route} user={user} location={location}/>
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+  });
+  it('should display SaveLink and SaveStatus for SiP enabled forms if user is logged in', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).not.to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).not.to.be.empty;
+  });
+  it('should not display SaveLink or SaveStatus for non-SiP enabled forms', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: true,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).to.be.empty;
+    expect(tree.everySubTree('SaveFormLink')).to.be.empty;
+  });
+  it('should not display SaveStatus if user is not logged in', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      disableSave: true,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={form} route={route} user={user} location={location}/>
+    );
+
+    expect(tree.everySubTree('SaveStatus')).to.be.empty;
   });
   describe('should handle', () => {
     let tree;
@@ -45,6 +179,7 @@ describe('Schemaform <FormPage>', () => {
     let onSubmit;
     let form;
     let route;
+    let user;
     beforeEach(() => {
       setData = sinon.spy();
       onSubmit = sinon.spy();
@@ -86,14 +221,24 @@ describe('Schemaform <FormPage>', () => {
           data: {}
         }
       };
+      user = {
+        profile: {
+          savedForms: []
+        },
+        login: {
+          currentlyLoggedIn: false
+        }
+      };
 
       tree = SkinDeep.shallowRender(
         <FormPage
-            router={router}
-            setData={setData}
-            form={form}
-            onSubmit={onSubmit}
-            route={route}/>
+          router={router}
+          setData={setData}
+          form={form}
+          user={user}
+          onSubmit={onSubmit}
+          location={location}
+          route={route}/>
       );
     });
     it('change', () => {
@@ -103,7 +248,7 @@ describe('Schemaform <FormPage>', () => {
       expect(setData.calledWith('testPage', newData));
     });
     it('submit', () => {
-      tree.getMountedInstance().onSubmit();
+      tree.getMountedInstance().onSubmit({});
 
       expect(router.push.calledWith('next-page'));
     });
@@ -145,14 +290,25 @@ describe('Schemaform <FormPage>', () => {
       },
       data: {}
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
     const router = {
       push: sinon.spy()
     };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          router={router}
-          form={form} route={route}/>
+        router={router}
+        form={form}
+        user={user}
+        route={route}
+        location={location}/>
     );
 
     tree.getMountedInstance().goBack();
@@ -195,9 +351,22 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} params={{ index: 0 }}/>
+      <FormPage
+        form={form}
+        user={user}
+        route={route}
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     expect(tree.subTree('SchemaForm').props.schema).to.equal(form.pages.testPage.schema.properties.arrayProp.items[0]);
@@ -241,13 +410,23 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          setData={setData}
-          form={form}
-          route={route}
-          params={{ index: 0 }}/>
+        setData={setData}
+        form={form}
+        user={user}
+        route={route}
+        params={{ index: 0 }}
+        location={location}/>
     );
 
     tree.getMountedInstance().onChange({ test: 2 });
@@ -304,19 +483,96 @@ describe('Schemaform <FormPage>', () => {
         arrayProp: [{}]
       }
     };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
 
     const tree = SkinDeep.shallowRender(
       <FormPage
-          form={form}
-          route={route}
-          location={{
-            pathname: '/testing/0'
-          }}
-          params={{ index: 0 }}/>
+        form={form}
+        user={user}
+        route={route}
+        location={location}
+        params={{ index: 0 }}/>
     );
 
     const { pageIndex } = tree.getMountedInstance().getEligiblePages();
 
     expect(pageIndex).to.equal(1);
+  });
+  it('should update data when submitting on array page', () => {
+    const setData = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        showPagePerItem: true,
+        arrayPath: 'arrayProp',
+        errorMessages: {},
+        title: ''
+      },
+      pageList: [
+        {
+          path: 'testing'
+        }
+      ]
+    };
+    const form = {
+      pages: {
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}]
+              }
+            }
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {}
+            }
+          }
+        }
+      },
+      data: {
+        arrayProp: [{}]
+      }
+    };
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: false
+      }
+    };
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        setData={setData}
+        router={router}
+        form={form}
+        user={user}
+        route={route}
+        location={location}
+        params={{ index: 0 }}/>
+    );
+
+    tree.getMountedInstance().onSubmit({ formData: { test: 2 } });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [
+        {
+          test: 2
+        }
+      ]
+    });
   });
 });

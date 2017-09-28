@@ -10,8 +10,8 @@ describe('Schemaform definition file', () => {
   it('should render file', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={fileSchema}
-          uiSchema={uiSchema('Test')}/>
+        schema={fileSchema}
+        uiSchema={uiSchema('Test')}/>
     );
 
     const formDOM = findDOMNode(form);

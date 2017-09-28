@@ -13,14 +13,14 @@ export function loadPrescription(id) {
     Promise.all(urls.map(
       url => apiRequest(url, null, response => response, errorHandler)
     ))
-    .then(data => dispatch({
-      type: 'LOAD_PRESCRIPTION_SUCCESS',
-      data: {
-        rx: data[0].data,
-        trackings: data[1].data
-      }
-    }))
-    .catch(errorHandler);
+      .then(data => dispatch({
+        type: 'LOAD_PRESCRIPTION_SUCCESS',
+        data: {
+          rx: data[0].data,
+          trackings: data[1].data
+        }
+      }))
+      .catch(errorHandler);
   };
 }
 

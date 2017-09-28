@@ -20,9 +20,9 @@ class MessageUploadedAttachment extends React.Component {
         <span className="msg-attachment-name">{this.props.fileName}</span>
         <span className="msg-attachment-size">({this.props.fileSize})</span>
         <ButtonClose
-            args={attachmentIndexData}
-            className="msg-attachment-close"
-            onClick={this.props.onClose}/>
+          args={attachmentIndexData}
+          className="msg-attachment-close"
+          onClick={this.props.onClose}/>
       </div>
     );
   }

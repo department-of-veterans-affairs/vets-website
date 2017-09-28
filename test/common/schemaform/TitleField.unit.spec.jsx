@@ -10,13 +10,13 @@ describe('Schemaform <TitleField>', () => {
       <TitleField id="root__title"/>
     );
 
-    expect(tree.subTree('legend')).to.be.truthy;
+    expect(tree.subTree('legend')).not.to.be.false;
   });
   it('should render h5 for non-root', () => {
     const tree = SkinDeep.shallowRender(
       <TitleField id="root_someField"/>
     );
 
-    expect(tree.subTree('h5')).to.be.truthy;
+    expect(tree.subTree('h5')).not.to.be.false;
   });
 });

@@ -32,8 +32,8 @@ export class Details extends React.Component {
 
     return (
       <ContactCard
-          facilityName={facilityName}
-          phoneNumber={phoneNumber}/>
+        facilityName={facilityName}
+        phoneNumber={phoneNumber}/>
     );
   }
 
@@ -48,8 +48,8 @@ export class Details extends React.Component {
 
       'Prescription status': status ? (
         <GlossaryLink
-            term={status}
-            onClick={this.props.openGlossaryModal}/>
+          term={status}
+          onClick={this.props.openGlossaryModal}/>
       ) : null,
 
       'Last fill date': formatDate(
@@ -67,21 +67,21 @@ export class Details extends React.Component {
     if (attrs.isRefillable) {
       refillButton = (
         <SubmitRefill
-            className="rx-prescription-button"
-            onSubmit={(e) => {
-              e.preventDefault();
-              this.props.openRefillModal(attrs);
-            }}
-            refillId={attrs.id}
-            text="Refill Prescription"/>
+          className="rx-prescription-button"
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.props.openRefillModal(attrs);
+          }}
+          refillId={attrs.id}
+          text="Refill Prescription"/>
       );
     }
 
     return (
       <div id="rx-info">
         <TableVerticalHeader
-            className="usa-table-borderless rx-table"
-            data={data}/>
+          className="usa-table-borderless rx-table"
+          data={data}/>
         {refillButton}
       </div>
     );

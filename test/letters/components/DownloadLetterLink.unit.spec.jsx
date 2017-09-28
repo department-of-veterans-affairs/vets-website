@@ -19,11 +19,6 @@ describe('<DownloadLetterLink>', () => {
     expect(vdom).to.exist;
   });
 
-  it('should render Link component', () => {
-    const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
-    expect(tree.subTree('Link')).to.exist;
-  });
-
   it('should show download button', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
     expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
@@ -37,7 +32,7 @@ describe('<DownloadLetterLink>', () => {
     const getLetterPdf = sinon.spy();
     const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
     const component = (ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>));
-    const link = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'a');
+    const link = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
     ReactTestUtils.Simulate.click(link);
     expect(getLetterPdf.calledOnce).to.be.true;
     expect(global.window.dataLayer).not.to.be.empty;

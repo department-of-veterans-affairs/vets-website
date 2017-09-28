@@ -10,12 +10,12 @@ describe('Schemaform <CheckboxWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CheckboxWidget
-          id="1"
-          value
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{ title: 'Title' }}/>
+        id="1"
+        value
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{ title: 'Title' }}/>
     );
     expect(tree.text()).to.include('Title');
     expect(tree.subTree('input').props.checked).to.be.true;
@@ -25,12 +25,12 @@ describe('Schemaform <CheckboxWidget>', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <CheckboxWidget
-          id="1"
-          value
-          required
-          disabled={false}
-          onChange={onChange}
-          options={{ title: 'Title' }}/>
+        id="1"
+        value
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{ title: 'Title' }}/>
     );
     tree.subTree('input').props.onChange({
       target: {

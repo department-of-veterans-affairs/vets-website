@@ -40,8 +40,8 @@ describe('<MessageAttachments>', () => {
     const onClose = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
       <MessageAttachments
-          {...props }
-          onClose={onClose}/>
+        {...props }
+        onClose={onClose}/>
     );
 
     messageAttachments.handleAttachmentDelete({

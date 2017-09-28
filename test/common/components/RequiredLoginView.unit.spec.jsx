@@ -2,13 +2,17 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
-
+import sinon from 'sinon';
 import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
 
 describe('<RequiredLoginView>', () => {
   beforeEach(() => {
     global.sessionStorage = { userToken: 'abcdefg' };
   });
+
+  const redirectFunc = sinon.spy();
+  global.window.location.replace = redirectFunc;
+
   const anonymousUser = {
     accountType: null,
     dob: null,
@@ -74,11 +78,9 @@ describe('<RequiredLoginView>', () => {
       </RequiredLoginView>
     );
 
-    const instance = tree.getMountedInstance();
-    instance.setState({ loading: false });
     const vdom = tree.getRenderOutput();
 
-    return { tree, instance, mergedProps, vdom };
+    return { tree, mergedProps, vdom };
   }
 
   it('should render', () => {
@@ -87,8 +89,9 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should render a loading graphic while loading', () => {
-    const { tree, instance } = setup();
-    instance.setState({ loading: true });
+    const { tree } = setup({
+      userProfile: { loading: true }
+    });
     const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
     expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
@@ -102,9 +105,6 @@ describe('<RequiredLoginView>', () => {
         <TestChildComponent name="three"/>
       </RequiredLoginView>
     );
-    tree.getMountedInstance().setState({
-      loading: false,
-    });
 
     // Child components should not be passed an isDataAvailable prop
     tree.props.children.forEach((child) => {
@@ -121,9 +121,6 @@ describe('<RequiredLoginView>', () => {
         <TestChildComponent name="three"/>
       </RequiredLoginView>
     );
-    tree.getMountedInstance().setState({
-      loading: false,
-    });
 
     // Each direct child component should be passed a false isDataAvailable prop
     tree.props.children.forEach((child) => {
@@ -135,7 +132,7 @@ describe('<RequiredLoginView>', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ userProfile: loa1User });
-        expect(tree.everySubTree('VerifyPrompt')).to.not.be.empty;
+        expect(tree.subTree('Connect(Main)').props.renderType).to.equal('verifyPage');
       });
     });
     describe('authRequired=1', () => {
@@ -161,14 +158,14 @@ describe('<RequiredLoginView>', () => {
       it('should display not found message', () => {
         const notFoundProfile = _.merge({}, loa3User, { status: 'NOT_FOUND' });
         const { tree } = setup({ userProfile: notFoundProfile });
-        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn\'t find your records with that information.');
+        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn’t find your records with that information.');
       });
     });
   });
   describe('not logged in', () => {
     it('should prompt for login', () => {
-      const { tree } = setup({ userProfile: anonymousUser });
-      expect(tree.everySubTree('LoginPrompt')).to.not.be.empty;
+      setup({ userProfile: anonymousUser });
+      expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
     });
     it('should display children when no LOA required', () => {
       const { tree } = setup({ userProfile: anonymousUser, authRequired: null });

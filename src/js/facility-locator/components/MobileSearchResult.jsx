@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
 import FacilityHours from './FacilityHours';
 import FacilityInfoBlock from './search-results/FacilityInfoBlock';

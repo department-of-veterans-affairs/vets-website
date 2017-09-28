@@ -10,8 +10,8 @@ describe('Pensions DisclosureTitle', () => {
 
     const tree = SkinDeep.shallowRender(
       <DisclosureTitle
-          id="id"
-          formData={{ test: { first: 'Jane', last: 'Doe' } }}/>
+        id="id"
+        formData={{ test: { first: 'Jane', last: 'Doe' } }}/>
     );
 
     expect(tree.text()).to.contain('Jane Doe');
@@ -23,21 +23,21 @@ describe('Pensions DisclosureTitle', () => {
 
     const tree = SkinDeep.shallowRender(
       <DisclosureTitle
-          id="id"
-          formData={{
-            maritalStatus: 'Married',
-            marriages: [{
-              spouseFullName: {
-                first: 'John',
-                last: 'Doe'
-              }
-            }, {
-              spouseFullName: {
-                first: 'Jane',
-                last: 'Doe'
-              }
-            }]
-          }}/>
+        id="id"
+        formData={{
+          maritalStatus: 'Married',
+          marriages: [{
+            spouseFullName: {
+              first: 'John',
+              last: 'Doe'
+            }
+          }, {
+            spouseFullName: {
+              first: 'Jane',
+              last: 'Doe'
+            }
+          }]
+        }}/>
     );
 
     expect(tree.text()).to.contain('Jane Doe');

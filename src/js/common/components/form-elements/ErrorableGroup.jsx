@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
@@ -35,9 +36,9 @@ class ErrorableGroup extends React.Component {
       <div className="form-errorable-group">
         <div className={hasError ? 'usa-input-error' : ''}>
           <label
-              className={hasError ? 'usa-input-error-label' : undefined}>
-              {this.props.label}
-              {requiredSpan}
+            className={hasError ? 'usa-input-error-label' : undefined}>
+            {this.props.label}
+            {requiredSpan}
           </label>
           {errorSpan}
           {this.props.children}

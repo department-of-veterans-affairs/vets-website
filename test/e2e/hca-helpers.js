@@ -1,6 +1,7 @@
 const mock = require('./mock-helpers');
 const Timeouts = require('./timeouts.js');
 const LoginHelpers = require('./login-helpers.js');
+const moment = require('moment');
 
 function completePersonalInformation(client, data) {
   client
@@ -76,14 +77,14 @@ function completeAdditionalInformation(client) {
 
 function completeVaBenefits(client) {
   client
-    .click('input[name="root_compensableVaServiceConnectedYes"]')
-    .click('input[name="root_isVaServiceConnectedYes"]')
-    .click('input[name="root_receivesVaPensionYes"]');
+    .click('input#root_compensableVaServiceConnectedYes')
+    .click('input#root_isVaServiceConnectedYes')
+    .click('input#root_receivesVaPensionYes');
 }
 
 function completeFinancialDisclosure(client) {
   client
-    .click('input[name="root_discloseFinancialInformationYes"]');
+    .click('input#root_discloseFinancialInformationYes');
 }
 
 function completeSpouseInformation(client, data) {
@@ -95,7 +96,7 @@ function completeSpouseInformation(client, data) {
     .fill('input[name="root_spouseFullName_last"]', data.spouseFullName.last)
     .selectDropdown('root_spouseFullName_suffix', data.spouseFullName.suffix)
     .fill('input[name="root_spouseSocialSecurityNumber"]', data.spouseSocialSecurityNumber)
-    .click('input[name="root_sameAddressNo"]');
+    .click('input#root_sameAddressNo');
 
   client.expect.element('label[for="root_view:spouseContactInformation_spouseAddress_country"]').to.be.visible.before(Timeouts.slow);
 
@@ -107,8 +108,8 @@ function completeSpouseInformation(client, data) {
     .selectDropdown('root_view:spouseContactInformation_spouseAddress_country', data['view:spouseContactInformation'].spouseAddress.country)
     .selectDropdown('root_view:spouseContactInformation_spouseAddress_state', data['view:spouseContactInformation'].spouseAddress.state)
     .fill('input[name="root_view:spouseContactInformation_spouseAddress_postalCode"]', data['view:spouseContactInformation'].spouseAddress.postalCode)
-    .click('input[name="root_cohabitedLastYearNo"]')
-    .click('input[name="root_provideSupportLastYearYes"]')
+    .click('input#root_cohabitedLastYearNo')
+    .click('input#root_provideSupportLastYearYes')
     .fill('input[name="root_view:spouseContactInformation_spousePhone"]', data['view:spouseContactInformation'].spousePhone);
 }
 
@@ -127,7 +128,7 @@ function completeAnnualIncomeInformation(client, data) {
 
 function completeChildInformation(client, data) {
   client
-    .click('input[name="root_view:reportChildrenYes"]');
+    .click('input#root_view\\:reportChildrenYes');
 
   client.expect.element('label[for="root_children_0_childFullName_first"]').to.be.visible.before(Timeouts.normal);
   client
@@ -140,10 +141,10 @@ function completeChildInformation(client, data) {
     .selectDropdown('root_children_0_childFullName_suffix', data.children[0].childFullName.suffix)
     .setValue('input[name="root_children_0_childSocialSecurityNumber"]', data.children[0].childSocialSecurityNumber)
     .setValue('input[name="root_children_0_childEducationExpenses"]', data.children[0].childEducationExpenses)
-    .click('input[name="root_children_0_childDisabledBefore18Yes"]')
-    .click('input[name="root_children_0_childAttendedSchoolLastYearYes"]')
-    .click('input[name="root_children_0_childCohabitedLastYearNo"]')
-    .click('input[name="root_children_0_childReceivedSupportLastYearYes"]');
+    .click('input#root_children_0_childDisabledBefore18Yes')
+    .click('input#root_children_0_childAttendedSchoolLastYearYes')
+    .click('input#root_children_0_childCohabitedLastYearNo')
+    .click('input#root_children_0_childReceivedSupportLastYearYes');
 }
 
 function completeDeductibleExpenses(client, data) {
@@ -156,14 +157,14 @@ function completeDeductibleExpenses(client, data) {
 
 function completeMedicareAndMedicaid(client, data) {
   client
-    .click('input[name="root_isMedicaidEligibleYes"]')
-    .click('input[name="root_isEnrolledMedicarePartAYes"]')
+    .click('input#root_isMedicaidEligibleYes')
+    .click('input#root_isEnrolledMedicarePartAYes')
     .fillDate('root_medicarePartAEffectiveDate', data.medicarePartAEffectiveDate);
 }
 
 function completeInsuranceInformation(client, data) {
   client
-    .click('input[name="root_isCoveredByHealthInsuranceYes"]')
+    .click('input#root_isCoveredByHealthInsuranceYes')
     .setValue('input[name="root_providers_0_insuranceName"]', data.providers[0].insuranceName)
     .setValue('input[name="root_providers_0_insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)
     .setValue('input[name="root_providers_0_insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber)
@@ -172,10 +173,10 @@ function completeInsuranceInformation(client, data) {
 
 function completeVaInsuranceInformation(client, data) {
   client
-  .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
-  .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
-  .click('input[name="root_isEssentialAcaCoverage"]')
-  .click('input[name="root_wantsInitialVaContactYes"]');
+    .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
+    .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
+    .click('input[name="root_isEssentialAcaCoverage"]')
+    .click('input#root_wantsInitialVaContactYes');
 }
 
 function initApplicationSubmitMock() {
@@ -235,8 +236,17 @@ function initSaveInProgressMock(url, client) {
             gender: 'F',
             birth_date: '1985-01-01',
           },
+          veteran_status: {
+            is_veteran: true,
+            status: 'OK',
+          },
           in_progress_forms: [{
-            form: '1010ez'
+            form: '1010ez',
+            last_updated: 1501608808,
+            metadata: {
+              last_updated: 1506792808,
+              expires_at: moment().add(1, 'day').unix(),
+            }
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
@@ -284,7 +294,7 @@ function initSaveInProgressMock(url, client) {
         version: 0,
         returnUrl: '/veteran-information/birth-information',
         savedAt: 1498588443698,
-        expires_at: 1503772443,
+        expires_at: moment().add(1, 'day').unix(),
         last_updated: 1498588443
       }
     }
@@ -293,6 +303,17 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'put',
     value: {
+      data: {
+        attributes: {
+          metadata: {
+            version: 0,
+            returnUrl: '/veteran-information/birth-information',
+            savedAt: 1498588443698,
+            expires_at: moment().add(1, 'day').unix(),
+            last_updated: 1498588443
+          }
+        }
+      }
     }
   });
   /* eslint-enable camelcase */

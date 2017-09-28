@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import {
-  UPDATE_PROFILE_FIELD,
+  UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
   FETCHING_LATEST_MHV_TERMS,
   FETCHING_LATEST_MHV_TERMS_SUCCESS,
@@ -9,7 +9,7 @@ import {
   ACCEPTING_LATEST_MHV_TERMS,
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
- } from '../actions';
+} from '../actions';
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
 // TODO(crew): Romove before this goes to production.
@@ -35,8 +35,8 @@ const initialState = {
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELD: {
-      return _.set(action.propertyPath, action.value, state);
+    case UPDATE_PROFILE_FIELDS: {
+      return _.assign(state, action.newState);
     }
     case PROFILE_LOADING_FINISHED: {
       return _.set('loading', false, state);

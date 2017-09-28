@@ -12,9 +12,9 @@ describe('Burials document upload', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -24,12 +24,12 @@ describe('Burials document upload', () => {
   it('should render death certificate field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            burialAllowanceRequested: 'service'
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          burialAllowanceRequested: 'service'
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -39,14 +39,14 @@ describe('Burials document upload', () => {
   it('should render receipts field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            'view:claimedBenefits': {
-              transportation: true
-            }
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          'view:claimedBenefits': {
+            transportation: true
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -56,12 +56,12 @@ describe('Burials document upload', () => {
   it('should render DD214 warning if no tours of duty provided', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            burialAllowanceRequested: 'service'
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          burialAllowanceRequested: 'service'
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -71,13 +71,13 @@ describe('Burials document upload', () => {
   it('should not render DD214 warning if tours of duty provided', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
-            burialAllowanceRequested: 'service'
-          }}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
+          burialAllowanceRequested: 'service'
+        }}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
 
@@ -88,16 +88,16 @@ describe('Burials document upload', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            burialAllowanceRequested: 'service',
-            'view:claimedBenefits': {
-              transportation: true
-            }
-          }}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          burialAllowanceRequested: 'service',
+          'view:claimedBenefits': {
+            transportation: true
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);
@@ -112,24 +112,24 @@ describe('Burials document upload', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema}
-          data={{
-            burialAllowanceRequested: 'service',
-            'view:claimedBenefits': {
-              transportation: true
-            },
-            deathCertificate: [{
-              confirmationCode: 'testing'
-            }],
-            transportationReceipts: [{
-              confirmationCode: 'testing'
-            }, {
-              confirmationCode: 'testing2'
-            }]
-          }}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}/>
+        schema={schema}
+        data={{
+          burialAllowanceRequested: 'service',
+          'view:claimedBenefits': {
+            transportation: true
+          },
+          deathCertificate: [{
+            confirmationCode: 'testing'
+          }],
+          transportationReceipts: [{
+            confirmationCode: 'testing'
+          }, {
+            confirmationCode: 'testing2'
+          }]
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
     );
 
     const formDOM = getFormDOM(form);

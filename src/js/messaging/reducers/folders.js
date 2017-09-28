@@ -57,7 +57,7 @@ const setRedirect = (state, allowBack = false) => {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-    // TODO: Handle the response in an appropriate way
+  // TODO: Handle the response in an appropriate way
     case CREATE_FOLDER_SUCCESS: {
       const folder = action.folder;
       const newFolders = new Map(state.data.items);
@@ -126,8 +126,8 @@ export default function folders(state = initialState, action) {
 
     case TOGGLE_FOLDER_MOVE_TO: {
       const id = state.ui.moveToId === action.messageId
-               ? null
-               : action.messageId;
+        ? null
+        : action.messageId;
 
       return set('ui.moveToId', id, state);
     }
@@ -139,7 +139,7 @@ export default function folders(state = initialState, action) {
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
 
     case MOVE_MESSAGE_SUCCESS: {
-      // Update the counts on the affected folders after moving a message.
+    // Update the counts on the affected folders after moving a message.
       const newItems = new Map(state.data.items);
 
       const fromFolder = state.data.currentItem.attributes;

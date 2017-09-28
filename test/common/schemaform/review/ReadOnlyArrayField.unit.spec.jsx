@@ -31,12 +31,12 @@ describe('Schemaform review: ReadOnlyArrayField', () => {
 
     const tree = SkinDeep.shallowRender(
       <ReadOnlyArrayField
-          schema={schema}
-          formData={formData}
-          uiSchema={uiSchema}
-          idSchema={{}}
-          registry={registry}
-          requiredSchema={{}}/>
+        schema={schema}
+        formData={formData}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        registry={registry}
+        requiredSchema={{}}/>
     );
 
     expect(tree.everySubTree('SchemaField').length).to.equal(1);

@@ -54,9 +54,9 @@ class AlertBox extends React.Component {
 
     return (
       <div
-          aria-live="assertive"
-          className={alertClass}
-          ref={(ref) => { this._ref = ref; }}>
+        aria-live="assertive"
+        className={alertClass}
+        ref={(ref) => { this._ref = ref; }}>
         <div className="va-alert-body usa-alert-body">
           <div className="va-alert-text usa-alert-heading">
             {this.props.content}

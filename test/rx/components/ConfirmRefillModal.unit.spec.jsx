@@ -41,8 +41,8 @@ describe('<ConfirmRefillModal>', () => {
 
     const confirmRefillModal = ReactTestUtils.renderIntoDocument(
       <ConfirmRefillModal
-          {...props}
-          refillPrescription={refillPrescription}/>
+        {...props}
+        refillPrescription={refillPrescription}/>
     );
 
     confirmRefillModal.handleConfirmRefill({ preventDefault: () => {} });
@@ -54,8 +54,8 @@ describe('<ConfirmRefillModal>', () => {
 
     const confirmRefillModal = ReactTestUtils.renderIntoDocument(
       <ConfirmRefillModal
-          {...props}
-          onCloseModal={onCloseModal}/>
+        {...props}
+        onCloseModal={onCloseModal}/>
     );
 
     confirmRefillModal.handleCloseModal({ preventDefault: () => {} });

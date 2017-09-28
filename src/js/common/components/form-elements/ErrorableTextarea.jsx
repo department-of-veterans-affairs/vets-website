@@ -37,7 +37,7 @@ class ErrorableTextarea extends React.Component {
 
   handleChange(domEvent) {
     const val = domEvent.target.value;
-    // IE9 doesn't support max length on textareas
+    // IE9 doesn’t support max length on textareas
     if (!this.props.charMax || val.length <= this.props.charMax) {
       this.props.onValueChange(makeField(val, this.props.field.dirty));
     }
@@ -66,8 +66,8 @@ class ErrorableTextarea extends React.Component {
     if (this.props.toolTipText) {
       toolTip = (
         <ToolTip
-            tabIndex={this.props.tabIndex}
-            toolTipText={this.props.toolTipText}/>
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
       );
     }
 
@@ -91,28 +91,28 @@ class ErrorableTextarea extends React.Component {
     return (
       <div className={inputErrorClass}>
         <label
-            id={`${this.inputId}-label`}
-            className={labelErrorClass}
-            htmlFor={this.inputId}>
-              {this.props.label}
-              {requiredSpan}
+          id={`${this.inputId}-label`}
+          className={labelErrorClass}
+          htmlFor={this.inputId}>
+          {this.props.label}
+          {requiredSpan}
         </label>
         {errorSpan}
         <textarea
-            disabled={this.props.disabled}
-            className={classes}
-            aria-describedby={errorSpanId}
-            aria-labelledby={`${this.inputId}-label`}
-            id={this.inputId}
-            placeholder={this.props.placeholder}
-            name={this.props.name}
-            tabIndex={this.props.tabIndex}
-            maxLength={this.props.charMax}
-            value={this.props.field.value}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}/>
-            {maxCharacters}
-            {toolTip}
+          disabled={this.props.disabled}
+          className={classes}
+          aria-describedby={errorSpanId}
+          aria-labelledby={`${this.inputId}-label`}
+          id={this.inputId}
+          placeholder={this.props.placeholder}
+          name={this.props.name}
+          tabIndex={this.props.tabIndex}
+          maxLength={this.props.charMax}
+          value={this.props.field.value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}/>
+        {maxCharacters}
+        {toolTip}
       </div>
     );
   }

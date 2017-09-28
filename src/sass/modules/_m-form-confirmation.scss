@@ -1,3 +1,9 @@
+.confirmation-page-title {
+  &:focus {
+    outline: none;
+  }
+}
+
 .inset {
   margin: 2rem 0rem;
   padding: 2rem 3rem;
@@ -51,7 +57,7 @@ ul.claim-list{
     justify-content: center;
   }
 
-  .edu-benefits-submit-success > h3 {
+  .confirmation-page-title {
     text-align: center;
   }
 

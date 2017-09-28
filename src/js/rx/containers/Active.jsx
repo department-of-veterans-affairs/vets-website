@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -55,8 +56,8 @@ class Active extends React.Component {
     const requestedSort = this.props.location.query.sort || 'prescriptionName';
     const sortOrder = requestedSort[0] === '-' ? 'DESC' : 'ASC';
     const sortValue = sortOrder === 'DESC'
-                    ? requestedSort.slice(1)
-                    : requestedSort;
+      ? requestedSort.slice(1)
+      : requestedSort;
 
     const shouldSort =
       !_.isEmpty(prescriptions) &&
@@ -99,8 +100,8 @@ class Active extends React.Component {
 
     return (
       <div
-          className="rx-view-toggle"
-          ref={(elem) => { this.viewToggle = elem; }}>
+        className="rx-view-toggle"
+        ref={(elem) => { this.viewToggle = elem; }}>
         View:
         <ul>
           {toggles.map(t => {
@@ -139,22 +140,22 @@ class Active extends React.Component {
       if (this.state.view === 'list') {
         prescriptionsView = (
           <PrescriptionTable
-              handleSort={this.handleSort}
-              currentSort={currentSort}
-              items={this.props.prescriptions}
-              refillModalHandler={this.props.openRefillModal}
-              glossaryModalHandler={this.props.openGlossaryModal}/>
+            handleSort={this.handleSort}
+            currentSort={currentSort}
+            items={this.props.prescriptions}
+            refillModalHandler={this.props.openRefillModal}
+            glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       } else {
         prescriptionsView = (
           <PrescriptionList
-              items={this.props.prescriptions}
-              // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={currentSort.value === 'facilityName'}
-              handleSort={this.handleSort}
-              currentSort={currentSort}
-              refillModalHandler={this.props.openRefillModal}
-              glossaryModalHandler={this.props.openGlossaryModal}/>
+            items={this.props.prescriptions}
+            // If we’re sorting by facility, tell PrescriptionList to group 'em.
+            grouped={currentSort.value === 'facilityName'}
+            handleSort={this.handleSort}
+            currentSort={currentSort}
+            refillModalHandler={this.props.openRefillModal}
+            glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       }
 
@@ -168,7 +169,7 @@ class Active extends React.Component {
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
-          We couldn't retrieve your prescriptions.
+          We couldn’t retrieve your prescriptions.
           Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>

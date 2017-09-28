@@ -61,11 +61,11 @@ describe('<SortMenu>', () => {
   it('should render the sort links for date-based sorts', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'ASC',
-            value: 'refillDate'
-          }}/>
+        {...props}
+        selected={{
+          order: 'ASC',
+          value: 'refillDate'
+        }}/>
     ).dive(['ul']);
     const links = tree.everySubTree('li');
     expect(links).to.have.length(2);
@@ -83,11 +83,11 @@ describe('<SortMenu>', () => {
   it('should set the string-based descending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'DESC',
-            value: 'prescriptionName'
-          }}/>
+        {...props}
+        selected={{
+          order: 'DESC',
+          value: 'prescriptionName'
+        }}/>
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -97,11 +97,11 @@ describe('<SortMenu>', () => {
   it('should set the date-based ascending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'ASC',
-            value: 'lastSubmitDate'
-          }}/>
+        {...props}
+        selected={{
+          order: 'ASC',
+          value: 'lastSubmitDate'
+        }}/>
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -111,11 +111,11 @@ describe('<SortMenu>', () => {
   it('should set the date-based descending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'DESC',
-            value: 'lastSubmitDate'
-          }}/>
+        {...props}
+        selected={{
+          order: 'DESC',
+          value: 'lastSubmitDate'
+        }}/>
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -127,12 +127,12 @@ describe('<SortMenu>', () => {
 
     const sortMenu = ReactTestUtils.renderIntoDocument(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'DESC',
-            value: 'lastSubmitDate'
-          }}
-          onChange={onChange}/>
+        {...props}
+        selected={{
+          order: 'DESC',
+          value: 'lastSubmitDate'
+        }}
+        onChange={onChange}/>
     );
 
     sortMenu.handleChange({ target: { value: 'refillSubmitDate' } });
@@ -144,12 +144,12 @@ describe('<SortMenu>', () => {
 
     const sortMenu = ReactTestUtils.renderIntoDocument(
       <SortMenu
-          {...props}
-          selected={{
-            order: 'DESC',
-            value: 'lastSubmitDate'
-          }}
-          onClick={onClick}/>
+        {...props}
+        selected={{
+          order: 'DESC',
+          value: 'lastSubmitDate'
+        }}
+        onClick={onClick}/>
     );
 
     sortMenu.handleClick('lastSubmitDate', 'DESC')({ preventDefault: () => {} });

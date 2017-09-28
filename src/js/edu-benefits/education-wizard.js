@@ -2,9 +2,11 @@ function toggleClass(element, className) {
   element.classList.toggle(className);
 }
 function openState(element) {
+  element.setAttribute('hidden', false);
   element.setAttribute('data-state', 'open');
 }
 function closeState(element) {
+  element.setAttribute('hidden', true);
   element.setAttribute('data-state', 'closed');
   const selectionElement = element.querySelector('input:checked');
   if (selectionElement) {
@@ -25,7 +27,7 @@ function closeStateAndCheckChild(alternateQuestion, container) {
   return closeState(alternateQuestion);
 }
 function reInitWidget() {
-  const container = document.querySelector('.wizard-container');
+  const container = document.querySelector('.wizard-anchor .wizard-container');
   const button = container.querySelector('.wizard-button');
   const content = container.querySelector('.wizard-content');
   const apply = container.querySelector('#apply-now-button');
@@ -77,7 +79,6 @@ function reInitWidget() {
       const nextQuestion = radio.dataset.nextQuestion;
       const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
       openState(nextQuestionElement);
-      nextQuestionElement.querySelector('input').focus();
     }
   });
   button.addEventListener('click', () => {
@@ -85,8 +86,17 @@ function reInitWidget() {
     toggleClass(button, 'va-button-primary');
   });
 
-  // Ensure form is reset on page load to prevent unexpected behavior
+  // Ensure form is reset on page load to prevent unexpected behavior associated with backtracking
   resetForm();
 }
 
-document.addEventListener('DOMContentLoaded', reInitWidget);
+function loadImports() {
+  const importContent = document.getElementById('wizard-template').innerHTML;
+  const anchor = document.querySelector('.wizard-anchor');
+  anchor.innerHTML = importContent;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadImports();
+  reInitWidget();
+});
