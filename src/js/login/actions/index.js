@@ -1,4 +1,4 @@
-import { gaClientId } from '../../common/helpers/login-helpers';
+import { gaClientId } from '../../common/utils/helpers';
 
 export const LOG_OUT = 'LOG_OUT';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
@@ -8,6 +8,13 @@ export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
 export const UPDATE_MULTIFACTOR_URL = 'UPDATE_MULTIFACTOR_URL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
 export const UPDATE_VERIFY_URL = 'UPDATE_VERIFY_URL';
+
+export const toggleLoginModal = (isOpen) => {
+  return {
+    type: TOGGLE_LOGIN_MODAL,
+    isOpen,
+  };
+};
 
 export function updateLoggedInStatus(value) {
   return {
@@ -62,9 +69,3 @@ export function toggleSearchHelpUserMenu(menu, isOpen) {
   };
 }
 
-export function toggleLoginModal(isOpen) {
-  return {
-    type: TOGGLE_LOGIN_MODAL,
-    isOpen,
-  };
-}
