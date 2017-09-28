@@ -18,7 +18,7 @@ import {
   transform
 } from '../helpers';
 
-import migrations from '../../config/migrations';
+import urlMigration from '../../config/migrations';
 
 const {
   payHighestRateBenefit
@@ -35,7 +35,7 @@ const formConfig = {
   trackingPrefix: 'edu-1990n-',
   formId: '22-1990N',
   version: 1,
-  migrations,
+  migrations: [urlMigration('/1990n')],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'

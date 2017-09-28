@@ -25,7 +25,7 @@ import {
   benefitsLabels
 } from '../helpers';
 
-import migrations from '../../config/migrations';
+import urlMigration from '../../config/migrations';
 
 const {
   benefit,
@@ -47,7 +47,7 @@ const formConfig = {
   trackingPrefix: 'edu-1990e-',
   formId: '22-1990E',
   version: 1,
-  migrations,
+  migrations: [urlMigration('/1990e')],
   savedFormMessages: {
     notFound: 'Please start over to apply to use transferred education benefits.',
     noAuth: 'Please sign in again to resume your application for transferred education benefits.'

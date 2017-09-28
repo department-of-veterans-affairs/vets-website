@@ -35,7 +35,7 @@ import {
   reserveKickerWarning
 } from '../helpers';
 
-import migrations from '../../config/migrations';
+import urlMigration from '../../config/migrations';
 
 import {
   hasServiceBefore1977
@@ -82,7 +82,7 @@ const formConfig = {
   trackingPrefix: 'edu-',
   formId: '22-1990',
   version: 1,
-  migrations,
+  migrations: [urlMigration('/1990')],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'

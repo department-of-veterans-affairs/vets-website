@@ -20,7 +20,7 @@ import {
   transform
 } from '../helpers';
 
-import migrations from '../../config/migrations';
+import urlMigration from '../../config/migrations';
 
 import {
   survivorBenefitsLabels
@@ -45,7 +45,7 @@ const formConfig = {
   trackingPrefix: 'edu-5495-',
   formId: '22-5495',
   version: 1,
-  migrations,
+  migrations: [urlMigration('/5495')],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
