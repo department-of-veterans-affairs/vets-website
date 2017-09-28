@@ -5,7 +5,7 @@ import _ from 'lodash';
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
 import { STATE_CODE_TO_NAME, ADDRESS_TYPES } from '../utils/constants';
-import { militaryStateNames } from '../utils/helpers';
+import { militaryStateNames, militaryCityNames } from '../utils/helpers';
 
 /**
  * Input component for an address.
@@ -61,6 +61,7 @@ class Address extends React.Component {
     const errorMessages = this.props.errorMessages;
     const isUSA = this.props.address.countryName === 'USA';
     const adjustedStateNames = this.getAdjustedStateNames();
+    const isMilitaryAddress = this.props.address.type === ADDRESS_TYPES.military;
 
     return (
       <div>
@@ -94,14 +95,24 @@ class Address extends React.Component {
           charMax={35}
           value={this.props.address.addressThree}
           onValueChange={(update) => this.props.onInput('addressThree', update)}/>
-        <ErrorableTextInput errorMessage={errorMessages.city}
-          label={<span>City <em>(or APO/FPO/DPO)</em></span>}
-          name="city"
-          autocomplete="address-level2"
-          charMax={30}
-          value={this.props.address.city}
-          required={this.props.required}
-          onValueChange={(update) => this.props.onInput('city', update)}/>
+        {/* Text field for non-military, select box for military */}
+        {!isMilitaryAddress
+          ? <ErrorableTextInput errorMessage={errorMessages.city}
+            label="City"
+            name="city"
+            autocomplete="address-level2"
+            charMax={30}
+            value={this.props.address.city}
+            required={this.props.required}
+            onValueChange={(update) => this.props.onInput('city', update)}/>
+          : <ErrorableSelect errorMessage={errorMessages.city}
+            label="Military Post Office Type Code"
+            name="city"
+            options={militaryCityNames}
+            value={this.props.address.city}
+            required={this.props.required}
+            onValueChange={(update) => this.props.onInput('city', update)}/>
+        }
         {/* Hide the state for addresses that aren't in the US */}
         {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
           label="State"
