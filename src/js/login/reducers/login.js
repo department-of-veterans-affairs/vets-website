@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   currentlyLoggedIn: false,
-  loginUrls: {},
+  loginUrls: null,
   logoutUrl: null,
   multifactorUrl: null,
   showModal: false,

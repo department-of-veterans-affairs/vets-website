@@ -25,6 +25,9 @@ export class LetterList extends React.Component {
             Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
           </p>
         );
+      } else if (letter.letterType === LETTER_TYPES.proofOfService) {
+        letterTitle = 'Proof of Service Card';
+        content = letterContent[letter.letterType] || '';
       } else {
         letterTitle = letter.name;
         content = letterContent[letter.letterType] || '';
