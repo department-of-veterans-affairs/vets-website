@@ -45,14 +45,13 @@ With VA health care, you’re covered for regular checkups with your primary car
     <br>
     <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. We can also connect you with other non-VA resources in your community. Find the support you need by:</p>
     <ul>
+      <li><a href="/facilities/">Contacting your local VA medical center</a>, <b>or</b></li>
       <li>Calling the National Call Center for Homeless Veterans at 877-4AID-VET (877-424-3838) for help 24 hours a day, 7 days a week, <b>or</b></li>
       <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chatting online with a trained VA staff member</a>.</li>
     </ul>
-    <br>
     <p><b>If you’re a female Veteran, you can also:</b></p>
     <ul>
-      <li><a href="/facilities/">Contact your closest VA medical center</a>.<br>
-  	(Ask for the female program manager for help getting housing, health care, and other benefits.)</li>
+      <li>Contact your local VA medical center. Ask for the female program manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</li> <br>
   	  <li><a href="http://nchv.org/index.php/help/help/women_veterans/">Find a women’s shelter in your state</a>.</li>
   	</ul>
     </div>
