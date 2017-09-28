@@ -128,9 +128,16 @@ export class AddressSection extends React.Component {
     // There may be properties that are initialized to undefined, so we're checking
     //  to see if any of the properties are truthy
     if (Object.keys(errorMessages).some(key => errorMessages[key])) {
-      this.setState({ errorMessages });
+      // If we had any errors, make sure to validate them from here on out so we don't loose them
+      const fieldsToValidate = Object.assign({}, this.state.fieldsToValidate);
+
+      // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read 
+      Object.keys(errorMessages).forEach(key => fieldsToValidate[key] = true); // eslint-disable-line no-return-assign
+
+      this.setState({ errorMessages, fieldsToValidate });
       return;
     }
+
 
     this.setState({
       isEditingAddress: false,
