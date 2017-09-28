@@ -30,7 +30,7 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 If you’re late with a mortgage payment, or think you might be late with your next payment, contact your loan servicer right away. The sooner you contact them, the sooner they can help you find a solution.   
 
-If you’re nervous about contacting your servicer, or if you’d like our help and advice, please contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>.  
+If you’re nervous about contacting your servicer, or if you’d like our help and advice, please contact a VA Loan Technician at <a href="tel:+1phonenumber">1-877-827-3702</a>.  
 
 <br>
 
@@ -50,4 +50,4 @@ There are 6 general ways you can try to avoid a foreclosure:
 
 6. **Deed in lieu of foreclosure:** This plan lets you avoid the foreclosure process by signing over the deed to the home to your servicer. The home will then belong to the servicer.
 
-Our VA Loan Technicians can help you figure out which option is best for you. Contact a VA Loan Technician at <a href="tel:+1phonenumber">877-827-3702</a>. 
+Our VA Loan Technicians can help you figure out which option is best for you. Contact a VA Loan Technician at <a href="tel:+1phonenumber">1-877-827-3702</a>. 

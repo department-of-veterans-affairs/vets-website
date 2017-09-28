@@ -55,7 +55,7 @@ You can apply for this benefit if you’re:
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
-- Fax the documents to 800-455-7143. Or, mail the discharge papers and the form to this address:
+- Fax the documents to 1-800-455-7143. Or, mail the discharge papers and the form to this address:
 
 <p class="va-address-block">
     Memorial Products Service (41B)<br>

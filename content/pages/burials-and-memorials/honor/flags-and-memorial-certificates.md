@@ -59,5 +59,5 @@ Send the PMC request form and discharge papers to:
 </p>
 <br>
 
-  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">1-800-697-6947</a>.
+  - You can also fax the form to 1-800-455-7143. If you need help, call <a href="tel:+18006976947">1-800-697-6947</a>.
 </div>

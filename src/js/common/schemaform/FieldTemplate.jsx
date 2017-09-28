@@ -18,7 +18,9 @@ export default function FieldTemplate(props) {
     uiSchema
   } = props;
 
-  const hasErrors = (formContext.submitted || formContext.touched[id])
+  const isTouched = formContext.touched[id]
+    || Object.keys(formContext.touched).some(touched => id.startsWith(touched));
+  const hasErrors = (formContext.submitted || isTouched)
     && rawErrors && rawErrors.length;
   const requiredSpan = required
     ? <span className="schemaform-required-span">(*Required)</span>

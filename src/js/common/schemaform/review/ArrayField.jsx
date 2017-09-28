@@ -215,6 +215,7 @@ class ArrayField extends React.Component {
                         title={pageTitle}
                         hideTitle
                         name={fieldName}
+                        onBlur={this.props.onBlur}
                         onChange={(data) => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}
                         onSubmit={() => this.handleSave(index)}>
