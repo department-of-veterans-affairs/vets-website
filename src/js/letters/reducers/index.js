@@ -85,7 +85,11 @@ function letters(state = initialState, action) {
       };
     }
     case GET_ADDRESS_FAILURE:
-      return _.set('addressAvailable', false, state);
+      return {
+        ...state,
+        addressAvailable: false,
+        lettersAvailability: AVAILABILITY_STATUSES.invalidAddressProperty
+      };
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
