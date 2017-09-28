@@ -178,6 +178,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
                       pageConfig={page}
+                      onBlur={this.props.onBlur}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
                       setData={this.props.setData}
