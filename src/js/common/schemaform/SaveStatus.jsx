@@ -7,7 +7,7 @@ import { SAVE_STATUSES, saveErrors } from './save-load-actions';
 
 class SaveStatus extends React.Component {
   render() {
-    const { form, isLoggedIn, loginUrl, showLoginModal, toggleLoginModal } = this.props;
+    const { form, isLoggedIn, showLoginModal, toggleLoginModal } = this.props;
 
     let savedAtMessage;
     if (form.lastSavedDate) {
@@ -26,7 +26,6 @@ class SaveStatus extends React.Component {
       <SignInLink
         className="va-button-link"
         isLoggedIn={isLoggedIn}
-        loginUrl={loginUrl}
         showLoginModal={showLoginModal}
         toggleLoginModal={toggleLoginModal}>Sign in to save your form in progress</SignInLink>
     );

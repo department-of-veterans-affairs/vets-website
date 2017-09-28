@@ -30,7 +30,7 @@ const saveTypes = {
 };
 
 const statusActionsByType = new Map([
-  [saveTypes.auto, SET_AUTO_SAVE_FORM_STATUS],
+  [saveTypes.AUTO, SET_AUTO_SAVE_FORM_STATUS],
   [saveTypes.SAVE_AND_REDIRECT, SET_SAVE_FORM_STATUS]
 ]);
 

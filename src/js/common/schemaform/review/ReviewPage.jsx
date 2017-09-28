@@ -186,11 +186,12 @@ class ReviewPage extends React.Component {
           form={form}
           user={this.props.user}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          onUpdateLoginUrl={this.props.updateLogInUrls}
+          showLoginModal={this.props.user.login.showModal}
+          toggleLoginModal={this.props.toggleLoginModal}
           sipEnabled={!formConfig.disableSave}/>
         {!form.disableSave && <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          loginUrl={this.props.user.login.loginUrl}
+          showLoginModal={this.props.user.login.showModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>}

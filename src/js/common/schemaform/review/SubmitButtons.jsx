@@ -13,7 +13,7 @@ export default function SubmitButtons(props) {
     form,
     user,
     saveAndRedirectToReturnUrl,
-    onUpdateLoginUrl,
+    toggleLoginModal,
     sipEnabled,
   } = props;
   // Pulling this out to here so LoginModal doesn't get re-created on state change
@@ -23,7 +23,7 @@ export default function SubmitButtons(props) {
     form={form}
     user={user}
     saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-    onUpdateLoginUrl={onUpdateLoginUrl}>
+    toggleLoginModal={toggleLoginModal}>
     save your application
   </SaveFormLink>);
   const Message = errorMessage;
