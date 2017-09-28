@@ -52,12 +52,11 @@ With VA health care, you’re covered for regular checkups with your primary car
       
     <p><b>If you’re a female Veteran, you can also:</b></p>
     <ul>
-      <li>Contact your local VA medical center. Ask for the female program manager for help getting housing, health care, and other benefits.
-        <a href="/facilities/">Contact your closest VA medical center</a>.</li>
+      <li>Contact your local VA medical center. Ask for the female program manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</li>
   	  <li><a href="http://nchv.org/index.php/help/help/women_veterans/">Find a women’s shelter in your state</a>.</li>
   	</ul>
     </div>
-    </div>
+  </div>
   </div>
 </div>
 
