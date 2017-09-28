@@ -13,8 +13,8 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
-import { updateLogInUrls } from '../../../login/actions';
-import { SAVE_STATUSES, saveInProgressForm } from '../save-load-actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-load-actions';
+import { toggleLoginModal } from '../../../login/actions';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
@@ -103,7 +103,7 @@ class ReviewPage extends React.Component {
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
 
-      this.props.saveInProgressForm(formId, version, returnUrl, data, true);
+      this.props.autoSaveForm(formId, data, version, returnUrl);
     }
   }
 
@@ -147,7 +147,6 @@ class ReviewPage extends React.Component {
 
   render() {
     const { route, form, user } = this.props;
-    const isLoggedIn = user.login.currentlyLoggedIn && form.savedStatus !== SAVE_STATUSES.noAuth;
     const formConfig = route.formConfig;
     const chapters = getActiveChapters(formConfig, form.data);
 
@@ -186,18 +185,22 @@ class ReviewPage extends React.Component {
           locationPathname={this.props.location.pathname}
           form={form}
           user={this.props.user}
-          saveInProgressForm={this.props.saveInProgressForm}
-          onUpdateLoginUrl={this.props.updateLogInUrls}
+          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+          showLoginModal={this.props.user.login.showModal}
+          toggleLoginModal={this.props.toggleLoginModal}
           sipEnabled={!formConfig.disableSave}/>
-        {!form.disableSave && isLoggedIn && <SaveStatus
+        {!form.disableSave && <SaveStatus
+          isLoggedIn={user.login.currentlyLoggedIn}
+          showLoginModal={this.props.user.login.showModal}
+          toggleLoginModal={this.props.toggleLoginModal}
           form={form}>
         </SaveStatus>}
         {!form.disableSave && <SaveFormLink
           locationPathname={this.props.location.pathname}
           form={form}
           user={this.props.user}
-          saveInProgressForm={this.props.saveInProgressForm}
-          onUpdateLoginUrl={this.props.updateLogInUrl}/>}
+          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+          toggleLoginModal={this.props.toggleLoginModal}/>}
       </div>
     );
   }
@@ -217,8 +220,9 @@ const mapDispatchToProps = {
   setPrivacyAgreement,
   setData,
   uploadFile,
-  saveInProgressForm,
-  updateLogInUrls
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
+  toggleLoginModal
 };
 
 ReviewPage.propTypes = {

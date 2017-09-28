@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
+import { sanitizeForm } from './helpers';
 
 export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;
@@ -27,5 +28,71 @@ export function removeFormApi(formId) {
     }
 
     return Promise.reject(res);
+  });
+}
+
+export function saveFormApi(formId, formData, version, returnUrl, savedAt, trackingPrefix) {
+  // Double stringify because of api reasons. Olive Branch issues, methinks.
+  // TODO: Stop double stringifying
+  const body = JSON.stringify({
+    metadata: JSON.stringify({
+      version,
+      returnUrl,
+      savedAt
+    }),
+    formData: JSON.stringify(formData)
+  });
+
+  const userToken = sessionStorage.userToken;
+  if (!userToken) {
+    Raven.captureMessage('vets_sip_missing_token');
+    window.dataLayer.push({
+      event: `${trackingPrefix}sip-form-save-failed`
+    });
+    return Promise.reject(new Error('Missing token'));
+  }
+
+  return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${userToken}`
+    },
+    body
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(res);
+  }).then(result => {
+    window.dataLayer.push({
+      event: `${trackingPrefix}sip-form-saved`
+    });
+
+    return Promise.resolve(result);
+  }).catch(resOrError => {
+    if (resOrError.status === 401) {
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-save-signed-out`
+      });
+    } else if (resOrError instanceof Response) {
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-save-failed`
+      });
+    } else {
+      Raven.captureException(resOrError);
+      Raven.captureMessage('vets_sip_error_save', {
+        extra: {
+          form: sanitizeForm(formData)
+        }
+      });
+      window.dataLayer.push({
+        event: `${trackingPrefix}sip-form-save-failed-client`
+      });
+    }
+
+    return Promise.reject(resOrError);
   });
 }

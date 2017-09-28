@@ -34,12 +34,21 @@ describe('Schemaform <SaveFormLink>', () => {
   //  prop requirements; they're only passed to LoginModal which we test elsewhere
   const saveInProgressForm = sinon.spy();
   const toggleLoginModalSpy = sinon.spy();
-  it('should render login message when not logged in', () => {
+  it('should render save message when not logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
         form={form}
         toggleLoginModal={toggleLoginModalSpy}/>
+    );
+
+    expect(tree.text()).to.contain('Save and finish this application later');
+  });
+  it('should render finish message when logged in', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+        user={loggedInUser}
+        form={form}/>
     );
 
     expect(tree.text()).to.contain('Finish this application later');
@@ -74,7 +83,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('having some issues');
-    expect(tree.subTree('button').text()).to.contain('Finish this application later');
+    expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
   });
   it('should show client error message', () => {
     const tree = SkinDeep.shallowRender(
@@ -85,7 +94,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('connect to Vets.gov');
-    expect(tree.subTree('button').text()).to.contain('Finish this application later');
+    expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
   });
   it('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy

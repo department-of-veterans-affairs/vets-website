@@ -199,16 +199,19 @@ export class AddressSection extends React.Component {
 
     // City, state, postal code: second line of address
     const zipCode = getZipCode(address);
+    const city = address.city || '';
     let cityStatePostal;
     if (isDomesticAddress(address)) {
-      const city = (address.city || '').toLowerCase();
       const state = getStateName(address.stateCode);
       cityStatePostal = `${city}, ${state} ${zipCode}`;
     } else if (isMilitaryAddress(address)) {
-      const city = address.city || '';
       const militaryStateCode = address.stateCode || '';
       cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
+    } else {
+      // Must be an international address, only show a city
+      cityStatePostal = `${city}`;
     }
+
     const country = isInternationalAddress(address) ? address.countryName : '';
     const addressContentLines = { streetAddress, cityStatePostal, country };
 
