@@ -12,7 +12,12 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { SAVE_STATUSES, PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import {
+  PREFILL_STATUSES,
+  saveErrors,
+  autoSaveForm,
+  saveAndRedirectToReturnUrl
+} from './save-load-actions';
 
 import { toggleLoginModal } from '../../login/actions';
 
@@ -112,7 +117,7 @@ class FormPage extends React.Component {
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
 
-      this.props.saveInProgressForm(formId, version, returnUrl, data, true);
+      this.props.autoSaveForm(formId, data, version, returnUrl);
     }
   }
 
@@ -126,7 +131,6 @@ class FormPage extends React.Component {
 
   render() {
     const { route, params, form, user } = this.props;
-    const isLoggedIn = user.login.currentlyLoggedIn && form.savedStatus !== SAVE_STATUSES.noAuth;
     let {
       schema,
       uiSchema
@@ -172,14 +176,17 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && isLoggedIn && <SaveStatus
+          {!form.disableSave && <SaveStatus
+            isLoggedIn={user.login.currentlyLoggedIn}
+            showLoginModal={user.login.showModal}
+            toggleLoginModal={this.props.toggleLoginModal}
             form={form}>
           </SaveStatus>}
           {!form.disableSave && <SaveFormLink
             locationPathname={this.props.location.pathname}
             form={form}
             user={this.props.user}
-            saveInProgressForm={this.props.saveInProgressForm}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
             toggleLoginModal={this.props.toggleLoginModal}/>}
         </SchemaForm>
       </div>
@@ -196,7 +203,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setData,
-  saveInProgressForm,
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
   toggleLoginModal,
   uploadFile
 };
