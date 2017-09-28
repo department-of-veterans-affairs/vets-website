@@ -7,7 +7,7 @@ import {
   hasFieldsOtherThanArray,
   transformForSubmit,
   getArrayFields,
-  setItemTouched,
+  setArrayRecordTouched,
   getNonArraySchema,
   checkValidSchema,
   formatReviewDate,
@@ -485,27 +485,13 @@ describe('Schemaform helpers:', () => {
       expect(output.emptyArray).to.be.undefined;
     });
   });
-  describe('setItemTouched', () => {
+  describe('setArrayRecordTouched', () => {
     /* eslint-disable camelcase */
     it('should set field as touched', () => {
-      const touched = setItemTouched('root', 0, {
-        $id: 'root_field'
-      });
+      const touched = setArrayRecordTouched('root', 0);
 
       expect(touched).to.eql({
-        root_0_field: true
-      });
-    });
-    it('should set nested field as touched', () => {
-      const touched = setItemTouched('root', 0, {
-        $id: 'root',
-        field: {
-          $id: 'root_field'
-        }
-      });
-
-      expect(touched).to.eql({
-        root_0_field: true
+        root_0: true
       });
     });
     /* eslint-enable camelcase */

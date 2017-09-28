@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
-import { setItemTouched } from '../../common/schemaform/helpers';
+import { setArrayRecordTouched } from '../../common/schemaform/helpers';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
 import {
@@ -87,7 +87,7 @@ export default class AdditionalSourcesField extends React.Component {
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touched = setItemTouched(this.props.idSchema.$id, index, this.props.idSchema);
+      const touched = setArrayRecordTouched(this.props.idSchema.$id);
       this.props.formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
