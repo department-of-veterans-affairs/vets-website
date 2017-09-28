@@ -71,7 +71,7 @@ class Address extends React.Component {
           autocomplete="country"
           options={this.props.countries}
           value={this.props.address.countryName}
-          required={this.props.required && this.props.address.type !== ADDRESS_TYPES.military}
+          required={this.props.required}
           onValueChange={(update) => this.props.onInput('countryName', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
@@ -106,7 +106,7 @@ class Address extends React.Component {
             required={this.props.required}
             onValueChange={(update) => this.props.onInput('city', update)}/>
           : <ErrorableSelect errorMessage={errorMessages.city}
-            label="Military Post Office Type Code"
+            label="City"
             name="city"
             options={militaryCityNames}
             value={this.props.address.city}
