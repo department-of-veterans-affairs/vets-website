@@ -2,22 +2,22 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
 import sinon from 'sinon';
 
 import { getFormDOM } from '../../util/schemaform-utils';
 import Address from '../../../src/js/letters/components/Address.jsx';
 
 const defaultProps = {
-  value: {
+  address: {
     type: 'DOMESTIC',
     addressOne: '2746 Main St',
     addressTwo: 'Apt 2',
     city: 'Town',
-    state: 'MA',
-    country: 'US',
+    stateCode: 'MA',
+    countryName: 'USA',
     zipCode: '02138'
-  }
+  },
+  errorMessages: {},
 };
 
 describe('<Address>', () => {
@@ -28,13 +28,17 @@ describe('<Address>', () => {
   });
 
   it('should change the city and state fields for a military address', () => {
-    const props = _.merge({}, defaultProps, {
-      value: {
-        type: 'MILITARY',
-        city: 'APO',
-        state: 'AE'
+    const militaryFields = {
+      type: 'MILITARY',
+      city: 'APO',
+      stateCode: 'AE'
+    };
+    const props = {
+      ...defaultProps,
+      address: {
+        ...defaultProps.address, ...militaryFields
       }
-    });
+    };
 
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
@@ -43,16 +47,16 @@ describe('<Address>', () => {
     expect(form.getElement('select[name="state"]').value).to.contain('AE');
   });
 
-  it('should update the redux store when fields are updated', () => {
-    const updateSpy = sinon.spy();
-    const props = _.merge({}, defaultProps, { onUserInput: updateSpy });
+  it('should call onInput with correct args when user types in input', () => {
+    const onInputSpy = sinon.spy();
+    const props = { ...defaultProps, onInput: onInputSpy };
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
 
+    const addressLine1 = '321 Niam';
     // NOTE: All address lines are currently named "address", but querySelector just picks the first one
-    form.fillData('input[name="address"]', '321 Niam');
-
-    // Match the first param of the first call with what we changed
-    expect(updateSpy.args[0][0].addressOne).to.equal('321 Niam');
+    form.fillData('input[name="address"]', addressLine1);
+    expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
+  // TODO: Add a test for rendering error messages
 });

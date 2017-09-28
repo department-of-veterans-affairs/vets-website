@@ -72,6 +72,18 @@ function initLogoutMock(token) {
 }
 /* eslint-enable camelcase */
 
+function initLoginUrlsMock() {
+  mock(null, {
+    path: '/v0/sessions/authn_urls',
+    verb: 'get',
+    value: {
+      idme: 'http://example.com/idme_url',
+      dslogon: 'http://example.com/dslogon_url',
+      mhv: 'http://example.com/mhv_url',
+    }
+  });
+}
+
 let tokenCounter = 0;
 
 function getUserToken() {
@@ -107,15 +119,11 @@ function testUnauthedUserFlow(client, path) {
     .url(appURL)
     .waitForElementVisible('body', Timeouts.normal);
 
-  client
-    .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Log In to Your Vets.gov Account');
+  initLoginUrlsMock();
 
-  logIn(token, client, path, 1)
-    .waitForElementVisible('.react-container', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Verify your Identity with ID.me');
   client
-    .expect.element('button.usa-button-big').text.to.equal('Get Started');
+    .waitForElementVisible('.login', Timeouts.normal)
+    .expect.element('h1').text.to.equal('Sign in to Vets.gov');
 }
 
 module.exports = {

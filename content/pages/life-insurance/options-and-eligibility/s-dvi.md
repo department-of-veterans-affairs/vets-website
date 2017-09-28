@@ -69,7 +69,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
  
- Fax it to 888-748-5822, or mail it to: 
+ Fax it to 1-888-748-5822, or mail it to: 
 
 <p class="va-address-block">
   Department of Veterans Affairs<br>

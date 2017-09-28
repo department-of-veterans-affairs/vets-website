@@ -1,4 +1,6 @@
 import merge from 'lodash/fp/merge';
+import Raven from 'raven-js';
+import appendQuery from 'append-query';
 
 import environment from './environment';
 
@@ -24,14 +26,28 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const settings = merge(defaultSettings, optionalSettings);
 
   return fetch(url, settings)
+    .catch(err => {
+      Raven.captureMessage(`vets_client_error: ${err.message}`, {
+        extra: {
+          error: err
+        }
+      });
+
+      return Promise.reject(err);
+    })
     .then((response) => {
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);
 
       if (!response.ok) {
-        // Refresh to show login view when requests are unauthorized.
-        if (response.status === 401) { return window.location.reload(); }
+        if (response.status === 401) {
+          window.location.href = appendQuery(
+            environment.BASE_URL,
+            { next: window.location.pathname }
+          );
+        }
+
         return data.then(Promise.reject.bind(Promise));
       }
 

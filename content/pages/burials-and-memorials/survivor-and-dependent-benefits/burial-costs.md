@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
+order: 1
 ---
 
 <div class="va-introtext">
@@ -30,13 +31,13 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
-- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
+- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home
 
 VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?
@@ -99,6 +100,6 @@ If you have questions, call <a href="tel:+18008271000">1-800-827-1000</a> (our T
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $734 burial allowance and $734 for a plot |
 
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if they were hospitalized or in a VA-contracted nursing home at the time of death.
-- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
+- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care.
 
 **Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery.

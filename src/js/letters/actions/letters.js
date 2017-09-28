@@ -15,7 +15,6 @@ import {
   GET_LETTER_PDF_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  UPDATE_ADDRESS,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
@@ -76,18 +75,21 @@ export function getMailingAddress() {
       '/v0/address',
       null,
       response => {
-        const address = Object.assign({}, response);
+        const responseCopy = Object.assign({}, response);
+        const address = Object.assign({}, response.data.attributes.address);
         // Translate military-only fields into generic ones; we'll translate them back later if necessary
         if (address.type === ADDRESS_TYPES.military) {
           address.city = address.militaryPostOfficeTypeCode;
-          address.state = address.militaryStateCode;
+          address.stateCode = address.militaryStateCode;
+          address.countryName = 'USA';
           delete address.militaryPostOfficeTypeCode;
           delete address.militaryStateCode;
         }
+        responseCopy.data.attributes.address = address;
 
         dispatch({
           type: GET_ADDRESS_SUCCESS,
-          data: address,
+          data: responseCopy
         });
       },
       (response) => {
@@ -203,13 +205,6 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
-export function updateAddress(address) {
-  return {
-    type: UPDATE_ADDRESS,
-    address
-  };
-}
-
 export function saveAddressPending() {
   return {
     type: SAVE_ADDRESS_PENDING
@@ -223,20 +218,18 @@ export function saveAddressSuccess(address) {
   };
 }
 
-export function saveAddressFailure(address) {
-  return {
-    type: SAVE_ADDRESS_FAILURE,
-    address
-  };
+export function saveAddressFailure() {
+  return { type: SAVE_ADDRESS_FAILURE };
 }
 
 export function saveAddress(address) {
   const transformedAddress = Object.assign({}, address);
   if (transformedAddress.type === ADDRESS_TYPES.military) {
     transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
-    transformedAddress.militaryStateCode = transformedAddress.state;
+    transformedAddress.militaryStateCode = transformedAddress.stateCode;
     delete transformedAddress.city;
-    delete transformedAddress.state;
+    delete transformedAddress.stateCode;
+    delete transformedAddress.countryName;
   }
 
   const settings = {
@@ -251,8 +244,8 @@ export function saveAddress(address) {
     apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(transformedAddress)),
-      () => dispatch(saveAddressFailure(transformedAddress))
+      () => dispatch(saveAddressSuccess(address)),
+      () => dispatch(saveAddressFailure())
     );
   };
 }

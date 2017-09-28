@@ -49,7 +49,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1phonenumber">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
@@ -97,7 +97,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 ##### By phone
 
-Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 ##### By mail
 
@@ -142,7 +142,7 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
-<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>).</span>
 </div>
 
 </div>

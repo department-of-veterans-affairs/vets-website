@@ -20,7 +20,7 @@ body.va-pos-fixed {
   width: 100%;
 
   // Just large enough to take precedence over any other dropdowns on the page and the VA Map
-  z-index: 1011; 
+  z-index: 1011;
 
   &.vetnav--submenu-expanded {
     #vetnav-menu {
@@ -361,7 +361,7 @@ body.va-pos-fixed {
 
 @include media($medium-large-screen) {
   #vetnav-explore {
-    height: 310px;
+    height: 350px;
     padding-top: .8rem;
     width: 540px;
   }
