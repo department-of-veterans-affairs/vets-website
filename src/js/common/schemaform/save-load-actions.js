@@ -137,11 +137,11 @@ export function migrateFormData(savedData, savedVersion, migrations) {
  * Saves the form data to the back end
  * @param  {String}  saveType  The type of save that's happening, auto or save and redirect
  * @param  {String}  formId    The form’s formId
+ * @param  {Object}  formData  The data the user has entered so far
  * @param  {Ingeter} version   The form’s version
  * @param  {String}  returnUrl The last URL the user was at before saving
- * @param  {Object}  formData  The data the user has entered so far
  */
-function saveForm(saveType, formId, version, returnUrl, formData) {
+function saveForm(saveType, formId, formData, version, returnUrl) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
