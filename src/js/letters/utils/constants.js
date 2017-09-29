@@ -58,6 +58,7 @@ export const LETTER_TYPES = Object.freeze({
   benefitVerification: 'benefit_verification'
 });
 
+// Benefit options returned from vets-api, used in UI
 export const BENEFIT_OPTIONS = Object.freeze({
   awardEffectiveDate: 'awardEffectiveDate',
   monthlyAwardAmount: 'monthlyAwardAmount',
@@ -73,6 +74,21 @@ export const BENEFIT_OPTIONS = Object.freeze({
   hasIndividualUnemployabilityGranted: 'hasIndividualUnemployabilityGranted',
   hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
 });
+
+// Benefit Summary Letter request customization options, subset of BENEFIT_OPTIONS
+export const REQUEST_OPTIONS = {
+  monthlyAwardAmount: 'monthlyAwardAmount',
+  serviceConnectedPercentage: 'serviceConnectedPercentage',
+  hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
+  hasServiceConnectedDisabilities: 'hasServiceConnectedDisabilities',
+  hasSurvivorsIndemnityCompensationAward: 'hasSurvivorsIndemnityCompensationAward',
+  hasSurvivorsPensionAward: 'hasSurvivorsPensionAward',
+  hasAdaptedHousing: 'hasAdaptedHousing',
+  hasChapter35Eligibility: 'hasChapter35Eligibility',
+  hasDeathResultOfDisability: 'hasDeathResultOfDisability',
+  hasIndividualUnemployabilityGranted: 'hasIndividualUnemployabilityGranted',
+  hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
+};
 
 export const STATE_CODE_TO_NAME = {
   AL: 'Alabama',
