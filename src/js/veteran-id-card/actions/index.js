@@ -12,7 +12,8 @@ export function initiateIdRequest() {
       {},
       (response) => dispatch({
         type: ATTRS_SUCCESS,
-        redirect: response.redirect,
+        vicUrl: response.url,
+        traits: response.traits
       }),
       (response) => dispatch({
         type: ATTRS_FAILURE,

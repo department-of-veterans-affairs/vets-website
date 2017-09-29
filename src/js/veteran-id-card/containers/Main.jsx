@@ -11,11 +11,27 @@ class Main extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderButton = this.renderButton.bind(this);
+    this.submitVicForm = this.submitVicForm.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     this.props.initiateIdRequest();
+  }
+
+  submitVicForm() {
+    const vicForm = document.createElement('form');
+    vicForm.action = this.props.vicUrl;
+    vicForm.method = 'POST';
+    Object.entries(this.props.traits).forEach(([key, value]) => {
+      const elem = document.createElement('input');
+      elem.type = 'hidden';
+      elem.name = key;
+      elem.value = value;
+      vicForm.appendChild(elem);
+    });
+    document.body.appendChild(vicForm);
+    vicForm.submit();
   }
 
   renderButton() {
@@ -58,8 +74,8 @@ class Main extends React.Component {
 
     if (this.props.errors) {
       message = this.renderErrors();
-    } else if (this.props.redirect) {
-      window.location.href = this.props.redirect;
+    } else if (this.props.vicUrl) {
+      this.submitVicForm();
     }
 
     const view = (
@@ -92,7 +108,8 @@ const mapStateToProps = (state) => {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    redirect: idState.idcard.redirect,
+    vicUrl: idState.idcard.vicUrl,
+    traits: idState.idcard.traits,
     fetching: idState.idcard.fetching,
     errors: idState.idcard.errors,
   };
