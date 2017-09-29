@@ -15,7 +15,7 @@ function AppContent({ children, isDataAvailable }) {
         <div className="small-12 columns">
           <h4>
             We weren’t able to find information about your Post-9/11 GI Bill Benefit Status.
-            If you think you should be able to access this information, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+            If you think you should be able to access this information, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-877-8339). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
           </h4>
           <br/>
         </div>
