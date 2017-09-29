@@ -20,7 +20,8 @@ function idcard(state = initialState, action) {
     case ATTRS_SUCCESS:
       return {
         ...state,
-        redirect: action.redirect,
+        vicUrl: action.vicUrl,
+        traits: action.traits,
         errors: null,
         fetching: false
       };
