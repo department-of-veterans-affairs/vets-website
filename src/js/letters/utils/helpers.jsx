@@ -10,8 +10,7 @@ import {
   BENEFIT_OPTIONS,
   STATE_CODE_TO_NAME,
   ADDRESS_TYPES,
-  MILITARY_STATES,
-  MILITARY_CITIES
+  MILITARY_STATES
 } from './constants';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
@@ -266,8 +265,6 @@ export const militaryStateNames = [
   { label: 'Armed Forces Pacific (AP)', value: 'AP' },
 ];
 
-export const militaryCityNames = Array.from(MILITARY_CITIES).map(name => ({ label: name, value: name }));
-
 export function isDomesticAddress(address) {
   return (address.type === 'DOMESTIC');
 }
@@ -316,8 +313,14 @@ export function inferAddressType(address) {
   return Object.assign({}, address, { type });
 }
 
+/**
+ * When address the address type changes, we may need to clear out some fields
+ *  so validation doesn't fail because we're sending information that's no longer
+ *  accurate (compared to what the user sees).
+ */
 export function resetDisallowedAddressFields(address) {
   const newAddress = Object.assign({}, address);
+  // International addresses don't allow state or zip
   if (address.type === ADDRESS_TYPES.international) {
     newAddress.state = '';
     newAddress.zipCode = '';
