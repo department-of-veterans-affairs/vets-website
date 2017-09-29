@@ -1,5 +1,5 @@
 import { isValidUSZipCode } from '../../common/utils/validations';
-import { ADDRESS_TYPES } from './constants';
+import { ADDRESS_TYPES, MILITARY_CITIES } from './constants';
 
 const requiredMessage = 'Please enter a valid address'; // Change me! 
 
@@ -72,6 +72,13 @@ export const countryValidations = [
 ];
 
 export const cityValidations = [
-  (city, fullAddress) => requiredValidator(city, fullAddress, 'Please enter a city')
+  (city, fullAddress) => requiredValidator(city, fullAddress, 'Please enter a city'),
+  (city, fullAddress) => {
+    if (fullAddress.type === ADDRESS_TYPES.military && !MILITARY_CITIES.has(city)) {
+      return 'Please enter APO, FPO, or DPO';
+    }
+
+    return true;
+  }
 ];
 
