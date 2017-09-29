@@ -15,7 +15,7 @@ const scrollToTop = () => {
   });
 };
 
-class ConfirmationPage extends React.Component {
+export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
@@ -47,7 +47,7 @@ class ConfirmationPage extends React.Component {
             <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
             <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
             <h4 className="confirmation-guidance-heading">Need help?</h4>
-            <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-800-827-VETS (8387)</a> and press 2.</p>
+            <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-877-222-VETS (8387)</a> and press 2.</p>
           </div>
         </div>
       </div>
@@ -62,4 +62,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
-export { ConfirmationPage };

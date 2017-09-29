@@ -4,7 +4,7 @@ import appendQuery from 'append-query';
 
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
-import { gaClientId } from '../../common/helpers/login-helpers';
+import { gaClientId } from '../../common/utils/helpers';
 import { updateLoggedInStatus } from '../../login/actions';
 
 class AuthApp extends React.Component {
