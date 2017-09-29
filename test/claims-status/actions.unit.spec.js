@@ -185,9 +185,13 @@ describe('Actions', () => {
       const dispatchSpy = sinon.spy();
       const getState = () => {
         return {
-          uploads: {
-            uploader: {
-              cancelAll: uploaderSpy
+          disability: {
+            status: {
+              uploads: {
+                uploader: {
+                  cancelAll: uploaderSpy
+                }
+              }
             }
           }
         };

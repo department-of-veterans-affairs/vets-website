@@ -79,7 +79,7 @@ class Signin extends React.Component {
                   <h5>Sign in with an existing account</h5>
                   <div>
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
-                      <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
+                      <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
@@ -122,7 +122,7 @@ class Signin extends React.Component {
                 <h4>Having trouble signing in?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).<br/>
+                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
                   We're here Monday – Friday, 8:00am – 8:00pm (ET).
                 </p>
               </div>
