@@ -81,9 +81,6 @@ class Signin extends React.Component {
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
-                    <button className="mhv" onClick={this.handleLogin('mhv')}>
-                      <img alt="MyHealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with MyHealtheVet</strong>
-                    </button>
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
