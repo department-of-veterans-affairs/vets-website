@@ -76,7 +76,8 @@ export const BENEFIT_OPTIONS = Object.freeze({
 });
 
 // Benefit Summary Letter request customization options, subset of BENEFIT_OPTIONS
-export const REQUEST_OPTIONS = {
+// Currently only key removed is awardEffectiveDate
+export const REQUEST_OPTIONS = Object.freeze({
   monthlyAwardAmount: 'monthlyAwardAmount',
   serviceConnectedPercentage: 'serviceConnectedPercentage',
   hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
@@ -88,7 +89,7 @@ export const REQUEST_OPTIONS = {
   hasDeathResultOfDisability: 'hasDeathResultOfDisability',
   hasIndividualUnemployabilityGranted: 'hasIndividualUnemployabilityGranted',
   hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
-};
+});
 
 export const STATE_CODE_TO_NAME = {
   AL: 'Alabama',
