@@ -30,7 +30,7 @@ If you’re a Veteran, Servicemember, or surviving spouse, we may be able to hel
         <p>We offer many programs and services to support you. Find the support you need: </p>
         <ul>
           <li>Contact your local VA medical center for help getting connected with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
-          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (1-877-424-3838) for help 24 hours a day, 7 days a week.</li>
+          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
         </ul>
 <br>     
