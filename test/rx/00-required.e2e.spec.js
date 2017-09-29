@@ -37,7 +37,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure glossary modal can be dismissed
     client
-      .click('.va-modal-button-group button')
+      .click('.va-modal-close')
       .expect.element('#rx-glossary-modal').to.not.be.present;
     client
       .click('button.rx-prescription-button')
