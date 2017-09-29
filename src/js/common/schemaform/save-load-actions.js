@@ -149,7 +149,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
-    return saveFormApi(formId, version, returnUrl, formData, savedAt, trackingPrefix)
+    return saveFormApi(formId, formData, version, returnUrl, savedAt, trackingPrefix)
       .then(json => {
         dispatch(setSaveFormStatus(
           saveType,
