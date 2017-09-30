@@ -18,84 +18,84 @@ describe('EDU migrations', () => {
   describe('first migration', () => {
     it('should remove formId from return url', () => {
       const data1990 = {
-        formId: '1990',
+        formId: formConfig1990.formId,
         metadata: {
           return_url: '/1990/abc/' // eslint-disable-line camelcase
         }
       };
 
       const data1990e = {
-        formId: '1990e',
+        formId: formConfig1990e.formId,
         metadata: {
           return_url: '/1990e/abc/' // eslint-disable-line camelcase
         }
       };
 
       const data1990n = {
-        formId: '1990n',
+        formId: formConfig1990n.formId,
         metadata: {
           return_url: '/1990n/abc/' // eslint-disable-line camelcase
         }
       };
 
       const data1995 = {
-        formId: '1995',
+        formId: formConfig1995.formId,
         metadata: {
           return_url: '/1995/abc/' // eslint-disable-line camelcase
         }
       };
 
       const data5490 = {
-        formId: '5490',
+        formId: formConfig5490.formId,
         metadata: {
           return_url: '/5490/abc/' // eslint-disable-line camelcase
         }
       };
 
       const data5495 = {
-        formId: '5495',
+        formId: formConfig5495.formId,
         metadata: {
           return_url: '/5495/abc/' // eslint-disable-line camelcase
         }
       };
 
       expect(migrations1990[0](data1990)).to.eql({
-        formId: '1990',
+        formId: formConfig1990.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
 
       expect(migrations1990e[0](data1990e)).to.eql({
-        formId: '1990e',
+        formId: formConfig1990e.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
 
       expect(migrations1990n[0](data1990n)).to.eql({
-        formId: '1990n',
+        formId: formConfig1990n.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
 
       expect(migrations1995[0](data1995)).to.eql({
-        formId: '1995',
+        formId: formConfig1995.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
 
       expect(migrations5490[0](data5490)).to.eql({
-        formId: '5490',
+        formId: formConfig5490.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
       });
 
       expect(migrations5495[0](data5495)).to.eql({
-        formId: '5495',
+        formId: formConfig5495.formId,
         metadata: {
           return_url: '/abc/' // eslint-disable-line camelcase
         }
