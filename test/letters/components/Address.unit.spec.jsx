@@ -107,7 +107,18 @@ describe('<Address>', () => {
     expect(stateNames).to.eql(Array.from(MILITARY_STATES));
   });
 
-  it('should hide state and zip fields when USA isn\'t selected', () => {});
+  it('should hide state and zip fields when USA isn\'t selected', () => {
+    const props = Object.assign({}, defaultProps);
+    props.address.countryName = 'Elseweyre';
+
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const form = getFormDOM(component);
+
+    // getElement throws an error if the element isn't found
+    // NOTE: A function must be passed, so we can't call it directly
+    expect(() => form.getElement('[name="state"]')).to.throw();
+    expect(() => form.getElement('[name="postalCode"]')).to.throw();
+  });
 
   it('should render error messages', () => {});
 });
