@@ -142,7 +142,6 @@ Address.propTypes = {
   address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
   countries: PropTypes.array.isRequired,
-  states: PropTypes.array.isRequired,
 };
 
 export default Address;

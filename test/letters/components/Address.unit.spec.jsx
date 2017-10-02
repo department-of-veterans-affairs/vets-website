@@ -12,12 +12,15 @@ const defaultProps = {
     type: 'DOMESTIC',
     addressOne: '2746 Main St',
     addressTwo: 'Apt 2',
+    addressThree: '',
     city: 'Town',
     stateCode: 'MA',
     countryName: 'USA',
     zipCode: '02138'
   },
   errorMessages: {},
+  countries: ['USA', 'Antlantis', 'Elseweyre'],
+  onInput: () => {}
 };
 
 describe('<Address>', () => {
@@ -58,5 +61,26 @@ describe('<Address>', () => {
     form.fillData('input[name="address"]', addressLine1);
     expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
-  // TODO: Add a test for rendering error messages
+
+  it('should populate country dropdown with countries prop', () => {
+    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const form = getFormDOM(component);
+
+    const countries = form.getElement('[name="country"]');
+    const countryNames = Array.from(countries.options).map(o => o.value);
+
+    // The dropdown has an option for blank; clear that out before comparing
+    countryNames.shift();
+    expect(countryNames).to.eql(defaultProps.countries);
+  });
+
+  it('should populate state dropdown with state prop', () => {});
+
+  it('should add military state codes to the state dropdown', () => {});
+
+  it('should populate state dropdown with only military state codes if the city is a military city', () => {});
+
+  it('should hide state and zip fields when USA isn\'t selected', () => {});
+
+  it('should render error messages', () => {});
 });
