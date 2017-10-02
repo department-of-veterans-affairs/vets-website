@@ -16,6 +16,8 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.title('Download VA Letters: Vets.gov')
       .waitForElementVisible('.letters', Timeouts.slow);  // First render of React may be slow.
 
+    client.axeCheck('.main');
+
     // Checking if full name has rendered
     client.expect.element('h5.letters-address').text.to.contain('William Shakespeare');
 
@@ -48,6 +50,15 @@ module.exports = E2eHelpers.createE2eTest(
       .fill('input[name="postalCode"]', LettersHelpers.newAddress.zipCode)
       .click('.usa-button-primary')
       .expect.element('.city-state').text.to.contain('Chicago, Illinois 60602');
+
+
+    client
+      .click('.view-letters-button')
+      .expect.element('.usa-accordion-bordered').to.be.present;
+
+    client
+      .click('.usa-accordion-bordered')
+      .expect.element('.va-button-primary').to.be.present;
 
     client.end();
   }
