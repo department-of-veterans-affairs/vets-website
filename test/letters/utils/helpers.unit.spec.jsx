@@ -6,8 +6,18 @@ import { ADDRESS_TYPES, MILITARY_STATES } from '../../../src/js/letters/utils/co
 
 import {
   getBenefitOptionText,
-  inferAddressType
+  inferAddressType,
+  resetDisallowedAddressFields
 } from '../../../src/js/letters/utils/helpers';
+
+const address = {
+  countryName: 'USA',
+  addressOne: '123 Main St N',
+  stateCode: 'MA',
+  zipCode: '12345',
+  type: ADDRESS_TYPES.domestic,
+  city: 'Bygtowne'
+};
 
 describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
@@ -98,15 +108,6 @@ describe('Letters helpers: ', () => {
   */
 
   describe('inferAddressType', () => {
-    const address = {
-      countryName: 'USA',
-      addressOne: '123 Main St N',
-      stateCode: 'MA',
-      zipCode: '12345',
-      type: ADDRESS_TYPES.domestic,
-      city: 'Bygtowne'
-    };
-
     it('should set the type to international if USA isn\'t selected', () => {
       const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
       expect(inferAddressType(newAddress).type).to.equal(ADDRESS_TYPES.international);
@@ -122,6 +123,16 @@ describe('Letters helpers: ', () => {
 
     it('should set the type to domestic if none of the above are true', () => {
       expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
+    });
+  });
+
+  describe('resetDisallowedAddressFields', () => {
+    it('should clear state and zipCode for international addresses', () => {
+      const internationalAddress = Object.assign({}, address, { type: ADDRESS_TYPES.international });
+      const resetAddress = resetDisallowedAddressFields(internationalAddress);
+
+      expect(resetAddress.state).to.equal('');
+      expect(resetAddress.zipCode).to.equal('');
     });
   });
 });
