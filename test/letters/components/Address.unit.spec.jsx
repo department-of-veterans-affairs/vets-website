@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { cloneDeep } from 'lodash';
 
 import { getFormDOM } from '../../util/schemaform-utils';
 import Address from '../../../src/js/letters/components/Address.jsx';
@@ -90,7 +91,7 @@ describe('<Address>', () => {
   });
 
   it('should populate state dropdown with only military state codes if the city is a military city', () => {
-    const props = Object.assign({}, defaultProps);
+    const props = cloneDeep(defaultProps);
     props.address.type = ADDRESS_TYPES.military;
     props.address.city = 'APO';
 
@@ -108,17 +109,37 @@ describe('<Address>', () => {
   });
 
   it('should hide state and zip fields when USA isn\'t selected', () => {
-    const props = Object.assign({}, defaultProps);
-    props.address.countryName = 'Elseweyre';
+    const props = cloneDeep(defaultProps);
+    props.address.countryName = 'Somewhere';
 
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
     const form = getFormDOM(component);
 
     // getElement throws an error if the element isn't found
-    // NOTE: A function must be passed, so we can't call it directly
+    // NOTE: A function must be passed to expect(), so we can't call it directly
     expect(() => form.getElement('[name="state"]')).to.throw();
     expect(() => form.getElement('[name="postalCode"]')).to.throw();
   });
 
-  it('should render error messages', () => {});
+  it('should render error messages', () => {
+    const errorMessages = {
+      addressOne: 'Please enter a street address',
+      countryName: 'Please enter a valid country', // Nonsense!
+      stateCode: 'Please enter a state',
+      zipCode: 'Please enter a valid Zip code',
+      city: 'Please enter a city'
+    };
+
+    const props = Object.assign({}, defaultProps, { errorMessages });
+
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const form = getFormDOM(component);
+
+    const errors = Array.from(form.querySelectorAll('.usa-input-error-message')).map(span => span.textContent);
+
+    // Make sure every error message is rendered
+    Object.values(errorMessages).forEach(message => {
+      expect(errors).to.contain(message);
+    });
+  });
 });
