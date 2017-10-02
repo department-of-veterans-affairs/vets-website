@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { getFormDOM } from '../../util/schemaform-utils';
 import Address from '../../../src/js/letters/components/Address.jsx';
 
-import { MILITARY_STATES } from '../../../src/js/letters/utils/constants';
+import { MILITARY_STATES, ADDRESS_TYPES } from '../../../src/js/letters/utils/constants';
 
 const defaultProps = {
   address: {
@@ -89,7 +89,23 @@ describe('<Address>', () => {
     });
   });
 
-  it('should populate state dropdown with only military state codes if the city is a military city', () => {});
+  it('should populate state dropdown with only military state codes if the city is a military city', () => {
+    const props = Object.assign({}, defaultProps);
+    props.address.type = ADDRESS_TYPES.military;
+    props.address.city = 'APO';
+
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const form = getFormDOM(component);
+
+    const statesElement = form.getElement('[name="state"]');
+    const stateNames = Array.from(statesElement.options).map(o => o.value);
+
+    // The dropdown has an option for blank; clear it out before comparing
+    stateNames.shift();
+
+    // Check to make sure only military state codes are present
+    expect(stateNames).to.eql(Array.from(MILITARY_STATES));
+  });
 
   it('should hide state and zip fields when USA isn\'t selected', () => {});
 
