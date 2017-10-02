@@ -7,6 +7,8 @@ import sinon from 'sinon';
 import { getFormDOM } from '../../util/schemaform-utils';
 import Address from '../../../src/js/letters/components/Address.jsx';
 
+import { MILITARY_STATES } from '../../../src/js/letters/utils/constants';
+
 const defaultProps = {
   address: {
     type: 'DOMESTIC',
@@ -66,17 +68,26 @@ describe('<Address>', () => {
     const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
     const form = getFormDOM(component);
 
-    const countries = form.getElement('[name="country"]');
-    const countryNames = Array.from(countries.options).map(o => o.value);
+    const countriesElement = form.getElement('[name="country"]');
+    const countryNames = Array.from(countriesElement.options).map(o => o.value);
 
     // The dropdown has an option for blank; clear that out before comparing
     countryNames.shift();
     expect(countryNames).to.eql(defaultProps.countries);
   });
 
-  it('should populate state dropdown with state prop', () => {});
+  it('should add military state codes to the state dropdown', () => {
+    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const form = getFormDOM(component);
 
-  it('should add military state codes to the state dropdown', () => {});
+    const statesElement = form.getElement('[name="state"]');
+    const stateNames = Array.from(statesElement.options).map(o => o.value);
+
+    // Check to make sure the stateNames contains all the military state codes
+    Array.from(MILITARY_STATES).forEach((code) => {
+      expect(stateNames).to.include(code);
+    });
+  });
 
   it('should populate state dropdown with only military state codes if the city is a military city', () => {});
 
