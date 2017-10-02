@@ -8,6 +8,7 @@ import {
 
 describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
+    // The following tests check for options that should be available / not available given certain conditions
     it('should be defined for both veterans and dependents', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
