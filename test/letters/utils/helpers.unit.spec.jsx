@@ -83,5 +83,15 @@ describe('Letters helpers: ', () => {
       expect(tree.text()).to.contain('The effective date');
     });
   });
+
+  /*
+  describe('getStateName', () => {
+    // Seems kind of pointless...
+    it('should return valid state names', () => {});
+
+    // Can we really test for this?
+    it('should send an error to sentry if the state code is unknown', () => {});
+  });
+  */
 });
 
