@@ -2,9 +2,12 @@ import { expect } from 'chai';
 import _ from 'lodash/fp';
 import SkinDeep from 'skin-deep';
 
+import { ADDRESS_TYPES, MILITARY_STATES } from '../../../src/js/letters/utils/constants';
+
 import {
-  getBenefitOptionText
-} from '../../../src/js/letters/utils/helpers.jsx';
+  getBenefitOptionText,
+  inferAddressType
+} from '../../../src/js/letters/utils/helpers';
 
 describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
@@ -93,5 +96,33 @@ describe('Letters helpers: ', () => {
     it('should send an error to sentry if the state code is unknown', () => {});
   });
   */
+
+  describe('inferAddressType', () => {
+    const address = {
+      countryName: 'USA',
+      addressOne: '123 Main St N',
+      stateCode: 'MA',
+      zipCode: '12345',
+      type: ADDRESS_TYPES.domestic,
+      city: 'Bygtowne'
+    };
+
+    it('should set the type to international if USA isn\'t selected', () => {
+      const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
+      expect(inferAddressType(newAddress).type).to.equal(ADDRESS_TYPES.international);
+    });
+
+    it('should set the type to military if a military stateCode is chosen', () => {
+      const newAddress = Object.assign({}, address);
+      Array.from(MILITARY_STATES).forEach(code => {
+        newAddress.stateCode = code;
+        expect(inferAddressType(newAddress).type).to.equal(ADDRESS_TYPES.military);
+      });
+    });
+
+    it('should set the type to domestic if none of the above are true', () => {
+      expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
+    });
+  });
 });
 
