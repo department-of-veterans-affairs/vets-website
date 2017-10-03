@@ -57,4 +57,13 @@ describe('<DownloadLetterLink>', () => {
     expect(button.textContent).to.equal('Downloading...');
     expect(button.disabled).to.be.true;
   });
+
+  it('should show success message', () => {
+    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.success });
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const tree = getFormDOM(component);
+    const heading = tree.getElement('.usa-alert-heading');
+
+    expect(heading.textContent).to.equal('Your letter has successfully downloaded.');
+  });
 });
