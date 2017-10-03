@@ -5,7 +5,9 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash/fp';
 
+import { getFormDOM } from '../../util/schemaform-utils';
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
+import { DOWNLOAD_STATUSES } from '../../../src/js/letters/utils/constants';
 
 const defaultProps = {
   letterName: 'Commissary Letter',
@@ -44,5 +46,15 @@ describe('<DownloadLetterLink>', () => {
 
     // Cleanup on aisle 3
     global.window = oldWindow;
+  });
+
+  it('should update button when status is downloading', () => {
+    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.downloading });
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const tree = getFormDOM(component);
+    const button = tree.getElement('button');
+
+    expect(button.textContent).to.equal('Downloading...');
+    expect(button.disabled).to.be.true;
   });
 });
