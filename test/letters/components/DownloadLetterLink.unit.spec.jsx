@@ -66,4 +66,15 @@ describe('<DownloadLetterLink>', () => {
 
     expect(heading.textContent).to.equal('Your letter has successfully downloaded.');
   });
+
+  it('should show failure message', () => {
+    const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.failure });
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const tree = getFormDOM(component);
+    const heading = tree.getElement('.usa-alert-heading');
+    const button = tree.getElement('button');
+
+    expect(button.textContent).to.equal('Retry Download');
+    expect(heading.textContent).to.equal('Your letter didn’t download.');
+  });
 });
