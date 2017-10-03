@@ -31,11 +31,18 @@ describe('<DownloadLetterLink>', () => {
     };
     const getLetterPdf = sinon.spy();
     const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
-    const component = (ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>));
-    const link = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
-    ReactTestUtils.Simulate.click(link);
-    expect(getLetterPdf.calledOnce).to.be.true;
-    expect(global.window.dataLayer).not.to.be.empty;
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
+
+    ReactTestUtils.Simulate.click(button);
+
+    expect(getLetterPdf.args[0]).to.eql([defaultProps.letterType, defaultProps.letterName, undefined]);
+    expect(global.window.dataLayer[0]).to.eql({
+      event: 'letter-download',
+      'letter-type': defaultProps.letterType
+    });
+
+    // Cleanup on aisle 3
     global.window = oldWindow;
   });
 });
