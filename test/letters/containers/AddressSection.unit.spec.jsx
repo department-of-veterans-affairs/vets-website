@@ -15,6 +15,8 @@ const defaultProps = {
   savedAddress: {
     type: ADDRESS_TYPES.domestic,
     addressOne: '2476 Main Street',
+    addressTwo: '',
+    addressThree: '',
     city: 'Reston',
     countryName: 'USA',
     stateCode: 'VA',
@@ -164,5 +166,21 @@ describe('<AddressSection>', () => {
     const newProps = Object.assign({}, props, { savedAddress: { addressOne: '123 Main St' } });
     instance.componentWillReceiveProps(newProps);
     expect(instance.state.editableAddress).to.equal(newProps.savedAddress);
+  });
+
+  it.only('should not call saveAddress when Cancel is clicked', () => {
+    saveSpy.reset();
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Clear out country to get a validation error
+    tree.fillData('[name="country"]', '');
+
+    // Try to save
+    tree.click('button.usa-button-outline');
+    expect(saveSpy.called).to.be.false;
   });
 });
