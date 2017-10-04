@@ -47,7 +47,6 @@
   &-prev,
   &-next {
     position: relative;
-    top: -1rem;
 
     &:hover,
     &:focus {
@@ -60,7 +59,6 @@
   }
 
   &-inner {
-    overflow: hidden;
     white-space: nowrap;
 
     @media (max-width: $medium-screen) {
