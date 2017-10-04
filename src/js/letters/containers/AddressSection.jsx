@@ -12,7 +12,7 @@ import {
   invalidAddressProperty,
   inferAddressType,
   resetDisallowedAddressFields
-} from '../utils/helpers.jsx';
+} from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
@@ -270,7 +270,7 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return addressContent;
+    return <div>{addressContent}</div>;
   }
 }
 

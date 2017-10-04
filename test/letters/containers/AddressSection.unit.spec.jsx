@@ -141,4 +141,13 @@ describe('<AddressSection>', () => {
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
 
+  it('should show addressUpdateUnavailable if countries or states lists aren\'t available', () => {
+    const props = Object.assign({}, defaultProps, { countriesAvailable: false });
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...props}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+    expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
+  });
 });
