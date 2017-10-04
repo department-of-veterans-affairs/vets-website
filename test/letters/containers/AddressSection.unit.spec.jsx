@@ -196,4 +196,16 @@ describe('<AddressSection>', () => {
     tree.click('button.usa-button-primary');
     expect(saveSpy.called).to.be.false;
   });
+
+  it('should display error messages for validation failures', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Clear out country to get a validation error
+    tree.fillData('[name="country"]', '');
+    expect(tree.getElement('.usa-input-error')).to.not.be.null;
+  });
 });
