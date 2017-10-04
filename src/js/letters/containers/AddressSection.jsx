@@ -25,7 +25,7 @@ import {
   cityValidations
 } from '../utils/validations';
 
-const fieldValidations = {
+export const fieldValidations = {
   addressOne: addressOneValidations,
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
