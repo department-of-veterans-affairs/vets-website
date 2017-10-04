@@ -6,8 +6,15 @@
 .rx-glossary {
   margin: 3rem 0 6rem;
 
-  dt {
+  dt, .glossary-title {
     font-weight: bold;
     font-size: 2.4rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .glossary-body {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
