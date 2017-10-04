@@ -168,7 +168,20 @@ describe('<AddressSection>', () => {
     expect(instance.state.editableAddress).to.equal(newProps.savedAddress);
   });
 
-  it.only('should not call saveAddress when Cancel is clicked', () => {
+  it('should not call saveAddress when Cancel is clicked', () => {
+    saveSpy.reset();
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Try to save
+    tree.click('button.usa-button-outline');
+    expect(saveSpy.called).to.be.false;
+  });
+
+  it('should not call saveAddress when Update is clicked with invalid data', () => {
     saveSpy.reset();
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
     const tree = getFormDOM(component);
@@ -180,7 +193,7 @@ describe('<AddressSection>', () => {
     tree.fillData('[name="country"]', '');
 
     // Try to save
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-primary');
     expect(saveSpy.called).to.be.false;
   });
 });
