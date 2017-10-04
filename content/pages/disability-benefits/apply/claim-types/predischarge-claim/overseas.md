@@ -41,11 +41,13 @@ If you're stationed outside the KMC, use the BDD program through the “Fly-in�
 <ol class="process">
   <li class="process-step list-one">Contact the Landstuhl BDD office by phone, fax, or email to ask for all needed information and forms.</li>
   <li class="process-step list-two">- Fill out and return your application as directed.</li>
-  <li class="process-step list-one">Look for an email from a BDD officer. The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
-  <li class="process-step list-three">Contact the clinics at LRMC to schedule your exams as directed.</li>
-  <li class="process-step list-one">Arrange your travel, and get your command’s approval to make the trip.</li>
-  <li class="process-step list-one">Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won’t be returned. A BDD claim can’t be processed without these records.</li>
+  <li class="process-step list-three">Look for an email from a BDD officer. The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
+  <li class="process-step list-four">Contact the clinics at LRMC to schedule your exams as directed.</li>
+  <li class="process-step list-five">Arrange your travel, and get your command’s approval to make the trip.</li>
+  <li class="process-step list-six">Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won’t be returned. A BDD claim can’t be processed without these records.</li>
+
+</ol>
 
 [Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
-</div>
+
