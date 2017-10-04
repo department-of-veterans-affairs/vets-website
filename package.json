@@ -94,7 +94,6 @@
     "file-loader": "^0.9.0",
     "fine-uploader": "^5.11.8",
     "font-awesome": "^4.6.3",
-    "foundation-sites": "^5.5.3",
     "get-env": "^0.4.0",
     "glob": "^7.0.5",
     "history": "3",
