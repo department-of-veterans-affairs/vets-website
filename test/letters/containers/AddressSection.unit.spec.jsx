@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { cloneDeep } from 'lodash';
 
 import { getFormDOM } from '../../util/schemaform-utils';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
@@ -141,6 +142,7 @@ describe('<AddressSection>', () => {
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
 
+  // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
   it('should show addressUpdateUnavailable if countries or states lists aren\'t available', () => {
     const props = Object.assign({}, defaultProps, { countriesAvailable: false });
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...props}/>);
@@ -149,5 +151,18 @@ describe('<AddressSection>', () => {
     // Start editing
     tree.click('button.usa-button-outline');
     expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
+  });
+
+  it('should load address in new props after mounting', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {};
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress).to.equal(props.savedAddress);
+
+    const newProps = Object.assign({}, props, { savedAddress: { addressOne: '123 Main St' } });
+    instance.componentWillReceiveProps(newProps);
+    expect(instance.state.editableAddress).to.equal(newProps.savedAddress);
   });
 });
