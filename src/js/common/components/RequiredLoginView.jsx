@@ -74,7 +74,7 @@ class RequiredLoginView extends React.Component {
         // DOM elements.)
         const props = { isDataAvailable: this.isServiceAvailable() };
         return React.Children.map(this.props.children, (child) => {
-          React.cloneElement(child, typeof child.type === 'function' : props, null);
+          React.cloneElement(child, (typeof child.type === 'function' ? props : null));
         });
       } else if (this.props.userProfile.accountType === 1) {
         return  <Main renderType="verifyPage"/>;
