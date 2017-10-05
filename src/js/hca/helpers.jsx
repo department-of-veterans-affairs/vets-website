@@ -145,8 +145,8 @@ export const financialDisclosureText = (
 
 export const incomeDescription = (
   <div>
-    <p>Please fill this out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependents.</p>
-    <p><strong>Gross annual income:</strong> This is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your dependent’s income information if it could have been used to pay your household expenses.</p>
+    <p>Please fill this section out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependents.</p>
+    <p><strong>Gross annual income:</strong> This income is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your dependent’s income information if it could have been used to pay your household expenses.</p>
     <p><strong>Net income:</strong> This is the income from your farm, ranch, property, or business.</p>
     <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
   </div>
