@@ -121,30 +121,30 @@ function completeAnnualIncomeInformation(client, data) {
     .setValue('input[name="root_view:spouseIncome_spouseGrossIncome"]', data['view:spouseIncome'].spouseGrossIncome)
     .setValue('input[name="root_view:spouseIncome_spouseNetIncome"]', data['view:spouseIncome'].spouseNetIncome)
     .setValue('input[name="root_view:spouseIncome_spouseOtherIncome"]', data['view:spouseIncome'].spouseOtherIncome)
-    .setValue('input[name="root_children_0_grossIncome"]', data.children[0].grossIncome)
-    .setValue('input[name="root_children_0_netIncome"]', data.children[0].netIncome)
-    .setValue('input[name="root_children_0_otherIncome"]', data.children[0].otherIncome);
+    .setValue('input[name="root_dependents_0_grossIncome"]', data.dependents[0].grossIncome)
+    .setValue('input[name="root_dependents_0_netIncome"]', data.dependents[0].netIncome)
+    .setValue('input[name="root_dependents_0_otherIncome"]', data.dependents[0].otherIncome);
 }
 
-function completeChildInformation(client, data) {
+function completeDependentInformation(client, data) {
   client
-    .click('input#root_view\\:reportChildrenYes');
+    .click('input#root_view\\:reportDependentsYes');
 
-  client.expect.element('label[for="root_children_0_childFullName_first"]').to.be.visible.before(Timeouts.normal);
+  client.expect.element('label[for="root_dependents_0_fullName_first"]').to.be.visible.before(Timeouts.normal);
   client
-    .selectDropdown('root_children_0_childRelation', data.children[0].childRelation)
-    .fillDate('root_children_0_childDateOfBirth', data.children[0].childDateOfBirth)
-    .fillDate('root_children_0_childBecameDependent', data.children[0].childBecameDependent)
-    .setValue('input[name="root_children_0_childFullName_first"]', data.children[0].childFullName.first)
-    .setValue('input[name="root_children_0_childFullName_middle"]', data.children[0].childFullName.middle)
-    .setValue('input[name="root_children_0_childFullName_last"]', data.children[0].childFullName.last)
-    .selectDropdown('root_children_0_childFullName_suffix', data.children[0].childFullName.suffix)
-    .setValue('input[name="root_children_0_childSocialSecurityNumber"]', data.children[0].childSocialSecurityNumber)
-    .setValue('input[name="root_children_0_childEducationExpenses"]', data.children[0].childEducationExpenses)
-    .click('input#root_children_0_childDisabledBefore18Yes')
-    .click('input#root_children_0_childAttendedSchoolLastYearYes')
-    .click('input#root_children_0_childCohabitedLastYearNo')
-    .click('input#root_children_0_childReceivedSupportLastYearYes');
+    .selectDropdown('root_dependents_0_dependentRelation', data.dependents[0].dependentRelation)
+    .fillDate('root_dependents_0_dateOfBirth', data.dependents[0].dateOfBirth)
+    .fillDate('root_dependents_0_becameDependent', data.dependents[0].becameDependent)
+    .setValue('input[name="root_dependents_0_fullName_first"]', data.dependents[0].fullName.first)
+    .setValue('input[name="root_dependents_0_fullName_middle"]', data.dependents[0].fullName.middle)
+    .setValue('input[name="root_dependents_0_fullName_last"]', data.dependents[0].fullName.last)
+    .selectDropdown('root_dependents_0_fullName_suffix', data.dependents[0].fullName.suffix)
+    .setValue('input[name="root_dependents_0_socialSecurityNumber"]', data.dependents[0].socialSecurityNumber)
+    .setValue('input[name="root_dependents_0_dependentEducationExpenses"]', data.dependents[0].dependentEducationExpenses)
+    .click('input#root_dependents_0_disabledBefore18Yes')
+    .click('input#root_dependents_0_attendedSchoolLastYearYes')
+    .click('input#root_dependents_0_cohabitedLastYearNo')
+    .click('input#root_dependents_0_receivedSupportLastYearYes');
 }
 
 function completeDeductibleExpenses(client, data) {
@@ -334,7 +334,7 @@ module.exports = {
   completeVaBenefits,
   completeFinancialDisclosure,
   completeSpouseInformation,
-  completeChildInformation,
+  completeDependentInformation,
   completeAnnualIncomeInformation,
   completeDeductibleExpenses,
   completeMedicareAndMedicaid,

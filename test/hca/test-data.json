@@ -14,31 +14,31 @@
     "spouseNetIncome": 5,
     "spouseOtherIncome": 6
   },
-  "children": [
+  "dependents": [
     {
-      "childFullName": {
+      "fullName": {
         "first": "John",
         "last": "Doe"
       },
-      "childRelation": "Son",
-      "childSocialSecurityNumber": "321321321",
-      "childDateOfBirth": "1901-10-09",
-      "childBecameDependent": "1901-10-09",
-      "childEducationExpenses": 1,
+      "dependentRelation": "Son",
+      "socialSecurityNumber": "321321321",
+      "dateOfBirth": "1901-10-09",
+      "becameDependent": "1901-10-09",
+      "dependentEducationExpenses": 1,
       "grossIncome": 7,
       "netIncome": 8,
       "otherIncome": 9
     },
     {
-      "childFullName": {
+      "fullName": {
         "first": "Jane",
         "last": "Doe"
       },
-      "childRelation": "Daughter",
-      "childSocialSecurityNumber": "123456543",
-      "childDateOfBirth": "1902-11-03",
-      "childBecameDependent": "1902-11-03",
-      "childEducationExpenses": 1,
+      "dependentRelation": "Daughter",
+      "socialSecurityNumber": "123456543",
+      "dateOfBirth": "1902-11-03",
+      "becameDependent": "1902-11-03",
+      "dependentEducationExpenses": 1,
       "grossIncome": 10,
       "netIncome": 11,
       "otherIncome": 12
@@ -75,7 +75,7 @@
     "first": "First",
     "last": "Last"
   },
-  "view:reportChildren": true,
+  "view:reportDependents": true,
   "privacyAgreementAccepted": true,
   "discloseFinancialInformation": true
 }

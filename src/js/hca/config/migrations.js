@@ -17,7 +17,7 @@ export default [
   (savedData) => {
     let newData = savedData;
 
-    if (newData['view:reportChildren']) {
+    if (typeof newData['view:reportChildren'] !== 'undefined') {
       newData = _.unset('view:reportChildren', newData);
       newData['view:reportDependents'] = savedData['view:reportChildren'];
     }
@@ -36,6 +36,8 @@ export default [
             const newField = field.replace(/^child/, '');
             const [firstLetter, ...restOfField] = newField;
             acc[`${firstLetter.toLowerCase()}${restOfField.join('')}`] = child[field];
+          } else {
+            acc[field] = child[field];
           }
 
           return acc;

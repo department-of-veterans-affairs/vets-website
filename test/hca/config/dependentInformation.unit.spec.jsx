@@ -9,8 +9,8 @@ import { fillDate } from '../../util/unit-helpers';
 import formConfig from '../../../src/js/hca/config/form';
 
 
-describe('Hca child information', () => {
-  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.childInformation;
+describe('Hca dependent information', () => {
+  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.dependentInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -42,7 +42,7 @@ describe('Hca child information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal child information', () => {
+  it('should reveal dependent information', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -56,9 +56,9 @@ describe('Hca child information', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
 
-    const reportChildren = Array.from(formDOM.querySelectorAll('input'))
-      .find((input) => input.id === 'root_view:reportChildrenYes');
-    ReactTestUtils.Simulate.change(reportChildren, {
+    const reportDependents = Array.from(formDOM.querySelectorAll('input'))
+      .find((input) => input.id === 'root_view:reportDependentsYes');
+    ReactTestUtils.Simulate.change(reportDependents, {
       target: {
         value: 'Y'
       }
@@ -86,52 +86,52 @@ describe('Hca child information', () => {
     const formDOM = findDOMNode(form);
 
     // Open up the information
-    const reportChildren = Array.from(formDOM.querySelectorAll('input'))
-      .find((input) => input.id === 'root_view:reportChildrenYes');
-    ReactTestUtils.Simulate.change(reportChildren, {
+    const reportDependents = Array.from(formDOM.querySelectorAll('input'))
+      .find((input) => input.id === 'root_view:reportDependentsYes');
+    ReactTestUtils.Simulate.change(reportDependents, {
       target: {
         value: 'Y'
       }
     });
 
     // And fill out the required fields
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childFullName_first'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_fullName_first'), {
       target: {
         value: 'John'
       }
     });
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childFullName_last'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_fullName_last'), {
       target: {
         value: 'Doe'
       }
     });
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childRelation'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_dependentRelation'), {
       target: {
         value: 'Son'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_socialSecurityNumber'), {
       target: {
         value: '123123123'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childCohabitedLastYearYes'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_cohabitedLastYearYes'), {
       target: {
         value: 'Y'
       }
     });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childDisabledBefore18Yes'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_disabledBefore18Yes'), {
       target: {
         value: 'Y'
       }
     });
 
-    fillDate(formDOM, 'root_children_0_childDateOfBirth', '2012-12-12');
-    fillDate(formDOM, 'root_children_0_childBecameDependent', '2012-12-12');
+    fillDate(formDOM, 'root_dependents_0_dateOfBirth', '2012-12-12');
+    fillDate(formDOM, 'root_dependents_0_becameDependent', '2012-12-12');
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_children_0_childEducationExpenses'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dependents_0_dependentEducationExpenses'), {
       target: {
         value: '1234'
       }
