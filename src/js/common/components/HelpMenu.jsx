@@ -11,7 +11,7 @@ class HelpMenu extends React.Component {
       <div>
         <p><b>Call the Vets.gov Help Desk</b></p>
         <p><a href="tel:18555747286">1-855-574-7286</a></p>
-        <p>TTY: <a href="tel:18008294833">1-800-829-4833</a></p>
+        <p>TTY: <a href="tel:+18008778339">1-800-877-8339</a></p>
         <p>Monday &ndash; Friday</p>
         <p>8:00 a.m. &ndash; 8:00 p.m. <abbr title="Eastern Time">(ET)</abbr></p>
       </div>

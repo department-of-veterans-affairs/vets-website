@@ -1,4 +1,4 @@
-import { gaClientId } from '../../common/helpers/login-helpers';
+import { gaClientId } from '../../common/utils/helpers';
 
 export const LOG_OUT = 'LOG_OUT';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';

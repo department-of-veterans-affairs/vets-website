@@ -124,21 +124,3 @@ export function handleLogin(loginUrl, onUpdateLoginUrls) {
   }
   return Promise.reject('Could not log in; loginUrl not provided.');
 }
-
-function isGaLoaded() {
-  return !!(window.ga && ga.create);
-}
-
-// google analytics client Id
-/* global gaClientId ga:true */
-export function gaClientId() {
-  let clientId;
-  if (isGaLoaded()) {
-    for (const data of ga.getAll()) {
-      if (data.get('cookieDomain') === 'vets.gov') {
-        clientId = data.get('clientId');
-      }
-    }
-  }
-  return clientId;
-}

@@ -91,7 +91,7 @@ export function notQualifiedWarning() {
         <ul>
           <li>You haven’t served on active duty for at least 90 days after September 10, 2001, and/or</li>
           <li>Your service component let us know that you didn’t receive an honorable discharge</li>
-          <li>If the information in our records is not accurate, please call us at 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
+          <li>If the information in our records is not accurate, please call us at 1-888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
         </ul>
         <h5>Resources</h5>
         <ul>

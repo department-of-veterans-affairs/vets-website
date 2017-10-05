@@ -157,7 +157,7 @@ body {
   // No max height for small screens = no animation, which is fine
   // Also means the Apply Now button doesn't get cut off
   @include media($small-screen) {
-    max-height: 24em;
+    max-height: 25em;
   }
   overflow: hidden;
   transition: max-height 150ms ease-in-out;
@@ -204,6 +204,16 @@ body {
       margin-right: 2.35765%;
       width: 74.41059%;
     }
+  }
+}
+
+// Overrides so that the left/right padding matches the Foundation grid.
+// Without this, using the USA grid causes alignment issues other components
+// on the page that use the Foundation grid.
+.va-l-detail-page {
+  > .usa-grid {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
   }
 }
 

@@ -7,7 +7,6 @@ import { handleVerify } from '../../common/helpers/login-helpers.js';
 class Verify extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = this.handleVerify.bind(this);
   }
@@ -19,10 +18,10 @@ class Verify extends React.Component {
     return window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.login.currentlyLoggedIn && !this.props.login.currentlyLoggedIn) {
-      this.checkAccountAccess(nextProps.profile.accountType);
-    }
+  componentDidUpdate(prevProps) {
+    const { accountType } = this.props.profile;
+    const shouldCheckAccount = prevProps.profile.accountType !== accountType;
+    if (shouldCheckAccount) { this.checkAccountAccess(accountType); }
   }
 
   checkAccountAccess(accountType) {
@@ -44,6 +43,7 @@ class Verify extends React.Component {
     handleVerify(this.props.login.verifyUrl);
   }
 
+  // TODO: bring back alternate methods after working out kinks with ID.me
   renderAlternateVerificationMethods() {
     if (!this.props.profile.authnContext) {
       return (
@@ -76,13 +76,12 @@ class Verify extends React.Component {
             <div className="columns small-12">
               <p>
                 We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
-                <a href="/faq#dbq2" target="_blank">Why does Vets.gov verify identity?</a>
+                <a href="/faq#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
               </p>
               <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
               <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
                 <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
               </button>
-              {this.renderAlternateVerificationMethods()}
             </div>
           </div>
           <div className="row">
@@ -91,7 +90,7 @@ class Verify extends React.Component {
                 <h4>Having trouble verifying your identity?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).<br/>
+                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
                   We're here Monday – Friday, 8:00am – 8:00pm (ET).
                 </p>
               </div>

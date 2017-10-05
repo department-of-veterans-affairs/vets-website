@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { ADDRESS_TYPES, STATE_CODE_TO_NAME } from '../utils/constants';
+import { STATE_CODE_TO_NAME, MILITARY_CITIES } from '../utils/constants';
 import { militaryStateNames } from '../utils/helpers';
 
 /**
@@ -52,30 +52,14 @@ class Address extends React.Component {
   }
 
   isMilitaryCity = (city) => {
-    const lowerCity = city.toLowerCase().trim();
+    const upperCity = city.toUpperCase().trim();
 
-    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+    return MILITARY_CITIES.has(upperCity);
   }
 
   render() {
     const errorMessages = this.props.errorMessages;
-
-    // Our hard-coded list of countries has the value for the U.S. as
-    // 'USA', but the value sent to us from EVSS is 'US'. This will cause
-    // the field to not populate correctly.
-    // This will be changed once we pull the real country list from the
-    // address endpoint.
-    let selectedCountry;
-    if (this.props.address.countryName === undefined && this.props.address.type === ADDRESS_TYPES.military) {
-      selectedCountry = 'USA';
-    } else if (this.props.address.countryName === 'US') {
-      selectedCountry = 'USA';
-    } else {
-      selectedCountry = this.props.address.countryName;
-    }
-
-    const isUSA = selectedCountry === 'USA';
-
+    const isUSA = this.props.address.countryName === 'USA';
     const adjustedStateNames = this.getAdjustedStateNames();
 
     return (
@@ -85,14 +69,14 @@ class Address extends React.Component {
           name="country"
           autocomplete="country"
           options={this.props.countries}
-          value={selectedCountry}
+          value={this.props.address.countryName}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('countryName', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
           name="address"
           autocomplete="street-address"
-          charMax={30}
+          charMax={35}
           value={this.props.address.addressOne}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('addressOne', update)}/>
@@ -100,14 +84,14 @@ class Address extends React.Component {
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
-          charMax={30}
+          charMax={35}
           value={this.props.address.addressTwo}
           onValueChange={(update) => this.props.onInput('addressTwo', update)}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
-          charMax={30}
+          charMax={35}
           value={this.props.address.addressThree}
           onValueChange={(update) => this.props.onInput('addressThree', update)}/>
         <ErrorableTextInput errorMessage={errorMessages.city}
@@ -118,6 +102,7 @@ class Address extends React.Component {
           value={this.props.address.city}
           required={this.props.required}
           onValueChange={(update) => this.props.onInput('city', update)}/>
+
         {/* Hide the state for addresses that aren't in the US */}
         {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
           label="State"
@@ -157,7 +142,6 @@ Address.propTypes = {
   address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
   countries: PropTypes.array.isRequired,
-  states: PropTypes.array.isRequired,
 };
 
 export default Address;

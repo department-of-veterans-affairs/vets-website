@@ -30,7 +30,8 @@ function reInitWidget() {
   const container = document.querySelector('.wizard-anchor .wizard-container');
   const button = container.querySelector('.wizard-button');
   const content = container.querySelector('.wizard-content');
-  const apply = container.querySelector('#apply-now-button');
+  const applyLink = container.querySelector('#apply-now-link');
+  const applyButton = container.querySelector('#apply-now-button');
   const transferWarning = container.querySelector('#transfer-warning');
   const nctsWarning = container.querySelector('#ncts-warning');
 
@@ -39,7 +40,7 @@ function reInitWidget() {
     // eslint-disable-next-line no-return-assign, no-param-reassign
     selections.forEach(selection => selection.checked = false);
   }
-  apply.addEventListener('click', resetForm);
+  applyLink.addEventListener('click', resetForm);
 
   content.addEventListener('change', (e) => {
     const radio = e.target;
@@ -52,8 +53,8 @@ function reInitWidget() {
       }
     });
 
-    if ((apply.dataset.state === 'open') && !radio.dataset.selectedForm) {
-      closeState(apply);
+    if ((applyButton.dataset.state === 'open') && !radio.dataset.selectedForm) {
+      closeState(applyButton);
     }
     if ((transferWarning.dataset.state === 'open') && (radio.id !== 'create-non-transfer')) {
       closeState(transferWarning);
@@ -63,8 +64,8 @@ function reInitWidget() {
     }
 
     if (radio.dataset.selectedForm) {
-      if (apply.dataset.state === 'closed') {
-        openState(apply);
+      if (applyButton.dataset.state === 'closed') {
+        openState(applyButton);
       }
 
       if ((transferWarning.dataset.state === 'closed') && (radio.id === 'create-non-transfer')) {
@@ -73,7 +74,7 @@ function reInitWidget() {
       if ((nctsWarning.dataset.state === 'closed') && (radio.id === 'is-ncts')) {
         openState(nctsWarning);
       }
-      apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
+      applyLink.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
     }
     if (radio.dataset.nextQuestion) {
       const nextQuestion = radio.dataset.nextQuestion;

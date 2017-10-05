@@ -21,14 +21,12 @@ class GlossaryModal extends React.Component {
       element = (
         <div>
           <GlossaryList terms={this.props.content}/>
-          <div className="va-modal-button-group cf">
-            <button type="button" onClick={this.handleCloseModal}>Close</button>
-            <Link
-              to="/glossary"
-              onClick={this.props.onCloseModal}>
-              See all status definitions
-            </Link>
-          </div>
+          <button className="va-modal-close" type="button" onClick={this.handleCloseModal}><i className="fa fa-close"></i><span className="usa-sr-only">Close this modal</span></button>
+          <Link
+            to="/glossary"
+            onClick={this.props.onCloseModal}>
+            See all status definitions
+          </Link>
         </div>
       );
     } else {
@@ -37,12 +35,12 @@ class GlossaryModal extends React.Component {
 
     return (
       <Modal
-        cssClass="va-modal rx-modal"
+        cssClass="va-modal"
         contents={element}
         hideCloseButton
         id="rx-glossary-modal"
-        onClose={this.handleCloseModal}
         title="Glossary"
+        onClose={this.handleCloseModal}
         visible={this.props.isVisible}/>
     );
   }

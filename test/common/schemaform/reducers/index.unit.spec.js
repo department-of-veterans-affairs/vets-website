@@ -9,6 +9,7 @@ import { SET_DATA,
 
 import {
   SET_SAVE_FORM_STATUS,
+  SET_AUTO_SAVE_FORM_STATUS,
   SET_FETCH_FORM_STATUS,
   SET_IN_PROGRESS_FORM,
   SET_FETCH_FORM_PENDING,
@@ -194,6 +195,28 @@ describe('schemaform createSchemaFormReducer', () => {
       expect(state.savedStatus).to.equal(SAVE_STATUSES.success);
       expect(state.startingOver).to.be.false;
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
+    });
+    it('should set auto save form status', () => {
+      const state = reducer({
+        autoSavedStatus: SAVE_STATUSES.notAttempted
+      }, {
+        type: SET_AUTO_SAVE_FORM_STATUS,
+        status: SAVE_STATUSES.success
+      });
+
+      expect(state.autoSavedStatus).to.equal(SAVE_STATUSES.success);
+    });
+    it('should reset auto saved form status on error', () => {
+      const state = reducer({
+        autoSavedStatus: SAVE_STATUSES.failure,
+        savedStatus: SAVE_STATUSES.notAttempted
+      }, {
+        type: SET_SAVE_FORM_STATUS,
+        status: SAVE_STATUSES.noAuth
+      });
+
+      expect(state.savedStatus).to.equal(SAVE_STATUSES.noAuth);
+      expect(state.autoSavedStatus).to.equal(SAVE_STATUSES.notAttempted);
     });
     it('should set fetch form status', () => {
       const state = reducer({

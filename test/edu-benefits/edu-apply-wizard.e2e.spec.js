@@ -33,7 +33,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990n/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990n/introduction');
 
     client
       .expect.element('#ncts-warning').to.have.css('display').equals('block');
@@ -57,7 +57,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490/introduction');
 
     // Select non-dependent
     client
@@ -75,19 +75,19 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
 
     // Select non-transfer
     client
       .click('#create-non-transfer')
-      .waitForElementVisible('a#apply-now-button', Timeouts.normal)
+      .waitForElementVisible('#apply-now-button', Timeouts.normal)
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
       .expect.element('#transfer-warning').to.have.css('display').equals('block');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990e/introduction');
 
     // Update an existing application
     client
@@ -108,7 +108,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#transfer-warning').to.have.css('display').equals('none');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495/introduction');
 
     // Select non-dependent
     client
@@ -117,7 +117,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#apply-now-button').to.have.css('display').equals('block');
 
     client
-      .expect.element('#apply-now-button').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995/introduction');
 
     // Navigate to application
     client

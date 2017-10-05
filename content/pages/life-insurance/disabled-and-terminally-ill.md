@@ -122,7 +122,7 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
   Philadelphia, PA 19176-0173<br>
 </p>
 
-Or, fax the form to 877-832-4943.
+Or, fax the form to 1-877-832-4943.
 
 <br>
 

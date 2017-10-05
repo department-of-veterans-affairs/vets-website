@@ -424,16 +424,8 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
   }
 }
 
-export function setItemTouched(prefix, index, idSchema) {
-  const fields = Object.keys(idSchema).filter(field => field !== '$id');
-  if (!fields.length) {
-    const id = idSchema.$id.replace(prefix, `${prefix}_${index}`);
-    return { [id]: true };
-  }
-
-  return fields.reduce((idObj, field) => {
-    return _.merge(idObj, setItemTouched(prefix, index, idSchema[field]));
-  }, {});
+export function setArrayRecordTouched(prefix, index) {
+  return { [`${prefix}_${index}`]: true };
 }
 
 export function createUSAStateLabels(states) {

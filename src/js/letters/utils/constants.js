@@ -58,11 +58,28 @@ export const LETTER_TYPES = Object.freeze({
   benefitVerification: 'benefit_verification'
 });
 
+// Benefit options returned from vets-api, used in UI
 export const BENEFIT_OPTIONS = Object.freeze({
   awardEffectiveDate: 'awardEffectiveDate',
   monthlyAwardAmount: 'monthlyAwardAmount',
   serviceConnectedPercentage: 'serviceConnectedPercentage',
 
+  hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
+  hasServiceConnectedDisabilities: 'hasServiceConnectedDisabilities',
+  hasSurvivorsIndemnityCompensationAward: 'hasSurvivorsIndemnityCompensationAward',
+  hasSurvivorsPensionAward: 'hasSurvivorsPensionAward',
+  hasAdaptedHousing: 'hasAdaptedHousing',
+  hasChapter35Eligibility: 'hasChapter35Eligibility',
+  hasDeathResultOfDisability: 'hasDeathResultOfDisability',
+  hasIndividualUnemployabilityGranted: 'hasIndividualUnemployabilityGranted',
+  hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
+});
+
+// Benefit Summary Letter request customization options, subset of BENEFIT_OPTIONS
+// Currently only key removed is awardEffectiveDate
+export const REQUEST_OPTIONS = Object.freeze({
+  monthlyAwardAmount: 'monthlyAwardAmount',
+  serviceConnectedPercentage: 'serviceConnectedPercentage',
   hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
   hasServiceConnectedDisabilities: 'hasServiceConnectedDisabilities',
   hasSurvivorsIndemnityCompensationAward: 'hasSurvivorsIndemnityCompensationAward',
@@ -144,3 +161,6 @@ export const ADDRESS_TYPES = Object.freeze({
   military: 'MILITARY'
 });
 
+// These probably aren't the best names, but they work...
+export const MILITARY_CITIES = new Set(['APO', 'FPO', 'DPO']);
+export const MILITARY_STATES = new Set(['AA', 'AE', 'AP']);
