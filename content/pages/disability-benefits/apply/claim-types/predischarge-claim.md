@@ -149,7 +149,7 @@ Use BDD's “Fly-in” claim process to apply by fax or email before your in-per
     
   **Look for an email from a BDD officer.** The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know what information and evidence (supporting documents like doctor’s reports and medical test results) you'll need to support your claim.
     
-    </li>
+  </li>
     
   <li class="process-step list-four">
   
@@ -165,8 +165,9 @@ Use BDD's “Fly-in” claim process to apply by fax or email before your in-per
   
   <li class="process-step list-six">
   
-  **Bring a copy of your service treatment records when you report for your exams.** It's very important to remember these records because we can't process your BDD claim without them. The copy you submit won't be returned.</li>
-
+  **Bring a copy of your service treatment records when you report for your exams.** It's very important to remember these records because we can't process your BDD claim without them. The copy you submit won't be returned.
+  
+  </li>
 </ol>
 
 [Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
