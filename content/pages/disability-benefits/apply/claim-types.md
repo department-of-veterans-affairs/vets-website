@@ -15,7 +15,7 @@ majorlinks:
 
 Find out which type of disability claim to file based on your active duty status and the nature and timing of your disability. And learn the terms you should know while going through the VA disability claims process.
 
-### Types of claims to file 
+### Filing different claim types
   
 #### What type of claim should I file if I'm still on active duty?
 If you have a disability and you're 90 to 180 days from separation from active-duty service, file a **predischarge claim** unless your case requires special handling. [Learn how to file a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
@@ -41,9 +41,9 @@ You can file an **inservice claim**. [Learn more about the application process](
 You can file a **postservice claim**. 
 
 You may qualify for benefits for these postservice disabilities:
-[Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)
-[Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
-[Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
+[Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
+[Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)</br>
+[Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)</br>
 [Disabilities related to time spent as a Prisoner of War (POW)](https://www.vets.gov/disability-benefits/conditions/pow/)
 
 <br>
