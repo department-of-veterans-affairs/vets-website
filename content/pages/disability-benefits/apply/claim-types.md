@@ -17,7 +17,7 @@ Find out which type of disability claim to file based on your active duty status
 
 ### Types of claims to file 
 
-**Jump to a section:**
+**Jump to a section:**</br>
 [What type of claim should I file if I'm still on active duty?](#type-active)</br>
 [What type of claim should I file if I had a disability before entering the military, but it was made worse because of my service?](#type-preservice)</br>
 [What type of claim should I file if my disability was caused by an illness or injury that I got while on active duty?](#type-inservice)</br>
