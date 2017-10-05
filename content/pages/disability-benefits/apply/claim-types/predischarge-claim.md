@@ -44,7 +44,7 @@ You **cannot** use the BDD program if you:
 - Have suffered the loss of a body part and are considered a "special category person" (SPC)
 - Are terminally ill
 - Are awaiting discharge from a VA hospital or military treatment facility
-- Need to have a VA exam done in a foreign country (except if the exam can be required by the overseas BDD office in Landstuhl, Germany or Yongsan, Korea)
+- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in Landstuhl, Germany or Yongsan, Korea)
 - Are pregnant
 - Require a Character of Discharge determination
 
@@ -83,7 +83,7 @@ You'll need to apply. The application process will depend on where you're statio
 #### If you're stationed in the U.S.
 You can apply online, by mail, or in-person for benefits. To complete the process you'll need to:
 - Turn in your service treatment records along with your application, **and**
-- Be available for a VA medical exam through 45 days from the date you apply, **and**
+- Be available for 45 days from the date you apply to have a VA medical exam, **and**
 - Finish all phases of the VA/DOD medical separation examination processes before your release from the military
 
 [Apply for benefits](/disability-benefits/apply/).
@@ -99,7 +99,7 @@ Visit the Landstuhl BDD office, where you can start your disability claim while 
 
 To complete the process, you'll need to:
 - Have a copy of your service treatment records for your most recent period of service, **and**
-- Be available for a VA medical exam (which will take place up to 45 days from the date you apply), **and**
+- Be available for 45 days from the date you apply to have a VA medical exam, **and**
 - Have enough time in-country to complete the medical exam process (which may involve multiple specialty clinics)
 
 <br>
@@ -109,9 +109,14 @@ To complete the process, you'll need to:
 #### If you're stationed overseas in Korea
 Call the BBD office in Yongsan at DSN 738-5121 (or commercial 02-7918-5121).  
 
-Or, visit the office in person. The office is located in BLDG 4037 on Yongsan South Post, next door to the 1st Replacement Company (1RC). The office is open Monday, through Friday, 8:00 a.m. to 11:30 a.m., and 12:30 p.m. to 4:30 p.m.
+Or, visit the office in person. The office is located in BLDG 4037 on Yongsan South Post, next door to the 1st Replacement Company (1RC). The office is open Monday through Friday, 8:00 a.m. to 11:30 a.m., and 12:30 p.m. to 4:30 p.m.
  
-VA staff will be available at the Osan Air Base on the 3rd Thursday of each month from 8:00 a.m. to 4:00 p.m.  Contact the Airman Family and Readiness Center at DSN 784-5440 for location information.
+VA staff will be available at the Osan Air Base on the 3rd Thursday of each month from 8:00 a.m. to 4:00 p.m. Contact the Airman Family and Readiness Center at DSN 784-5440 for location information.
+
+To complete the process, you'll need to:
+- Have a copy of your service treatment records for your most recent period of service, **and**
+- Be available for 45 days from the date you apply to have a VA medical exam, **and**
+- Have enough time in-country to complete the medical exam process (which may involve multiple specialty clinics)
 
 <br>
 
@@ -121,7 +126,9 @@ VA staff will be available at the Osan Air Base on the 3rd Thursday of each mont
 If you're stationed outside the Kaiserslautern Military Community (KMC), use the BDD program through the “Fly-in” claim process. This process lets you apply by fax or email before your in-person appointment. Follow these steps to use the Fly-in claim process:
 
 <ol class="process">
-  <li class="process-step list-one">Contact the Landstuhl BDD office by phone, fax, or email to ask for all needed information and forms.</li>
+  <li class="process-step list-one">Contact the Landstuhl BDD office to ask for all needed information and forms. You can contact the office by:
+  - **Phone:** Telephone (DSN 590-8200) or commercial (06371-9464-8200)
+  - **Or email:** GermanyBDD.vbapit@va.gov</li>
   <li class="process-step list-two"> Fill out and return your application as directed.</li>
   <li class="process-step list-three">Look for an email from a BDD officer. The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
   <li class="process-step list-four">Contact the clinics at LRMC to schedule your exams as directed.</li>
