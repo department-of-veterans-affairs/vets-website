@@ -12,4 +12,20 @@ describe('<AddressBlock/>', () => {
 
     expect(helpText).to.contain('A correct address is not required, but');
   });
+
+  it('should render name', () => {
+    const tree = SkinDeep.shallowRender(<AddressBlock { ...defaultProps }/>);
+    const helpText = tree.subTree('h5').text();
+
+    expect(helpText).to.contain(defaultProps.name);
+  });
+
+  it('should render children', () => {
+    const children = (<span>I am a child!</span>);
+    const props = Object.assign({}, defaultProps, { children });
+    const tree = SkinDeep.shallowRender(<AddressBlock { ...props }/>);
+    const helpText = tree.dive(['div', 'span']).text();
+
+    expect(helpText).to.contain('I am a child!');
+  });
 });
