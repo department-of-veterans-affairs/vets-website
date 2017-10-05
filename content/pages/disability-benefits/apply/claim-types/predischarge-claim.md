@@ -31,13 +31,16 @@ You can use the BDD program if:
 - You have a known separation date, **and**
 -	Your separation date is within the next 90 to 180 days 
 
-**Please note:** If you have less than 90 days left on active duty, you can't file a BDD claim or add more health problems to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
+<br>
+
+### What if I have less than 90 days left on active duty?
+You can't file a BDD claim or add more health problems to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
 [Learn more about the application process](/disability-benefits/apply/).</br>
 [Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
-### Is there any reason I wouldn't be able to use the BDD program?
+### Is there any other reason I wouldn't be able to use the BDD program?
 Yes. Even if you file your claim in time, you can't use the BDD program if your claim requires special handling because you:
 - Need case management for a serious or very serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
