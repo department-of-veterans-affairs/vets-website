@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
-import { STATE_CODE_TO_NAME } from '../utils/constants';
+import { STATE_CODE_TO_NAME, MILITARY_CITIES } from '../utils/constants';
 import { militaryStateNames } from '../utils/helpers';
 
 /**
@@ -52,9 +52,9 @@ class Address extends React.Component {
   }
 
   isMilitaryCity = (city) => {
-    const lowerCity = city.toLowerCase().trim();
+    const upperCity = city.toUpperCase().trim();
 
-    return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
+    return MILITARY_CITIES.has(upperCity);
   }
 
   render() {
@@ -142,7 +142,6 @@ Address.propTypes = {
   address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
   countries: PropTypes.array.isRequired,
-  states: PropTypes.array.isRequired,
 };
 
 export default Address;
