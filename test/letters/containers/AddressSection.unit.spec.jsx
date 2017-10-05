@@ -239,4 +239,7 @@ describe('<AddressSection>', () => {
     instance.handleChange('countryName', 'Elsweyre');
     expect(instance.state.editableAddress.stateCode).to.equal('');
   });
+
+  // Not sure how to test this bit yet...
+  // it('should scroll to first error', () => {});
 });
