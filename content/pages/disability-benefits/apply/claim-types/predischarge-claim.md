@@ -34,16 +34,14 @@ You can use the BDD program if:
 - You have a known separation date, **and**
 -	Your separation date is within the next 90 to 180 days 
 
-**Please note:** If you have less than 90 days left on active duty, you can't file a BDD claim or add additional medical conditions to your initial claim. But you can still file your claim prior to discharge, and it will be processed after separation as a fully developed or standard claim.</br>
+**Please note:** If you have less than 90 days left on active duty, you can't file a BDD claim or add more health problems to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
 [Learn more about the application process](/disability-benefits/apply/).</br>
 [Learn more about fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
-### Are there any situations in which I can't use the BDD program—even if I submit my claim in time?
-Yes. If your claim requires special handling, you won't be able to use this program.
-
-You **cannot** use the BDD program if you:
+### Is there any reason I won't be able to use the BDD program, even if I file my claim in time?
+Yes. You can't use the BDD program if your claim requires special handling because you:
 - Need case management for a serious or very serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
 - Are terminally ill, **or**
@@ -99,7 +97,10 @@ To complete the process you'll need to:
 <spand id="stationed-germany">
 
 #### If you're stationed overseas in Germany
-Visit the Landstuhl BDD office to start your disability claim. The office is located at the Landstuhl Regional Medical Center in BLDG 3724. You don't need an appointment. Walk-in hours are Monday through Friday, from 9:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
+Contact the Landstuhl BDD office by:
+- **Phone** at DSN 590-8200 (or commercial 06371-9464-8200), **or**
+- **Email** at GermanyBDD.vbapit@va.gov, **or**
+- **Visiting in person.** The office is located at the Landstuhl Regional Medical Center in BLDG 3724. It's open Monday through Friday, from 9:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m. You don't need an appointment.
 
 To complete the process, you'll need to:
 - Have a copy of your service treatment records for your most recent period of service, **and**
@@ -111,7 +112,9 @@ To complete the process, you'll need to:
 <spand id="stationed-korea">
 
 #### If you're stationed overseas in Korea
-Call the BBD office in Yongsan at DSN 738-5121 (or commercial 02-7918-5121), or visit the office in person to start your disability claim. The office is located in BLDG 4037 on Yongsan South Post, next door to the 1st Replacement Company (1RC). It's open Monday through Friday, 8:00 a.m. to 11:30 a.m., and 12:30 p.m. to 4:30 p.m.
+Contact the BBD office in Yongsan by:
+- **Phone** at DSN 738-5121 (or commercial 02-7918-5121), **or**
+- **Visiting in person.** The office is located in BLDG 4037 on Yongsan South Post, next door to the 1st Replacement Company (1RC). It's open Monday through Friday, 8:00 a.m. to 11:30 a.m., and 12:30 p.m. to 4:30 p.m. You don't need an appointment.
  
 VA staff will also be available at the Osan Air Base on the 3rd Thursday of each month from 8:00 a.m. to 4:00 p.m. Contact the Airman Family and Readiness Center at DSN 784-5440 for location information.
 
@@ -124,13 +127,15 @@ To complete the process, you'll need to:
 
 <spand id="stationed-emea">
   
-#### If you're stationed overseas in Europe, African, or the Middle East, outside the Kaiserslautern Military Community (KMC)
+#### If you're stationed overseas in Europe, African, or the Middle East (outside the Kaiserslautern Military Community)
 Use BDD's “Fly-in” claim process to apply by fax or email before your in-person appointment. Follow these steps to use the Fly-in claim process:
 
 <ol class="process">
   <li class="process-step list-one">
     
-  **Contact the Landstuhl BDD office to ask for all needed information and forms.** You can contact the office by phone at DSN 590-8200 or commercial 06371-9464-8200, or email at GermanyBDD.vbapit@va.gov.
+  **Contact the Landstuhl BDD office to ask for all needed information and forms.** You can contact the office by:
+  - **Phone** at DSN 590-8200 (or commercial 06371-9464-8200), **or**
+  - **Email** at GermanyBDD.vbapit@va.gov
   
   </li>
   
@@ -142,7 +147,7 @@ Use BDD's “Fly-in” claim process to apply by fax or email before your in-per
   
   <li class="process-step list-three">
     
-    **Look for an email from a BDD officer.** The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.
+  **Look for an email from a BDD officer.** The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know what information and evidence (supporting documents like doctor’s reports and medical test results) you'll need to support your claim.
     
     </li>
     
