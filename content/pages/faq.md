@@ -259,5 +259,23 @@ display_title: Frequently Asked Questions
 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function() {
+  var openAccordion = function(id) {
+    document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
+    document.getElementById(id).setAttribute('aria-hidden', false);
+  }
+
+  switch(window.location.hash) {
+    case '#why-verify':
+      openAccordion('dbq3');
+      break;
+    case '#what-is-idme':
+      openAccordion('dbq7');
+      break;
+  }
+})();
+</script>
+
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->
