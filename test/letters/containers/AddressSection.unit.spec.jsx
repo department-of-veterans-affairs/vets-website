@@ -239,4 +239,17 @@ describe('<AddressSection>', () => {
     instance.handleChange('countryName', 'Elsweyre');
     expect(instance.state.editableAddress.stateCode).to.equal('');
   });
+
+  it('should show state name for domestic addresses', () => {
+    // default is domestic
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('.usa-button-outline');
+
+    // Get the text that's actually displaying for the selected option
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    expect(stateName).to.equal('Virginia');
+  });
 });
