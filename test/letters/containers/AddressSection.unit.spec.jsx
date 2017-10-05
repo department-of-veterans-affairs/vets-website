@@ -252,4 +252,20 @@ describe('<AddressSection>', () => {
     const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
     expect(stateName).to.equal('Virginia');
   });
+
+  // This is functionally the same as the above...
+  it('should show military state code text for military address', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress.stateCode = 'AA';
+
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...props}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('.usa-button-outline');
+
+    // Get the text that's actually displaying for the selected option
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    expect(stateName).to.equal('Armed Forces Americas (AA)');
+  });
 });
