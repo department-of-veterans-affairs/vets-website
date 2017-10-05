@@ -126,7 +126,7 @@ To complete the process, you'll need to:
 If you're stationed outside the Kaiserslautern Military Community (KMC), use the BDD program through the “Fly-in” claim process. This process lets you apply by fax or email before your in-person appointment. Follow these steps to use the Fly-in claim process:
 
 <ol class="process">
-  <li class="process-step list-one">Contact the Landstuhl BDD office to ask for all needed information and forms. You can contact the office by:
+  <li class="process-step list-one">Contact the Landstuhl BDD office to ask for all needed information and forms. You can contact the office by:<br>
   - **Phone:** Telephone (DSN 590-8200) or commercial (06371-9464-8200)
   - **Or email:** GermanyBDD.vbapit@va.gov</li>
   <li class="process-step list-two"> Fill out and return your application as directed.</li>
