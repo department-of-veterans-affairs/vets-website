@@ -16,52 +16,29 @@ majorlinks:
 Find out which type of disability claim to file based on your active duty status and the nature and timing of your disability. And learn the terms you should know while going through the VA disability claims process.
 
 ### Types of claims to file 
-
-**Jump to a section:**</br>
-[What type of claim should I file if I'm still on active duty?](#type-active)</br>
-[What type of claim should I file if I had a disability before entering the military, but it was made worse because of my service?](#type-preservice)</br>
-[What type of claim should I file if my disability was caused by an illness or injury that I got while on active duty?](#type-inservice)</br>
-[What type of claim should I file if my disability is related to my service, but didn't appear until after I left the military?](#type-postservice)</br>
-[What type of claim should I file if I have special needs linked to my service-connected disability?](#type-special)</br>
-
-<br>
-
-<spand id="type-active">
   
 #### What type of claim should I file if I'm still on active duty?
 If you have a disability and you're 90 to 180 days from separation from active-duty service, file a **predischarge claim** unless your case requires special handling. [Learn how to file a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
 
 <br>
-
-<spand id="type-preservice">
   
 #### What type of claim should I file if I had a disability before entering the military, but it was made worse because of my service?
 
-You can file a **preservice** claim. 
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
-[Learn about the application process](/disability/apply/).
+You can file a **preservice** claim. [Learn more about the application process](/disability/apply/).
 
 **Please note:** If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you’ll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
 
 <br>
 
-<spand id="type-inservice">
-
 #### What type of claim should I file if my disability was caused by an illness or injury that I got while on active duty?
 
-You can file an **inservice claim**.
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
-[Learn about the application process](/disability/apply/).
+You can file an **inservice claim**. [Learn more about the application process](/disability/apply/).
 
 <br>
 
-<spand id="type-postservice">
-
 #### What type of claim should I file if my disability is related to my service, but didn't appear until after I left the military?
 
-You can file a **postservice claim**.
+You can file a **postservice claim**. 
 
 You may qualify for benefits for these postservice disabilities:
 
@@ -69,9 +46,6 @@ You may qualify for benefits for these postservice disabilities:
 [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
 [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
 [Disabilities related to time spent as a Prisoner of War (POW)](https://www.vets.gov/disability-benefits/conditions/pow/)
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
-[Learn about the application process](/disability/apply/).
 
 <br>
 
