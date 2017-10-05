@@ -208,4 +208,23 @@ describe('<AddressSection>', () => {
     tree.fillData('[name="country"]', '');
     expect(tree.getElement('.usa-input-error')).to.not.be.null;
   });
+
+  it('should infer new address type', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+
+    // Sanity check; make sure the type is what we expect before we change it
+    // NOTE: We're checking that it's domestic specifically just so we make absolutely sure
+    //  it's getting _changed_ to international instead of accidentally starting off as
+    //  international. Just a bit of future-proofing.
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.domestic);
+
+    // Change the country so it'll be international
+    instance.handleChange('countryName', 'Elsweyre');
+    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.international);
+
+    // NOTE: This isn't a _comprehensive_ test that ensures changing the input will do what we
+    //  expect, but the e2e test should make sure that the wiring from the input to handleChange
+    //  is up and running as expected.
+  });
 });
