@@ -22,7 +22,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before you leave the military. Filing your claim as you get ready to leave the military may speed up the claim decision process. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, depending on where you're stationed.
+If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before you leave the military. This may speed up the claim decision process because processing times tend to be faster for claims submitted before separation. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, depending on where you're stationed.
 
 </div>
 
@@ -126,14 +126,12 @@ To complete the process, you'll need to:
 If you're stationed outside the Kaiserslautern Military Community (KMC), use the BDD program through the “Fly-in” claim process. This process lets you apply by fax or email before your in-person appointment. Follow these steps to use the Fly-in claim process:
 
 <ol class="process">
-  <li class="process-step list-one">Contact the Landstuhl BDD office to ask for all needed information and forms. You can contact the office by:<br>
-  - **Phone:** Telephone (DSN 590-8200) or commercial (06371-9464-8200)
-  - **Or email:** GermanyBDD.vbapit@va.gov</li>
-  <li class="process-step list-two"> Fill out and return your application as directed.</li>
-  <li class="process-step list-three">Look for an email from a BDD officer. The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
-  <li class="process-step list-four">Contact the clinics at LRMC to schedule your exams as directed.</li>
-  <li class="process-step list-five">Arrange your travel, and get your command’s approval to make the trip. Be sure to schedule enough time to complete the medical exam process.</li>
-  <li class="process-step list-six">Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won’t be returned. A BDD claim can’t be processed without these records.</li>
+  <li class="process-step list-one">***Contact the Landstuhl BDD office to ask for all needed information and forms.** You can call the office at DSN 590-8200 (or commercial 06371-9464-8200) or email the office at GermanyBDD.vbapit@va.gov.</li>
+  <li class="process-step list-two">**Fill out and return your application as directed.**</li>
+  <li class="process-step list-three">**Look for an email from a BDD officer.** The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
+  <li class="process-step list-four">**Contact the clinics at LRMC to schedule your exams as directed.**</li>
+  <li class="process-step list-five">**Arrange your travel, and get your command’s approval to make the trip.** Be sure to schedule enough time to complete the medical exam process.</li>
+  <li class="process-step list-six">**Bring a copy of your Service Treatment Records (STRs) when you report for your exams.** These won’t be returned. A BDD claim can’t be processed without these records.</li>
 
 </ol>
 
