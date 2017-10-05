@@ -71,9 +71,9 @@ You'll need to apply. The application process will depend on where you're statio
 
 **Jump to the section for where you're stationed:**
 
-[United States](#stationed-us)
-[Germany](#stationed-germany)
-[Korea](#stationed-korea)
+[United States](#stationed-us)</br>
+[Germany](#stationed-germany)</br>
+[Korea](#stationed-korea)<br>
 [Europe, Middle East, or Africa](#stationed-emea)
 
 <br>
