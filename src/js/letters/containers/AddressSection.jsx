@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
+import { scrollToFirstError } from '../../common/utils/helpers';
+
 import {
   getStateName,
   getZipCode,
@@ -133,6 +135,8 @@ export class AddressSection extends React.Component {
 
       // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read 
       Object.keys(errorMessages).forEach(key => fieldsToValidate[key] = true); // eslint-disable-line no-return-assign
+
+      scrollToFirstError();
 
       this.setState({ errorMessages, fieldsToValidate });
       return;

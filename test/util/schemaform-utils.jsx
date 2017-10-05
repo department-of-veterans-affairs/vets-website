@@ -138,6 +138,10 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
 export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
+  if (formDOM === null) {
+    throw new Error('Could not find DOM node. Please make sure to pass a component returned from ReactTestUtils.renderIntoDocument(). If you are testing a stateless (function) component, be sure to wrap it in a <div>.');
+  }
+
   /**
    * Returns the element or throws a nicer error.
    *
