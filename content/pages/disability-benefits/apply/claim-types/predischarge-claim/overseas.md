@@ -34,13 +34,13 @@ To have your VA disability exam completed at an Overseas Intake Site, you must:
 
 If you're stationed within the KMC, visit the Landstuhl BDD office, where you can start your disability claim while you’re on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
 
-#### Outside the KMC
+#### If you're stationed overseas outside the KMC
 
-If you're stationed outside the KMC, use the BDD program through the “Fly-in” claim process. This process lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
+If you're stationed outside the KMC, you can use the BDD program through the “Fly-in” claim process. This process lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
 
 <ol class="process">
   <li class="process-step list-one">Contact the Landstuhl BDD office by phone, fax, or email to ask for all needed information and forms.</li>
-  <li class="process-step list-two">- Fill out and return your application as directed.</li>
+  <li class="process-step list-two">Fill out and return your application as directed.</li>
   <li class="process-step list-three">Look for an email from a BDD officer. The officer will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.</li>
   <li class="process-step list-four">Contact the clinics at LRMC to schedule your exams as directed.</li>
   <li class="process-step list-five">Arrange your travel, and get your command’s approval to make the trip.</li>
