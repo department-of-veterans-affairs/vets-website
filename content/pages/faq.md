@@ -70,6 +70,7 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <a name="why-verify"></a>
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemprop="name">
                       Why do I need to verify my identity to use advanced tools and services on Vets.gov?
                     </button>
