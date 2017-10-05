@@ -8,10 +8,7 @@ children: disabilityClaimTypesPredischarge
 order: 9
 relatedlinks:
   - heading: Other benefits you can apply for while in predischarge status
-    links:   
-    - url: TBD
-      title: Vocational Rehabilitation & Employment
-      description: If your service-connected disability limits your ability to work or prevents you from working, find out how to apply for VR&E benefits and services like help exploring career options and getting more training if required.
+    links:
     - url: /education/
       title: Education Benefits
       description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that can help you pay for college and training programs.
