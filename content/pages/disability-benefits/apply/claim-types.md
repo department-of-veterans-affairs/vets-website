@@ -40,7 +40,7 @@ You can file an **inservice claim**. [Learn more about the application process](
 
 You can file a **postservice claim**. 
 
-You may qualify for benefits for these postservice disabilities:
+You may qualify for benefits for these postservice disabilities:</br>
 [Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
 [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)</br>
 [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)</br>
