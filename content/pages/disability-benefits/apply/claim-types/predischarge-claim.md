@@ -14,7 +14,7 @@ relatedlinks:
       description: If your service-connected disability limits your ability to work or prevents you from working, find out how to apply for VR&E benefits and services like help exploring career options and getting more training if required.
     - url: /education/
       title: Education Benefits
-      description: Apply for and manage benefits (like the Post-9/11 GI Bill benefits) that can help you pay for college and training programs.
+      description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that can help you pay for college and training programs.
     - url: /housing-assistance/
       title: Housing Assistance
       description: Find out if you qualify for a VA home loan or a housing grant to help you live more independently with your service-connected disability.
@@ -36,17 +36,17 @@ You can use the BDD program if:
 
 **Please note:** If you have less than 90 days left on active duty, you can't file a BDD claim or add more health problems to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
 [Learn more about the application process](/disability-benefits/apply/).</br>
-[Learn more about fully developed and standard claims](/disability-benefits/apply/evidence/).
+[Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
-### Is there any reason I won't be able to use the BDD program, even if I file my claim in time?
-Yes. You can't use the BDD program if your claim requires special handling because you:
+### Is there any reason I wouldn't be able to use the BDD program?
+Yes. Even if you file your claim in time, you can't use the BDD program if your claim requires special handling because you:
 - Need case management for a serious or very serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
 - Are terminally ill, **or**
 - Are awaiting discharge from a VA hospital or military treatment facility, **or**
-- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in Landstuhl, Germany or Yongsan, Korea), **or**
+- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany or Yongsan, Korea), **or**
 - Are pregnant, **or**
 - Require a Character of Discharge determination
 
@@ -58,11 +58,6 @@ In these cases, your claim may be covered by another program, like the Integrate
 Compensation (monthly payments)
 
 <br>
-
-### What if I develop a health problem while serving that makes me unable to perform my duties?
-You'll be referred to the Integrated Disability Evaluation System (IDES). Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
-
-If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. And you may be entitled to Vocational Rehabilitation and Employment (VR&E) services. [Find out if you may be eligible for VR&E](TBD).
 
 -----
 
@@ -86,7 +81,7 @@ Apply for benefits online, by mail, or in-person.
 To complete the process you'll need to:
 - Submit your service treatment records along with your application, **and**
 - Be available for 45 days from the date you apply to have a VA medical exam, **and**
-- Finish all phases of the VA/DOD medical separation examination processes before your release from the military
+- Finish all phases of the VA/DoD medical separation examination processes before your release from the military
 
 [Apply for benefits](/disability-benefits/apply/).
 
@@ -127,7 +122,7 @@ To complete the process, you'll need to:
 
 <spand id="stationed-emea">
   
-#### If you're stationed overseas in Europe, African, or the Middle East (outside the Kaiserslautern Military Community)
+#### If you're stationed overseas in Europe, Africa, or the Middle East (outside the Kaiserslautern Military Community)
 Use BDD's “Fly-in” claim process to apply by fax or email before your in-person appointment. Follow these steps to use the Fly-in claim process:
 
 <ol class="process">
