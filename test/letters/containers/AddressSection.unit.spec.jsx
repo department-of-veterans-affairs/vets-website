@@ -227,4 +227,16 @@ describe('<AddressSection>', () => {
     //  expect, but the e2e test should make sure that the wiring from the input to handleChange
     //  is up and running as expected.
   });
+
+  it('should reset disallowed address fields when type changes', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+
+    // Sanity check; make sure the type is what we expect before we change it
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress.stateCode).to.not.equal('');
+
+    // Change the country so it'll be international (and the state and zip fields should reset to '')
+    instance.handleChange('countryName', 'Elsweyre');
+    expect(instance.state.editableAddress.stateCode).to.equal('');
+  });
 });
