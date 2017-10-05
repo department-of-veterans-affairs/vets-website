@@ -34,7 +34,7 @@ You can use the BDD program if:
 <br>
 
 ### What if I have less than 90 days left on active duty?
-You can't file a BDD claim or add more health problems to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
+You can't file a BDD claim or add more medical conditions to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
 [Learn more about the application process](/disability-benefits/apply/).</br>
 [Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
