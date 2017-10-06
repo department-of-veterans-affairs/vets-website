@@ -31,7 +31,7 @@ Yes. You can file a claim up to 180 days before leaving the service. We refer to
 
 ### Can I file a claim after I leave the military?
 
-Yes. There's no time limit on filing a disability claim. But the process may become more complex the longer you wait.
+Yes. There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
 
 Learn more about disabilities that may be related to your active-duty service, but not appear until after you've left the military:</br>
   - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
@@ -74,7 +74,7 @@ You can file a new claim to request:
         
 <br>
 
-### What should i do if I develop a new (secondary) disability that's linked to a service-connected disability I already have?
+### What should I do if I develop a new (secondary) disability that's linked to a service-connected disability I already have?
 
 You can file a secondary claim to get more disability benefits for the secondary disability. 
 
