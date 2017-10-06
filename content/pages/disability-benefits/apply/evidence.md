@@ -3,12 +3,12 @@ layout: page-breadcrumbs.html
 title: Evidence 
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 3
+order: 2
 ---
 
 <div class="va-introtext">
 
-New intro paragraph to come. There are two types of claims...
+When you file a disability claim, we review all available evidence to determine if you qualify for benefits. This includes supporting documents like service and medical treatment records, X-rays, and test results. Find out what evidence we'll need—and your options for gathering documents to support your claim.
 
 </div>
 
@@ -27,18 +27,30 @@ We require certain documents to support all claims for disability benefits. You'
 
 -	Your DD214 or other separation documents
 -	Service treatment records
--	Medical evidence related to your illness or injury
+-	Medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
 </div>
 
+### Your options for gathering evidence: standard vs. fully developed claims
 
-### Standard Claims
+When you file your claim, you have 2 options for gathering evidence. You can choose to file:
 
+- A standard claim (where we take more responsibility for gathering related records from both federal and nonfederal sources that you identity and authorize), **or**
+- A fully developed claim (where you send in all evidence you have—or can easily get—when you file your claim)
+
+Filing a fully developed claim may speed up the claim process and help you get your decision sooner.
+
+**Jump to a section to learn more about:**
+
+[The standard claims process](#claim-standard)
+[The fully developed claims process](#claim-fullydeveloped)
+
+<span id="claim-standard">
+
+#### More about the standard claims process
 With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim.
 
-#### What you’re responsible for
-
+##### What you’re responsible for
 You'll need to let us know about related records not held by a federal agency. These may include records from:
-
   -	State or local governments
   -	Private (non-VA) doctors and hospitals
   -	Current or former employers
@@ -46,14 +58,11 @@ You'll need to let us know about related records not held by a federal agency. T
 You'll also need to give us any information we may need in order to get other records.
 
 You may already have—or be able to easily get—some of these documents. But we'll need your permission to help you gather them. These may include:
-
 - Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
 - Records from state or local governments or current or former employers
 
-#### What we’re responsible for
-
+##### What we’re responsible for
 We'll get related records from:
-
   -	Any federal agency (including the military)
   -	VA medical centers (including private facilities where VA has authorized treatment)
   -	The Social Security Administration
@@ -63,13 +72,12 @@ We'll also provide a medical exam for you, or we'll get a doctor’s opinion, if
 **Example**<br>
 A Veteran filed a disability claim that included prior treatment from a private doctor and a prior Social Security disability award. In this case, we were responsible for getting the Social Security records. We also helped to get the private doctor’s records, but the Veteran was responsible for making sure we got those.
 
-**Note:** A standard claim usually takes longer to process than a fully developed claim (when you send in all supporting evidence along with your claim). You can read about Fully Developed Claims below.
+<span id="claim-fullydeveloped">
 
+#### More about fully developed claims
+You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim.
 
-### Fully Developed Claims
-
-You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. This may include:
-
+With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. This may include:
 - Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military
 -	Military personnel records that relate to the claimed condition
 -	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center
@@ -79,6 +87,4 @@ We consider your disability benefits claims to be fully developed when:
 - We plan to get your federal records, if needed, **and**
 - We plan to arrange for any added health exams or doctors' opinions that we may need 
 
-If we discover that there are other private records we need to decide your claim, we’ll remove your claim from the FDC program and review it through the traditional claims process.
-
-
+If we discover that there are other private records we need to decide your claim, we’ll remove your claim from the FDC program and review it through the standard claims process.
