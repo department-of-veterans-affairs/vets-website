@@ -5,7 +5,7 @@ display_title: Disabilities Within 1 Year After Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 4
+order: 3
 relatedlinks:
   - heading: Get answers to your questions about filing a disability claim
     links:
