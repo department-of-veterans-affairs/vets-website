@@ -866,7 +866,7 @@ li {
 
   @include media($medium-large-screen) {
     .usa-grid {
-      padding-left: 2rem;
+      padding-left: 0.9375rem;
       padding-right: 2rem;
     }
   }
@@ -1146,6 +1146,7 @@ li {
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
+  padding-left: 0.9375rem;
 
   p {
     font-size: 1.28rem;
