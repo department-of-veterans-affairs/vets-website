@@ -43,6 +43,8 @@ Filing a fully developed claim may speed up the claim process and help you get y
 [The standard claims process](#claim-standard)</br>
 [The fully developed claims process](#claim-fullydeveloped)
 
+<br>
+
 <span id="claim-standard">
 
 #### More about the standard claims process
