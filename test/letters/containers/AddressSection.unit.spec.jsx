@@ -9,6 +9,21 @@ import { getFormDOM } from '../../util/schemaform-utils';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
 import { ADDRESS_TYPES } from '../../../src/js/letters/utils/constants';
 
+const originalValidations = AddressSection.fieldValidations;
+const spyOnValidators = () => {
+  const validatorSpies = Object.keys(AddressSection.fieldValidations).reduce((spies, key) => {
+    // Each property is an array of functions; wrap each function in a spy
+    return Object.assign({}, spies, { [key]: AddressSection.fieldValidations[key].map((validator) => sinon.spy(validator)) });
+  }, {});
+
+  // Infiltrate!
+  AddressSection.fieldValidations = validatorSpies;
+};
+
+const cleanUpSpies = () => {
+  AddressSection.fieldValdiations = originalValidations;
+};
+
 const saveSpy = sinon.spy();
 
 const defaultProps = {
@@ -242,4 +257,20 @@ describe('<AddressSection>', () => {
 
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
+
+  describe('validateAll()', () => {
+    // Spy on all the validation functions!
+    beforeEach(spyOnValidators);
+
+    // Clean up the spies so nobody finds out
+    afterEach(cleanUpSpies);
+
+    it('should run all validations against a field if the address is valid', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.handleChange('city', 'Elsweyre');
+      expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.true;
+    });
+  });
 });
