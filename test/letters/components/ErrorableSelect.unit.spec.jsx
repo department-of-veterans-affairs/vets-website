@@ -22,10 +22,10 @@ describe('<ErrorableSelect>', () => {
     });
 
     const select = ReactTestUtils.findRenderedDOMComponentWithTag(errorableSelect, 'select');
-    select.value = '';
+    select.value = 1;
     ReactTestUtils.Simulate.change(select);
 
-    return expect(updatePromise).to.eventually.eql('');
+    return expect(updatePromise).to.eventually.eql('1');
   });
 
   it('no error styles when errorMessage undefined', () => {
