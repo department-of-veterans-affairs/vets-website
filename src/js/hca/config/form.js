@@ -638,7 +638,6 @@ const formConfig = {
               })
             },
             dependents: {
-              // 'ui:title': 'Dependent income',
               'ui:field': 'BasicArrayField',
               items: dependentIncomeUiSchema,
               'ui:options': {
