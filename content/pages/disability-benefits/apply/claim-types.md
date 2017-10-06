@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Post Discharge Claims
-display_title: Post Discharge Claims
+title: When to File a Claim
+display_title: When to File a Claim
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypes
@@ -13,20 +13,42 @@ majorlinks:
 
 <div class="va-introtext">
 
-Find out when you can file a claim for service-connected benefits once you've left the service, and what to do if you want to reopen a denied claim or request more benefits.
+Find out when you can first file a claim for service-connected benefits—and what to do if you want to reopen a denied claim or request more benefits.
 
-### When can I first file a claim for a disability?
+### Can I file a claim while I'm on active duty?
 
-You can file a disability claim if you:
-- **Had a disability before entering the military that got worse because of your service**. This type of claim is called a preservice claim. If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you’ll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
-- **Have a disability that was caused by an illness or injury you got while on active duty**. This type of claim is called an inservice claim.
+Yes. You can file a claim up to 180 days before leaving the service. We refer to this first claim as your original claim.
+
+You can file a disability claim while you're still on active duty if you:
+
+- **Had a disability before entering the military that got worse because of your service** (called a preservice claim), **or**
+
+- **Have a disability that was caused by an illness or injury you got while on active duty** (called an inservice claim)
+
+**Please note:** If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you’ll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
+
+You should also know:
+
+- **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner. [Find out how to file a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim).
+
+- **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file prior to discharge, and your claim will be processed after separation as a fully developed or standard claim.</br>
+[Learn more about the application process](/disability-benefits/apply/).</br>
+[Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
+
+<br>
+
+### Can I file a claim after I leave the military?
+
+Yes. There's no time limit on filing a disability claim. But the process may become more complex the longer you wait.
+
+You can file a claim after separation if you:
+- **Had a disability before entering the military that got worse because of your service** (called a preservice claim), **or**
+- **Have a disability that was caused by an illness or injury you got while on active duty** (called an inservice claim), **or**
 - **Have a disability related to your active duty service that doesn't appear until after you've left the military**.This is called a postservice claim. You may qualify for benefits for these postservice disabilities:</br>
   - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
   - [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)</br>
   - [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)</br>
   - [Disabilities related to time spent as a Prisoner of War (POW)](https://www.vets.gov/disability-benefits/conditions/pow/)
-
-
 <br>
 
 ### What if I have special needs linked to my service-connected disability?
