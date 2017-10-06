@@ -282,5 +282,20 @@ describe('<AddressSection>', () => {
       expect(AddressSection.fieldValidations.city[0].called).to.be.true;
       expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.false;
     });
+
+    it('should run validations on modified fields only', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.handleChange('city', '');
+      Object.keys(AddressSection.fieldValidations).forEach((key) => {
+        const validationsCalled = AddressSection.fieldValidations[key].some(v => v.called);
+        if (key === 'city') {
+          expect(validationsCalled).to.be.true;
+        } else {
+          expect(validationsCalled).to.be.false;
+        }
+      });
+    });
   });
 });
