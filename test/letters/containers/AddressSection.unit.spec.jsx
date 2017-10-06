@@ -287,10 +287,12 @@ describe('<AddressSection>', () => {
       const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
       const instance = tree.getMountedInstance();
 
-      instance.handleChange('city', '');
+      const fieldsToModify = ['city', 'stateCode'];
+      fieldsToModify.forEach(field => instance.handleChange(field, ''));
+
       Object.keys(AddressSection.fieldValidations).forEach((key) => {
         const validationsCalled = AddressSection.fieldValidations[key].some(v => v.called);
-        if (key === 'city') {
+        if (fieldsToModify.includes(key)) {
           expect(validationsCalled).to.be.true;
         } else {
           expect(validationsCalled).to.be.false;
