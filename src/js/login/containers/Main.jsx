@@ -128,7 +128,7 @@ class Main extends React.Component {
   }
 
   handleLogin(loginUrl = 'idme') {
-    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.updateLogInUrls);
   }
 
   checkTokenStatus() {
