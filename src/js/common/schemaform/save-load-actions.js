@@ -2,7 +2,6 @@ import Raven from 'raven-js';
 import environment from '../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
-import _ from 'lodash';
 
 import { removeFormApi, saveFormApi } from './sip-api';
 
