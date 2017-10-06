@@ -251,8 +251,8 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
           formId,
-          formData: _.clone(resBody.form_data),
-          metadata: _.clone(resBody.metadata)
+          formData: resBody.form_data,
+          metadata: resBody.metadata
         };
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
       } catch (e) {
