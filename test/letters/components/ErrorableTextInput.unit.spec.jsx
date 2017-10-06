@@ -5,17 +5,24 @@ import chaiAsPromised from 'chai-as-promised';
 import chai, { expect } from 'chai';
 
 import ErrorableTextInput from '../../../src/js/letters/components/ErrorableTextInput';
-import { makeField } from '../../../src/js/common/model/fields';
 
 chai.use(chaiAsPromised);
 
 describe('<ErrorableTextInput>', () => {
+  it('should render the value prop', () => {
+    const errorableInput = ReactTestUtils.renderIntoDocument(
+      <ErrorableTextInput value="something" label="test" onValueChange={() => {}}/>
+    );
+    const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
+    expect(input.value).to.equal('something');
+  });
+
   it('ensure value changes propagate', () => {
     let errorableInput;
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableInput = ReactTestUtils.renderIntoDocument(
-        <ErrorableTextInput field={makeField(1)} label="test" onValueChange={(update) => { resolve(update); }}/>
+        <ErrorableTextInput value={''} label="test" onValueChange={(update) => { resolve(update); }}/>
       );
     });
 
@@ -28,7 +35,7 @@ describe('<ErrorableTextInput>', () => {
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -48,7 +55,7 @@ describe('<ErrorableTextInput>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput field={makeField(1)} label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput value={''} label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -70,14 +77,14 @@ describe('<ErrorableTextInput>', () => {
 
   it('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
   it('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput field={makeField(1)} label="my label" required onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput value={''} label="my label" required onValueChange={(_update) => {}}/>);
 
     const label = tree.everySubTree('label');
     expect(label[0].text()).to.equal('my label*');
@@ -85,7 +92,7 @@ describe('<ErrorableTextInput>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');
