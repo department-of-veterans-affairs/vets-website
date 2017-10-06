@@ -284,6 +284,12 @@ a.claim-list-item {
   }
 }
 
+.va-modal-body {
+  h3 {
+    margin-top: 0;
+  }
+}
+
 .claims-status {
   i.fa {
     font-size: 24px;
@@ -599,34 +605,6 @@ p.first-of-type {
 .claims-unavailable {
   margin-top: 0.6em;
   margin-bottom: 1.5em;
-}
-
-.claims-upload-modal {
-  .va-modal-body {
-    padding: 0;
-  }
-
-  .claims-status-upload-header {
-    font-size: 1.35em;
-    line-height: 1.5;
-    font-weight: bold;
-    background-color: $color-primary-darker;
-    color: $color-white;
-    padding: .5em .75em;
-  }
-
-  .claims-status-upload-inner {
-    padding: 1em;
-    p:first-child {
-      margin-top: 0;
-    }
-    p:last-child {
-      margin-bottom: 0;
-    }
-    > .modal-title {
-      padding-bottom: 0 !important;
-    }
-  }
 }
 
 .claims-upload-input {
