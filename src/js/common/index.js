@@ -5,7 +5,6 @@ require('./sentry.js');
 
 // Used in the footer.
 require('../legacy/menu.js');
-require('./utils/sticky-action-box.js');
 
 // New navigation menu
 if (document.querySelector('#vetnav')) {

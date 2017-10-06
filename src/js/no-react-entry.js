@@ -11,7 +11,6 @@ require('./common');
 
 // Used in the footer.
 require('./legacy/menu.js');
-require('./common/utils/sticky-action-box.js');
 
 // New navigation menu
 require('./legacy/mega-menu.js');
