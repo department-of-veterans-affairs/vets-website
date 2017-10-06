@@ -39,9 +39,8 @@ When you file your claim, you have 2 options for gathering evidence. You can cho
 
 Filing a fully developed claim may speed up the claim process and help you get your decision sooner.
 
-**Jump to a section to learn more about:**
-
-[The standard claims process](#claim-standard)
+**Jump to a section to learn more about:**</br>
+[The standard claims process](#claim-standard)</br>
 [The fully developed claims process](#claim-fullydeveloped)
 
 <span id="claim-standard">
