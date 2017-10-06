@@ -101,15 +101,15 @@ class Signin extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h2 className="hide-for-small">Manage the benefits and services you've earned. Simply and securely.</h2>
+                <h2 className="hide-for-small">One site. A lifetime of benefits and services at your fingertips.</h2>
                 <p>
-                  With Vets.gov you can:
+                  You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
                 <ul>
-                  <li>Track your VA claims and appeals</li>
-                  <li>Download your VA health record</li>
-                  <li>Refill your VA prescriptions</li>
-                  <li>And more</li>
+                  <li>Check your disability claim and appeal status</li>
+                  <li>Find out how much money you have left to pay for school or training</li>
+                  <li>Refill your prescriptions and communicate with your health care team</li>
+                  <li>...and more</li>
                 </ul>
                 <p>
                   <strong>A secure account powered by ID.me</strong><br/>

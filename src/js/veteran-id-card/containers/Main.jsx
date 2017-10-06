@@ -11,6 +11,13 @@ class Main extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderButton = this.renderButton.bind(this);
+    this.renderVicForm = this.renderVicForm.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.props.vicUrl) {
+      document.getElementById('vicForm').submit();
+    }
   }
 
   handleSubmit(e) {
@@ -18,8 +25,22 @@ class Main extends React.Component {
     this.props.initiateIdRequest();
   }
 
+  renderVicForm() {
+    return (
+      <div>
+        {!!this.props.vicUrl &&
+          <form id="vicForm" method="POST" action={this.props.vicUrl}>
+            {Object.entries(this.props.traits).map(([key, value]) => (
+              <input type="hidden" name={key} key={key} value={value}/>
+            ))}
+          </form>
+        }
+      </div>
+    );
+  }
+
   renderButton() {
-    if (this.props.fetching || this.props.redirect) {
+    if (this.props.fetching || this.props.vicUrl) {
       return (
         <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
           Redirecting...
@@ -58,8 +79,6 @@ class Main extends React.Component {
 
     if (this.props.errors) {
       message = this.renderErrors();
-    } else if (this.props.redirect) {
-      window.location.href = this.props.redirect;
     }
 
     const view = (
@@ -73,6 +92,7 @@ class Main extends React.Component {
             {this.renderButton()}
             <div>{message}</div>
           </div>
+          {this.renderVicForm()}
         </div>
       </div>
     );
@@ -92,7 +112,8 @@ const mapStateToProps = (state) => {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    redirect: idState.idcard.redirect,
+    vicUrl: idState.idcard.vicUrl,
+    traits: idState.idcard.traits,
     fetching: idState.idcard.fetching,
     errors: idState.idcard.errors,
   };
