@@ -16,7 +16,7 @@ const migrations5495 = formConfig5495.migrations;
 
 describe('EDU migrations', () => {
   describe('first migration', () => {
-    it('should remove formId from return url', () => {
+    it('should remove urlPrefix from return_url', () => {
       const data1990 = {
         formId: formConfig1990.formId,
         metadata: {
@@ -27,7 +27,7 @@ describe('EDU migrations', () => {
       const data1990e = {
         formId: formConfig1990e.formId,
         metadata: {
-          return_url: '/1990e/abc/' // eslint-disable-line camelcase
+          return_url: '/1990E/abc/' // eslint-disable-line camelcase
         }
       };
 
