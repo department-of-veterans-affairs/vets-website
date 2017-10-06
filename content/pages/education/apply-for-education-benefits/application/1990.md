@@ -6,7 +6,7 @@ description: Use your VA education benefits to pay for college or training progr
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
       <li class="parent"><a href="/education/apply-for-education-benefits/">Apply for Education Benefits</a></li>
