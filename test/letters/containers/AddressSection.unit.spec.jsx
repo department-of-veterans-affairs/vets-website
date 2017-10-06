@@ -299,5 +299,16 @@ describe('<AddressSection>', () => {
         }
       });
     });
+
+    it('should run validations on all fields before saving the address', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.saveAddress();
+
+      Object.keys(AddressSection.fieldValidations).forEach((key) => {
+        expect(AddressSection.fieldValidations[key].some(v => v.called)).to.be.true;
+      });
+    });
   });
 });
