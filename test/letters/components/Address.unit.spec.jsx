@@ -150,7 +150,7 @@ describe('<Address>', () => {
 
     // Get the text that's actually displaying for the selected option
     const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
-    expect(stateName).to.equal('Virginia');
+    expect(stateName).to.equal('Massachusetts');
   });
 
   // This is functionally the same as the above...
