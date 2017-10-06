@@ -6,7 +6,7 @@ export function urlMigration(urlPrefix) {
   return (savedData) => {
     const savedReturnUrl = _.get('return_url', savedData.metadata);
 
-    if (savedReturnUrl.includes(urlPrefix)) {
+    if (savedReturnUrl.includes(urlPrefix.toLowerCase())) {
       const newData = _.set('metadata.return_url', savedReturnUrl.replace(formId, ''), savedData);
       return newData;
     }
