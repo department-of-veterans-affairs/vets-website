@@ -25,7 +25,7 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('retention')}>
-          <h2>Retention rate</h2>
+          <h3>Retention rate</h3>
           <p>
             The share of first-time, full-time undergraduates who returned to the institution after
             their freshman year.
@@ -33,7 +33,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('gradrates')}>
-          <h2>Graduation Rate</h2>
+          <h3>Graduation Rate</h3>
           <p>
             The graduation rate after six years for schools that mostly award four-year degrees and
             after four years for all other schools. These rates are only for full-time students
@@ -46,7 +46,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('salaries')}>
-          <h2>Average Salaries</h2>
+          <h3>Average Salaries</h3>
           <p>
             The median earnings of former students who received federal financial aid, 10 years
             after they started school.
@@ -54,7 +54,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('repayment')}>
-          <h2>Repayment Rate</h2>
+          <h3>Repayment Rate</h3>
           <p>
             The share of students who have repaid at least $1 of the principal balance on their
             federal loans within 3 years of leaving school.
@@ -68,7 +68,7 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('gibillstudents')}>
-          <h2>GI Bill students</h2>
+          <h3>GI Bill students</h3>
           <p>
             The number of Veterans, Servicemembers and family members utilizing their GI Bill
             benefits attending this school in the last calendar year. This includes all chapters of
@@ -86,7 +86,7 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vetgroups')}>
-          <h2>Student Veterans Group</h2>
+          <h3>Student Veterans Group</h3>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
             If a school has a student Veterans group that’s not represented here,
@@ -102,7 +102,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('yribbon')}>
-          <h2>Yellow Ribbon</h2>
+          <h3>Yellow Ribbon</h3>
           <p>
             The <a title="Post-9/11 GI Bill"
               href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
@@ -125,7 +125,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('poe')}>
-          <h2>Principles of Excellence</h2>
+          <h3>Principles of Excellence</h3>
           <p>
             The <a title="Principles of Excellence"
               href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
@@ -154,7 +154,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('ta')}>
-          <h2>Military Tuition Assistance (TA)</h2>
+          <h3>Military Tuition Assistance (TA)</h3>
           <p>
             Are you receiving any military tuition assistance this year? If so, how much?
             The Post-9/11 GI Bill pays the net-cost of your education after scholarships or
@@ -164,7 +164,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
-          <h2>8 Keys to Veteran Success</h2>
+          <h3>8 Keys to Veteran Success</h3>
           <p>
             The “8 Keys to Veterans’ Success” are steps that postsecondary institutions can take to
             assist Veterans and Service members in transitioning to higher education, completing
@@ -184,7 +184,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vsoc')}>
-          <h2>VetSuccess on Campus (VSOC)</h2>
+          <h3>VetSuccess on Campus (VSOC)</h3>
           <p>
             This program supports Servicemembers, Veterans, and qualified dependents through on-campus counseling and help overcoming barriers—like accommodating disabilities or getting referrals to health services. It's designed to help you succeed at school and get ready to enter the job market in a promising career field.
           </p>
@@ -208,25 +208,24 @@ export class Modals extends React.Component {
       <span>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('accredited')}>
-          <h2>Is your school accredited</h2>
+          <h3>Is your school accredited</h3>
           <p>Accreditation matters if you plan to start school at one institution and transfer to another to complete your degree. Be sure to ask any potential school about their credit transfer policy. The U.S. Department of Education (ED) maintains a&nbsp;<a href="http://ope.ed.gov/accreditation/" id="anch_384" target="_blank">database</a>&nbsp;of accredited postsecondary institutions and programs. Accreditation is a recognized credential for schools and some programs. As stated by the ED, the goal of accreditation is to ensure that the education provided by institutions of higher education meets acceptable levels of quality.</p>
           <p>To learn more about accreditation, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"> about this tool</a> page. </p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('typeAccredited')}>
-          <h2>Accreditation types (Regional vs. National vs. Hybrid)</h2>
+          <h3>Accreditation types (Regional vs. National vs. Hybrid)</h3>
           <p>Is the school regionally or nationally accredited at the institution level?</p>
           <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
           <p>To learn more about accreditation types, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
         </Modal>
-
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('singleContact')}>
-          <h2>Single Point of Contact For Veterans</h2>
+          <h3>Single Point of Contact For Veterans</h3>
           <p>Does the school have a dedicated point of contact for support services for veterans, military servicemembers, and their families?</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('creditTraining')}>
-          <h2>Credit for Military Training</h2>
+          <h3>Credit for Military Training</h3>
           <p>Does the school offer postsecondary credit for experiences and military training?</p>
         </Modal>
       </span>
@@ -237,17 +236,17 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('facilityCode')}>
-          <h2>VA Facility Code</h2>
+          <h3>VA Facility Code</h3>
           <p>Unique identifier for VA approved facilities.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('ipedsCode')}>
-          <h2>ED IPEDS Code</h2>
+          <h3>ED IPEDS Code</h3>
           <p>Unique identification number assigned to postsecondary institutions surveyed through the Integrated Postsecondary Education Data System (IPEDS). Also referred to as UNITID or IPEDS ID.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('opeCode')}>
-          <h2>ED OPE Code</h2>
+          <h3>ED OPE Code</h3>
           <p>Identification number used by the U.S. Department of {'Education’s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
         </Modal>
       </span>
@@ -258,7 +257,7 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('cautionInfo')}>
-          <h2>Learn more about these warnings</h2>
+          <h3>Learn more about these warnings</h3>
           <p>
             These are indicators VA has determined potential students should pay attention to and
             consider before enrolling in this program. A caution flag means VA or other federal
@@ -289,21 +288,21 @@ export class Modals extends React.Component {
     return (
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuition')}>
-          <h2>Tuition and fees per year</h2>
+          <h3>Tuition and fees per year</h3>
           <p>Enter the total tuition/fees you will be charged for the academic year.</p>
           <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
           <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcInStateTuition')}>
-          <h2>In-state tuition and fees per year</h2>
+          <h3>In-state tuition and fees per year</h3>
           <p>Enter the amount of tuition/fees your school charges in-state students.</p>
           <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
           <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
-          <h2>Yellow Ribbon</h2>
+          <h3>Yellow Ribbon</h3>
           <p>
             The Post-9/11 GI Bill can cover all in-state tuition and fees at public degree granting
             schools, but may not cover all private degree granting schools and out-of-state tuition.
@@ -321,7 +320,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcScholarships')}>
-          <h2>Scholarships (excluding Pell)</h2>
+          <h3>Scholarships (excluding Pell)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay tution/fees this
             year? If so, add that number here.
@@ -329,7 +328,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuitionAssist')}>
-          <h2>Military Tuition Assistance (TA)</h2>
+          <h3>Military Tuition Assistance (TA)</h3>
           <p>
             Are you receiving any military tuition assistance this year? If so, how much?
           </p>
@@ -339,7 +338,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcEnrolled')}>
-          <h2>Enrollment status</h2>
+          <h3>Enrollment status</h3>
           <p>
             Are you considered a full-time or part-time student by your school? Students attending
             school less than full-time will get a pro-rated monthly housing allowance. Students
@@ -354,12 +353,12 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcSchoolCalendar')}>
-          <h2>School calendar</h2>
+          <h3>School calendar</h3>
           <p>Is your school on a semester, quarter, or non-traditional calendar system?</p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcKicker')}>
-          <h2>Eligible for kicker bonus?</h2>
+          <h3>Eligible for kicker bonus?</h3>
           <p>
             A kicker bonus or college fund is an additional incentive, paid for by the Department of
             Defense, to extend a tour of duty or retain highly skilled military personnel. The money
@@ -369,7 +368,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
-          <h2>Will be working</h2>
+          <h3>Will be working</h3>
           <p>
             How many hours per week will you be working on your OJT / Apprenticeship? Beneficiaries working less than 120 hours/month (or approximately 30 hours/week) receive a prorated monthly housing allowance.
           </p>

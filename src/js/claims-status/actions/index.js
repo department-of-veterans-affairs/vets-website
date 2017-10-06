@@ -303,7 +303,7 @@ export function showMailOrFaxModal(visible) {
 
 export function cancelUpload() {
   return (dispatch, getState) => {
-    const uploader = getState().uploads.uploader;
+    const uploader = getState().disability.status.uploads.uploader;
     window.dataLayer.push({
       event: 'claims-upload-cancel',
     });

@@ -79,7 +79,7 @@ class Signin extends React.Component {
                   <h5>Sign in with an existing account</h5>
                   <div>
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
-                      <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
+                      <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
@@ -98,15 +98,15 @@ class Signin extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h2 className="hide-for-small">Manage the benefits and services you've earned. Simply and securely.</h2>
+                <h2 className="hide-for-small">One site. A lifetime of benefits and services at your fingertips.</h2>
                 <p>
-                  With Vets.gov you can:
+                  You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
                 <ul>
-                  <li>Track your VA claims and appeals</li>
-                  <li>Download your VA health record</li>
-                  <li>Refill your VA prescriptions</li>
-                  <li>And more</li>
+                  <li>Check your disability claim and appeal status</li>
+                  <li>Find out how much money you have left to pay for school or training</li>
+                  <li>Refill your prescriptions and communicate with your health care team</li>
+                  <li>...and more</li>
                 </ul>
                 <p>
                   <strong>A secure account powered by ID.me</strong><br/>
@@ -122,7 +122,7 @@ class Signin extends React.Component {
                 <h4>Having trouble signing in?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).<br/>
+                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
                   We're here Monday – Friday, 8:00am – 8:00pm (ET).
                 </p>
               </div>

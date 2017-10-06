@@ -15,7 +15,7 @@
     }
   }
 
-  @include media-maxwidth($medium-screen) {
+  @include media-maxwidth($medium-screen - 1) {
     left: 0;
     height: 100%;
     overflow: scroll;
@@ -74,7 +74,7 @@
     }
   }
 
-  @include media($medium-screen + 1) {
+  @include media($medium-screen) {
     a {
       padding-right: 1.6rem;
     }

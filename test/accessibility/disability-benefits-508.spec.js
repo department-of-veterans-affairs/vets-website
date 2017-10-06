@@ -29,12 +29,12 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-modal-inner button.usa-button');
+      .click('.va-modal-close');
 
     // Claim status tab
     client
       .click('a.claim-list-item:first-child')
-      .waitForElementVisible('.claim-title', Timeouts.normal)
+      // .waitForElementVisible('.claim-title', Timeouts.normal)
       .axeCheck('.main');
 
     // claim estimation page
