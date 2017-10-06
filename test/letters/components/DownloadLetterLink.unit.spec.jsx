@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash/fp';
 
@@ -16,14 +15,15 @@ const defaultProps = {
 
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
+    const tree = getFormDOM(component);
+    expect(tree.getElement('div')).to.not.be.null;
   });
 
   it('should show download button', () => {
-    const tree = SkinDeep.shallowRender(<DownloadLetterLink {...defaultProps}/>);
-    expect(tree.dive(['.usa-button-primary']).text()).to.equal('Download Letter');
+    const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
+    const tree = getFormDOM(component);
+    expect(tree.getElement('button').textContent).to.equal('Download Letter');
   });
 
   it('should call getLetterPdf when clicked', () => {
