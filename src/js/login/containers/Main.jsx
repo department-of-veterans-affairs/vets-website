@@ -122,7 +122,7 @@ class Main extends React.Component {
     const myLoginUrl = this.props.login.loginUrls.idme;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
-      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      const receiver = window.open(`${myLoginUrl}&op=signup`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }

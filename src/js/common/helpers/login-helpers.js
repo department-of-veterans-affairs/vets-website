@@ -6,7 +6,7 @@ export function handleVerify(verifyUrl) {
   window.dataLayer.push({ event: 'verify-link-clicked' });
   if (verifyUrl) {
     window.dataLayer.push({ event: 'verify-link-opened' });
-    const receiver = window.open(`${verifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    const receiver = window.open(`${verifyUrl}&op=signin`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 }
@@ -15,7 +15,7 @@ export function handleMultifactor(multifactorUrl) {
   window.dataLayer.push({ event: 'multifactor-link-clicked' });
   if (multifactorUrl) {
     window.dataLayer.push({ event: 'multifactor-link-opened' });
-    const receiver = window.open(multifactorUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    const receiver = window.open(multifactorUrl, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 }
@@ -118,7 +118,7 @@ export function handleLogin(loginUrl, onUpdateLoginUrls) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
-    const receiver = window.open(`${loginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    const receiver = window.open(`${loginUrl}&op=signin`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
     return getLoginUrls(onUpdateLoginUrls || updateLogInUrls);
   }
