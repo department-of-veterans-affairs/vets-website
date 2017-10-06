@@ -39,9 +39,9 @@ When you file your claim, you have 2 options for gathering evidence. You can cho
 
 Filing a fully developed claim may speed up the claim process and help you get your decision sooner.
 
-**Jump to a section to learn more about:**</br>
-[The standard claims process](#claim-standard)</br>
-[The fully developed claims process](#claim-fullydeveloped)
+**Jump to a section to learn more about the:**</br>
+[Standard claims process](#claim-standard)</br>
+[Fully developed claims process](#claim-fullydeveloped)
 
 <br>
 
@@ -77,7 +77,7 @@ A Veteran filed a disability claim that included prior treatment from a private 
 
 <span id="claim-fullydeveloped">
 
-#### More about fully developed claims
+#### More about fully developed claims process
 You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim.
 
 With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. This may include:
