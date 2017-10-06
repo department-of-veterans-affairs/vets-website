@@ -36,31 +36,31 @@ class DetailsPage extends React.Component {
     let content = null;
     if (!loading) {
       content = (
-        <div className="claim-details">
-          <div className="claim-types">
-            <h6>Claim Type</h6>
-            <p>{claim.attributes.claimType || 'Not Available'}</p>
+        <dl className="claim-details">
+          <div className="claim-detail-row">
+            <dt className="claim-detail-label">Claim Type</dt>
+            <dd>{claim.attributes.claimType || 'Not Available'}</dd>
           </div>
-          <div className="claim-contentions-list">
-            <h6>What you’ve claimed</h6>
-            {claim.attributes.contentionList && claim.attributes.contentionList.length
-              ? <ul>{
+          <div className="claim-detail-row">
+            <dt className="claim-detail-label">What you’ve claimed</dt>
+            <dd>{claim.attributes.contentionList && claim.attributes.contentionList.length
+              ? <ul className="claim-detail-list">{
                 claim.attributes.contentionList.map((contention, index) =>
-                  <li key={index}>{contention}</li>
+                  <li key={index} className="claim-detail-list-item">{contention}</li>
                 )}
               </ul>
               : 'Not Available'
-            }
+            }</dd>
           </div>
-          <div className="claim-date-recieved">
-            <h6>Date Received</h6>
-            <p>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</p>
+          <div className="claim-detail-row">
+            <dt className="claim-detail-label">Date Received</dt>
+            <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
           </div>
-          <div className="claim-va-representative">
-            <h6>Your Representative for VA Claims</h6>
-            <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
+          <div className="claim-detail-row">
+            <dt className="claim-detail-label">Your Representative for VA Claims</dt>
+            <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
           </div>
-        </div>
+        </dl>
       );
     }
 

@@ -16,13 +16,13 @@ export default function ClaimEstimate({ maxDate, id }) {
   }
 
   return (
-    <div className="claim-completion-estimation">
-      <p className="date-estimation">Estimated date: {estimatedDate.format('MMM D, YYYY')}</p>
+    <p>
+      <span className="claim-completion-estimation">Estimated date: {estimatedDate.format('MMM D, YYYY')}</span><br/>
       {estimatedDate.isBefore(today)
-        ? <p>We estimated your claim would be completed by now but we need more time.</p>
-        : <p>We base this on claims similar to yours. It isn’t an exact date.</p>}
-      <p><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</p>
-    </div>
+        ? <span>We estimated your claim would be completed by now but we need more time.</span>
+        : <span>We base this on claims similar to yours. It isn’t an exact date.</span>}<br/>
+      <span><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</span>
+    </p>
   );
 }
 

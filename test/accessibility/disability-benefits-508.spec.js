@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
       .pause(500)
       .waitForElementPresent('.claim-completion-estimation', Timeouts.normal)
       .click('.claim-completion-estimation a')
-      .waitForElementVisible('.estimation-header', Timeouts.normal)
+      .waitForElementVisible('.claims-paragraph-header', Timeouts.normal)
       .axeCheck('.main');
 
     client
