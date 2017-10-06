@@ -19,7 +19,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
+If you have a disability that was caused—or made worse—by your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
 
 </div>
 
@@ -29,8 +29,9 @@ If you have a disability that was caused by—or got worse because of—your act
 
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
 
-- You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
-- You had an illness or injury before you joined the military—and serving made it worse
+- You got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice claim), **or**
+- You had an illness or injury before you joined the military—and serving made it worse (called a preservice claim), **or**
+- You have a disability related to your active-duty service that didn't appear until after you ended your service (called a postservice claim)
 
 ### Who’s covered?
 
