@@ -171,7 +171,13 @@ class Main extends React.Component {
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={this.handleCloseModal} id="signin-signup-modal" title="Sign in to Vets.gov">
+            <Modal
+              cssClass="va-modal-large"
+              visible={this.props.login.showModal}
+              focusSelector="button"
+              onClose={this.handleCloseModal}
+              id="signin-signup-modal"
+              title="Sign in to Vets.gov">
               {modalContent}
             </Modal>
           </div>
