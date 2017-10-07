@@ -35,8 +35,8 @@ You can use the BDD program if:
 
 ### What if I have less than 90 days left on active duty?
 You can't file a BDD claim or add more medical conditions to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
-[Learn more about the application process](/disability-benefits/apply/).</br>
-[Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
+[Learn about the application process](/disability-benefits/apply/).</br>
+[Learn about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
@@ -76,14 +76,12 @@ You'll need to apply. The application process will depend on where you're statio
 <spand id="stationed-us">
            
 #### If you're stationed in the U.S.
-Apply for benefits online, by mail, or in-person. 
+You can apply for benefits online, by mail, or in-person. [Learn about how to apply for benefits](/disability-benefits/apply/).
 
 To complete the process you'll need to:
 - Submit your service treatment records along with your application, **and**
 - Be available for 45 days from the date you apply to have a VA medical exam, **and**
 - Finish all phases of the VA/DoD medical separation examination processes before your release from the military
-
-[Apply for benefits](/disability-benefits/apply/).
 
 **Need help applying?** If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll free at <a href="tel:+18008271000">1-800-827-1000</a>.
 
