@@ -193,22 +193,18 @@ a.claim-list-item {
 }
 
 .claims-status {
-  padding: 1em 0 3em 0;
+  padding: 1em 0 3em;
 }
 
-.your-claims, .claims-status {
+.claims-container, .claims-status {
   padding-bottom: 3em;
 
   h3 {
     margin-top: 1em;
   }
 
-  h1:first-child {
+  h1:first-child, .claims-container-title {
     margin-bottom: 0;
-
-    & + p {
-      margin-top: 0;
-    }
   }
 }
 
@@ -628,38 +624,42 @@ h1:focus {
 
 .claims-list-sort {
   margin: 2em 0;
+}
 
-  label, select {
-    display: inline-block;
+.claims-list-sort-label,
+.claims-list-sort-select {
+  display: inline-block;
+}
+
+.claims-list-sort-label {
+  margin-right: 1.5rem;
+}
+
+@media (max-width: $medium-screen) {
+  .claims-list-sort-label {
+    display: block;
+    margin: 0;
   }
 
-  label {
-    margin-right: 1.5rem;
-  }
-
-  @media (max-width: $medium-screen) {
-    label {
-      display: block;
-      margin: 0;
-    }
-
-    select {
-      display: block;
-      margin: 1.4rem 0;
-    }
+  .claims-list-sort-select {
+    display: block;
+    margin: 1.4rem 0;
   }
 }
 
 .claims-list-alert {
   margin-bottom: 1em;
   margin-top: 0;
+
   &.usa-alert {
     background-size: 3.4rem;
     background-position: 1rem 1.9rem;
   }
+
   > .usa-alert-body {
     padding-left: 3.7rem;
   }
+
   .va-alert-close .fa {
     font-size: 1.1em !important;
   }
