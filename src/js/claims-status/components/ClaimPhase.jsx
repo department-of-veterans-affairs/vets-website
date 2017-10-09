@@ -44,28 +44,28 @@ export default class ClaimPhase extends React.Component {
     switch (event.type) {
       case 'phase_entered':
         return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          <div className="claims-evidence-item">
             Your claim moved to {getUserPhaseDescription(this.props.phase)}
           </div>
         );
 
       case 'filed':
-        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Thank you. VA received your claim</div>;
+        return <div className="claims-evidence-item">Thank you. VA received your claim</div>;
 
       case 'completed':
-        return <div className="claims-evidence-item columns usa-width-three-fourths medium-9">Your claim is closed</div>;
+        return <div className="claims-evidence-item">Your claim is closed</div>;
 
       case 'still_need_from_you_list':
       case 'still_need_from_others_list':
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
-            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+            <div className="claims-evidence-item">
               You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
         return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          <div className="claims-evidence-item">
             We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
           </div>
         );
@@ -74,27 +74,27 @@ export default class ClaimPhase extends React.Component {
       case 'received_from_others_list':
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
-            <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+            <div className="claims-evidence-item">
               You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
         return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          <div className="claims-evidence-item">
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
           </div>
         );
       case 'never_received_from_you_list':
       case 'never_received_from_others_list':
         return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          <div className="claims-evidence-item">
             We closed the notice for {event.displayName}
           </div>
         );
 
       case 'other_documents_list':
         return (
-          <div className="claims-evidence-item columns usa-width-three-fourths medium-9">
+          <div className="claims-evidence-item">
             You or others submitted {event.fileType}. We will notify you when we’ve reviewed it.
           </div>
         );
@@ -112,8 +112,8 @@ export default class ClaimPhase extends React.Component {
         : _.take(INITIAL_ACTIVITY_ROWS, activityList);
 
       const activityListContent = limitedList.map((activity, index) => (
-        <div key={index} className="claims-evidence row small-collapse">
-          <div className="claims-evidence-date columns usa-width-one-fourth medium-3">{moment(activity.date).format('MMM D, YYYY')}</div>
+        <div key={index} className="claims-evidence">
+          <div className="claims-evidence-date">{moment(activity.date).format('MMM D, YYYY')}</div>
           {this.getEventDescription(activity)}
         </div>));
 
@@ -123,7 +123,7 @@ export default class ClaimPhase extends React.Component {
             {activityListContent}
           </div>
           <button
-            className="older-updates usa-button-outline"
+            className="claim-older-updates usa-button-outline"
             onClick={this.showAllActivity}>
             See older updates&nbsp;<i className="fa fa-chevron-down"></i>
           </button>
@@ -156,7 +156,7 @@ export default class ClaimPhase extends React.Component {
     return (
       <li onClick={() => this.expandCollapse()} role="presentation" className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
-        <h5>{getUserPhaseDescription(phase)}</h5>
+        <h5 className="section-header">{getUserPhaseDescription(phase)}</h5>
         {this.state.open || phase === COMPLETE_PHASE
           ? <div>
             {children}

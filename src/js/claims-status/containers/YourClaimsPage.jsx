@@ -54,7 +54,7 @@ class YourClaimsPage extends React.Component {
       this.props.getAppeals(this.getFilter(this.props));
     }
 
-    if (this.props.loading) {
+    if (this.props.claimsLoading && this.props.appealsLoading) {
       scrollToTop();
     } else {
       setUpPage();
@@ -90,9 +90,9 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { loading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { claimsLoading, appealsLoading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
 
-    if (loading) {
+    if (claimsLoading && appealsLoading) {
       return null;
     }
 
@@ -118,7 +118,19 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { unfilteredAppeals, unfilteredClaims, list, pages, page, loading, show30DayNotice, route, synced } = this.props;
+    const {
+      unfilteredAppeals,
+      unfilteredClaims,
+      list,
+      pages,
+      page,
+      claimsLoading,
+      appealsLoading,
+      show30DayNotice,
+      route,
+      synced
+    } = this.props;
+
     const tabs = [
       'OpenClaims',
       'ClosedClaims'
@@ -126,19 +138,29 @@ class YourClaimsPage extends React.Component {
 
     let content;
     let innerContent;
+    const bothRequestsLoaded = !claimsLoading && !appealsLoading;
+    const bothRequestsLoading = claimsLoading && appealsLoading;
+    const atLeastOneRequestLoading = claimsLoading || appealsLoading;
+    const emptyList = !list || !list.length;
 
-    if (loading) {
-      content = <LoadingIndicator message="Loading a list of your claims and appeals..." setFocus/>;
+    if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+      content = <LoadingIndicator message="Loading your claims and appeals..." setFocus/>;
     } else {
-      if (list.length > 0) {
+      if (!emptyList) {
         innerContent = (<div>
           {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
           <div className="claim-list">
+            {atLeastOneRequestLoading &&
+              <div>
+                <LoadingIndicator message="Loading your claims and appeals..."/>
+                <br/>
+              </div>
+            }
             {list.map(claim => this.renderListItem(claim))}
             <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
           </div>
         </div>);
-      } else if (!this.props.canAccessClaims) {
+      } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
         innerContent = <NoClaims/>;
       }
 
@@ -185,7 +207,7 @@ class YourClaimsPage extends React.Component {
                 {this.renderErrorMessages()}
               </div>
               <div className="small-12 columns">
-                {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+                {!claimsLoading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
               </div>
             </div>
             <p>
@@ -226,7 +248,8 @@ function mapStateToProps(state) {
     appealsAvailable: claimsState.appeals.available,
     claimsAuthorized: claimsState.claimSync.authorized,
     claimsAvailable: claimsState.claimSync.available,
-    loading: claimsRoot.loading,
+    claimsLoading: claimsRoot.claimsLoading,
+    appealsLoading: claimsRoot.appealsLoading,
     list: claimsRoot.visibleRows,
     unfilteredClaims: claimsRoot.claims,
     unfilteredAppeals: claimsRoot.appeals,

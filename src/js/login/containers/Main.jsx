@@ -122,13 +122,13 @@ class Main extends React.Component {
     const myLoginUrl = this.props.login.loginUrls.idme;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
-      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      const receiver = window.open(`${myLoginUrl}&op=signup`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }
 
   handleLogin(loginUrl = 'idme') {
-    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.updateLogInUrls);
   }
 
   checkTokenStatus() {
@@ -171,7 +171,13 @@ class Main extends React.Component {
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={this.handleCloseModal} id="signin-signup-modal" title="Sign in to Vets.gov">
+            <Modal
+              cssClass="va-modal-large"
+              visible={this.props.login.showModal}
+              focusSelector="button"
+              onClose={this.handleCloseModal}
+              id="signin-signup-modal"
+              title="Sign in to Vets.gov">
               {modalContent}
             </Modal>
           </div>

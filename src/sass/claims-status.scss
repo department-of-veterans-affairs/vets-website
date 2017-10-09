@@ -5,11 +5,6 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
-.claim-alert-status {
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
 .claim-list {
   margin-bottom: 2em;
 }
@@ -138,77 +133,10 @@
   }
 }
 
-.claims-evidence {
-  border-bottom: 1px solid $color-gray-light;
-  padding: 1em 0;
-  &.row {
-    margin: 0 0;
-  }
-  .claims-evidence-date {
-    font-weight: bold;
-    padding-right: 10px;
-  }
-  &:last-child {
-    border: none;
-    padding-bottom: 0;
-  }
-}
-
-.completion-container {
-  margin-left: 8px;
-}
-
-.claim-completion-estimation {
-  p {
-    margin: 0;
-  }
-  .date-estimation {
-    display: inline-block;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-
-}
-
-.claim-decision-is-ready,
 .you-have-no-claims {
   h4, p {
     margin: 0.5em 0;
     padding: 0;
-  }
-}
-
-.claims-no-icon,
-.usa-alert-info.claims-no-icon {
-  background-image: none;
-  h4 {
-    padding-bottom: 0 !important;
-  }
-}
-
-.form-process li.section-complete:before {
-  background: $color-green;
-  content: "\2713\fe0e";
-
-  @include media($medium-large-screen) {
-    content: "\2714\fe0e";
-  }
-}
-
-.form-process li.section-current {
-  h5 {
-    font-weight: bold;
-    color: $color-primary;
-  }
-  li {
-    display: list-item;
-    &.sub-section-current {
-      font-weight: bold;
-      color: $color-primary;
-    }
-  }
-  &:before {
-    background: $color-primary;
   }
 }
 
@@ -435,48 +363,6 @@ a.claim-list-item {
   }
 }
 
-.claim-title {
-  margin: 0;
-  display: inline-block;
-}
-
-.claim-contentions {
-  margin-top: 0.5em;
-  margin-bottom: 2em;
-  p {
-    margin: 0;
-  }
-  h6, p {
-    display: inline-block;
-  }
-  h6 {
-    margin-right: 6px !important;
-    padding-bottom: 0 !important;
-  }
-}
-
-.claim-details {
-  .claim-contentions-list,
-  .claim-date-recieved,
-  .claim-va-representative {
-    margin-top: 1.5em;
-  }
-  .claim-types {
-    h6 {
-      padding: 0;
-    }
-  }
-
-  .claim-va-representative {
-    margin-bottom: 2em;
-  }
-
-  h6, p, ul, li {
-    margin: 0;
-    padding: 0;
-    display: block;
-  }
-}
 
 .clearfix:after {
   content: " ";
@@ -512,26 +398,6 @@ a.claim-list-item {
   margin: 1.5em 0;
 }
 
-.disability-benefits-timeline {
-  padding-top: 0;
-  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
-    cursor: pointer;
-  }
-  > li > h5 {
-    padding-right: 23px !important;
-  }
-}
-
-.claim-timeline-icon {
-  float: right;
-  margin-top: 6px;
-  font-size: 17px;
-}
-
-button.older-updates {
-  margin-top: 1em;
-  margin-bottom: 0;
-}
 
 .claims-alert-checkbox {
   > label {
@@ -644,17 +510,8 @@ p.first-of-type {
   background-position: 1rem 1.4rem;
 }
 
-.claims-alert-status {
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
 .claims-header {
   margin: 0;
-}
-
-.estimation-header {
-  padding: 0.5em 0 0 !important;
 }
 
 .claims-files-cancel {
@@ -769,10 +626,6 @@ h1:focus {
   align-items: center;
 }
 
-.db-tab-content {
-  padding-top: 2em;
-}
-
 .claims-list-sort {
   margin: 2em 0;
 
@@ -820,3 +673,133 @@ h1:focus {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
 }
+
+// New styles
+.claim-tab-content {
+  padding-top: 2em;
+}
+
+.claims-paragraph-header {
+  padding: 0.5em 0 0 !important;
+}
+
+.claims-alert-status {
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+.claims-alert-header {
+  padding-bottom: 0 !important;
+}
+
+.claim-title {
+  margin: 0;
+  display: inline-block;
+}
+
+// Claim status page
+
+.claim-contentions {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+}
+
+.claim-contentions-header {
+  display: inline-block;
+  margin-right: 6px;
+  padding-bottom: 0;
+}
+
+.claim-timeline {
+  padding-top: 0;
+
+  .section-current > .section-header {
+    color: $color-primary;
+  }
+
+  .section-header {
+    padding-right: 23px !important;
+  }
+
+  .section-current:before {
+    background: $color-primary;
+  }
+
+  .section-complete:before {
+    background: $color-green;
+    content: "\2713\fe0e";
+
+    @include media($medium-large-screen) {
+      content: "\2714\fe0e";
+    }
+  }
+
+  > .section-current:not(.last), > .section-complete:not(.last) {
+    cursor: pointer;
+  }
+}
+
+.claim-timeline-icon {
+  float: right;
+  margin-top: 6px;
+  font-size: 17px;
+}
+
+.claim-older-updates {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+.claims-evidence {
+  border-bottom: 1px solid $color-gray-light;
+  padding: 1em 0;
+  display: flex;
+  flex-direction: column;
+
+  @include media($medium-large-screen) {
+    flex-direction: row;
+  }
+
+  &:last-child {
+    border: none;
+    padding-bottom: 0;
+  }
+}
+
+.claims-evidence-date {
+  font-weight: bold;
+  padding-right: 10px;
+
+  @include media($medium-large-screen) {
+    width: 25%;
+    flex-shrink: 0;
+  }
+}
+
+.claim-completion-estimation {
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+// Claim detail page
+
+.claim-details {
+  margin-top: 0;
+}
+
+.claim-detail-list {
+  margin: 0;
+  padding: 0;
+}
+
+.claim-detail-list-item {
+  display: block;
+}
+
+.claim-detail-label {
+  font-size: 0.9em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+

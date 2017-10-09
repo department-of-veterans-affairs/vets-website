@@ -5,7 +5,7 @@ layout: page-react.html
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
       <li><a href="/burials-and-memorials/burial-planning">Burial Planning</a></li>
@@ -21,4 +21,3 @@ layout: page-react.html
     </div>
   </div>
 </div>
-

@@ -24,7 +24,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.urlContains('/your-claims/11/status');
 
     client
-      .expect.element('.claim-completion-estimation').text.to.contain('Estimate not available');
+      .expect.element('.claim-completion-desc').text.to.contain('Estimate not available');
 
     client.end();
   }
