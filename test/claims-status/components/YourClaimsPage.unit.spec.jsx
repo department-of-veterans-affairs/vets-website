@@ -40,13 +40,52 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
-        loading
+        claimsLoading
+        appealsLoading
         claims={claims}
         page={page}
         pages={pages}
         getClaims={getClaims}
         changePage={changePage}/>
     );
+    expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
+  });
+  it('should render loading div if one is loading and no appeals', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        claimsLoading
+        claims={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        changePage={changePage}/>
+    );
+    expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
+  });
+  it('should render claims list and loading indicator if claims is still loading', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [{}, {}];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+        claimsLoading
+        list={claims}
+        page={page}
+        pages={pages}
+        getClaims={getClaims}
+        route={{ showClosedClaims: false }}
+        changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClaimsListItem').length).to.equal(2);
     expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
   });
   it('should render sync warning', () => {
