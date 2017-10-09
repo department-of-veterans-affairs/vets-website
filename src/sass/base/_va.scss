@@ -1349,42 +1349,6 @@ pre[class*="language-"]  {
   align-items: stretch;
 }
 
-.sticky-action-box--container {
-  position: relative;
-}
-
-.sticky-action-box {
-  background-color: $color-gray-lightest;
-  padding: 1.5rem;
-  z-index: 1;
-
-  a {
-    margin-right: 0;
-  }
-
-  .show-for-large-up & {
-    position: absolute;
-    right: 0;
-    top: 30px;
-    width: 22rem;
-  }
-
-  .hide-for-large-up & {
-    width: calc(100% + 0.9375rem + 0.9375rem);
-    margin-left: -0.9375rem;
-  }
-
-  #content & p,
-  #content & h3 {
-    padding: 0;
-    margin: 0;
-  }
-
-  p.small {
-    font-size: 1em;
-  }
-}
-
 .react-container {
   padding: 2em 0;
 }

@@ -19,7 +19,7 @@ export default class RequestedFilesInfo extends React.Component {
             : null}
 
           {filesNeeded.map(item => (
-            <div className="file-request-list-item usa-alert usa-alert-warning claims-no-icon" key={item.trackedItemId}>
+            <div className="file-request-list-item usa-alert usa-alert-warning no-background-image" key={item.trackedItemId}>
               <div className="item-container">
                 <h5 className="file-request-title">{item.displayName}</h5>
                 <p>{truncateDescription(item.description)}</p>
@@ -31,7 +31,7 @@ export default class RequestedFilesInfo extends React.Component {
           ))}
 
           {optionalFiles.map(item => (
-            <div className="file-request-list-item usa-alert file-request-list-item-optional claims-no-icon" key={item.trackedItemId}>
+            <div className="file-request-list-item usa-alert file-request-list-item-optional no-background-image" key={item.trackedItemId}>
               <div className="item-container">
                 <h5 className="file-request-title">{item.displayName}</h5>
                 <p>{truncateDescription(item.description)}</p>

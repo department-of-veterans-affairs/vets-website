@@ -45,7 +45,7 @@ describe('<ClaimDetailLayout>', () => {
         claim={claim}/>
     );
 
-    expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2');
+    expect(tree.subTree('.claim-contentions').text()).to.contain('Condition 1, Condition 2');
   });
   it('should render see all link if long contention list', () => {
     const claim = {
@@ -66,7 +66,7 @@ describe('<ClaimDetailLayout>', () => {
         claim={claim}/>
     );
 
-    expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2, Condition 3');
+    expect(tree.subTree('.claim-contentions').text()).to.contain('Condition 1, Condition 2, Condition 3');
     expect(tree.subTree('.claim-contentions').subTree('Link').props.to).to.equal('your-claims/5/details');
   });
   it('should render not available if no contention list', () => {
@@ -82,7 +82,7 @@ describe('<ClaimDetailLayout>', () => {
         claim={claim}/>
     );
 
-    expect(tree.subTree('.list').text()).to.contain('Not available');
+    expect(tree.subTree('.claim-contentions').text()).to.contain('Not available');
   });
   it('should render adding details info if open', () => {
     const claim = {

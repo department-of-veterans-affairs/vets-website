@@ -14,24 +14,9 @@
     {% when 'topic-landing' %}
       {% include "content/includes/topic-landing.html" %}
 
-    {% when '3-panel-filters' %}
-       {% include "content/includes/3-panel-filters.html" %}
-
-    {% when '4-action-page' %}
-      {% include "content/includes/4-action-page.html" %}
-
-    {% when '4-action-page-pending' %}
-      {% include "content/includes/4-action-page-pending.html" %}
-
-    {% when '7-get-page' or '7-get-page-alt' %}
-      {% include "content/includes/7-get-page.html" %}
-
   {% else %}
     {{ contents }}
   {% endcase %}
 
-  {% if path != 'employment' AND template != 'level2-index' AND template != 'topic-landing' AND template != 'detail-page' %}
-  {% include "content/includes/general-related-links.html" %}
-  {% endif %}
 </div>
 {% include "content/includes/footer.html" %}
