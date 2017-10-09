@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
   getStateName,
@@ -239,6 +240,12 @@ export class AddressSection extends React.Component {
           <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
+    } else if (this.props.savePending) {
+      addressFields = (
+        <div>
+          <LoadingIndicator message="Updating your address..."/>
+        </div>
+      );
     } else {
       addressFields = (
         <div>
@@ -279,12 +286,24 @@ export class AddressSection extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable, saveAddressError } = state.letters;
+  const {
+    fullName,
+    address,
+    canUpdate,
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable,
+    saveAddressError,
+    savePending
+  } = state.letters;
+
   return {
     recipientName: fullName,
     canUpdate,
     savedAddress: address,
     saveAddressError,
+    savePending,
     countries,
     countriesAvailable,
     states,
