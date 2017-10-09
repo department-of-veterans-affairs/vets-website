@@ -44,40 +44,46 @@ describe('HCA migrations', () => {
     const migration = migrations[1];
     it('should convert report children field', () => {
       const data = {
-        'view:reportChildren': false
+        formData: {
+          'view:reportChildren': false
+        }
       };
 
-      expect(migration(data)).to.eql({
-        'view:reportDependents': data['view:reportChildren']
+      expect(migration(data).formData).to.eql({
+        'view:reportDependents': data.formData['view:reportChildren']
       });
     });
     it('should change name of empty children array', () => {
       const data = {
-        children: []
+        formData: {
+          children: []
+        }
       };
 
-      expect(migration(data)).to.eql({
+      expect(migration(data).formData).to.eql({
         dependents: []
       });
     });
     it('should change field names inside children items', () => {
       const data = {
-        children: [{
-          childFullName: 'test',
-          childRelation: 'Son',
-          childEducationExpenses: 34,
-          income: 2,
-          'view:childSupportDescription': {}
-        }]
+        formData: {
+          children: [{
+            childFullName: 'test',
+            childRelation: 'Son',
+            childEducationExpenses: 34,
+            income: 2,
+            'view:childSupportDescription': {}
+          }]
+        }
       };
 
-      expect(migration(data)).to.eql({
+      expect(migration(data).formData).to.eql({
         dependents: [{
-          fullName: data.children[0].childFullName,
-          dependentRelation: data.children[0].childRelation,
-          dependentEducationExpenses: data.children[0].childEducationExpenses,
-          income: data.children[0].income,
-          'view:dependentSupportDescription': data.children[0]['view:childSupportDescription']
+          fullName: data.formData.children[0].childFullName,
+          dependentRelation: data.formData.children[0].childRelation,
+          dependentEducationExpenses: data.formData.children[0].childEducationExpenses,
+          income: data.formData.children[0].income,
+          'view:dependentSupportDescription': data.formData.children[0]['view:childSupportDescription']
         }]
       });
     });

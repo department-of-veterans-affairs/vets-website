@@ -16,17 +16,17 @@ export default [
   },
   // 1 -> 2, we converted the children page to a dependents page, then updated
   // all the field names to not reference child/children anymore
-  (savedData) => {
-    let newData = savedData;
+  ({ formData, metadata }) => {
+    let newData = formData;
 
     if (typeof newData['view:reportChildren'] !== 'undefined') {
       newData = _.unset('view:reportChildren', newData);
-      newData['view:reportDependents'] = savedData['view:reportChildren'];
+      newData['view:reportDependents'] = formData['view:reportChildren'];
     }
 
     if (newData.children) {
       newData = _.unset('children', newData);
-      newData.dependents = savedData.children.map(child => {
+      newData.dependents = formData.children.map(child => {
         const dependent = Object.keys(child).reduce((acc, field) => {
           if (field === 'view:childSupportDescription') {
             acc['view:dependentSupportDescription'] = child[field];
@@ -49,6 +49,6 @@ export default [
       });
     }
 
-    return newData;
+    return { formData: newData, metadata };
   }
 ];
