@@ -9,7 +9,7 @@ export default function ClaimEstimate({ maxDate, id }) {
 
   if (maxDate === undefined || !estimatedDate.isValid() || estimatedDate.isAfter(moment(today).add(2, 'years'))) {
     return (
-      <div className="claim-completion-estimation">
+      <div>
         <p>Estimate not available</p>
       </div>
     );
@@ -21,7 +21,7 @@ export default function ClaimEstimate({ maxDate, id }) {
       {estimatedDate.isBefore(today)
         ? <span>We estimated your claim would be completed by now but we need more time.</span>
         : <span>We base this on claims similar to yours. It isn’t an exact date.</span>}<br/>
-      <span><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</span>
+      <span><Link className="claim-estimate-link" to={`your-claims/${id}/claim-estimate`}>Learn about this estimate</Link>.</span>
     </p>
   );
 }
