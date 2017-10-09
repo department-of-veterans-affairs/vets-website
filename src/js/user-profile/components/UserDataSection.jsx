@@ -147,7 +147,9 @@ class UserDataSection extends React.Component {
         <div className="info-container">
           {content}
           <p><span className="label">Email address:</span> {email}</p>
-          <p><a href="https://wallet.id.me/settings" target="_blank">Manage your account</a></p>
+          <p>Want to change your email, password, or other account settings?<br/>
+            <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
+          </p>
           {this.renderTermsLink()}
         </div>
         <Modal
