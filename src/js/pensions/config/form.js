@@ -60,6 +60,8 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
+import { validateAfterMarriageDate } from '../validation';
+
 const {
   nationalGuardActivation,
   nationalGuard,
@@ -694,7 +696,10 @@ const formConfig = {
                     'ui:required': (...args) => !isCurrentMarriage(...args)
                   },
                   dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
-                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                    'ui:validations': [
+                      validateAfterMarriageDate
+                    ]
                   }),
                   locationOfSeparation: {
                     'ui:title': 'Place marriage ended (city and state or foreign country)',
