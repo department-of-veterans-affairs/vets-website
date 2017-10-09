@@ -30,30 +30,30 @@
       "spouseNetIncome": 23424,
       "spouseOtherIncome": 23424
     },
-    "children": [
+    "dependents": [
       {
-        "childFullName": {
+        "fullName": {
           "first": "Ben",
           "middle": "Joe",
           "last": "Doe",
           "suffix": "Sr."
         },
-        "childRelation": "Son",
-        "childSocialSecurityNumber": "234666654",
-        "childBecameDependent": "2003-01-03",
-        "childDateOfBirth": "2003-01-01",
-        "childDisabledBefore18": true,
-        "childAttendedSchoolLastYear": true,
-        "childEducationExpenses": 453,
-        "childCohabitedLastYear": false,
-        "childReceivedSupportLastYear": true,
-        "view:childSupportDescription": {},
+        "dependentRelation": "Son",
+        "socialSecurityNumber": "234666654",
+        "becameDependent": "2003-01-03",
+        "dateOfBirth": "2003-01-01",
+        "disabledBefore18": true,
+        "attendedSchoolLastYear": true,
+        "dependentEducationExpenses": 453,
+        "cohabitedLastYear": false,
+        "receivedSupportLastYear": true,
+        "view:dependentSupportDescription": {},
         "grossIncome": 0,
         "netIncome": 0,
         "otherIncome": 0
       }
     ],
-    "view:reportChildren": true,
+    "view:reportDependents": true,
     "spouseFullName": {
       "first": "Jane",
       "middle": "Pam",

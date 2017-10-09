@@ -28,7 +28,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // conditions list
     client
-      .expect.element('.claim-contentions .list').text.equals('Hearing Loss (New), skin condition (New), jungle rot (New)');
+      .expect.element('.claim-contentions > span').text.equals('Hearing Loss (New), skin condition (New), jungle rot (New)');
 
     // timeline
     client
@@ -49,7 +49,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is closed');
     client
-      .expect.element('button.older-updates').to.be.present;
+      .expect.element('.claim-older-updates').to.be.present;
     client
       .click('li.list-one')
       .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow);
