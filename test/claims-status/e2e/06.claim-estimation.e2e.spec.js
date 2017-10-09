@@ -18,7 +18,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
-    const selector = '.claim-completion-estimation a';
+    const selector = '.claim-estimate-link';
 
     client
       .pause(500) // Since the link is below the fold, we must wait for the full render to finish
