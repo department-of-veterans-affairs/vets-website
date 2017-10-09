@@ -60,7 +60,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
-import { validateAfterMarriageDate } from '../validation';
+import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
 
 const {
   nationalGuardActivation,
@@ -264,7 +264,10 @@ const formConfig = {
                   'Date entered active service',
                   'Date left active service',
                   'Date entered service must be before date left service'
-                )
+                ),
+                'ui:validations': [
+                  validateServiceBirthDates
+                ]
               }
             },
             'view:wartimeWarning': (() => {
@@ -904,7 +907,11 @@ const formConfig = {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
                 },
-                dateOfSeparation: currentOrPastDateUI('Date marriage ended'),
+                dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
+                  'ui:validations': [
+                    validateAfterMarriageDate
+                  ]
+                }),
                 locationOfSeparation: {
                   'ui:title': 'Place marriage ended (city and state or foreign country)',
                 }
