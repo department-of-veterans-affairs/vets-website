@@ -5,28 +5,27 @@ import { createHistory } from 'history';
 import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import initReact from '../common/init-react';
-import createRoutes from './routes';
-import createLoginWidget from '../login/login-entry';
-import createCommonStore from '../common/store';
+import initReact from '../../common/init-react';
+import routes from './routes';
+import reducer from './reducer';
+import createLoginWidget from '../../login/login-entry';
+import createCommonStore from '../../common/store';
 
-require('../../sass/edu-benefits.scss');
-
-const emptyState = {};
-const reducer = () => emptyState;
+require('../../../sass/edu-benefits.scss');
 
 const store = createCommonStore(reducer);
+
 createLoginWidget(store);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/education/apply-for-education-benefits/application'
+  basename: '/education/apply-for-education-benefits/application/5490'
 });
 
 function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
-        {createRoutes(store)}
+        {routes}
       </Router>
     </Provider>
   ), document.getElementById('react-root'));

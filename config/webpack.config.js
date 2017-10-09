@@ -16,7 +16,12 @@ const timestamp = new Date().getTime();
 
 const entryFiles = {
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+  '1990-edu-benefits': './src/js/edu-benefits/1990/edu-benefits-entry.jsx',
+  '1990e-edu-benefits': './src/js/edu-benefits/1990e/edu-benefits-entry.jsx',
+  '1990n-edu-benefits': './src/js/edu-benefits/1990n/edu-benefits-entry.jsx',
+  '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
+  '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
+  '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
   'health-beta': './src/js/health-beta/health-beta-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
