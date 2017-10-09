@@ -43,8 +43,8 @@ module.exports = E2eHelpers.createE2eTest(
       .execute('window.scrollTo(0,8000)')
       .pause(500)
       .waitForElementPresent('.claim-completion-estimation', Timeouts.normal)
-      .click('.claim-completion-estimation a')
-      .waitForElementVisible('.estimation-header', Timeouts.normal)
+      .click('.claim-estimate-link')
+      .waitForElementVisible('.claims-paragraph-header', Timeouts.normal)
       .axeCheck('.main');
 
     client
@@ -92,7 +92,7 @@ module.exports = E2eHelpers.createE2eTest(
     // details tab
     client
       .click('.va-tabs li:nth-child(3) > a')
-      .waitForElementVisible('.claim-types', Timeouts.normal)
+      .waitForElementVisible('.claim-details', Timeouts.normal)
       .axeCheck('.main');
 
     client.end();

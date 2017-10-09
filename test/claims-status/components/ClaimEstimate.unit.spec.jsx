@@ -12,8 +12,8 @@ describe('<ClaimEstimate>', () => {
       <ClaimEstimate
         maxDate={date.format('YYYY-MM-DD')}/>
     );
-    expect(tree.subTree('.date-estimation').text()).to.contain(`Estimated date: ${date.format('MMM D, YYYY')}`);
-    expect(tree.subTree('.claim-completion-estimation').text()).to.contain('We base this on claims similar to yours. It isn’t an exact date.');
+    expect(tree.text()).to.contain(`Estimated date: ${date.format('MMM D, YYYY')}`);
+    expect(tree.text()).to.contain('We base this on claims similar to yours. It isn’t an exact date.');
   });
   it('should render estimated date warning', () => {
     const date = moment().startOf('day').subtract(2, 'days');
@@ -21,14 +21,14 @@ describe('<ClaimEstimate>', () => {
       <ClaimEstimate
         maxDate={date.format('YYYY-MM-DD')}/>
     );
-    expect(tree.subTree('.claim-completion-estimation').text()).to.contain('We estimated your claim would be completed by now');
+    expect(tree.text()).to.contain('We estimated your claim would be completed by now');
   });
   it('should render no estimate warning', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimEstimate
         maxDate=""/>
     );
-    expect(tree.subTree('.claim-completion-estimation').text()).to.contain('Estimate not available');
+    expect(tree.text()).to.contain('Estimate not available');
   });
   it('should render no estimate warning with far away date', () => {
     const date = moment().startOf('day').add(5, 'years');
@@ -36,6 +36,6 @@ describe('<ClaimEstimate>', () => {
       <ClaimEstimate
         maxDate={date.format('YYYY-MM-DD')}/>
     );
-    expect(tree.subTree('.claim-completion-estimation').text()).to.contain('Estimate not available');
+    expect(tree.text()).to.contain('Estimate not available');
   });
 });

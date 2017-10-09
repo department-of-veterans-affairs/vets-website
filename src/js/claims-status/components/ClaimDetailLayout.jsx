@@ -44,12 +44,12 @@ export default class ClaimDetailLayout extends React.Component {
             <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 <div className="claim-contentions">
-                  <h6>What you’ve claimed:</h6>
-                  <p className="list">
+                  <h6 className="claim-contentions-header">What you’ve claimed:</h6>
+                  <span>
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
                       ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')
                       : 'Not available'}
-                  </p>
+                  </span>
                   {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONTENTIONS
                     ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed contentions</Link>.</span>
                     : null}
@@ -62,7 +62,7 @@ export default class ClaimDetailLayout extends React.Component {
                     id={`tabPanel${tab}`}
                     aria-labelledby={`tab${tab}`}>
                     {currentTab === tab &&
-                      <div className="va-tab-content db-tab-content">
+                      <div className="va-tab-content claim-tab-content">
                         {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
                         {this.props.children}
                       </div>
