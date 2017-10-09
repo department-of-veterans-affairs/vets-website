@@ -62,7 +62,7 @@ class AuthApp extends React.Component {
     window.dataLayer.push({ event: `login-success-${loginMethod}` });
 
     if (userData.loa.highest === 3) {
-      if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext) {
+      if (userData.loa.current === 3 && sessionStorage.mfa_start) {
         this.setMyToken(myToken);
       } else {
         const redirect = ({ identityProofUrl }) => {

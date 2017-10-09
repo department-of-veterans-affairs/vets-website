@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { focusElement } from '../../common/utils/helpers';
+import AlertBox from '../../common/components/AlertBox';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/FormTitle';
@@ -9,100 +10,90 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   }
+
   render() {
+    const infoBoxContent = (
+      <p>
+        <strong>You won’t be able to save your work or come back to finish.</strong> So, before you start, it’s a good idea to gather the information and documents you’ll need.
+      </p>
+    );
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for pre-need determination of eligibility in a VA National Cemetery"/>
         <p>
-          This application is equivalent to Form 40-10007 (Application for pre-need determination of eligibility in a VA National Cemetery).
+          Equal to VA Form 40-10007
         </p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Gather these documents and other information you’ll need to identify the deceased:</h5>
+              <h5>Prepare</h5>
+              <h6>You'll need:</h6>
               <ul>
                 <li>
-                  DD214, or similar discharge papers. If you can’t find the discharge papers, please ask for our help to get these records. <a href="http://www.cem.va.gov/CEM/hmm/discharge_documents.asp" target="_blank">Find out which discharge papers we accept along with your application</a>.
+                  The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/">Find a VA national cemetery</a>.
                 </li>
                 <li>
-                  Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
-                </li>
-                <li>
-                  Next-of-kin information (name, relationship, Social Security number, phone number, and address)
-                </li>
-                <li>
-                  Marital status
+                  Information about your service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your (or your sponsor’s):
+                  <ul>
+                    <li>Social Security number (and Military Service Number if it’s different than the Social Security number)</li>
+                    <li>VA claim number (if you know it)</li>
+                    <li>Date and place of birth</li>
+                    <li>Date of death (if the Servicemember or Veteran has died)</li>
+                    <li>Military status and history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)</li>
+                  </ul>
                 </li>
               </ul>
-              <p>You may also need:</p>
+              <h6>You’ll need to upload:</h6>
+              <ul><li>A copy of your (or your sponsor’s) DD214 or other separation documents</li></ul>
+              <h6>Additional information and documents needed for certain applicants:</h6>
               <ul>
                 <li>
-                  If the deceased was married, the surviving spouse’s status as Veteran or family member
+                  <strong>If you’re applying as the legally married spouse or surviving spouse or the unmarried adult child of a Servicemember or Veteran</strong>, you’ll need your personal information (including Social Security number and date of birth)
                 </li>
                 <li>
-                  The status and detailed information for any disabled children who may be buried in the future in a national cemetery
+                  <strong>If you’re applying on behalf of someone else</strong>, you’ll need to upload supporting documents or an affidavit (a written statement of facts confirmed by an oath or affirmation) showing that you’re:
+                  <ul>
+                    <li>The applicant’s court-appointed representative, <strong>or</strong></li>
+                    <li>The applicant’s caregiver (including a spouse or other relative), <strong>or</strong></li>
+                    <li>An attorney or agent acting on behalf of the applicant under a durable power of attorney, <strong>or</strong></li>
+                    <li>The manager or principal officer of an institution in which the applicant is being care for</li>
+                  </ul>
                 </li>
                 <li>
-                  The Veteran’s zip code and county at the time of death
-                </li>
-                <li>
-                  If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
+                  <strong>If you're applying for an unmarried adult child</strong>, you’ll need to upload supporting documents showing:
+                  <ul>
+                    <li>Medical evidence of a disability</li>
+                    <li>Start date of a disability</li>
+                    <li>The child's age when diagnosed with a disability</li>
+                  </ul>
                 </li>
               </ul>
+              <p>
+                <a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.
+              </p>
+              <AlertBox
+                content={infoBoxContent}
+                isVisible
+                status="info"/>
             </li>
             <li className="process-step list-two">
-              <h5>Decide on the burial details and gather all related information, including:</h5>
-              <ul>
-                <li>
-                  Your cemetery of choice
-                </li>
-                <li>
-                  Type of gravesite memorial. <a href="/burials-and-memorials/burial-planning/headstones-markers-medallions">See your options for a headstone, marker, or niche cover.</a>
-                </li>
-                <li>
-                  Type of burial: casket or cremation and size of the casket or cremation urn
-                </li>
-                <li>
-                  Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
-                </li>
-              </ul>
-              <div>
-                <a href="https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services" target="_blank">
-                  Learn about military honors.
-                </a>
-              </div>
-              <div>
-                <a href="/burials-and-memorials/burial-planning/flags-and-memorial-certificates">
-                  Learn about other ways to memorialize the deceased.
-                </a>
-              </div>
+              <h5>Apply</h5>
+              <p>Complete the pre-need eligibility determination application.</p>
             </li>
             <li className="process-step list-three">
-              <h5>Fill out the Application</h5>
-              <p>Complete the form.</p>
+              <h5>VA Review and Decision</h5>
+              <h6>How long does it take VA to make a decision?</h6>
+              <p>We usually process claims within 30 days.</p>
+              <p>We will contact you if we need more information.</p>
             </li>
             <li className="process-step list-four">
-              <h5>VA Review</h5>
-              <h6>How long does it take VA to make a decision?</h6>
-              <ul><li>We usually process claims within 30 days.</li></ul>
-              <h6>What should I do while I wait?</h6>
-              <ul><li>The transition from military to civilian life can be challenging. VA offers <a href="/education/tools-programs/education-career-counseling/">tools and counseling programs</a> to help you make the most of your educational options.</li></ul>
-              <h6>What if VA needs more information?</h6>
-              <ul><li>We will contact you if we need more information.</li></ul>
-            </li>
-            <li className="process-step list-five">
               <h5>Decision</h5>
-              <ul>
-                <li>
-                  We usually process claims within 30 days.
-                </li>
-                <li>
-                  You’ll get a letter in the mail if your application was approved.
-                </li>
-              </ul>
+              <p>After we process your claim, you'll get a notice in the mail about the decision.</p>
             </li>
           </ol>
         </div>

@@ -261,7 +261,7 @@ fieldset.schemaform-field-template {
   padding: 2em 0;
   @include media($medium-large-screen) {
     padding-top: 0.6em;
-    padding-left: inherit;
+    // padding-left: inherit;
   }
 }
 //duplicated/renamed from claims-status.scss

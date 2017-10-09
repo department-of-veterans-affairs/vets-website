@@ -4,7 +4,6 @@ title: Burials and Memorials
 permalink: /burials-and-memorials/index.md
 template: level2-index
 showactionbar: false
-extraspace: true
 majorlinks:
   - heading: Who Can Get Benefits
     links:

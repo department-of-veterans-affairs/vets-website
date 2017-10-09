@@ -11,20 +11,20 @@ describe('Hca annual income', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.annualIncome;
   const marriedWithChildren = {
     maritalStatus: 'Married',
-    children: [
+    dependents: [
       {
-        childFullName: {
+        fullName: {
           first: 'John',
           last: 'Doe'
         },
-        childRelation: 'Son'
+        dependentRelation: 'Son'
       },
       {
-        childFullName: {
+        fullName: {
           first: 'Jane',
           last: 'Doe'
         },
-        childRelation: 'Daughter'
+        dependentRelation: 'Daughter'
       }
     ],
   };
