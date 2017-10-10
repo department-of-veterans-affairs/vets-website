@@ -21,6 +21,7 @@ const defaultProps = {
   },
   canUpdate: true,
   saveAddress: saveSpy,
+  savePending: false,
   countries: [],
   countriesAvailable: true,
   states: [],
@@ -43,6 +44,13 @@ describe('<AddressSection>', () => {
     const invalidAddress = tree.subTree('p').text();
 
     expect(invalidAddress).to.contain('We’re encountering an error with your');
+  });
+
+  it('should display a loading spinner if address save in progress', () => {
+    const newProps = { ...defaultProps, savePending: true };
+    const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
+    const spinner = tree.dive(['AddressContent', 'AddressBlock', 'LoadingIndicator']);
+    expect(spinner.text()).to.contain('Updating your address...');
   });
 
   it('should format 1 address line', () => {
