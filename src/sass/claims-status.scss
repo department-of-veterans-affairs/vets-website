@@ -139,18 +139,21 @@
 
 .claim-list-item-container {
   background-color: $color-gray-lightest;
-  padding: 2em 1em 1em 1em;
+  padding: 2em 1em 1em;
   margin-bottom: 1em;
   position: relative;
 }
-.claims-list-item-icon {
+
+.claim-list-item-icon {
   margin-right: 5px;
 }
-.claims-list-item-text {
+
+.claim-list-item-text {
   margin: 0;
 }
+
 .communications, .status {
-  margin-bottom: 0.5em;
+  margin: 0 0 0.5em;
 }
 
 .last-changed-label {
@@ -164,7 +167,7 @@
   border-radius: 0 0 0.5em 0.5em;
 }
 
-a.claim-list-item {
+.claim-list-item {
   text-decoration: none;
   display: block;
   color: inherit;
@@ -246,30 +249,25 @@ a.claim-list-item {
   margin-top: 0;
 }
 
-
 .last-status {
   margin-top: 1em;
   padding: 0 1em 1em 0;
+}
 
-  h4:first-of-type {
-    padding: 0;
-  }
+.content {
+  position: relative;
+  padding-left: 3.25rem;
+}
 
-  .content {
-    position: relative;
-    padding-left: 3.25rem;
+h5 + .content-text {
+  margin-top: 0;
+}
 
-    h5 + p {
-      margin-top: 0;
-    }
-
-    i.fa {
-      color: $color-green;
-      left: 0;
-      position: absolute;
-      top: 0.1em;
-    }
-  }
+.last-status-content-icon {
+  color: $color-green;
+  left: 0;
+  position: absolute;
+  top: 0.1em;
 }
 
 .previous-activity {

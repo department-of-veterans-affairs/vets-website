@@ -10,7 +10,7 @@ const renderNextAction = (lastEvent, previousHistory) => {
   if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
     return null;
   }
-  const nextAction = appealStatusDescriptions(lastEvent, previousHistory).nextAction;
+  const nextAction = appealStatusDescriptions(lastEvent, previousHistory, 'claim-list-item-text').nextAction;
   return nextAction && nextAction.title;
 };
 
