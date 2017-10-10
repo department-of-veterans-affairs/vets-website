@@ -214,7 +214,7 @@ export default function createSchemaFormReducer(formConfig) {
           if (Object.keys(action.data.formData).length > 0) {
             newState.prefillStatus = PREFILL_STATUSES.success;
           } else {
-            newState.prefillStatus = PREFILL_STATUSES.notAttempted;
+            newState.prefillStatus = PREFILL_STATUSES.unfilled;
           }
         } else {
           newState = _.set('loadedData', action.data, state);
