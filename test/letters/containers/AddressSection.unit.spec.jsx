@@ -49,9 +49,8 @@ describe('<AddressSection>', () => {
   it('should display a loading spinner if address save in progress', () => {
     const newProps = { ...defaultProps, savePending: true };
     const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
-    const spinner = tree.subTree('.address-block', '.loading-indicator-container', '.loading-indicator');
-    const spinnerText = spinner.text();
-    expect(spinnerText).to.contain('Updating your address...');
+    const spinner = tree.dive(['AddressContent', 'AddressBlock', 'LoadingIndicator']);
+    expect(spinner.text()).to.contain('Updating your address...');
   });
 
   it('should format 1 address line', () => {
