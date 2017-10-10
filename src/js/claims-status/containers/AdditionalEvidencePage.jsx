@@ -23,7 +23,7 @@ import {
   setFieldsDirty,
   resetUploads,
   clearNotification
-} from '../actions';
+} from '../actions/index.jsx';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
@@ -92,7 +92,7 @@ class AdditionalEvidencePage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">Additional evidence</h1>
+                <h1 className="claims-header">Additional evidence ok</h1>
                 <EvidenceWarning/>
                 <AddFilesForm
                   field={this.props.uploadField}

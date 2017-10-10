@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { CLEAR_NOTIFICATION, SET_NOTIFICATION } from '../actions';
+import { CLEAR_NOTIFICATION, SET_NOTIFICATION } from '../actions/index.jsx';
 
 const initialState = {
   message: null

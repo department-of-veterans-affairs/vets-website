@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
