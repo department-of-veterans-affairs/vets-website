@@ -191,14 +191,14 @@
   padding: 1em 0 3em;
 }
 
-.claims-container, .claims-status {
+.claims-container {
   padding-bottom: 3em;
 
   h3 {
     margin-top: 1em;
   }
 
-  h1:first-child, .claims-container-title {
+  .claims-container-title {
     margin-bottom: 0;
   }
 }
