@@ -26,7 +26,7 @@ export default [
     if (formData.marriages) {
       const index = formData.marriages.findIndex((marriage) => {
         const fromDate = convertToDateField(marriage.dateOfMarriage);
-        const toDate = convertToDateField(marriage.dateOfSeparation);
+        const toDate = convertToDateField(_.get('view:pastMarriage.dateOfSeparation', marriage));
 
         return !isValidDateRange(fromDate, toDate);
       });
@@ -42,7 +42,7 @@ export default [
     if (formData.spouseMarriages) {
       const index = formData.spouseMarriages.findIndex((marriage) => {
         const fromDate = convertToDateField(marriage.dateOfMarriage);
-        const toDate = convertToDateField(marriage.dateOfSeparation);
+        const toDate = convertToDateField(_.get('view:pastMarriage.dateOfSeparation', marriage));
 
         return !isValidDateRange(fromDate, toDate);
       });
