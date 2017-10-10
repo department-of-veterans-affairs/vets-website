@@ -7,7 +7,7 @@ import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
-import { clearNotification } from '../actions';
+import { clearNotification } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
