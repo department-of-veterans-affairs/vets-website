@@ -35,7 +35,7 @@ class DownloadLetters extends React.Component {
         <FormTitle title="VA Letters and Documents"/>
         <div className="va-introtext">
           <p>
-            To receive some benefits, Veterans and their surviving spouse or family members need a letter proving their Veteran or survivor status. You can download these benefit letters and documents online.
+            To receive some benefits, Veterans need a letter proving their status. You can download some of these benefit letters and documents online.
           </p>
         </div>
 
