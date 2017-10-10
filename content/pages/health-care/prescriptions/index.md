@@ -10,8 +10,9 @@ order: 6
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
-        <h3>Please wait while we load the application for you.</h3>
-        <img src="/img/preloader-primary-darkest.gif" alt="Loading">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
+        </div>
       </div>
     </div>
   </div>
