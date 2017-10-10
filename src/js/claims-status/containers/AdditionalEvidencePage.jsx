@@ -92,7 +92,7 @@ class AdditionalEvidencePage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">Additional evidence ok</h1>
+                <h1 className="claims-header">Additional evidence</h1>
                 <EvidenceWarning/>
                 <AddFilesForm
                   field={this.props.uploadField}
