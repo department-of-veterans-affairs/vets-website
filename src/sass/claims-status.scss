@@ -133,13 +133,6 @@
   }
 }
 
-.you-have-no-claims {
-  h4, p {
-    margin: 0.5em 0;
-    padding: 0;
-  }
-}
-
 .claim-item-label {
   font-weight: bold;
 }
@@ -149,27 +142,26 @@
   padding: 2em 1em 1em 1em;
   margin-bottom: 1em;
   position: relative;
+}
+.claims-list-item-icon {
+  margin-right: 5px;
+}
+.claims-list-item-text {
+  margin: 0;
+}
+.communications, .status {
+  margin-bottom: 0.5em;
+}
 
-  i {
-    margin-right: 5px;
-  }
-  p {
-    margin: 0;
-  }
-  .communications, p.status {
-    margin-bottom: 0.5em;
-  }
-
-  .last-changed-label {
-    position: absolute;
-    top: 0;
-    right: 1em;
-    background: $color-link-default;
-    color: $color-white;
-    font-size: 0.8em;
-    padding: 0.5em 0.75em;
-    border-radius: 0 0 0.5em 0.5em;
-  }
+.last-changed-label {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  background: $color-link-default;
+  color: $color-white;
+  font-size: 0.8em;
+  padding: 0.5em 0.75em;
+  border-radius: 0 0 0.5em 0.5em;
 }
 
 a.claim-list-item {
