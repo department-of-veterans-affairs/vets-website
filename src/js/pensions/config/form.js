@@ -61,6 +61,7 @@ import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
 import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
+import migrations from '../migrations';
 
 const {
   nationalGuardActivation,
@@ -180,7 +181,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
