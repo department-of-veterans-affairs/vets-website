@@ -280,7 +280,7 @@ describe('<AddressSection>', () => {
       instance.handleChange('city', '');
       // The required validator (first in the list) should return an error message and no other validators should run
       expect(AddressSection.fieldValidations.city[0].called).to.be.true;
-      expect(AddressSection.fieldValidations.city.slice(1).some(validator => validator.called)).to.be.false;
+      expect(AddressSection.fieldValidations.city.slice(1).every(validator => !validator.called)).to.be.true;
     });
 
     it('should run validations on modified fields only', () => {
