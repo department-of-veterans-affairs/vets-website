@@ -10,10 +10,12 @@ import {
   UPDATE_MULTIFACTOR_URL,
   UPDATE_SEARCH_HELP_USER_MENU,
   UPDATE_VERIFY_URL,
+  FETCH_LOGIN_URLS_FAILED,
 } from '../actions';
 
 const initialState = {
   currentlyLoggedIn: false,
+  loginUrlsError: false,
   loginUrls: null,
   logoutUrl: null,
   multifactorUrl: null,
@@ -38,14 +40,18 @@ function loginStuff(state = initialState, action) {
   switch (action.type) {
     case UPDATE_LOGGEDIN_STATUS:
       return _.set('currentlyLoggedIn', action.value, state);
-
-    // being explicit here to avoid confusion
+    case FETCH_LOGIN_URLS_FAILED:
+      return _.set('loginUrlsError', true, state);
     case UPDATE_LOGIN_URLS:
-      return _.set('loginUrls', {
-        mhv: appendQuery(action.value.mhv, { clientId: action.gaClientId }),
-        dslogon: appendQuery(action.value.dslogon, { clientId: action.gaClientId }),
-        idme: appendQuery(action.value.idme, { clientId: action.gaClientId }),
-      }, state);
+      return {
+        ...state,
+        loginUrls: {
+          mhv: appendQuery(action.value.mhv, { clientId: action.gaClientId }),
+          dslogon: appendQuery(action.value.dslogon, { clientId: action.gaClientId }),
+          idme: appendQuery(action.value.idme, { clientId: action.gaClientId }),
+        },
+        loginUrlsError: false,
+      };
 
     case UPDATE_MULTIFACTOR_URL:
       return _.set('multifactorUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);

@@ -73,7 +73,7 @@ class Main extends React.Component {
   }
 
   getLoginUrls() {
-    this.loginUrlRequest = getLoginUrls(this.props.updateLogInUrls);
+    this.loginUrlRequest = this.props.getLoginUrls();
   }
 
   getLogoutUrl() {
@@ -155,19 +155,33 @@ class Main extends React.Component {
     window.dataLayer.push({ event: 'login-modal-closed' });
   }
 
-  render() {
+  renderModalContent() {
     const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
 
+    if (this.props.login.loginUrls) {
+      return (<Signin
+        onLoggedIn={() => this.props.toggleLoginModal(false)}
+        currentlyLoggedIn={currentlyLoggedIn}
+        handleSignup={this.handleSignup}
+        handleLogin={this.handleLogin}/>);
+    }
+
+    if (this.props.login.loginUrlsError) {
+      return (
+        <div>
+          <br/>
+          <h3>Something went wrong on our end</h3>
+          <p>Please refresh this page or try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).</p>
+        </div>
+      );
+    }
+
+    return <LoadingIndicator message="Loading the application..."/>;
+  }
+
+  render() {
     switch (this.props.renderType) {
       case 'navComponent': {
-        const modalContent = !this.props.login.loginUrls ?
-          (<LoadingIndicator message="Loading the application..."/>) :
-          (<Signin
-            onLoggedIn={() => this.props.toggleLoginModal(false)}
-            currentlyLoggedIn={currentlyLoggedIn}
-            handleSignup={this.handleSignup}
-            handleLogin={this.handleLogin}/>);
-
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
@@ -178,7 +192,7 @@ class Main extends React.Component {
               onClose={this.handleCloseModal}
               id="signin-signup-modal"
               title="Sign in to Vets.gov">
-              {modalContent}
+              {this.renderModalContent()}
             </Modal>
           </div>
         );
@@ -207,6 +221,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getLoginUrls: () => {
+      getLoginUrls(dispatch);
+    },
     updateLogInUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },

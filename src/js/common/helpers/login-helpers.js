@@ -1,5 +1,5 @@
 import environment from './environment.js';
-import { updateLoggedInStatus, updateLogInUrls } from '../../login/actions';
+import { updateLoggedInStatus, updateLogInUrls, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function handleVerify(verifyUrl) {
@@ -102,25 +102,30 @@ export function addEvent(element, eventName, callback) {
   }
 }
 
-export function getLoginUrls(onUpdateLoginUrls) {
+export function getLoginUrls(dispatch) {
   const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
     method: 'GET',
   }).then(response => {
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
+    throw Error(response.statusText);
   }).then(json => {
-    onUpdateLoginUrls(json);
+    dispatch(updateLogInUrls(json));
+  }).catch(() => {
+    dispatch({ type: FETCH_LOGIN_URLS_FAILED });
   });
 
   return loginUrlsRequest;
 }
 
-export function handleLogin(loginUrl, onUpdateLoginUrls) {
+export function handleLogin(loginUrl) {
   window.dataLayer.push({ event: 'login-link-clicked' });
   if (loginUrl) {
     window.dataLayer.push({ event: 'login-link-opened' });
     const receiver = window.open(`${loginUrl}&op=signin`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-    return getLoginUrls(onUpdateLoginUrls || updateLogInUrls);
+  } else {
+    Promise.reject('Could not log in; loginUrl not provided.');
   }
-  return Promise.reject('Could not log in; loginUrl not provided.');
 }
