@@ -77,7 +77,8 @@ export class NewMessageForm extends React.Component {
           onSave={this.props.onSaveMessage}
           onSend={this.props.onSendMessage}
           messageText={message.body}
-          placeholder={composeMessage.placeholders.message}/>
+          placeholder={composeMessage.placeholders.message}
+          sendingMessage={this.props.sendingMessage}/>
       </form>
     );
   }

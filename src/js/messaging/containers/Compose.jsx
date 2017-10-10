@@ -141,7 +141,6 @@ export class Compose extends React.Component {
           </button>
         </div>
         <NewMessageForm
-          loading={this.props.loading}
           message={this.props.message}
           recipients={this.props.recipients}
           onAttachmentsClose={this.props.deleteComposeAttachment}
@@ -154,6 +153,7 @@ export class Compose extends React.Component {
           onSaveMessage={this.saveDraftIfNoAttachments}
           onSendMessage={this.sendMessage}
           onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
+          sendingMessage={this.props.loading.sendingMessage}
           toggleConfirmDelete={this.props.toggleConfirmDelete}/>
         <NoticeBox/>
         <ModalConfirmDelete
