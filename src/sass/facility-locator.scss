@@ -9,7 +9,9 @@
   .highlight {
     margin-bottom: 0.5em !important;
   }
-
+  .is-focused {
+    box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
+  }
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
     padding: 0 !important;

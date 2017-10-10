@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/tabindex-no-positive */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { bindActionCreators } from 'redux';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { truncate, kebabCase } from 'lodash';
 import { updateSearchQuery } from '../actions';
@@ -23,6 +21,7 @@ class SearchControls extends Component {
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
     this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
+    this.checkActiveElement = this.checkActiveElement.bind(this);
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -132,8 +131,8 @@ class SearchControls extends Component {
       <ul className="dropdown">
         {
           services.map(k => {
-            return (<li key={k} value={k} onClick={this.handleServiceFilterSelect.bind(this, k)}>
-              <button type="button" className="facility-option">
+            return (<li key={k} value={k}>
+              <button id={k} type="button" className="facility-option" onClick={this.handleServiceFilterSelect.bind(this, k)}>
                 <span className="flex-center">
                   <span className="legend spacer"></span>
                   {benefitsServices[k] || k}
@@ -149,17 +148,27 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     if (facilityType) {
       return (
-        <button type="button" className="facility-option">
+        <button id="facilityDropdown" type="button" className="facility-option">
           <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
         </button>
       );
     }
 
     return (
-      <button type="button" className="facility-option">
+      <button id="facilityDropdown" type="button" className="facility-option">
         <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
       </button>
     );
+  }
+
+  checkActiveElement() {
+    if (document.activeElement.id === 'serviceDropdown') {
+      return this.setState({ facilityDropdownFocused: false, serviceDropdownFocused: true });
+    }
+    if (document.activeElement.id === 'facilityDropdown') {
+      return this.setState({ facilityDropdownFocused: true, serviceDropdownFocused: false });
+    }
+    return this.setState({ facilityDropdownFocused: false, serviceDropdownFocused: false });
   }
 
   renderServiceSelectOption(serviceType) {
@@ -167,7 +176,7 @@ class SearchControls extends Component {
 
     return (
       <div className="flex-center">
-        <button type="button" className="facility-option">
+        <button id="serviceDropdown" type="button" className="facility-option">
           <span className="flex-center">
             <span className="legend spacer"></span>
             {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? 38 : 27) })}
@@ -179,7 +188,7 @@ class SearchControls extends Component {
 
   render() {
     const { currentQuery, isMobile } = this.props;
-    const { facilityDropdownActive, serviceDropdownActive } = this.state;
+    const { facilityDropdownActive, facilityDropdownFocused, serviceDropdownActive, serviceDropdownFocused } = this.state;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -194,34 +203,35 @@ class SearchControls extends Component {
     const serviceDropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
       active: serviceDropdownActive,
+      'is-focused': serviceDropdownFocused,
       disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType),
     });
 
     return (
       <div className="search-controls-container clearfix">
-        <form>
-          <div className="columns usa-width-one-third medium-4">
+        <form onKeyUp={this.checkActiveElement}>
+          <div className="columns usa-width-one-third medium-4" >
             <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
-            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown}>
+            <div className={`facility-dropdown-wrapper ${this.state.facilityDropdownFocused ? 'is-focused' : ''} ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown}>
               <div className="flex-center">
                 {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               </div>
-              <ul className="dropdown">
-                <li onClick={this.handleFacilityFilterSelect()}>{this.renderSelectOptionWithIcon()}</li>
-                <li onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
-                <li onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
-                <li onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
-                <li onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
+              <ul role="listbox" className="dropdown">
+                <li role="option" onClick={this.handleFacilityFilterSelect()}>{this.renderSelectOptionWithIcon()}</li>
+                <li role="option" onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li role="option" onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li role="option" onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
+                <li role="option" onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
               </ul>
             </div>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <div tabIndex="2" className={serviceDropdownClasses} onClick={this.toggleServiceDropdown}>
+            <div className={serviceDropdownClasses} ref="serviceDropdown" role="presentation" onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
                 {this.renderServiceSelectOption(currentQuery.serviceType)}
               </div>
