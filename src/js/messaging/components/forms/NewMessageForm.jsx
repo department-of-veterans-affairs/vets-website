@@ -126,6 +126,7 @@ NewMessageForm.propTypes = {
   onSaveMessage: PropTypes.func.isRequired,
   onSendMessage: PropTypes.func.isRequired,
   onSubjectChange: PropTypes.func,
+  sendingMessage: PropTypes.bool,
   toggleConfirmDelete: PropTypes.func.isRequired,
 };
 

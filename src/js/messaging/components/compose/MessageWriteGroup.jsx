@@ -64,6 +64,7 @@ MessageWriteGroup.propTypes = {
   onSend: PropTypes.func,
   onTextChange: PropTypes.func,
   placeholder: PropTypes.string,
+  sendingMessage: PropTypes.bool
 };
 
 export default MessageWriteGroup;

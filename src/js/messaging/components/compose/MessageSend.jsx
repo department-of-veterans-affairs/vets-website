@@ -95,6 +95,7 @@ MessageSend.propTypes = {
   onSave: PropTypes.func.isRequired,
   onSend: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  sendingMessage: PropTypes.bool
 };
 
 export default MessageSend;
