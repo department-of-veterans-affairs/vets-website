@@ -148,7 +148,7 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     if (facilityType) {
       return (
-        <button id="facilityDropdown" type="button" className="facility-option">
+        <button id={facilityType} type="button" className="facility-option">
           <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
         </button>
       );
@@ -167,6 +167,10 @@ class SearchControls extends Component {
     }
     if (document.activeElement.id === 'facilityDropdown') {
       return this.setState({ facilityDropdownFocused: true, serviceDropdownFocused: false });
+    }
+    if (document.activeElement.id) {
+      this.setState({focusedFacility: document.activeElement.id})
+      return console.log(document.activeElement.id);
     }
     return this.setState({ facilityDropdownFocused: false, serviceDropdownFocused: false });
   }
@@ -222,10 +226,10 @@ class SearchControls extends Component {
               </div>
               <ul role="listbox" className="dropdown">
                 <li role="option" onClick={this.handleFacilityFilterSelect()}>{this.renderSelectOptionWithIcon()}</li>
-                <li role="option" onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
-                <li role="option" onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
-                <li role="option" onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
-                <li role="option" onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
+                <li role="option" className={`${this.state.focusedFacility === 'health' ? 'is-hovered': ''}`} onClick={this.handleFacilityFilterSelect('health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li role="option" className={`${this.state.focusedFacility === 'benefits' ? 'is-hovered': ''}`} onClick={this.handleFacilityFilterSelect('benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li role="option" className={`${this.state.focusedFacility === 'cemetery' ? 'is-hovered': ''}`} onClick={this.handleFacilityFilterSelect('cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
+                <li role="option" className={`${this.state.focusedFacility === 'vet_center' ? 'is-hovered': ''}`} onClick={this.handleFacilityFilterSelect('vet_center')}>{this.renderSelectOptionWithIcon('vet_center')}</li>
               </ul>
             </div>
           </div>

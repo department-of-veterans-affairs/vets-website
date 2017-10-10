@@ -12,6 +12,10 @@
   .is-focused {
     box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
   }
+  .is-hovered {
+    color: $color-white !important;
+    background: $color-primary-darker; 
+  }
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
     padding: 0 !important;
