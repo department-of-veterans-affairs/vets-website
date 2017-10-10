@@ -61,6 +61,9 @@ class AuthApp extends React.Component {
     const loginMethod = userData.authnContext || 'idme';
     window.dataLayer.push({ event: `login-success-${loginMethod}` });
 
+    // If LOA highest is not 3, skip identity proofing
+    // If LOA current == highest (3), skip identity proofing
+    // If LOA current < highest, attempt to identity proof
     if (userData.loa.highest === 3) {
       if (userData.loa.current === 3) {
         this.setMyToken(myToken);
