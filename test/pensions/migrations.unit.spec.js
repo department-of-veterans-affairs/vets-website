@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import migrations from '../../src/js/pensions/migrations';
 
-describe.only('Pension migrations', () => {
+describe('Pension migrations', () => {
   it('should set url to service history if validation error', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
