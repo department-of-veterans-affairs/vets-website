@@ -65,6 +65,7 @@ export class NewMessageForm extends React.Component {
           allowedMimeTypes={allowedMimeTypes}
           errorMessage={validations.isValidMessageBody(message.body) ? undefined : composeMessage.errors.message}
           files={this.props.message.attachments}
+          loading={this.props.loading}
           maxFiles={composeMessage.attachments.maxNum}
           maxFileSize={composeMessage.attachments.maxSingleFile}
           maxTotalFileSize={composeMessage.attachments.maxTotalFiles}

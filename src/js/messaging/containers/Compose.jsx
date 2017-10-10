@@ -141,6 +141,7 @@ export class Compose extends React.Component {
           </button>
         </div>
         <NewMessageForm
+          loading={this.props.loading}
           message={this.props.message}
           recipients={this.props.recipients}
           onAttachmentsClose={this.props.deleteComposeAttachment}

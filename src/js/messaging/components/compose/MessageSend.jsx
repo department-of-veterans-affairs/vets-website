@@ -62,6 +62,7 @@ class MessageSend extends React.Component {
 
   render() {
     const isDisabled = this.props.disabled;
+    const spinnerIcon = this.props.loading.sendingMessage ? <span className="fa fa-spinner fa-spin"/> : null;
 
     return (
       <div className="msg-send-group">
@@ -69,7 +70,7 @@ class MessageSend extends React.Component {
           <button
             disabled={isDisabled}
             type="button"
-            onClick={this.props.onSend}>Send</button>
+            onClick={this.props.onSend}>{spinnerIcon} Send</button>
           <button
             disabled={isDisabled}
             className="usa-button-outline msg-btn-save"
