@@ -206,127 +206,126 @@ a.claim-list-item {
   }
 }
 
-.claims-status {
-  i.fa {
-    font-size: 24px;
+.claims-status-icon {
+  font-size: 24px;
+}
+
+.next-action-container {
+  padding-right: 1em;
+}
+
+.next-action {
+  padding: 1em;
+  position: relative;
+
+  &.hearing {
+    background: $color-inset-bg;
   }
 
-  .next-action-container {
-    padding-right: 1em;
-  }
+  &.soc, &.ssoc {
+    background: $color-gibill-accent;
+    padding-left: 2.5em;
 
-  .next-action {
-    padding: 1em;
-    position: relative;
-
-    p {
-      margin-top: 0;
-    }
-
-    &.hearing {
-      background: $color-inset-bg;
-    }
-
-    &.soc, &.ssoc {
-      background: $color-gibill-accent;
-      padding-left: 2.5em;
-
-      &:before {
-        left: 1em;
-        top: 1.5em;
-        position: absolute;
-        font-size: 1.25em;
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: "\F071";
-      }
+    &:before {
+      left: 1em;
+      top: 1.5em;
+      position: absolute;
+      font-size: 1.25em;
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: "\F071";
     }
   }
+}
 
-  .last-status {
-    margin-top: 1em;
-    padding: 0 1em 1em 0;
+.next-action-text {
+  margin-top: 0;
+}
 
-    h4:first-of-type {
-      padding: 0;
-    }
 
-    .content {
-      position: relative;
-      padding-left: 3.25rem;
+.last-status {
+  margin-top: 1em;
+  padding: 0 1em 1em 0;
 
-      h5 + p {
-        margin-top: 0;
-      }
-
-      i.fa {
-        color: $color-green;
-        left: 0;
-        position: absolute;
-        top: 0.1em;
-      }
-    }
-  }
-
-  .previous-activity {
-    margin-top: 1em;
-  }
-
-  .events-list {
-    margin: 0;
+  h4:first-of-type {
     padding: 0;
   }
 
-  .event-item {
-    list-style: none;
-    border-bottom: solid thin $color-gray-light;
+  .content {
+    position: relative;
+    padding-left: 3.25rem;
 
-    &:last-child {
-      border: none;
+    h5 + p {
+      margin-top: 0;
     }
-  }
-
-  .event-date {
-    flex: 0 0 10rem;
-    margin-right: 1rem;
-  }
-
-  .event-header {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 0;
 
     i.fa {
-      &:first-child {
-        color: $color-gray;
-        flex: 0 0 3.25rem;
-      }
-
-      &:last-child {
-        font-size: 1.75rem;
-        margin-left: 2rem;
-      }
+      color: $color-green;
+      left: 0;
+      position: absolute;
+      top: 0.1em;
     }
   }
+}
 
-  .event-title {
-    flex: 1 1;
+.previous-activity {
+  margin-top: 1em;
+}
+
+.events-list {
+  margin: 0;
+  padding: 0;
+}
+
+.event-item {
+  list-style: none;
+  border-bottom: solid thin $color-gray-light;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.event-date {
+  flex: 0 0 10rem;
+  margin-right: 1rem;
+}
+
+.event-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.event-header-icon {
+  &:first-child {
+    color: $color-gray;
+    flex: 0 0 3.25rem;
   }
 
-  .event-description {
-    margin-bottom: 1.5rem;
-    margin-left: 3.25rem;
+  &:last-child {
+    font-size: 1.75rem;
+    margin-left: 2rem;
+  }
+}
 
-    p {
-      &:first-child {
-        margin-top: 0;
-      }
-    }
+.event-title {
+  flex: 1 1;
+}
+
+.event-description {
+  margin-bottom: 1.5rem;
+  margin-left: 3.25rem;
+}
+
+.event-description-text {
+  &:first-child {
+    margin-top: 0;
   }
 }
 

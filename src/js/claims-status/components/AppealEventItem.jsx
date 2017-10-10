@@ -19,10 +19,10 @@ export default class AppealEventItem extends React.Component {
 
   render() {
     const { event } = this.props;
-    const { status } = appealStatusDescriptions(event);
+    const { status } = appealStatusDescriptions(event, [], 'event-description-text');
 
     const expandIconClass = classNames({
-      fa: true,
+      'fa claims-status-icon event-header-icon': true,
       'fa-minus': this.state.open,
       'fa-plus': !this.state.open
     });
@@ -30,7 +30,7 @@ export default class AppealEventItem extends React.Component {
     return (
       <li className="event-item" onClick={this.toggle}>
         <div className="event-header">
-          <i className="fa fa-check-circle"/>
+          <i className="fa fa-check-circle claims-status-icon event-header-icon"/>
           <strong className="event-date">
             {moment(event.date).format('MMM DD, YYYY')}
           </strong>

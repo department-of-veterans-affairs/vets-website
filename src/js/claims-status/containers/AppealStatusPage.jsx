@@ -25,7 +25,7 @@ class AppealStatusPage extends React.Component {
   }
 
   renderStatusNextAction(lastEvent, previousHistory) {
-    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory);
+    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory, 'claims-list-item-text');
     const className = `next-action ${lastEvent.type}`;
 
     if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
@@ -102,7 +102,7 @@ class AppealStatusPage extends React.Component {
     const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
     const previousHistory = events.slice(1);
-    const { status } = appealStatusDescriptions(lastEvent, previousHistory);
+    const { status } = appealStatusDescriptions(lastEvent, previousHistory, 'claims-list-item-text');
 
     return (
       <div className="claims-status">
@@ -127,7 +127,7 @@ class AppealStatusPage extends React.Component {
             <div className="row">
               <div className="last-status">
                 <div className="content">
-                  <i className="fa fa-check-circle"></i>
+                  <i className="claims-status-icon fa fa-check-circle"></i>
                   <h5>{status.title}</h5>
                   <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
                   {status.description}
