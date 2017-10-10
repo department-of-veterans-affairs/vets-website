@@ -15,7 +15,7 @@ import {
   invalidAddressProperty,
   inferAddressType,
   resetDisallowedAddressFields
-} from '../utils/helpers.jsx';
+} from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
@@ -27,14 +27,6 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
-
-const fieldValidations = {
-  addressOne: addressOneValidations,
-  zipCode: postalCodeValidations,
-  stateCode: stateValidations,
-  countryName: countryValidations,
-  city: cityValidations
-};
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -77,7 +69,7 @@ export class AddressSection extends React.Component {
    *                                         error message. If not, return undefined.
    */
   validateField = (fieldName, fullAddress) => {
-    const validations = fieldValidations[fieldName];
+    const validations = AddressSection.fieldValidations[fieldName];
     // If there is no validations array for that field, assume it has no validations
     if (!validations) {
       return undefined;
@@ -113,7 +105,7 @@ export class AddressSection extends React.Component {
    */
   validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
     const errorMessages = {};
-    Object.keys(fieldValidations).forEach((fieldName) => {
+    Object.keys(AddressSection.fieldValidations).forEach((fieldName) => {
       // Only validate the field if it's been modified
       if (fieldsToValidate[fieldName] || shouldValidateAll) {
         errorMessages[fieldName] = this.validateField(fieldName, address);
@@ -281,9 +273,18 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return addressContent;
+    return <div>{addressContent}</div>;
   }
 }
+
+// For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
+AddressSection.fieldValidations = {
+  addressOne: addressOneValidations,
+  zipCode: postalCodeValidations,
+  stateCode: stateValidations,
+  countryName: countryValidations,
+  city: cityValidations
+};
 
 function mapStateToProps(state) {
   const {

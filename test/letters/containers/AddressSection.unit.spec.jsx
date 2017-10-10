@@ -3,10 +3,26 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { cloneDeep } from 'lodash';
 
 import { getFormDOM } from '../../util/schemaform-utils';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
 import { ADDRESS_TYPES } from '../../../src/js/letters/utils/constants';
+
+const originalValidations = AddressSection.fieldValidations;
+const spyOnValidators = () => {
+  const validatorSpies = Object.keys(AddressSection.fieldValidations).reduce((spies, key) => {
+    // Each property is an array of functions; wrap each function in a spy
+    return Object.assign({}, spies, { [key]: AddressSection.fieldValidations[key].map((validator) => sinon.spy(validator)) });
+  }, {});
+
+  // Infiltrate!
+  AddressSection.fieldValidations = validatorSpies;
+};
+
+const cleanUpSpies = () => {
+  AddressSection.fieldValdiations = originalValidations;
+};
 
 const saveSpy = sinon.spy();
 
@@ -14,6 +30,8 @@ const defaultProps = {
   savedAddress: {
     type: ADDRESS_TYPES.domestic,
     addressOne: '2476 Main Street',
+    addressTwo: '',
+    addressThree: '',
     city: 'Reston',
     countryName: 'USA',
     stateCode: 'VA',
@@ -149,4 +167,156 @@ describe('<AddressSection>', () => {
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
 
+  // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
+  it('should show addressUpdateUnavailable if countries or states lists aren\'t available', () => {
+    const props = Object.assign({}, defaultProps, { countriesAvailable: false });
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...props}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+    expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
+  });
+
+  it('should load address in new props after mounting', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {};
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress).to.equal(props.savedAddress);
+
+    const newProps = Object.assign({}, props, { savedAddress: { addressOne: '123 Main St' } });
+    instance.componentWillReceiveProps(newProps);
+    expect(instance.state.editableAddress).to.equal(newProps.savedAddress);
+  });
+
+  it('should not call saveAddress when Cancel is clicked', () => {
+    saveSpy.reset();
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Try to save
+    tree.click('button.usa-button-outline');
+    expect(saveSpy.called).to.be.false;
+  });
+
+  it('should not call saveAddress when Update is clicked with invalid data', () => {
+    saveSpy.reset();
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Clear out country to get a validation error
+    tree.fillData('[name="country"]', '');
+
+    // Try to save
+    tree.click('button.usa-button-primary');
+    expect(saveSpy.called).to.be.false;
+  });
+
+  it('should display error messages for validation failures', () => {
+    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Start editing
+    tree.click('button.usa-button-outline');
+
+    // Clear out country to get a validation error
+    tree.fillData('[name="country"]', '');
+    expect(tree.getElement('.usa-input-error')).to.not.be.null;
+  });
+
+  it('should infer new address type', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+
+    // Sanity check; make sure the type is what we expect before we change it
+    // NOTE: We're checking that it's domestic specifically just so we make absolutely sure
+    //  it's getting _changed_ to international instead of accidentally starting off as
+    //  international. Just a bit of future-proofing.
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.domestic);
+
+    // Change the country so it'll be international
+    instance.handleChange('countryName', 'Elsweyre');
+    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.international);
+
+    // NOTE: This isn't a _comprehensive_ test that ensures changing the input will do what we
+    //  expect, but the e2e test should make sure that the wiring from the input to handleChange
+    //  is up and running as expected.
+  });
+
+  it('should reset disallowed address fields when type changes', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+
+    // Sanity check; make sure the type is what we expect before we change it
+    const instance = tree.getMountedInstance();
+    expect(instance.state.editableAddress.stateCode).to.not.equal('');
+
+    // Change the country so it'll be international (and the state and zip fields should reset to '')
+    instance.handleChange('countryName', 'Elsweyre');
+    expect(instance.state.editableAddress.stateCode).to.equal('');
+  });
+
+  // Not sure how to test this bit yet...
+  // it('should scroll to first error', () => {});
+
+  describe('validation', () => {
+    // Spy on all the validation functions!
+    beforeEach(spyOnValidators);
+
+    // Clean up the spies so nobody finds out
+    afterEach(cleanUpSpies);
+
+    it('should run all validations against a field if the address is valid', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.handleChange('city', 'Elsweyre');
+      expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.true;
+    });
+
+    it('should return the first error message it finds', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.handleChange('city', '');
+      // The required validator (first in the list) should return an error message and no other validators should run
+      expect(AddressSection.fieldValidations.city[0].called).to.be.true;
+      expect(AddressSection.fieldValidations.city.slice(1).every(validator => !validator.called)).to.be.true;
+    });
+
+    it('should run validations on modified fields only', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      const fieldsToModify = ['city', 'stateCode'];
+      fieldsToModify.forEach(field => instance.handleChange(field, ''));
+
+      Object.keys(AddressSection.fieldValidations).forEach((key) => {
+        const validationsCalled = AddressSection.fieldValidations[key].some(v => v.called);
+        if (fieldsToModify.includes(key)) {
+          expect(validationsCalled).to.be.true;
+        } else {
+          expect(validationsCalled).to.be.false;
+        }
+      });
+    });
+
+    it('should run validations on all fields before saving the address', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const instance = tree.getMountedInstance();
+
+      instance.saveAddress();
+
+      Object.keys(AddressSection.fieldValidations).forEach((key) => {
+        expect(AddressSection.fieldValidations[key].some(v => v.called)).to.be.true;
+      });
+    });
+  });
 });
