@@ -20,7 +20,9 @@ module.exports = E2eHelpers.createE2eTest(
     // go to files tab
     client
       .click('.va-tabs li:nth-child(2) > a')
-      .waitForElementVisible('.file-request-list-item', Timeouts.normal);
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal)
+      .axeCheck('.main');
+
     client.assert.urlContains('/your-claims/11/files');
     client
       .expect.element('a.va-tab-trigger.va-tab-trigger--current').text.to.equal('Files');

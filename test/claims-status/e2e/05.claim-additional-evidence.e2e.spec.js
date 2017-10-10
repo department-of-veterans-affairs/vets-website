@@ -26,7 +26,8 @@ module.exports = E2eHelpers.createE2eTest(
     // go to additional evidence page
     client
       .click('.additional-evidence-alert .usa-button')
-      .waitForElementVisible('.upload-files', Timeouts.normal);
+      .waitForElementVisible('.upload-files', Timeouts.normal)
+      .axeCheck('.main');
 
     client.assert.urlContains('additional-evidence');
 
