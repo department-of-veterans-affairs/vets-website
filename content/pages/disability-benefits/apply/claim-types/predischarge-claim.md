@@ -76,7 +76,8 @@ You'll need to apply. The application process will depend on where you're statio
 <spand id="stationed-us">
            
 #### If you're stationed in the U.S.
-You can apply for benefits online, by mail, or in-person. [Learn more about how to apply for benefits](/disability-benefits/apply/).
+You can apply for benefits online, by mail, or in-person. <br>
+[Learn more about how to apply for benefits](/disability-benefits/apply/).
 
 To complete the process you'll need to:
 - Submit your service treatment records along with your application, **and**
