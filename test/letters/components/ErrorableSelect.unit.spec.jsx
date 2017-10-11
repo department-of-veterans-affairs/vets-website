@@ -63,7 +63,7 @@ describe('<ErrorableSelect>', () => {
     expect(errorMessages).to.have.lengthOf(1);
     expect(errorMessages[0].text()).to.equal('error message');
 
-    // No error means no aria-describedby to not confuse screen readers.
+    // If there's an error, we should have a describedby for screen readers
     const selects = tree.everySubTree('select');
     expect(selects).to.have.lengthOf(1);
     expect(selects[0].props['aria-describedby']).to.not.be.undefined;
