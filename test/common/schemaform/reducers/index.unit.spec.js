@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { expect } from 'chai';
 
 import { SET_DATA,
@@ -254,6 +255,19 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.data.existingProp).to.be.true;
       expect(state.data.field).to.equal('foo');
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.success);
+    });
+    it('should not mark prefill successful when data is empty', () => {
+      const state = reducer({
+        data: {},
+        prefillStatus: PREFILL_STATUSES.pending,
+        pages: {}
+      }, {
+        type: SET_IN_PROGRESS_FORM,
+        data: _.set('formData', {}, data)
+      });
+
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
     });
     it('should set fetch form pending', () => {
       const state = reducer({
