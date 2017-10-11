@@ -1,7 +1,7 @@
 ---
 title: Your Vets.gov Account
 layout: page-react.html
-entryname: health-beta
+entryname: id-card-beta
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
@@ -18,5 +18,5 @@ entryname: health-beta
       </div>
     </div>
   </div>
-  <!-- Health Beta End -->
+  <!-- ID Card Beta End -->
 </div>
