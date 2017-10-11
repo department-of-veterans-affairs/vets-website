@@ -26,7 +26,7 @@ class ConfirmRefillModal extends React.Component {
 
     if (this.props.prescription) {
       const prescription = this.props.prescription;
-      const spinnerIcon = this.props.isLoading && <span className="fa fa-spin fa-spinner"/>;
+      const spinnerIcon = this.props.isLoading && <i className="fa fa-spin fa-spinner"/>;
 
       innerElement = (
         <form onSubmit={this.handleConfirmRefill}>

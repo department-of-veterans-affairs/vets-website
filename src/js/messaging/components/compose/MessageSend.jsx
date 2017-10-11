@@ -62,7 +62,7 @@ class MessageSend extends React.Component {
 
   render() {
     const isDisabled = this.props.disabled;
-    const spinnerIcon = this.props.sendingMessage && <span className="fa fa-spinner fa-spin"/>;
+    const spinnerIcon = this.props.sendingMessage && <i className="fa fa-spinner fa-spin"/>;
 
     return (
       <div className="msg-send-group">
