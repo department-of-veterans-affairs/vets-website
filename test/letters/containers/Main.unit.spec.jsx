@@ -86,4 +86,49 @@ describe('<Main>', () => {
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
+
+  it('fetches letter data after mounting', () => {
+    const getLetterList = sinon.spy();
+    const props = { ...defaultProps, getLetterList };
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const instance = tree.getMountedInstance();
+    instance.componentDidMount();
+    expect(getLetterList.callCount).to.equal(1);
+  });
+
+  it('fetches mailing address after mounting', () => {
+    const getMailingAddress = sinon.spy();
+    const props = { ...defaultProps, getMailingAddress };
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const instance = tree.getMountedInstance();
+    instance.componentDidMount();
+    expect(getMailingAddress.callCount).to.equal(1);
+  });
+
+  it('fetches benefit summary options after mounting', () => {
+    const getBenefitSummaryOptions = sinon.spy();
+    const props = { ...defaultProps, getBenefitSummaryOptions };
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const instance = tree.getMountedInstance();
+    instance.componentDidMount();
+    expect(getBenefitSummaryOptions.callCount).to.equal(1);
+  });
+
+  it('fetches country list after mounting', () => {
+    const getAddressCountries = sinon.spy();
+    const props = { ...defaultProps, getAddressCountries };
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const instance = tree.getMountedInstance();
+    instance.componentDidMount();
+    expect(getAddressCountries.callCount).to.equal(1);
+  });
+
+  it('fetches state list after mounting', () => {
+    const getAddressStates = sinon.spy();
+    const props = { ...defaultProps, getAddressStates };
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const instance = tree.getMountedInstance();
+    instance.componentDidMount();
+    expect(getAddressStates.callCount).to.equal(1);
+  });
 });
