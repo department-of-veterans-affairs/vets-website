@@ -5,12 +5,6 @@ import sinon from 'sinon';
 
 import { Main } from '../../../src/js/letters/containers/Main';
 
-const getBenefitSummaryOptionsSpy = sinon.spy();
-const getLetterListSpy = sinon.spy();
-const getMailingAddressSpy = sinon.spy();
-const getAddressCountriesSpy = sinon.spy();
-const getAddressStateSpy = sinon.spy();
-
 const defaultProps = {
   letters: { },
   destination: { },
@@ -20,11 +14,11 @@ const defaultProps = {
     serviceInfo: '',
   },
   optionsAvailable: {},
-  getBenefitSummaryOptions: getBenefitSummaryOptionsSpy,
-  getLetterList: getLetterListSpy,
-  getMailingAddress: getMailingAddressSpy,
-  getAddressCountries: getAddressCountriesSpy,
-  getAddressStates: getAddressStateSpy
+  getLetterList: () => {},
+  getMailingAddress: () => {},
+  getBenefitSummaryOptions: () => {},
+  getAddressCountries: () => {},
+  getAddressStates: () => {}
 };
 
 const testText = 'test child element';
@@ -88,47 +82,43 @@ describe('<Main>', () => {
   });
 
   it('fetches letter data after mounting', () => {
-    const getLetterList = sinon.spy();
-    const props = { ...defaultProps, getLetterList };
+    const props = { ...defaultProps, getLetterList: sinon.spy() };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const instance = tree.getMountedInstance();
+    // mounted instance doesn't call lifecycle methods automatically so...
     instance.componentDidMount();
-    expect(getLetterList.callCount).to.equal(1);
+    expect(instance.props.getLetterList.callCount).to.equal(1);
   });
 
   it('fetches mailing address after mounting', () => {
-    const getMailingAddress = sinon.spy();
-    const props = { ...defaultProps, getMailingAddress };
+    const props = { ...defaultProps, getMailingAddress: sinon.spy() };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const instance = tree.getMountedInstance();
     instance.componentDidMount();
-    expect(getMailingAddress.callCount).to.equal(1);
+    expect(props.getMailingAddress.callCount).to.equal(1);
   });
 
   it('fetches benefit summary options after mounting', () => {
-    const getBenefitSummaryOptions = sinon.spy();
-    const props = { ...defaultProps, getBenefitSummaryOptions };
+    const props = { ...defaultProps, getBenefitSummaryOptions: sinon.spy() };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const instance = tree.getMountedInstance();
     instance.componentDidMount();
-    expect(getBenefitSummaryOptions.callCount).to.equal(1);
+    expect(props.getBenefitSummaryOptions.callCount).to.equal(1);
   });
 
   it('fetches country list after mounting', () => {
-    const getAddressCountries = sinon.spy();
-    const props = { ...defaultProps, getAddressCountries };
+    const props = { ...defaultProps, getAddressCountries: sinon.spy() };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const instance = tree.getMountedInstance();
     instance.componentDidMount();
-    expect(getAddressCountries.callCount).to.equal(1);
+    expect(props.getAddressCountries.callCount).to.equal(1);
   });
 
   it('fetches state list after mounting', () => {
-    const getAddressStates = sinon.spy();
-    const props = { ...defaultProps, getAddressStates };
+    const props = { ...defaultProps, getAddressStates: sinon.spy() };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const instance = tree.getMountedInstance();
     instance.componentDidMount();
-    expect(getAddressStates.callCount).to.equal(1);
+    expect(props.getAddressStates.callCount).to.equal(1);
   });
 });
