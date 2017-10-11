@@ -92,7 +92,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
-  migrations: PropTypes.array.isRequired,
+  migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,

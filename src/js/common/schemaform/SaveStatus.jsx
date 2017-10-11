@@ -35,7 +35,7 @@ class SaveStatus extends React.Component {
         {savedStatus === SAVE_STATUSES.success && <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon"></i>Application has been saved.{savedAtMessage}
         </div>}
-        {savedStatus === SAVE_STATUSES.pending && <p className="saving">Saving...</p>}
+        {savedStatus === SAVE_STATUSES.pending && <p className="saved-form-autosaving">Saving...</p>}
         {hasError &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.clientFailure &&

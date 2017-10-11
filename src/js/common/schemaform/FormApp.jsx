@@ -116,11 +116,11 @@ class FormApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const { currentLocation } = this.props;
+    const { currentLocation, autoSavedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
 
     let message;
-    if (isInProgress(trimmedPathname)) {
+    if (autoSavedStatus !== SAVE_STATUSES.success && isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -212,6 +212,7 @@ class FormApp extends React.Component {
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
   savedStatus: state.form.savedStatus,
+  autoSavedStatus: state.form.autoSavedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
   formData: state.form.data,
