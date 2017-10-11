@@ -29,9 +29,9 @@ If you have a disability that was caused—or made worse—by your active milita
 
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
 
-- You got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice claim), **or**
-- You had an illness or injury before you joined the military—and serving made it worse (called a preservice claim), **or**
-- You have a disability related to your active-duty service that didn't appear until after you ended your service (called a postservice claim)
+- You got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice disability claim), **or**
+- You had an illness or injury before you joined the military—and serving made it worse (called a preservice disability claim), **or**
+- You have a disability related to your active-duty service that didn't appear until after you ended your service (called a postservice disability claim)
 
 ### Who’s covered?
 
