@@ -8,6 +8,7 @@ export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
 export const UPDATE_MULTIFACTOR_URL = 'UPDATE_MULTIFACTOR_URL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
 export const UPDATE_VERIFY_URL = 'UPDATE_VERIFY_URL';
+export const FETCH_LOGIN_URLS_FAILED = 'FETCH_LOGIN_URLS_FAILED';
 
 export function updateLoggedInStatus(value) {
   return {
