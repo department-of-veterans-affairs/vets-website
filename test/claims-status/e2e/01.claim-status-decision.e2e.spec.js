@@ -11,7 +11,8 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimDetailMocks(token, true, true, false, null);
 
     LoginHelpers.logIn(token, client, '/track-claims', 3)
-      .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+      .waitForElementVisible('a.claim-list-item', Timeouts.slow)
+      .axeCheck('.main');
 
     client
       .click('a.claim-list-item:first-child')

@@ -241,9 +241,9 @@ export class AddressSection extends React.Component {
     } else {
       addressFields = (
         <div>
-          <div className="letters-address">{streetAddress}</div>
-          <div className="letters-address">{cityStatePostal}</div>
-          <div className="letters-address">{country}</div>
+          <div className="letters-address street">{streetAddress}</div>
+          <div className="letters-address city-state">{cityStatePostal}</div>
+          <div className="letters-address country">{country}</div>
           {this.props.canUpdate &&
             <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
           }

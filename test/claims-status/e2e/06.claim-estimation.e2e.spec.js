@@ -24,7 +24,8 @@ module.exports = E2eHelpers.createE2eTest(
       .pause(500) // Since the link is below the fold, we must wait for the full render to finish
       .waitForElementVisible(selector, Timeouts.normal)
       .click(selector)
-      .waitForElementVisible('.claims-paragraph-header', Timeouts.normal);
+      .waitForElementVisible('.claims-paragraph-header', Timeouts.normal)
+      .axeCheck('.main');
 
     client
       .expect.element('.disability-benefits-content h1').text.to.equal('How We Come Up with Your Estimated Decision Date');

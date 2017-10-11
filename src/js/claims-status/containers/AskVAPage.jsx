@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest, getClaimDetail } from '../actions';
+import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';

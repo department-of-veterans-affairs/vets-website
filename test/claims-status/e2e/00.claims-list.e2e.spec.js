@@ -12,7 +12,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Claim is visible
     LoginHelpers.logIn(token, client, '/track-claims', 3)
       .assert.title('Track Claims: Vets.gov')
-      .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+      .waitForElementVisible('a.claim-list-item', Timeouts.slow)
+      .axeCheck('.main');
 
     // Combined claim link
     // TODO(crew): Ask someone to find out why this isn't working
