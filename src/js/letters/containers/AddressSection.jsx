@@ -27,6 +27,7 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+import { AVAILABILITY_STATUSES } from '../utils/constants';
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -291,6 +292,7 @@ function mapStateToProps(state) {
   const {
     fullName,
     address,
+    addressAvailability,
     canUpdate,
     countries,
     countriesAvailable,
