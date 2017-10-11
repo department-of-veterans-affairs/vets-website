@@ -11,7 +11,7 @@ class VeteranIDCard extends React.Component {
       <div>
         <RequiredLoginView
           authRequired={3}
-          serviceRequired="user-profile"
+          serviceRequired="id-card"
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
