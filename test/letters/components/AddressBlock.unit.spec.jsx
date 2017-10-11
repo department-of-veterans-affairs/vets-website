@@ -10,7 +10,7 @@ describe('<AddressBlock/>', () => {
     const tree = SkinDeep.shallowRender(<AddressBlock { ...defaultProps }/>);
     const helpText = tree.subTree('p').text();
 
-    expect(helpText).to.contain('A correct address is not required, but');
+    expect(helpText).to.contain('When you download a letter');
   });
 
   it('should render name', () => {

@@ -52,7 +52,8 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('.claim-older-updates').to.be.present;
     client
       .click('li.list-one')
-      .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow);
+      .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow)
+      .axeCheck('.main');
 
     // files needed
     client

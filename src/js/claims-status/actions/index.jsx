@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '../../common/helpers/environment';
 import { makeAuthRequest } from '../utils/helpers';
 
@@ -221,7 +222,7 @@ export function submitFiles(claimId, trackedItem, files) {
               });
               dispatch(setNotification({
                 title: 'We have your evidence',
-                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.`
+                body: <span>Thank you for sending us {trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.<br/>Note: It may take a few minutes for your uploaded file to show here. If you don’t see your file, please try refreshing the page.</span>
               }));
             } else {
               window.dataLayer.push({

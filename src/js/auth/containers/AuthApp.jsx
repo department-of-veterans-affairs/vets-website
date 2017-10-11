@@ -61,8 +61,11 @@ class AuthApp extends React.Component {
     const loginMethod = userData.authnContext || 'idme';
     window.dataLayer.push({ event: `login-success-${loginMethod}` });
 
+    // If LOA highest is not 3, skip identity proofing
+    // If LOA current == highest (3), skip identity proofing
+    // If LOA current < highest, attempt to identity proof
     if (userData.loa.highest === 3) {
-      if (userData.loa.current === 3 && sessionStorage.mfa_start) {
+      if (userData.loa.current === 3) {
         this.setMyToken(myToken);
       } else {
         const redirect = ({ identityProofUrl }) => {
@@ -72,7 +75,6 @@ class AuthApp extends React.Component {
           );
         };
 
-        sessionStorage.setItem('mfa_start', true);
         apiRequest('/sessions/identity_proof', this.authSettings, redirect, this.setError);
       }
     } else {
