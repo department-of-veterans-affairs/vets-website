@@ -1,7 +1,16 @@
+import startCase from 'lodash/startCase';
+
 const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const LettersHelpers = require('../e2e/letters-helpers.js');
 const LoginHelpers = require('../e2e/login-helpers');
+
+const oldAddress = LettersHelpers.address.data.attributes.address;
+const oldAddressOne = startCase(oldAddress.addressOne.toLowerCase());
+const oldAddressTwo = oldAddress.addressTwo ? `, ${startCase(oldAddress.addressTwo.toLowerCase())}` : '';
+const oldAddressThree = oldAddress.addressThree ? `, ${startCase(oldAddress.addressThree.toLowerCase())}` : '';
+const oldStreetAddress = oldAddressOne + oldAddressTwo + oldAddressThree;
+const oldCityStateZIP = `${oldAddress.militaryPostOfficeTypeCode}, ${oldAddress.militaryStateCode} ${oldAddress.zipCode}`;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -22,8 +31,8 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('h5.letters-address').text.to.contain('William Shakespeare');
 
     // Checking if address has rendered correctly
-    client.expect.element('.street').text.to.contain('57 Columbus Strassa, Ben Franklin Village');
-    client.expect.element('.city-state').text.to.contain('APO, AE 09028');
+    client.expect.element('.street').text.to.contain(oldStreetAddress);
+    client.expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
     // Update address and cancel
     client
@@ -35,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
       .clearValue('input[name="city"]')
       .fill('input[name="city"]', 'Stratford-upon-Avon')
       .click('.usa-button-outline')
-      .expect.element('.city-state').text.to.contain('APO, AE 09028');
+      .expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
     // Update address and save
     client
