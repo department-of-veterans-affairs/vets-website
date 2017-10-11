@@ -153,7 +153,7 @@
 }
 
 .communications, .status {
-  margin: 0 0 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .last-changed-label {
@@ -194,12 +194,11 @@
 .claims-container {
   padding-bottom: 3em;
 
-  h3 {
-    margin-top: 1em;
-  }
-
   .claims-container-title {
     margin-bottom: 0;
+    & + p {
+      margin-top: 0;
+    }
   }
 }
 

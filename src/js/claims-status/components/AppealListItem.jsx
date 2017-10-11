@@ -26,7 +26,7 @@ export default function AppealListItem({ appeal }) {
       <div className="last-changed-label"><strong>Last changed: </strong> {moment(lastEvent.date).format('MMM D, YYYY')}</div>
       <Link className="claim-list-item" to={`appeals/${appeal.id}/status`}>
         <h4 className="claim-list-item-header">Compensation Appeal – Received {moment(firstEvent.date).format('MMM D, YYYY')}</h4>
-        <p className="status"><span className="claim-item-label">Status:</span> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
+        <p className="status"><span className="claim-item-label">Status:</span> {appealStatusDescriptions(lastEvent, previousHistory, 'claim-list-item-text').status.title}</p>
         <div className="communications">
           {renderNextAction(lastEvent, previousHistory)}
         </div>

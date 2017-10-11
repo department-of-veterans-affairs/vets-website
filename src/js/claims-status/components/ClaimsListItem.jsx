@@ -18,13 +18,13 @@ export default function ClaimsListItem({ claim }) {
         <p className="status"><span className="claim-item-label">Status:</span> {listPhase(claim.attributes.phase)}</p>
         <div className="communications">
           {inProgress && claim.attributes.developmentLetterSent
-            ? <p><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</p>
+            ? <p className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</p>
             : null}
           {claim.attributes.decisionLetterSent
-            ? <p><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a decision letter</p>
+            ? <p className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a decision letter</p>
             : null}
           {inProgress && claim.attributes.documentsNeeded
-            ? <p><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</p>
+            ? <p className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</p>
             : null}
         </div>
         {claim.attributes.phaseChangeDate &&
