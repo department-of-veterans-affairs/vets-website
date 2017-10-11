@@ -19,7 +19,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('a.claim-list-item:first-child')
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.claim-title', Timeouts.slow);
+      .waitForElementVisible('.claim-title', Timeouts.slow)
+      .axeCheck('.main');
 
     // go to files tab
     client

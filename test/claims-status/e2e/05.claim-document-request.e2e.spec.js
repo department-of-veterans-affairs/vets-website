@@ -27,7 +27,8 @@ module.exports = E2eHelpers.createE2eTest(
     // go to document request page
     client
       .click('.file-request-list-item .usa-button')
-      .waitForElementVisible('.upload-files', Timeouts.normal);
+      .waitForElementVisible('.upload-files', Timeouts.normal)
+      .axeCheck('.main');
 
     client
       .expect.element('.upload-files button.usa-button').text.to.equal('Submit Files for Review');
