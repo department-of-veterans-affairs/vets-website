@@ -16,6 +16,7 @@ const setup = () => {
     location: {
       pathname: '/',
     },
+    addEventListener: () => {},
   };
 };
 

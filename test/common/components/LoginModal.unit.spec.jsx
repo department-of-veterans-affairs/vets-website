@@ -107,9 +107,7 @@ describe('<LoginModal>', () => {
     // Poke the button!
     ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
 
-    // Not exactly definitive tests...and possibly brittle...
-    // url called to get a new user session
-    expect(global.fetch.args[0][0]).to.contain('/v0/sessions/authn_urls');
+    expect(global.window.open.args[0][0]).to.contain('login');
     expect(global.window.open.calledOnce).to.be.true;
     expect(global.window.dataLayer).to.eql([
       { event: 'login-link-clicked' },
@@ -117,33 +115,6 @@ describe('<LoginModal>', () => {
     ]);
 
     teardown();
-  });
-
-  it('should call onUpdateLoginUrl after a login attempt', () => {
-    setup();
-    const loginSpy = sinon.spy();
-    const tree = ReactTestUtils.renderIntoDocument(
-      <LoginModal
-        user={user}
-        visible
-        onClose={onCloseSpy}
-        onUpdateLoginUrl={updateLoginSpy}
-        title="Some title"
-        onLogin={loginSpy}/>
-    );
-    const findDOM = findDOMNode(tree);
-
-    // Poke the button!
-    ReactTestUtils.Simulate.click(findDOM.querySelector('.usa-button-primary'));
-    const promise = ReactTestUtils.findRenderedComponentWithType(tree, LoginModal).loginUrlRequest;
-
-    return promise.then(() => {
-      expect(updateLoginSpy.called).to.be.true;
-      teardown();
-    }).catch((e) => {
-      teardown();
-      throw e;
-    });
   });
 
   it('should call onLogin after a successful login', () => {

@@ -6,12 +6,26 @@ import sinon from 'sinon';
 import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
 
 describe('<RequiredLoginView>', () => {
-  beforeEach(() => {
-    global.sessionStorage = { userToken: 'abcdefg' };
-  });
-
   const redirectFunc = sinon.spy();
-  global.window.location.replace = redirectFunc;
+  let oldWindow;
+
+  const initialSetup = () => {
+    oldWindow = global.window;
+    global.sessionStorage = { userToken: 'abcdefg' };
+
+    global.window = {
+      pathname: '',
+      location: {
+        replace: redirectFunc,
+      },
+    };
+  };
+  const teardown = () => {
+    global.window = oldWindow;
+  };
+
+  beforeEach(initialSetup);
+  afterEach(teardown);
 
   const anonymousUser = {
     accountType: null,
