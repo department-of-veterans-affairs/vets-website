@@ -16,17 +16,17 @@ export default function ClaimsListItem({ claim }) {
       <Link className="claim-list-item" to={`your-claims/${claim.id}/status`}>
         <h4 className="claim-list-item-header">{getClaimType(claim)} Claim – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</h4>
         <p className="status"><span className="claim-item-label">Status:</span> {listPhase(claim.attributes.phase)}</p>
-        <div className="communications">
+        <ul className="communications">
           {inProgress && claim.attributes.developmentLetterSent
-            ? <p className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</p>
+            ? <li className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</p>
             : null}
           {claim.attributes.decisionLetterSent
-            ? <p className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a decision letter</p>
+            ? <li className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a decision letter</p>
             : null}
           {inProgress && claim.attributes.documentsNeeded
-            ? <p className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</p>
+            ? <li className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</p>
             : null}
-        </div>
+        </ul>
         {claim.attributes.phaseChangeDate &&
           <p className="claim-list-item-text"><span className="claim-item-label">Last update:</span> {moment(claim.attributes.phaseChangeDate).format('MMM D, YYYY')}</p>}
       </Link>

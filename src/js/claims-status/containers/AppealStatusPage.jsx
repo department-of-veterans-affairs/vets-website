@@ -25,7 +25,7 @@ class AppealStatusPage extends React.Component {
   }
 
   renderStatusNextAction(lastEvent, previousHistory) {
-    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory, 'next-action-text');
+    const { nextAction } = appealStatusDescriptions(lastEvent, previousHistory);
     const className = `next-action ${lastEvent.type}`;
 
     if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {

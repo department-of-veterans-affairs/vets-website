@@ -19,7 +19,7 @@ export default class AppealEventItem extends React.Component {
 
   render() {
     const { event } = this.props;
-    const { status } = appealStatusDescriptions(event, [], 'event-description-text');
+    const { status } = appealStatusDescriptions(event);
 
     const expandIconClass = classNames({
       'fa claims-status-icon event-header-icon': true,
