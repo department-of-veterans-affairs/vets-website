@@ -6,6 +6,7 @@ import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { gaClientId } from '../../common/utils/helpers';
 import { updateLoggedInStatus } from '../../login/actions';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -94,13 +95,7 @@ class AuthApp extends React.Component {
         </div>
       );
     } else {
-      view = (
-        <div className="overlay">
-          <div className="overlay-content">
-            <h3>Signing in to Vets.gov...</h3>
-          </div>
-        </div>
-      );
+      view = <LoadingIndicator message="Signing in to Vets.gov..."/>;
     }
 
     return (

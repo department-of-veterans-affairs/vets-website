@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '../../common/components/Modal';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { formatDate } from '../utils/helpers';
 
 class ConfirmRefillModal extends React.Component {
@@ -25,13 +24,10 @@ class ConfirmRefillModal extends React.Component {
     // Initialize to prevent console errors
     let innerElement = '';
 
-    if (this.props.isLoading) {
-      innerElement = (
-        <LoadingIndicator
-          message="Submitting your refill request..."/>
-      );
-    } else if (this.props.prescription) {
+    if (this.props.prescription) {
       const prescription = this.props.prescription;
+      const spinnerIcon = this.props.isLoading && <i className="fa fa-spin fa-spinner"/>;
+
       innerElement = (
         <form onSubmit={this.handleConfirmRefill}>
           <div className="rx-modal-refillinfo">
@@ -49,7 +45,7 @@ class ConfirmRefillModal extends React.Component {
               <strong>Last submit date:</strong> {formatDate(prescription.refillSubmitDate)}
             </div>
             <div className="va-modal-button-group cf">
-              <button type="submit">Order refill</button>
+              <button type="submit" disabled={this.props.isLoading}>{spinnerIcon} Order refill</button>
               <button type="button" className="usa-button-outline"
                 onClick={this.handleCloseModal}>Cancel</button>
             </div>

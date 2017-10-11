@@ -98,10 +98,6 @@ export class Main extends React.Component {
       return <LoadingIndicator message="Saving your message..."/>;
     }
 
-    if (loading.sendingMessage) {
-      return <LoadingIndicator message="Sending your message..."/>;
-    }
-
     const navClass = classNames({
       opened: this.props.nav.visible
     });
