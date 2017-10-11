@@ -1,54 +1,74 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
+import sinon from 'sinon';
 
 import { Main } from '../../../src/js/letters/containers/Main';
 
+const getBenefitSummaryOptionsSpy = sinon.spy();
+const getLetterListSpy = sinon.spy();
+const getMailingAddressSpy = sinon.spy();
+const getAddressCountriesSpy = sinon.spy();
+const getAddressStateSpy = sinon.spy();
+
 const defaultProps = {
+  letters: { },
+  destination: { },
   lettersAvailability: 'available',
-  letters: { }
+  benefitSummaryOptions: {
+    benefitInfo: '',
+    serviceInfo: '',
+  },
+  optionsAvailable: {},
+  getBenefitSummaryOptions: getBenefitSummaryOptionsSpy,
+  getLetterList: getLetterListSpy,
+  getMailingAddress: getMailingAddressSpy,
+  getAddressCountries: getAddressCountriesSpy,
+  getAddressStates: getAddressStateSpy
 };
 
 describe('<Main>', () => {
-  it('should render', () => {
+  it('renders', () => {
     const tree = SkinDeep.shallowRender(<Main {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should not show loading spinner when letters are available', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'available' });
+  it('renders its children when letters are available', () => {
+    const testText = 'test child component';
+    const children = (<span>{testText}</span>);
+    const props = { ...defaultProps, children };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('LoadingIndicator')).to.be.false;
+    const childText = tree.subTree('span').text();
+    expect(childText).to.equal(testText);
   });
 
-  it('should show loading spinner when waiting for response', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'awaitingResponse' });
+  it('shows a loading spinner when waiting for response', () => {
+    const props = { ...defaultProps, lettersAvailability: 'awaitingResponse' };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
-  it('should show system down message for backend service error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'backendServiceError' });
+  it('shows a system down message for backend service error', () => {
+    const props = { ...defaultProps, lettersAvailability: 'backendServiceError' };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
 
   it('should show backend authentication error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'backendAuthenticationError' });
+    const props = { ...defaultProps, lettersAvailability: 'backendAuthenticationError' };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
 
   it('should show system down message for invalid address error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'invalidAddressProperty' });
+    const props = { ...defaultProps, lettersAvailability: 'invalidAddressProperty' };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
 
   it('should show letters unavailable message when service is unavailable', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'unavailable' });
+    const props = { ...defaultProps, lettersAvailability: 'unavailable' };
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#lettersUnavailable')).to.be.ok;
   });
