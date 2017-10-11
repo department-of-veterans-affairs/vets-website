@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
   getStateName,
@@ -14,7 +15,7 @@ import {
   invalidAddressProperty,
   inferAddressType,
   resetDisallowedAddressFields
-} from '../utils/helpers.jsx';
+} from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
@@ -26,14 +27,6 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
-
-const fieldValidations = {
-  addressOne: addressOneValidations,
-  zipCode: postalCodeValidations,
-  stateCode: stateValidations,
-  countryName: countryValidations,
-  city: cityValidations
-};
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -76,7 +69,7 @@ export class AddressSection extends React.Component {
    *                                         error message. If not, return undefined.
    */
   validateField = (fieldName, fullAddress) => {
-    const validations = fieldValidations[fieldName];
+    const validations = AddressSection.fieldValidations[fieldName];
     // If there is no validations array for that field, assume it has no validations
     if (!validations) {
       return undefined;
@@ -112,7 +105,7 @@ export class AddressSection extends React.Component {
    */
   validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
     const errorMessages = {};
-    Object.keys(fieldValidations).forEach((fieldName) => {
+    Object.keys(AddressSection.fieldValidations).forEach((fieldName) => {
       // Only validate the field if it's been modified
       if (fieldsToValidate[fieldName] || shouldValidateAll) {
         errorMessages[fieldName] = this.validateField(fieldName, address);
@@ -239,12 +232,18 @@ export class AddressSection extends React.Component {
           <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
+    } else if (this.props.savePending) {
+      addressFields = (
+        <div>
+          <LoadingIndicator message="Updating your address..."/>
+        </div>
+      );
     } else {
       addressFields = (
         <div>
-          <div className="letters-address">{streetAddress}</div>
-          <div className="letters-address">{cityStatePostal}</div>
-          <div className="letters-address">{country}</div>
+          <div className="letters-address street">{streetAddress}</div>
+          <div className="letters-address city-state">{cityStatePostal}</div>
+          <div className="letters-address country">{country}</div>
           {this.props.canUpdate &&
             <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
           }
@@ -274,17 +273,38 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return addressContent;
+    return <div>{addressContent}</div>;
   }
 }
 
+// For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
+AddressSection.fieldValidations = {
+  addressOne: addressOneValidations,
+  zipCode: postalCodeValidations,
+  stateCode: stateValidations,
+  countryName: countryValidations,
+  city: cityValidations
+};
+
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable, saveAddressError } = state.letters;
+  const {
+    fullName,
+    address,
+    canUpdate,
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable,
+    saveAddressError,
+    savePending
+  } = state.letters;
+
   return {
     recipientName: fullName,
     canUpdate,
     savedAddress: address,
     saveAddressError,
+    savePending,
     countries,
     countriesAvailable,
     states,

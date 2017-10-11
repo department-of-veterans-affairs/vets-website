@@ -39,6 +39,6 @@ describe('<AddressContent/>', () => {
     const addressHelpText = addressBlock.subTree('p').text();
 
     expect(addressBlock).to.exist;
-    expect(addressHelpText).to.contain('A correct address is not required');
+    expect(addressHelpText).to.contain('When you download a letter');
   });
 });

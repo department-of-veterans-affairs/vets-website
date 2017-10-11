@@ -14,7 +14,7 @@ export default class ClaimsTimeline extends React.Component {
     const activityByPhase = groupTimelineActivity(events);
 
     return (
-      <ol className="process form-process disability-benefits-timeline">
+      <ol className="process form-process claim-timeline">
         <ClaimPhase phase={1} current={userPhase} activity={activityByPhase} id={id}/>
         <ClaimPhase phase={2} current={userPhase} activity={activityByPhase} id={id}>
           <p>Your claim has been assigned to a reviewer who is determining if additional information is needed.</p>

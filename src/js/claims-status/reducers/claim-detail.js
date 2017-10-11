@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import {
   GET_CLAIM_DETAIL,
   SET_CLAIM_DETAIL,
-} from '../actions';
+} from '../actions/index.jsx';
 
 const initialState = {
   detail: null,

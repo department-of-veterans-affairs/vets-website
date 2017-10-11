@@ -23,7 +23,7 @@ import {
   getClaimDetail,
   setFieldsDirty,
   clearNotification
-} from '../actions';
+} from '../actions/index.jsx';
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
