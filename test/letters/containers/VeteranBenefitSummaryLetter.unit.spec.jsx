@@ -25,7 +25,8 @@ const defaultProps = {
   },
   isVeteran: true,
   optionsAvailable: true,
-  requestOptions: {}
+  requestOptions: {},
+  updateBenefitSummaryRequestOption: () => {}
 };
 
 describe('<VeteranBenefitSummaryLetter>', () => {
@@ -46,15 +47,10 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
   it('should show service info options', () => {
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
-    expect(tree.dive(['div', 'div', '#militaryService'])).not.to.be.empty;
+    expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
   it('should update request option when checked', () => {
-    const oldWindow = global.window;
-    global.window = {
-      dataLayer: [],
-    };
-
     const updateOption = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
@@ -77,7 +73,40 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     });
 
     expect(updateOption.calledTwice).to.be.true;
-    global.window = oldWindow;
+  });
+
+  it('pushes toggled options to the global window dataLayer', () => {
+    const oldWindow = { ...global.window };
+    global.window = {
+      dataLayer: [],
+    };
+
+    expect(global.window.dataLayer.length).to.equal(0);
+
+    const component = ReactTestUtils.renderIntoDocument(
+      <VeteranBenefitSummaryLetter {...defaultProps}/>
+    );
+
+    const formDOM = findDOMNode(component);
+    const inputs = formDOM.querySelectorAll('input');
+
+    ReactTestUtils.Simulate.change(inputs[0], {
+      target: {
+        id: 0,
+        checked: false
+      }
+    });
+
+    const expectedValue = {
+      event: 'letter-benefit-option-clicked',
+      'letter-benefit-option': 0,
+      'letter-benefit-option-status': 'unchecked'
+    };
+
+    expect(global.window.dataLayer.length).to.equal(1);
+    expect(global.window.dataLayer[0]).to.eql(expectedValue);
+
+    global.window = { ...oldWindow };
   });
 
   it('Does not render dependent options for veterans', () => {
