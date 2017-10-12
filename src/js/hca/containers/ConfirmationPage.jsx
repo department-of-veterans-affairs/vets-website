@@ -26,23 +26,31 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <div className="usa-width-one-sixth medium-2 columns">
-          <i className="fa fa-check-circle hca-success-icon"></i>
+        <h3 className="confirmation-page-title">Claim received</h3>
+        <p>We usually process claims within <strong>a week</strong>.</p>
+        <p>
+          We may contact you for more information or documents.<br/>
+          <i>Please print this page for your records.</i>
+        </p>
+        <div className="inset">
+          <h4>Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
+          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+
+          <ul className="claim-list">
+            <li>
+              <strong>Date received</strong><br/>
+              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+            </li>
+            <li>
+              <strong>Confirmation number</strong><br/>
+              <span>{response.confirmationNumber}</span>
+            </li>
+            <li>
+              <strong>Your claim was sent to</strong><br/>
+              <address className="schemaform-address-view">{response.regionalOffice}</address>
+            </li>
+          </ul>
         </div>
-        <div className="usa-width-five-sixths medium-10 columns">
-          <h4 className="success-copy">You have successfully submitted your application for health care.</h4>
-        </div>
-        <div>
-          <p>
-            We are processing your application.<br/>
-            The Department of Veterans Affairs will contact you when we finish our review.<br/>
-            <i>Please print this page for your records.</i>
-          </p>
-          {time &&
-            <div className="success-alert-box">
-              <p className="success-copy">Form submitted: {moment(time).format('MMMM D, YYYY, h:mm a')}</p>
-            </div>
-          }
           <div className="confirmation-guidance-container">
             <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
             <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
