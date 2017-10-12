@@ -8,7 +8,7 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 import { itemsNeedingAttentionFromVet, getClaimType, getCompletedDate } from '../utils/helpers';
 
-import { clearNotification } from '../actions';
+import { clearNotification } from '../actions/index.jsx';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {

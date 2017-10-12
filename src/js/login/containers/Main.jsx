@@ -73,7 +73,7 @@ class Main extends React.Component {
   }
 
   getLoginUrls() {
-    this.loginUrlRequest = getLoginUrls(this.props.updateLogInUrls);
+    this.loginUrlRequest = this.props.getLoginUrls();
   }
 
   getLogoutUrl() {
@@ -122,13 +122,13 @@ class Main extends React.Component {
     const myLoginUrl = this.props.login.loginUrls.idme;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
-      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      const receiver = window.open(`${myLoginUrl}&op=signup`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }
 
   handleLogin(loginUrl = 'idme') {
-    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.onUpdateLoginUrl);
+    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.updateLogInUrls);
   }
 
   checkTokenStatus() {
@@ -155,24 +155,44 @@ class Main extends React.Component {
     window.dataLayer.push({ event: 'login-modal-closed' });
   }
 
-  render() {
+  renderModalContent() {
     const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
 
+    if (this.props.login.loginUrls) {
+      return (<Signin
+        onLoggedIn={() => this.props.toggleLoginModal(false)}
+        currentlyLoggedIn={currentlyLoggedIn}
+        handleSignup={this.handleSignup}
+        handleLogin={this.handleLogin}/>);
+    }
+
+    if (this.props.login.loginUrlsError) {
+      return (
+        <div>
+          <br/>
+          <h3>Something went wrong on our end</h3>
+          <p>Please refresh this page or try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).</p>
+        </div>
+      );
+    }
+
+    return <LoadingIndicator message="Loading the application..."/>;
+  }
+
+  render() {
     switch (this.props.renderType) {
       case 'navComponent': {
-        const modalContent = !this.props.login.loginUrls ?
-          (<LoadingIndicator message="Loading the application..."/>) :
-          (<Signin
-            onLoggedIn={() => this.props.toggleLoginModal(false)}
-            currentlyLoggedIn={currentlyLoggedIn}
-            handleSignup={this.handleSignup}
-            handleLogin={this.handleLogin}/>);
-
         return (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
-            <Modal cssClass="va-modal-large" visible={this.props.login.showModal} onClose={this.handleCloseModal} id="signin-signup-modal" title="Sign in to Vets.gov">
-              {modalContent}
+            <Modal
+              cssClass="va-modal-large"
+              visible={this.props.login.showModal}
+              focusSelector="button"
+              onClose={this.handleCloseModal}
+              id="signin-signup-modal"
+              title="Sign in to Vets.gov">
+              {this.renderModalContent()}
             </Modal>
           </div>
         );
@@ -201,6 +221,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getLoginUrls: () => {
+      getLoginUrls(dispatch);
+    },
     updateLogInUrls: (update) => {
       dispatch(updateLogInUrls(update));
     },

@@ -422,7 +422,12 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^/education/apply-for-education-benefits/application/1990[eE](.*)', to: '/education/apply-for-education-benefits/application/1990E/' },
+        { from: '^/education/apply-for-education-benefits/application/1990[nN](.*)', to: '/education/apply-for-education-benefits/application/1990N/' },
+        { from: '^/education/apply-for-education-benefits/application/1990(.*)', to: '/education/apply-for-education-benefits/application/1990/' },
+        { from: '^/education/apply-for-education-benefits/application/1995(.*)', to: '/education/apply-for-education-benefits/application/1995/' },
+        { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
+        { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },

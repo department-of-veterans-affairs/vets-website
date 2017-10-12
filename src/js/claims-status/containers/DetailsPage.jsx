@@ -37,29 +37,21 @@ class DetailsPage extends React.Component {
     if (!loading) {
       content = (
         <dl className="claim-details">
-          <div className="claim-detail-row">
-            <dt className="claim-detail-label">Claim Type</dt>
-            <dd>{claim.attributes.claimType || 'Not Available'}</dd>
-          </div>
-          <div className="claim-detail-row">
-            <dt className="claim-detail-label">What you’ve claimed</dt>
-            <dd>{claim.attributes.contentionList && claim.attributes.contentionList.length
-              ? <ul className="claim-detail-list">{
-                claim.attributes.contentionList.map((contention, index) =>
-                  <li key={index} className="claim-detail-list-item">{contention}</li>
-                )}
-              </ul>
-              : 'Not Available'
-            }</dd>
-          </div>
-          <div className="claim-detail-row">
-            <dt className="claim-detail-label">Date Received</dt>
-            <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
-          </div>
-          <div className="claim-detail-row">
-            <dt className="claim-detail-label">Your Representative for VA Claims</dt>
-            <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
-          </div>
+          <dt className="claim-detail-label">Claim Type</dt>
+          <dd>{claim.attributes.claimType || 'Not Available'}</dd>
+          <dt className="claim-detail-label">What you’ve claimed</dt>
+          <dd>{claim.attributes.contentionList && claim.attributes.contentionList.length
+            ? <ul className="claim-detail-list">{
+              claim.attributes.contentionList.map((contention, index) =>
+                <li key={index} className="claim-detail-list-item">{contention}</li>
+              )}
+            </ul>
+            : 'Not Available'
+          }</dd>
+          <dt className="claim-detail-label">Date Received</dt>
+          <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
+          <dt className="claim-detail-label">Your Representative for VA Claims</dt>
+          <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
         </dl>
       );
     }

@@ -7,15 +7,10 @@ import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 export class DownloadLetterLink extends React.Component {
-  constructor(props) {
-    super(props);
-    this.downloadLetter = this.downloadLetter.bind(this);
-  }
-
   // Either download the pdf or open it in a new window, depending on the
   // browser. Needs to be manually tested on a variety of
   // vets.gov-supported platforms, particularly iOS/Safari
-  downloadLetter(e) {
+  downloadLetter = (e) => {
     e.preventDefault();
     window.dataLayer.push({
       event: 'letter-download',

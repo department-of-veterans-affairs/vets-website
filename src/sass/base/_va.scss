@@ -781,7 +781,7 @@ li {
 }
 
 [class^=va-wip] {
-  padding: .576rem 1.08rem;
+  padding: .576rem 0;
   font-size: 0.8em;
   font-weight: 400;
 
@@ -829,7 +829,7 @@ li {
 
   &-inner {
     margin: auto;
-    max-width: 97rem;
+    max-width: 97.5rem;
     position: relative;
   }
 
@@ -866,7 +866,7 @@ li {
 
   @include media($medium-large-screen) {
     .usa-grid {
-      padding-left: 2rem;
+      padding-left: 0.9375rem;
       padding-right: 2rem;
     }
   }
@@ -1146,6 +1146,7 @@ li {
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
+  padding-left: 0.9375rem;
 
   p {
     font-size: 1.28rem;
@@ -1346,42 +1347,6 @@ pre[class*="language-"]  {
 .va-flex--stretch {
   -webkit-align-items: stretch;
   align-items: stretch;
-}
-
-.sticky-action-box--container {
-  position: relative;
-}
-
-.sticky-action-box {
-  background-color: $color-gray-lightest;
-  padding: 1.5rem;
-  z-index: 1;
-
-  a {
-    margin-right: 0;
-  }
-
-  .show-for-large-up & {
-    position: absolute;
-    right: 0;
-    top: 30px;
-    width: 22rem;
-  }
-
-  .hide-for-large-up & {
-    width: calc(100% + 0.9375rem + 0.9375rem);
-    margin-left: -0.9375rem;
-  }
-
-  #content & p,
-  #content & h3 {
-    padding: 0;
-    margin: 0;
-  }
-
-  p.small {
-    font-size: 1em;
-  }
 }
 
 .react-container {

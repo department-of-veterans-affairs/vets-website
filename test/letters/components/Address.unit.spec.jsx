@@ -142,4 +142,46 @@ describe('<Address>', () => {
       expect(errors).to.contain(message);
     });
   });
+
+  it('should show state name for domestic addresses', () => {
+    // default is domestic
+    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const tree = getFormDOM(component);
+
+    // Get the text that's actually displaying for the selected option
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    expect(stateName).to.equal('Massachusetts');
+  });
+
+  // This is functionally the same as the above...
+  it('should show military state code text for military address', () => {
+    const props = cloneDeep(defaultProps);
+    props.address.stateCode = 'AA';
+
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const tree = getFormDOM(component);
+
+    // Get the text that's actually displaying for the selected option
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    expect(stateName).to.equal('Armed Forces Americas (AA)');
+  });
+
+  it('should should show only city for international addresses', () => {
+    const props = cloneDeep(defaultProps);
+    // Okay, so what we _really_ care about is the country being !== 'USA' because
+    //  the type can be military (with country === 'USA') and we still want to show
+    //  the state and zip fields.
+    props.address.countryName = 'Elsweyre';
+
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const tree = getFormDOM(component);
+
+    // Make sure we have as many fields as we expect...
+    expect(tree.querySelectorAll('input, select').length).to.equal(5);
+
+    // ...and that they don't include what they shouldn't
+    // When the element isn't found, it'll throw an error
+    expect(() => tree.getElement('[name="state"]')).to.throw();
+    expect(() => tree.getElement('[name="postalCode"]')).to.throw();
+  });
 });
