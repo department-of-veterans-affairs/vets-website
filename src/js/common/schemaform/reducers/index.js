@@ -208,7 +208,14 @@ export default function createSchemaFormReducer(formConfig) {
           const formData = _.merge(state.data, action.data.formData);
           const loadedData = _.set('formData', formData, action.data);
           newState = _.set('loadedData', loadedData, state);
-          newState.prefillStatus = PREFILL_STATUSES.success;
+
+          // We get an empty object back when we attempt to prefill and there's
+          // no information
+          if (Object.keys(action.data.formData).length > 0) {
+            newState.prefillStatus = PREFILL_STATUSES.success;
+          } else {
+            newState.prefillStatus = PREFILL_STATUSES.unfilled;
+          }
         } else {
           newState = _.set('loadedData', action.data, state);
           newState.prefillStatus = PREFILL_STATUSES.notAttempted;
