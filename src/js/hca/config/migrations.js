@@ -55,14 +55,12 @@ export default [
   // and not just children anymore
   ({ formData, metadata }) => {
     const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
 
     if (url === '/household-information/child-information') {
-      return {
-        formData,
-        metadata: _.set('returnUrl', '/household-information/dependent-information', metadata)
-      };
+      newMetadata = _.set('returnUrl', '/household-information/dependent-information', metadata);
     }
 
-    return { formData, metadata };
+    return { formData, newMetadata };
   }
 ];
