@@ -253,6 +253,12 @@
   padding: 0 1em 1em 0;
 }
 
+.last-status-text {
+  h5 + & {
+    margin-top: 0;
+  }
+}
+
 .content {
   position: relative;
   padding-left: 3.25rem;
