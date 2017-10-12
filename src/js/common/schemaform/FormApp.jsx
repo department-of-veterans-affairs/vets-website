@@ -141,7 +141,7 @@ class FormApp extends React.Component {
       const isPrefill = props.prefillsAvailable.includes(currentForm);
       const saveEnabled = !this.props.formConfig.disableSave;
       if (saveEnabled && (isSaved || isPrefill)) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && isPrefill);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
