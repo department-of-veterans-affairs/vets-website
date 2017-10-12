@@ -8,7 +8,7 @@ order: 2
 
 <div class="va-introtext">
 
-When you file a disability claim, we review all available evidence to determine if you qualify for benefits. This includes supporting documents like service and medical treatment records, X-rays, and test results. Find out what evidence we'll need—and your options for gathering documents to support your claim.
+When you file a disability claim, we review all available evidence (supporting documents) to determine if you qualify for benefits. Find out what evidence we'll need—and what your options are for gathering documents to support your claim.
 
 </div>
 
@@ -51,15 +51,13 @@ Filing a fully developed claim may speed up the claim process and help you get y
 With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim.
 
 ##### What you’re responsible for
-You'll need to let us know about related records not held by a federal agency. These may include records from:
+You'll need to let us know about related records not held by a federal agency, and give us any information we may need in order to get them. These may include records from:
   -	State or local governments
   -	Private (non-VA) doctors and hospitals
   -	Current or former employers
 
-You'll also need to give us any information we may need in order to get other records.
-
-You may already have—or be able to easily get—some of these documents. But we'll need your permission to help you gather them. These may include:
-- Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
+We'll also need your permission to gather other evidence—even if its evidence you may have or can easily get yourself. This may include:
+- Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), **and**
 - Records from state or local governments or current or former employers
 
 ##### What we’re responsible for
