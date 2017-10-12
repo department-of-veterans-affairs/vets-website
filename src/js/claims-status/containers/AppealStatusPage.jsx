@@ -102,7 +102,7 @@ class AppealStatusPage extends React.Component {
     const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
     const lastEvent = events[0];
     const previousHistory = events.slice(1);
-    const { status } = appealStatusDescriptions(lastEvent, previousHistory, 'last-status-text');
+    const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 
     return (
       <div className="claims-container">

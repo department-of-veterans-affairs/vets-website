@@ -245,18 +245,14 @@
 }
 
 .claims-first-paragraph {
-  margin-top: 0;
+  .previous-activity-header + &, .last-status-header + & {
+    margin-top: 0;
+  }
 }
 
 .last-status {
   margin-top: 1em;
   padding: 0 1em 1em 0;
-}
-
-.last-status-text {
-  h5 + & {
-    margin-top: 0;
-  }
 }
 
 .content {
