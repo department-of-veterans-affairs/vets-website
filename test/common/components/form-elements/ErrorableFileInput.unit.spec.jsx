@@ -25,32 +25,22 @@ describe('<ErrorableFileInput>', () => {
     expect(tree.subTree('.usa-input-error-message').text()).to.equal('error message');
   });
 
-  it('onChange fires when input changes with file', () => {
+  it('onChange fires and clears input', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <ErrorableFileInput buttonText="my label" onChange={onChange}/>
     );
 
-    tree.getMountedInstance().handleChange({
+    const event = {
       target: {
-        files: [{}]
+        files: [{}],
+        value: 'asdfasdf'
       }
-    });
+    };
+
+    tree.getMountedInstance().handleChange(event);
 
     expect(onChange.called).to.be.true;
-  });
-  it('onChange does not fire if array is empty', () => {
-    const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <ErrorableFileInput buttonText="my label" onChange={onChange}/>
-    );
-
-    tree.getMountedInstance().handleChange({
-      target: {
-        files: []
-      }
-    });
-
-    expect(onChange.called).to.be.false;
+    expect(event.target.value).to.be.null;
   });
 });
