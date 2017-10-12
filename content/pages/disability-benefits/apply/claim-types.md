@@ -19,19 +19,13 @@ relatedlinks:
 
 Find out when you can first file a claim for service-connected benefits—and what to do if you want to request more benefits or have new evidence to support a claim we denied in the past.
 
-**Jump to a section:**</br>
-[Can I file a claim while I'm on active duty?](#claim-active)</br>
-[Can I file a claim after I leave the military?](#claim-afterseparation)</br>
-[What if I have special needs linked to my service-connected disability?](#claim-special)</br>
-[What if my disability claim was denied, but I have new evidence to support my claim?](#claim-reopened)</br>
-[What if I'm already getting disability benefits, but think I should get more?](#claim-new)</br>
-[What if I develop a new (secondary) disability that's linked to a service-connected disability I already have?](#claim-secondary)
+</div>
 
-<br>
-
-<spand id="claim-active">
-
-### Can I file a claim while I'm on active duty?
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Can I file a claim while I'm on active duty?</button>
+<div id="claim-active-duty" class="usa-accordion-content">
 
 Yes. You can file a claim up to 180 days before leaving the service. We refer to this first claim as your original claim.
 
@@ -39,11 +33,14 @@ Yes. You can file a claim up to 180 days before leaving the service. We refer to
 
 - **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file prior to discharge, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
-<br>
+</div>
+</li>
 
-<spand id="claim-afterseparation">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-after-separation">Can I file a claim after I leave the military?</button>
+<div id="claim-after-separation" class="usa-accordion-content">
 
-### Can I file a claim after I leave the military?
+<spand id="claim-after-separation">
 
 Yes. There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
 
@@ -55,11 +52,12 @@ Learn more about disabilities that may be related to your active-duty service, b
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
 
-<br>
+</div>
+</li>
 
-<spand id="claim-special">
-  
-### What if I have special needs linked to my service-connected disability?
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-after-separation">What if I have special needs linked to my service-connected disability?</button>
+<div id="claim-after-separation" class="usa-accordion-content">
 
 You can file a special claim to request compensation for special needs. These can include needs such as:
 - A specially equipped vehicle if your service-connected disability prevents you from driving, **or**
@@ -70,11 +68,12 @@ You can file a special claim to request compensation for special needs. These ca
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
 
-<br>
+</div>
+</li>
 
-<spand id="claim-reopened">
-
-### What if my disability claim was denied, but I have new evidence to support my claim?
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new-evidence">What if my disability claim was denied, but I have new evidence to support my claim?</button>
+<div id="claim-new-evidence" class="usa-accordion-content">
 
 You can file a reopened claim if all of these are true:
 - We denied your claim at least 1 or more years ago, **and**
@@ -85,11 +84,12 @@ For example, you might file a reopened claim if you were treated for pain in you
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
 
-<br>
+</div>
+</li>
 
-<spand id="claim-new">
-
-### What if I'm already getting disability benefits, but think I should get more?
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">What if I'm already getting disability benefits, but think I should get more?</button>
+<div id="claim-more-benefits" class="usa-accordion-content">
 
 You can file a new claim to request:
 - More financial support
@@ -98,11 +98,12 @@ You can file a new claim to request:
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
 
-<br>
+</div>
+</li>
 
-<spand id="claim-secondary">
-
-### What if I develop a new (secondary) disability that's linked to a service-connected disability I already have?
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">What if I develop a new (secondary) disability that's linked to a service-connected disability I already have?</button>
+<div id="claim-secondary" class="usa-accordion-content">
 
 You can file a secondary claim to get more disability benefits for the secondary disability. 
 
@@ -111,3 +112,6 @@ For example, you might file a secondary claim if you:
 - Develop heart disease that's caused by caused by the high blood pressure you were diagnosed with while on active duty and that we'd previously concluded was connected to your service
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a></br>
+
+</div>
+</li>
