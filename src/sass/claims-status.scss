@@ -192,7 +192,13 @@
 }
 
 .claims-container {
-  padding-bottom: 3em;
+  &:not(:first-child) {
+    padding: 1em 0 3em;
+  }
+
+  &:first-child {
+    padding-bottom: 3em;
+  }
 
   .claims-container-title {
     margin-bottom: 0;
