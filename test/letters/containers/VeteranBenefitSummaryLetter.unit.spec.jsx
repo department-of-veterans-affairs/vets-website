@@ -8,11 +8,6 @@ import _ from 'lodash/fp';
 
 import { VeteranBenefitSummaryLetter } from '../../../src/js/letters/containers/VeteranBenefitSummaryLetter';
 
-import reducer from '../../../src/js/letters/reducers/index.js';
-import createCommonStore from '../../../src/js/common/store';
-
-const store = createCommonStore(reducer);
-
 const defaultProps = {
   benefitSummaryOptions: {
     benefitInfo: {
@@ -34,14 +29,13 @@ const defaultProps = {
 };
 
 describe('<VeteranBenefitSummaryLetter>', () => {
-  it('should render', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
+  it('renders', () => {
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
+    expect(tree.type).to.equal('div');
   });
 
   it('should show benefit info options', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     const rows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     expect(rows[0].dive(['th', 'input'])).not.to.be.empty;
     expect(rows[0].dive(['td', '#hasAdaptedHousingLabel'])).not.to.be.empty;
@@ -51,7 +45,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('should show service info options', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     expect(tree.dive(['div', 'div', '#militaryService'])).not.to.be.empty;
   });
 
@@ -64,7 +58,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const updateOption = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
-      <VeteranBenefitSummaryLetter store={store} {...props}/>
+      <VeteranBenefitSummaryLetter {...props}/>
     );
 
     const formDOM = findDOMNode(component);
@@ -87,7 +81,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('Does not render dependent options for veterans', () => {
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     benefitInfoRows.forEach((row) => {
       expect(() => row.dive(['td', '#hasDeathResultOfDisability'])).to.throw();
@@ -96,7 +90,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
   it('Does not render veteran options for dependents', () => {
     const dependentProps = { isVeteran: false, ...defaultProps };
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter store={store} {...dependentProps}/>);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...dependentProps}/>);
     const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     benefitInfoRows.forEach((row) => {
       expect(() => row.dive(['td', '#hasServiceConnectedDisabilities'])).to.throw();
