@@ -14,7 +14,12 @@ class ErrorableFileInput extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onChange(domEvent.target.files);
+    const files = domEvent.target.files;
+    // occasionally it seems like this event is triggering with an
+    // empty array, which is not helpful
+    if (files.length) {
+      this.props.onChange(files);
+    }
   }
 
   render() {
