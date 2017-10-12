@@ -2,12 +2,40 @@ import { expect } from 'chai';
 
 import lettersReducer from '../../../src/js/letters/reducers';
 
+import {
+  AVAILABILITY_STATUSES,
+  BACKEND_AUTHENTICATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  DOWNLOAD_STATUSES,
+  GET_ADDRESS_FAILURE,
+  GET_ADDRESS_SUCCESS,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTERS_FAILURE,
+  GET_LETTERS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
+  GET_LETTER_PDF_SUCCESS,
+  GET_LETTER_PDF_FAILURE,
+  INVALID_ADDRESS_PROPERTY,
+  LETTER_ELIGIBILITY_ERROR,
+  LETTER_TYPES,
+  REQUEST_OPTIONS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_FAILURE,
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+} from '../../../src/js/letters/utils/constants';
+
 const initialState = {
   letters: [],
   address: {},
   countries: [],
   states: [],
-  lettersAvailability: 'awaitingResponse',
+  lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   benefitInfo: {},
   serviceInfo: [],
   optionsAvailable: false,
@@ -38,7 +66,7 @@ describe('letters reducer', () => {
   it('should handle failure to fetch letters', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'GET_LETTERS_FAILURE' }
+      { type: GET_LETTERS_FAILURE }
     );
 
     expect(state.letters).to.be.empty;
@@ -48,7 +76,7 @@ describe('letters reducer', () => {
   it('should handle backend service error', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'BACKEND_SERVICE_ERROR' }
+      { type: BACKEND_SERVICE_ERROR }
     );
 
     expect(state.letters).to.be.empty;
@@ -58,7 +86,7 @@ describe('letters reducer', () => {
   it('should handle backend authentication error', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'BACKEND_AUTHENTICATION_ERROR' }
+      { type: BACKEND_AUTHENTICATION_ERROR }
     );
 
     expect(state.letters).to.be.empty;
@@ -68,7 +96,7 @@ describe('letters reducer', () => {
   it('should handle invalid address', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'INVALID_ADDRESS_PROPERTY' }
+      { type: INVALID_ADDRESS_PROPERTY }
     );
 
     expect(state.letters).to.be.empty;
@@ -79,13 +107,13 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_LETTERS_SUCCESS',
+        type: GET_LETTERS_SUCCESS,
         data: {
           data: {
             attributes: {
               letters: [
                 {
-                  letterType: 'commissary',
+                  letterType: LETTER_TYPES.commissary,
                   name: 'Commissary Letter'
                 }
               ]
@@ -96,13 +124,13 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
-    expect(state.lettersAvailability).to.equal('available');
+    expect(state.lettersAvailability).to.equal(LETTER_TYPES.available);
   });
 
   it('should handle failure to fetch benefit summary options', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE' }
+      { type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE }
     );
 
     expect(state.benefitInfo).to.be.empty;
@@ -114,7 +142,7 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS',
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: benefitSummaryOptionData
       }
     );
@@ -128,7 +156,7 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS',
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: benefitSummaryOptionData
       }
     );
@@ -140,7 +168,7 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_ADDRESS_SUCCESS',
+        type: GET_ADDRESS_SUCCESS,
         data: {
           data: {
             attributes: {
@@ -162,7 +190,7 @@ describe('letters reducer', () => {
   it('should handle failure to fetch the address', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'GET_ADDRESS_FAILURE' }
+      { type: GET_ADDRESS_FAILURE }
     );
 
     expect(state.address).to.be.empty;
@@ -172,7 +200,7 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_ADDRESS_COUNTRIES_SUCCESS',
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
         countries: {
           data: {
             attributes: {
@@ -189,7 +217,7 @@ describe('letters reducer', () => {
   it('should handle failure to fetch countries', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'GET_ADDRESS_COUNTRIES_FAILURE' }
+      { type: GET_ADDRESS_COUNTRIES_FAILURE }
     );
 
     expect(state.countries).to.be.empty;
@@ -199,7 +227,7 @@ describe('letters reducer', () => {
     const state = lettersReducer.letters(
       initialState,
       {
-        type: 'GET_ADDRESS_STATES_SUCCESS',
+        type: GET_ADDRESS_STATES_SUCCESS,
         states: {
           data: {
             attributes: {
@@ -216,7 +244,7 @@ describe('letters reducer', () => {
   it('should handle failure to fetch states', () => {
     const state = lettersReducer.letters(
       initialState,
-      { type: 'GET_ADDRESS_STATES_FAILURE' }
+      { type: GET_ADDRESS_STATES_FAILURE }
     );
 
     expect(state.states).to.be.empty;
