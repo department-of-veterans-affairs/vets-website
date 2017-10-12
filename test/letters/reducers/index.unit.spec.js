@@ -23,7 +23,6 @@ import {
   INVALID_ADDRESS_PROPERTY,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
-  REQUEST_OPTIONS,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
@@ -70,7 +69,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal('unavailable');
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.unavailable);
   });
 
   it('should handle backend service error', () => {
@@ -80,7 +79,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal('backendServiceError');
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.backendServiceError);
   });
 
   it('should handle backend authentication error', () => {
@@ -90,7 +89,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal('backendAuthenticationError');
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.backendAuthenticationError);
   });
 
   it('should handle invalid address', () => {
@@ -100,7 +99,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal('invalidAddressProperty');
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.invalidAddressProperty);
   });
 
   it('should handle a successful request for letters', () => {
@@ -116,7 +115,8 @@ describe('letters reducer', () => {
                   letterType: LETTER_TYPES.commissary,
                   name: 'Commissary Letter'
                 }
-              ]
+              ],
+              fullName: 'Johann Bach'
             }
           }
         }
@@ -124,7 +124,9 @@ describe('letters reducer', () => {
     );
 
     expect(state.letters[0].name).to.eql('Commissary Letter');
-    expect(state.lettersAvailability).to.equal(LETTER_TYPES.available);
+    expect(state.letterDownloadStatus[LETTER_TYPES.commissary]).to.equal(DOWNLOAD_STATUSES.pending);
+    expect(state.fullName).to.equal('Johann Bach');
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.available);
   });
 
   it('should handle failure to fetch benefit summary options', () => {
@@ -162,6 +164,7 @@ describe('letters reducer', () => {
     );
     expect(state.requestOptions.chapter35Eligibility).to.be.true;
     expect(state.requestOptions.monthlyAward).to.be.true;
+    // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
   it('should handle a successful request for the address', () => {
@@ -185,6 +188,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.address.addressOne).to.equal('2746 Main St');
+    expect(state.canUpdate).to.be.true;
   });
 
   it('should handle failure to fetch the address', () => {
@@ -194,6 +198,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.address).to.be.empty;
+    expect(state.addressAvailable).to.be.false;
   });
 
   it('should handle successful request for the countries', () => {
@@ -212,6 +217,26 @@ describe('letters reducer', () => {
     );
 
     expect(state.countries).to.contain('USA');
+    expect(state.countriesAvailable).to.be.true;
+  });
+
+  it('should handle an empty response for the countries', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: GET_ADDRESS_COUNTRIES_SUCCESS,
+        countries: {
+          data: {
+            attributes: {
+              countries: []
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.countries).to.not.contain('USA');
+    expect(state.countriesAvailable).to.be.false;
   });
 
   it('should handle failure to fetch countries', () => {
@@ -221,6 +246,7 @@ describe('letters reducer', () => {
     );
 
     expect(state.countries).to.be.empty;
+    expect(state.countriesAvailable).to.be.false;
   });
 
   it('should handle successful request for the states', () => {
@@ -239,6 +265,26 @@ describe('letters reducer', () => {
     );
 
     expect(state.states).to.contain('IL');
+    expect(state.statesAvailable).to.be.true;
+  });
+
+  it('should handle empty response for the states', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: GET_ADDRESS_STATES_SUCCESS,
+        states: {
+          data: {
+            attributes: {
+              states: []
+            }
+          }
+        }
+      }
+    );
+
+    expect(state.states).to.not.contain('IL');
+    expect(state.statesAvailable).to.be.false;
   });
 
   it('should handle failure to fetch states', () => {
@@ -248,5 +294,100 @@ describe('letters reducer', () => {
     );
 
     expect(state.states).to.be.empty;
+    expect(state.statesAvailable).to.be.false;
+  });
+
+
+  it('should handle a a letter eligibility error', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: LETTER_ELIGIBILITY_ERROR }
+    );
+
+    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.letterEligibilityError);
+  });
+
+  it('should handle updating a benefit summary request option', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+        propertyPath: 'foo',
+        value: 'bar'
+      }
+    );
+
+    expect(state.requestOptions.foo).to.equal('bar');
+  });
+
+  it('should handle downloading a pdf', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: GET_LETTER_PDF_DOWNLOADING,
+        data: 'foo' // The letter name
+      }
+    );
+
+    expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.downloading);
+  });
+
+  it('should handle successfully downloading a pdf', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: GET_LETTER_PDF_SUCCESS,
+        data: 'foo' // The letter name
+      }
+    );
+
+    expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.success);
+  });
+
+  it('should handle failing to download a pdf', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: GET_LETTER_PDF_FAILURE,
+        data: 'foo' // The letter name
+      }
+    );
+
+    expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.failure);
+  });
+
+  it('should handle save address pending', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      { type: SAVE_ADDRESS_PENDING }
+    );
+
+    expect(state.savePending).to.be.true;
+  });
+
+  it('should handle successfully saving an address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: SAVE_ADDRESS_SUCCESS,
+        address: '123 Main St'
+      }
+    );
+
+    expect(state.address).to.equal('123 Main St');
+    expect(state.savePending).to.be.false;
+  });
+
+  it('should handle failing to save an address', () => {
+    const state = lettersReducer.letters(
+      initialState,
+      {
+        type: SAVE_ADDRESS_FAILURE,
+        address: '123 Main St'
+      }
+    );
+
+    expect(state.savePending).to.be.false;
+    expect(state.saveAddressError).to.be.true;
   });
 });
