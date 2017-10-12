@@ -61,6 +61,6 @@ export default [
       newMetadata = _.set('returnUrl', '/household-information/dependent-information', metadata);
     }
 
-    return { formData, newMetadata };
+    return { formData, metadata: newMetadata };
   }
 ];
