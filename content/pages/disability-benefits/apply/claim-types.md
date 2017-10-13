@@ -29,9 +29,9 @@ Find out when you can first file a claim for service-connected benefits—and wh
 
 Yes. You can file a claim up to 180 days before leaving the service. We refer to this first claim as your original claim.
 
-- **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner. [Find out how to file a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim).
+- **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner. [Find out how to file a predischarge claim](/disability-benefits/apply/predischarge-claim).
 
-- **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file prior to discharge, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
+- **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 </div>
 </li>
@@ -44,7 +44,7 @@ Yes. You can file a claim up to 180 days before leaving the service. We refer to
 
 Yes. There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
 
-Learn more about disabilities that may be related to your active-duty service, but not appear until after you've left the military:</br>
+Learn more about disabilities that may be related to your active-duty service, but may not appear until after you've left the military:</br>
   - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
   - [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)</br>
   - [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)</br>
@@ -78,7 +78,7 @@ You can file a special claim to request compensation for special needs. These ca
 You can file a reopened claim if all of these are true:
 - We denied your claim at least 1 or more years ago, **and**
 - You didn’t file an appeal at that time, **and**
-- You have new and material evidence (new supporting documents like a doctor’s report or medical test results) that we haven’t seen before and that’s directly related to your claim
+- You have new and material evidence (new supporting documents like a doctor’s report or medical test results) that we haven’t seen before and that are directly related to your claim
 
 For example, you might file a reopened claim if you were treated for pain in your elbow while on active duty, but were denied disability benefits because your VA health exam didn't find a problem, and then 2 year's later you get an X-ray of your elbow that shows signs of arthritis (a painful swelling and sometimes wearing down of a joint). In this case, you would need to send your new exam and X-results to us as new evidence related to the claim.
 
