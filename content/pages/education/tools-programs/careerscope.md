@@ -9,7 +9,7 @@ order: 2
 
 <div class="va-introtext">
 
-Besides getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels. Use CareerScope to help you figure out the best career path when you move into civilian life. [Get started with CareerScope](https://va.careerscope.net/gibill).
+In addition to getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels. CareerScope is available to all Veterans, Servicemembers, and their dependents who are eligible for VA education benefits. Use CareerScope to help you figure out the best career path when you move into civilian life. [Get started with CareerScope](https://va.careerscope.net/gibill).
 
 </div>
 
