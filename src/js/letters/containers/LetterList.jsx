@@ -33,16 +33,23 @@ export class LetterList extends React.Component {
         content = letterContent[letter.letterType] || '';
       }
 
-      return (
-        <CollapsiblePanel
-          panelName={letterTitle}
-          key={`collapsiblePanel-${index}`}>
-          <div>{content}</div>
+      let downloadLetterLink;
+      if (this.props.optionsAvailable) {
+        downloadLetterLink = (
           <DownloadLetterLink
             letterType={letter.letterType}
             letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
             key={`download-link-${index}`}/>
+        );
+      }
+
+      return (
+        <CollapsiblePanel
+          panelName={letterTitle}
+          key={`collapsiblePanel-${index}`}>
+          <div>{content}</div>
+          <div>{downloadLetterLink}</div>
           <div>{bslHelpInstructions}</div>
         </CollapsiblePanel>
       );
@@ -104,7 +111,8 @@ function mapStateToProps(state) {
     },
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
-    letterDownloadStatus: letterState.letterDownloadStatus
+    letterDownloadStatus: letterState.letterDownloadStatus,
+    optionsAvailable: letterState.optionsAvailable
   };
 }
 
