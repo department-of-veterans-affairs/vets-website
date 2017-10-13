@@ -30,7 +30,8 @@ We require certain documents to support all claims for disability benefits. You'
 -	Medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
 </div>
 
-### Your options for gathering evidence: standard vs. fully developed claims
+### Your options for gathering evidence: <br>
+#### standard vs. fully developed claims
 
 When you file your claim, you have 2 options for gathering evidence. You can choose to file:
 
@@ -47,7 +48,7 @@ Filing a fully developed claim may speed up the claim process and help you get y
 
 <span id="claim-standard">
 
-#### More about the standard claims process
+#### Standard claims
 With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim.
 
 ##### What you’re responsible for
@@ -75,7 +76,7 @@ A Veteran filed a disability claim that included prior treatment from a private 
 
 <span id="claim-fullydeveloped">
 
-#### More about fully developed claims process
+#### Fully developed claims
 You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim.
 
 With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. This may include:
