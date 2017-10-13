@@ -256,7 +256,7 @@
 }
 
 .claims-first-paragraph {
-  .previous-activity-header + &, .last-status-header + & {
+  .event-description &, .last-status-header + & {
     margin-top: 0;
   }
 }
