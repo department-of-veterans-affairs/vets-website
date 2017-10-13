@@ -23,7 +23,8 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const time = _.get('form.submission.response.timestamp', this.props);
-console.log(response);
+    const name = this.props.form.data.veteranFullName;
+
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
@@ -39,15 +40,7 @@ console.log(response);
           <ul className="claim-list">
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
-            </li>
-            <li>
-              <strong>Confirmation number</strong><br/>
-              <span>{response.confirmationNumber}</span>
-            </li>
-            <li>
-              <strong>Your claim was sent to</strong><br/>
-              <address className="schemaform-address-view">{response.regionalOffice}</address>
+              <span>{moment(time).format('MMM D, YYYY')}</span>
             </li>
           </ul>
         </div>
