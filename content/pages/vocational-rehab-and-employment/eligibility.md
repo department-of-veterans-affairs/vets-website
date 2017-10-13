@@ -4,7 +4,6 @@ title: VR&E Eligibility
 display_title: Eligibility
 order: 1
 template: detail-page
-children: vreEligibility
 majorlinks:
   - heading: More information about VR&E benefits and services
     links:

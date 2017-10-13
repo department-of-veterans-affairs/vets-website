@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&amp;E Application Process
+order: 3
 template: detail-page
 relatedlinks:
   - heading: More information about VR&E benefits and services
@@ -10,7 +11,7 @@ relatedlinks:
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /vocational-rehab-and-employment/family-members/
       title: Family Members
-      description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits. 
+      description: If you're the family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
@@ -78,7 +79,7 @@ You may be eligible for VR&amp;E benefits and services if you're:
 
 ### What happens after I apply?
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests). 
+After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 

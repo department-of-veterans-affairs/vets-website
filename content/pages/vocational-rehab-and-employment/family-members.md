@@ -2,12 +2,13 @@
 layout: page-breadcrumbs.html
 title: Family Members
 template: detail-page
+order: 4
 relatedlinks:
   - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
-      description: Find out if our counselors can help you transition from military to college life. 
+      description: Find out if our counselors can help you transition from military to college life.
     - url: /vocational-rehab-and-employment/eligibility/
       title: Eligibility for Servicemembers and Veterans
       description: Find out if the Servicemember or Veteran in your family is eligible for VR&E benefits and services.
