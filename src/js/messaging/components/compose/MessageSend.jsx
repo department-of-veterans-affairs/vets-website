@@ -62,6 +62,7 @@ class MessageSend extends React.Component {
 
   render() {
     const isDisabled = this.props.disabled;
+    const spinnerIcon = this.props.sendingMessage && <i className="fa fa-spinner fa-spin"/>;
 
     return (
       <div className="msg-send-group">
@@ -69,7 +70,7 @@ class MessageSend extends React.Component {
           <button
             disabled={isDisabled}
             type="button"
-            onClick={this.props.onSend}>Send</button>
+            onClick={this.props.onSend}>{spinnerIcon} Send</button>
           <button
             disabled={isDisabled}
             className="usa-button-outline msg-btn-save"
@@ -94,6 +95,7 @@ MessageSend.propTypes = {
   onSave: PropTypes.func.isRequired,
   onSend: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  sendingMessage: PropTypes.bool
 };
 
 export default MessageSend;

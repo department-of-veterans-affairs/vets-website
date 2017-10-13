@@ -7,7 +7,7 @@
 }
 
 .va-crisis-panel {
-  color: $color-primary-darkest;
+//  color: $color-primary-darkest;
   list-style: none;
   margin: 0;
   top: 50%;
@@ -31,10 +31,6 @@
     }
   }
 
-  p:last-child {
-    font-size: .85em;
-  }
-
   @include media($medium-large-screen) {
     margin: auto;
     max-width: 50%;
@@ -54,29 +50,13 @@
   max-height: 100%;
   padding: 0;
 
-  a {
-    color: $color-base;
-  }
-
-  p {
-    margin: 0;
-    padding: 2.5rem;
-    font-size: 1.4rem;
-  }
-
   ul {
-    font-size: 1.7rem;
+  //  font-size: 1.7rem;
     list-style: none;
     margin: 0;
     padding: 0;
     text-align: center;
   }
-}
-.va-crisis-panel-body-title {
-  font-size: inherit;
-  padding: 1.25rem;
-  text-align: center;
-  width: 100%;
 }
 
 button.va-crisis-line-button {

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
+import AlertBox from '../../common/components/AlertBox';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 class Verify extends React.Component {
@@ -64,6 +65,11 @@ class Verify extends React.Component {
   }
 
   render() {
+    const signinMethod = {
+      dslogon: 'DS Logon',
+      mhv: 'MyHealtheVet'
+    };
+
     return (
       <main className="verify">
         <div className="container">
@@ -74,9 +80,13 @@ class Verify extends React.Component {
           </div>
           <div className="row">
             <div className="columns small-12">
+              <AlertBox
+                content={`You signed in with ${signinMethod[this.props.profile.authnContext] || 'ID.me'}`}
+                isVisible
+                status="success"/>
               <p>
                 We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
-                <a href="/faq#dbq2" target="_blank">Why does Vets.gov verify identity?</a>
+                <a href="/faq#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
               </p>
               <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
               <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest, getClaimDetail } from '../actions';
+import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -63,7 +63,7 @@ class AskVAPage extends React.Component {
                 <li>Whether you get our help to gather evidence to support your claim</li>
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
-              <div className="usa-alert usa-alert-info claims-no-icon claims-alert">
+              <div className="usa-alert usa-alert-info no-background-image claims-alert">
                 <ErrorableCheckbox
                   className="claims-alert-checkbox"
                   checked={this.state.submittedDocs}

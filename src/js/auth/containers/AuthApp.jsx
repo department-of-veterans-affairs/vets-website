@@ -6,6 +6,7 @@ import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { gaClientId } from '../../common/utils/helpers';
 import { updateLoggedInStatus } from '../../login/actions';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -61,8 +62,11 @@ class AuthApp extends React.Component {
     const loginMethod = userData.authnContext || 'idme';
     window.dataLayer.push({ event: `login-success-${loginMethod}` });
 
+    // If LOA highest is not 3, skip identity proofing
+    // If LOA current == highest (3), skip identity proofing
+    // If LOA current < highest, attempt to identity proof
     if (userData.loa.highest === 3) {
-      if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext) {
+      if (userData.loa.current === 3) {
         this.setMyToken(myToken);
       } else {
         const redirect = ({ identityProofUrl }) => {
@@ -72,7 +76,6 @@ class AuthApp extends React.Component {
           );
         };
 
-        sessionStorage.setItem('mfa_start', true);
         apiRequest('/sessions/identity_proof', this.authSettings, redirect, this.setError);
       }
     } else {
@@ -92,13 +95,7 @@ class AuthApp extends React.Component {
         </div>
       );
     } else {
-      view = (
-        <div className="overlay">
-          <div className="overlay-content">
-            <h3>Signing in to Vets.gov...</h3>
-          </div>
-        </div>
-      );
+      view = <LoadingIndicator message="Signing in to Vets.gov..."/>;
     }
 
     return (

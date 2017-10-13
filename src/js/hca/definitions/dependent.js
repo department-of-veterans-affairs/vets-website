@@ -11,19 +11,19 @@ const incomeFields = [
   'otherIncome'
 ];
 
-export const createChildSchema = (hcaSchema) => {
-  const s = _.merge(hcaSchema.definitions.child, {
+export const createDependentSchema = (hcaSchema) => {
+  const s = _.merge(hcaSchema.definitions.dependent, {
     required: [
-      'childRelation',
-      'childSocialSecurityNumber',
-      'childDateOfBirth',
-      'childBecameDependent',
-      'childEducationExpenses',
-      'childDisabledBefore18',
-      'childCohabitedLastYear'
+      'dependentRelation',
+      'socialSecurityNumber',
+      'dateOfBirth',
+      'becameDependent',
+      'dependentEducationExpenses',
+      'disabledBefore18',
+      'cohabitedLastYear'
     ],
     properties: {
-      'view:childSupportDescription': {
+      'view:dependentSupportDescription': {
         type: 'object',
         properties: {}
       }
@@ -35,59 +35,59 @@ export const createChildSchema = (hcaSchema) => {
   return s;
 };
 
-export const createChildIncomeSchema = (hcaSchema) => {
-  const child = hcaSchema.definitions.child;
-  return _.assign(child, {
-    properties: _.pick(incomeFields, child.properties),
+export const createDependentIncomeSchema = (hcaSchema) => {
+  const dependent = hcaSchema.definitions.dependent;
+  return _.assign(dependent, {
+    properties: _.pick(incomeFields, dependent.properties),
     required: incomeFields
   });
 };
 
 export const uiSchema = {
   'ui:order': [
-    'childFullName',
-    'childRelation',
-    'childSocialSecurityNumber',
+    'fullName',
+    'dependentRelation',
+    'socialSecurityNumber',
     // Put the birth date before dependent date; it’s opposite in the schema
-    'childDateOfBirth',
-    'childBecameDependent',
-    'childDisabledBefore18',
-    'childAttendedSchoolLastYear',
-    'childEducationExpenses',
-    'childCohabitedLastYear',
-    'view:childSupportDescription',
-    'childReceivedSupportLastYear'
+    'dateOfBirth',
+    'becameDependent',
+    'disabledBefore18',
+    'attendedSchoolLastYear',
+    'dependentEducationExpenses',
+    'cohabitedLastYear',
+    'view:dependentSupportDescription',
+    'receivedSupportLastYear'
   ],
-  childFullName: fullNameUI,
-  childRelation: {
+  fullName: fullNameUI,
+  dependentRelation: {
     'ui:title': 'Dependent’s relationship to you?'
   },
-  childSocialSecurityNumber: _.merge(ssnUI, {
+  socialSecurityNumber: _.merge(ssnUI, {
     'ui:title': 'Dependent’s Social Security number'
   }),
-  childDateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
-  childBecameDependent: _.assign(currentOrPastDateUI('Date they became your dependent?'), {
+  dateOfBirth: currentOrPastDateUI('Dependent’s date of birth'),
+  becameDependent: _.assign(currentOrPastDateUI('Date they became your dependent?'), {
     'ui:validations': [
       validateDependentDate
     ]
   }),
-  childDisabledBefore18: {
+  disabledBefore18: {
     'ui:title': 'Was your dependent permanently and totally disabled before the age of 18?',
     'ui:widget': 'yesNo'
   },
-  childAttendedSchoolLastYear: {
+  attendedSchoolLastYear: {
     'ui:title': 'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
     'ui:widget': 'yesNo'
   },
-  childEducationExpenses: currencyUI('Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)'),
-  childCohabitedLastYear: {
+  dependentEducationExpenses: currencyUI('Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)'),
+  cohabitedLastYear: {
     'ui:title': 'Did your dependent live with you last year?',
     'ui:widget': 'yesNo'
   },
-  'view:childSupportDescription': {
+  'view:dependentSupportDescription': {
     'ui:description': 'Please count all support contributions even if they weren’t paid in regular and set amounts. Support can include tuition or medical bill payments.'
   },
-  childReceivedSupportLastYear: {
+  receivedSupportLastYear: {
     'ui:title': 'If your dependent didn’t live with you last year, did you provide support?',
     'ui:widget': 'yesNo',
     // TODO: Fix this once the bug mentioned below is fixed
@@ -96,18 +96,18 @@ export const uiSchema = {
     'ui:options': {
       // Not being invoked until the data is changed...which means this is open
       //  by default
-      hideIf: (formData, index) => _.get(`children[${index}].childCohabitedLastYear`, formData) !== false
+      hideIf: (formData, index) => _.get(`dependents[${index}].cohabitedLastYear`, formData) !== false
     }
   },
 };
 
-export const childIncomeUiSchema = {
+export const dependentIncomeUiSchema = {
   grossIncome: currencyUI('Gross annual income from employment'),
   netIncome: currencyUI('Net income from farm, ranch, property or business'),
   otherIncome: currencyUI('Other income amount'),
   'ui:options': {
     updateSchema: (formData, schema, ui, index) => {
-      const name = _.get(`children.[${index}].childFullName`, formData);
+      const name = _.get(`dependents.[${index}].fullName`, formData);
       if (name) {
         return {
           title: `${name.first} ${name.last} income`

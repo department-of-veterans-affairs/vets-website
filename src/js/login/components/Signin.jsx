@@ -45,6 +45,8 @@ class Signin extends React.Component {
   }
 
   render() {
+    const enableMHVLogin = new URLSearchParams(window.location.search).get('mhvbeta');
+
     return (
       <main className="login">
         <div className="row">
@@ -81,6 +83,9 @@ class Signin extends React.Component {
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
+                    {enableMHVLogin && <button className="mhv" onClick={this.handleLogin('mhv')}>
+                      <img alt="MyHealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with MyHealtheVet</strong>
+                    </button>}
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
@@ -98,15 +103,15 @@ class Signin extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h2 className="hide-for-small">Manage the benefits and services you've earned. Simply and securely.</h2>
+                <h2 className="hide-for-small">One site. A lifetime of benefits and services at your fingertips.</h2>
                 <p>
-                  With Vets.gov you can:
+                  You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
                 <ul>
-                  <li>Track your VA claims and appeals</li>
-                  <li>Download your VA health record</li>
-                  <li>Refill your VA prescriptions</li>
-                  <li>And more</li>
+                  <li>Check your disability claim and appeal status</li>
+                  <li>Find out how much money you have left to pay for school or training</li>
+                  <li>Refill your prescriptions and communicate with your health care team</li>
+                  <li>...and more</li>
                 </ul>
                 <p>
                   <strong>A secure account powered by ID.me</strong><br/>

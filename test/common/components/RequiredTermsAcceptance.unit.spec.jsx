@@ -19,6 +19,7 @@ const defaultProps = {
 
 describe('<RequiredTermsAcceptanceView>', () => {
   it('should call initial actions properly', () => {
+    window.scrollTo = () => {};
     const tree = SkinDeep.shallowRender(
       <RequiredTermsAcceptanceView {...defaultProps}/>
     );

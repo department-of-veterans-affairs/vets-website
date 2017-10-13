@@ -97,7 +97,7 @@ describe('Pensions spouse marriage history', () => {
     formDOM.fillData('#root_locationOfSeparation', 'A town');
     formDOM.fillData('#root_dateOfSeparationMonth', '3');
     formDOM.fillData('#root_dateOfSeparationDay', '3');
-    formDOM.fillData('#root_dateOfSeparationYear', '2001');
+    formDOM.fillData('#root_dateOfSeparationYear', '2002');
 
     submitForm(form);
 
