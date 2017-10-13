@@ -1,37 +1,45 @@
+const path = require('path');
 const commandLineArgs = require('command-line-args');
 const Timeouts = require('../e2e/timeouts');
 const {baseUrl, createE2eTest} = require('../e2e/e2e-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
-const routes = require('./routes');
+const {sitemapURLs} = require('../e2e/sitemap-helpers');
+const screenshotDirectory = path.join(__dirname, '../../logs/visual-regression');
 
 // Define a function for saving a screenshot
-function saveScreenshot(route, screenshot){
+function saveScreenshotAsBaseline(browser, route){
+    const fileName = `${screenshotDirectory}/baseline/test.png`;
 
+    console.log(fileName)
+
+    return new Promise((resolve, reject) => browser.saveScreenshot(fileName, resolve));
 }
 
 // Define a function for calculating a diff
-function calculateScreenshotDiff(route, screenshot){
+function calculateScreenshotDiff(browser, route){
 
 }
 
-function createBeginApplication(handleScreenshot){
+function getApplication(handleRoute){
     return function beginApplication(browser) {
 
-        console.log('here we are')
+        const routesRequest = new Promise((resolve, reject) => sitemapURLs(resolve));
 
-        // step through routes map
-        // take the screenshot
-        // pass it to the handleScreenshot argument
+        return routesRequest
 
-        browser
-            .pause(15000)
-            .url(baseUrl)
-            .pause(15000)
-            .end()
+            // Call the handler function for every 
+            .then(routes => routes.slice(0,2).map(route => {
+                browser.url(route);
+                return handleRoute(browser, route);
+            }))
+
+            .then(pendingOperations => Promise.all(pendingOperations))
+            
+            .then(() => browser.end());
     }
 }
 
-function getScreenshotHandler(){
+function getRouteHandler(){
     const commands = {
         CREATE_BASELINE_IMAGES: 'baseline',
         CALCULATE_DIFFS: 'diff'
@@ -44,7 +52,7 @@ function getScreenshotHandler(){
 
     switch (command){
         case commands.CREATE_BASELINE_IMAGES:
-            return saveScreenshot;
+            return saveScreenshotAsBaseline;
 
         case commands.CALCULATE_DIFFS:
         default:
@@ -52,7 +60,7 @@ function getScreenshotHandler(){
     }
 }
 
-const screenshotHandler = getScreenshotHandler();
-const beginApplication = createBeginApplication(screenshotHandler);
+const routeHandler = getRouteHandler();
+const beginApplication = getApplication(routeHandler);
 
 module.exports = createE2eTest(beginApplication);
