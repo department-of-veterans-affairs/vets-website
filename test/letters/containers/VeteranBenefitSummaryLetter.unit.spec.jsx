@@ -60,10 +60,10 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
   it('maps each service entry to its own table row', () => {
     const navyService = [{
-      branch: 'ARMY',
+      branch: 'NAVY',
       characterOfService: 'UNCHARACTERIZED',
-      enteredDate: '1965-01-01T05:00:00.000+00:00',
-      releasedDate: '1972-10-01T04:00:00.000+00:00'
+      enteredDate: '1974-01-01T05:00:00.000+00:00',
+      releasedDate: '1976-10-01T04:00:00.000+00:00'
     }];
 
     const doubleService = defaultProps.benefitSummaryOptions.serviceInfo.concat(navyService);
@@ -86,6 +86,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       <VeteranBenefitSummaryLetter {...props}/>
     );
 
+    // sanity check
     expect(global.window.dataLayer.length).to.equal(0);
 
     const formDOM = findDOMNode(component);
@@ -108,8 +109,8 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
     const expectedDataLayer = {
       event: 'letter-benefit-option-clicked',
-      'letter-benefit-option': 'militaryService',
-      'letter-benefit-option-status': 'unchecked'
+      'letter-benefit-option': DOMid,
+      'letter-benefit-option-status': (checkedValue ? 'checked' : 'unchecked')
     };
     const firstCallArgs = updateOptionSpy.args[0];
 
@@ -130,8 +131,8 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('Does not render veteran options for dependents', () => {
-    const dependentProps = { isVeteran: false, ...defaultProps };
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...dependentProps}/>);
+    const props = _.set('isVeteran', false, defaultProps);
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
     const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     benefitInfoRows.forEach((row) => {
       expect(() => row.dive(['td', '#hasServiceConnectedDisabilities'])).to.throw();
