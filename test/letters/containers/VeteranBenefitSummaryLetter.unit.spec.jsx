@@ -51,7 +51,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('renders error and hides benefit table if options not available', () => {
-    const props = _.set('optionsAvailable', false, _.cloneDeep(defaultProps));
+    const props = _.set('optionsAvailable', false, defaultProps);
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
     const headerText = tree.dive(['.feature', 'h4']).text();
     expect(headerText).to.equal('Your VA Benefit Summary letter is currently unavailable');
@@ -67,14 +67,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     }];
 
     const doubleService = defaultProps.benefitSummaryOptions.serviceInfo.concat(navyService);
-    const props = {
-      ...defaultProps,
-      benefitSummaryOptions: {
-        ...defaultProps.benefitSummaryOptions,
-        serviceInfo: doubleService
-      }
-    };
-
+    const props = _.set('benefitSummaryOptions.serviceInfo', doubleService, defaultProps);
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
     const serviceRows = tree.dive(['#militaryServiceTable', 'tbody']).everySubTree('tr');
 
@@ -88,11 +81,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     };
 
     const updateOptionSpy = sinon.spy();
-    const props = _.set(
-      'updateBenefitSummaryRequestOption',
-      updateOptionSpy,
-      _.cloneDeep(defaultProps)
-    );
+    const props = _.set('updateBenefitSummaryRequestOption', updateOptionSpy, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
       <VeteranBenefitSummaryLetter {...props}/>
     );
