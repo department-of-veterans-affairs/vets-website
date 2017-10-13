@@ -23,7 +23,7 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const time = _.get('form.submission.response.timestamp', this.props);
-
+console.log(response);
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
@@ -51,12 +51,11 @@ export class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-          <div className="confirmation-guidance-container">
-            <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
-            <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
-            <h4 className="confirmation-guidance-heading">Need help?</h4>
-            <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-877-222-VETS (8387)</a> and press 2.</p>
-          </div>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
+          <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-877-222-VETS (8387)</a> and press 2.</p>
         </div>
       </div>
     );
