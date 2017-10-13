@@ -78,7 +78,7 @@ You can file a special claim to request compensation for special needs. These ca
 You can file a reopened claim if all of these are true:
 - We denied your claim at least 1 or more years ago, **and**
 - You didn’t file an appeal at that time, **and**
-- You have new and material evidence (new supporting documents like a doctor’s report or medical test results) that we haven’t seen before and that are directly related to your claim
+- You have new and material evidence (new supporting documents like a doctor’s report or medical test results) that we haven’t seen before and that's directly related to your claim
 
 For example, you might file a reopened claim if you were treated for pain in your elbow while on active duty, but were denied disability benefits because your VA health exam didn't find a problem, and then 2 year's later you get an X-ray of your elbow that shows signs of arthritis (a painful swelling and sometimes wearing down of a joint). In this case, you would need to send your new exam and X-results to us as new evidence related to the claim.
 
