@@ -104,7 +104,7 @@ describe('Pensions marriage history', () => {
     formDOM.fillData('#root_view\\:pastMarriage_reasonForSeparation_1', 'Divorced');
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationMonth', '3');
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationDay', '3');
-    formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationYear', '2001');
+    formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationYear', '2002');
     formDOM.fillData('#root_view\\:pastMarriage_locationOfSeparation', 'The Atlantic');
 
     submitForm(form);
