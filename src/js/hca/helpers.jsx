@@ -159,3 +159,44 @@ export const disclosureWarning = (
     </div>
   </div>
 );
+
+export const expensesGreaterThanIncomeWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <span>Yo</span>
+    </div>
+  </div>
+);
+
+export function incomeLessThanExpenses(formData) {
+  const {
+    veteranGrossIncome = 0,
+    veteranNetIncome = 0,
+    veteranOtherIncome = 0,
+    dependents = []
+  } = formData;
+
+  const {
+    spouseGrossIncome = 0,
+    spouseNetIncome = 0,
+    spouseOtherIncome = 0
+  } = formData['view:spouseIncome'] || {};
+
+  const vetSpouseIncome = veteranGrossIncome + veteranNetIncome + veteranOtherIncome
+    + spouseGrossIncome + spouseNetIncome + spouseOtherIncome;
+
+  const income = dependents.reduce((sum, dependent) => {
+    return (dependent.grossIncome || 0)
+      + (dependent.netIncome || 0)
+      + (dependent.otherIncome || 0)
+      + sum;
+  }, vetSpouseIncome);
+
+  const {
+    deductibleMedicalExpenses = 0,
+    deductibleFuneralExpenses = 0,
+    deductibleEducationExpenses = 0,
+  } = formData;
+
+  return income < (deductibleMedicalExpenses + deductibleEducationExpenses + deductibleFuneralExpenses);
+}
