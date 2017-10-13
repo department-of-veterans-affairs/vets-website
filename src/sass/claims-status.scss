@@ -133,46 +133,46 @@
   }
 }
 
-.you-have-no-claims {
-  h4, p {
-    margin: 0.5em 0;
-    padding: 0;
-  }
-}
-
 .claim-item-label {
   font-weight: bold;
 }
 
 .claim-list-item-container {
   background-color: $color-gray-lightest;
-  padding: 2em 1em 1em 1em;
+  padding: 2em 1em 1em;
   margin-bottom: 1em;
   position: relative;
-
-  i {
-    margin-right: 5px;
-  }
-  p {
-    margin: 0;
-  }
-  .communications, p.status {
-    margin-bottom: 0.5em;
-  }
-
-  .last-changed-label {
-    position: absolute;
-    top: 0;
-    right: 1em;
-    background: $color-link-default;
-    color: $color-white;
-    font-size: 0.8em;
-    padding: 0.5em 0.75em;
-    border-radius: 0 0 0.5em 0.5em;
-  }
 }
 
-a.claim-list-item {
+.claim-list-item-icon {
+  margin-right: 5px;
+}
+
+.claim-list-item-text {
+  margin: 0;
+}
+
+.communications {
+  list-style: none;
+  padding: 0;
+}
+
+.communications, .status {
+  margin: 0 0 0.5em;
+}
+
+.last-changed-label {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  background: $color-link-default;
+  color: $color-white;
+  font-size: 0.8em;
+  padding: 0.5em 0.75em;
+  border-radius: 0 0 0.5em 0.5em;
+}
+
+.claim-list-item {
   text-decoration: none;
   display: block;
   color: inherit;
@@ -193,19 +193,20 @@ a.claim-list-item {
 }
 
 .claims-status {
-  padding: 1em 0 3em 0;
+  padding: 1em 0 3em;
 }
 
-.your-claims, .claims-status {
-  padding-bottom: 3em;
-
-  h3 {
-    margin-top: 1em;
+.claims-container {
+  &:not(:first-child) {
+    padding: 1em 0 3em;
   }
 
-  h1:first-child {
-    margin-bottom: 0;
+  &:first-child {
+    padding-bottom: 3em;
+  }
 
+  .claims-container-title {
+    margin-bottom: 0;
     & + p {
       margin-top: 0;
     }
@@ -218,128 +219,114 @@ a.claim-list-item {
   }
 }
 
-.claims-status {
-  i.fa {
-    font-size: 24px;
+.claims-status-icon {
+  font-size: 24px;
+}
+
+.next-action-container {
+  padding-right: 1em;
+}
+
+.next-action {
+  padding: 1em;
+  position: relative;
+
+  &.hearing {
+    background: $color-inset-bg;
   }
 
-  .next-action-container {
-    padding-right: 1em;
-  }
+  &.soc, &.ssoc {
+    background: $color-gibill-accent;
+    padding-left: 2.5em;
 
-  .next-action {
-    padding: 1em;
-    position: relative;
-
-    p {
-      margin-top: 0;
-    }
-
-    &.hearing {
-      background: $color-inset-bg;
-    }
-
-    &.soc, &.ssoc {
-      background: $color-gibill-accent;
-      padding-left: 2.5em;
-
-      &:before {
-        left: 1em;
-        top: 1.5em;
-        position: absolute;
-        font-size: 1.25em;
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: "\F071";
-      }
+    &:before {
+      left: 1em;
+      top: 1.5em;
+      position: absolute;
+      font-size: 1.25em;
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: "\F071";
     }
   }
+}
 
-  .last-status {
-    margin-top: 1em;
-    padding: 0 1em 1em 0;
+.claims-first-paragraph {
+  .event-description &, .last-status-header + & {
+    margin-top: 0;
+  }
+}
 
-    h4:first-of-type {
-      padding: 0;
-    }
+.last-status {
+  margin-top: 1em;
+  padding: 0 1em 1em 0;
+}
 
-    .content {
-      position: relative;
-      padding-left: 3.25rem;
+.content {
+  position: relative;
+  padding-left: 3.25rem;
+}
 
-      h5 + p {
-        margin-top: 0;
-      }
+.last-status-content-icon {
+  color: $color-green;
+  left: 0;
+  position: absolute;
+  top: 0.1em;
+}
 
-      i.fa {
-        color: $color-green;
-        left: 0;
-        position: absolute;
-        top: 0.1em;
-      }
-    }
+.previous-activity {
+  margin-top: 1em;
+}
+
+.events-list {
+  margin: 0;
+  padding: 0;
+}
+
+.event-item {
+  list-style: none;
+  border-bottom: solid thin $color-gray-light;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.event-date {
+  flex: 0 0 10rem;
+  margin-right: 1rem;
+}
+
+.event-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.event-header-icon {
+  &:first-child {
+    color: $color-gray;
+    flex: 0 0 3.25rem;
   }
 
-  .previous-activity {
-    margin-top: 1em;
+  &:last-child {
+    font-size: 1.75rem;
+    margin-left: 2rem;
   }
+}
 
-  .events-list {
-    margin: 0;
-    padding: 0;
-  }
+.event-title {
+  flex: 1 1;
+}
 
-  .event-item {
-    list-style: none;
-    border-bottom: solid thin $color-gray-light;
-
-    &:last-child {
-      border: none;
-    }
-  }
-
-  .event-date {
-    flex: 0 0 10rem;
-    margin-right: 1rem;
-  }
-
-  .event-header {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 0;
-
-    i.fa {
-      &:first-child {
-        color: $color-gray;
-        flex: 0 0 3.25rem;
-      }
-
-      &:last-child {
-        font-size: 1.75rem;
-        margin-left: 2rem;
-      }
-    }
-  }
-
-  .event-title {
-    flex: 1 1;
-  }
-
-  .event-description {
-    margin-bottom: 1.5rem;
-    margin-left: 3.25rem;
-
-    p {
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-  }
+.event-description {
+  margin-bottom: 1.5rem;
+  margin-left: 3.25rem;
 }
 
 .ask-va-questions {
@@ -628,41 +615,45 @@ h1:focus {
 
 .claims-list-sort {
   margin: 2em 0;
+}
 
-  label, select {
-    display: inline-block;
+.claims-list-sort-label,
+.claims-list-sort-select {
+  display: inline-block;
+}
+
+.claims-list-sort-label {
+  margin-right: 1.5rem;
+}
+
+@media (max-width: $medium-screen) {
+  .claims-list-sort-label {
+    display: block;
+    margin: 0;
   }
 
-  label {
-    margin-right: 1.5rem;
-  }
-
-  @media (max-width: $medium-screen) {
-    label {
-      display: block;
-      margin: 0;
-    }
-
-    select {
-      display: block;
-      margin: 1.4rem 0;
-    }
+  .claims-list-sort-select {
+    display: block;
+    margin: 1.4rem 0;
   }
 }
 
 .claims-list-alert {
   margin-bottom: 1em;
   margin-top: 0;
+
   &.usa-alert {
     background-size: 3.4rem;
     background-position: 1rem 1.9rem;
   }
+
   > .usa-alert-body {
     padding-left: 3.7rem;
   }
-  .va-alert-close .fa {
-    font-size: 1.1em !important;
-  }
+}
+
+.va-alert-close-icon {
+  font-size: 1.1em !important;
 }
 
 .claims-closed-text {
@@ -802,4 +793,3 @@ h1:focus {
   line-height: 1.5;
   font-weight: bold;
 }
-
