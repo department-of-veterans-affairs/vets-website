@@ -31,7 +31,7 @@ We require certain documents to support all claims for disability benefits. You'
 </div>
 
 ### Your options for gathering evidence: <br>
-#### standard vs. fully developed claims
+### Standard vs. fully developed claims
 
 When you file your claim, you have 2 options for gathering evidence. You can choose to file:
 
