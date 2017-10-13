@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Evidence 
+title: Evidence Needed for Fully Developed and Standard Claims
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 2
