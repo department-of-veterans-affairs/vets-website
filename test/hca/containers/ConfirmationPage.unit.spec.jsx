@@ -7,7 +7,16 @@ import { ConfirmationPage } from '../../../src/js/hca/containers/ConfirmationPag
 const form = {
   submission: {
     response: {
-      timestamp: '2010-01-01'
+      timestamp: '2010-01-01',
+      formSubmissionID: '3702390024'
+    }
+  },
+  data: {
+    veteranFullName: {
+      first: 'Joe',
+      middle: 'Marjorie',
+      last: 'Smith',
+      suffix: 'Sr.'
     }
   }
 };
@@ -23,14 +32,5 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[0].text()).to.contain('We are processing your application.The Department of Veterans Affairs will contact you when we finish our review.Please print this page for your records.');
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
     expect(tree.everySubTree('.confirmation-guidance-message')[1].text()).to.contain('If you have questions, call 1-877-222-VETS (8387) and press 2.');
-  });
-  it('should render without time', () => {
-    const tree = SkinDeep.shallowRender(
-      <ConfirmationPage form={{
-        submission: {}
-      }}/>
-    );
-
-    expect(tree.subTree('h4').text()).to.contain('successfully submitted');
   });
 });

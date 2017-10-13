@@ -22,8 +22,15 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const time = _.get('form.submission.response.timestamp', this.props);
-    const name = this.props.form.data.veteranFullName;
+    const { form } = this.props;
+    const { response } = form.submission;
+    const time = _.get('timestamp', response);
+    const name = form.data.veteranFullName;
+    const healthEligibilityCenter = [
+      'Health Eligibility Center',
+      '2957 Clairmont Rd., Suite 200',
+      'Atlanta, GA 30329'
+    ];
 
     return (
       <div>
@@ -42,13 +49,22 @@ export class ConfirmationPage extends React.Component {
               <strong>Date received</strong><br/>
               <span>{moment(time).format('MMM D, YYYY')}</span>
             </li>
+            <li>
+              <strong>Confirmation number</strong><br/>
+              <span>{response.formSubmissionId}</span>
+            </li>
+            <li>
+              <strong>Your claim was sent to</strong>
+              <address className="schemaform-address-view">{healthEligibilityCenter.map((line, index) =>
+                <p key={index}>{line}</p>)}</address>
+            </li>
           </ul>
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
           <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-877-222-VETS (8387)</a> and press 2.</p>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-877-222-8387">1-877-222-VETS (8387)</a> and press 2, Monday - Friday, 8:00 a.m. - 7:00 p.m. (ET).</p>
         </div>
       </div>
     );
