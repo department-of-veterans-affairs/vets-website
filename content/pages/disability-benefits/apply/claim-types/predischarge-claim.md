@@ -11,7 +11,7 @@ majorlinks:
     links:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/bdd
       title: Enter the Benefits Delivery at Discharge (BDD) program
-      description: Are you between 60 and 180 days from separation?
+      description: Are you between 90 and 180 days from separation?
     - url: /disability-benefits/apply/claim-types/predischarge-claim/overseas
       title: Go to an Intake Site in Korea or Germany
       description: Are you stationed overseas?
