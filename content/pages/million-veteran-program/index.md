@@ -30,7 +30,7 @@ When you take part in MVP, you make a real difference in the lives of Veterans a
 
 Just take these 3 simple steps:
 
-1. Make sure you’re enrolled in VA health care. If you’re not, [apply now for VA health care](/healthcare/apply/).
+1. Make sure you’re enrolled in VA health care. If you’re not, [apply now for VA health care](/health-care/apply/).
 
 2. Make an appointment at an MVP enrollment site, where you’ll fill out some forms to show that you agree to be a part of MVP and give permission for your information to be used in the program’s research. You’ll also give a small sample of your blood. This appointment will take about 20 minutes. [Find an MVP enrollment site near you](http://www.research.va.gov/MVP/all-clinics.cfm).
 
