@@ -50,32 +50,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
-  it('should update request option when checked', () => {
-    const updateOption = sinon.spy();
-    const props = _.set('updateBenefitSummaryRequestOption', updateOption, defaultProps);
-    const component = ReactTestUtils.renderIntoDocument(
-      <VeteranBenefitSummaryLetter {...props}/>
-    );
-
-    const formDOM = findDOMNode(component);
-    const inputs = formDOM.querySelectorAll('input');
-    expect(inputs.length).to.equal(3);
-
-    ReactTestUtils.Simulate.change(inputs[0], {
-      target: {
-        checked: false
-      }
-    });
-    ReactTestUtils.Simulate.change(inputs[1], {
-      target: {
-        checked: false
-      }
-    });
-
-    expect(updateOption.calledTwice).to.be.true;
-  });
-
-  it('pushes toggled options to the global window dataLayer', () => {
+  it('runs change handler when BSL options are toggled', () => {
     const oldWindow = { ...global.window };
     global.window = {
       dataLayer: [],
@@ -83,28 +58,40 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
     expect(global.window.dataLayer.length).to.equal(0);
 
+    const updateOptionSpy = sinon.spy();
+    const props = _.set('updateBenefitSummaryRequestOption', updateOptionSpy, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
-      <VeteranBenefitSummaryLetter {...defaultProps}/>
+      <VeteranBenefitSummaryLetter {...props}/>
     );
+
 
     const formDOM = findDOMNode(component);
     const inputs = formDOM.querySelectorAll('input');
+    expect(inputs.length).to.equal(3);
 
-    ReactTestUtils.Simulate.change(inputs[0], {
+    const DOMid = 'militaryService';
+    const checkedValue = false;
+
+    const mockDOMEvent = {
       target: {
-        id: 0,
-        checked: false
-      }
-    });
-
-    const expectedValue = {
-      event: 'letter-benefit-option-clicked',
-      'letter-benefit-option': 0,
-      'letter-benefit-option-status': 'unchecked'
+        id: DOMid,
+        checked: checkedValue,
+      },
     };
 
+    ReactTestUtils.Simulate.change(inputs[0], mockDOMEvent);
+
+    const expectedDataLayer = {
+      event: 'letter-benefit-option-clicked',
+      'letter-benefit-option': 'militaryService',
+      'letter-benefit-option-status': 'unchecked'
+    };
+    const firstCallArgs = updateOptionSpy.args[0];
+
     expect(global.window.dataLayer.length).to.equal(1);
-    expect(global.window.dataLayer[0]).to.eql(expectedValue);
+    expect(global.window.dataLayer[0]).to.eql(expectedDataLayer);
+    expect(updateOptionSpy.calledOnce).to.be.true;
+    expect(firstCallArgs).to.have.members([DOMid, checkedValue]);
 
     global.window = { ...oldWindow };
   });
