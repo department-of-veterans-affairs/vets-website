@@ -180,6 +180,8 @@ class YourClaimsPage extends React.Component {
                   <div className="claims-list-sort">
                     <ErrorableSelect
                       label="Sort by"
+                      labelClass="claims-list-sort-label"
+                      selectClass="claims-list-sort-select"
                       includeBlankOption={false}
                       options={sortOptions}
                       value={{ value: this.props.sortProperty }}
@@ -195,13 +197,13 @@ class YourClaimsPage extends React.Component {
     }
 
     return (
-      <div className="your-claims">
+      <div className="claims-container">
         <Breadcrumbs/>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1>Your Claims and Appeals</h1>
+                <h1 className="claims-container-title">Your Claims and Appeals</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}

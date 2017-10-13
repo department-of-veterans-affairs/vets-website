@@ -105,10 +105,10 @@ class AppealStatusPage extends React.Component {
     const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 
     return (
-      <div className="claims-status">
+      <div className="claims-container">
         <div className="row">
           <div>
-            <h1>Your Compensation Appeal Status</h1>
+            <h1 className="claims-container-title">Your Compensation Appeal Status</h1>
             <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}.</p>
           </div>
         </div>
@@ -127,7 +127,7 @@ class AppealStatusPage extends React.Component {
             <div className="row">
               <div className="last-status">
                 <div className="content">
-                  <i className="fa fa-check-circle"></i>
+                  <i className="claims-status-icon last-status-content-icon fa fa-check-circle"></i>
                   <h5>{status.title}</h5>
                   <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
                   {status.description}
