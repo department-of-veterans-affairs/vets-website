@@ -66,7 +66,7 @@ if [ $SAUCE == true ]; then
   BABEL_ENV=test npm --no-color run nightwatch-sauce -- "${@}"
 elif [ $VISUAL_REGRESSION_TESTING = true ]; then
   echo "${@}"
-  BABEL_ENV=test npm --no-color run nightwatch:visual -- "${@}"
+  BABEL_ENV=test npm --no-color run nightwatch-visual -- "${@}"
 else
   BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
 fi
