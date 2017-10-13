@@ -2,47 +2,40 @@ const commandLineArgs = require('command-line-args');
 const Timeouts = require('../e2e/timeouts');
 const {baseUrl, createE2eTest} = require('../e2e/e2e-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
-
-const routes = require('./routes')
-
-const commands = {
-    CREATE_BASELINE_IMAGES: 'baseline',
-    CALCULATE_DIFF: 'diff'
-};
-
-console.log(process.argv)
-
-// Define a function for calculating a diff
-function calculateImageDiff(baseline, changed){
-
-}
+const routes = require('./routes');
 
 // Define a function for saving a screenshot
-function saveScreenshot(){
+function saveScreenshot(route, screenshot){
 
 }
 
-// Define a function for taking a screenshot
-function takeScreenshot(){
+// Define a function for calculating a diff
+function calculateScreenshotDiff(route, screenshot){
 
 }
 
-function calculateDiffs(){
-    console.log('Calculating image diffs...');
+function createBeginApplication(handleScreenshot){
+    return function beginApplication(browser) {
+
+        console.log('here we are')
+
+        // step through routes map
+        // take the screenshot
+        // pass it to the handleScreenshot argument
+
+        browser
+            .pause(15000)
+            .url(baseUrl)
+            .pause(15000)
+            .end()
+    }
 }
 
-function createBaselineImages(client){
-
-    console.log('Creating baseline images...');
-
-    client
-        .url(baseUrl)
-        .waitForElementVisible('body', Timeouts.slow)
-        .end()
-}
-
-// Define a function that steps through a list of URL's, then either saves the screenshot or computes the diff
-const method = (function getMethod(){
+function getScreenshotHandler(){
+    const commands = {
+        CREATE_BASELINE_IMAGES: 'baseline',
+        CALCULATE_DIFFS: 'diff'
+    };
     
     const {command} = commandLineArgs([
         { name: 'command', type: String },
@@ -51,11 +44,15 @@ const method = (function getMethod(){
 
     switch (command){
         case commands.CREATE_BASELINE_IMAGES:
-            return createBaselineImages;
-        case commands.CALCULATE_DIFF:
-        default:
-            return calculateDiffs;
-    }
-})();
+            return saveScreenshot;
 
-module.exports = createE2eTest(method);
+        case commands.CALCULATE_DIFFS:
+        default:
+            return calculateScreenshotDiff;
+    }
+}
+
+const screenshotHandler = getScreenshotHandler();
+const beginApplication = createBeginApplication(screenshotHandler);
+
+module.exports = createE2eTest(beginApplication);
