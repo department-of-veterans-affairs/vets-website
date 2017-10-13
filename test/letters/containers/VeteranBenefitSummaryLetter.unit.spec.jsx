@@ -50,12 +50,35 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
-  it('shows error and hides benefit table if options not available', () => {
-    const props = _.set('optionsAvailable', false, defaultProps);
+  it('renders error and hides benefit table if options not available', () => {
+    const props = _.set('optionsAvailable', false, _.cloneDeep(defaultProps));
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
     const headerText = tree.dive(['.feature', 'h4']).text();
     expect(headerText).to.equal('Your VA Benefit Summary letter is currently unavailable');
     expect(tree.subTree('#benefitInfoTable')).to.be.false;
+  });
+
+  it('maps each service entry to its own table row', () => {
+    const navyService = [{
+      branch: 'ARMY',
+      characterOfService: 'UNCHARACTERIZED',
+      enteredDate: '1965-01-01T05:00:00.000+00:00',
+      releasedDate: '1972-10-01T04:00:00.000+00:00'
+    }];
+
+    const doubleService = defaultProps.benefitSummaryOptions.serviceInfo.concat(navyService);
+    const props = {
+      ...defaultProps,
+      benefitSummaryOptions: {
+        ...defaultProps.benefitSummaryOptions,
+        serviceInfo: doubleService
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
+    const serviceRows = tree.dive(['#militaryServiceTable', 'tbody']).everySubTree('tr');
+
+    expect(serviceRows.length).to.equal(doubleService.length);
   });
 
   it('handles check and uncheck events', () => {
@@ -65,7 +88,11 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     };
 
     const updateOptionSpy = sinon.spy();
-    const props = _.set('updateBenefitSummaryRequestOption', updateOptionSpy, defaultProps);
+    const props = _.set(
+      'updateBenefitSummaryRequestOption',
+      updateOptionSpy,
+      _.cloneDeep(defaultProps)
+    );
     const component = ReactTestUtils.renderIntoDocument(
       <VeteranBenefitSummaryLetter {...props}/>
     );
