@@ -35,7 +35,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within <strong>a week</strong>.</p>
+        <p>Normally processed within <strong>a week</strong>.</p>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -56,7 +56,7 @@ export class ConfirmationPage extends React.Component {
             <li>
               <strong>Your claim was sent to</strong>
               <address className="schemaform-address-view">{healthEligibilityCenter.map((line, index) =>
-                <p key={index}>{line}</p>)}</address>
+                <p className="hca-confirmation-address" key={index}>{line}</p>)}</address>
             </li>
           </ul>
         </div>
