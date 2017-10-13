@@ -9,7 +9,7 @@ order: 2
 relatedlinks:
   - heading: 
     links:
-    - url: (TBD)
+    - url: /disability-benefits/apply/predischarge-claim/
       title: Predischarge Claim
       description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
     - url: 
@@ -45,7 +45,7 @@ You can file a claim up to 180 days before leaving the service. We refer to this
 There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
 
 Learn more about disabilities that may be related to your active-duty service, but may not appear until after you've left the military:</br>
-  - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/)</br>
+  - [Disabilities that appear within 1 year after discharge](/disability-benefits/eligibility/one-year/)</br>
   - [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)</br>
   - [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)</br>
   - [Disabilities related to time spent as a Prisoner of War (POW)](https://www.vets.gov/disability-benefits/conditions/pow/)
