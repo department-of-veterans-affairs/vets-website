@@ -743,4 +743,67 @@ describe('Schemaform review: ReviewPage', () => {
     expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.true;
     expect(setEditMode.calledWith('testPage', true, null));
   });
+  it('should auto save after change', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {}
+          }
+        },
+        chapter2: {
+          pages: {
+            page2: {}
+          }
+        }
+      }
+    };
+
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      },
+      data: {
+        privacyAgreementAccepted: false
+      }
+    };
+
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const setData = sinon.spy();
+    const autoSave = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewPage
+        form={form}
+        user={user}
+        setData={setData}
+        route={{ formConfig, pageList }}
+        setPrivacyAgreement={f => f}
+        location={location}/>
+    );
+
+    const instance = tree.getMountedInstance();
+    instance.debouncedAutoSave = autoSave;
+    instance.setData({});
+
+    expect(setData.called).to.be.true;
+    expect(autoSave.called).to.be.true;
+  });
 });
