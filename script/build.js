@@ -385,6 +385,20 @@ smith.use(collections({
       name: 'Application Process'
     }
   },
+  vre: {
+    pattern: 'vocational-rehab-and-employment/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vocational Rehab &amp; Employment'
+    }
+  },
+  vreServiceDisabled: {
+    pattern: 'vocational-rehab-and-employment/service-disabled/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vocational Rehab &amp; Employment'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));

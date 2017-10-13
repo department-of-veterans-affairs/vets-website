@@ -1,8 +1,11 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Eligibility
-template: topic-landing
-relatedlinks:
+display_title: Eligibility
+order: 1
+template: detail-page
+children: vreEligibility
+majorlinks:
   - heading: More information about VR&E benefits and services
     links:
     - url: /vocational-rehab-and-employment/service-disabled/
@@ -48,7 +51,7 @@ You may also be eligible for VR&amp;E benefits and services if you're a Veteran 
 - Have a 10% disability rating, **or**
 - Are beyond the 12-year basic period of eligibility
 
-**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. 
+**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service.
 
 </div>
 
