@@ -50,13 +50,21 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
-  it('runs change handler when BSL options are toggled', () => {
+  it('shows error and hides benefit table if options not available', () => {
+    const props = _.merge({}, defaultProps, { optionsAvailable: false });
+    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
+
+    const header = tree.subTree('h4');
+    const headerText = header.text();
+    expect(headerText).to.equal('Your VA Benefit Summary letter is currently unavailable');
+    expect(tree.subTree('#benefitInfoTable')).to.be.false;
+  });
+
+  it('handles check and uncheck events', () => {
     const oldWindow = { ...global.window };
     global.window = {
       dataLayer: [],
     };
-
-    expect(global.window.dataLayer.length).to.equal(0);
 
     const updateOptionSpy = sinon.spy();
     const props = _.set('updateBenefitSummaryRequestOption', updateOptionSpy, defaultProps);
@@ -64,9 +72,12 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       <VeteranBenefitSummaryLetter {...props}/>
     );
 
+    expect(global.window.dataLayer.length).to.equal(0);
 
     const formDOM = findDOMNode(component);
     const inputs = formDOM.querySelectorAll('input');
+
+    // one input for service info, two more for benefitInfo.*
     expect(inputs.length).to.equal(3);
 
     const DOMid = 'militaryService';
