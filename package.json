@@ -19,6 +19,8 @@
     "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
+    "test:e2e:visual": "./script/run-nightwatch.sh --visual",
+    "test:e2e:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
@@ -35,8 +37,6 @@
     "test:unit:login": "BABEL_ENV=test mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:watch": "BABEL_ENV=test mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "test:visual": "./script/run-nightwatch.sh --visual",
-    "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
     "watch:static": "npm run watch -- --entry no-react"
   },
