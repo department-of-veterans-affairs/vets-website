@@ -51,11 +51,9 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('shows error and hides benefit table if options not available', () => {
-    const props = _.merge({}, defaultProps, { optionsAvailable: false });
+    const props = _.set('optionsAvailable', false, defaultProps);
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
-
-    const header = tree.subTree('h4');
-    const headerText = header.text();
+    const headerText = tree.dive(['.feature', 'h4']).text();
     expect(headerText).to.equal('Your VA Benefit Summary letter is currently unavailable');
     expect(tree.subTree('#benefitInfoTable')).to.be.false;
   });
