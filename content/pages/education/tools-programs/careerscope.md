@@ -19,10 +19,7 @@ CareerScope recommends careers you may enjoy and jobs in which you’re likely t
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use CareerScope if you're:
-- A Veteran or Servicemember who is eligible for VA education benefits or is currently receiving education benefits
-- A Veteran within 1 year of active-duty discharge
-- A Servicemember within 6 months of active-duty discharge
+You can use CareerScope if you're a Veteran, Servicemember, or dependent who is eligible for VA education benefits or is currently receiving education benefits.
 
 
 The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).
