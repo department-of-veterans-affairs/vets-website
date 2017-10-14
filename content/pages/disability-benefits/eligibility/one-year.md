@@ -9,8 +9,8 @@ order: 3
 relatedlinks:
   - heading: Get answers to your questions about filing a disability claim
     links:
-    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: What’s the fastest way to file a claim?
+    - url: /disability-benefits/apply/evidence/
+      title: How can I get my claim processed faster with a fully developed claim?
       description: ""
     - url: /disability-benefits/apply/
       title: How do I file a claim?
@@ -18,7 +18,7 @@ relatedlinks:
     - url: /disability-benefits/apply/help/
       title: How do I get help filing a claim?
       description: ""
-    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+    - url: /disability-benefits/apply/predischarge-claim/
       title: How do I file while on active duty?
       description: ""
     - url: /disability-benefits/after-you-apply/date/
