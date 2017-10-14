@@ -9,17 +9,17 @@ order: 2
 
 <div class="va-introtext">
 
-In addition to getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels and helps you figure out the best career path when you move into civilian life. CareerScope is available to all Veterans, Servicemembers, and their dependents who are eligible for VA education benefits.
+In addition to getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels and helps you figure out the best career path when you move into civilian life. 
 
 </div>
 
-CareerScope recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers. [Get started with CareerScope](https://va.careerscope.net/gibill).
+CareerScope is available to all Veterans, Servicemembers, and their dependents who are eligible for VA education benefits. It recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers. [Get started with CareerScope](https://va.careerscope.net/gibill).
 
 <h3 itemprop="name">Can I use CareerScope?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use CareerScope if you're a Veteran, Servicemember, or dependent who is eligible for VA education benefits or is currently receiving education benefits.
+You can use CareerScope if you're a Veteran, Servicemember, or dependent who is eligible for VA education benefits or currently receiving education benefits.
 
 
 The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).
