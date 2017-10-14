@@ -31,7 +31,7 @@ You can file a claim up to 180 days before leaving the service. We refer to this
 
 - **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner. [Find out how to file a predischarge claim](/disability-benefits/apply/predischarge-claim).
 
-- **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about fully developed and standard claims](/disability-benefits/apply/evidence/).
+- **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about standard and fully developed claims](/disability-benefits/apply/evidence/).
 
 </div>
 </li>
