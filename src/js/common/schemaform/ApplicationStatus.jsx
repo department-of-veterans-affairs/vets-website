@@ -116,7 +116,6 @@ export class ApplicationStatus extends React.Component {
 
 ApplicationStatus.propTypes = {
   formId: PropTypes.string.isRequired,
-  titleText: PropTypes.string.isRequired,
   applyText: PropTypes.string.isRequired,
   login: PropTypes.shape({
     currentlyLoggedIn: PropTypes.bool.isRequired

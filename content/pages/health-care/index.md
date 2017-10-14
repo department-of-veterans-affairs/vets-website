@@ -4,6 +4,11 @@ template: level2-index
 title: Health Care Benefits
 display_title: Health Care
 permalink: /health-care/index.html
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
@@ -16,6 +21,9 @@ majorlinks:
     - url: /health-care/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
+      sibling: true
+      siblingId: react-applicationStatus
+      siblingData: hide-apply-button
     - url: /health-care/health-conditions
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.

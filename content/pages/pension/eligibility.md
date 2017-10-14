@@ -6,7 +6,7 @@ concurrence:
 order: 1
 children: pensionEligibility
 widgets:
-  - root: react-pensionApplicationStatus
+  - root: react-applicationStatus
     timeout: 20
     loadingMessage: Checking your application status.
     errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
@@ -49,7 +49,7 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply?
 
-<div id="react-pensionApplicationStatus">
+<div id="react-applicationStatus">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
 

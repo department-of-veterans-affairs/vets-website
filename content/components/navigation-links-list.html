@@ -57,6 +57,9 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
               </a>
             </li>
           {% endif %}
+          {% if link.sibling !== false %}
+            <div id="{{link.siblingId}}" data-{{link.siblingData}}></div>
+          {% endif %}
         {% endfor %}
         </ul>
       {% endif %}
