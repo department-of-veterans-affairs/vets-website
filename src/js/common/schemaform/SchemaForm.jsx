@@ -88,7 +88,6 @@ class SchemaForm extends React.Component {
   }
 
   onBlur(id) {
-    this.props.onBlur();
     if (!this.state.formContext.touched[id]) {
       const formContext = _.set(['touched', id], true, this.state.formContext);
       this.setState({ formContext });

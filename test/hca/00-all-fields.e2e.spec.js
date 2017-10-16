@@ -99,7 +99,7 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeDependentInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/dependent-information');
 
     // Annual Income Page
     client.expect.element('input[name="root_veteranGrossIncome"]').to.be.visible;

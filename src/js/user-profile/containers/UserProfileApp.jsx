@@ -32,10 +32,10 @@ class UserProfileApp extends React.Component {
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Account</h1>
           <div>
-            {(__BUILDTYPE__ !== 'production') && <FormList
+            <FormList
               userProfile={this.props.profile}
               removeSavedForm={this.props.removeSavedForm}
-              savedForms={this.props.profile.savedForms}/>}
+              savedForms={this.props.profile.savedForms}/>
             <AuthApplicationSection
               userProfile={this.props.profile}
               verifyUrl={this.props.verifyUrl}/>

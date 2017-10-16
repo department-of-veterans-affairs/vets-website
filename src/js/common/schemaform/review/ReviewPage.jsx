@@ -96,9 +96,14 @@ class ReviewPage extends React.Component {
     return { eligiblePageList, pageIndex };
   }
 
+  setData = (...args) => {
+    this.props.setData(...args);
+    this.debouncedAutoSave();
+  }
+
   autoSave() {
     const { form, user } = this.props;
-    if (user.login.currentlyLoggedIn) {
+    if (!form.disableSave && user.login.currentlyLoggedIn) {
       const data = form.data;
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
@@ -161,7 +166,7 @@ class ReviewPage extends React.Component {
                 onEdit={this.handleEdit}
                 pages={this.pagesByChapter[chapter]}
                 chapterKey={chapter}
-                setData={this.props.setData}
+                setData={this.setData}
                 setValid={this.props.setValid}
                 uploadFile={this.props.uploadFile}
                 chapter={formConfig.chapters[chapter]}
