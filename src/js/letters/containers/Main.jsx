@@ -15,6 +15,16 @@ import {
   getAddressStates
 } from '../actions/letters';
 
+const {
+  awaitingResponse,
+  available,
+  backendServiceError,
+  backendAuthenticationError,
+  invalidAddressProperty,
+  unavailable,
+  letterEligibilityError
+} = AVAILABILITY_STATUSES;
+
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
@@ -29,8 +39,8 @@ export class Main extends React.Component {
 
   appAvailability(lettersAvailability, addressAvailability) {
     // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
-    if (lettersAvailability === AVAILABILITY_STATUSES.awaitingResponse || addressAvailability === AVAILABILITY_STATUSES.awaitingResponse) {
-      return AVAILABILITY_STATUSES.awaitingResponse;
+    if (lettersAvailability === awaitingResponse || addressAvailability === awaitingResponse) {
+      return awaitingResponse;
     }
 
     return lettersAvailability;
@@ -40,25 +50,25 @@ export class Main extends React.Component {
     let appContent;
 
     switch (this.appAvailability(this.props.lettersAvailability, this.props.addressAvailability)) {
-      case AVAILABILITY_STATUSES.available:
+      case available:
         appContent = this.props.children;
         break;
-      case AVAILABILITY_STATUSES.awaitingResponse:
+      case awaitingResponse:
         appContent = <LoadingIndicator message="Loading your letters..."/>;
         break;
-      case AVAILABILITY_STATUSES.backendServiceError:
+      case backendServiceError:
         appContent = systemDownMessage;
         break;
-      case AVAILABILITY_STATUSES.backendAuthenticationError:
+      case backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      case AVAILABILITY_STATUSES.invalidAddressProperty:
+      case invalidAddressProperty:
         appContent = systemDownMessage;
         break;
-      case AVAILABILITY_STATUSES.letterEligibilityError:
+      case letterEligibilityError:
         appContent = this.props.children;
         break;
-      case AVAILABILITY_STATUSES.unavailable:
+      case unavailable:
         appContent = (
           <div id="lettersUnavailable">
             <div className="usa-alert usa-alert-error" role="alert">

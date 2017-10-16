@@ -56,14 +56,27 @@ describe('<Main>', () => {
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
   });
 
-  it('shows a loading spinner when letters is available but address is awaiting response', () => {
+  it('shows a loading spinner when letters is available, but address is awaiting response', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: available });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+  });
+
+  it('shows a loading spinner when letters is awaiting response, but address is available', () => {
+    const props = _.merge({}, defaultProps, { addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
   });
 
   it('renders its children when letters and address are available', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: available, addressAvailability: available });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const childText = tree.subTree('span').text();
+    expect(childText).to.equal(testText);
+  });
+
+  it('renders its children when letters is available but address is unavailable', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: available, addressAvailability: unavailable });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const childText = tree.subTree('span').text();
     expect(childText).to.equal(testText);
