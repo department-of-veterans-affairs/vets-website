@@ -29,7 +29,9 @@ export function getVerifyUrl(onUpdateVerifyUrl) {
   }).then(response => {
     return response.json();
   }).then(json => {
-    onUpdateVerifyUrl(json.identity_proof_url);
+    if (json.identity_proof_url) {
+      onUpdateVerifyUrl(json.identity_proof_url);
+    }
   });
 
   return verifyUrlRequest;
