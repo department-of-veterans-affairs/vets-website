@@ -54,6 +54,12 @@ const benefitSummaryOptionData = {
 };
 
 describe('letters reducer', () => {
+  it('should not modify state if an unrecognized action is passed', () => {
+    const state = reduce({ type: 'FOO_BAR' });
+
+    expect(state).to.deep.equal(initialState);
+  });
+
   it('should handle failure to fetch letters', () => {
     const state = reduce({ type: GET_LETTERS_FAILURE });
 
