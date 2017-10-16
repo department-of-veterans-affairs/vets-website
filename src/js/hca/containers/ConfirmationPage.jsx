@@ -38,7 +38,7 @@ export class ConfirmationPage extends React.Component {
           <h4>Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
-          <ul className="claim-list">
+          {response && (response.timestamp || response.formSubmissionId) && <ul className="claim-list">
             {response && response.timestamp && <li>
               <strong>Date received</strong><br/>
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
@@ -47,15 +47,7 @@ export class ConfirmationPage extends React.Component {
               <strong>Confirmation number</strong><br/>
               <span>{response.formSubmissionId}</span>
             </li>}
-            <li>
-              <strong>Your claim was sent to</strong>
-              <p className="schemaform-address-view hca-confirmation-address">
-                <span>Health Eligibility Center</span><br/>
-                <span>2957 Clairmont Rd., Suite 200</span><br/>
-                <span>Atlanta, GA 30329</span>
-              </p>
-            </li>
-          </ul>
+          </ul>}
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
