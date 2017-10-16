@@ -76,6 +76,7 @@ class SaveInProgressErrorPage extends React.Component {
         );
         break;
       case LOAD_STATUSES.failure:
+      case LOAD_STATUSES.invalidData:
         content = (
           <div>
             <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. Please try applying again in a few moments.</div>
