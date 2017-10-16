@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
@@ -77,6 +78,9 @@ export class LetterList extends React.Component {
         </p>
         <p>
           To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/" target="_blank">Get Adobe Reader</a>
+        </p>
+        <p>
+          <Link to="confirm-address">Go back to edit address</Link>
         </p>
         {letterItems}
         {eligibilityMessage}
