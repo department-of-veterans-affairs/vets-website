@@ -178,20 +178,21 @@ describe('letters reducer', () => {
   });
 
   it('should handle successful request for the countries', () => {
+    const countries = ['USA', 'France', 'India'];
     const state = reduce(
       {
         type: GET_ADDRESS_COUNTRIES_SUCCESS,
         countries: {
           data: {
             attributes: {
-              countries: ['USA', 'France', 'India']
+              countries
             }
           }
         }
       }
     );
 
-    expect(state.countries).to.contain('USA');
+    expect(state.countries).to.equal(countries);
     expect(state.countriesAvailable).to.be.true;
   });
 
@@ -221,20 +222,21 @@ describe('letters reducer', () => {
   });
 
   it('should handle successful request for the states', () => {
+    const states = ['IL', 'MA', 'DC'];
     const state = reduce(
       {
         type: GET_ADDRESS_STATES_SUCCESS,
         states: {
           data: {
             attributes: {
-              states: ['IL', 'MA', 'DC']
+              states
             }
           }
         }
       }
     );
 
-    expect(state.states).to.contain('IL');
+    expect(state.states).to.equal(states);
     expect(state.statesAvailable).to.be.true;
   });
 
