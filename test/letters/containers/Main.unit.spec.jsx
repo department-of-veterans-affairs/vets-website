@@ -29,7 +29,8 @@ const {
 const defaultProps = {
   letters: { },
   destination: { },
-  lettersAvailability: available,
+  addressAvailability: awaitingResponse,
+  lettersAvailability: awaitingResponse,
   benefitSummaryOptions: {
     benefitInfo: '',
     serviceInfo: '',
@@ -50,16 +51,22 @@ describe('<Main>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('renders its children when letters are available', () => {
+  it('shows a loading spinner when awaiting response', () => {
     const tree = SkinDeep.shallowRender(<Main {...defaultProps}/>);
-    const childText = tree.subTree('span').text();
-    expect(childText).to.equal(testText);
+    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
   });
 
-  it('shows a loading spinner when awaiting response', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: awaitingResponse });
+  it('shows a loading spinner when letters is available but address is awaiting response', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+  });
+
+  it('renders its children when letters and address are available', () => {
+    const props = _.merge({}, defaultProps, { lettersAvailability: available, addressAvailability: available });
+    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const childText = tree.subTree('span').text();
+    expect(childText).to.equal(testText);
   });
 
   it('shows a system down message for backend service error', () => {
