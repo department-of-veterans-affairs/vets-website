@@ -43,7 +43,10 @@ function initUserMock(token, level) {
             status: 'OK',
             is_veteran: true,
           },
-          in_progress_forms: [],
+          in_progress_forms: [{
+            form: '1010ez',
+            metadata: {}
+          }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           health_terms_current: true,

@@ -24,6 +24,7 @@ import {
   formatName,
   isVeteran,
   requiresSponsorInfo,
+  transform,
   veteranUISchema
 } from '../utils/helpers';
 
@@ -51,6 +52,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/preneed',
   trackingPrefix: 'preneed-',
+  transformForSubmit: transform,
   formId: '40-10007',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

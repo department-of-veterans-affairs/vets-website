@@ -77,6 +77,7 @@ class FormPage extends React.Component {
       newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
     this.props.setData(newData);
+    this.debouncedAutoSave();
   }
 
   onSubmit({ formData }) {
@@ -112,7 +113,7 @@ class FormPage extends React.Component {
 
   autoSave() {
     const { form, user } = this.props;
-    if (user.login.currentlyLoggedIn) {
+    if (!form.disableSave && user.login.currentlyLoggedIn) {
       const data = form.data;
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
@@ -157,7 +158,6 @@ class FormPage extends React.Component {
           pagePerItemIndex={params ? params.index : undefined}
           uploadFile={this.props.uploadFile}
           prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
-          onBlur={this.debouncedAutoSave}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
