@@ -35,12 +35,9 @@ You can file a claim up to 180 days before leaving the service. We refer to this
 
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-after-separation">Postservice claim: File a claim for a disability that appears after discharge.</button>
 <div id="claim-after-separation" class="usa-accordion-content">
-
-<spand id="claim-after-separation">
 
 There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
 
@@ -54,10 +51,9 @@ Learn more about disabilities that may be related to your active-duty service, b
 
 </div>
 </li>
-
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-after-separation">Special Claim: File a claim for special needs linked to your service-connected disability.</button>
-<div id="claim-after-separation" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-special">Special Claim: File a claim for special needs linked to your service-connected disability.</button>
+<div id="claim-special" class="usa-accordion-content">
 
 You can file a special claim to request compensation for special needs. These can include needs such as:
 - A specially equipped vehicle if your service-connected disability prevents you from driving, **or**
@@ -69,7 +65,6 @@ You can file a special claim to request compensation for special needs. These ca
 
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new-evidence">Reopened Claim: Provide new evidence to support a disability claim that was denied in the past.</button>
 <div id="claim-new-evidence" class="usa-accordion-content">
@@ -85,7 +80,6 @@ For example, you might file a reopened claim if you were treated for pain in you
 
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">New Claim: File a claim for added benefits for an existing service-connected disability.</button>
 <div id="claim-more-benefits" class="usa-accordion-content">
@@ -99,7 +93,6 @@ You can file a new claim to request:
 
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary Claim: File a claim for a new disability that's linked to a service-connected disability you already have.</button>
 <div id="claim-secondary" class="usa-accordion-content">
