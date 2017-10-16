@@ -55,47 +55,6 @@
   margin-bottom: 1.5em;
 }
 
-.submitted-files-list {
-  margin-bottom: 2em;
-  .submitted-file-list-item {
-    margin: 0.5em 0;
-    border-bottom: 1px solid $color-gray-light;
-    h6 {
-      display: inline-block;
-      padding: 0;
-      text-transform: none;
-      i {
-        margin-right: 6px;
-      }
-    }
-    p, .submission-item {
-      margin: 0;
-      padding: 0 0 0.5em 0;
-    }
-    .submission-file-type {
-      color: $color-primary-darkest;
-      display: block;
-      font-size: 1.15em;
-      line-height: 1.5;
-      font-weight: bold;
-      padding-bottom: 0;
-      &.additional-evidence {
-        padding-bottom: 0.5em;
-      }
-    }
-    .submission-item {
-      display: block;
-    }
-    .submission-date {
-      display: inline-block;
-      margin-left: 0.5em;
-    }
-    &:last-child {
-      border: none;
-    }
-  }
-}
-
 .file-request-list-item {
   margin-top: 1.5em;
   &:last-child {
@@ -792,4 +751,48 @@ h1:focus {
   font-size: 0.9em;
   line-height: 1.5;
   font-weight: bold;
+}
+
+.submitted-files-list {
+  margin-bottom: 2em;
+}
+
+.submitted-file-list-item {
+  margin: 0.5em 0;
+  border-bottom: 1px solid $color-gray-light;
+  &:last-child {
+    border: none;
+  }
+}
+
+.submission-status {
+  display: inline-block;
+  padding: 0;
+  font-weight: bold;
+}
+
+.submission-icon {
+  margin-right: 6px;
+}
+
+.submission-description {
+  margin: 0;
+  padding: 0 0 0.5em 0;
+}
+
+.submission-file-type {
+  color: $color-primary-darkest;
+  display: block;
+  font-size: 1.15em;
+  line-height: 1.5;
+  font-weight: bold;
+  padding-bottom: 0;
+  &.additional-evidence {
+    padding-bottom: 0.5em;
+  }
+}
+
+.submission-date {
+  display: inline-block;
+  margin-left: 0.5em;
 }
