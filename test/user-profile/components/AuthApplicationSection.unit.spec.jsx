@@ -7,7 +7,7 @@ import AuthApplicationSection from '../../../src/js/user-profile/components/Auth
 
 describe('<AuthApplicationSection>', () => {
   const props = {
-    userProfile: {},
+    userProfile: { services: [] },
     verifyUrl: 'http://fake-verify-url'
   };
   let windowOpen;
