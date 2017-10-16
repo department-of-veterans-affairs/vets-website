@@ -27,8 +27,10 @@ function createDiffImage(diffFileName, comparisonResult) {
     const writer = fs.createWriteStream(diffFileName);
 
     return new Promise((resolve, reject) => {
-        diffImageStream.pack().pipe(writer);
-        diffImageStream.on('finish', resolve);
+        diffImageStream
+            .pack()
+            .pipe(writer)
+            .once('finish', resolve);
     });
 }
 
