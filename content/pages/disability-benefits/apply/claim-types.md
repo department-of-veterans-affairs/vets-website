@@ -109,3 +109,6 @@ For example, you might file a secondary claim if you:
 </li>
 </ul>
 </div>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
