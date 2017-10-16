@@ -70,38 +70,38 @@ describe('<Main>', () => {
   });
 
   it('shows a system down message for backend service error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: backendServiceError });
+    const props = _.merge({}, defaultProps, { lettersAvailability: backendServiceError, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('should show backend authentication error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: backendAuthenticationError });
+    const props = _.merge({}, defaultProps, { lettersAvailability: backendAuthenticationError, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#recordNotFound')).to.not.be.false;
   });
 
   it('should show system down message for invalid address error', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: invalidAddressProperty });
+    const props = _.merge({}, defaultProps, { lettersAvailability: invalidAddressProperty, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('renders children for letter eligibility errors', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: letterEligibilityError });
+    const props = _.merge({}, defaultProps, { lettersAvailability: letterEligibilityError, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     const childText = tree.subTree('span').text();
     expect(childText).to.equal(testText);
   });
 
   it('should show letters unavailable message when service is unavailable', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: unavailable });
+    const props = _.merge({}, defaultProps, { lettersAvailability: unavailable, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#lettersUnavailable')).to.not.be.false;
   });
 
   it('renders system down message for all unspecified errors', () => {
-    const props = _.merge({}, defaultProps, { lettersAvailability: 'bogusError' });
+    const props = _.merge({}, defaultProps, { lettersAvailability: 'bogusError', addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
