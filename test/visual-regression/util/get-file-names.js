@@ -2,8 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const { baseUrl } = require('../../e2e/e2e-helpers');
-
-const DIR_EXISTS_ALREADY = 'EEXIST';
 const screenshotDirectory = path.join(__dirname, '../../../logs/visual-regression');
 const baselineDir = path.join(screenshotDirectory, '/baseline');
 const diffDir = path.join(screenshotDirectory, '/diffs');

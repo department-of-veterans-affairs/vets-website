@@ -7,11 +7,11 @@ const { sitemapURLs: getRoutes } = require('../e2e/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 
-function mapRoutesToRouteHandlers(browser, routes, routeHandler){
+function mapRoutesToRouteHandlers(browser, routes, routeHandler) {
     return routes.map(route => {
         const changeUrl = new Promise((resolve, reject) => browser.url(route, resolve));
         const routeHandlerWrapped = () => routeHandler(browser, route);
-        
+
         return changeUrl.then(routeHandlerWrapped);
     });
 }

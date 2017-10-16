@@ -1,17 +1,17 @@
 const fs = require('fs');
 const resemble = require('node-resemble-js');
-const {getFileNames, createDirectoryIfNotExist} = require('./get-file-names');
+const { getFileNames, createDirectoryIfNotExist } = require('./get-file-names');
 
-function readFile(fileName){
+function readFile(fileName) {
     return new Promise((resolve, reject) => fs.readFile(fileName, (err, result) => err ? reject(err) : resolve(result)));
 }
 
-function takeScreenshot(browser){
+function takeScreenshot(browser) {
     const logScreenshotData = false;
     return new Promise((resolve, reject) => browser.screenshot(logScreenshotData, resolve));
 }
 
-function executeComparison([ baselineImageBuffer, screenshotResult ]){
+function executeComparison([ baselineImageBuffer, screenshotResult ]) {
     const baselineImage = new Buffer(baselineImageBuffer, 'base64');
     const screenshot = new Buffer(screenshotResult.value, 'base64');
 
@@ -22,7 +22,7 @@ function executeComparison([ baselineImageBuffer, screenshotResult ]){
     });
 }
 
-function createDiffImage(diffFileName, comparisonResult){
+function createDiffImage(diffFileName, comparisonResult) {
     const diffImageStream = comparisonResult.getDiffImage();
     const writer = fs.createWriteStream(diffFileName);
 
@@ -32,7 +32,7 @@ function createDiffImage(diffFileName, comparisonResult){
     });
 }
 
-function computeComparisonResult(diffFileName, comparisonResult){
+function computeComparisonResult(diffFileName, comparisonResult) {
     const misMatchPercentage = parseFloat(comparisonResult.misMatchPercentage);
 
     // @todo add assertions
@@ -46,7 +46,7 @@ function computeComparisonResult(diffFileName, comparisonResult){
 }
 
 function calculateDiff(browser, route) {
-    const [baselineFileName, diffFileName] = getFileNames(route);
+    const [ baselineFileName, diffFileName ] = getFileNames(route);
     const operations = [
         readFile(baselineFileName),
         takeScreenshot(browser)
