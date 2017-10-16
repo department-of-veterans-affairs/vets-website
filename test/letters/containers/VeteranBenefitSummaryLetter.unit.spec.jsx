@@ -75,7 +75,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('handles check and uncheck events', () => {
-    const oldWindow = { ...global.window };
+    const oldWindow = _.cloneDeep(global.window);
     global.window = {
       dataLayer: [],
     };
@@ -86,7 +86,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       <VeteranBenefitSummaryLetter {...props}/>
     );
 
-    // sanity check
+    // post-render sanity check
     expect(global.window.dataLayer.length).to.equal(0);
 
     const formDOM = findDOMNode(component);
@@ -119,7 +119,8 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(updateOptionSpy.calledOnce).to.be.true;
     expect(firstCallArgs).to.have.members([DOMid, checkedValue]);
 
-    global.window = { ...oldWindow };
+    // Reset window to pre-test state to be safe
+    global.window = _.cloneDeep(oldWindow);
   });
 
   it('Does not render dependent options for veterans', () => {
