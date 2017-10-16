@@ -21,7 +21,7 @@ If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Di
 
 ### Outside the KMC
 
-If you are stationed outside the KMC, use the BDD or Quick Start programs through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
+If you are stationed outside the KMC, use the BDD program through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
 
 <div class="feature" markdown="1">
 
@@ -30,7 +30,7 @@ If you are stationed outside the KMC, use the BDD or Quick Start programs throug
 - Look for an email from a BDD officer who will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor’s reports and medical test results) needed to support your claim.
 - Contact the clinics at LRMC to schedule your exams as directed.
 - Arrange your travel, and get your command’s approval to make the trip.
-- Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won’t be returned. BDD and Quick Start claims can’t be processed without the STRs.
+- Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won’t be returned. BDD claims can’t be processed without the STRs.
 
 [Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
