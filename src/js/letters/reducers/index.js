@@ -32,7 +32,7 @@ import {
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
 } from '../utils/constants';
 
-const initialState = {
+export const initialState = {
   countries: [],
   countriesAvailable: false,
   states: [],

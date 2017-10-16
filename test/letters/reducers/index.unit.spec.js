@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import lettersReducer from '../../../src/js/letters/reducers';
+import lettersReducer, { initialState } from '../../../src/js/letters/reducers';
 
 import {
   AVAILABILITY_STATUSES,
@@ -28,18 +28,6 @@ import {
   SAVE_ADDRESS_FAILURE,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
 } from '../../../src/js/letters/utils/constants';
-
-const initialState = {
-  letters: [],
-  address: {},
-  countries: [],
-  states: [],
-  lettersAvailability: AVAILABILITY_STATUSES.awaitingResponse,
-  benefitInfo: {},
-  serviceInfo: [],
-  optionsAvailable: false,
-  requestOptions: {}
-};
 
 const benefitSummaryOptionData = {
   data: {
