@@ -1,4 +1,4 @@
-const getFileNames = require('./get-file-names');
+const {getFileNames} = require('./get-file-names');
 
 function createBaselineImage(browser, route) {
     const [baselineFileName] = getFileNames(route);
