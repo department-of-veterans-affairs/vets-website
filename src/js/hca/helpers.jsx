@@ -163,12 +163,13 @@ export const disclosureWarning = (
 export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <span>Yo</span>
+      <h2 className="usa-alert-heading">Your expenses are higher than your income.</h2>
+      <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
     </div>
   </div>
 );
 
-export function incomeLessThanExpenses(formData) {
+export function expensesLessThanIncome(formData) {
   const {
     veteranGrossIncome = 0,
     veteranNetIncome = 0,
@@ -182,14 +183,22 @@ export function incomeLessThanExpenses(formData) {
     spouseOtherIncome = 0
   } = formData['view:spouseIncome'] || {};
 
-  const vetSpouseIncome = veteranGrossIncome + veteranNetIncome + veteranOtherIncome
-    + spouseGrossIncome + spouseNetIncome + spouseOtherIncome;
+  const vetSpouseIncome =
+    veteranGrossIncome +
+    veteranNetIncome +
+    veteranOtherIncome +
+    spouseGrossIncome +
+    spouseNetIncome +
+    spouseOtherIncome;
 
   const income = dependents.reduce((sum, dependent) => {
-    return (dependent.grossIncome || 0)
-      + (dependent.netIncome || 0)
-      + (dependent.otherIncome || 0)
-      + sum;
+    const {
+      grossIncome = 0,
+      netIncome = 0,
+      otherIncome = 0,
+    } = dependent;
+
+    return grossIncome + netIncome + otherIncome + sum;
   }, vetSpouseIncome);
 
   const {
@@ -198,5 +207,10 @@ export function incomeLessThanExpenses(formData) {
     deductibleEducationExpenses = 0,
   } = formData;
 
-  return income < (deductibleMedicalExpenses + deductibleEducationExpenses + deductibleFuneralExpenses);
+  const expenses =
+    deductibleMedicalExpenses +
+    deductibleEducationExpenses +
+    deductibleFuneralExpenses;
+
+  return income > expenses;
 }

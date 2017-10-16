@@ -23,7 +23,7 @@ import {
   incomeDescription,
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
-  incomeLessThanExpenses
+  expensesLessThanIncome
 } from '../helpers';
 
 import migrations from './migrations';
@@ -685,7 +685,7 @@ const formConfig = {
             'view:expensesIncomeWarning': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: incomeLessThanExpenses
+                hideIf: expensesLessThanIncome
               }
             }
           },
