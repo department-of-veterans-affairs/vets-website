@@ -22,15 +22,9 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { form } = this.props;
-    const { response } = form.submission;
-    const time = _.get('timestamp', response);
-    const name = form.data.veteranFullName;
-    const healthEligibilityCenter = [
-      'Health Eligibility Center',
-      '2957 Clairmont Rd., Suite 200',
-      'Atlanta, GA 30329'
-    ];
+    const { submission, data } = this.props.form;
+    const { response } = submission;
+    const name = data.veteranFullName;
 
     return (
       <div>
@@ -45,18 +39,21 @@ export class ConfirmationPage extends React.Component {
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
-            <li>
+            {response && response.timestamp && <li>
               <strong>Date received</strong><br/>
-              <span>{moment(time).format('MMM D, YYYY')}</span>
-            </li>
-            <li>
+              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+            </li>}
+            {response && response.formSubmissionId && <li>
               <strong>Confirmation number</strong><br/>
               <span>{response.formSubmissionId}</span>
-            </li>
+            </li>}
             <li>
               <strong>Your claim was sent to</strong>
-              <address className="schemaform-address-view">{healthEligibilityCenter.map((line, index) =>
-                <p className="hca-confirmation-address" key={index}>{line}</p>)}</address>
+              <p className="schemaform-address-view hca-confirmation-address">
+                <span>Health Eligibility Center</span><br/>
+                <span>2957 Clairmont Rd., Suite 200</span><br/>
+                <span>Atlanta, GA 30329</span>
+              </p>
             </li>
           </ul>
         </div>
