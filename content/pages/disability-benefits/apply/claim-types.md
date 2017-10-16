@@ -7,12 +7,12 @@ template: detail-page
 children: disabilityClaimTypes
 order: 2
 relatedlinks:
-  - heading: 
+  - heading:
     links:
     - url: /disability-benefits/apply/predischarge-claim/
       title: Predischarge Claim
       description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
-    - url: 
+    - url:
 ---
 
 <div class="va-introtext">
@@ -97,7 +97,7 @@ You can file a new claim to request:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary Claim—File a claim for a new disability that's linked to a service-connected disability you already have.</button>
 <div id="claim-secondary" class="usa-accordion-content">
 
-You can file a secondary claim to get more disability benefits for the secondary disability. 
+You can file a secondary claim to get more disability benefits for the secondary disability.
 
 For example, you might file a secondary claim if you:
 - Develop arthritis that's caused by a service-connected knee injury you got while on active duty, **or**
@@ -107,3 +107,5 @@ For example, you might file a secondary claim if you:
 
 </div>
 </li>
+</ul>
+</div>
