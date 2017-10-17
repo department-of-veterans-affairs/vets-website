@@ -6,6 +6,7 @@ const screenshotDirectory = path.join(__dirname, '../../../logs/visual-regressio
 const baselineDir = path.join(screenshotDirectory, '/baseline');
 const diffDir = path.join(screenshotDirectory, '/diffs');
 
+// Takes a full URL and translates that into a filename in the logs directory to store images.
 function getFileNames(route) {
     const uri = route.replace(baseUrl, '');
     const baseline = path.join(baselineDir, `/${uri}.png`);
@@ -14,6 +15,8 @@ function getFileNames(route) {
     return [ baseline, diff ];
 }
 
+// Creates a directory if it doesn't exist already.
+// Necessary when writing out the diff image.
 function createDirectoryIfNotExist(filePath) {
     const directory = path.dirname(filePath);
 
