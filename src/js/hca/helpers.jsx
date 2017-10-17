@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import Tooltip from '../common/components/Tooltip';
 
 import {
   stringifyFormReplacer,
@@ -163,7 +164,7 @@ export const disclosureWarning = (
 export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h2 className="usa-alert-heading">Your expenses are higher than your income.</h2>
+      <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
       <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
     </div>
   </div>
@@ -214,3 +215,14 @@ export function expensesLessThanIncome(formData) {
 
   return income > expenses;
 }
+
+export const deductibleExpensesDescription = (
+  <div>
+    Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
+    <p>
+      <Tooltip text="What if my expenses are higher than my annual income?">
+        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
+      </Tooltip>
+    </p>
+  </div>
+);

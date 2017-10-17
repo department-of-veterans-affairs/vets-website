@@ -23,7 +23,8 @@ import {
   incomeDescription,
   disclosureWarning,
   expensesGreaterThanIncomeWarning,
-  expensesLessThanIncome
+  expensesLessThanIncome,
+  deductibleExpensesDescription
 } from '../helpers';
 
 import migrations from './migrations';
@@ -678,7 +679,7 @@ const formConfig = {
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
-            'ui:description': 'Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.',
+            'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
             deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
             deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
