@@ -219,10 +219,10 @@ export function expensesLessThanIncome(formData) {
 export const deductibleExpensesDescription = (
   <div>
     Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
-    <p>
+    <div className="hca-tooltip-wrapper">
       <Tooltip text="What if my expenses are higher than my annual income?">
         We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
       </Tooltip>
-    </p>
+    </div>
   </div>
 );
