@@ -37,15 +37,15 @@ export class ConfirmationPage extends React.Component {
           <h4>Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
-          {response && (response.timestamp || response.formSubmissionId) && <ul className="claim-list">
-            {response && response.timestamp && <li>
+          {response && <ul className="claim-list">
+            <li>
               <strong>Date received</strong><br/>
               <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-            </li>}
-            {response && response.formSubmissionId && <li>
+            </li>
+            <li>
               <strong>Confirmation number</strong><br/>
               <span>{response.formSubmissionId}</span>
-            </li>}
+            </li>
           </ul>}
         </div>
         <div className="confirmation-guidance-container">
