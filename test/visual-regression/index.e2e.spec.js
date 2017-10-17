@@ -7,27 +7,24 @@ const { sitemapURLs: getRoutes } = require('../e2e/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 
-function mapRoutesToRouteHandlers(browser, routes, routeHandler) {
-    return routes.map(route => {
-        const changeUrl = new Promise((resolve, reject) => browser.url(route, resolve));
+function createOperationChain(browser, routes, routeHandler) {
+    return routes.reduce((chain, route) => {
+        const changeUrl = () => new Promise((resolve, reject) => browser.url(route, resolve));
         const routeHandlerWrapped = () => routeHandler(browser, route);
 
-        return changeUrl.then(routeHandlerWrapped);
-    });
+        return chain.then(() => changeUrl().then(routeHandlerWrapped));
+    }, Promise.resolve());
 }
 
 function getApplication(routeHandler) {
     return function beginApplication(browser) {
-
-        return new Promise((resolve, reject) => getRoutes(resolve))
-
-            .then(routes => mapRoutesToRouteHandlers(browser, routes, routeHandler))
-
-            .then(pendingRouteResults => Promise.all(pendingRouteResults))
-
-            .then(() => browser.closeWindow())
-
-            .catch(error => console.log(error));
+        browser.perform(done => {
+            new Promise((resolve, reject) => getRoutes(resolve))
+                .then(routes => routes.slice(0, 10))  // @todo remove this
+                .then(routes => createOperationChain(browser, routes, routeHandler))
+                .then(() => browser.closeWindow())
+                .then(done)
+        })
     }
 }
 

@@ -34,17 +34,19 @@ function createDiffImage(diffFileName, comparisonResult) {
     });
 }
 
-function computeComparisonResult(diffFileName, comparisonResult) {
+function computeComparisonResult(browser, route, diffFileName, comparisonResult) {
     const misMatchPercentage = parseFloat(comparisonResult.misMatchPercentage);
+    const changesExceedThreshold = misMatchPercentage > 0.01;
 
-    // @todo add assertions
-    if (misMatchPercentage <= 0.01) {
-        return;
+    let operation = Promise.resolve();
+
+    if (changesExceedThreshold) {
+        operation = operation
+            .then(() => createDirectoryIfNotExist(diffFileName))
+            .then(() => createDiffImage(diffFileName, comparisonResult));
     }
 
-    return createDirectoryIfNotExist(diffFileName)
-
-        .then(() => createDiffImage(diffFileName, comparisonResult));
+    return operation.then(() => browser.verify.ok(!misMatchPercentage, route));
 }
 
 function calculateDiff(browser, route) {
@@ -55,10 +57,8 @@ function calculateDiff(browser, route) {
     ];
 
     return Promise.all(operations)
-
         .then(executeComparison)
-
-        .then(comparisonResult => computeComparisonResult(diffFileName, comparisonResult));
+        .then(comparisonResult => computeComparisonResult(browser, route, diffFileName, comparisonResult));
 }
 
 module.exports = calculateDiff;
