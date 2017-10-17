@@ -97,7 +97,7 @@ class DocumentRequestPage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">{trackedItem.displayName || 'Document Request'}</h1>
+                <h1 className="claims-header">{trackedItem ? trackedItem.displayName : 'Document Request'}</h1>
                 {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
                 {trackedItem.type.endsWith('others_list')
                   ? <div className="optional-upload">
