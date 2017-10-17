@@ -6,7 +6,7 @@ export default function createApplicationStatus(store, form) {
   const root = document.getElementById('react-applicationStatus');
   if (root) {
     import(
-      /* webpackChunkName: "pension-application-status" */
+      /* webpackChunkName: "application-status" */
       '../schemaform/ApplicationStatus').then(module => {
       const ApplicationStatus = module.default;
       ReactDOM.render((
