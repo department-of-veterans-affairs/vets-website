@@ -49,6 +49,7 @@ const {
   date,
   dateRange,
   gender,
+  email,
   phone,
   files,
   vaFileNumber
@@ -72,6 +73,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
+    email,
     phone,
     files,
     vaFileNumber
@@ -191,7 +193,6 @@ const formConfig = {
           path: 'sponsor-information-1/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          // TODO: Fix inconsistent formData upon submission.
           depends: formData => formData.applications && formData.applications.some(isVeteran),
           itemFilter: item => !isVeteran(item),
           uiSchema: {
