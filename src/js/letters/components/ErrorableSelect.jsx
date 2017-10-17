@@ -20,16 +20,11 @@ import _ from 'lodash';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
   componentWillMount() {
     this.selectId = _.uniqueId('errorable-select-');
   }
 
-  handleChange(domEvent) {
+  handleChange = (domEvent) => {
     this.props.onValueChange(domEvent.target.value);
   }
 
