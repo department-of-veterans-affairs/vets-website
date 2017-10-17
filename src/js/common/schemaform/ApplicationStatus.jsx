@@ -23,7 +23,20 @@ export class ApplicationStatus extends React.Component {
           return 'a.m.';
         }
         return 'p.m.';
-      }
+      },
+      monthsShort: [
+        'Jan.',
+        'Feb.',
+        'Mar.',
+        'Apr.',
+        'May',
+        'Jun.',
+        'Jul.',
+        'Sept.',
+        'Oct.',
+        'Nov.',
+        'Dec.'
+      ]
     });
   }
 

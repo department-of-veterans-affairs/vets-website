@@ -16,7 +16,20 @@ moment.updateLocale('en', {
       return 'a.m.';
     }
     return 'p.m.';
-  }
+  },
+  monthsShort: [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'Jun.',
+    'Jul.',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Dec.'
+  ]
 });
 
 class UserProfileApp extends React.Component {
