@@ -1,7 +1,6 @@
 import React from 'react';
 import set from 'lodash/fp/set';
 
-import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export function isVeteran(item) {
@@ -95,33 +94,20 @@ export const veteranUISchema = {
     }
   },
   militaryStatus: {
-    'ui:title': 'Military status to determine if you qualify for burial. Please check all that apply.',
-    veteran: {
-      'ui:title': 'Veteran'
-    },
-    retiredActiveDuty: {
-      'ui:title': 'Retired Active Duty'
-    },
-    diedOnActiveDuty: {
-      'ui:title': 'Died on Active Duty'
-    },
-    retiredReserve: {
-      'ui:title': 'Retired Reserve'
-    },
-    retiredNationalGuard: {
-      'ui:title': 'Retired National Guard'
-    },
-    deathInactiveDuty: {
-      'ui:title': 'Death Related to Inactive Duty Training'
-    },
-    other: {
-      'ui:title': 'Other'
-    },
-    'ui:validations': [
-      validateBooleanGroup
-    ],
+    'ui:title': 'Current military status (You can add more service history information later in this application.)',
+    'ui:widget': 'radio',
     'ui:options': {
-      showFieldLabel: true
+      labels: {
+        V: 'Veteran',
+        R: 'Retired',
+        A: 'Active Duty',
+        E: 'Retired Active Duty',
+        D: 'Died on Active Duty',
+        S: 'Reserve/National Guard',
+        O: 'Retired Reserve/National Guard',
+        I: 'Death Related to Inactive Duty Training',
+        X: 'Other'
+      }
     }
   }
 };
