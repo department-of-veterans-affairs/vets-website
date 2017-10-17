@@ -34,7 +34,8 @@ if (pensionPages.has(location.pathname)) {
 if (healthcarePages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '1010ez',
+    additionalText: 'You can start your online application right now.',
     applyText: 'Apply for Health Care',
-  });
+  }, 'hca-start-text');
 }
 

@@ -21,9 +21,6 @@ majorlinks:
     - url: /health-care/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
-      sibling: true
-      siblingId: react-applicationStatus
-      siblingData: hide-apply-button
     - url: /health-care/health-conditions
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
@@ -46,6 +43,8 @@ majorlinks:
 With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
 
 </div>
+
+<div id="react-applicationStatus" data-hide-apply-button></div>
 
 <div class="va-alert usa-alert usa-alert-warning">
   <div class="usa-alert-body">

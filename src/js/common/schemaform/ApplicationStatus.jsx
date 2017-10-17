@@ -104,12 +104,14 @@ export class ApplicationStatus extends React.Component {
 
     if (showApplyButton) {
       return (
-        <div className="sip-application-status">
-          <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+        <div>
+          {this.props.additionalText && <p>{this.props.additionalText}</p>}
+          <div className="sip-application-status">
+            <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+          </div>
         </div>
       );
     }
-
     return null;
   }
 }
@@ -117,6 +119,7 @@ export class ApplicationStatus extends React.Component {
 ApplicationStatus.propTypes = {
   formId: PropTypes.string.isRequired,
   applyText: PropTypes.string.isRequired,
+  additionalText: PropTypes.string,
   login: PropTypes.shape({
     currentlyLoggedIn: PropTypes.bool.isRequired
   }),

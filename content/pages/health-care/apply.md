@@ -69,8 +69,6 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 <h3 itemprop="name">Ready to apply?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-
-You can start your online application right now.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 <div id="react-applicationStatus">
