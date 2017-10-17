@@ -278,6 +278,7 @@ describe('<AddressSection>', () => {
       const instance = tree.getMountedInstance();
 
       instance.handleChange('city', 'Elsweyre');
+      instance.dirtyInput('city');
       expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.true;
     });
 
@@ -286,6 +287,7 @@ describe('<AddressSection>', () => {
       const instance = tree.getMountedInstance();
 
       instance.handleChange('city', '');
+      instance.dirtyInput('city');
       // The required validator (first in the list) should return an error message and no other validators should run
       expect(AddressSection.fieldValidations.city[0].called).to.be.true;
       expect(AddressSection.fieldValidations.city.slice(1).every(validator => !validator.called)).to.be.true;
@@ -296,7 +298,10 @@ describe('<AddressSection>', () => {
       const instance = tree.getMountedInstance();
 
       const fieldsToModify = ['city', 'stateCode'];
-      fieldsToModify.forEach(field => instance.handleChange(field, ''));
+      fieldsToModify.forEach(field => {
+        instance.handleChange(field, '');
+        instance.dirtyInput(field);
+      });
 
       Object.keys(AddressSection.fieldValidations).forEach((key) => {
         const validationsCalled = AddressSection.fieldValidations[key].some(v => v.called);
@@ -306,6 +311,27 @@ describe('<AddressSection>', () => {
           expect(validationsCalled).to.be.false;
         }
       });
+    });
+
+    it('should run validation against dropdowns immediately', () => {
+      const tree = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
+      const form = getFormDOM(tree);
+
+      // Start editing
+      form.click('.usa-button-outline');
+
+      // Sanity check - Start with no errors
+      expect(() => form.findElement('.usa-input-error')).to.throw();
+
+      // Select no state and expect a validation error
+      form.fillData('[name="state"]', '');
+      expect(form.getElement('.usa-input-error').textContent).to.contain('Please select a state');
+
+      // Select no country and expect a validation error
+      // Note: When we select no country, the state error should disappear, so we have to
+      //  make sure we're getting the _right_ error message
+      form.fillData('[name="country"]', '');
+      expect(form.getElement('.usa-input-error').textContent).to.contain('Please select a country');
     });
 
     it('should run validations on all fields before saving the address', () => {

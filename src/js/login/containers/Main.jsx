@@ -85,7 +85,9 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.props.updateLogoutUrl(json.logout_via_get);
+      if (json.logout_via_get) {
+        this.props.updateLogoutUrl(json.logout_via_get);
+      }
     });
   }
 

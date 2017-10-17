@@ -14,7 +14,7 @@ body.va-pos-fixed {
   // shouldn't affect anything. However, it's here to show how the height is offset by the
   // vertical positioning.
   top: $height-offset;
-  left: 0;
+  left: -0.9rem;
   overflow-y: scroll;
   position: absolute;
   width: 100%;
@@ -64,6 +64,7 @@ body.va-pos-fixed {
   }
 
   > li {
+
     margin-bottom: 6px;
 
     @include media($medium-large-screen) {
@@ -161,7 +162,7 @@ body.va-pos-fixed {
 
 @include media($medium-large-screen) {
   a.vetnav-level1 {
-    border-bottom: 1px solid transparent;
+    //border-bottom: 1px solid transparent;
 
     &:hover {
       background-color: $color-primary;
