@@ -21,22 +21,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    //const { submission, data } = this.props.form;
-    const form = {
-      data: {
-        veteranFullName: {
-          first: 'First',
-          last: 'Last'
-        }
-      },
-      submission: {
-        response: {
-          timestamp: '2017-08-08',
-          formSubmissionId: '1231231231'
-        }
-      }
-    };
-    const { submission, data } = form;
+    const { submission, data } = this.props.form;
     const { response } = submission;
     const name = data.veteranFullName;
 
