@@ -10,75 +10,75 @@ const calculateDiff = require('./util/calculate-diff');
 // Converts the array of routes/URL's and returns a super-long promise chain.
 function createRouteHandlerChain(browser, routes, routeHandler) {
 
-    // Loops through all of the routes continually chaining promises onto a single original promise.
-    // This way the promises will execute in a waterfall effect and is necessary since we can only show one URL at a time.
-    return routes.reduce((routeChain, route) => {
+  // Loops through all of the routes continually chaining promises onto a single original promise.
+  // This way the promises will execute in a waterfall effect and is necessary since we can only show one URL at a time.
+  return routes.reduce((routeChain, route) => {
 
-        // Return the original promise, along with the next route operation.
-        return routeChain
+    // Return the original promise, along with the next route operation.
+    return routeChain
 
-            // Navigate to the next URL.
-            .then(() => new Promise((resolve, reject) => browser.url(route, resolve)))
+      // Navigate to the next URL.
+      .then(() => new Promise((resolve, reject) => browser.url(route, resolve)))
 
-            // Hand off the browser and route to the route handler.
-            .then(() => routeHandler(browser, route));
+      // Hand off the browser and route to the route handler.
+      .then(() => routeHandler(browser, route));
 
-    }, Promise.resolve());
+  }, Promise.resolve());
 }
 
 // Returns a function that will be executed as a Nightwatch test case.
 // Uses currying to dish out the work needed to be done after the URL changes.
 function getApplication(routeHandler) {
-    return function beginApplication(browser) {
+  return function beginApplication(browser) {
 
-        // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.
-        browser.perform(done => {
+    // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.
+    browser.perform(done => {
 
-            // Parse the sitemap XML file into an array of URL's
-            new Promise((resolve, reject) => getRoutes(resolve))
+      // Parse the sitemap XML file into an array of URL's
+      new Promise((resolve, reject) => getRoutes(resolve))
 
-                // Create a single long-running promise out of the routes array
-                .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
+        // Create a single long-running promise out of the routes array
+        .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
 
-                // Close the browser window so Electron instances don't pile up.
-                .then(() => browser.closeWindow())
+        // Close the browser window so Electron instances don't pile up.
+        .then(() => browser.closeWindow())
 
-                // Tell Nighwatch we're finished.
-                .then(done);
-        });
-    }
+        // Tell Nighwatch we're finished.
+        .then(done);
+    });
+  }
 }
 
 // Uses command flags to determine the "routeHandler" function that will perform a task after the browser navigates to each route.
 function getRouteHandler() {
-    const commands = {
-        CREATE_BASELINE_IMAGES: 'baseline',
-        CALCULATE_DIFFS: 'diff'
-    };
+  const commands = {
+    CREATE_BASELINE_IMAGES: 'baseline',
+    CALCULATE_DIFFS: 'diff'
+  };
 
-    const { command } = commandLineArgs([
-        { name: 'command', type: String },
-        { name: 'config', type: String, alias: 'c' }
-    ]);
+  const { command } = commandLineArgs([
+    { name: 'command', type: String },
+    { name: 'config', type: String, alias: 'c' }
+  ]);
 
-    switch (command) {
-        case commands.CREATE_BASELINE_IMAGES:
-            console.log('Generating baseline images...');
-            return createBaselineImage;
+  switch (command) {
+    case commands.CREATE_BASELINE_IMAGES:
+      console.log('Generating baseline images...');
+      return createBaselineImage;
 
-        case commands.CALCULATE_DIFFS:
-        default:
-            console.log('Calculating image diffs with baseline...');
-            return calculateDiff;
-    }
+    case commands.CALCULATE_DIFFS:
+    default:
+      console.log('Calculating image diffs with baseline...');
+      return calculateDiff;
+  }
 }
 
 // The entry point for everything.
 function setup() {
-    const routeHandler = getRouteHandler();
-    const beginApplication = getApplication(routeHandler);
+  const routeHandler = getRouteHandler();
+  const beginApplication = getApplication(routeHandler);
 
-    return createE2eTest(beginApplication);
+  return createE2eTest(beginApplication);
 }
 
 module.exports = setup();
