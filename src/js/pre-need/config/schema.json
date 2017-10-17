@@ -535,7 +535,7 @@
                   "pattern": "^\\d{3}$"
                 },
                 "name": {
-                  "type": "string"
+                  "$ref": "#/definitions/fullName"
                 }
               }
             }
