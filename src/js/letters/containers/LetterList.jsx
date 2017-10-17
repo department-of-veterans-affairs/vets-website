@@ -109,10 +109,6 @@ export class LetterList extends React.Component {
 function mapStateToProps(state) {
   const letterState = state.letters;
   return {
-    benefitSummaryOptions: {
-      benefitInfo: letterState.benefitInfo,
-      serviceInfo: letterState.serviceInfo
-    },
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
