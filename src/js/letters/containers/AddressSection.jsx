@@ -154,17 +154,31 @@ export class AddressSection extends React.Component {
     });
   }
 
-
-  handleChange = (fieldName, update) => {
+  dirtyInput = (fieldName) => {
     let fieldsToValidate = this.state.fieldsToValidate;
-    // When a field is changed, make sure we validate it
+    // When a field is blurred, add it to the fields we want to validate
     if (!fieldsToValidate[fieldName]) {
-      // If we set state here, the validation won't run when the field is modified the first time
-      // This is because the state won't be updated in time for validateAll to catch it
-      fieldsToValidate =  Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
-    }
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
 
+      // Make sure to _actually_ validate it
+      const errorMessages = this.validateAll(this.state.editableAddress, fieldsToValidate);
+      this.setState({
+        fieldsToValidate,
+        errorMessages
+      });
+    }
+  }
+
+  /**
+   * Handles changing input from the Address component.
+   * @param {String}  fieldName   The name of the field that's changing
+   * @param {String}  update      The new value of the field
+   * @param {Boolean} forceDirty  Whether to set the field as dirty immediately before validation.
+   *                              Useful for select fields which don't trigger the onBlur event.
+   */
+  handleChange = (fieldName, update, forceDirty = false) => {
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
+    let fieldsToValidate = this.state.fieldsToValidate;
     // if country is changing we should clear the state
     if (fieldName === 'countryName') {
       address.stateCode = '';
@@ -179,13 +193,18 @@ export class AddressSection extends React.Component {
       address = resetDisallowedAddressFields(address);
     }
 
+    // Force the input to dirty if necessary
+    if (forceDirty && !fieldsToValidate[fieldName]) {
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
+    }
+
     // Update the error messages
     // TODO: This might get super slow, so we can debounce the validation if necessary...probably
     const errorMessages = this.validateAll(address, fieldsToValidate);
     this.setState({
+      fieldsToValidate,
       editableAddress: address,
       errorMessages,
-      fieldsToValidate
     });
   }
 
@@ -224,6 +243,7 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             onInput={this.handleChange}
+            onBlur={this.dirtyInput}
             address={this.state.editableAddress}
             errorMessages={this.state.errorMessages}
             countries={this.props.countries}

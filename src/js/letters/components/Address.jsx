@@ -71,7 +71,7 @@ class Address extends React.Component {
           options={this.props.countries}
           value={this.props.address.countryName}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('countryName', update)}/>
+          onValueChange={(update) => this.props.onInput('countryName', update, true)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
           name="address"
@@ -79,21 +79,24 @@ class Address extends React.Component {
           charMax={35}
           value={this.props.address.addressOne}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('addressOne', update)}/>
+          onValueChange={(update) => this.props.onInput('addressOne', update)}
+          onBlur={() => this.props.onBlur('addressOne')}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={35}
           value={this.props.address.addressTwo}
-          onValueChange={(update) => this.props.onInput('addressTwo', update)}/>
+          onValueChange={(update) => this.props.onInput('addressTwo', update)}
+          onBlur={() => this.props.onBlur('addressTwo')}/>
         <ErrorableTextInput
           label="Street address (optional)"
           name="address"
           autocomplete="street-address"
           charMax={35}
           value={this.props.address.addressThree}
-          onValueChange={(update) => this.props.onInput('addressThree', update)}/>
+          onValueChange={(update) => this.props.onInput('addressThree', update)}
+          onBlur={() => this.props.onBlur('addressThree')}/>
         <ErrorableTextInput errorMessage={errorMessages.city}
           label={<span>City <em>(or APO/FPO/DPO)</em></span>}
           name="city"
@@ -101,7 +104,8 @@ class Address extends React.Component {
           charMax={30}
           value={this.props.address.city}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('city', update)}/>
+          onValueChange={(update) => this.props.onInput('city', update)}
+          onBlur={() => this.props.onBlur('city')}/>
 
         {/* Hide the state for addresses that aren't in the US */}
         {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
@@ -111,7 +115,7 @@ class Address extends React.Component {
           options={adjustedStateNames}
           value={this.props.address.stateCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('stateCode', update)}/>}
+          onValueChange={(update) => this.props.onInput('stateCode', update, true)}/>}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
         {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
@@ -121,7 +125,8 @@ class Address extends React.Component {
           autocomplete="postal-code"
           value={this.props.address.zipCode}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('zipCode', update)}/>}
+          onValueChange={(update) => this.props.onInput('zipCode', update)}
+          onBlur={() => this.props.onBlur('zipCode')}/>}
       </div>
     );
   }
