@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
