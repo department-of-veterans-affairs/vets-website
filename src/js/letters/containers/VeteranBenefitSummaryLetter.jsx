@@ -19,6 +19,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
   handleChange(domEvent) {
     window.dataLayer.push({
+      // For Google Analytics
       event: 'letter-benefit-option-clicked',
       'letter-benefit-option': domEvent.target.id,
       'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
