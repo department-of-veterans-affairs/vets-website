@@ -9,7 +9,7 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 function AppContent({ children, isDataAvailable }) {
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
-    <div className="disability-benefits-content">
+    <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable/>}
       {canUseApp &&
         <div>

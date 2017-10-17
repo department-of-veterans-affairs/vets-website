@@ -9,7 +9,7 @@ export default function SubmittedTrackedItem({ item }) {
   const reviewed = hasBeenReviewed(item);
   return (
     <div className="submitted-file-list-item">
-      <div className="submission-file-type">{item.displayName}</div>
+      <h3 className="submission-file-type">{item.displayName}</h3>
       <p className="submission-description">{truncateDescription(item.description)}</p>
       {item.documents
         ? item.documents.map((doc, index) => (

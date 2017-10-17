@@ -19,7 +19,7 @@ class TabItem extends React.Component {
   }
   render() {
     return (
-      <li className="tab-li" role="presentation">
+      <li className="claims-status-tabs-item" role="presentation">
         <IndexLink
           id={`tab${this.props.id || this.props.title}`}
           aria-controls={`tabPanel${this.props.id || this.props.title}`}

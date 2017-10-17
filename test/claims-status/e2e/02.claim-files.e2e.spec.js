@@ -43,10 +43,10 @@ module.exports = E2eHelpers.createE2eTest(
 
     // should show a submitted date message
     client
-      .expect.element('.submitted-file-list-item:last-child h6').text.to.equal('Submitted');
+      .expect.element('.submitted-file-list-item:last-child .submission-status').text.to.equal('Submitted');
     // should show a reviewed date message
     client
-      .expect.element('.submitted-file-list-item h6').text.to.equal('Reviewed by VA');
+      .expect.element('.submitted-file-list-item .submission-status').text.to.equal('Reviewed by VA');
 
     client.end();
   }

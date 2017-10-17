@@ -87,7 +87,7 @@ class AddFilesForm extends React.Component {
           }}>Need to mail or fax your files</a>?</p>
         </div>
         <Element name="filesList"/>
-        <div className="button-container">
+        <div>
           <ErrorableFileInput
             errorMessage={this.getErrorMessage()}
             label={<h5>Select files to upload</h5>}
@@ -133,7 +133,7 @@ class AddFilesForm extends React.Component {
             </div>
           </div>
         ))}
-        <div className="button-container file-review">
+        <div className="file-review">
           <button
             className="usa-button"
             onClick={this.submit}>
