@@ -53,7 +53,7 @@ export const stateValidations = [
   // Require a state for US addresses
   (state, fullAddress) => {
     if (fullAddress.countryName === 'USA' && !state) {
-      return 'Please enter a state';
+      return 'Please select a state';
     }
 
     return true;

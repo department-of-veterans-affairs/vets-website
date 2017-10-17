@@ -2,28 +2,28 @@ import Raven from 'raven-js';
 
 import { apiRequest } from '../utils/helpers.jsx';
 import {
+  ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  GET_LETTERS_FAILURE,
-  GET_LETTERS_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
   GET_ADDRESS_FAILURE,
   GET_ADDRESS_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_LETTER_PDF_DOWNLOADING,
   GET_LETTER_PDF_FAILURE,
   GET_LETTER_PDF_SUCCESS,
+  GET_LETTERS_FAILURE,
+  GET_LETTERS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
+  LETTER_TYPES,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   SAVE_ADDRESS_PENDING,
-  SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
-  LETTER_TYPES,
-  ADDRESS_TYPES,
-  GET_ADDRESS_COUNTRIES_SUCCESS,
-  GET_ADDRESS_COUNTRIES_FAILURE,
-  GET_ADDRESS_STATES_SUCCESS,
-  GET_ADDRESS_STATES_FAILURE
+  SAVE_ADDRESS_SUCCESS
 } from '../utils/constants';
 
 export function getLetterList() {
@@ -92,33 +92,8 @@ export function getMailingAddress() {
           data: responseCopy
         });
       },
-      (response) => {
-        const error = response.errors.length > 0 ? response.errors[0] : undefined;
-        if (error) {
-          if (error.status === '503' || error.status === '504') {
-            // Either EVSS or a partner service is down or EVSS times out
-            return dispatch({ type: BACKEND_SERVICE_ERROR });
-          }
-          if (error.status === '403') {
-            // Backend authentication problem
-            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          }
-          // All other error codes
-          return Promise.reject(
-            new Error(`vets_address_error_server_get: ${error.status}`)
-          );
-        }
-        return Promise.reject(
-          new Error('vets_address_error_server_get')
-        );
-      }
-    ).catch((error) => {
-      if (error.message.match('vets_address_error_server_get')) {
-        Raven.captureException(error);
-        return dispatch({ type: GET_ADDRESS_FAILURE });
-      }
-      throw error;
-    });
+      () => dispatch({ type: GET_ADDRESS_FAILURE })
+    );
   };
 }
 
