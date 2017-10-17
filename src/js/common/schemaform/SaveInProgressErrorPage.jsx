@@ -78,7 +78,7 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.failure:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We’re sorry. We're having some server issues and are working to fix them. Please try applying again in a few moments.</div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry. We’re having some server issues and are working to fix them. Please try applying again in a few moments.</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>Continue Application</button>
