@@ -73,8 +73,7 @@ function getRouteHandler() {
     }
 }
 
-// The entry point for the application.
-// Determines the
+// The entry point for everything.
 function setup() {
     const routeHandler = getRouteHandler();
     const beginApplication = getApplication(routeHandler);
