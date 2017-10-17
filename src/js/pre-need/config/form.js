@@ -28,6 +28,12 @@ import {
   veteranUISchema
 } from '../utils/helpers';
 
+const fullMaidenNameUI = _.merge(fullNameUI, {
+  maiden: {
+    'ui:title': 'Maiden name'
+  },
+});
+
 const {
   claimant,
   veteran,
@@ -84,10 +90,7 @@ const formConfig = {
               },
               items: {
                 claimant: {
-                  name: fullNameUI,
-                  maidenName: {
-                    'ui:title': 'Maiden name'
-                  },
+                  name: fullMaidenNameUI,
                   ssn: ssnUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   relationshipToVet: {
@@ -96,9 +99,10 @@ const formConfig = {
                       'ui:widget': 'radio',
                       'ui:options': {
                         labels: {
-                          1: 'I am the Servicemember',
+                          1: 'I am the Servicemember/Veteran',
                           2: 'Spouse or surviving spouse',
                           3: 'Unmarried adult child',
+                          4: 'Other'
                         }
                       }
                     },
@@ -127,7 +131,6 @@ const formConfig = {
                       type: 'object',
                       properties: _.pick([
                         'name',
-                        'maidenName',
                         'ssn',
                         'dateOfBirth',
                         'relationshipToVet'
@@ -350,12 +353,13 @@ const formConfig = {
                         'ui:title': 'Discharge character of service',
                         'ui:options': {
                           labels: {
-                            honorable: 'Honorable',
-                            general: 'General',
-                            other: 'Other Than Honorable',
-                            'bad-conduct': 'Bad Conduct',
-                            dishonorable: 'Dishonorable',
-                            undesirable: 'Undesirable'
+                            1: 'Honorable',
+                            2: 'General',
+                            3: 'Entry Level Separation/Uncharacterized',
+                            4: 'Other Than Honorable',
+                            5: 'Bad Conduct',
+                            6: 'Dishonorable',
+                            7: 'Other'
                           }
                         }
                       },
