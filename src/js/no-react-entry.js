@@ -35,7 +35,7 @@ if (healthcarePages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '1010ez',
     additionalText: 'You can start your online application right now.',
-    applyText: 'Apply for Health Care',
+    applyText: 'Apply for Health Care Benefits',
   }, 'hca-start-text');
 }
 
