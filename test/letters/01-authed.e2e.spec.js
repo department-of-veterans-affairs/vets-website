@@ -37,19 +37,20 @@ module.exports = E2eHelpers.createE2eTest(
     // Update address and cancel
     client
       .click('.usa-button-outline')
-      .expect.element('select').to.be.present;
+      .expect.element('select').to.be.present.before(Timeouts.normal);
 
     client
       .setValue('select[name="country"]', 'United Kingdom')
       .clearValue('input[name="city"]')
       .fill('input[name="city"]', 'Stratford-upon-Avon')
       .click('.usa-button-outline')
+      .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
     // Update address and save
     client
       .click('.usa-button-outline')
-      .expect.element('select').to.be.present;
+      .expect.element('select').to.be.present.before(Timeouts.normal);
 
     client
       .clearValue('input[name="city"]')
@@ -58,16 +59,21 @@ module.exports = E2eHelpers.createE2eTest(
       .clearValue('input[name="postalCode"]')
       .fill('input[name="postalCode"]', LettersHelpers.newAddress.zipCode)
       .click('.usa-button-primary')
+      .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain('Chicago, Illinois 60602');
 
 
     client
       .click('.view-letters-button')
-      .expect.element('.usa-accordion-bordered').to.be.present;
+      .expect.element('.usa-accordion-bordered').to.be.present.before(Timeouts.normal);
 
     client
       .click('.usa-accordion-bordered')
-      .expect.element('.va-button-primary').to.be.present;
+      .expect.element('.va-button-primary').to.be.present.before(Timeouts.normal);
+
+    client
+      .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
+      .expect.element('.city-state').to.be.present.before(Timeouts.normal);
 
     client.end();
   }
