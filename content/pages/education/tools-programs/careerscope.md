@@ -9,17 +9,20 @@ order: 2
 
 <div class="va-introtext">
 
-In addition to getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels and helps you figure out the best career path when you move into civilian life. 
-
-</div>
-
-CareerScope is available to all Veterans, Servicemembers, and their dependents who are eligible for VA education benefits. It recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers. [Get started with CareerScope](https://va.careerscope.net/gibill).
+In addition to getting career counseling, you may be able to use CareerScope, a tool that measures your interests and skill levels and helps you figure out the best career path when you move into civilian life. It recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers. Find out if you qualify to use CareerScope.
 
 <h3 itemprop="name">Can I use CareerScope?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use CareerScope if you're a Veteran, Servicemember, or dependent who is eligible for VA education benefits or currently receiving education benefits.
-
+You can use CareerScope if you're a Veteran, Servicemember, or dependent who qualifies for—or is already getting—VA education benefits. [Get started with CareerScope](https://va.careerscope.net/gibill).
 
 The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).
+
+### How can I get help if I don't qualify to use CareerScope?
+
+If you don't qualify to use CareerScope, you can get help figuring out the path that's right for you through our educational and career counseling services. <br>
+[Find out how to get free educational and career counseling](/education/tools-programs/education-career-counseling/).
+
+You can also use the GI Bill Comparison Tool to find out what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+
