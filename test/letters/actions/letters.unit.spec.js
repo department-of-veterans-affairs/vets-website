@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockApiRequest, resetFetch } from '../../util/unit-helpers';
-
 import {
   ADDRESS_TYPES,
   SAVE_ADDRESS_SUCCESS,
@@ -34,6 +32,7 @@ const frontEndAddress = {
   state: 'secret'
 };
 
+// TO-DO: Determine if this is needed
 const addressResponse = {
   data: {
     attributes: {
@@ -76,15 +75,19 @@ const setup = () => {
     userToken: '123abc'
   };
   global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({ ok: true }));
+  global.fetch.returns(Promise.resolve({
+    headers: { get: () => 'application/json' },
+    ok: true,
+    json: () => Promise.resolve({})
+  }));
 };
 const teardown = () => {
   global.fetch = oldFetch;
   global.sessionStorage = oldSessionStorage;
 };
-
 const getState = () => ({});
 
+// without redux mock store - these tests pass
 describe.only('saveAddress', () => {
   beforeEach(setup);
   afterEach(teardown);
@@ -110,14 +113,6 @@ describe.only('saveAddress', () => {
 
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
     const thunk = saveAddress(frontEndAddress);
-    global.fetch.returns(Promise.resolve({
-      headers: {
-        get: () => 'application/json'
-      },
-      ok: true,
-      json: () => Promise.resolve({})
-    }));
-
     const dispatch = sinon.spy((action) => {
       const { type, address } = action;
       if (type === SAVE_ADDRESS_SUCCESS) {
