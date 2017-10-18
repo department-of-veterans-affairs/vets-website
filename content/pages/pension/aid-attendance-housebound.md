@@ -14,7 +14,7 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 <div class="feature" markdown=“1”>
 
-### Can I get Aid and Attendance or Housebound benefits from VA?
+### Can I get Aid and Attendance or Housebound benefits?
 
 **You may qualify for Aid and Attendance** if you get a VA pension and:
 
@@ -23,9 +23,9 @@ If you need help with your daily activities, or you’re housebound, you may qua
 - You are a patient in a nursing home due to the loss of mental or physical abilities related to a disability, **or**
 - Your eyesight is limited (even with glasses or contact lenses you have only 5/200 or less in both eyes; or concentric contraction of the visual field to 5 degrees or less)
 
-**You may qualify for housebound benefits** if you get a VA pension and you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away). 
+**You may qualify for Housebound benefits** if you get a VA pension and you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away). 
 
-**Note:** You can’t get Aid and Attendance benefits and housebound benefits at the same time.
+**Note:** You can’t get Aid and Attendance benefits and Housebound benefits at the same time.
 
 #### Who’s covered:
 - Qualified Veterans
