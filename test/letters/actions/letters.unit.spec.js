@@ -1,12 +1,25 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ADDRESS_TYPES, SAVE_ADDRESS_SUCCESS } from '../../../src/js/letters/utils/constants';
 import { mockApiRequest, resetFetch } from '../../util/unit-helpers';
 
 import {
+  ADDRESS_TYPES,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_FAILURE,
+  GET_LETTERS_SUCCESS
+} from '../../../src/js/letters/utils/constants';
+
+import {
+  getLetterList,
   getMailingAddress,
-  saveAddress
+  getBenefitSummaryOptions,
+  getLetterPdf,
+  saveAddressPending,
+  saveAddress,
+  getAddressCountries,
+  getAddressStates,
 } from '../../../src/js/letters/actions/letters';
 
 const backendAddress = {
@@ -20,6 +33,88 @@ const frontEndAddress = {
   city: 'apo',
   state: 'secret'
 };
+
+const addressResponse = {
+  data: {
+    attributes: {
+      address: {
+        type: 'DOMESTIC',
+        addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
+        addressOne: '140 Rock Creek Church Rd NW',
+        addressTwo: '',
+        addressThree: '',
+        city: 'Washington',
+        stateCode: 'DC',
+        zipCode: '20011',
+        zipSuffix: '1865'
+      },
+      controlInformation: {
+        canUpdate: true,
+        corpAvailIndicator: true,
+        corpRecFoundIndicator: true,
+        hasNoBdnPaymentsIndicator: true,
+        isCompetentIndicator: true,
+        indentityIndicator: true,
+        indexIndicator: true,
+        noFiduciaryAssignedIndicator: true,
+        notDeceasedIndicator: true
+      }
+    }
+  }
+};
+
+/**
+ * Setup() for each test requires stubbing global fetch() and setting userToken
+ * in global sessionStorage. Teardown() resets everything back to normal
+ */
+let oldFetch;
+let oldSessionStorage;
+const setup = () => {
+  oldSessionStorage = global.sessionStorage;
+  oldFetch = global.fetch;
+  global.sessionStorage = {
+    userToken: '123abc'
+  };
+  global.fetch = sinon.stub();
+  global.fetch.returns(Promise.resolve({ ok: true }));
+};
+const teardown = () => {
+  global.fetch = oldFetch;
+  global.sessionStorage = oldSessionStorage;
+};
+
+const getState = () => ({});
+
+describe.only('saveAddress', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('dispatches SAVE_ADDRESS_PENDING', (done) => {
+    const thunk = saveAddress(frontEndAddress);
+    global.fetch.returns(Promise.resolve({
+      headers: {
+        get: () => 'application/json'
+      },
+      ok: true,
+      json: () => Promise.resolve({})
+    }));
+
+    const dispatch = sinon.spy((action) => {
+      const { type, address } = action;
+      if (type === SAVE_ADDRESS_SUCCESS) {
+        try {
+          expect(type).to.equal(SAVE_ADDRESS_SUCCESS);
+          expect(address).to.eql(frontEndAddress);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+});
 
 
 // Skipping these for now because we're having trouble with making a global way to "mock"
