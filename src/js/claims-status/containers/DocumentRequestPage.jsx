@@ -37,7 +37,7 @@ class DocumentRequestPage extends React.Component {
     if (this.props.trackedItem) {
       document.title = `Request for ${this.props.trackedItem.displayName}`;
     } else {
-      document.title = 'Document Request';
+      this.props.router.push(`/your-claims/${this.props.params.id}/status`);
     }
     if (!this.props.loading) {
       setUpPage();
