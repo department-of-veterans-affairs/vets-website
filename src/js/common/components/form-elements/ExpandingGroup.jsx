@@ -34,7 +34,7 @@ export default function ExpandingGroup({ children, open, showPlus, additionalCla
 }
 
 ExpandingGroup.propTypes = {
-  open: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
   additionalClass: PropTypes.string,
   showPlus: PropTypes.bool,
   expandedContentId: PropTypes.string
