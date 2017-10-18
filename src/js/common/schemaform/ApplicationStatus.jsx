@@ -32,6 +32,7 @@ export class ApplicationStatus extends React.Component {
         'May',
         'June',
         'July',
+        'Aug.',
         'Sept.',
         'Oct.',
         'Nov.',

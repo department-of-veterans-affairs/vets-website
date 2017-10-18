@@ -43,6 +43,7 @@ moment.updateLocale('en', {
     'May',
     'June',
     'July',
+    'Aug.',
     'Sept.',
     'Oct.',
     'Nov.',
