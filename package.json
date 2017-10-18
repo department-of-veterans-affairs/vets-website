@@ -14,7 +14,7 @@
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
-    "nightwatch-visual": "nightwatch test/visual-regression/index.e2e.spec.js -c config/nightwatch.js",
+    "nightwatch-visual": "nightwatch test/visual-regression/index.js -c config/nightwatch.js",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
