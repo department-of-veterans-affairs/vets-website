@@ -4,6 +4,11 @@ template: level2-index
 title: Health Care Benefits
 display_title: Health Care
 permalink: /health-care/index.html
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
@@ -38,6 +43,8 @@ majorlinks:
 With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
 
 </div>
+
+<div id="react-applicationStatus" data-hide-apply-button></div>
 
 <div class="va-alert usa-alert usa-alert-warning">
   <div class="usa-alert-body">

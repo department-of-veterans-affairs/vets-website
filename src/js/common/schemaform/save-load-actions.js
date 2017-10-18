@@ -278,7 +278,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
         Raven.captureException(status);
         Raven.captureMessage('vets_sip_error_fetch');
-        loadedStatus = LOAD_STATUSES.failure;
+        loadedStatus = LOAD_STATUSES.clientFailure;
       }
 
       // If prefilling went wrong for a non-auth reason, it probably means that
