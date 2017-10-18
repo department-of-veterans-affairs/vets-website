@@ -7,6 +7,11 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-06-28
 collection: healthCare
 order: 2
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -62,7 +67,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+</div>
 
 [Learn about the application process](/health-care/apply/).
 
