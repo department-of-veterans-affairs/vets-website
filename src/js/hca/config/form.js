@@ -118,7 +118,7 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 3,
+  version: 4,
   migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
