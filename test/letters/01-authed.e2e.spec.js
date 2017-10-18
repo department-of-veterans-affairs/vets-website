@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
       .clearValue('input[name="city"]')
       .fill('input[name="city"]', 'Stratford-upon-Avon')
       .click('.usa-button-outline')
-      .waitForElementVisible('.city-state')
+      .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
     // Update address and save
@@ -59,7 +59,7 @@ module.exports = E2eHelpers.createE2eTest(
       .clearValue('input[name="postalCode"]')
       .fill('input[name="postalCode"]', LettersHelpers.newAddress.zipCode)
       .click('.usa-button-primary')
-      .waitForElementVisible('.city-state')
+      .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain('Chicago, Illinois 60602');
 
 
@@ -70,6 +70,10 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.usa-accordion-bordered')
       .expect.element('.va-button-primary').to.be.present.before(Timeouts.normal);
+
+    client
+      .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
+      .expect.element('.city-state').to.be.present.before(Timeouts.normal);
 
     client.end();
   }
