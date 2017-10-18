@@ -39,7 +39,7 @@ Your VA pension = $6,506 for the year (or $542 paid each month)
 
 **Notes:** 
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
-- **If you have more than 1 child**, add $2,205 to your MAPR amount for each additional child. 
+- **If you have more than one child**, add $2,205 to your MAPR amount for each additional child. 
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
