@@ -89,7 +89,26 @@ describe.only('saveAddress', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('dispatches SAVE_ADDRESS_PENDING', (done) => {
+  it('dispatches SAVE_ADDRESS_PENDING first', (done) => {
+    let callCount = 0;
+    const thunk = saveAddress(frontEndAddress);
+    const dispatch = sinon.spy((action) => {
+      callCount += 1;
+      const { type } = action;
+      if (callCount === 1) {
+        try {
+          expect(type).to.equal(SAVE_ADDRESS_PENDING);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+
+  it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
     const thunk = saveAddress(frontEndAddress);
     global.fetch.returns(Promise.resolve({
       headers: {
@@ -105,6 +124,26 @@ describe.only('saveAddress', () => {
         try {
           expect(type).to.equal(SAVE_ADDRESS_SUCCESS);
           expect(address).to.eql(frontEndAddress);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+
+  it('dispatches SAVE_ADDRESS_FAILURE on update failure', (done) => {
+    let callCount = 0;
+    const thunk = saveAddress(frontEndAddress);
+    global.fetch.returns(Promise.reject(new Error('Oops, something went wrong')));
+    const dispatch = sinon.spy((action) => {
+      const { type } = action;
+      callCount += 1;
+      if (callCount === 2) {
+        try {
+          expect(type).to.equal(SAVE_ADDRESS_FAILURE);
           done();
         } catch (error) {
           done(error);
