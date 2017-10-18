@@ -266,7 +266,7 @@ describe('letters reducer', () => {
   });
 
 
-  it('should handle a a letter eligibility error', () => {
+  it('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.letterEligibilityError);
