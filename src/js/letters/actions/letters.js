@@ -36,29 +36,50 @@ export function getLetterList() {
         data: response,
       }),
       (response) => {
-        const error = response.errors.length > 0 ? response.errors[0] : undefined;
-        if (error) {
-          if (error.status === '503' || error.status === '504') {
+        if (typeof response.errors === 'undefined' || response.errors.length === 0) {
+          return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
+        }
+        const error = response.errors[0];
+        switch (error.status) {
+          case ('503'): // Handled same as 504
+          case ('504'):
             // Either EVSS or a partner service is down or EVSS times out
             return dispatch({ type: BACKEND_SERVICE_ERROR });
-          }
-          if (error.status === '403') {
+          case ('403'):
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          }
-          if (error.status === '502') {
-            // Some of the partner services are down, so we cannot verify the eligibility
-            // of some letters
+          case ('502'):
+            // Some of the partner services are down, so we cannot verify the
+            // eligibility of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-          }
-          return Promise.reject(
-            new Error(`vets_letters_error_server_get: error status ${error.status}`)
-          );
+          default:
+            return Promise.reject(
+              new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
+            );
         }
-        return Promise.reject(
-          new Error('vets_letters_error_server_get: unknown error status')
-        );
       }
+      //   if (error) {
+      //     if (error.status === '503' || error.status === '504') {
+      //       // Either EVSS or a partner service is down or EVSS times out
+      //       return dispatch({ type: BACKEND_SERVICE_ERROR });
+      //     }
+      //     if (error.status === '403') {
+      //       // Backend authentication problem
+      //       return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+      //     }
+      //     if (error.status === '502') {
+      //       // Some of the partner services are down, so we cannot verify the eligibility
+      //       // of some letters
+      //       return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+      //     }
+      //     return Promise.reject(
+      //       new Error(`vets_letters_error_server_get: error status ${error.status}`)
+      //     );
+      //   }
+      //   return Promise.reject(
+      //     new Error('vets_letters_error_server_get: unknown error status')
+      //   );
+      // }
     ).catch((error) => {
       if (error.message.match('vets_letters_error_server_get')) {
         Raven.captureException(error);

@@ -6,7 +6,11 @@ import {
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
-  GET_LETTERS_SUCCESS
+  GET_LETTERS_SUCCESS,
+  GET_LETTERS_FAILURE,
+  BACKEND_SERVICE_ERROR,
+  BACKEND_AUTHENTICATION_ERROR,
+  LETTER_ELIGIBILITY_ERROR
 } from '../../../src/js/letters/utils/constants';
 
 import {
@@ -88,14 +92,15 @@ const teardown = () => {
 const getState = () => ({});
 
 // without redux mock store - these tests pass
-describe.only('saveAddress', () => {
+describe('saveAddress', () => {
   beforeEach(setup);
   afterEach(teardown);
 
   it('dispatches SAVE_ADDRESS_PENDING first', (done) => {
-    let callCount = 0;
     const thunk = saveAddress(frontEndAddress);
+    let callCount = 0;
     const dispatch = sinon.spy((action) => {
+      // keep track of which dispatch() call we're asserting against
       callCount += 1;
       const { type } = action;
       if (callCount === 1) {
@@ -130,9 +135,9 @@ describe.only('saveAddress', () => {
   });
 
   it('dispatches SAVE_ADDRESS_FAILURE on update failure', (done) => {
-    let callCount = 0;
+    global.fetch.returns(Promise.reject(new Error('something went wrong')));
     const thunk = saveAddress(frontEndAddress);
-    global.fetch.returns(Promise.reject(new Error('Oops, something went wrong')));
+    let callCount = 0;
     const dispatch = sinon.spy((action) => {
       const { type } = action;
       callCount += 1;
@@ -150,6 +155,89 @@ describe.only('saveAddress', () => {
   });
 });
 
+describe.only('getLettersList', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('dispatches GET_LETTERS_SUCCESS when GET succeeds', (done) => {
+    const thunk = getLetterList();
+    const dispatch = sinon.spy((action) => {
+      const { type } = action;
+      try {
+        expect(type).to.equal(GET_LETTERS_SUCCESS);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+
+  it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', (done) => {
+    global.fetch.returns(Promise.reject(new Error('something went wrong')));
+
+    const thunk = getLetterList();
+    const dispatch = sinon.spy((action) => {
+      const { type } = action;
+      try {
+        expect(type).to.equal(GET_LETTERS_FAILURE);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+
+  const lettersErrors = {
+    503: BACKEND_SERVICE_ERROR,
+    504: BACKEND_SERVICE_ERROR,
+    403: BACKEND_AUTHENTICATION_ERROR,
+    502: LETTER_ELIGIBILITY_ERROR,
+    500: GET_LETTERS_FAILURE
+  };
+
+  Object.keys(lettersErrors).forEach((code) => {
+    it(`dispatches ${lettersErrors[code]} when GET fails with ${code}`, (done) => {
+      global.fetch.returns(Promise.reject({
+        errors: [{ status: `${code}` }]
+      }));
+
+      const thunk = getLetterList();
+      const dispatch = sinon.spy((action) => {
+        const { type } = action;
+        try {
+          expect(type).to.equal(lettersErrors[code]);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+
+      thunk(dispatch, getState);
+    });
+  });
+});
+
+describe('getMailingAddress', () => {
+  it('dispatches GET_ADDRESS_SUCCESS when get succeeds', (done) => {
+    done();
+  });
+
+  it('dispatches GET_ADDRESS_FAILURE when GET fails', (done) => {
+    done();
+  });
+
+  it('dispatches with copy of response object (not original)', (done) => {
+    done();
+  });
+
+  it('modifies military addresses', (done) => {
+    done();
+  });
+});
 
 // Skipping these for now because we're having trouble with making a global way to "mock"
 //  apiRequest(). The answer to this might just be more copy pasta right here to setup
