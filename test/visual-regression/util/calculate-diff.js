@@ -9,7 +9,7 @@ function readFile(fileName) {
   return new Promise((resolve, reject) => {
     fs.readFile(fileName, (err, result) => {
       return err ? reject(err) : resolve(result);
-    })
+    });
   });
 }
 
@@ -58,11 +58,11 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
   // When the images differ, chain additional operations to create the diff image file
   if (changesExceedThreshold) {
 
-      // Create the directory first to prevent errors
-      return createDirectoryIfNotExist(diffFileName)
+    // Create the directory first to prevent errors
+    return createDirectoryIfNotExist(diffFileName)
 
-        // Then actually write the diff file
-        .then(() => createDiffImage(diffFileName, comparisonResult));
+      // Then actually write the diff file
+      .then(() => createDiffImage(diffFileName, comparisonResult));
   }
 
   // For consistency, return a resolved promise.

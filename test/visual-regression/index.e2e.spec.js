@@ -26,7 +26,7 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
 }
 
 // A wrapper around the login helper to return a promise
-function login(browser){
+function login(browser) {
   const token = LoginHelpers.getUserToken();
 
   return new Promise(resolve => {
@@ -36,7 +36,7 @@ function login(browser){
 }
 
 // A wrapper around a helper function for grabbing the sitemap.xml and converting into an array of URL's
-function getSiteRoutes(){
+function getSiteRoutes() {
   return new Promise(resolve => sitemapURLs(resolve));
 }
 
@@ -52,15 +52,12 @@ function getRouteHandler() {
     { name: 'config', type: String, alias: 'c' }
   ]);
 
-  // eslint-disable-line no-console
   switch (command) {
     case commands.CREATE_BASELINE_IMAGES:
-      console.log('Generating baseline images...');
       return createBaselineImage;
 
     case commands.CALCULATE_DIFFS:
     default:
-      console.log('Calculating image diffs with baseline...');
       return calculateDiff;
   }
 }

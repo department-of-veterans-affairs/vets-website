@@ -22,7 +22,7 @@ function createDirectoryIfNotExist(filePath) {
   return new Promise((resolve, reject) => {
     mkdirp(directory, err => {
       return err ? reject(err) : resolve();
-    })
+    });
   });
 }
 
