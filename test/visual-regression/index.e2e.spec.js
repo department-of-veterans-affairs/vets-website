@@ -26,6 +26,16 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
   }, Promise.resolve());
 }
 
+// A wrapper around the login helper to return a promise
+function login(browser){
+  const token = LoginHelpers.getUserToken();
+
+  return new Promise((resolve, reject) => {
+    LoginHelpers.logIn(token, browser, '/', 1);
+    browser.waitForElementVisible('body', Timeouts.normal, resolve);
+  });
+}
+
 // A wrapper around a helper function for grabbing the sitemap.xml and converting into an array of URL's
 function getSiteRoutes(){
   return new Promise((resolve, reject) => sitemapURLs(resolve));
@@ -39,8 +49,11 @@ function getApplication(routeHandler) {
     // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.
     browser.perform(done => {
 
-      // Parse the sitemap XML file into an array of URL's
-      getSiteRoutes()
+      // Before starting any routes, log the user in to prevent load errors.
+      login(browser)
+
+        // Parse the sitemap XML file into an array of URL's
+        .then(() => getSiteRoutes())
 
         // Create a single long-running promise out of the routes array
         .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
