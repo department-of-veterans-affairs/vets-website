@@ -150,6 +150,66 @@ describe('Schemaform review <ArrayField>', () => {
 
     expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
   });
+  it('should render array warning', () => {
+    // If it's a BasicArrayField with a set minItems, make sure it doesn't break
+    //  if no items are found; it should render a validation warning instead.
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      minItems: 1,
+      items: [{
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }, {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:field': 'BasicArrayField',
+      items: {
+      },
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name'
+      }
+    };
+    const arrayData = undefined;
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}/>
+    );
+
+    tree.getMountedInstance().handleAdd();
+
+    expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be.empty;
+  });
   describe('should handle', () => {
     let tree;
     let setData;

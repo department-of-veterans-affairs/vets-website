@@ -94,12 +94,12 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
 
-    // Child Information Page
-    client.expect.element('label[for="root_view:reportChildrenYes"]').to.be.visible;
-    HcaHelpers.completeChildInformation(client, testData.data);
+    // Dependent Information Page
+    client.expect.element('label[for="root_view:reportDependentsYes"]').to.be.visible;
+    HcaHelpers.completeDependentInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/dependent-information');
 
     // Annual Income Page
     client.expect.element('input[name="root_veteranGrossIncome"]').to.be.visible;

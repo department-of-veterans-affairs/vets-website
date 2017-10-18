@@ -48,7 +48,7 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>Normally processed within <strong>30 days</strong></p>
+        <p>We usually process claims within <strong>30 days</strong>.</p>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -90,8 +90,12 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
-        <p>Need help? If you have questions, call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
+          <p className="confirmation-guidance-message"><a href="/education/after-you-apply">Find out what happens after you apply</a>.</p>
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:888-442-4551">1-888-442-4551</a> (1-888-GI-BILL-1), Monday - Friday, 8:00 a.m. - 7:00 p.m. (ET).</p>
+        </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">

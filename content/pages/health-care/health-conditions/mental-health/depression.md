@@ -35,7 +35,7 @@ Depression is a serious illness, but this common mental health problem is also h
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner">
 	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
 		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
 		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
 		  <li>Call <a href="tel:911">911</a>.</li>
@@ -69,7 +69,7 @@ Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have depression—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
-  - Call our general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>, **or**
+  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
 
 <br>
@@ -81,7 +81,7 @@ You may still be able to get care:
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
-  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1-877-424-3838">1-877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
   
 <br>
@@ -91,7 +91,7 @@ You may still be able to get care:
 - Go to the VA website for information about depression and the treatment and support we offer. [Visit our Depression website](https://www.mentalhealth.va.gov/depression.asp). 
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp). 
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">800-827-1000</a>.
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 
 <script type="text/javascript">

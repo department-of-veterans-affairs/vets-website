@@ -60,6 +60,9 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 
+import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
+import migrations from '../migrations';
+
 const {
   nationalGuardActivation,
   nationalGuard,
@@ -178,7 +181,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
-  version: 0,
+  version: 1,
+  migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
@@ -220,7 +224,7 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
@@ -262,7 +266,10 @@ const formConfig = {
                   'Date entered active service',
                   'Date left active service',
                   'Date entered service must be before date left service'
-                )
+                ),
+                'ui:validations': [
+                  validateServiceBirthDates
+                ]
               }
             },
             'view:wartimeWarning': (() => {
@@ -537,7 +544,7 @@ const formConfig = {
           depends: isUnder65,
           uiSchema: {
             'view:workedBeforeDisabled': {
-              'ui:title': 'Have you been employed, including self employed, from one year before you became disabled to the present?',
+              'ui:title': 'Have you had a job (including being self-employed) from 1 year before you became disabled to now?',
               'ui:widget': 'yesNo'
             },
             'view:history': {
@@ -694,7 +701,10 @@ const formConfig = {
                     'ui:required': (...args) => !isCurrentMarriage(...args)
                   },
                   dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
-                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                    'ui:validations': [
+                      validateAfterMarriageDate
+                    ]
                   }),
                   locationOfSeparation: {
                     'ui:title': 'Place marriage ended (city and state or foreign country)',
@@ -770,7 +780,7 @@ const formConfig = {
                 expandUnder: 'spouseIsVeteran'
               },
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
+                pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
             liveWithSpouse: {
@@ -899,7 +909,11 @@ const formConfig = {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
                 },
-                dateOfSeparation: currentOrPastDateUI('Date marriage ended'),
+                dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
+                  'ui:validations': [
+                    validateAfterMarriageDate
+                  ]
+                }),
                 locationOfSeparation: {
                   'ui:title': 'Place marriage ended (city and state or foreign country)',
                 }

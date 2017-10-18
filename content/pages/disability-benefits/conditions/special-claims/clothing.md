@@ -43,12 +43,11 @@ To get your yearly payment, you’ll need to qualify by August 1 of that year. Y
 - You have more than one skin medicine, **and/or** 
 - Your device or skin medicine affects more than one type of clothing.
 
-[View the rate table](http://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2012.asp). 
+[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp). 
 
-**Note:** The 2014 rate table is valid for 2016. 
 
 To apply, fill out an Application for Annual Clothing Allowance (VA Form 10-8678), and give it to the prosthetic representative at your local VA medical center. [Download VA Form 10-8678](http://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
 
 Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/). 
 
-For more information, call us at <a href="tel:+18008271000">800-827-1000</a>. We collect applications throughout the year and hold them until the August 1 closing date.
+For more information, call us at <a href="tel:+18008271000">1-800-827-1000</a>. We collect applications throughout the year and hold them until the August 1 closing date.

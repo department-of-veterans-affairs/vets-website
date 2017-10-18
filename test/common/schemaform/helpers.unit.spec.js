@@ -7,7 +7,7 @@ import {
   hasFieldsOtherThanArray,
   transformForSubmit,
   getArrayFields,
-  setItemTouched,
+  setArrayRecordTouched,
   getNonArraySchema,
   checkValidSchema,
   formatReviewDate,
@@ -88,6 +88,26 @@ describe('Schemaform helpers:', () => {
 
       expect(routes[0].path).to.equal('introduction');
     });
+    it('should create routes with resume', () => {
+      const formConfig = {
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page'
+              }
+            }
+          }
+        }
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('test-page');
+      expect(routes[1].path).to.equal('form-saved');
+      expect(routes[2].path).to.equal('error');
+      expect(routes[3].path).to.equal('resume');
+    });
     it('should create routes with save', () => {
       const formConfig = {
         chapters: {
@@ -106,7 +126,7 @@ describe('Schemaform helpers:', () => {
       expect(routes[0].path).to.equal('test-page');
       expect(routes[1].path).to.equal('form-saved');
       expect(routes[2].path).to.equal('error');
-      expect(routes[3].path).to.equal('review-and-submit');
+      expect(routes[4].path).to.equal('review-and-submit');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
@@ -465,27 +485,13 @@ describe('Schemaform helpers:', () => {
       expect(output.emptyArray).to.be.undefined;
     });
   });
-  describe('setItemTouched', () => {
+  describe('setArrayRecordTouched', () => {
     /* eslint-disable camelcase */
     it('should set field as touched', () => {
-      const touched = setItemTouched('root', 0, {
-        $id: 'root_field'
-      });
+      const touched = setArrayRecordTouched('root', 0);
 
       expect(touched).to.eql({
-        root_0_field: true
-      });
-    });
-    it('should set nested field as touched', () => {
-      const touched = setItemTouched('root', 0, {
-        $id: 'root',
-        field: {
-          $id: 'root_field'
-        }
-      });
-
-      expect(touched).to.eql({
-        root_0_field: true
+        root_0: true
       });
     });
     /* eslint-enable camelcase */

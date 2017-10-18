@@ -11,6 +11,7 @@ import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import { validateMatch } from '../../common/schemaform/validation';
+import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -23,6 +24,7 @@ import {
   formatName,
   isVeteran,
   requiresSponsorInfo,
+  transform,
   veteranUISchema
 } from '../utils/helpers';
 
@@ -50,12 +52,14 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/preneed',
   trackingPrefix: 'preneed-',
+  transformForSubmit: transform,
   formId: '40-10007',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
   title: 'Apply online for pre-need determination of eligibility in a VA National Cemetery',
   subTitle: 'Form 40-10007',
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     ssn,

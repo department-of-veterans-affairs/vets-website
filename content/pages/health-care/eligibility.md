@@ -7,6 +7,11 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-06-28
 collection: healthCare
 order: 2
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -62,13 +67,15 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
+</div>
 
 [Learn about the application process](/health-care/apply/).
 
 #### What if I need help filling out my application?
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 

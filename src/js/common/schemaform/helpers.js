@@ -111,6 +111,14 @@ export function createRoutes(formConfig) {
     });
   }
 
+  if (!formConfig.disableSave) {
+    routes.push({
+      path: 'resume',
+      pageList,
+      formConfig
+    });
+  }
+
   return routes.concat([
     {
       path: 'review-and-submit',
@@ -121,6 +129,10 @@ export function createRoutes(formConfig) {
     {
       path: 'confirmation',
       component: formConfig.confirmation
+    },
+    {
+      path: '*',
+      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/')
     }
   ]);
 }
@@ -416,16 +428,8 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
   }
 }
 
-export function setItemTouched(prefix, index, idSchema) {
-  const fields = Object.keys(idSchema).filter(field => field !== '$id');
-  if (!fields.length) {
-    const id = idSchema.$id.replace(prefix, `${prefix}_${index}`);
-    return { [id]: true };
-  }
-
-  return fields.reduce((idObj, field) => {
-    return _.merge(idObj, setItemTouched(prefix, index, idSchema[field]));
-  }, {});
+export function setArrayRecordTouched(prefix, index) {
+  return { [`${prefix}_${index}`]: true };
 }
 
 export function createUSAStateLabels(states) {
@@ -524,4 +528,19 @@ export function getActiveChapters(formConfig, formData) {
   const expandedPageList = expandArrayPages(eligiblePageList, formData);
 
   return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
+}
+
+export function sanitizeForm(formData) {
+  try {
+    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    return JSON.stringify(formData, (key, value) => {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+        return 'removed';
+      }
+
+      return value;
+    });
+  } catch (e) {
+    return null;
+  }
 }

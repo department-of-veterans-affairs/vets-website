@@ -2,19 +2,25 @@ import _ from 'lodash/fp';
 import appendQuery from 'append-query';
 
 import {
+  LOG_OUT,
+  TOGGLE_LOGIN_MODAL,
   UPDATE_LOGGEDIN_STATUS,
-  UPDATE_LOGIN_URL,
-  UPDATE_VERIFY_URL,
+  UPDATE_LOGIN_URLS,
   UPDATE_LOGOUT_URL,
+  UPDATE_MULTIFACTOR_URL,
   UPDATE_SEARCH_HELP_USER_MENU,
-  LOG_OUT
+  UPDATE_VERIFY_URL,
+  FETCH_LOGIN_URLS_FAILED,
 } from '../actions';
 
 const initialState = {
   currentlyLoggedIn: false,
-  loginUrl: null,
-  verifyUrl: null,
+  loginUrlsError: false,
+  loginUrls: null,
   logoutUrl: null,
+  multifactorUrl: null,
+  showModal: false,
+  verifyUrl: null,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -34,15 +40,30 @@ function loginStuff(state = initialState, action) {
   switch (action.type) {
     case UPDATE_LOGGEDIN_STATUS:
       return _.set('currentlyLoggedIn', action.value, state);
+    case FETCH_LOGIN_URLS_FAILED:
+      return _.set('loginUrlsError', true, state);
+    case UPDATE_LOGIN_URLS:
+      return {
+        ...state,
+        loginUrls: {
+          mhv: appendQuery(action.value.mhv, { clientId: action.gaClientId }),
+          dslogon: appendQuery(action.value.dslogon, { clientId: action.gaClientId }),
+          idme: appendQuery(action.value.idme, { clientId: action.gaClientId }),
+        },
+        loginUrlsError: false,
+      };
 
-    case UPDATE_LOGIN_URL:
-      return _.set('loginUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
+    case UPDATE_MULTIFACTOR_URL:
+      return _.set('multifactorUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case UPDATE_VERIFY_URL:
       return _.set('verifyUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
 
     case UPDATE_LOGOUT_URL:
       return _.set('logoutUrl', appendQuery(action.value, { clientId: action.gaClientId }), state);
+
+    case TOGGLE_LOGIN_MODAL:
+      return _.set('showModal', action.isOpen, state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);

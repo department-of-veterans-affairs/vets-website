@@ -12,8 +12,8 @@ export default function SubmitButtons(props) {
     locationPathname,
     form,
     user,
-    saveInProgressForm,
-    onUpdateLoginUrl,
+    saveAndRedirectToReturnUrl,
+    toggleLoginModal,
     sipEnabled,
   } = props;
   // Pulling this out to here so LoginModal doesn't get re-created on state change
@@ -22,8 +22,8 @@ export default function SubmitButtons(props) {
     locationPathname={locationPathname}
     form={form}
     user={user}
-    saveInProgressForm={saveInProgressForm}
-    onUpdateLoginUrl={onUpdateLoginUrl}>
+    saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+    toggleLoginModal={toggleLoginModal}>
     save your application
   </SaveFormLink>);
   const Message = errorMessage;
@@ -93,7 +93,7 @@ export default function SubmitButtons(props) {
       } else if (typeof errorText === 'string') {
         InlineErrorComponent = () => <p>{errorText}</p>;
       } else {
-        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="1-855-574-7286">855-574-7286</a> (TTY: <a href="1-800-829-4833">800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>;
+        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="1-855-574-7286">1-855-574-7286</a> (TTY: <a href="+18008778339">1-800-877-8339</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>;
       }
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">

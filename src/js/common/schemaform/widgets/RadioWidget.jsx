@@ -28,7 +28,7 @@ export default function RadioWidget({
               autoComplete="false"
               checked={checked}
               id={`${id}_${i}`}
-              name={`${id}_${i}`}
+              name={`${id}`}
               value={option.value}
               disabled={disabled}
               onChange={_ => onChange(option.value)}/>
