@@ -1,4 +1,3 @@
-const fs = require('fs');
 const commandLineArgs = require('command-line-args');
 const Timeouts = require('../e2e/timeouts');
 const { createE2eTest } = require('../e2e/e2e-helpers');
@@ -18,7 +17,7 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
     return routeChain
 
       // Navigate to the next URL.
-      .then(() => new Promise((resolve, reject) => browser.url(route, resolve)))
+      .then(() => new Promise(resolve => browser.url(route, resolve)))
 
       // Hand off the browser and route to the route handler.
       .then(() => routeHandler(browser, route));
@@ -30,7 +29,7 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
 function login(browser){
   const token = LoginHelpers.getUserToken();
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     LoginHelpers.logIn(token, browser, '/', 1);
     browser.waitForElementVisible('body', Timeouts.normal, resolve);
   });
@@ -38,7 +37,7 @@ function login(browser){
 
 // A wrapper around a helper function for grabbing the sitemap.xml and converting into an array of URL's
 function getSiteRoutes(){
-  return new Promise((resolve, reject) => sitemapURLs(resolve));
+  return new Promise(resolve => sitemapURLs(resolve));
 }
 
 // Checks command flags to determine the "routeHandler" function that will perform a task after the browser navigates to each route.
@@ -53,6 +52,7 @@ function getRouteHandler() {
     { name: 'config', type: String, alias: 'c' }
   ]);
 
+  // eslint-disable-line no-console
   switch (command) {
     case commands.CREATE_BASELINE_IMAGES:
       console.log('Generating baseline images...');
@@ -67,7 +67,6 @@ function getRouteHandler() {
 
 // Returns a function that will be executed as a Nightwatch test case.
 function beginApplication(browser) {
-
   const routeHandler = getRouteHandler();
 
   // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.

@@ -1,18 +1,23 @@
 const fs = require('fs');
 const resemble = require('node-resemble-js');
 const { getFileNames, createDirectoryIfNotExist } = require('./get-file-names');
+
 const DIFF_THRESHOLD = 0.01;
 
 // A wrapper around fs.readFile to return a promise
 function readFile(fileName) {
-  return new Promise((resolve, reject) => fs.readFile(fileName, (err, result) => err ? reject(err) : resolve(result)));
+  return new Promise((resolve, reject) => {
+    fs.readFile(fileName, (err, result) => {
+      return err ? reject(err) : resolve(result);
+    })
+  });
 }
 
 // A wrapper around Nightwatch's screenshot function to return a promise
 // Note - Nightwatch's screenshot stores the screenshot only in memory as opposed to saveScreenshot
 function takeScreenshot(browser) {
   const logScreenshotData = false;
-  return new Promise((resolve, reject) => browser.screenshot(logScreenshotData, resolve));
+  return new Promise(resolve => browser.screenshot(logScreenshotData, resolve));
 }
 
 // Compares the values for the baseline image with the screenshot of the browser's current page.
@@ -21,7 +26,7 @@ function executeComparison(baselineImageBuffer, screenshotResult) {
   const screenshot = new Buffer(screenshotResult.value, 'base64');
 
   // Execute ResembleJS to compare the images
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     resemble(baselineImage)
       .compareTo(screenshot)
       .onComplete(resolve);
@@ -34,7 +39,7 @@ function createDiffImage(diffFileName, comparisonResult) {
   const writer = fs.createWriteStream(diffFileName);
 
   // A wrapper around the stream to return a promise
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     diffImageStream
       .pack()
       .pipe(writer)
@@ -66,7 +71,7 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
 
 // The entry point for this module as a route handler
 function calculateDiff(browser, route) {
-  const [ baselineFileName, diffFileName ] = getFileNames(route);
+  const [baselineFileName, diffFileName] = getFileNames(route);
   const operations = [
     readFile(baselineFileName),
     takeScreenshot(browser)
