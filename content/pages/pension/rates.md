@@ -18,7 +18,7 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 - **Your MAPR amount** is the maximum amount of pension payable. Your MAPR is based on how many dependents you have, if you’re married to another Veteran who qualifies for a pension, and if your disabilities qualify you for Housebound or Aid and Attendance benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
 
 **Example:**
-You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
+You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for Aid and Attendance benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
 <br>
 Your MAPR amount = $25,525 <br>
 Your yearly income = $10,000 <br>
