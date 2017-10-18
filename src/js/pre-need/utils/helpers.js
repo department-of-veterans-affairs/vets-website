@@ -1,10 +1,10 @@
 import React from 'react';
-import set from 'lodash/fp/set';
+import { get, set } from 'lodash/fp';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export function isVeteran(item) {
-  return item.claimant.relationshipToVet.type === 1;
+  return get(item, 'claimant.relationshipToVet.type') === '1';
 }
 
 export function requiresSponsorInfo(item) {
