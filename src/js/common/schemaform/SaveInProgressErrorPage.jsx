@@ -78,10 +78,34 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.failure:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. Please try applying again in a few moments.</div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry. We’re having some server issues and are working to fix them. Please try applying again in a few moments.</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
-              <button className="usa-button-primary" onClick={this.reloadForm}>Resume previous application</button>
+              <button className="usa-button-primary" onClick={this.reloadForm}>Continue Your Application</button>
+            </div>
+          </div>
+        );
+        break;
+      case LOAD_STATUSES.clientFailure:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error no-background-image">
+              We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet and try again.
+            </div>
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton()}
+              <button className="usa-button-primary" onClick={this.reloadForm}>Continue Your Application</button>
+            </div>
+          </div>
+        );
+        break;
+      case LOAD_STATUSES.invalidData:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry. Something went wrong when we tried to access your application. We’re working to fix this. You can try applying again in a few moments or start your application over.</div>
+            <div style={{ marginTop: '30px' }}>
+              {this.getBackButton()}
+              <button className="usa-button-primary" onClick={this.reloadForm}>Continue Your Application</button>
             </div>
           </div>
         );
@@ -89,7 +113,7 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.notFound:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">We’re sorry, but something went wrong. We can’t find your application. {notFound}</div>
+            <div className="usa-alert usa-alert-error no-background-image">We’re sorry. Something went wrong when we tried to find your application. {notFound}</div>
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton(true)}
             </div>
