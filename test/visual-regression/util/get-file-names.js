@@ -19,7 +19,6 @@ function getFileNames(route) {
 // Necessary when writing out the diff image.
 function createDirectoryIfNotExist(filePath) {
   const directory = path.dirname(filePath);
-
   return new Promise((resolve, reject) => mkdirp(directory, err => err ? reject(err) : resolve()));
 }
 

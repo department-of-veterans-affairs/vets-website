@@ -17,8 +17,6 @@ function takeScreenshot(browser) {
 
 // Compares the values for the baseline image with the screenshot of the browser's current page.
 function executeComparison(baselineImageBuffer, screenshotResult) {
-
-  // Convert each into base 64
   const baselineImage = new Buffer(baselineImageBuffer, 'base64');
   const screenshot = new Buffer(screenshotResult.value, 'base64');
 
@@ -50,20 +48,20 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
   const changesExceedThreshold = misMatchPercentage > DIFF_THRESHOLD;
 
   // Execution the test assertion
-  let operation = Promise.resolve().then(() => browser.verify.ok(!misMatchPercentage, route));
+  browser.verify.ok(!misMatchPercentage, route);
 
   // When the images differ, chain additional operations to create the diff image file
   if (changesExceedThreshold) {
-    operation = operation
 
       // Create the directory first to prevent errors
-      .then(() => createDirectoryIfNotExist(diffFileName))
+      return createDirectoryIfNotExist(diffFileName)
 
-      // Then actually write the diff file
-      .then(() => createDiffImage(diffFileName, comparisonResult));
+        // Then actually write the diff file
+        .then(() => createDiffImage(diffFileName, comparisonResult));
   }
 
-  return operation;
+  // For consistency, return a resolved promise.
+  return Promise.resolve();
 }
 
 // The entry point for this module as a route handler

@@ -3,7 +3,7 @@ const commandLineArgs = require('command-line-args');
 const Timeouts = require('../e2e/timeouts');
 const { createE2eTest } = require('../e2e/e2e-helpers');
 const LoginHelpers = require('../e2e/login-helpers');
-const { sitemapURLs: getRoutes } = require('../e2e/sitemap-helpers');
+const { sitemapURLs } = require('../e2e/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 
@@ -26,6 +26,11 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
   }, Promise.resolve());
 }
 
+// A wrapper around a helper function for grabbing the sitemap.xml and converting into an array of URL's
+function getSiteRoutes(){
+  return new Promise((resolve, reject) => sitemapURLs(resolve));
+}
+
 // Returns a function that will be executed as a Nightwatch test case.
 // Uses currying to dish out the work needed to be done after the URL changes.
 function getApplication(routeHandler) {
@@ -35,7 +40,7 @@ function getApplication(routeHandler) {
     browser.perform(done => {
 
       // Parse the sitemap XML file into an array of URL's
-      new Promise((resolve, reject) => getRoutes(resolve))
+      getSiteRoutes()
 
         // Create a single long-running promise out of the routes array
         .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
