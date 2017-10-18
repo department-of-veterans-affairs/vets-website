@@ -67,7 +67,7 @@ class Verify extends React.Component {
   render() {
     const signinMethod = {
       dslogon: 'DS Logon',
-      mhv: 'MyHealtheVet'
+      myhealthevet: 'My HealtheVet'
     };
 
     return (

@@ -88,4 +88,35 @@ describe('HCA migrations', () => {
       });
     });
   });
+  describe('third migration', () => {
+    const migration = migrations[2];
+    it('should update url when it matches', () => {
+      const data = {
+        formData: {
+          'view:reportChildren': false
+        },
+        metadata: {
+          returnUrl: '/household-information/child-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata.returnUrl).to.equal('/household-information/dependent-information');
+      expect(formData).to.equal(data.formData);
+    });
+    it('should leave url alone when it does not match', () => {
+      const data = {
+        formData: {
+          'view:reportChildren': false
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata.returnUrl).to.equal(data.metadata.returnUrl);
+      expect(formData).to.equal(data.formData);
+    });
+  });
 });

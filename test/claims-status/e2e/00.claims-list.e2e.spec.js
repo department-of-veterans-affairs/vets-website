@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Verify text on page
     client
       .expect
-      .element('.your-claims h1')
+      .element('.claims-container h1')
       .text.to.equal('Your Claims and Appeals');
 
     client

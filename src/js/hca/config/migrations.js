@@ -50,5 +50,17 @@ export default [
     }
 
     return { formData: newData, metadata };
+  },
+  // 2 -> 3, we're updating the url for the dependent info page since it's for dependents
+  // and not just children anymore
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url === '/household-information/child-information') {
+      newMetadata = _.set('returnUrl', '/household-information/dependent-information', metadata);
+    }
+
+    return { formData, metadata: newMetadata };
   }
 ];

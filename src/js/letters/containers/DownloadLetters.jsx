@@ -8,7 +8,7 @@ import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
-class DownloadLetters extends React.Component {
+export class DownloadLetters extends React.Component {
   constructor() {
     super();
     this.navigateToLetterList = this.navigateToLetterList.bind(this);

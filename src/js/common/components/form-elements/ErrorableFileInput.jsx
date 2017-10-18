@@ -15,6 +15,10 @@ class ErrorableFileInput extends React.Component {
 
   handleChange(domEvent) {
     this.props.onChange(domEvent.target.files);
+    // clear the original input, otherwise events will be triggered
+    // with empty file arrays and sometimes uploading a file twice will
+    // not work
+    domEvent.target.value = null; // eslint-disable-line no-param-reassign
   }
 
   render() {

@@ -40,7 +40,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
   return (
     <div className="usa-alert usa-alert-warning claims-alert claims-list-alert" role="alert">
       <button className="va-alert-close notification-close" onClick={onClose} aria-label="Close notification">
-        <i className="fa fa-close" aria-label="Close icon"></i>
+        <i className="fa fa-close va-alert-close-icon" aria-label="Close icon"></i>
       </button>
       <div className="usa-alert-body">
         <h5 className="usa-alert-heading">Recently closed:</h5>

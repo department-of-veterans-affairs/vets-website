@@ -42,6 +42,7 @@ const initialState = {
   letterDownloadStatus: {},
   fullName: {},
   address: {},
+  addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   optionsAvailable: false,
   requestOptions: {},
   serviceInfo: [],
@@ -81,11 +82,11 @@ function letters(state = initialState, action) {
         ...state,
         address: attributes.address,
         canUpdate: attributes.controlInformation.canUpdate,
-        addressAvailable: true
+        addressAvailability: AVAILABILITY_STATUSES.available
       };
     }
     case GET_ADDRESS_FAILURE:
-      return _.set('addressAvailable', false, state);
+      return _.set('addressAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
     // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;

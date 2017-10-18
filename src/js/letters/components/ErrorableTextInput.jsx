@@ -20,22 +20,12 @@ import _ from 'lodash';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableTextInput extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-  }
-
   componentWillMount() {
     this.inputId = _.uniqueId('errorable-text-input-');
   }
 
-  handleChange(domEvent) {
+  handleChange = (domEvent) => {
     this.props.onValueChange(domEvent.target.value);
-  }
-
-  handleBlur() {
-    this.props.onValueChange(this.props.value);
   }
 
   render() {
@@ -86,7 +76,7 @@ class ErrorableTextInput extends React.Component {
           maxLength={this.props.charMax}
           value={this.props.value}
           onChange={this.handleChange}
-          onBlur={this.handleBlur}/>
+          onBlur={this.props.onBlur}/>
         {maxCharacters}
       </div>
     );

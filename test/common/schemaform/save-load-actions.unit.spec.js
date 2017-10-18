@@ -377,7 +377,7 @@ describe('Schemaform save / load actions:', () => {
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.clientFailure))).to.be.true;
       });
     });
     describe('prefill', () => {
