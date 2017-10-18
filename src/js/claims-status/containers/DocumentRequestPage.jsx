@@ -34,11 +34,7 @@ const Element = Scroll.Element;
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (this.props.trackedItem) {
-      document.title = `Request for ${this.props.trackedItem.displayName}`;
-    } else {
-      this.props.router.push(`/your-claims/${this.props.params.id}/status`);
-    }
+    document.title = `Request for ${this.props.trackedItem.displayName}`;
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -46,6 +42,9 @@ class DocumentRequestPage extends React.Component {
     }
   }
   componentWillReceiveProps(props) {
+    if (props.loading && !!props.trackedItem) {
+      this.props.router.push(`/your-claims/${this.props.params.id}/status`);
+    }
     if (props.uploadComplete) {
       this.goToFilesPage();
     }
