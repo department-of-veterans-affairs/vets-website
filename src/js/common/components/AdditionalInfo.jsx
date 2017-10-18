@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import ExpandingGroup from './form-elements/ExpandingGroup';
 
-export default class Tooltip extends React.Component {
+export default class AdditionalInfo extends React.Component {
   constructor(props) {
     super(props);
     this.expandedContentId = _.uniqueId('tooltip-');
@@ -14,7 +15,7 @@ export default class Tooltip extends React.Component {
   }
 
   render() {
-    const { text, children } = this.props;
+    const { triggerText, children } = this.props;
 
     const trigger = (
       <button
@@ -23,7 +24,7 @@ export default class Tooltip extends React.Component {
         aria-expanded={this.state.open ? 'true' : 'false'}
         aria-controls={this.expandedContentId}
         onClick={this.toggle}>
-        {text}
+        {triggerText}
       </button>
     );
 
@@ -31,7 +32,7 @@ export default class Tooltip extends React.Component {
       <ExpandingGroup open={this.state.open} expandedContentId={this.expandedContentId}>
         {trigger}
         <div>
-          <div className="tooltip-content">{children}</div>
+          <div className="additional-info-content">{children}</div>
           <button
             className="va-button-link"
             aria-expanded={this.state.open ? 'true' : 'false'}
@@ -44,3 +45,7 @@ export default class Tooltip extends React.Component {
     );
   }
 }
+
+AdditionalInfo.propTypes = {
+  triggerText: PropTypes.string
+};
