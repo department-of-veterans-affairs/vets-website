@@ -2,10 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Assisted Living and Home Health Care
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
-order: 4
+order: 5
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -65,7 +65,7 @@ You may be able to use one or more of these services if:
 
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
-To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
 If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
 

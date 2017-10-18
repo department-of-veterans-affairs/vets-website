@@ -2,11 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Vision Care
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 children: healthCareCoverageVision
-order: 6
+order: 7
 relatedlinks:
   - heading: More information about your benefits
     links:
