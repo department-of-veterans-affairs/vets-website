@@ -19,7 +19,7 @@ describe('Hca vaBenefits', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
 
   it('should not submit empty form', () => {
@@ -36,7 +36,7 @@ describe('Hca vaBenefits', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -51,19 +51,9 @@ describe('Hca vaBenefits', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_compensableVaServiceConnectedYes'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_vaCompensationType_3'), {
       target: {
-        value: 'Y'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_isVaServiceConnectedYes'), {
-      target: {
-        value: 'Y'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_receivesVaPensionYes'), {
-      target: {
-        value: 'Y'
+        value: 'none'
       }
     });
 

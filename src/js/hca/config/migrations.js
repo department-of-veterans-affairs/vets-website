@@ -80,37 +80,35 @@ export default [
     // We want to convert the data only when one option is true and the others are false
     // If more than one is true, we need to ask the user again
     if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === false) {
-      newFormData.vaCompensationType = 'none';
       return {
-        formData: newFormData,
+        formData: _.set('vaCompensationType', 'none', newFormData),
         metadata
       };
     }
 
     if (compensableVaServiceConnected === true && isVaServiceConnected === false && receivesVaPension === false) {
-      newFormData.vaCompensationType = 'lowDisability';
       return {
-        formData: newFormData,
+        formData: _.set('vaCompensationType', 'lowDisability', newFormData),
         metadata
       };
     }
 
     if (compensableVaServiceConnected === false && isVaServiceConnected === true && receivesVaPension === false) {
-      newFormData.vaCompensationType = 'highDisability';
       return {
-        formData: newFormData,
+        formData: _.set('vaCompensationType', 'highDisability', newFormData),
         metadata
       };
     }
 
     if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === true) {
-      newFormData.vaCompensationType = 'pension';
       return {
-        formData: newFormData,
+        formData: _.set('vaCompensationType', 'pension', newFormData),
         metadata
       };
     }
 
+    // More than one option was chosen, or not all were filled out, so go back to the page and make the user pick again,
+    // because we don't know for sure what they meant to pick
     return {
       formData: newFormData,
       metadata: _.set('returnUrl', '/va-benefits/basic-information', metadata)
