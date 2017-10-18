@@ -73,7 +73,7 @@ function beginApplication(browser) {
     login(browser)
 
       // Parse the sitemap XML file into an array of URL's
-      .then(() => getSiteRoutes())
+      .then(getSiteRoutes)
 
       // Create a single long-running promise out of the routes array
       .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
