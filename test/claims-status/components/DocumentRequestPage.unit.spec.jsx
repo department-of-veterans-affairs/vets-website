@@ -105,22 +105,6 @@ describe('<DocumentRequestPage>', () => {
     expect(tree.subTree('DueDate')).not.to.be.false;
     expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
   });
-  it('should render Document Request if displayName property is missing', () => {
-    const trackedItem = {
-      type: 'still_need_from_others_list',
-      suspenseDate: '2010-05-10'
-    };
-    const claim = {
-      id: 1,
-      attributes: {}
-    };
-    const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        claim={claim}
-        trackedItem={trackedItem}/>
-    );
-    expect(tree.subTree('.claims-header')).not.to.be.false;
-  });
   it('should render optional upload alert', () => {
     const trackedItem = {
       type: 'still_need_from_others_list',
