@@ -96,26 +96,31 @@ const formConfig = {
                   ssn: ssnUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   relationshipToVet: {
-                    type: {
-                      'ui:title': 'Relationship to Servicemember',
-                      'ui:widget': 'radio',
-                      'ui:options': {
-                        labels: {
-                          1: 'I am the Servicemember/Veteran',
-                          2: 'Spouse or surviving spouse',
-                          3: 'Unmarried adult child',
-                          4: 'Other'
-                        }
-                      }
-                    },
-                    other: {
-                      'ui:title': 'Please specify your relationship',
-                      // 'ui:required': (form) => _.get('relationship.type', form) === 'other',
-                      'ui:options': {
-                        hideIf: formData => _.get('relationship.type', formData) !== 'other'
+                    'ui:title': 'Relationship to Servicemember',
+                    'ui:widget': 'radio',
+                    'ui:options': {
+                      labels: {
+                        1: 'I am the Servicemember/Veteran',
+                        2: 'Spouse or surviving spouse',
+                        3: 'Unmarried adult child',
+                        4: 'Other'
+                      },
+                      nestedContent: {
+                        1: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
+                        2: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
+                        3: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information. You'll also need to provide supporting documents with information about your disability.</div>,
                       }
                     }
                   },
+                  /*
+                  'view:other': {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form) => get(form, 'relationship.type') === '4',
+                    'ui:options': {
+                      hideIf: (form) => get(form, 'relationship.type') !== '4'
+                    }
+                  }
+                  */
                 }
               }
             }
@@ -131,6 +136,7 @@ const formConfig = {
                   properties: {
                     claimant: {
                       type: 'object',
+                      required: claimant.required,
                       properties: _.pick([
                         'name',
                         'ssn',
@@ -245,7 +251,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                'ui:description': <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
+                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
                 veteran: _.merge(veteranUISchema, {
                   'ui:order': [
                     '*',
@@ -263,7 +269,7 @@ const formConfig = {
                       labels: {
                         yes: 'Yes',
                         no: 'No',
-                        unsure: 'I don’t know'
+                        unsure: 'I don\'t know'
                       }
                     }
                   },
@@ -434,7 +440,7 @@ const formConfig = {
                     labels: {
                       1: 'Yes',
                       2: 'No',
-                      3: 'I don’t know',
+                      3: 'I don\'t know',
                     }
                   }
                 },
