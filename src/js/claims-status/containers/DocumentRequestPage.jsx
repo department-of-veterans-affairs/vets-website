@@ -97,14 +97,14 @@ class DocumentRequestPage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">{trackedItem ? trackedItem.displayName : 'Document Request'}</h1>
-                {trackedItem && trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
-                {trackedItem && trackedItem.type.endsWith('others_list')
+                <h1 className="claims-header">{trackedItem.displayName}</h1>
+                {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
+                {trackedItem.type.endsWith('others_list')
                   ? <div className="optional-upload">
                     <p><strong>Optional</strong> - We’ve asked others to send this to us, but you may upload it if you have it.</p>
                   </div>
                   : null}
-                {trackedItem && <p>{trackedItem.description}</p>}
+                <p>{trackedItem.description}</p>
                 <AddFilesForm
                   field={this.props.uploadField}
                   progress={this.props.progress}
