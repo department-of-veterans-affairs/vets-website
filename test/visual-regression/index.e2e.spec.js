@@ -41,33 +41,7 @@ function getSiteRoutes(){
   return new Promise((resolve, reject) => sitemapURLs(resolve));
 }
 
-// Returns a function that will be executed as a Nightwatch test case.
-// Uses currying to dish out the work needed to be done after the URL changes.
-function getApplication(routeHandler) {
-  return function beginApplication(browser) {
-
-    // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.
-    browser.perform(done => {
-
-      // Before starting any routes, log the user in to prevent load errors.
-      login(browser)
-
-        // Parse the sitemap XML file into an array of URL's
-        .then(() => getSiteRoutes())
-
-        // Create a single long-running promise out of the routes array
-        .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
-
-        // Close the browser window so Electron instances don't pile up.
-        .then(() => browser.closeWindow())
-
-        // Tell Nighwatch we're finished.
-        .then(done);
-    });
-  }
-}
-
-// Uses command flags to determine the "routeHandler" function that will perform a task after the browser navigates to each route.
+// Checks command flags to determine the "routeHandler" function that will perform a task after the browser navigates to each route.
 function getRouteHandler() {
   const commands = {
     CREATE_BASELINE_IMAGES: 'baseline',
@@ -91,11 +65,33 @@ function getRouteHandler() {
   }
 }
 
+// Returns a function that will be executed as a Nightwatch test case.
+function beginApplication(browser) {
+
+  const routeHandler = getRouteHandler();
+
+  // Tests are async, so "done" is used as a callback to Nightwatch once we're finished.
+  browser.perform(done => {
+
+    // Before starting any routes, log the user in to prevent load errors.
+    login(browser)
+
+      // Parse the sitemap XML file into an array of URL's
+      .then(() => getSiteRoutes())
+
+      // Create a single long-running promise out of the routes array
+      .then(routes => createRouteHandlerChain(browser, routes, routeHandler))
+
+      // Close the browser window so Electron instances don't pile up.
+      .then(() => browser.closeWindow())
+
+      // Tell Nighwatch we're finished.
+      .then(done);
+  });
+}
+
 // The entry point for everything.
 function setup() {
-  const routeHandler = getRouteHandler();
-  const beginApplication = getApplication(routeHandler);
-
   return createE2eTest(beginApplication);
 }
 
