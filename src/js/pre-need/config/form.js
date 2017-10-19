@@ -136,7 +136,12 @@ const formConfig = {
                   properties: {
                     claimant: {
                       type: 'object',
-                      required: claimant.required,
+                      required: _.pick([
+                        'name',
+                        'ssn',
+                        'dateOfBirth',
+                        'relationshipToVet'
+                      ], claimant.required),
                       properties: _.pick([
                         'name',
                         'ssn',
