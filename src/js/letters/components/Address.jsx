@@ -74,8 +74,8 @@ class Address extends React.Component {
           onValueChange={(update) => this.props.onInput('countryName', update, true)}/>
         <ErrorableTextInput errorMessage={errorMessages.addressOne}
           label="Street address"
-          name="address"
-          autocomplete="street-address"
+          name="addressOne"
+          autocomplete="address-line1"
           charMax={35}
           value={this.props.address.addressOne}
           required={this.props.required}
@@ -83,16 +83,16 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('addressOne')}/>
         <ErrorableTextInput
           label="Street address (optional)"
-          name="address"
-          autocomplete="street-address"
+          name="addressTwo"
+          autocomplete="address-line2"
           charMax={35}
           value={this.props.address.addressTwo}
           onValueChange={(update) => this.props.onInput('addressTwo', update)}
           onBlur={() => this.props.onBlur('addressTwo')}/>
         <ErrorableTextInput
           label="Street address (optional)"
-          name="address"
-          autocomplete="street-address"
+          name="addressThree"
+          autocomplete="address-line3"
           charMax={35}
           value={this.props.address.addressThree}
           onValueChange={(update) => this.props.onInput('addressThree', update)}
