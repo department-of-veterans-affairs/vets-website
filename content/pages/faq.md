@@ -207,20 +207,6 @@ display_title: Frequently Asked Questions
                 <h4>Signing in with your existing DS Logon account</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq13" itemprop="name">
-                      Can I sign in to Vets.gov with my My Health<em>e</em>Vet account?
-                    </button>
-                    <div id="dbq13" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                        <p>Yes. You can use your My Health<em>e</em>Vet account to sign in and connect your account to Vets.gov.</p>
-                        <p><strong>If you have a basic or advanced (non-premium) My Health<em>e</em>Vet account</strong>, you can save your in-progress online applications and view the information you've reported yourself on your VA health record. With an advanced account, you can also refill your VA prescriptions.</p>
-                        <p>To access more advanced tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—you'll need to go through the ID.me process to verify your identity. This is because the benefits and services you're signing up for on Vets.gov require a higher level of security since they use your personal information. For your protection, we need to make sure you're you—and not someone pretending to be you—before we give you access to this information.</p>
-                        <p><strong>If you have a premium My Health<em>e</em>Vet account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p><a href="/faq" class="login-required">Sign in now</a></p>
-                      </div>
-                    </div>
-                  </li>
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq14" itemprop="name">
                       Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?
                     </button>
@@ -240,7 +226,7 @@ display_title: Frequently Asked Questions
                     </button>
                     <div id="dbq15" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p><strong>If you have a basic or advanced My Health<em>e</em>Vet account or a basic DS Logon account</strong>, you'll still need to go through the ID.me process to verify your identity if you want to use all the advanced tools on Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits.</p>
+                        <p><strong>If you have a basic DS Logon account</strong>, you'll still need to go through the ID.me process to verify your identity if you want to use all the advanced tools on Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits.</p>
                         <p>This is because the benefits and services you're signing up for on Vets.gov require a higher level of security since they involve your personal information. For your protection, we need to make sure you're you—and not someone pretending to be you—before we give you access to this information.</p>
                         <p>We'll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they have your password.</p>
                         <p>ID.me helps us to do this in a way that's simple and secure. In fact, they offer the strongest identity verification system available to prevent fraud and identity theft. ID.me is a trusted VA partner and 1 of 4 Single Sign-On providers that meet the U.S. government's most rigorous requirements for online identity proofing and authentication.</p>
