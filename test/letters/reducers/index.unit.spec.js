@@ -174,7 +174,7 @@ describe('letters reducer', () => {
     const state = reduce({ type: GET_ADDRESS_FAILURE });
 
     expect(state.address).to.be.empty;
-    expect(state.addressAvailable).to.be.false;
+    expect(state.addressAvailability).to.equal(AVAILABILITY_STATUSES.unavailable);
   });
 
   it('should handle successful request for the countries', () => {
