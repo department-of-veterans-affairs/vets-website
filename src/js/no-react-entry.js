@@ -5,6 +5,7 @@ import createApplicationStatus from './common/components/createApplicationStatus
 const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
+const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/eligibility/']);
 // No-react styles.
 require('../sass/no-react.scss');
 
@@ -28,7 +29,7 @@ createLoginWidget(store);
 if (pensionPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-527EZ',
-    applyText: 'Apply for Veterans Pension'
+    applyText: 'Apply for Veterans Pension Benefits'
   });
 }
 if (healthcarePages.has(location.pathname)) {
@@ -38,4 +39,9 @@ if (healthcarePages.has(location.pathname)) {
     applyText: 'Apply for Health Care Benefits',
   }, 'hca-start-text');
 }
-
+if (burialPages.has(location.pathname)) {
+  createApplicationStatus(store, {
+    formId: '21P-530',
+    applyText: 'Apply for Burial Benefits'
+  });
+}
