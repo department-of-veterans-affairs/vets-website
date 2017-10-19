@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import AdditionalInfo from '../common/components/AdditionalInfo';
 
 import {
   stringifyFormReplacer,
@@ -156,6 +157,72 @@ export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
       <span>If you don’t provide your financial information and you don’t have another qualifying eligibility factor, VA can’t enroll you.</span>
+    </div>
+  </div>
+);
+
+export const expensesGreaterThanIncomeWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
+      <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
+    </div>
+  </div>
+);
+
+export function expensesLessThanIncome(formData) {
+  const {
+    veteranGrossIncome = 0,
+    veteranNetIncome = 0,
+    veteranOtherIncome = 0,
+    dependents = []
+  } = formData;
+
+  const {
+    spouseGrossIncome = 0,
+    spouseNetIncome = 0,
+    spouseOtherIncome = 0
+  } = formData['view:spouseIncome'] || {};
+
+  const vetSpouseIncome =
+    veteranGrossIncome +
+    veteranNetIncome +
+    veteranOtherIncome +
+    spouseGrossIncome +
+    spouseNetIncome +
+    spouseOtherIncome;
+
+  const income = dependents.reduce((sum, dependent) => {
+    const {
+      grossIncome = 0,
+      netIncome = 0,
+      otherIncome = 0,
+    } = dependent;
+
+    return grossIncome + netIncome + otherIncome + sum;
+  }, vetSpouseIncome);
+
+  const {
+    deductibleMedicalExpenses = 0,
+    deductibleFuneralExpenses = 0,
+    deductibleEducationExpenses = 0,
+  } = formData;
+
+  const expenses =
+    deductibleMedicalExpenses +
+    deductibleEducationExpenses +
+    deductibleFuneralExpenses;
+
+  return income > expenses;
+}
+
+export const deductibleExpensesDescription = (
+  <div>
+    Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
+      </AdditionalInfo>
     </div>
   </div>
 );

@@ -11,8 +11,10 @@ export function scrollToTop() {
 
 export function setFocus(selector) {
   const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
-  el.setAttribute('tabIndex', -1);
-  el.focus();
+  if (el) {
+    el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
 }
 
 export function setPageFocus(selector = '.va-nav-breadcrumbs') {
