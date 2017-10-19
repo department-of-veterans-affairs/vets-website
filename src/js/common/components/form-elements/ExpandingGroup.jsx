@@ -12,7 +12,7 @@ import classnames from 'classnames';
  * additionalClass - A string added as a class to the parent element of the second child
  * showPlus - Boolean to display a "+" or "-" icon based on open status
  */
-export default function ExpandingGroup({ children, open, showPlus, additionalClass }) {
+export default function ExpandingGroup({ children, open, showPlus, additionalClass, expandedContentId }) {
   const classNames = classnames(
     'form-expanding-group',
     { 'form-expanding-group-open': open },
@@ -22,7 +22,7 @@ export default function ExpandingGroup({ children, open, showPlus, additionalCla
   return (
     <div className={classNames}>
       {children[0]}
-      <ReactCSSTransitionGroup transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeave={false}>
+      <ReactCSSTransitionGroup id={expandedContentId} transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeave={false}>
         {open
           ? <div key="removable-group" className={additionalClass}>
             {children[1]}
@@ -34,7 +34,8 @@ export default function ExpandingGroup({ children, open, showPlus, additionalCla
 }
 
 ExpandingGroup.propTypes = {
-  open: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
   additionalClass: PropTypes.string,
-  showPlus: PropTypes.bool
+  showPlus: PropTypes.bool,
+  expandedContentId: PropTypes.string
 };

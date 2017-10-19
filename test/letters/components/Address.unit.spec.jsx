@@ -61,7 +61,7 @@ describe('<Address>', () => {
 
     const addressLine1 = '321 Niam';
     // NOTE: All address lines are currently named "address", but querySelector just picks the first one
-    form.fillData('input[name="address"]', addressLine1);
+    form.fillData('input[name="addressOne"]', addressLine1);
     expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
 
