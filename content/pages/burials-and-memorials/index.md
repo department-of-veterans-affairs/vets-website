@@ -7,8 +7,8 @@ showactionbar: false
 widgets:
   - root: react-applicationstatus
     timeout: 20
-    loadingmessage: checking your application status.
-    errormessage: <strong>we're sorry. something went wrong when we tried to load your saved application.</strong><br/>please try refreshing your browser in a few minutes.
+    loadingmessage: Checking your application status.
+    errormessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Who Can Get Benefits
     links:
