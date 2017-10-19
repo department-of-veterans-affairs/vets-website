@@ -1,7 +1,9 @@
 import React from 'react';
-import { get, set } from 'lodash/fp';
+import { get, merge, set } from 'lodash/fp';
 
+import ssnUI from '../../common/schemaform/definitions/ssn';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import TextWidget from '../../common/schemaform/widgets/TextWidget';
 
 export function isVeteran(item) {
   return get(item, 'claimant.relationshipToVet.type') === '1';
@@ -23,7 +25,6 @@ export function claimantHeader({ formData }) {
     <h4 className="highlight">{name}</h4>
   );
 }
-
 
 export function transform(formConfig, form) {
   const matchClaimant = name => a => formatName(a.claimant.name) === name;
@@ -65,6 +66,35 @@ export function transform(formConfig, form) {
     },
   });
 }
+
+class SSNWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { val: props.value };
+  }
+
+  handleChange = (val) => {
+    // Insert dashes if they are missing.
+    // Keep if value is valid and formatted with dashes.
+    // Set empty value to undefined.
+    const formattedSSN = (
+      (val && /^\d{9}$/.test(val)) ?
+        `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}` :
+        val
+    ) || undefined;
+
+    this.setState({ val }, () => {
+      this.props.onChange(formattedSSN);
+    });
+  }
+
+  render() {
+    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+  }
+}
+
+// Modify default uiSchema for SSN to insert any missing dashes.
+export const ssnUISchema = merge(ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUISchema = {
   militaryServiceNumber: {
