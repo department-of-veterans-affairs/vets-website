@@ -9,12 +9,11 @@ import Modal from '../../common/components/Modal';
 import { closeModal } from '../actions/modal';
 
 // This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
+// the isDataAvailable prop
 function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
   let view;
 
-  if (unregistered) {
+  if (!isDataAvailable) {
     view = (
       <div className="row">
         <div className="columns">

@@ -11,12 +11,11 @@ import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
 // This needs to be a React component for RequiredLoginView to pass down
-// the isDataAvailable prop, which is only passed on failure.
+// the isDataAvailable prop
 function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
   let view;
 
-  if (unregistered) {
+  if (!isDataAvailable) {
     view = (
       <h4>
         Vets.gov health tools are only available for patients who’ve received care at a VA facility.

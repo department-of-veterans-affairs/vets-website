@@ -20,10 +20,11 @@ describe('<ClaimsStatusApp>', () => {
     expect(tree.subTree('RequiredLoginView').props.authRequired).to.equal(3);
   });
   it('should render children', () => {
+    const props = { isDataAvailable: true };
     const tree = SkinDeep.shallowRender(
       <AppContent
         available
-        authorized>
+        authorized {...props}>
         <div className="test-child"/>
       </AppContent>
     );
