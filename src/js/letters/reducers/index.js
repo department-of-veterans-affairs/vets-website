@@ -32,7 +32,7 @@ import {
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
 } from '../utils/constants';
 
-const initialState = {
+export const initialState = {
   countries: [],
   countriesAvailable: false,
   states: [],
@@ -88,7 +88,7 @@ function letters(state = initialState, action) {
     case GET_ADDRESS_FAILURE:
       return _.set('addressAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
-    // Gather all possible displayed options that the user may toggle on/off.
+      // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
