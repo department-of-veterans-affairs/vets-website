@@ -426,10 +426,10 @@ p.first-of-type {
 
 .claims-status-tabs-item {
   @media (max-width: $small-screen) {
-    flex: 1 1 0;
+    flex: 1 1 0px;
     text-align: center;
   }
-  > .va-tabs-trigger {
+  > .va-tab-trigger {
     @media (max-width: $small-screen) {
       display: inline-block;
       width: 100%;
