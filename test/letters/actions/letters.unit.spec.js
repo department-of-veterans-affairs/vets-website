@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import _ from 'lodash';
 
 import {
   ADDRESS_TYPES,
@@ -8,6 +9,8 @@ import {
   SAVE_ADDRESS_FAILURE,
   GET_LETTERS_SUCCESS,
   GET_LETTERS_FAILURE,
+  GET_ADDRESS_SUCCESS,
+  GET_ADDRESS_FAILURE,
   BACKEND_SERVICE_ERROR,
   BACKEND_AUTHENTICATION_ERROR,
   LETTER_ELIGIBILITY_ERROR
@@ -36,7 +39,6 @@ const frontEndAddress = {
   state: 'secret'
 };
 
-// TO-DO: Determine if this is needed
 const addressResponse = {
   data: {
     attributes: {
@@ -91,8 +93,7 @@ const teardown = () => {
 };
 const getState = () => ({});
 
-// without redux mock store - these tests pass
-describe('saveAddress', () => {
+describe.skip('saveAddress', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -155,7 +156,7 @@ describe('saveAddress', () => {
   });
 });
 
-describe.only('getLettersList', () => {
+describe.skip('getLettersList', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -163,6 +164,7 @@ describe.only('getLettersList', () => {
     const thunk = getLetterList();
     const dispatch = sinon.spy((action) => {
       const { type } = action;
+      // Wrap assertions so failures don't get swallowed
       try {
         expect(type).to.equal(GET_LETTERS_SUCCESS);
         done();
@@ -221,21 +223,124 @@ describe.only('getLettersList', () => {
   });
 });
 
-describe('getMailingAddress', () => {
-  it('dispatches GET_ADDRESS_SUCCESS when get succeeds', (done) => {
-    done();
+describe.only('getMailingAddress', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('dispatches GET_ADDRESS_SUCCESS when GET succeeds', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(addressResponse)
+    }));
+
+    const thunk = getMailingAddress();
+    const dispatch = sinon.spy((action => {
+      const { type } = action;
+      try {
+        expect(type).to.equal(GET_ADDRESS_SUCCESS);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }));
+
+    thunk(dispatch, getState);
   });
 
   it('dispatches GET_ADDRESS_FAILURE when GET fails', (done) => {
-    done();
+    global.fetch.returns(Promise.reject({}));
+
+    const thunk = getMailingAddress();
+    const dispatch = sinon.spy((action) => {
+      const { type } = action;
+      try {
+        expect(type).to.equal(GET_ADDRESS_FAILURE);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
   });
 
-  it('dispatches with copy of response object (not original)', (done) => {
-    done();
+  it('dispatches GET_ADDRESS_FAILURE when response mangled', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve({})
+    }));
+
+    const thunk = getMailingAddress();
+    const dispatch = sinon.spy((action) => {
+      const { type } = action;
+      try {
+        expect(type).to.equal(GET_ADDRESS_FAILURE);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
+  });
+
+  it('dispatches with clone of response object (not original)', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(addressResponse)
+    }));
+
+    const thunk = getMailingAddress();
+    const dispatch = sinon.spy((action) => {
+      const { data } = action;
+      try {
+        expect(data).to.not.equal(addressResponse);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
   });
 
   it('modifies military addresses', (done) => {
-    done();
+    const militaryAddress = {
+      ...addressResponse.data.attributes.address,
+      type: 'MILITARY',
+      militaryPostOfficeTypeCode: 'APO',
+      militaryStateCode: 'AE'
+    };
+    const militaryResponse = { ...addressResponse };
+    militaryResponse.data.attributes.address = {
+      ...addressResponse.data.attributes.address,
+      ...militaryAddress
+    };
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(militaryResponse)
+    }));
+
+    const thunk = getMailingAddress();
+    const dispatch = sinon.spy((action) => {
+      try {
+        const { address } = action.data.data.attributes; // Actual
+        const { militaryPostOfficeTypeCode, militaryStateCode } = militaryAddress; // Test
+        expect(address.city).to.equal(militaryPostOfficeTypeCode);
+        expect(address.stateCode).to.equal(militaryStateCode);
+        expect(address.militaryPostOfficeTypeCode).to.be.undefined;
+        expect(address.militaryStateCode).to.be.undefined;
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    thunk(dispatch, getState);
   });
 });
 

@@ -41,14 +41,14 @@ export function getLetterList() {
         }
         const error = response.errors[0];
         switch (error.status) {
-          case ('503'): // Handled same as 504
-          case ('504'):
+          case '503': // Handled same as 504
+          case '504':
             // Either EVSS or a partner service is down or EVSS times out
             return dispatch({ type: BACKEND_SERVICE_ERROR });
-          case ('403'):
+          case '403':
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          case ('502'):
+          case '502':
             // Some of the partner services are down, so we cannot verify the
             // eligibility of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
@@ -58,28 +58,6 @@ export function getLetterList() {
             );
         }
       }
-      //   if (error) {
-      //     if (error.status === '503' || error.status === '504') {
-      //       // Either EVSS or a partner service is down or EVSS times out
-      //       return dispatch({ type: BACKEND_SERVICE_ERROR });
-      //     }
-      //     if (error.status === '403') {
-      //       // Backend authentication problem
-      //       return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-      //     }
-      //     if (error.status === '502') {
-      //       // Some of the partner services are down, so we cannot verify the eligibility
-      //       // of some letters
-      //       return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-      //     }
-      //     return Promise.reject(
-      //       new Error(`vets_letters_error_server_get: error status ${error.status}`)
-      //     );
-      //   }
-      //   return Promise.reject(
-      //     new Error('vets_letters_error_server_get: unknown error status')
-      //   );
-      // }
     ).catch((error) => {
       if (error.message.match('vets_letters_error_server_get')) {
         Raven.captureException(error);
@@ -95,26 +73,34 @@ export function getMailingAddress() {
     apiRequest(
       '/v0/address',
       null,
-      response => {
-        const responseCopy = Object.assign({}, response);
-        const address = Object.assign({}, response.data.attributes.address);
-        // Translate military-only fields into generic ones; we'll translate them back later if necessary
-        if (address.type === ADDRESS_TYPES.military) {
-          address.city = address.militaryPostOfficeTypeCode;
-          address.stateCode = address.militaryStateCode;
-          address.countryName = 'USA';
-          delete address.militaryPostOfficeTypeCode;
-          delete address.militaryStateCode;
+      (response) => {
+        try {
+          const { address } = response.data.attributes;
+          const responseCopy = Object.assign({}, response);
+          const addressCopy = Object.assign({}, address);
+          // Translate military-only fields into generic ones; we'll translate
+          // them back later if necessary
+          if (addressCopy.type === ADDRESS_TYPES.military) {
+            addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
+            addressCopy.stateCode = addressCopy.militaryStateCode;
+            addressCopy.countryName = 'USA';
+            delete addressCopy.militaryPostOfficeTypeCode;
+            delete addressCopy.militaryStateCode;
+          }
+          responseCopy.data.attributes.address = addressCopy;
+          return dispatch({
+            type: GET_ADDRESS_SUCCESS,
+            data: responseCopy
+          });
+        } catch (error) {
+          return Promise.reject(new Error(`vets_letters_error_get: ${error}`));
         }
-        responseCopy.data.attributes.address = address;
-
-        dispatch({
-          type: GET_ADDRESS_SUCCESS,
-          data: responseCopy
-        });
       },
       () => dispatch({ type: GET_ADDRESS_FAILURE })
-    );
+    ).catch((error) => {
+      Raven.captureException(error);
+      return dispatch({ type: GET_ADDRESS_FAILURE });
+    });
   };
 }
 
