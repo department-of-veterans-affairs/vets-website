@@ -166,7 +166,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl);
-        dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
+        return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
     );
@@ -228,7 +228,7 @@ export function saveAddress(address) {
 
 export function getAddressCountries() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address/countries',
       null,
       response => dispatch({
@@ -242,7 +242,7 @@ export function getAddressCountries() {
 
 export function getAddressStates() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address/states',
       null,
       response => dispatch({

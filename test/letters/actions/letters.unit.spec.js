@@ -5,6 +5,10 @@ import {
   ADDRESS_TYPES,
   BACKEND_SERVICE_ERROR,
   BACKEND_AUTHENTICATION_ERROR,
+  GET_ADDRESS_COUNTRIES_SUCCESS,
+  GET_ADDRESS_COUNTRIES_FAILURE,
+  GET_ADDRESS_STATES_SUCCESS,
+  GET_ADDRESS_STATES_FAILURE,
   GET_ADDRESS_SUCCESS,
   GET_ADDRESS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
@@ -12,6 +16,7 @@ import {
   GET_LETTERS_SUCCESS,
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
+  LETTER_TYPES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
   SAVE_ADDRESS_SUCCESS,
@@ -52,7 +57,7 @@ const teardown = () => {
 };
 const getState = () => ({});
 
-describe.skip('saveAddress', () => {
+describe('saveAddress', () => {
   const frontEndAddress = {
     type: ADDRESS_TYPES.military,
     city: 'apo',
@@ -121,7 +126,7 @@ describe.skip('saveAddress', () => {
   });
 });
 
-describe.skip('getLettersList', () => {
+describe('getLettersList', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -188,7 +193,7 @@ describe.skip('getLettersList', () => {
   });
 });
 
-describe.skip('getMailingAddress', () => {
+describe('getMailingAddress', () => {
   const addressResponse = {
     data: {
       attributes: {
@@ -339,7 +344,7 @@ describe.skip('getMailingAddress', () => {
   });
 });
 
-describe.skip('getBenefitSummaryOptions', () => {
+describe('getBenefitSummaryOptions', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -380,9 +385,9 @@ describe.skip('getBenefitSummaryOptions', () => {
       ok: true,
       json: () => Promise.resolve(mockResponse)
     }));
-
     const thunk = getBenefitSummaryOptions();
     const dispatch = sinon.spy();
+
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.args[0][0]; // first call, first arg
@@ -393,10 +398,9 @@ describe.skip('getBenefitSummaryOptions', () => {
 
   it('dispatches FAILURE action when GET fails', (done) => {
     global.fetch.returns(Promise.reject({}));
-
     const thunk = getBenefitSummaryOptions();
-
     const dispatch = sinon.spy();
+
     thunk(dispatch, getState)
       .then(() => {
         expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
@@ -404,7 +408,152 @@ describe.skip('getBenefitSummaryOptions', () => {
   });
 });
 
-describe.only('getLetterPdf', () => {
+describe.skip('getLetterPdf', () => {
   beforeEach(setup);
   afterEach(teardown);
-})
+
+  const civilSLetter = {
+    letterName: 'Civil Service Preference Letter',
+    letterType: LETTER_TYPES.civilService,
+    letterOptions: {
+      // Opts only relevant for BSL but ATM required in every download link
+      militaryService: true,
+      monthlyAward: true,
+      serviceConnectedEvaluation: true,
+      chapter35Eligibility: true,
+      serviceConnectedDisabilities: true
+    }
+  };
+
+  const benefitSLetter = {
+    letterName: 'Benefit Summary Letter',
+    letterType: LETTER_TYPES.benefitSummary,
+    letterOptions: {
+      // Opts only relevant for BSL but ATM required in every download link
+      militaryService: true,
+      monthlyAward: true,
+      serviceConnectedEvaluation: true,
+      chapter35Eligibility: true,
+      serviceConnectedDisabilities: true
+    }
+  };
+
+  it('sets up fetch for benefit summary letter', (done) => {
+
+  });
+
+  it('sets up fetch for non-benefit-summary letters', (done) => {
+
+  });
+
+  it('dispatches PENDING action when download initiated', (done) => {
+
+  });
+
+  it('handles ie10 stuff', (done) => {
+    // Skip these tests for now because this functionality is about to change
+  });
+
+  it('downloads stuff conditionally', (done) => {
+    // Skip this bucket as well because this functionality is up in the air
+  });
+
+  it('dispatches DOWNLOAD_SUCCESS once download succeeds', (done) => {
+
+  });
+
+  it('dispatches DOWNLOAD_FAILED if download or fetch fails', (done) => {
+
+  });
+
+});
+
+describe('getAddressCountries', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  const countriesResponse = {
+    data: {
+      attributes: {
+        countries: [
+          { name: 'USA' },
+          { name: 'Afghanistan' }
+        ]
+      }
+    }
+  };
+
+  it('dispatches SUCCESS when GET succeeds', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(countriesResponse)
+    }));
+    const thunk = getAddressCountries();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.args[0][0]; // first call, first arg
+        expect(action.type).to.equal(GET_ADDRESS_COUNTRIES_SUCCESS);
+        expect(action.countries).to.eql(countriesResponse);
+      }).then(done, done);
+  });
+
+  it('dispatches FAILURE when GET fails', (done) => {
+    global.fetch.returns(Promise.reject({}));
+    const thunk = getAddressCountries();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.args[0][0]; // first call, first arg
+        expect(action.type).to.equal(GET_ADDRESS_COUNTRIES_FAILURE);
+      }).then(done, done);
+  });
+});
+
+describe('getAddressStates', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  const statesResponse = {
+    data: {
+      attributes: {
+        states: [
+          { name: 'CA' },
+          { name: 'AK' }
+        ]
+      }
+    }
+  };
+
+  it('dispatches SUCCESS when GET succeeds', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(statesResponse)
+    }));
+    const thunk = getAddressStates();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.args[0][0]; // first call, first arg
+        expect(action.type).to.equal(GET_ADDRESS_STATES_SUCCESS);
+        expect(action.states).to.eql(statesResponse);
+      }).then(done, done);
+  });
+
+  it('dispatches FAILURE when GET fails', (done) => {
+    global.fetch.returns(Promise.reject({}));
+    const thunk = getAddressStates();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.args[0][0]; // first call, first arg
+        expect(action.type).to.equal(GET_ADDRESS_STATES_FAILURE);
+      }).then(done, done);
+  });
+});
