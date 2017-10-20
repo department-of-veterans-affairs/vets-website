@@ -75,9 +75,8 @@ export function getMailingAddress() {
       null,
       // on fetch success
       (response) => {
-        const { address } = response.data.attributes;
         const responseCopy = Object.assign({}, response);
-        const addressCopy = Object.assign({}, address);
+        const addressCopy = Object.assign({}, response.data.attributes.address);
         // Translate military-only fields into generic ones; we'll translate
         // them back later if necessary
         if (addressCopy.type === ADDRESS_TYPES.military) {
