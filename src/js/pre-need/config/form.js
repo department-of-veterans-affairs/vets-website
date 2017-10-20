@@ -24,15 +24,11 @@ import {
   isVeteran,
   requiresSponsorInfo,
   transform,
-  ssnUISchema,
-  veteranUISchema
+  fullMaidenNameUI,
+  ssnDashesUI,
+  veteranUI
 } from '../utils/helpers';
 
-const fullMaidenNameUI = _.merge(fullNameUI, {
-  maiden: {
-    'ui:title': 'Maiden name'
-  },
-});
 
 const {
   claimant,
@@ -93,7 +89,7 @@ const formConfig = {
               items: {
                 claimant: {
                   name: fullMaidenNameUI,
-                  ssn: ssnUISchema,
+                  ssn: ssnDashesUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   relationshipToVet: {
                     'ui:title': 'Relationship to Servicemember',
@@ -165,7 +161,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                veteran: veteranUISchema
+                veteran: veteranUI
               }
             }
           },
@@ -259,7 +255,7 @@ const formConfig = {
               items: {
                 'ui:title': claimantHeader,
                 'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
-                veteran: _.merge(veteranUISchema, {
+                veteran: _.merge(veteranUI, {
                   'ui:order': [
                     '*',
                     'isDeceased',
@@ -267,7 +263,7 @@ const formConfig = {
                     'dateOfDeath'
                   ],
                   currentName: fullNameUI,
-                  ssn: ssnUISchema,
+                  ssn: ssnDashesUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   isDeceased: {
                     'ui:title': 'Is the sponsor deceased?',

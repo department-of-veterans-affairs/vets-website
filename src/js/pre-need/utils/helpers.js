@@ -1,6 +1,7 @@
 import React from 'react';
 import { get, merge, set } from 'lodash/fp';
 
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
@@ -67,6 +68,10 @@ export function transform(formConfig, form) {
   });
 }
 
+export const fullMaidenNameUI = merge(fullNameUI, {
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
 class SSNWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -94,9 +99,9 @@ class SSNWidget extends React.Component {
 }
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnUISchema = merge(ssnUI, { 'ui:widget': SSNWidget });
+export const ssnDashesUI = merge(ssnUI, { 'ui:widget': SSNWidget });
 
-export const veteranUISchema = {
+export const veteranUI = {
   militaryServiceNumber: {
     'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
