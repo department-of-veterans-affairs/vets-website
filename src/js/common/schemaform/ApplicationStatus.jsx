@@ -118,10 +118,16 @@ export class ApplicationStatus extends React.Component {
 
     if (showApplyButton) {
       return (
-        <div>
-          {this.props.additionalText && <p>{this.props.additionalText}</p>}
-          <div className="sip-application-status">
-            <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+        <div itemScope itemType="http://schema.org/Question">
+          <h3 itemProp="name">Ready to apply?</h3>
+          <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+            <div itemProp="text">
+              {this.props.additionalText && <p>{this.props.additionalText}</p>}
+              <div className="sip-application-status">
+                <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+                {window.location.pathname.endsWith('eligibility/') && <a href={this.props.applyLink}>Learn more about the application process.</a>}
+              </div>
+            </div>
           </div>
         </div>
       );

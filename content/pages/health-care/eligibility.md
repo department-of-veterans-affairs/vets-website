@@ -65,13 +65,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 <div markdown="0"><br></div>
 
-### Ready to apply?
-
 <div id="react-applicationStatus">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
-
-[Learn about the application process](/health-care/apply/).
 
 #### What if I need help filling out my application?
 

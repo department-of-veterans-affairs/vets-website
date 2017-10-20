@@ -29,6 +29,7 @@ createLoginWidget(store);
 if (pensionPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-527EZ',
+    applyLink: '/pension/apply/',
     applyText: 'Apply for Veterans Pension Benefits'
   });
 }
@@ -36,7 +37,8 @@ if (healthcarePages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '1010ez',
     additionalText: 'You can start your online application right now.',
-    applyText: 'Apply for Health Care Benefits',
+    applyLink: '/health-care/apply/',
+    applyText: 'Apply for Health Care Benefits'
   }, 'hca-start-text');
 }
 if (burialPages.has(location.pathname)) {
