@@ -136,13 +136,11 @@ export class AddressSection extends React.Component {
       return;
     }
 
-
     this.setState({
       isEditingAddress: false,
       // Reset all the error messages in case they go to edit again; should be pointless
       errorMessages: {}
     });
-    window.dataLayer.push({ event: 'letter-update-address-submit' });
     this.props.saveAddress(this.state.editableAddress);
   }
 

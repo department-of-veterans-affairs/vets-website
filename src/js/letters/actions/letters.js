@@ -219,6 +219,7 @@ export function saveAddress(address) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(transformedAddress)
   };
+  window.dataLayer.push({ event: 'letter-update-address-submit' });
   return (dispatch) => {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
