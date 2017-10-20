@@ -21,13 +21,7 @@ export const createDependentSchema = (hcaSchema) => {
       'dependentEducationExpenses',
       'disabledBefore18',
       'cohabitedLastYear'
-    ],
-    properties: {
-      'view:dependentSupportDescription': {
-        type: 'object',
-        properties: {}
-      }
-    }
+    ]
   });
 
   s.properties = _.omit(incomeFields, s.properties);
@@ -55,7 +49,6 @@ export const uiSchema = {
     'attendedSchoolLastYear',
     'dependentEducationExpenses',
     'cohabitedLastYear',
-    'view:dependentSupportDescription',
     'receivedSupportLastYear'
   ],
   fullName: fullNameUI,
@@ -84,11 +77,8 @@ export const uiSchema = {
     'ui:title': 'Did your dependent live with you last year?',
     'ui:widget': 'yesNo'
   },
-  'view:dependentSupportDescription': {
-    'ui:description': 'Please count all support contributions even if they weren’t paid in regular and set amounts. Support can include tuition or medical bill payments.'
-  },
   receivedSupportLastYear: {
-    'ui:title': 'If your dependent didn’t live with you last year, did you provide support?',
+    'ui:title': 'If your dependent didn’t live with you last year, did you provide support? (Please count all support contributions even if they weren’t paid in regular and set amounts. Support can include tuition or medical bill payments.)',
     'ui:widget': 'yesNo',
     // TODO: Fix this once the bug mentioned below is fixed
     // Hide by default, only showing after hideIf is run and overrides this

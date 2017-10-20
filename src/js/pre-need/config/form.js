@@ -9,7 +9,6 @@ import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
-import ssnUI from '../../common/schemaform/definitions/ssn';
 import { validateMatch } from '../../common/schemaform/validation';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
@@ -25,8 +24,11 @@ import {
   isVeteran,
   requiresSponsorInfo,
   transform,
-  veteranUISchema
+  fullMaidenNameUI,
+  ssnDashesUI,
+  veteranUI
 } from '../utils/helpers';
+
 
 const {
   claimant,
@@ -43,6 +45,7 @@ const {
   date,
   dateRange,
   gender,
+  email,
   phone,
   files,
   vaFileNumber
@@ -66,6 +69,7 @@ const formConfig = {
     date,
     dateRange,
     gender,
+    email,
     phone,
     files,
     vaFileNumber
@@ -84,32 +88,35 @@ const formConfig = {
               },
               items: {
                 claimant: {
-                  name: fullNameUI,
-                  maidenName: {
-                    'ui:title': 'Maiden name'
-                  },
-                  ssn: ssnUI,
+                  name: fullMaidenNameUI,
+                  ssn: ssnDashesUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   relationshipToVet: {
-                    type: {
-                      'ui:title': 'Relationship to Servicemember',
-                      'ui:widget': 'radio',
-                      'ui:options': {
-                        labels: {
-                          1: 'I am the Servicemember',
-                          2: 'Spouse or surviving spouse',
-                          3: 'Unmarried adult child',
-                        }
-                      }
-                    },
-                    other: {
-                      'ui:title': 'Please specify your relationship',
-                      // 'ui:required': (form) => _.get('relationship.type', form) === 'other',
-                      'ui:options': {
-                        hideIf: formData => _.get('relationship.type', formData) !== 'other'
+                    'ui:title': 'Relationship to Servicemember',
+                    'ui:widget': 'radio',
+                    'ui:options': {
+                      labels: {
+                        1: 'I am the Servicemember/Veteran',
+                        2: 'Spouse or surviving spouse',
+                        3: 'Unmarried adult child',
+                        4: 'Other'
+                      },
+                      nestedContent: {
+                        1: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
+                        2: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
+                        3: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information. You'll also need to provide supporting documents with information about your disability.</div>,
                       }
                     }
                   },
+                  /*
+                  'view:other': {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form) => get(form, 'relationship.type') === '4',
+                    'ui:options': {
+                      hideIf: (form) => get(form, 'relationship.type') !== '4'
+                    }
+                  }
+                  */
                 }
               }
             }
@@ -125,9 +132,14 @@ const formConfig = {
                   properties: {
                     claimant: {
                       type: 'object',
+                      required: [
+                        'name',
+                        'ssn',
+                        'dateOfBirth',
+                        'relationshipToVet'
+                      ],
                       properties: _.pick([
                         'name',
-                        'maidenName',
                         'ssn',
                         'dateOfBirth',
                         'relationshipToVet'
@@ -149,7 +161,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                veteran: veteranUISchema
+                veteran: veteranUI
               }
             }
           },
@@ -170,7 +182,9 @@ const formConfig = {
                         'placeOfBirth',
                         'maritalStatus',
                         'militaryStatus'
-                      ], veteran.properties)
+                      ], _.set('militaryStatus.enum', [
+                        'V', 'R', 'A', 'E', 'S', 'O', 'X'
+                      ], veteran.properties))
                     }
                   }
                 }
@@ -188,7 +202,6 @@ const formConfig = {
           path: 'sponsor-information-1/:index',
           showPagePerItem: true,
           arrayPath: 'applications',
-          // TODO: Fix inconsistent formData upon submission.
           depends: formData => formData.applications && formData.applications.some(isVeteran),
           itemFilter: item => !isVeteran(item),
           uiSchema: {
@@ -241,8 +254,8 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                'ui:description': <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
-                veteran: _.merge(veteranUISchema, {
+                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
+                veteran: _.merge(veteranUI, {
                   'ui:order': [
                     '*',
                     'isDeceased',
@@ -250,7 +263,7 @@ const formConfig = {
                     'dateOfDeath'
                   ],
                   currentName: fullNameUI,
-                  ssn: ssnUI,
+                  ssn: ssnDashesUI,
                   dateOfBirth: currentOrPastDateUI('Date of birth'),
                   isDeceased: {
                     'ui:title': 'Is the sponsor deceased?',
@@ -259,7 +272,7 @@ const formConfig = {
                       labels: {
                         yes: 'Yes',
                         no: 'No',
-                        unsure: 'I don’t know'
+                        unsure: 'I don\'t know'
                       }
                     }
                   },
@@ -274,7 +287,10 @@ const formConfig = {
                       expandUnder: 'isDeceased',
                       expandUnderCondition: 'yes'
                     }
-                  })
+                  }),
+                  militaryStatus: {
+                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)'
+                  }
                 })
               }
             }
@@ -350,12 +366,13 @@ const formConfig = {
                         'ui:title': 'Discharge character of service',
                         'ui:options': {
                           labels: {
-                            honorable: 'Honorable',
-                            general: 'General',
-                            other: 'Other Than Honorable',
-                            'bad-conduct': 'Bad Conduct',
-                            dishonorable: 'Dishonorable',
-                            undesirable: 'Undesirable'
+                            1: 'Honorable',
+                            2: 'General',
+                            3: 'Entry Level Separation/Uncharacterized',
+                            4: 'Other Than Honorable',
+                            5: 'Bad Conduct',
+                            6: 'Dishonorable',
+                            7: 'Other'
                           }
                         }
                       },
@@ -429,7 +446,7 @@ const formConfig = {
                     labels: {
                       1: 'Yes',
                       2: 'No',
-                      3: 'I don’t know',
+                      3: 'I don\'t know',
                     }
                   }
                 },
