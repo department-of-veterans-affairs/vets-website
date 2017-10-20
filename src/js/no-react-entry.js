@@ -5,7 +5,7 @@ import createApplicationStatus from './common/components/createApplicationStatus
 const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
-const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/eligibility/']);
+const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/', '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/']);
 // No-react styles.
 require('../sass/no-react.scss');
 
