@@ -93,7 +93,7 @@ export function getMailingAddress() {
           data: responseCopy
         });
       },
-      // on fetch error
+      // catch errors in fetch or success handler
       () => dispatch({ type: GET_ADDRESS_FAILURE })
     );
   };
