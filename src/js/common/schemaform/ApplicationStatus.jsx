@@ -56,8 +56,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formId, profile, login, applyText, showApplyButton } = this.props;
-
+    const { formId, profile, login, applyLink, applyText, showApplyButton } = this.props;
     if (profile.loading || this.state.loading) {
       const message = profile.loading
         ? 'Checking your application status.'
@@ -138,6 +137,7 @@ export class ApplicationStatus extends React.Component {
 
 ApplicationStatus.propTypes = {
   formId: PropTypes.string.isRequired,
+  applyLink: PropTypes.string,
   applyText: PropTypes.string.isRequired,
   additionalText: PropTypes.string,
   login: PropTypes.shape({
