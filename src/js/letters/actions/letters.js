@@ -100,7 +100,7 @@ export function getMailingAddress() {
 
 export function getBenefitSummaryOptions() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/letters/beneficiary',
       null,
       response => dispatch({
@@ -142,7 +142,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   let downloadUrl;
   return (dispatch) => {
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
-    apiRequest(
+    return apiRequest(
       `/v0/letters/${letterType}`,
       settings,
       response => {

@@ -3,16 +3,18 @@ import sinon from 'sinon';
 
 import {
   ADDRESS_TYPES,
-  SAVE_ADDRESS_SUCCESS,
-  SAVE_ADDRESS_PENDING,
-  SAVE_ADDRESS_FAILURE,
-  GET_LETTERS_SUCCESS,
-  GET_LETTERS_FAILURE,
-  GET_ADDRESS_SUCCESS,
-  GET_ADDRESS_FAILURE,
   BACKEND_SERVICE_ERROR,
   BACKEND_AUTHENTICATION_ERROR,
-  LETTER_ELIGIBILITY_ERROR
+  GET_ADDRESS_SUCCESS,
+  GET_ADDRESS_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_LETTERS_SUCCESS,
+  GET_LETTERS_FAILURE,
+  LETTER_ELIGIBILITY_ERROR,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_FAILURE,
+  SAVE_ADDRESS_SUCCESS,
 } from '../../../src/js/letters/utils/constants';
 
 import {
@@ -20,52 +22,10 @@ import {
   getMailingAddress,
   getBenefitSummaryOptions,
   getLetterPdf,
-  saveAddressPending,
   saveAddress,
   getAddressCountries,
   getAddressStates,
 } from '../../../src/js/letters/actions/letters';
-
-const backendAddress = {
-  type: ADDRESS_TYPES.military,
-  militaryPostOfficeTypeCode: 'apo',
-  militaryStateCode: 'secret'
-};
-
-const frontEndAddress = {
-  type: ADDRESS_TYPES.military,
-  city: 'apo',
-  state: 'secret'
-};
-
-const addressResponse = {
-  data: {
-    attributes: {
-      address: {
-        type: 'DOMESTIC',
-        addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
-        addressOne: '140 Rock Creek Church Rd NW',
-        addressTwo: '',
-        addressThree: '',
-        city: 'Washington',
-        stateCode: 'DC',
-        zipCode: '20011',
-        zipSuffix: '1865'
-      },
-      controlInformation: {
-        canUpdate: true,
-        corpAvailIndicator: true,
-        corpRecFoundIndicator: true,
-        hasNoBdnPaymentsIndicator: true,
-        isCompetentIndicator: true,
-        indentityIndicator: true,
-        indexIndicator: true,
-        noFiduciaryAssignedIndicator: true,
-        notDeceasedIndicator: true
-      }
-    }
-  }
-};
 
 /**
  * Setup() for each test requires stubbing global fetch() and setting userToken
@@ -93,6 +53,12 @@ const teardown = () => {
 const getState = () => ({});
 
 describe.skip('saveAddress', () => {
+  const frontEndAddress = {
+    type: ADDRESS_TYPES.military,
+    city: 'apo',
+    state: 'secret'
+  };
+
   beforeEach(setup);
   afterEach(teardown);
 
@@ -222,7 +188,36 @@ describe.skip('getLettersList', () => {
   });
 });
 
-describe.only('getMailingAddress', () => {
+describe.skip('getMailingAddress', () => {
+  const addressResponse = {
+    data: {
+      attributes: {
+        address: {
+          type: 'DOMESTIC',
+          addressEffectiveDate: '1973-01-01T05:00:00.000+00:00',
+          addressOne: '140 Rock Creek Church Rd NW',
+          addressTwo: '',
+          addressThree: '',
+          city: 'Washington',
+          stateCode: 'DC',
+          zipCode: '20011',
+          zipSuffix: '1865'
+        },
+        controlInformation: {
+          canUpdate: true,
+          corpAvailIndicator: true,
+          corpRecFoundIndicator: true,
+          hasNoBdnPaymentsIndicator: true,
+          isCompetentIndicator: true,
+          indentityIndicator: true,
+          indexIndicator: true,
+          noFiduciaryAssignedIndicator: true,
+          notDeceasedIndicator: true
+        }
+      }
+    }
+  };
+
   beforeEach(setup);
   afterEach(teardown);
 
@@ -285,6 +280,7 @@ describe.only('getMailingAddress', () => {
     thunk(dispatch, getState);
   });
 
+  // Note: not really sure we need to test this as long as the next test passes
   it('dispatches with clone of response object (not original)', (done) => {
     global.fetch.returns(Promise.resolve({
       headers: { get: () => 'application/json' },
@@ -342,3 +338,73 @@ describe.only('getMailingAddress', () => {
     thunk(dispatch, getState);
   });
 });
+
+describe.skip('getBenefitSummaryOptions', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  const mockResponse = {
+    data: {
+      attributes: {
+        benefitInformation: {
+          hasNonServiceConnectedPension: true,
+          hasServiceConnectedDisabilities: true,
+          hasSurvivorsIndemnityCompensationAward: true,
+          hasSurvivorsPensionAward: true,
+          monthlyAwardAmount: 123.5,
+          serviceConnectedPercentage: 2,
+          awardEffectiveDate: true,
+          hasAdaptedHousing: true,
+          hasChapter35Eligibility: true,
+          hasDeathResultOfDisability: true,
+          hasIndividualUnemployabilityGranted: true,
+          hasSpecialMonthlyCompensation: true
+        },
+        militaryService: [
+          {
+            branch: 'ARMY',
+            characterOfService: 'HONORABLE',
+            enteredDate: '1973-01-01T05:00:00.000+00:00',
+            releasedDate: '1977-10-01T04:00:00.000+00:00'
+          }
+        ]
+      },
+      id: null,
+      type: 'evss_letters_letter_beneficiary_response'
+    }
+  };
+
+  it('dispatches SUCCESS action with response when GET succeeds', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(mockResponse)
+    }));
+
+    const thunk = getBenefitSummaryOptions();
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.args[0][0]; // first call, first arg
+        expect(action.type).to.equal(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
+        expect(action.data).to.eql(mockResponse);
+      }).then(done, done);
+  });
+
+  it('dispatches FAILURE action when GET fails', (done) => {
+    global.fetch.returns(Promise.reject({}));
+
+    const thunk = getBenefitSummaryOptions();
+
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
+      }).then(done, done);
+  });
+});
+
+describe.only('getLetterPdf', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+})
