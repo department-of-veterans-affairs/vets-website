@@ -65,7 +65,6 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 3; done
 if [ $SAUCE == true ]; then
   BABEL_ENV=test npm --no-color run nightwatch-sauce -- "${@}"
 elif [ $VISUAL_REGRESSION_TESTING = true ]; then
-  echo "${@}"
   BABEL_ENV=test npm --no-color run nightwatch-visual -- "${@}"
 else
   BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
