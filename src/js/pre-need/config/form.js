@@ -186,7 +186,9 @@ const formConfig = {
                         'placeOfBirth',
                         'maritalStatus',
                         'militaryStatus'
-                      ], veteran.properties)
+                      ], _.set('militaryStatus.enum', [
+                        'V', 'R', 'A', 'E', 'S', 'O', 'X'
+                      ], veteran.properties))
                     }
                   }
                 }
@@ -289,7 +291,10 @@ const formConfig = {
                       expandUnder: 'isDeceased',
                       expandUnderCondition: 'yes'
                     }
-                  })
+                  }),
+                  militaryStatus: {
+                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)'
+                  }
                 })
               }
             }
