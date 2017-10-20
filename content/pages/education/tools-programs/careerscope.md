@@ -25,5 +25,5 @@ If you don't qualify to use CareerScope, get help from our other education and t
 
 Use the GI Bill Comparison Tool to find out what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
-Find out what you need to consider when choosing a school. [Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
+Learn about what to consider when choosing a school. [Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
 
