@@ -28,7 +28,7 @@ import {
 
 export function getLetterList() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/letters',
       null,
       response => dispatch({
@@ -75,7 +75,7 @@ export function getAddressFailure() {
 
 export function getMailingAddress() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address',
       null,
       // on fetch success
@@ -225,7 +225,7 @@ export function saveAddress(address) {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
 
-    apiRequest(
+    return apiRequest(
       '/v0/address',
       settings,
       () => dispatch(saveAddressSuccess(address)),

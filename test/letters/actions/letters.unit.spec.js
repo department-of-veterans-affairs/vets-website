@@ -26,7 +26,7 @@ import {
   getLetterList,
   getMailingAddress,
   getBenefitSummaryOptions,
-  getLetterPdf,
+  // getLetterPdf,
   saveAddress,
   getAddressCountries,
   getAddressStates,
@@ -69,60 +69,34 @@ describe('saveAddress', () => {
 
   it('dispatches SAVE_ADDRESS_PENDING first', (done) => {
     const thunk = saveAddress(frontEndAddress);
-    let callCount = 0;
-    const dispatch = sinon.spy((action) => {
-      // keep track of which dispatch() call we're asserting against
-      callCount += 1;
-      const { type } = action;
-      if (callCount === 1) {
-        try {
-          expect(type).to.equal(SAVE_ADDRESS_PENDING);
-          done();
-        } catch (error) {
-          done(error);
-        }
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(SAVE_ADDRESS_PENDING);
+      }).then(done, done);
   });
 
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
     const thunk = saveAddress(frontEndAddress);
-    const dispatch = sinon.spy((action) => {
-      const { type, address } = action;
-      if (type === SAVE_ADDRESS_SUCCESS) {
-        try {
-          expect(type).to.equal(SAVE_ADDRESS_SUCCESS);
-          expect(address).to.eql(frontEndAddress);
-          done();
-        } catch (error) {
-          done(error);
-        }
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(SAVE_ADDRESS_SUCCESS);
+        expect(action.address).to.eql(frontEndAddress);
+      }).then(done, done);
   });
 
   it('dispatches SAVE_ADDRESS_FAILURE on update failure', (done) => {
-    global.fetch.returns(Promise.reject(new Error('something went wrong')));
+    global.fetch.returns(Promise.reject({}));
     const thunk = saveAddress(frontEndAddress);
-    let callCount = 0;
-    const dispatch = sinon.spy((action) => {
-      const { type } = action;
-      callCount += 1;
-      if (callCount === 2) {
-        try {
-          expect(type).to.equal(SAVE_ADDRESS_FAILURE);
-          done();
-        } catch (error) {
-          done(error);
-        }
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
+      }).then(done, done);
   });
 });
 
@@ -130,37 +104,45 @@ describe('getLettersList', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('dispatches GET_LETTERS_SUCCESS when GET succeeds', (done) => {
-    const thunk = getLetterList();
-    const dispatch = sinon.spy((action) => {
-      const { type } = action;
-      // Wrap assertions so failures don't get swallowed
-      try {
-        expect(type).to.equal(GET_LETTERS_SUCCESS);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
+  const lettersResponse = {
+    data: {
+      attributes: {
+        letters: [
+          { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
+          { name: 'Civil Service Preference Letter', letterType: 'civil_service' }
+        ],
+        fullName: 'Mark Webb'
+      },
+      id: null,
+      type: 'evss_letters_letters_response'
+    }
+  };
 
-    thunk(dispatch, getState);
+  it('dispatches GET_LETTERS_SUCCESS when GET succeeds', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(lettersResponse)
+    }));
+    const thunk = getLetterList();
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_LETTERS_SUCCESS);
+        expect(action.data).to.eql(lettersResponse);
+      }).then(done, done);
   });
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', (done) => {
     global.fetch.returns(Promise.reject(new Error('something went wrong')));
-
     const thunk = getLetterList();
-    const dispatch = sinon.spy((action) => {
-      const { type } = action;
-      try {
-        expect(type).to.equal(GET_LETTERS_FAILURE);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_LETTERS_FAILURE);
+      }).then(done, done);
   });
 
   const lettersErrors = {
@@ -178,22 +160,20 @@ describe('getLettersList', () => {
       }));
 
       const thunk = getLetterList();
-      const dispatch = sinon.spy((action) => {
-        const { type } = action;
-        try {
-          expect(type).to.equal(lettersErrors[code]);
-          done();
-        } catch (error) {
-          done(error);
-        }
-      });
-
-      thunk(dispatch, getState);
+      const dispatch = sinon.spy();
+      thunk(dispatch, getState)
+        .then(() => {
+          const action = dispatch.firstCall.args[0];
+          expect(action.type).to.equal(lettersErrors[code]);
+        }).then(done, done);
     });
   });
 });
 
 describe('getMailingAddress', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
   const addressResponse = {
     data: {
       attributes: {
@@ -223,9 +203,6 @@ describe('getMailingAddress', () => {
     }
   };
 
-  beforeEach(setup);
-  afterEach(teardown);
-
   it('dispatches GET_ADDRESS_SUCCESS when GET succeeds', (done) => {
     global.fetch.returns(Promise.resolve({
       headers: { get: () => 'application/json' },
@@ -234,34 +211,23 @@ describe('getMailingAddress', () => {
     }));
 
     const thunk = getMailingAddress();
-    const dispatch = sinon.spy((action => {
-      const { type } = action;
-      try {
-        expect(type).to.equal(GET_ADDRESS_SUCCESS);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    }));
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ADDRESS_SUCCESS);
+      }).then(done, done);
   });
 
   it('dispatches GET_ADDRESS_FAILURE when GET fails', (done) => {
     global.fetch.returns(Promise.reject({}));
-
     const thunk = getMailingAddress();
-    const dispatch = sinon.spy((action) => {
-      const { type } = action;
-      try {
-        expect(type).to.equal(GET_ADDRESS_FAILURE);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ADDRESS_FAILURE);
+      }).then(done, done);
   });
 
   it('dispatches GET_ADDRESS_FAILURE when response mangled', (done) => {
@@ -270,19 +236,13 @@ describe('getMailingAddress', () => {
       ok: true,
       json: () => Promise.resolve({})
     }));
-
     const thunk = getMailingAddress();
-    const dispatch = sinon.spy((action) => {
-      const { type } = action;
-      try {
-        expect(type).to.equal(GET_ADDRESS_FAILURE);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ADDRESS_FAILURE);
+      }).then(done, done);
   });
 
   // Note: not really sure we need to test this as long as the next test passes
@@ -292,19 +252,13 @@ describe('getMailingAddress', () => {
       ok: true,
       json: () => Promise.resolve(addressResponse)
     }));
-
     const thunk = getMailingAddress();
-    const dispatch = sinon.spy((action) => {
-      const { data } = action;
-      try {
-        expect(data).to.not.equal(addressResponse);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    thunk(dispatch, getState);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.data).to.not.equal(addressResponse);
+      }).then(done, done);
   });
 
   it('modifies military addresses', (done) => {
@@ -314,33 +268,30 @@ describe('getMailingAddress', () => {
       militaryPostOfficeTypeCode: 'APO',
       militaryStateCode: 'AE'
     };
+
     const militaryResponse = { ...addressResponse };
     militaryResponse.data.attributes.address = {
       ...addressResponse.data.attributes.address,
       ...militaryAddress
     };
+
     global.fetch.returns(Promise.resolve({
       headers: { get: () => 'application/json' },
       ok: true,
       json: () => Promise.resolve(militaryResponse)
     }));
-
     const thunk = getMailingAddress();
-    const dispatch = sinon.spy((action) => {
-      try {
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
         const { address } = action.data.data.attributes; // Actual
         const { militaryPostOfficeTypeCode, militaryStateCode } = militaryAddress; // Test
         expect(address.city).to.equal(militaryPostOfficeTypeCode);
         expect(address.stateCode).to.equal(militaryStateCode);
         expect(address.militaryPostOfficeTypeCode).to.be.undefined;
         expect(address.militaryStateCode).to.be.undefined;
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    thunk(dispatch, getState);
+      }).then(done, done);
   });
 });
 
