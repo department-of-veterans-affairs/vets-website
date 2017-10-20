@@ -16,7 +16,7 @@ import {
   GET_LETTERS_SUCCESS,
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
-  LETTER_TYPES,
+  // LETTER_TYPES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
   SAVE_ADDRESS_SUCCESS,
@@ -363,60 +363,45 @@ describe.skip('getLetterPdf', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  const civilSLetter = {
-    letterName: 'Civil Service Preference Letter',
-    letterType: LETTER_TYPES.civilService,
-    letterOptions: {
-      // Opts only relevant for BSL but ATM required in every download link
-      militaryService: true,
-      monthlyAward: true,
-      serviceConnectedEvaluation: true,
-      chapter35Eligibility: true,
-      serviceConnectedDisabilities: true
-    }
-  };
+  // const civilSLetter = {
+  //   letterName: 'Civil Service Preference Letter',
+  //   letterType: LETTER_TYPES.civilService,
+  //   letterOptions: {
+  //     // Opts only relevant for BSL but ATM required in every download link
+  //     militaryService: true,
+  //     monthlyAward: true,
+  //     serviceConnectedEvaluation: true,
+  //     chapter35Eligibility: true,
+  //     serviceConnectedDisabilities: true
+  //   }
+  // };
 
-  const benefitSLetter = {
-    letterName: 'Benefit Summary Letter',
-    letterType: LETTER_TYPES.benefitSummary,
-    letterOptions: {
-      // Opts only relevant for BSL but ATM required in every download link
-      militaryService: true,
-      monthlyAward: true,
-      serviceConnectedEvaluation: true,
-      chapter35Eligibility: true,
-      serviceConnectedDisabilities: true
-    }
-  };
+  // const benefitSLetter = {
+  //   letterName: 'Benefit Summary Letter',
+  //   letterType: LETTER_TYPES.benefitSummary,
+  //   letterOptions: {
+  //     // Opts only relevant for BSL but ATM required in every download link
+  //     militaryService: true,
+  //     monthlyAward: true,
+  //     serviceConnectedEvaluation: true,
+  //     chapter35Eligibility: true,
+  //     serviceConnectedDisabilities: true
+  //   }
+  // };
 
-  it('sets up fetch for benefit summary letter', (done) => {
+  it('sets up fetch for benefit summary letter', () => {});
 
-  });
+  it('sets up fetch for non-benefit-summary letters', () => {});
 
-  it('sets up fetch for non-benefit-summary letters', (done) => {
+  it('dispatches PENDING action when download initiated', () => {});
 
-  });
+  it('handles ie10 stuff', () => {});
 
-  it('dispatches PENDING action when download initiated', (done) => {
+  it('downloads stuff conditionally', () => {});
 
-  });
+  it('dispatches DOWNLOAD_SUCCESS once download succeeds', () => {});
 
-  it('handles ie10 stuff', (done) => {
-    // Skip these tests for now because this functionality is about to change
-  });
-
-  it('downloads stuff conditionally', (done) => {
-    // Skip this bucket as well because this functionality is up in the air
-  });
-
-  it('dispatches DOWNLOAD_SUCCESS once download succeeds', (done) => {
-
-  });
-
-  it('dispatches DOWNLOAD_FAILED if download or fetch fails', (done) => {
-
-  });
-
+  it('dispatches DOWNLOAD_FAILED if download or fetch fails', () => {});
 });
 
 describe('getAddressCountries', () => {
