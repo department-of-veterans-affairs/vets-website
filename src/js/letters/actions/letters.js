@@ -73,34 +73,29 @@ export function getMailingAddress() {
     apiRequest(
       '/v0/address',
       null,
+      // on fetch success
       (response) => {
-        try {
-          const { address } = response.data.attributes;
-          const responseCopy = Object.assign({}, response);
-          const addressCopy = Object.assign({}, address);
-          // Translate military-only fields into generic ones; we'll translate
-          // them back later if necessary
-          if (addressCopy.type === ADDRESS_TYPES.military) {
-            addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
-            addressCopy.stateCode = addressCopy.militaryStateCode;
-            addressCopy.countryName = 'USA';
-            delete addressCopy.militaryPostOfficeTypeCode;
-            delete addressCopy.militaryStateCode;
-          }
-          responseCopy.data.attributes.address = addressCopy;
-          return dispatch({
-            type: GET_ADDRESS_SUCCESS,
-            data: responseCopy
-          });
-        } catch (error) {
-          return Promise.reject(new Error(`vets_letters_error_get: ${error}`));
+        const { address } = response.data.attributes;
+        const responseCopy = Object.assign({}, response);
+        const addressCopy = Object.assign({}, address);
+        // Translate military-only fields into generic ones; we'll translate
+        // them back later if necessary
+        if (addressCopy.type === ADDRESS_TYPES.military) {
+          addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
+          addressCopy.stateCode = addressCopy.militaryStateCode;
+          addressCopy.countryName = 'USA';
+          delete addressCopy.militaryPostOfficeTypeCode;
+          delete addressCopy.militaryStateCode;
         }
+        responseCopy.data.attributes.address = addressCopy;
+        return dispatch({
+          type: GET_ADDRESS_SUCCESS,
+          data: responseCopy
+        });
       },
+      // on fetch error
       () => dispatch({ type: GET_ADDRESS_FAILURE })
-    ).catch((error) => {
-      Raven.captureException(error);
-      return dispatch({ type: GET_ADDRESS_FAILURE });
-    });
+    );
   };
 }
 
