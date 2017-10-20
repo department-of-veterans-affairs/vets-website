@@ -6,7 +6,7 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
 
 export function isVeteran(item) {
-  return get(item, 'claimant.relationshipToVet.type') === '1';
+  return get('claimant.relationshipToVet', item) === '1';
 }
 
 export function requiresSponsorInfo(item) {
