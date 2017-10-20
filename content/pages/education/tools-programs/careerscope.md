@@ -21,8 +21,9 @@ The Report Interpretation guide helps you understand your CareerScope results. [
 
 ### How can I get help if I don't qualify to use CareerScope?
 
-If you don't qualify to use CareerScope, you can get help figuring out the path that's right for you through our educational and career counseling services. <br>
-[Find out how to get free educational and career counseling](/education/tools-programs/education-career-counseling/).
+If you don't qualify to use CareerScope, get help from our other education and training resources.
 
-You can also use the GI Bill Comparison Tool to find out what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+Use the GI Bill Comparison Tool to find out what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+
+Find out what you need to consider when choosing a school. [Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
 
