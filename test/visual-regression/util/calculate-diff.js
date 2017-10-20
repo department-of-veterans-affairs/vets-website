@@ -53,7 +53,7 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
   const changesExceedThreshold = misMatchPercentage > DIFF_THRESHOLD;
 
   // Execution the test assertion
-  browser.verify.ok(!misMatchPercentage, route);
+  browser.verify.ok(!changesExceedThreshold, route);
 
   // When the images differ, chain additional operations to create the diff image file
   if (changesExceedThreshold) {
