@@ -69,6 +69,11 @@ export function getLetterList() {
   };
 }
 
+export function getAddressFailure() {
+  window.dataLayer.push({ event: 'letter-update-address-notfound' });
+  return { type: GET_ADDRESS_FAILURE };
+}
+
 export function getMailingAddress() {
   return (dispatch) => {
     apiRequest(
@@ -92,7 +97,7 @@ export function getMailingAddress() {
           data: responseCopy
         });
       },
-      () => dispatch({ type: GET_ADDRESS_FAILURE })
+      () => dispatch(getAddressFailure())
     );
   };
 }
@@ -187,6 +192,7 @@ export function saveAddressPending() {
 }
 
 export function saveAddressSuccess(address) {
+  window.dataLayer.push({ event: 'letter-update-address-success' });
   return {
     type: SAVE_ADDRESS_SUCCESS,
     address
@@ -194,6 +200,7 @@ export function saveAddressSuccess(address) {
 }
 
 export function saveAddressFailure() {
+  window.dataLayer.push({ event: 'letter-update-address-failed' });
   return { type: SAVE_ADDRESS_FAILURE };
 }
 

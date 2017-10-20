@@ -127,7 +127,7 @@ export class AddressSection extends React.Component {
       // If we had any errors, make sure to validate them from here on out so we don't loose them
       const fieldsToValidate = Object.assign({}, this.state.fieldsToValidate);
 
-      // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read 
+      // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read
       Object.keys(errorMessages).forEach(key => fieldsToValidate[key] = true); // eslint-disable-line no-return-assign
 
       scrollToFirstError();
@@ -142,16 +142,23 @@ export class AddressSection extends React.Component {
       // Reset all the error messages in case they go to edit again; should be pointless
       errorMessages: {}
     });
+    window.dataLayer.push({ event: 'letter-update-address-submit' });
     this.props.saveAddress(this.state.editableAddress);
   }
 
   handleCancel = () => {
+    window.dataLayer.push({ event: 'letter-update-address-cancel' });
     this.setState({
       isEditingAddress: false,
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
     });
+  }
+
+  startEditing = () => {
+    window.dataLayer.push({ event: 'letter-update-address-started' });
+    this.setState({ isEditingAddress: true });
   }
 
   dirtyInput = (fieldName) => {
@@ -266,7 +273,7 @@ export class AddressSection extends React.Component {
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
           {this.props.canUpdate &&
-            <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+            <button className="usa-button-outline" onClick={this.startEditing}>Edit</button>
           }
         </div>
       );
