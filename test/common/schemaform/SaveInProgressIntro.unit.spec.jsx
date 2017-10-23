@@ -180,7 +180,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         toggleLoginModal={toggleLoginModal}/>
     );
 
-    expect(tree.subTree('.usa-alert').text()).to.contain('Note: As you are signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
+    expect(tree.subTree('.usa-alert').text()).to.contain('Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
