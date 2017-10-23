@@ -5,7 +5,7 @@ title: Dental Care
 display_title:
 concurrence: complete
 lastupdate: 2017-06-28
-order: 6
+order: 5
 relatedlinks:
   - heading: More information about your benefits
     links:
