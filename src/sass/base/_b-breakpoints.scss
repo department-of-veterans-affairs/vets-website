@@ -1,6 +1,6 @@
 //===========================
 // Additional breakpoints
-// 
+//
 // Moved here from b-variables file so that we can load this partial
 // after USWDS variables and before other partials.
 //===========================
@@ -10,3 +10,10 @@ $medium-large-screen: 768px;
 $medium-screen:       $medium-large-screen;
 
 $medium: new-breakpoint(min-width $medium-large-screen 6);
+
+// This is an override on USWDS's media mixin used to generate the grid.
+@mixin media($bp) {
+  @media screen, print and (min-width: #{$bp}) {
+    @content;
+  }
+}
