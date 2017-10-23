@@ -458,7 +458,7 @@ const formConfig = {
                   lowDisability: 'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
                   highDisability: 'Service-connected disability pay for a 50% or higher disability rating',
                   pension: 'VA pension',
-                  none: 'I dont receive any VA pay'
+                  none: 'I don’t receive any VA pay'
                 }
               }
             }
