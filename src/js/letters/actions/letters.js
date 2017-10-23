@@ -36,6 +36,7 @@ export function getLetterList() {
         data: response,
       }),
       (response) => {
+        window.dataLayer.push({ event: 'letter-list-failure' });
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
           if (error.status === '503' || error.status === '504') {
@@ -172,7 +173,10 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         window.URL.revokeObjectURL(downloadUrl);
         dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
+      () => {
+        window.dataLayer.push({ event: 'letter-pdf-failure' });
+        dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType });
+      }
     );
   };
 }
