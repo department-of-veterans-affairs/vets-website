@@ -1441,3 +1441,17 @@ p.info-message {
   text-align: center;
   width: 12px;
 }
+
+.legend-label {
+  display: block;
+  margin-top: 3rem;
+  max-width: 46rem;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.fieldset-input {
+  margin-top: 3rem;
+}

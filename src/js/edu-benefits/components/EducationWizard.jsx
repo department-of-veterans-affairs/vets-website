@@ -2,11 +2,10 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 
 const levels = [
-  ['benefitStatus'],
+  ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
   ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
   ['sponsorTransferredBenefits']
@@ -23,9 +22,23 @@ export default class EducationWizard extends React.Component {
 
   }
 
+  getButton(form) {
+    return (
+      <a
+        id="apply-now-link"
+        href={`/education/apply-for-education-benefits/application/${form}`}
+        className="usa-button va-button-primary">
+        Apply Now
+      </a>
+    );
+  }
+
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });
 
+    // drop all the levels until we see the current question, then reset
+    // everything at that level and beyond, so we don't see questions from
+    // different branches
     const fields = [].concat(..._.dropWhile(level => !level.includes(field), levels));
     fields.forEach(laterField => {
       if (laterField !== field) {
@@ -37,9 +50,8 @@ export default class EducationWizard extends React.Component {
   }
 
   render() {
-    const eduForm = '/education/apply-for-education-benefits/application';
     const {
-      benefitStatus,
+      newBenefit,
       serviceBenefitBasedOn,
       nationalCallToService,
       transferredEduBenefits,
@@ -47,28 +59,37 @@ export default class EducationWizard extends React.Component {
       sponsorTransferredBenefits
     } = this.state;
 
-    const classes = classNames('usa-button-primary', 'wizard-button', { 'va-button-primary': !this.state.open });
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
+      'va-button-primary': !this.state.open
+    });
+    const contentClasses = classNames('form-expanding-group-open', 'wizard-content', {
+      'wizard-content-closed': !this.state.open
+    });
 
     return (
       <div className="wizard-container">
-        <ExpandingGroup open={this.state.open}>
-          <button
-            className={classes}
-            onClick={() => this.setState({ open: !this.state.open })}>
-            Select Correct Form
-          </button>
+        <button
+          aria-expanded={this.state.open ? 'true' : 'false'}
+          aria-controls="wizardOptions"
+          className={buttonClasses}
+          onClick={() => this.setState({ open: !this.state.open })}>
+          Select Correct Form
+        </button>
+        <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
             <ErrorableRadioButtons
-              name="benefitStatus"
+              name="newBenefit"
+              id="newBenefit"
               options={[
-                { label: 'Applying for a new benefit', value: 'new' },
-                { label: 'Updating my current education benefits', value: 'existing' }
+                { label: 'Applying for a new benefit', value: 'yes' },
+                { label: 'Updating my current education benefits', value: 'no' }
               ]}
-              onValueChange={({ value }) => this.answerQuestion('benefitStatus', value)}
-              value={{ value: benefitStatus }}
+              onValueChange={({ value }) => this.answerQuestion('newBenefit', value)}
+              value={{ value: newBenefit }}
               label="Are you applying for a new benefit or updating your current education benefits?"/>
-            {benefitStatus === 'new' && <ErrorableRadioButtons
+            {newBenefit === 'yes' && <ErrorableRadioButtons
               name="serviceBenefitBasedOn"
+              id="serviceBenefitBasedOn"
               options={[
                 { label: 'Yes', value: 'own' },
                 { label: 'No', value: 'other' }
@@ -76,8 +97,9 @@ export default class EducationWizard extends React.Component {
               onValueChange={({ value }) => this.answerQuestion('serviceBenefitBasedOn', value)}
               value={{ value: serviceBenefitBasedOn }}
               label="Are you a Veteran or Servicemember claiming a benefit based on your own service?"/>}
-            {benefitStatus === 'existing' && <ErrorableRadioButtons
+            {newBenefit === 'no' && <ErrorableRadioButtons
               name="transferredEduBenefits"
+              id="transferredEduBenefits"
               options={[
                 { label: 'No, I’m using my own benefit.', value: 'own' },
                 { label: 'Yes, I’m using a transferred benefit.', value: 'transferred' },
@@ -88,6 +110,7 @@ export default class EducationWizard extends React.Component {
               label="Are you receiving education benefits transferred to you by a sponsor Veteran?"/>}
             {serviceBenefitBasedOn === 'own' && <ErrorableRadioButtons
               name="nationalCallToService"
+              id="nationalCallToService"
               options={[
                 { label: 'Yes', value: 'yes' },
                 { label: 'No', value: 'no' }
@@ -97,6 +120,7 @@ export default class EducationWizard extends React.Component {
               label={<span>Are you claiming a <strong>National Call to Service</strong> education benefit? (This is uncommon)</span>}/>}
             {serviceBenefitBasedOn === 'other' && <ErrorableRadioButtons
               name="sponsorDeceasedDisabledMIA"
+              id="sponsorDeceasedDisabledMIA"
               options={[
                 { label: 'Yes', value: 'yes' },
                 { label: 'No', value: 'no' }
@@ -106,6 +130,7 @@ export default class EducationWizard extends React.Component {
               label="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"/>}
             {sponsorDeceasedDisabledMIA === 'no' && <ErrorableRadioButtons
               name="sponsorTransferredBenefits"
+              id="sponsorTransferredBenefits"
               options={[
                 { label: 'Yes', value: 'yes' },
                 { label: 'No', value: 'no' }
@@ -113,7 +138,7 @@ export default class EducationWizard extends React.Component {
               onValueChange={({ value }) => this.answerQuestion('sponsorTransferredBenefits', value)}
               value={{ value: sponsorTransferredBenefits }}
               label="Has your sponsor transferred their benefits to you?"/>}
-            {benefitStatus === 'new' && serviceBenefitBasedOn === 'other' && sponsorDeceasedDisabledMIA === 'no' &&
+            {newBenefit === 'yes' && serviceBenefitBasedOn === 'other' && sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits === 'no' &&
                 <div className="usa-alert usa-alert-warning">
                   <div className="usa-alert-body">
@@ -121,21 +146,34 @@ export default class EducationWizard extends React.Component {
                     <a target="_blank" href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a>
                   </div>
                 </div>}
-            {benefitStatus === 'new' && nationalCallToService === 'yes' &&
-              <a href={`${eduForm}/1990N`} className="usa-button va-button-primary">Apply Now</a>}
-            {benefitStatus === 'new' && nationalCallToService === 'no' &&
-              <a href={`${eduForm}/1990`} className="usa-button va-button-primary">Apply Now</a>}
-            {benefitStatus === 'existing' && (transferredEduBenefits === 'transferred' || transferredEduBenefits === 'own') &&
-              <a href={`${eduForm}/1995`} className="usa-button va-button-primary">Apply Now</a>}
-            {benefitStatus === 'existing' && transferredEduBenefits === 'fry' &&
-              <a href={`${eduForm}/5495`} className="usa-button va-button-primary">Apply Now</a>}
-            {benefitStatus === 'existing' && serviceBenefitBasedOn === 'own' && sponsorDeceasedDisabledMIA === 'yes' &&
-              <a href={`${eduForm}/5490`} className="usa-button va-button-primary">Apply Now</a>}
-            {benefitStatus === 'new' && serviceBenefitBasedOn === 'other' && sponsorDeceasedDisabledMIA === 'no' &&
+            {newBenefit === 'yes' && nationalCallToService === 'yes' &&
+              <div>
+                <div className="usa-alert usa-alert-warning">
+                  <div className="usa-alert-body">
+                    <h4 className="usa-alert-heading wizard-alert-heading">Are you sure?</h4>
+                    <span>Are all of the following things true of your service?</span>
+                    <ul>
+                      <li>Enlisted under the National Call to Service program, <strong>and</strong></li>
+                      <li>Entered service between 10/01/03 and 12/31/07, <strong>and</strong></li>
+                      <li>Chose education benefits</li>
+                    </ul>
+                  </div>
+                </div>
+                {this.getButton('1990N')}
+              </div>}
+            {newBenefit === 'yes' && nationalCallToService === 'no' &&
+              this.getButton('1990')}
+            {newBenefit === 'no' && (transferredEduBenefits === 'transferred' || transferredEduBenefits === 'own') &&
+              this.getButton('1995')}
+            {newBenefit === 'no' && transferredEduBenefits === 'fry' &&
+              this.getButton('5495')}
+            {newBenefit === 'yes' && serviceBenefitBasedOn === 'other' && sponsorDeceasedDisabledMIA === 'yes' &&
+              this.getButton('5490')}
+            {newBenefit === 'yes' && serviceBenefitBasedOn === 'other' && sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits !== null &&
-              <a href={`${eduForm}/1990E`} className="usa-button va-button-primary">Apply Now</a>}
+              this.getButton('1990E')}
           </div>
-        </ExpandingGroup>
+        </div>
       </div>
     );
   }
