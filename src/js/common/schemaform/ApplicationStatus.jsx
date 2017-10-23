@@ -41,13 +41,15 @@ export class ApplicationStatus extends React.Component {
     });
   }
 
-  removeForm = () => {
+  removeForm = (formId) => {
     this.setState({ modalOpen: false, loading: true });
-    removeFormApi(this.props.formId)
+    removeFormApi(formId)
       // Swallow any errors and redirect anyway
       .catch(x => x)
       .then(() => {
-        window.location.href = formLinks[this.props.formId];
+        if (!this.props.stayAfterDelete) {
+          window.location.href = formLinks[formId];
+        }
       });
   }
 
@@ -56,7 +58,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formId, profile, login, applyText, showApplyButton } = this.props;
+    const { formIds, profile, login, applyText, showApplyButton, applyRender } = this.props;
 
     if (profile.loading || this.state.loading) {
       const message = profile.loading
@@ -70,7 +72,18 @@ export class ApplicationStatus extends React.Component {
       );
     }
 
-    const savedForm = profile.savedForms.find(({ form }) => form === formId);
+    let savedForm;
+    let formId;
+    if (formIds) {
+      const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
+      if (matchingForms.length) {
+        savedForm = matchingForms.sort(({ metadata }) => -1 * metadata.last_updated)[0];
+        formId = savedForm.form;
+      }
+    } else {
+      savedForm = profile.savedForms.find(({ form }) => form === this.props.formId);
+      formId = savedForm ? savedForm.form : null;
+    }
 
     if (login.currentlyLoggedIn && savedForm) {
       const { last_updated: lastSaved, expires_at: expirationTime } = savedForm.metadata;
@@ -103,7 +116,7 @@ export class ApplicationStatus extends React.Component {
               <h4>Starting over will delete your in-progress form.</h4>
               <p>Are you sure you want to start over?</p>
               <ProgressButton
-                onButtonClick={this.removeForm}
+                onButtonClick={() => this.removeForm(formId)}
                 buttonText="Start Over"
                 buttonClass="usa-button-primary"/>
               <ProgressButton
@@ -116,7 +129,9 @@ export class ApplicationStatus extends React.Component {
       }
     }
 
-    if (showApplyButton) {
+    if (showApplyButton && applyRender) {
+      return applyRender();
+    } else if (showApplyButton) {
       return (
         <div>
           {this.props.additionalText && <p>{this.props.additionalText}</p>}
@@ -126,13 +141,15 @@ export class ApplicationStatus extends React.Component {
         </div>
       );
     }
+
     return null;
   }
 }
 
 ApplicationStatus.propTypes = {
-  formId: PropTypes.string.isRequired,
-  applyText: PropTypes.string.isRequired,
+  formId: PropTypes.string,
+  applyRender: PropTypes.func,
+  applyText: PropTypes.string,
   additionalText: PropTypes.string,
   login: PropTypes.shape({
     currentlyLoggedIn: PropTypes.bool.isRequired
@@ -140,7 +157,8 @@ ApplicationStatus.propTypes = {
   profile: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     savedForms: PropTypes.array.isRequired
-  })
+  }),
+  stayAfterDelete: PropTypes.bool
 };
 
 function mapStateToProps(state) {
