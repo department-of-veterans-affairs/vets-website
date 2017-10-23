@@ -1,10 +1,7 @@
 // polyfills are loaded in vendor chunk
 import './polyfills';
-
 import './sentry.js';
-
-// Used in the footer.
-import '../legacy/menu';
+import '../legacy/menu';  // Used in the footer.
 
 // New navigation menu
 if (document.querySelector('#vetnav')) {
