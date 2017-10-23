@@ -10,8 +10,8 @@ import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
-require('../common');  // common javascript.
-require('../../sass/health-records/health-records.scss');
+import '../common';  // common javascript.
+import '../../sass/health-records/health-records.scss';
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

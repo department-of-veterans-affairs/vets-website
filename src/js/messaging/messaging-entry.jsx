@@ -15,8 +15,8 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 import { updateRoute } from './actions';
 
-require('../../sass/messaging/messaging.scss');
-require('../common');  // Bring in the common javascript.
+import '../../sass/messaging/messaging.scss';
+import '../common';  // Bring in the common javascript.
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

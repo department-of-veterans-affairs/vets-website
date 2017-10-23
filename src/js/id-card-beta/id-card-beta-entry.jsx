@@ -11,8 +11,8 @@ import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
-require('../common');  // Bring in the common javascript.
-require('../../sass/user-profile.scss');
+import '../common';  // Bring in the common javascript.
+import '../../sass/user-profile.scss';
 
 const commonStore = createCommonStore(reducer);
 createLoginWidget(commonStore);

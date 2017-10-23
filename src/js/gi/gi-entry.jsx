@@ -1,4 +1,4 @@
-require('../common');  // common javascript.
+import '../common';  // common javascript.
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,7 +12,7 @@ import { store } from './store';
 import { updateRoute } from './actions';
 import createLoginWidget from '../login/login-entry';
 
-require('../../sass/gi/gi.scss');
+import '../../sass/gi/gi.scss';
 
 createLoginWidget(store);
 

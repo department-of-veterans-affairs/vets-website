@@ -10,8 +10,8 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 import reducer from './reducer';
 
-require('../common');
-require('../../sass/hca.scss');
+import '../common';
+import '../../sass/hca.scss';
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

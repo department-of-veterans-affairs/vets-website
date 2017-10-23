@@ -9,7 +9,7 @@ import routes from './routes';
 import { store } from './store';
 import createLoginWidget from '../login/login-entry';
 
-require('../../sass/facility-locator.scss');
+import '../../sass/facility-locator.scss';
 
 createLoginWidget(store);
 

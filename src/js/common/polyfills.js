@@ -5,13 +5,13 @@
 // other such libraries in here. Most of the site does not use these legacy
 // frameworks and it belongs in a lower-level module.
 
-require('babel-polyfill');
+import 'babel-polyfill';
 
 // Basic polyfills.
 // TODO(awong): These do NOT correctly conditionally load the polyfill.
 // The polyfill is always loaded. require.ensure() should be used instead but
 // then load ordering needs to be worked out. Fix later.
-const Modernizr = require('modernizr');
+import Modernizr from 'modernizr';
 
 if (!Modernizr.classlist) {
   require('classlist-polyfill'); // DOM element classList support.
@@ -28,7 +28,7 @@ if (navigator.userAgent.includes('Edge/14')) {
   window.fetch = undefined;
 }
 
-require('whatwg-fetch');
+import 'whatwg-fetch';
 
 // This polyfill has its own test logic so no need to conditionally require.
-require('polyfill-function-prototype-bind');
+import 'polyfill-function-prototype-bind';

@@ -10,8 +10,8 @@ import createLoginWidget from './login-entry';
 import reducer from './reducers/login';
 import Main from './containers/Main';
 
-require('../common');  // Bring in the common javascript.
-require('../../sass/login.scss');
+import '../common';  // Bring in the common javascript.
+import '../../sass/login.scss';
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

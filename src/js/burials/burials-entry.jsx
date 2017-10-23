@@ -10,8 +10,8 @@ import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 import reducer from './reducer';
 
-require('../common');
-require('../../sass/burials.scss');
+import '../common';
+import '../../sass/burials.scss';
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

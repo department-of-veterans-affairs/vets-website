@@ -13,8 +13,8 @@ import createLoginWidget from '../login/login-entry';
 
 import Post911GIBStatusApp from './containers/Post911GIBStatusApp';
 
-require('../common');
-require('../../sass/post-911-gib-status.scss');
+import '../common';
+import '../../sass/post-911-gib-status.scss';
 
 const store = createCommonStore(reducer);
 

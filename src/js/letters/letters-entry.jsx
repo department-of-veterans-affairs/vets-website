@@ -12,8 +12,8 @@ import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
-require('../common');
-require('../../sass/letters.scss');
+import '../common';
+import '../../sass/letters.scss';
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

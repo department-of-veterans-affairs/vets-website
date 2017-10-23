@@ -10,8 +10,8 @@ import routes from './routes';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
-require('../common');  // Bring in the common javascript.
-require('../../sass/auth.scss');
+import '../common'; // Bring in the common javascript.
+import '../../sass/auth.scss';
 
 const store = createCommonStore();
 createLoginWidget(store);

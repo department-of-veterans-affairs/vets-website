@@ -11,7 +11,7 @@ import reducer from './reducer';
 import createLoginWidget from '../../login/login-entry';
 import createCommonStore from '../../common/store';
 
-require('../../../sass/edu-benefits.scss');
+import '../../../sass/edu-benefits.scss';
 
 const store = createCommonStore(reducer);
 
