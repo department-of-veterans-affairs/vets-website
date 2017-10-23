@@ -72,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(2)', 'progress-segment-complete');
 
     // VA Benefits Basic Info page.
-    client.waitForElementVisible('label[for="root_compensableVaServiceConnectedYes"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_vaCompensationType_0"]', Timeouts.normal);
     HcaHelpers.completeVaBenefits(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');

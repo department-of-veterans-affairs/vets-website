@@ -78,9 +78,7 @@
       "spousePhone": "3424445555"
     },
     "discloseFinancialInformation": true,
-    "compensableVaServiceConnected": true,
-    "isVaServiceConnected": true,
-    "receivesVaPension": true,
+    "vaCompensationType": "highDisability",
     "purpleHeartRecipient": true,
     "isFormerPow": true,
     "postNov111998Combat": true,

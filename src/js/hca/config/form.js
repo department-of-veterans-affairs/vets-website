@@ -81,9 +81,7 @@ const {
   vaMedicalFacility,
   isEssentialAcaCoverage,
   wantsInitialVaContact,
-  isVaServiceConnected,
-  compensableVaServiceConnected,
-  receivesVaPension,
+  vaCompensationType,
   discloseFinancialInformation,
   spouseFullName,
   spouseSocialSecurityNumber,
@@ -123,7 +121,7 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 3,
+  version: 4,
   migrations,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
@@ -452,26 +450,24 @@ const formConfig = {
           title: 'VA benefits',
           uiSchema: {
             'ui:title': 'Current compensation',
-            compensableVaServiceConnected: {
-              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 10%, 20%, 30%, or 40%?',
-              'ui:widget': 'yesNo'
-            },
-            isVaServiceConnected: {
-              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 50% or more?',
-              'ui:widget': 'yesNo'
-            },
-            receivesVaPension: {
-              'ui:title': 'Do you receive a VA pension?',
-              'ui:widget': 'yesNo'
+            vaCompensationType: {
+              'ui:title': 'Which type of VA compensation do you currently receive?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  lowDisability: 'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
+                  highDisability: 'Service-connected disability pay for a 50% or higher disability rating',
+                  pension: 'VA pension',
+                  none: 'I don’t receive any VA pay'
+                }
+              }
             }
           },
           schema: {
             type: 'object',
-            required: ['isVaServiceConnected', 'compensableVaServiceConnected', 'receivesVaPension'],
+            required: ['vaCompensationType'],
             properties: {
-              compensableVaServiceConnected,
-              isVaServiceConnected,
-              receivesVaPension
+              vaCompensationType
             }
           }
         }

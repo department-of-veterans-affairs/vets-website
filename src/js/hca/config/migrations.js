@@ -62,5 +62,56 @@ export default [
     }
 
     return { formData, metadata: newMetadata };
+  },
+  ({ formData, metadata }) => {
+    const {
+      compensableVaServiceConnected = null,
+      isVaServiceConnected = null,
+      receivesVaPension = null
+    } = formData;
+
+    // Haven't gotten to this page yet
+    if (compensableVaServiceConnected === null && isVaServiceConnected === null && receivesVaPension === null) {
+      return { formData, metadata };
+    }
+
+    const newFormData = _.omit(['compensableVaServiceConnected', 'isVaServiceConnected', 'receivesVaPension'], formData);
+
+    // We want to convert the data only when one option is true and the others are false
+    // If more than one is true, we need to ask the user again
+    if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === false) {
+      return {
+        formData: _.set('vaCompensationType', 'none', newFormData),
+        metadata
+      };
+    }
+
+    if (compensableVaServiceConnected === true && isVaServiceConnected === false && receivesVaPension === false) {
+      return {
+        formData: _.set('vaCompensationType', 'lowDisability', newFormData),
+        metadata
+      };
+    }
+
+    if (compensableVaServiceConnected === false && isVaServiceConnected === true && receivesVaPension === false) {
+      return {
+        formData: _.set('vaCompensationType', 'highDisability', newFormData),
+        metadata
+      };
+    }
+
+    if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === true) {
+      return {
+        formData: _.set('vaCompensationType', 'pension', newFormData),
+        metadata
+      };
+    }
+
+    // More than one option was chosen, or not all were filled out, so go back to the page and make the user pick again,
+    // because we don't know for sure what they meant to pick
+    return {
+      formData: newFormData,
+      metadata: _.set('returnUrl', '/va-benefits/basic-information', metadata)
+    };
   }
 ];
