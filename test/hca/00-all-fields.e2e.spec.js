@@ -152,7 +152,7 @@ module.exports = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client.expect.element('.success-alert-box').to.be.visible;
+    client.expect.element('.confirmation-page-title').to.be.visible;
 
     client.axeCheck('.main');
 

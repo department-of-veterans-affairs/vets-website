@@ -34,7 +34,21 @@ moment.updateLocale('en', {
       return 'a.m.';
     }
     return 'p.m.';
-  }
+  },
+  monthsShort: [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'June',
+    'July',
+    'Aug.',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Dec.'
+  ]
 });
 
 /*
@@ -138,10 +152,10 @@ class FormApp extends React.Component {
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
-      const isPrefill = props.prefillsAvailable.includes(currentForm);
+      const hasPrefillData = props.prefillsAvailable.includes(currentForm);
       const saveEnabled = !this.props.formConfig.disableSave;
-      if (saveEnabled && (isSaved || isPrefill)) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
+      if (saveEnabled && (isSaved || hasPrefillData)) {
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break

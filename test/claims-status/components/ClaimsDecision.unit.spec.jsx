@@ -22,6 +22,6 @@ describe('<ClaimsDecision>', () => {
     );
 
     expect(tree.text()).to.contain('We finished reviewing your claim');
-    expect(tree.text()).to.contain('Mar 1, 2010');
+    expect(tree.text()).to.contain('Mar. 1, 2010');
   });
 });

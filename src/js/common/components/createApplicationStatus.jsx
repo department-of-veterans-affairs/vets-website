@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-export default function createPensionApplicationStatus(store) {
-  const root = document.getElementById('react-pensionApplicationStatus');
-
+export default function createApplicationStatus(store, form) {
+  const root = document.getElementById('react-applicationStatus');
   if (root) {
     import(
-      /* webpackChunkName: "pension-application-status" */
-      '../common/schemaform/ApplicationStatus').then(module => {
+      /* webpackChunkName: "application-status" */
+      '../schemaform/ApplicationStatus').then(module => {
       const ApplicationStatus = module.default;
       ReactDOM.render((
         <Provider store={store}>
           <ApplicationStatus
-            formId="21P-527EZ"
+            formId={form.formId}
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
-            applyText="Apply for a Veterans Pension"/>
+            additionalText={form.additionalText}
+            applyText={form.applyText}/>
         </Provider>
       ), root);
     });

@@ -12,6 +12,6 @@ describe('<ClaimComplete>', () => {
         completedDate={date}/>
     );
 
-    expect(tree.text()).to.contain('Your claim was closed on Mar 1, 2010');
+    expect(tree.text()).to.contain('Your claim was closed on Mar. 1, 2010');
   });
 });
