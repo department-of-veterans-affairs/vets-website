@@ -66,7 +66,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 </div>
 
 <div id="react-applicationStatus">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
 <div class="feature">

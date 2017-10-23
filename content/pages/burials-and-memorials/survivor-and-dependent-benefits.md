@@ -36,7 +36,7 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 </div>
 
 <div id="react-applicationStatus" data-hide-apply-button>
-  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for Burial Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
 </div>
 
 
