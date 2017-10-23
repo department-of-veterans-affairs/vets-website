@@ -179,7 +179,7 @@ describe('<DocumentRequestPage>', () => {
       replace: sinon.spy()
     };
     const params = {
-      id: 3456
+      id: 339
     };
     const getClaimDetail = sinon.spy();
     const resetUploads = sinon.spy();
