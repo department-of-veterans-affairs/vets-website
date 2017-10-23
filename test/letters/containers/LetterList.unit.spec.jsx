@@ -25,7 +25,7 @@ const defaultProps = {
   optionsAvailable: true,
 };
 
-describe('<LetterList>', () => {
+describe.only('<LetterList>', () => {
   it('renders', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
     expect(tree.type).to.equal('div');
@@ -44,6 +44,21 @@ describe('<LetterList>', () => {
       const letterProps = panels[index].props;
       expect(letterProps.panelName).to.equal(defaultProps.letters[index].name);
     });
+  });
+
+  it('renders DL buttons for all letters in list', () => {
+    const component = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
+
+    const checkButtonInPanel = (panel) => {
+      const renderedPanel = panel.getRenderOutput();
+      const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
+      expect(downloadButton.type.displayName).to.equal('Connect(DownloadLetterLink)');
+    };
+
+    component
+      .everySubTree('CollapsiblePanel')
+      .forEach(checkButtonInPanel);
+
   });
 
   it('renders eligibility error when letters not available', () => {
