@@ -7,7 +7,8 @@ import { formLinks, formTitles } from '../../user-profile/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import Modal from '../../common/components/Modal';
-import { removeFormApi } from '../../common/schemaform/sip-api';
+// import { removeFormApi } from '../../common/schemaform/sip-api';
+import { removeSavedForm } from '../../user-profile/actions';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -43,12 +44,14 @@ export class ApplicationStatus extends React.Component {
 
   removeForm = (formId) => {
     this.setState({ modalOpen: false, loading: true });
-    removeFormApi(formId)
+    this.props.removeSavedForm(formId)
       // Swallow any errors and redirect anyway
       .catch(x => x)
       .then(() => {
         if (!this.props.stayAfterDelete) {
           window.location.href = formLinks[formId];
+        } else {
+          this.setState({ modalOpen: false, loading: false });
         }
       });
   }
@@ -58,7 +61,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formIds, profile, login, applyText, showApplyButton, applyRender } = this.props;
+    const { formIds, profile, login, applyText, showApplyButton, applyRender, formType } = this.props;
 
     if (profile.loading || this.state.loading) {
       const message = profile.loading
@@ -74,11 +77,13 @@ export class ApplicationStatus extends React.Component {
 
     let savedForm;
     let formId;
+    let multipleForms = false;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
       if (matchingForms.length) {
         savedForm = matchingForms.sort(({ metadata }) => -1 * metadata.last_updated)[0];
         formId = savedForm.form;
+        multipleForms = matchingForms.length > 1;
       }
     } else {
       savedForm = profile.savedForms.find(({ form }) => form === this.props.formId);
@@ -108,6 +113,7 @@ export class ApplicationStatus extends React.Component {
               <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
             </p>
             <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
+            {multipleForms && <p className="no-bottom-margin">You have more than one in progress {formType} form. You can view them all on your <a href="/profile">Account</a> page.</p>}
             <Modal
               cssClass="va-modal-large"
               id="start-over-modal"
@@ -148,6 +154,7 @@ export class ApplicationStatus extends React.Component {
 
 ApplicationStatus.propTypes = {
   formId: PropTypes.string,
+  formType: PropTypes.string,
   applyRender: PropTypes.func,
   applyText: PropTypes.string,
   additionalText: PropTypes.string,
@@ -170,4 +177,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ApplicationStatus);
+const mapDispatchToProps = {
+  removeSavedForm
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationStatus);

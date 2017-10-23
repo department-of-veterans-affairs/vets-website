@@ -16,6 +16,7 @@ export default function createEducationApplicationStatus(store) {
         <Provider store={store}>
           <ApplicationStatus
             formIds={eduForms}
+            formType="education"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
             applyRender={() => <EducationWizard/>}/>
