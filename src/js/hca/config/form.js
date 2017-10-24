@@ -123,6 +123,7 @@ const formConfig = {
   formId: '1010ez',
   version: 4,
   migrations,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.'
