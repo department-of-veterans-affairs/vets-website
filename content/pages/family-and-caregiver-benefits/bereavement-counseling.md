@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Bereavement Counseling
 display_title:
-collection: burials
+collection: family-and-caregiver-benefits
 order: 1
 relatedlinks:
   - heading: Other helpful information

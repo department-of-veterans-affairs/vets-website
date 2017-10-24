@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 display_title:
-collection: burials
+collection: family-and-caregiver-benefits
 order: 4
 ---
 <div class="va-introtext">

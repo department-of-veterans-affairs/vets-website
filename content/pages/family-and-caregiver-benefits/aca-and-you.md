@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: The Affordable Care Act and You
 display_title:
-collection: burials
+collection: family-and-caregiver-benefits
 order: 5
 ---
 
