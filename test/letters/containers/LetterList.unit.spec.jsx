@@ -25,7 +25,7 @@ const defaultProps = {
   optionsAvailable: true,
 };
 
-describe.only('<LetterList>', () => {
+describe('<LetterList>', () => {
   it('renders', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
     expect(tree.type).to.equal('div');

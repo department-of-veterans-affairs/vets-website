@@ -35,7 +35,8 @@ export class LetterList extends React.Component {
             letterType={letter.letterType}
             letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
-            key={`download-link-${index}`}/>);
+            key={`download-link-${index}`}/>
+        );
       }
 
       return (
