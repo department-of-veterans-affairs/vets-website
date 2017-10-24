@@ -38,14 +38,9 @@ majorlinks:
 
 <div class="va-introtext">
 
-We can help Servicemembers, Veterans, and family members plan a burial or memorial service. Find out how to get burial benefits.
+As the family member of a Servicemember or Veteran, you may qualify for certain benefits like health care, VA-backed home loans, life insurance, or help paying for college. If you’re caring for a disabled Veteran, you may also qualify for support designed to help you better care for the Veteran—and for yourself. Find out what benefits you may qualify for—and how to access them.
 
 </div>
-
-<div id="react-applicationStatus" data-hide-apply-button></div>
-
-
-As the family member of a Servicemember or Veteran, you may qualify for certain benefits like health care, VA-backed home loans, life insurance, or help paying for college. If you’re caring for a disabled Veteran, you may also qualify for support designed to help you better care for the Veteran—and for yourself. Find out what benefits you may qualify for—and how to access them.
 
 ADDITIONAL COPY: 
 ### Health Care Benefits

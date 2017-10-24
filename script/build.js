@@ -296,7 +296,7 @@ smith.use(collections({
     }
   },
   familyCaregiverBenefits: {
-    pattern: 'family-and-caregiver-benefits/*.md',
+    pattern: 'families-caregivers/*.md',
     sortyBy: 'order',
     metadata: {
       name: 'Family and Caregiver Benefits'
