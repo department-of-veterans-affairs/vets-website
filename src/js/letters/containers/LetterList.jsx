@@ -30,11 +30,12 @@ export class LetterList extends React.Component {
 
       let conditionalDownloadButton;
       if (letter.letterType !== LETTER_TYPES.benefitSummary || this.props.optionsAvailable) {
-        conditionalDownloadButton = (<DownloadLetterLink
-          letterType={letter.letterType}
-          letterName={letter.name}
-          downloadStatus={downloadStatus[letter.letterType]}
-          key={`download-link-${index}`}/>);
+        conditionalDownloadButton = (
+          <DownloadLetterLink
+            letterType={letter.letterType}
+            letterName={letter.name}
+            downloadStatus={downloadStatus[letter.letterType]}
+            key={`download-link-${index}`}/>);
       }
 
       return (
