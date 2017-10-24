@@ -4,7 +4,7 @@ template: detail-page
 title: Bereavement Counseling
 display_title:
 collection: burials
-order: 13
+order: 8
 relatedlinks:
   - heading: Other helpful information
     links:
