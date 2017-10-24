@@ -76,11 +76,6 @@ describe('<LetterList>', () => {
       .everySubTree('CollapsiblePanel')
       .filter(isBSL)
       .forEach(assertButtonUndefined);
-    const bslPanel = component.everySubTree('CollapsiblePanel')[1]; // bsl is second in defaultProps array
-    const renderedBsl = bslPanel.getRenderOutput();
-    const downloadButton = renderedBsl.props.children[1]; // 0 content 1 DL link 2 BSL instrct
-
-    expect(downloadButton).to.be.undefined;
   });
 
   it('renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
