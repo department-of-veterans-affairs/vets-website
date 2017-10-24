@@ -21,8 +21,8 @@ The Affordable Care Act (ACA)—also known as the health care law—was created 
 - Qualify for an exemption, **or** 
 - Pay a fee when filing your taxes if you have affordable health coverage options but choose not to buy health insurance. This fee is known as an “individual shared responsibility payment.” It’s also sometimes called the “penalty,” “fine,” or “individual mandate.”
 
-[Find out how much you may pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).
-[Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).
+[Find out how much you may pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).<br>
+[Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).<br>
 
 #### Does my health coverage through VA meet the ACA’s minimum essential coverage requirement? 
 Your health coverage meets the minimum essential coverage requirement if you’re signed up for: 
@@ -33,8 +33,10 @@ Your health coverage meets the minimum essential coverage requirement if you’r
 - [A Department of Defense TRICARE plan that provides minimum essential coverage](https://tricare.mil/About/MEC) 
 
 If you’re covered under one of these programs, you don’t need to do anything more to avoid the penalty fee. If you’re not covered under one of these programs, you can apply at any time.
-**Are you a Servicemember or Veteran?** [Find out if you may qualify for VA health benefits](/healthcare/eligibility/).
-**Are you a family member or caregiver?** [Find out if you may qualify for health benefits for family members and caregivers](/healthcare/family-caregiver-benefits/).
+
+**Are you a Servicemember or Veteran?** <br>[Find out if you may qualify for VA health benefits](/healthcare/eligibility/).<br><br>
+**Are you a family member or caregiver?** <br>[Find out if you may qualify for health benefits for family members and caregivers](/healthcare/family-caregiver-benefits/).
+<br>
 
 </div>
 
@@ -46,15 +48,16 @@ If you’re not signed up for a health care program—and you don’t meet the h
 
 Through the Marketplace, you can shop for and buy private health insurance (health plans that are not provided by VA) that fits your budget and meets your needs. You may be able to get financial assistance, like lower costs on monthly premiums or out-of-pocket costs. You may also qualify for free or low-cost coverage through Medicaid or the Children’s Health Insurance Program (CHIP). 
 
-The 2018 Health Insurance Marketplace open enrollment period is November 1, 2017, to December 15, 2017. You can also enroll at other times if you have life changes—like losing your coverage, getting married, or having a baby—or if you qualify for Medicaid or CHIP.
-[Get more details on enrollment dates](https://www.healthcare.gov/quick-guide/dates-and-deadlines/).
+The 2018 Health Insurance Marketplace open enrollment period is November 1, 2017, to December 15, 2017. You can also enroll at other times if you have life changes—like losing your coverage, getting married, or having a baby—or if you qualify for Medicaid or CHIP.<br>
+[Get more details on enrollment dates](https://www.healthcare.gov/quick-guide/dates-and-deadlines/).<br>
 [Apply for health coverage and find out if you qualify for assistance](https://www.healthcare.gov/).
+<br>
 
 ### What if members of my family have access to affordable coverage but remain uninsured?
 
-If your family members have access to affordable coverage but remain uninsured, you may have to pay a penalty fee when filing your taxes. This payment will either be a flat fee or a percentage of your taxable household income, depending on which amount is higher. The fee will only be for the months you didn’t have qualifying health coverage.
-[Find out how much you may pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).
-[Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).  
+If your family members have access to affordable coverage but remain uninsured, you may have to pay a penalty fee when filing your taxes. This payment will either be a flat fee or a percentage of your taxable household income, depending on which amount is higher. The fee will only be for the months you didn’t have qualifying health coverage.<br>
+[Find out how much you may pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).<br>
+[Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).  <br>
 
 ### Can I get an exemption so I don’t have to pay the penalty fee for being uninsured?
 - You may qualify for an exemption for different reasons, like:
