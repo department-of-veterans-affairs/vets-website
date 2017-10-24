@@ -26,7 +26,7 @@ export class DownloadLetters extends React.Component {
     let viewLettersButton;
     if (location.pathname === '/confirm-address') {
       viewLettersButton = (
-        <button onClick={this.navigateToLetterList} className="usa-button-primary view-letters-button">View letters</button>
+        <button onClick={this.navigateToLetterList} className="usa-button-primary view-letters-button">View Letters</button>
       );
     }
 
