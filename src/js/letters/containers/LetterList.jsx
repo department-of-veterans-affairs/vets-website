@@ -15,9 +15,11 @@ export class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
       let letterTitle;
+      let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = (<VeteranBenefitSummaryLetter/>);
+        helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
         content = letterContent[letter.letterType] || '';
@@ -26,19 +28,22 @@ export class LetterList extends React.Component {
         content = letterContent[letter.letterType] || '';
       }
 
+      let conditionalDownloadButton;
+      if (letter.letterType !== LETTER_TYPES.benefitSummary || this.props.optionsAvailable) {
+        conditionalDownloadButton = (<DownloadLetterLink
+          letterType={letter.letterType}
+          letterName={letter.name}
+          downloadStatus={downloadStatus[letter.letterType]}
+          key={`download-link-${index}`}/>);
+      }
+
       return (
         <CollapsiblePanel
           panelName={letterTitle}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
-          <DownloadLetterLink
-            letterType={letter.letterType}
-            letterName={letter.name}
-            downloadStatus={downloadStatus[letter.letterType]}
-            key={`download-link-${index}`}/>
-          { letter.letterType === LETTER_TYPES.benefitSummary &&
-            bslHelpInstructions
-          }
+          {conditionalDownloadButton}
+          {helpText}
         </CollapsiblePanel>
       );
     });
