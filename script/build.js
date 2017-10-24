@@ -295,6 +295,13 @@ smith.use(collections({
       name: 'Work and Learn'
     }
   },
+  familyCaregiverBenefits: {
+    pattern: 'family-and-caregiver-benefits/*.md',
+    sortyBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Benefits'
+    }
+  },
   healthCare: {
     sortBy: 'order',
     metadata: {
