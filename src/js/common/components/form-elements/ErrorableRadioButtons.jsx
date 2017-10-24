@@ -144,7 +144,10 @@ class ErrorableRadioButtons extends React.Component {
 
 ErrorableRadioButtons.propTypes = {
   errorMessage: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   name: PropTypes.string,
   id: PropTypes.string,
   options: PropTypes.arrayOf(

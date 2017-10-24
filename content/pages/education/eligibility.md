@@ -10,7 +10,7 @@ widgets:
   - root: react-applicationStatus
     timeout: 20
     loadingMessage: Checking your application status.
-    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">

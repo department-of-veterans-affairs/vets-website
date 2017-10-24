@@ -37,6 +37,7 @@ if (healthcarePages.has(location.pathname)) {
     additionalText: 'You can start your online application right now.',
     applyLink: '/health-care/apply/',
     applyText: 'Apply for Health Care Benefits'
+  });
 }
 if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
