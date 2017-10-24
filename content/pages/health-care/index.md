@@ -35,7 +35,7 @@ majorlinks:
       description: Send a secure, private note to your primary care provider or other members of your VA health care team.
     - url: /health-care/schedule-an-appointment
       title: Schedule a VA appointment
-      description: Find out how to make doctors appointments with your VA healthcare team online or by phone.
+      description: Find out how to make a doctor's appointment with a member of your VA health care team online or by phone.
     - url: /health-care/health-records/
       title: Get Your VA Health Records
       description: View, download, and print your VA health records.
