@@ -119,4 +119,115 @@ describe('HCA migrations', () => {
       expect(formData).to.equal(data.formData);
     });
   });
+  describe('fourth migration', () => {
+    const migration = migrations[3];
+    it('should leave data alone if not set', () => {
+      const data = {
+        formData: {
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata).to.equal(data.metadata);
+      expect(formData).to.equal(data.formData);
+    });
+    it('should set to none if all false', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: false,
+          receivesVaPension: false,
+          isVaServiceConnected: false
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata).to.equal(data.metadata);
+      expect(formData.vaCompensationType).to.equal('none');
+      expect(formData.compensableVaServiceConnected).to.be.undefined;
+      expect(formData.receivesVaPension).to.be.undefined;
+      expect(formData.isVaServiceConnected).to.be.undefined;
+    });
+    it('should set to highDisability if isVaServiceConnected', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: false,
+          receivesVaPension: false,
+          isVaServiceConnected: true
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata).to.equal(data.metadata);
+      expect(formData.vaCompensationType).to.equal('highDisability');
+      expect(formData.compensableVaServiceConnected).to.be.undefined;
+      expect(formData.receivesVaPension).to.be.undefined;
+      expect(formData.isVaServiceConnected).to.be.undefined;
+    });
+    it('should set to lowDisability if compensableVaServiceConnected', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: true,
+          receivesVaPension: false,
+          isVaServiceConnected: false
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata).to.equal(data.metadata);
+      expect(formData.vaCompensationType).to.equal('lowDisability');
+      expect(formData.compensableVaServiceConnected).to.be.undefined;
+      expect(formData.receivesVaPension).to.be.undefined;
+      expect(formData.isVaServiceConnected).to.be.undefined;
+    });
+    it('should set to pension if receivesVaPension', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: false,
+          receivesVaPension: true,
+          isVaServiceConnected: false
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata).to.equal(data.metadata);
+      expect(formData.vaCompensationType).to.equal('pension');
+      expect(formData.compensableVaServiceConnected).to.be.undefined;
+      expect(formData.receivesVaPension).to.be.undefined;
+      expect(formData.isVaServiceConnected).to.be.undefined;
+    });
+    it('should set url if any other combination of choices', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: true,
+          receivesVaPension: true,
+          isVaServiceConnected: false
+        },
+        metadata: {
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { formData, metadata } = migration(data);
+      expect(metadata.returnUrl).to.equal('/va-benefits/basic-information');
+      expect(formData.vaCompensationType).to.be.undefined;
+      expect(formData.compensableVaServiceConnected).to.be.undefined;
+      expect(formData.receivesVaPension).to.be.undefined;
+      expect(formData.isVaServiceConnected).to.be.undefined;
+    });
+  });
 });

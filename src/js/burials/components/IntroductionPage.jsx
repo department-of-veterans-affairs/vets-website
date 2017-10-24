@@ -21,6 +21,7 @@ class IntroductionPage extends React.Component {
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
         <SaveInProgressIntro
           pageList={this.props.route.pageList}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           resumeOnly
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>

@@ -75,11 +75,9 @@ function completeAdditionalInformation(client) {
     .click('input[name="root_campLejeune"]');
 }
 
-function completeVaBenefits(client) {
+function completeVaBenefits(client, data) {
   client
-    .click('input#root_compensableVaServiceConnectedYes')
-    .click('input#root_isVaServiceConnectedYes')
-    .click('input#root_receivesVaPensionYes');
+    .selectRadio('root_vaCompensationType', data.vaCompensationType);
 }
 
 function completeFinancialDisclosure(client) {
