@@ -61,6 +61,15 @@ describe.only('<LetterList>', () => {
 
   });
 
+  it('does not render DL button for BSL if !optionsAvailable', () => {
+    const props = { ...defaultProps, optionsAvailable: false };
+    const component = SkinDeep.shallowRender(<LetterList {...props}/>);
+    const bslPanel = component.everySubTree('CollapsiblePanel')[1]; // bsl is second in defaultProps array
+    const renderedBsl = bslPanel.getRenderOutput();
+    const downloadButton = renderedBsl.props.children[1]; // 0 content 1 DL link 2 BSL instrct
+    expect(downloadButton).to.be.undefined;
+  });
+
   it('renders eligibility error when letters not available', () => {
     const props = { ...defaultProps, lettersAvailability: AVAILABILITY_STATUSES.letterEligibilityError };
     const component = SkinDeep.shallowRender(<LetterList {...props}/>);
