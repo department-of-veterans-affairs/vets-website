@@ -39,8 +39,6 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 </div>
 
-### Ready to apply?
-
 <div id="react-applicationStatus"></div>
 
 ### Other ways to apply

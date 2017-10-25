@@ -100,34 +100,36 @@ export class ApplicationStatus extends React.Component {
         const lastSavedDateTime = moment.unix(lastSaved).format('M/D/YYYY [at] h:mm a');
 
         return (
-          <div className="usa-alert usa-alert-info no-background-image sip-application-status">
-            <h5 className="form-title saved">{cardTitle}</h5>
-            <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
-            <br/>
-            <p>
-              <a className="usa-button-primary" href={`${formLinks[formId]}resume`}>
-                Continue Your Application
-              </a>
-              <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
-            </p>
-            <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
-            {multipleForms && <p className="no-bottom-margin">You have more than one in progress {formType} form. You can view them all on your <a href="/profile">Account</a> page.</p>}
-            <Modal
-              cssClass="va-modal-large"
-              id="start-over-modal"
-              onClose={this.toggleModal}
-              visible={this.state.modalOpen}>
-              <h4>Starting over will delete your in-progress form.</h4>
-              <p>Are you sure you want to start over?</p>
-              <ProgressButton
-                onButtonClick={() => this.removeForm(formId)}
-                buttonText="Start Over"
-                buttonClass="usa-button-primary"/>
-              <ProgressButton
-                onButtonClick={this.toggleModal}
-                buttonText="Cancel"
-                buttonClass="usa-button-outline"/>
-            </Modal>
+          <div>
+            <div className="usa-alert usa-alert-info no-background-image sip-application-status">
+              <h5 className="form-title saved">{cardTitle}</h5>
+              <span className="saved-form-item-metadata">Last saved on {lastSavedDateTime}</span>
+              <br/>
+              <p>
+                <a className="usa-button-primary" href={`${formLinks[formId]}resume`}>
+                  Continue Your Application
+                </a>
+                <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
+              </p>
+              <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
+              <Modal
+                cssClass="va-modal-large"
+                id="start-over-modal"
+                onClose={this.toggleModal}
+                visible={this.state.modalOpen}>
+                <h4>Starting over will delete your in-progress form.</h4>
+                <p>Are you sure you want to start over?</p>
+                <ProgressButton
+                  onButtonClick={() => this.removeForm(formId)}
+                  buttonText="Start Over"
+                  buttonClass="usa-button-primary"/>
+                <ProgressButton
+                  onButtonClick={this.toggleModal}
+                  buttonText="Cancel"
+                  buttonClass="usa-button-outline"/>
+              </Modal>
+            </div>
+            {multipleForms && <p className="no-bottom-margin">You have more than one in-progress {formType} form. <a href="/profile">View and manage your forms on your Account page</a>.</p>}
           </div>
         );
       }

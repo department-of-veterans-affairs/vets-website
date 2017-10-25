@@ -18,7 +18,12 @@ export default function createEducationApplicationStatus(store) {
             formType="education"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
-            applyRender={() => <EducationWizard/>}/>
+            applyRender={() => (
+              <div>
+                <h3>Ready to Apply?</h3>
+                <EducationWizard/>
+              </div>
+            )}/>
         </Provider>
       ), root);
     });

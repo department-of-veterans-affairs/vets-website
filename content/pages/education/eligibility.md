@@ -81,8 +81,6 @@ Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be a
 </div>
 </div>
 
-### Ready to apply?
-
 <div id="react-applicationStatus"></div>
 
 [Learn about the application process](/education/apply).
