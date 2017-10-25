@@ -64,6 +64,14 @@ describe('saveAddress', () => {
     state: 'secret'
   };
 
+  const successResponse = {
+    data: {
+      attributes: {
+        address: { ...frontEndAddress }
+      }
+    }
+  };
+
   beforeEach(setup);
   afterEach(teardown);
 
@@ -77,7 +85,22 @@ describe('saveAddress', () => {
       }).then(done, done);
   });
 
+  it('dispatches SAVE_ADDRESS_FAILURE when addresses do not match', (done) => {
+    const thunk = saveAddress(frontEndAddress);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
+      }).then(done, done);
+  });
+
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(successResponse)
+    }));
     const thunk = saveAddress(frontEndAddress);
     const dispatch = sinon.spy();
     thunk(dispatch, getState)

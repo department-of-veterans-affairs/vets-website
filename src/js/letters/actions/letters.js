@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+import { isEqual } from 'lodash';
 
 import { apiRequest } from '../utils/helpers.jsx';
 import {
@@ -236,13 +237,19 @@ export function saveAddress(address) {
   };
   window.dataLayer.push({ event: 'letter-update-address-submit' });
   return (dispatch) => {
-    // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
-
     return apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(address)),
+      (response) => {
+        const responseAddress = Object.assign({}, response.data.attributes.address);
+        if (!isEqual(address, responseAddress)) {
+          const mismatchError = new Error('letters-address-update addresses don\'t match');
+          Raven.captureException(mismatchError, { submitted: address, returned: responseAddress });
+          return Promise.reject(mismatchError);
+        }
+        return dispatch(saveAddressSuccess(responseAddress));
+      },
       () => dispatch(saveAddressFailure())
     );
   };
