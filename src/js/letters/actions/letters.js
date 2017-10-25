@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
-import { apiRequest } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -242,11 +242,18 @@ export function saveAddress(address) {
       '/v0/address',
       settings,
       (response) => {
+        // translate military addresses back to front end address
         const responseAddress = Object.assign({}, response.data.attributes.address);
-        if (!isEqual(address, responseAddress)) {
+        if (transformedAddress.type === ADDRESS_TYPES.military) {
+          responseAddress.city = responseAddress.militaryPostOfficeTypeCode;
+          responseAddress.stateCode = responseAddress.militaryStateCode;
+          responseAddress.countryName = 'USA';
+          delete responseAddress.militaryPostOfficeTypeCode;
+          delete responseAddress.militaryStateCode;
+        }
+        if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
           const mismatchError = new Error('letters-address-update addresses don\'t match');
           Raven.captureException(mismatchError, { submitted: address, returned: responseAddress });
-          return Promise.reject(mismatchError);
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
