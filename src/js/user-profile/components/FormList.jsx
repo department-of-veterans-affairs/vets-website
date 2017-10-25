@@ -48,7 +48,7 @@ class FormList extends React.Component {
          <ProgressButton
            onButtonClick={this.toggleModal}
            buttonText="No, keep it"
-           buttonClass="usa-button-outline"/>
+           buttonClass="usa-button-secondary"/>
        </Modal>
      </div>
    );

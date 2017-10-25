@@ -117,7 +117,7 @@ class AddFilesForm extends React.Component {
                   </div>
                 </div>
                 <div className="remove-document-button">
-                  <button className="usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
+                  <button className="usa-button-secondary" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
                 </div>
               </div>
               <div className="clearfix"></div>

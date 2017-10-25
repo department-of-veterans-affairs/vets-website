@@ -165,7 +165,7 @@ class FormPage extends React.Component {
               <ProgressButton
                 onButtonClick={this.goBack}
                 buttonText="Back"
-                buttonClass="usa-button-outline"
+                buttonClass="usa-button-secondary"
                 beforeText="«"/>
             </div>
             <div className="small-6 usa-width-five-twelfths medium-5 end columns">

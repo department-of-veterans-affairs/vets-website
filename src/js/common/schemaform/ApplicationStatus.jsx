@@ -91,7 +91,7 @@ export class ApplicationStatus extends React.Component {
               <a className="usa-button-primary" href={`${formLinks[formId]}resume`}>
                 Continue Your Application
               </a>
-              <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
+              <button className="usa-button-secondary" onClick={this.toggleModal}>Start Over</button>
             </p>
             <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
             <Modal
@@ -108,7 +108,7 @@ export class ApplicationStatus extends React.Component {
               <ProgressButton
                 onButtonClick={this.toggleModal}
                 buttonText="Cancel"
-                buttonClass="usa-button-outline"/>
+                buttonClass="usa-button-secondary"/>
             </Modal>
           </div>
         );

@@ -149,7 +149,7 @@ export default function SubmitButtons(props) {
           <ProgressButton
             onButtonClick={onBack}
             buttonText="Back"
-            buttonClass="usa-button-outline"
+            buttonClass="usa-button-secondary"
             beforeText="«"/>
         </div>
         <div className="small-6 usa-width-five-twelfths medium-5 columns">
