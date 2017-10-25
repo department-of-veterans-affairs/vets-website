@@ -84,6 +84,8 @@
     "dataset": "^0.3.1",
     "electron-prebuilt": "^1.4.5",
     "enhanced-resolve": "^0.7.6",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-15": "^1.0.2",
     "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-jsx-a11y": "5.1",
