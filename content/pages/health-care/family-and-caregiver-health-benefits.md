@@ -23,13 +23,13 @@ TRICARE is the health care program for uniformed Servicemembers and their famili
 
 ### The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)
 
-If you’re the current or surviving spouse or child of a disabled or deceased Veteran—and you don’t qualify for TRICARE—you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of certain of your health care services and supplies. [Find out if you qualify for CHAMPVA— and how to apply](/healthcare/family-caregiver-benefits/champva/).
+If you’re the current or surviving spouse or child of a disabled or deceased Veteran—and you don’t qualify for TRICARE—you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of certain of your health care services and supplies. [Find out if you qualify for CHAMPVA— and how to apply](/health-care/family-caregiver-benefits/champva/).
 
 <br>
 
 ### The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 
-If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/healthcare/family-caregiver-benefits/assistance-to-family-caregivers/).
+If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/family-caregiver-benefits/assistance-to-family-caregivers/).
 
 <br>
 

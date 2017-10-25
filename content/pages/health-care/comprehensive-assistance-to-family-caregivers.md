@@ -32,7 +32,7 @@ If you’re the primary caregiver, you may receive:
 - Caregiver education and training to include the required Caregiver Core Curriculum
 - A monthly stipend payment based on the Veteran's level of care
 - Travel, lodging, and subsistence (financial assistance) to attend required Caregiver Core Curriculum training and when traveling as medical attendant to the Veteran's healthcare appointments
-- Access to health care insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)–if you’re not already entitled to care or services under another health care plan. [Learn more about CHAMPVA](/healthcare/family-caregiver-benefits/champva/).
+- Access to health care insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)–if you’re not already entitled to care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-benefits/champva/).
 - Mental health services and counseling to meet your unique needs. These services don’t include inpatient care or medicines.
 - Up to 30 days per year of respite care
 - Monitoring to ensure the Veteran's well-being and quality of care
