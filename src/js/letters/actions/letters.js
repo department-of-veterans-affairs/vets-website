@@ -181,7 +181,6 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       () => dispatch(getLetterPdfFailure(letterType))
-      }
     );
   };
 }
