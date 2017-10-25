@@ -56,8 +56,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formId, profile, login, applyText, showApplyButton } = this.props;
-
+    const { formId, profile, login, applyLink, applyText, showApplyButton } = this.props;
     if (profile.loading || this.state.loading) {
       const message = profile.loading
         ? 'Checking your application status.'
@@ -118,10 +117,16 @@ export class ApplicationStatus extends React.Component {
 
     if (showApplyButton) {
       return (
-        <div>
-          {this.props.additionalText && <p>{this.props.additionalText}</p>}
-          <div className="sip-application-status">
-            <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+        <div itemScope itemType="http://schema.org/Question">
+          <h3 itemProp="name">Ready to apply?</h3>
+          <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+            <div itemProp="text">
+              {this.props.additionalText && <p>{this.props.additionalText}</p>}
+              <div className="sip-application-status">
+                <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+                {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -132,6 +137,7 @@ export class ApplicationStatus extends React.Component {
 
 ApplicationStatus.propTypes = {
   formId: PropTypes.string.isRequired,
+  applyLink: PropTypes.string,
   applyText: PropTypes.string.isRequired,
   additionalText: PropTypes.string,
   login: PropTypes.shape({

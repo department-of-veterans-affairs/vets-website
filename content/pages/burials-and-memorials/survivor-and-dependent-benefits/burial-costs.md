@@ -4,6 +4,11 @@ template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
 order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -57,9 +62,9 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply?
-
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for a Burial Allowance</a>
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
+</div>
 
 <div markdown="0"><br></div>
 

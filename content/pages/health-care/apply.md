@@ -12,7 +12,7 @@ widgets:
   - root: react-applicationStatus
     timeout: 20
     loadingMessage: Checking your application status.
-    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -65,17 +65,9 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name">Ready to apply?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
 <div id="react-applicationStatus">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
-</div>
-</div>
-</div>
-
 
 <div class="feature">
 

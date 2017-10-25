@@ -46,6 +46,9 @@ const defaultProps = {
   statesAvailable: true
 };
 
+// For running ./node_modules/.bin/mocha directly on this file
+window.dataLayer = [];
+
 describe('<AddressSection>', () => {
   // we expect a render with default props to show the AddressContent component
   it('should display an address if one is provided in props', () => {
@@ -54,14 +57,6 @@ describe('<AddressSection>', () => {
     const contentHeader = addressContent.subTree('p').text();
 
     expect(contentHeader).to.contain('Downloaded documents will list your address as:');
-  });
-
-  it('should display an error message if address is empty', () => {
-    const newProps = { ...defaultProps, savedAddress: {} };
-    const tree = SkinDeep.shallowRender(<AddressSection {...newProps}/>);
-    const invalidAddress = tree.subTree('p').text();
-
-    expect(invalidAddress).to.contain('We’re encountering an error with your');
   });
 
   it('should display a loading spinner if address save in progress', () => {
@@ -265,6 +260,23 @@ describe('<AddressSection>', () => {
 
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
+
+  it('should start in the editing state if address is empty', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {
+      addressOne: '',
+      addressTwo: '',
+      addressThree: '',
+      city: '',
+      countryName: '',
+      stateCode: '',
+      type: ADDRESS_TYPES.domestic
+    };
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+
+    const instance = tree.getMountedInstance();
+    expect(instance.state.isEditingAddress).to.be.true;
+  });
 
   describe('validation', () => {
     // Spy on all the validation functions!

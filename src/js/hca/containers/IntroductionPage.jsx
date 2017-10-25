@@ -20,6 +20,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           resumeOnly
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
