@@ -14,10 +14,10 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 </div>
 
 ### Health Care Benefits
-If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/healthcare/family-caregiver-benefits/). 
+If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-benefits/). 
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
-[Learn about health care benefits for Servicemembers and Veterans](/healthcare/). <br>
+[Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
 [Learn about disability benefits for Servicemembers and Veterans](/disability/).
 
 ### Education Benefits
@@ -78,9 +78,9 @@ If you or your Servicemember or Veteran is facing a terminal illness, you may be
 
 ### Survivors Pension
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, you may be able to get monthly pension payments. [Find out if you qualify for the Survivors Pension—and how to apply](/pension/eligibility/pension/survivors-pension/).
+If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, you may be able to get monthly pension payments. [Find out if you qualify for the Survivors Pension—and how to apply](/pension/survivors-pension/).
 
-If you need help with your daily activities—or you’re housebound—you may also qualify for Aid & Attendance (A&A) or Housebound allowances. This extra money will be added to your monthly pension payments [Find out if you qualify for A&A or Housebound allowances](/pension/eligibility/aid-attendance-housebound/).
+If you need help with your daily activities—or you’re housebound—you may also qualify for Aid & Attendance (A&A) or Housebound allowances. This extra money will be added to your monthly pension payments [Find out if you qualify for A&A or Housebound allowances](/pension/aid-attendance-housebound/).
 
  **Looking for pension information on behalf of a Veteran?**<br>
 [Learn about the Veterans Pension program](/pension/).
@@ -96,11 +96,11 @@ If you need help with your daily activities—or you’re housebound—you may a
 #### Survivor and Dependent Benefits
 If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral service. [Find out if you qualify for survivor and dependent benefits]( /burials-and-memorials/survivor-and-dependent-benefits/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/survivor-and-dependent-benefits/bereavement-counseling/). 
 
 ### Housing Assistance
 If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
-[Learn how VA-backed home loans work](/housing-assistance/home-loans/va-backed-loans/).<br>
+[Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-options/).<br>
 [Find out if you qualify to get a Certificate of Eligibility (COE) for a VA-backed home loan](/housing-assistance/home-loans/eligibility/).<br>
 [Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/).<br>
 
@@ -110,9 +110,9 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
 
 ### Caregiver Support
-If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for a range of supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/healthcare/family-caregiver-benefits/assistance-to-family-caregivers/).
+If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for a range of supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/comprehensive-assistance-to-family-caregivers/).
 
-Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services]( /healthcare/about-va-health-care/assisted-living-and-home-health-care/).
+Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services]( /health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
 We also have trained Caregiver Support Coordinators at each of our VA medical centers and a Caregiver Peer Support Mentoring Program to help connect caregivers to one another for support and learning.
 If you need help accessing services, connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 855-260-3274. Our caring, licensed professionals are ready to help.
