@@ -6,7 +6,7 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { letterContent } from '../utils/helpers';
+import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
@@ -15,17 +15,11 @@ export class LetterList extends React.Component {
     const letterItems = (this.props.letters || []).map((letter, index) => {
       let content;
       let letterTitle;
-      let bslHelpInstructions;
+      let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = (<VeteranBenefitSummaryLetter/>);
-        bslHelpInstructions = (
-          <p>
-            If your service period or disability status information is incorrect, please send us
-            a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
-            Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
-          </p>
-        );
+        helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
         content = letterContent[letter.letterType] || '';
@@ -34,9 +28,9 @@ export class LetterList extends React.Component {
         content = letterContent[letter.letterType] || '';
       }
 
-      let downloadLetterLink;
-      if (this.props.optionsAvailable) {
-        downloadLetterLink = (
+      let conditionalDownloadButton;
+      if (letter.letterType !== LETTER_TYPES.benefitSummary || this.props.optionsAvailable) {
+        conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
             letterName={letter.name}
@@ -50,8 +44,8 @@ export class LetterList extends React.Component {
           panelName={letterTitle}
           key={`collapsiblePanel-${index}`}>
           <div>{content}</div>
-          <div>{downloadLetterLink}</div>
-          <div>{bslHelpInstructions}</div>
+          {conditionalDownloadButton}
+          {helpText}
         </CollapsiblePanel>
       );
     });

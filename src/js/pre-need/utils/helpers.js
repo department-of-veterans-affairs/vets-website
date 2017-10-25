@@ -1,11 +1,13 @@
 import React from 'react';
-import set from 'lodash/fp/set';
+import { get, merge, set } from 'lodash/fp';
 
-import { validateBooleanGroup } from '../../common/schemaform/validation';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import TextWidget from '../../common/schemaform/widgets/TextWidget';
 
 export function isVeteran(item) {
-  return item.claimant.relationshipToVet.type === 1;
+  return get('claimant.relationshipToVet', item) === '1';
 }
 
 export function requiresSponsorInfo(item) {
@@ -24,7 +26,6 @@ export function claimantHeader({ formData }) {
     <h4 className="highlight">{name}</h4>
   );
 }
-
 
 export function transform(formConfig, form) {
   const matchClaimant = name => a => formatName(a.claimant.name) === name;
@@ -67,7 +68,40 @@ export function transform(formConfig, form) {
   });
 }
 
-export const veteranUISchema = {
+export const fullMaidenNameUI = merge(fullNameUI, {
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
+class SSNWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { val: props.value };
+  }
+
+  handleChange = (val) => {
+    // Insert dashes if they are missing.
+    // Keep if value is valid and formatted with dashes.
+    // Set empty value to undefined.
+    const formattedSSN = (
+      (val && /^\d{9}$/.test(val)) ?
+        `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}` :
+        val
+    ) || undefined;
+
+    this.setState({ val }, () => {
+      this.props.onChange(formattedSSN);
+    });
+  }
+
+  render() {
+    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+  }
+}
+
+// Modify default uiSchema for SSN to insert any missing dashes.
+export const ssnDashesUI = merge(ssnUI, { 'ui:widget': SSNWidget });
+
+export const veteranUI = {
   militaryServiceNumber: {
     'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
@@ -95,33 +129,20 @@ export const veteranUISchema = {
     }
   },
   militaryStatus: {
-    'ui:title': 'Military status to determine if you qualify for burial. Please check all that apply.',
-    veteran: {
-      'ui:title': 'Veteran'
-    },
-    retiredActiveDuty: {
-      'ui:title': 'Retired Active Duty'
-    },
-    diedOnActiveDuty: {
-      'ui:title': 'Died on Active Duty'
-    },
-    retiredReserve: {
-      'ui:title': 'Retired Reserve'
-    },
-    retiredNationalGuard: {
-      'ui:title': 'Retired National Guard'
-    },
-    deathInactiveDuty: {
-      'ui:title': 'Death Related to Inactive Duty Training'
-    },
-    other: {
-      'ui:title': 'Other'
-    },
-    'ui:validations': [
-      validateBooleanGroup
-    ],
+    'ui:title': 'Current military status (You can add more service history information later in this application.)',
+    'ui:widget': 'radio',
     'ui:options': {
-      showFieldLabel: true
+      labels: {
+        V: 'Veteran',
+        R: 'Retired',
+        A: 'Active Duty',
+        E: 'Retired Active Duty',
+        D: 'Died on Active Duty',
+        S: 'Reserve/National Guard',
+        O: 'Retired Reserve/National Guard',
+        I: 'Death Related to Inactive Duty Training',
+        X: 'Other'
+      }
     }
   }
 };

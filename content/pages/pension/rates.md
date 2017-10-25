@@ -15,10 +15,10 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 
 - **Your countable income** is how much you earn, including your Social Security benefits, investment and retirement payments, and any income your dependents receive. Some expenses, like non-reimbursable medical expenses (medical expenses not covered by your insurance provider), may reduce your countable income.
 
-- **Your MAPR amount** is the maximum amount of pension payable. Your MAPR is based on how many dependents you have, if you’re married to another Veteran who qualifies for a pension, and if your disabilities qualify you for Housebound or Aid and Attendance (A&A) benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
+- **Your MAPR amount** is the maximum amount of pension payable. Your MAPR is based on how many dependents you have, if you’re married to another Veteran who qualifies for a pension, and if your disabilities qualify you for Housebound or Aid and Attendance benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
 
 **Example:**
-You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
+You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for Aid and Attendance benefits based on your disabilities. You and your spouse have a combined yearly income of $10,000.
 <br>
 Your MAPR amount = $25,525 <br>
 Your yearly income = $10,000 <br>
@@ -34,9 +34,9 @@ Your VA pension = $15,525 for the year (or $1,293 paid each month)
 
 | **If you have no dependents and…** | **Your MAPR amount is:** | 
 | --- | --- | 
-| You don’t qualify for Housebound or A&A benefits | $12,907 |
+| You don’t qualify for Housebound or Aid and Attendance benefits | $12,907 |
 | You qualify for Housebound benefits | $15,773 | 
-| You qualify for A&A benefits | $21,531 | 
+| You qualify for Aid and Attendance benefits | $21,531 | 
 
 **Note:** <br>
 If you have medical expenses, you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
@@ -45,12 +45,12 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 
 | **If you have 1 dependent and…** | **Your MAPR amount is:** |
 | --- | --- | 
-| You don’t qualify for Housebound or A&A benefits | $16,902 | 
+| You don’t qualify for Housebound or Aid and Attendance benefits | $16,902 | 
 | You qualify for Housebound benefits | $19,770 | 
-| You qualify for A&A benefits | $25,525 | 
+| You qualify for Aid and Attendance benefits | $25,525 | 
 
 **Note:** 
-- **If you have more than 1 dependent**, add $2,205 to your MAPR amount for each additional dependent. 
+- **If you have more than one dependent**, add $2,205 to your MAPR amount for each additional dependent. 
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
@@ -58,15 +58,15 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 
 | **If you’re 2 Veterans who are married to each other and:** | **Your MAPR amount is:** |
 | --- | --- | 
-| Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
-| 1 of you qualifies for Housebound benefits | $19,770 | 
+| Neither of you qualifies for Housebound or Aid and Attendance benefits | $16,902 | 
+| One of you qualifies for Housebound benefits | $19,770 | 
 | Both of you qualify for Housebound benefits | $22,634 | 
-| 1 of you qualifies for A&A benefits | $25,525 | 
-| 1 of you qualifies for Housebound benefits and 1 of you qualifies for A&A benefits | $28,385 | 
-| Both of you qualify for A&A benefits | $34,153 | 
+| One of you qualifies for Aid and Attendance benefits | $25,525 | 
+| One of you qualifies for Housebound benefits and one of you qualifies for Aid and Attendance benefits | $28,385 | 
+| Both of you qualify for Aid and Attendance benefits | $34,153 | 
 
 **Note:**
-- **If you have more than 1 dependent**, add $2,205 to your MAPR amount for each additional child. 
+- **If you have more than one dependent**, add $2,205 to your MAPR amount for each additional child. 
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 

@@ -1,17 +1,22 @@
 #!/bin/bash
 
 SAUCE=false
+VISUAL_REGRESSION_TESTING=false
 
 for i in "$@"
 do
 case $i in
-    --sauce)
-    SAUCE=true
-    shift # past argument=value
-    ;;
-    *)
+  --sauce)
+      SAUCE=true
+      shift # past argument=value
+      ;;
+  --visual)
+      VISUAL_REGRESSION_TESTING=true
+      shift
+      ;;
+  *)
       # unknown option
-    ;;
+      ;;
 esac
 done
 
@@ -59,6 +64,8 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 3; done
 # Execute the actual tests.
 if [ $SAUCE == true ]; then
   BABEL_ENV=test npm --no-color run nightwatch-sauce -- "${@}"
+elif [ $VISUAL_REGRESSION_TESTING = true ]; then
+  BABEL_ENV=test npm --no-color run nightwatch-visual -- "${@}"
 else
   BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
 fi
