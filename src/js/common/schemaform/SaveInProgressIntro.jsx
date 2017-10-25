@@ -127,6 +127,7 @@ export default class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
+  prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   messages: PropTypes.object,
   migrations: PropTypes.array,
