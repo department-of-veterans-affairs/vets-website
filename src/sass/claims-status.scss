@@ -288,15 +288,17 @@ p.first-of-type {
 
 .file-requirements {
   margin-bottom: 1.5em;
-  .file-requirement-header {
-    font-weight: bold;
-    margin-bottom: 0;
-  }
-  .file-requirement-text {
-    margin: 0;
-    &:last-child {
-      margin-bottom: 1em;
-    }
+}
+
+.file-requirement-header {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.file-requirement-text {
+  margin: 0;
+  &:last-child {
+    margin-bottom: 1em;
   }
 }
 
@@ -304,23 +306,20 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-text-container {
-    padding-right: 1em;
-    word-break: break-all;
-    .document-size-text {
-      p {
-        margin: 0;
-      }
-    }
-  }
-  .remove-document-button {
-    > button {
-      margin: 0;
-      font-weight: bold;
-    }
-  }
   &:focus {
     outline: none;
+  }
+}
+
+.document-title-text-container {
+  padding-right: 1em;
+  word-break: break-all;
+}
+
+.remove-document-button {
+  > .usa-button-outline {
+    margin: 0;
+    font-weight: bold;
   }
 }
 
@@ -329,10 +328,8 @@ p.first-of-type {
   justify-content: space-between;
 }
 
-#content .section {
-  .document-title-header > .title {
-    padding: 0;
-  }
+.document-title {
+  padding: 0;
 }
 
 .disability-claims-warning {
@@ -346,13 +343,12 @@ p.first-of-type {
   margin-bottom: 1.5em;
 }
 
-.claims-upload-input {
-  h5 {
-    padding-bottom: 0 !important;
-  }
-  .usa-input-error-message {
-    margin-bottom: 1em;
-  }
+.claims-upload-input-error-message {
+  margin-bottom: 1em;
+}
+
+.claims-upload-input-title {
+  padding-bottom: 0 !important;
 }
 
 .claim-container {

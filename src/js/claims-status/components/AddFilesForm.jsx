@@ -90,12 +90,12 @@ class AddFilesForm extends React.Component {
         <div>
           <ErrorableFileInput
             errorMessage={this.getErrorMessage()}
-            label={<h5>Select files to upload</h5>}
+            label={<h5 className="claims-upload-input-title">Select files to upload</h5>}
             accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onChange={this.add}
             buttonText="Add Files"
             name="fileUpload"
-            additionalClass="claims-upload-input"/>
+            additionalErrorClass="claims-upload-input-error-message"/>
         </div>
         <div className="file-requirements">
           <p className="file-requirement-header">Accepted file types:</p>
@@ -109,10 +109,10 @@ class AddFilesForm extends React.Component {
             <div className="document-title-size">
               <div className="document-title-row">
                 <div className="document-title-text-container">
-                  <div className="document-title-header">
-                    <h4 className="title">{file.name}</h4>
+                  <div>
+                    <h4 className="document-title">{file.name}</h4>
                   </div>
-                  <div className="document-size-text">
+                  <div>
                     {displayFileSize(file.size)}
                   </div>
                 </div>
