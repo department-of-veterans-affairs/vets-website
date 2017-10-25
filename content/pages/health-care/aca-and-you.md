@@ -35,7 +35,7 @@ Your health coverage meets the minimum essential coverage requirement if you’r
 If you’re covered under one of these programs, you don’t need to do anything more to avoid the penalty fee. If you’re not covered under one of these programs, you can apply at any time.
 
 **Are you a Servicemember or Veteran?** <br>[Find out if you may qualify for VA health benefits](/health-care/eligibility/).<br><br>
-**Are you a family member or caregiver?** <br>[Find out if you may qualify for health benefits for family members and caregivers](/health-care/family-caregiver-benefits/).
+**Are you a family member or caregiver?** <br>[Find out if you may qualify for health benefits for family members and caregivers](/health-care/comprehensive-assistance-to-family-caregivers/).
 <br>
 
 </div>

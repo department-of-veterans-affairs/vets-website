@@ -23,7 +23,7 @@ TRICARE is the health care program for uniformed Servicemembers and their famili
 
 ### The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)
 
-If you’re the current or surviving spouse or child of a disabled or deceased Veteran—and you don’t qualify for TRICARE—you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of certain of your health care services and supplies. [Find out if you qualify for CHAMPVA— and how to apply](/health-care/champva/).
+If you’re the current or surviving spouse or child of a disabled or deceased Veteran—and you don’t qualify for TRICARE—you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of certain of your health care services and supplies. [Find out if you qualify for CHAMPVA— and how to apply](/health-care/CHAMPVA/).
 
 <br>
 
