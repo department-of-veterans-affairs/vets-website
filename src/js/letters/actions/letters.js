@@ -142,21 +142,31 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
 
   return (dispatch) => {
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
+
+    // We handle IE10 separately but assume all other vets.gov-supported
+    // browsers have blob URL support.
+    // TODO: possibly want to explicitly check for blob URL support with something like
+    // const blobSupported = !!(/^blob:/.exec(downloadUrl));
+    const isIE = !!window.navigator.msSaveOrOpenBlob;
+    const save = document.createElement('a');
+    const downloadSupported = typeof save.download !== 'undefined';
+    let downloadWindow;
+
+    if (!downloadSupported) {
+      // Instead of giving the file a readable name and downloading
+      // it directly, open it in a new window with an ugly hash URL
+      // NOTE: We're opening the window here because Safari won't open
+      //  it as a result of an AJAX call--it has to be traced back to
+      //  a user interaction.
+      downloadWindow = window.open();
+    }
     return apiRequest(
       `/v0/letters/${letterType}`,
       settings,
       response => {
         let downloadUrl;
         response.blob().then(blob => {
-          // We handle IE10 separately but assume all other vets.gov-supported
-          // browsers have blob URL support.
-          // TODO: possibly want to explicitly check for blob URL support with something like
-          // const blobSupported = !!(/^blob:/.exec(downloadUrl));
-          const ie10 = !!window.navigator.msSaveOrOpenBlob;
-          const save = document.createElement('a');
-          const downloadSupported = typeof save.download !== 'undefined';
-
-          if (ie10) {
+          if (isIE) {
             window.navigator.msSaveOrOpenBlob(blob, `${letterName}.pdf`);
           } else {
             window.URL = window.URL || window.webkitURL;
@@ -170,9 +180,6 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
               save.click();
               document.body.removeChild(save);
             } else {
-              // Instead of giving the file a readable name and downloading
-              // it directly, open it in a new window with an ugly hash URL
-              const downloadWindow = window.open();
               downloadWindow.location.href = downloadUrl;
             }
           }
