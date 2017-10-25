@@ -41,7 +41,7 @@ If you’re the primary caregiver, you may receive:
 
 You’ll need to apply for these benefits. To apply, fill out VA Form 10-10CG (Application for the Program of Comprehensive Assistance for Family Caregivers). You’ll need identification and health coverage information for both you and your Veteran—and you’ll both need to sign and date the form.
 
-[Download VA Form 10-10CG]( )
+[Download VA Form 10-10CG](/)
 
 Mail the form and any needed supporting documents to:
 

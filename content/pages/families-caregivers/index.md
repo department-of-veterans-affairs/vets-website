@@ -18,7 +18,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
-[Learn about disability benefits for Servicemembers and Veterans](/disability/).
+[Learn about disability benefits for Servicemembers and Veterans](/disability-benefits/).
 
 ### Education Benefits
 If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for a range of education and training benefits. And, if your Veteran qualifies for the Post-9/11 GI Bill—but doesn’t use all their benefits—they may be able to transfer up to 36 months of those unused benefits to you.
@@ -60,10 +60,12 @@ Benefits may include educational and vocational (job) counseling, plus help with
 - Mapping out a career path
 - Planning the best use of your VA benefits
 
-[Find out if you qualify for counseling—and how to apply](/vocational-rehab-and-employment/family-members/).
+[Find out if you qualify for counseling—and how to apply](/).
+<!-- should be /vocational-rehab-and-employment/family-members/-->
 
 **Looking for VR&E information on behalf of a Servicemember or Veteran?**<br>
-[Learn about VR&E benefits for Servicemembers and Veterans](/vocational-rehab-and-employment/).
+[Learn about VR&E benefits for Servicemembers and Veterans](/).
+<!-- hould be /vocational-rehab-and-employment/ -->
 
 ### Life Insurance
 

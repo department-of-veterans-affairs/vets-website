@@ -77,7 +77,7 @@ Yes. There are some other factors that may affect whether you or other family me
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="caregiver">A primary family caregiver of an injured or disabled Veteran</button>
       <div id="caregiver" class="usa-accordion-content">
         <p>If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
-        <p><a href='/healthcare/family-caregiver-benefits/assistance-to-family-caregivers/'>Find out if you qualify for this program—and how to apply</a> . </p>
+        <p><a href='/health-care/comprehensive-assistance-to-family-caregivers/'>Find out if you qualify for this program—and how to apply</a> . </p>
       </div>
     </li>
     <li>

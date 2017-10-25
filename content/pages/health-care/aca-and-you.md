@@ -27,7 +27,7 @@ The Affordable Care Act (ACA)—also known as the health care law—was created 
 #### Does my health coverage through VA meet the ACA’s minimum essential coverage requirement? 
 Your health coverage meets the minimum essential coverage requirement if you’re signed up for: 
 - [The VA health care program](/health-care/about-va-health-care/), **or** 
-- [The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)](/health-care/champva/), **or** 
+- [The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)](/health-care/CHAMPVA/), **or** 
 - [CHAMPVA through the Program of Comprehensive Assistance to Family Caregivers]( /health-care/comprehensive-assistance-to-family-caregivers/), **or** 
 - [The Spina Bifida Health Care Benefits Program](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp), **or**  
 - [A Department of Defense TRICARE plan that provides minimum essential coverage](https://tricare.mil/About/MEC) 
