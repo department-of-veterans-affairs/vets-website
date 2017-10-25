@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -29,6 +28,12 @@ import {
 } from '../utils/validations';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 
+// The address is empty if every field except type is falsey.
+// NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
+function isAddressEmpty(address) {
+  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (nextField === 'type' || !address[nextField]), true);
+}
+
 export class AddressSection extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +50,8 @@ export class AddressSection extends React.Component {
     // savedAddress values
     if (Object.keys(this.state.editableAddress).length > 0) {
       this.state.hasLoadedAddress = true;
+      // If we start with an empty address, go straight to editing
+      this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
     }
   }
 
@@ -56,18 +63,23 @@ export class AddressSection extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
-      this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress });
+      this.setState({
+        hasLoadedAddress: true,
+        editableAddress: nextProps.savedAddress,
+        // If we recieve an empty address, start editing
+        isEditingAddress: isAddressEmpty(nextProps.savedAddress)
+      });
     }
   }
 
   /**
    * Runs all the validations against the address passed as a prop for a given field.
    *
-   * @param {String} fieldName              The name of the address field to validate.
-   *                                         Maps to the fieldValidations key.
-   * @param {Object} fullAddress            Contains the full mailing address.
-   * @return {String|undefined}             If there's a validation error, return the
-   *                                         error message. If not, return undefined.
+   * @param {String} fieldName    The name of the address field to validate.
+   *                               Maps to the fieldValidations key.
+   * @param {Object} fullAddress  Contains the full mailing address.
+   * @return {String|undefined}   If there's a validation error, return the
+   *                               error message. If not, return undefined.
    */
   validateField = (fieldName, fullAddress) => {
     const validations = AddressSection.fieldValidations[fieldName];
@@ -92,16 +104,16 @@ export class AddressSection extends React.Component {
   /**
    * Runs validation for all fields, returning a complete errorMessages object.
    *
-   * @param {Object} address                The complete address as it appears while
-   *                                         editing it.
-   * @param {Boolean} shouldValidateAll Because we'll need to update the error
-   *                                         messages on multiple fields sometimes,
-   *                                         we need to run validations on all fields.
-   *                                         This ensures that we only run validation
-   *                                         if the field has been modified.
-   *                                         saveAddress will need to validate all
-   *                                         fields regardless of whether they've been
-   *                                         modified.
+   * @param {Object} address             The complete address as it appears while
+   *                                      editing it.
+   * @param {Boolean} shouldValidateAll  Because we'll need to update the error
+   *                                      messages on multiple fields sometimes,
+   *                                      we need to run validations on all fields.
+   *                                      This ensures that we only run validation
+   *                                      if the field has been modified.
+   *                                      saveAddress will need to validate all
+   *                                      fields regardless of whether they've been
+   *                                      modified.
    * @return {Object}  Holds all the error messages for all the fields that have them.
    */
   validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
@@ -281,7 +293,7 @@ export class AddressSection extends React.Component {
     // If countries and states are not available when they try to update their address,
     // or if the fetch for address failed,
     // they will see this warning message instead of the address fields.
-    if (isEmpty(address) || this.props.addressAvailability === AVAILABILITY_STATUSES.unavailable) {
+    if (this.props.addressAvailability === AVAILABILITY_STATUSES.unavailable) {
       addressContent = invalidAddressProperty;
     } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (

@@ -92,6 +92,17 @@ const commissaryLetterContent = (
   </div>
 );
 
+// Benefit Summary Letter Help Instructions
+export const bslHelpInstructions = (
+  <div>
+    <p>
+      If your service period or disability status information is incorrect, please send us
+      a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+      Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+    </p>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: commissaryLetterContent,
