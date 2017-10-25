@@ -60,14 +60,19 @@ const getState = () => ({});
 describe('saveAddress', () => {
   const frontEndAddress = {
     type: ADDRESS_TYPES.military,
-    city: 'apo',
-    state: 'secret'
+    city: 'APO',
+    stateCode: 'AE',
+    countryName: 'USA'
   };
 
   const successResponse = {
     data: {
       attributes: {
-        address: { ...frontEndAddress }
+        address: {
+          type: frontEndAddress.type,
+          militaryPostOfficeTypeCode: frontEndAddress.city,
+          militaryStateCode: frontEndAddress.stateCode,
+        }
       }
     }
   };
