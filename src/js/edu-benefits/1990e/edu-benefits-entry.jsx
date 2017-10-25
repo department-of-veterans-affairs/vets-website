@@ -1,4 +1,6 @@
 import 'core-js';
+import '../../../sass/edu-benefits.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
@@ -10,8 +12,6 @@ import routes from './routes';
 import reducer from './reducer';
 import createLoginWidget from '../../login/login-entry';
 import createCommonStore from '../../common/store';
-
-require('../../../sass/edu-benefits.scss');
 
 const store = createCommonStore(reducer);
 

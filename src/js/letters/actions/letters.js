@@ -28,7 +28,7 @@ import {
 
 export function getLetterList() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/letters',
       null,
       response => dispatch({
@@ -36,28 +36,28 @@ export function getLetterList() {
         data: response,
       }),
       (response) => {
-        const error = response.errors.length > 0 ? response.errors[0] : undefined;
-        if (error) {
-          if (error.status === '503' || error.status === '504') {
+        window.dataLayer.push({ event: 'letter-list-failure' });
+        if (typeof response.errors === 'undefined' || response.errors.length === 0) {
+          return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
+        }
+        const error = response.errors[0];
+        switch (error.status) {
+          case '503': // Handled same as 504
+          case '504':
             // Either EVSS or a partner service is down or EVSS times out
             return dispatch({ type: BACKEND_SERVICE_ERROR });
-          }
-          if (error.status === '403') {
+          case '403':
             // Backend authentication problem
             return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          }
-          if (error.status === '502') {
-            // Some of the partner services are down, so we cannot verify the eligibility
-            // of some letters
+          case '502':
+            // Some of the partner services are down, so we cannot verify the
+            // eligibility of some letters
             return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-          }
-          return Promise.reject(
-            new Error(`vets_letters_error_server_get: error status ${error.status}`)
-          );
+          default:
+            return Promise.reject(
+              new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
+            );
         }
-        return Promise.reject(
-          new Error('vets_letters_error_server_get: unknown error status')
-        );
       }
     ).catch((error) => {
       if (error.message.match('vets_letters_error_server_get')) {
@@ -76,27 +76,29 @@ export function getAddressFailure() {
 
 export function getMailingAddress() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address',
       null,
-      response => {
+      // on fetch success
+      (response) => {
         const responseCopy = Object.assign({}, response);
-        const address = Object.assign({}, response.data.attributes.address);
-        // Translate military-only fields into generic ones; we'll translate them back later if necessary
-        if (address.type === ADDRESS_TYPES.military) {
-          address.city = address.militaryPostOfficeTypeCode;
-          address.stateCode = address.militaryStateCode;
-          address.countryName = 'USA';
-          delete address.militaryPostOfficeTypeCode;
-          delete address.militaryStateCode;
+        const addressCopy = Object.assign({}, response.data.attributes.address);
+        // Translate military-only fields into generic ones; we'll translate
+        // them back later if necessary
+        if (addressCopy.type === ADDRESS_TYPES.military) {
+          addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
+          addressCopy.stateCode = addressCopy.militaryStateCode;
+          addressCopy.countryName = 'USA';
+          delete addressCopy.militaryPostOfficeTypeCode;
+          delete addressCopy.militaryStateCode;
         }
-        responseCopy.data.attributes.address = address;
-
-        dispatch({
+        responseCopy.data.attributes.address = addressCopy;
+        return dispatch({
           type: GET_ADDRESS_SUCCESS,
           data: responseCopy
         });
       },
+      // catch errors in fetch or success handler
       () => dispatch(getAddressFailure())
     );
   };
@@ -104,7 +106,7 @@ export function getMailingAddress() {
 
 export function getBenefitSummaryOptions() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/letters/beneficiary',
       null,
       response => dispatch({
@@ -114,6 +116,14 @@ export function getBenefitSummaryOptions() {
       () => dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })
     );
   };
+}
+
+export function getLetterPdfFailure(letterType) {
+  window.dataLayer.push({
+    event: 'letter-pdf-failure',
+    'letter-type': letterType
+  });
+  return { type: GET_LETTER_PDF_FAILURE, data: letterType };
 }
 
 export function getLetterPdf(letterType, letterName, letterOptions) {
@@ -130,29 +140,34 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     };
   }
 
-  // We handle IE10 separately but assume all other vets.gov-supported
-  // browsers have blob URL support.
-  // TODO: possibly want to explicitly check for blob URL support with something like
-  // const blobSupported = !!(/^blob:/.exec(downloadUrl));
-  const ie10 = !!window.navigator.msSaveOrOpenBlob;
-  const save = document.createElement('a');
-  let downloadWindow;
-  const downloadSupported = typeof save.download !== 'undefined';
-  if (!downloadSupported) {
-    // Instead of giving the file a readable name and downloading
-    // it directly, open it in a new window with an ugly hash URL
-    downloadWindow = window.open();
-  }
-  let downloadUrl;
   return (dispatch) => {
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
-    apiRequest(
+
+    // We handle IE10 separately but assume all other vets.gov-supported
+    // browsers have blob URL support.
+    // TODO: possibly want to explicitly check for blob URL support with something like
+    // const blobSupported = !!(/^blob:/.exec(downloadUrl));
+    const isIE = !!window.navigator.msSaveOrOpenBlob;
+    const save = document.createElement('a');
+    const downloadSupported = typeof save.download !== 'undefined';
+    let downloadWindow;
+
+    if (!downloadSupported) {
+      // Instead of giving the file a readable name and downloading
+      // it directly, open it in a new window with an ugly hash URL
+      // NOTE: We're opening the window here because Safari won't open
+      //  it as a result of an AJAX call--it has to be traced back to
+      //  a user interaction.
+      downloadWindow = window.open();
+    }
+    return apiRequest(
       `/v0/letters/${letterType}`,
       settings,
       response => {
+        let downloadUrl;
         response.blob().then(blob => {
-          if (ie10) {
-            window.navigator.msSaveOrOpenBlob(blob, letterName);
+          if (isIE) {
+            window.navigator.msSaveOrOpenBlob(blob, `${letterName}.pdf`);
           } else {
             window.URL = window.URL || window.webkitURL;
             downloadUrl = window.URL.createObjectURL(blob);
@@ -170,9 +185,9 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl);
-        dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
+        return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType })
+      () => dispatch(getLetterPdfFailure(letterType))
     );
   };
 }
@@ -224,7 +239,7 @@ export function saveAddress(address) {
     // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
 
-    apiRequest(
+    return apiRequest(
       '/v0/address',
       settings,
       () => dispatch(saveAddressSuccess(address)),
@@ -235,7 +250,7 @@ export function saveAddress(address) {
 
 export function getAddressCountries() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address/countries',
       null,
       response => dispatch({
@@ -249,7 +264,7 @@ export function getAddressCountries() {
 
 export function getAddressStates() {
   return (dispatch) => {
-    apiRequest(
+    return apiRequest(
       '/v0/address/states',
       null,
       response => dispatch({

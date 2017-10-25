@@ -1,3 +1,6 @@
+import '../common';
+import '../../sass/pre-need.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
@@ -9,9 +12,6 @@ import route from './routes';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 import reducer from './reducer';
-
-require('../common');
-require('../../sass/pre-need.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

@@ -229,5 +229,21 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+    it('should not set url if prefill', () => {
+      const data = {
+        formData: {
+          compensableVaServiceConnected: true,
+          receivesVaPension: true,
+          isVaServiceConnected: false
+        },
+        metadata: {
+          prefill: true,
+          returnUrl: '/household-information/spouse-information'
+        }
+      };
+
+      const { metadata } = migration(data);
+      expect(metadata.returnUrl).to.equal('/household-information/spouse-information');
+    });
   });
 });
