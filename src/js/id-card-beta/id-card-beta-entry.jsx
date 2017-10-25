@@ -1,4 +1,7 @@
 import 'core-js';
+import '../common';
+import '../../sass/user-profile.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,9 +13,6 @@ import routes from './routes';
 import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
-
-require('../common');  // Bring in the common javascript.
-require('../../sass/user-profile.scss');
 
 const commonStore = createCommonStore(reducer);
 createLoginWidget(commonStore);
