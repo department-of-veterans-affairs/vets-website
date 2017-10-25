@@ -117,6 +117,14 @@ export function getBenefitSummaryOptions() {
   };
 }
 
+export function getLetterPdfFailure(letterType) {
+  window.dataLayer.push({ 
+    event: 'letter-pdf-failure',
+    'letter-type': letterType
+  });
+  return { type: GET_LETTER_PDF_FAILURE, data: letterType };
+}
+
 export function getLetterPdf(letterType, letterName, letterOptions) {
   let settings;
   if (letterType === LETTER_TYPES.benefitSummary) {
@@ -173,9 +181,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         window.URL.revokeObjectURL(downloadUrl);
         dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => {
-        window.dataLayer.push({ event: 'letter-pdf-failure' });
-        dispatch({ type: GET_LETTER_PDF_FAILURE, data: letterType });
+      () => dispatch(getLetterPdfFailure(letterType))
       }
     );
   };
