@@ -339,3 +339,20 @@ export function resetDisallowedAddressFields(address) {
 
   return newAddress;
 }
+
+/**
+ * Traverses a single-level object and removes its zero-length own-enumerable properties
+ * @param {Object} input an object with no nested properties
+ * @returns a cloned object with no empty properties
+ */
+export const stripEmpties = (input) => {
+  const newObject = {};
+  const pushToNewObject = (key) => {
+    newObject[key] = input[key];
+  };
+  const notEmpty = (key) => (input[key].length > 0);
+  Object.keys(input)
+    .filter(notEmpty)
+    .forEach(pushToNewObject);
+  return newObject;
+};
