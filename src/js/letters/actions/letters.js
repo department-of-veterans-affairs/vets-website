@@ -119,7 +119,7 @@ export function getBenefitSummaryOptions() {
 }
 
 export function getLetterPdfFailure(letterType) {
-  window.dataLayer.push({ 
+  window.dataLayer.push({
     event: 'letter-pdf-failure',
     'letter-type': letterType
   });
