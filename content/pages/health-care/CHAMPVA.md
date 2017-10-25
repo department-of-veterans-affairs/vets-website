@@ -93,6 +93,7 @@ Yes. There are some other factors that may affect whether you or other family me
   </ul>
 </div>
 
+<br>
 
 ### What benefits do I get with CHAMPVA?
 
@@ -174,3 +175,6 @@ If you send us only the required documents, it may take 2 to 8 months since weâ€
 <br>
 <br>
 <br>  
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
