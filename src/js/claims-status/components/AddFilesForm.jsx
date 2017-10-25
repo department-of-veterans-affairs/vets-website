@@ -76,7 +76,7 @@ class AddFilesForm extends React.Component {
   }
   render() {
     return (
-      <div className="upload-files">
+      <div>
         <div>
           <p><a href onClick={(evt) => {
             evt.preventDefault();
