@@ -210,7 +210,6 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
