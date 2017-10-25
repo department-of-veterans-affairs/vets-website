@@ -77,7 +77,7 @@ class AddFilesForm extends React.Component {
   render() {
     return (
       <div className="upload-files">
-        <div className="mail-or-fax-files">
+        <div>
           <p><a href onClick={(evt) => {
             evt.preventDefault();
             window.dataLayer.push({
@@ -133,7 +133,7 @@ class AddFilesForm extends React.Component {
             </div>
           </div>
         ))}
-        <div className="file-review">
+        <div>
           <button
             className="usa-button"
             onClick={this.submit}>
