@@ -40,6 +40,7 @@ If you now have one of the related conditions, you may qualify for health care b
 <br>
 
 ### The Spina Bifida Health Care Benefits Program
+
 If you’re the biological child of a Korean or Vietnam Veteran and you’ve been diagnosed with spina bifida, you may qualify for disability benefits, including health care benefits. [Find out if you qualify—and how to apply](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp).
 
 <br>

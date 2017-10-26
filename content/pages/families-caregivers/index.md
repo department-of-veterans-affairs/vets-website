@@ -65,7 +65,7 @@ Benefits may include educational and vocational (job) counseling, plus help with
 
 **Looking for VR&E information on behalf of a Servicemember or Veteran?**<br>
 [Learn about VR&E benefits for Servicemembers and Veterans](/).
-<!-- hould be /vocational-rehab-and-employment/ -->
+<!-- should be /vocational-rehab-and-employment/ -->
 
 ### Life Insurance
 
@@ -77,6 +77,7 @@ If you or your Servicemember or Veteran is facing a terminal illness, you may be
 
 **Looking for life insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about life insurance benefits for Servicemembers and Veterans](/life-insurance/).
+<br>
 
 ### Survivors Pension
 
@@ -86,6 +87,7 @@ If you need help with your daily activities—or you’re housebound—you may a
 
  **Looking for pension information on behalf of a Veteran?**<br>
 [Learn about the Veterans Pension program](/pension/).
+<br>
 
 ### Burials and Memorials
 
@@ -99,6 +101,7 @@ If you need help with your daily activities—or you’re housebound—you may a
 If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral service. [Find out if you qualify for survivor and dependent benefits]( /burials-and-memorials/survivor-and-dependent-benefits/).
 
 If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/survivor-and-dependent-benefits/bereavement-counseling/). 
+<br>
 
 ### Housing Assistance
 If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
@@ -110,6 +113,7 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 
 **Looking for information about buying, building, or making changes to a home to help a disabled Veteran?**<br>
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+<br>
 
 ### Caregiver Support
 If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for a range of supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/comprehensive-assistance-to-family-caregivers/).
