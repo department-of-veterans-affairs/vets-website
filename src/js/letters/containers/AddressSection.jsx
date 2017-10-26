@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -25,6 +26,16 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('addressScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  });
+};
 
 // The address is empty if every field except type is falsey.
 // NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
@@ -167,6 +178,7 @@ export class AddressSection extends React.Component {
   startEditing = () => {
     window.dataLayer.push({ event: 'letter-update-address-started' });
     this.setState({ isEditingAddress: true });
+    scrollToTop();
   }
 
   dirtyInput = (fieldName) => {
@@ -307,7 +319,14 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return <div aria-live="polite">{addressContent}</div>;
+    return (
+      <div>
+        <Element name="addressScrollElement"/>
+        <div aria-live="polite">
+          {addressContent}
+        </div>
+      </div>
+    );
   }
 }
 
