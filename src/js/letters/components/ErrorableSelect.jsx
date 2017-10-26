@@ -104,7 +104,7 @@ ErrorableSelect.propTypes = {
     ])).isRequired,
   required: PropTypes.bool,
   includeBlankOption: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
   additionalClass: PropTypes.string,
   emptyDescription: PropTypes.string

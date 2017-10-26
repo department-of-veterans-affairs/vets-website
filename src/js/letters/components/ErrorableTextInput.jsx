@@ -90,7 +90,7 @@ ErrorableTextInput.propTypes = {
   name: PropTypes.string,
   autocomplete: PropTypes.string,
   required: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   additionalClass: PropTypes.string,
   charMax: PropTypes.number,
   onValueChange: PropTypes.func.isRequired,

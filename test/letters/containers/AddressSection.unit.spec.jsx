@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cloneDeep } from 'lodash';
@@ -79,13 +79,8 @@ describe('<AddressSection>', () => {
   });
 
   it('should format address 2 address lines', () => {
-    const props = {
-      ...defaultProps,
-      savedAddress: {
-        ...defaultProps.savedAddress,
-        addressTwo: 'ste #12'
-      }
-    };
+    const props = cloneDeep(defaultProps);
+    props.savedAddress.addressTwo = 'ste #12';
 
     const tree = shallow(<AddressSection {...props}/>);
     const addressBlock = tree.find('AddressContent').dive()
@@ -125,127 +120,123 @@ describe('<AddressSection>', () => {
   });
 
   it('should expand address fields when Edit button is clicked', () => {
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    // Make sure we're not editing yet
+    expect(tree.find('select')).to.have.lengthOf(0);
 
-    tree.click('button.usa-button-outline');
-
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
+    // Poke the edit button
+    tree.find('button.usa-button-outline').simulate('click');
+    expect(tree.find('select')).to.have.lengthOf(2);
   });
 
   it('should collapse address fields when Update button is clicked', () => {
     saveSpy.reset();
 
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    expect(tree.find('select')).to.have.lengthOf(0);
 
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
+    // We could just check the internal state to see if we're editing, too
+    expect(tree.find('select')).to.have.lengthOf(2);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
-
-    tree.click('button.usa-button-primary');
-
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
-    expect(saveSpy.calledWith(component.state.editableAddress)).to.be.true;
+    // Click the save button
+    tree.find('button.usa-button-primary').simulate('click');
+    expect(tree.find('select')).to.have.lengthOf(0);
+    expect(saveSpy.calledWith(tree.state('editableAddress'))).to.be.true;
   });
 
   it('should collapse address fields when Cancel button is clicked', () => {
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    expect(tree.find('select')).to.have.lengthOf(0);
 
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
+    expect(tree.find('select')).to.have.lengthOf(2);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
-
-    tree.click('button.usa-button-outline');
-
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
+    // Click the cancel button
+    tree.find('button.usa-button-outline').simulate('click');
+    expect(tree.find('select')).to.have.lengthOf(0);
   });
 
   // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
   it('should show addressUpdateUnavailable if countries or states lists aren\'t available', () => {
     const props = Object.assign({}, defaultProps, { countriesAvailable: false });
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...props}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...props}/>);
 
     // Start editing
-    tree.click('button.usa-button-outline');
-    expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
+    tree.find('button.usa-button-outline').simulate('click');
+    expect(tree.find('.usa-alert-heading').text()).to.contain('Address update unavailable');
   });
 
   it('should load address in new props after mounting', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {};
-    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    const tree = mount(<AddressSection {...props}/>);
 
-    const instance = tree.getMountedInstance();
-    expect(instance.state.editableAddress).to.equal(props.savedAddress);
+    expect(tree.state('editableAddress')).to.equal(props.savedAddress);
+    tree.find('.usa-button-outline').simulate('click');
 
-    const newProps = Object.assign({}, props, { savedAddress: { addressOne: '123 Main St' } });
-    instance.componentWillReceiveProps(newProps);
-    expect(instance.state.editableAddress).to.equal(newProps.savedAddress);
+    // Edit the street address
+    const newAddress = '123 Main St';
+    tree.find('input[name="addressOne"]').simulate('change', { target: { value: newAddress } });
+    expect(tree.state('editableAddress').addressOne).to.equal(newAddress);
   });
 
   it('should not call saveAddress when Cancel is clicked', () => {
     saveSpy.reset();
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
 
     // Try to save
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
     expect(saveSpy.called).to.be.false;
   });
 
   it('should not call saveAddress when Update is clicked with invalid data', () => {
     saveSpy.reset();
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
 
     // Clear out country to get a validation error
-    tree.fillData('[name="country"]', '');
+    tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
 
     // Try to save
-    tree.click('button.usa-button-primary');
+    tree.find('button.usa-button-primary').simulate('click');
     expect(saveSpy.called).to.be.false;
   });
 
   it('should display error messages for validation failures', () => {
-    const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const tree = getFormDOM(component);
+    const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.find('button.usa-button-outline').simulate('click');
 
     // Clear out country to get a validation error
-    tree.fillData('[name="country"]', '');
-    expect(tree.getElement('.usa-input-error')).to.not.be.null;
+    tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
+    expect(tree.find('.usa-input-error')).to.have.lengthOf(1);
   });
 
   it('should infer new address type', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+    const tree = mount(<AddressSection {...defaultProps}/>);
+
+    // Start editing
+    tree.find('button.usa-button-outline').simulate('click');
 
     // Sanity check; make sure the type is what we expect before we change it
     // NOTE: We're checking that it's domestic specifically just so we make absolutely sure
     //  it's getting _changed_ to international instead of accidentally starting off as
     //  international. Just a bit of future-proofing.
-    const instance = tree.getMountedInstance();
-    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.domestic);
+    expect(tree.state('editableAddress').type).to.equal(ADDRESS_TYPES.domestic);
 
     // Change the country so it'll be international
-    instance.handleChange('countryName', 'Elsweyre');
-    expect(instance.state.editableAddress.type).to.equal(ADDRESS_TYPES.international);
+    tree.find('select[name="country"]').simulate('change', { target: { value: 'Elsweyre' } });
+    expect(tree.state('editableAddress').type).to.equal(ADDRESS_TYPES.international);
 
     // NOTE: This isn't a _comprehensive_ test that ensures changing the input will do what we
     //  expect, but the e2e test should make sure that the wiring from the input to handleChange
@@ -253,15 +244,17 @@ describe('<AddressSection>', () => {
   });
 
   it('should reset disallowed address fields when type changes', () => {
-    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+    const tree = mount(<AddressSection {...defaultProps}/>);
+
+    // Start editing
+    tree.find('button.usa-button-outline').simulate('click');
 
     // Sanity check; make sure the type is what we expect before we change it
-    const instance = tree.getMountedInstance();
-    expect(instance.state.editableAddress.stateCode).to.not.equal('');
+    expect(tree.state('editableAddress').stateCode).to.not.equal('');
 
     // Change the country so it'll be international (and the state and zip fields should reset to '')
-    instance.handleChange('countryName', 'Elsweyre');
-    expect(instance.state.editableAddress.stateCode).to.equal('');
+    tree.find('select[name="country"]').simulate('change', { target: { value: 'Elsweyre' } });
+    expect(tree.state('editableAddress').stateCode).to.equal('');
   });
 
   // Not sure how to test this bit yet...
@@ -278,10 +271,9 @@ describe('<AddressSection>', () => {
       stateCode: '',
       type: ADDRESS_TYPES.domestic
     };
-    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    const tree = shallow(<AddressSection {...props}/>);
 
-    const instance = tree.getMountedInstance();
-    expect(instance.state.isEditingAddress).to.be.true;
+    expect(tree.state('isEditingAddress')).to.be.true;
   });
 
   describe('validation', () => {
@@ -291,12 +283,15 @@ describe('<AddressSection>', () => {
     // Clean up the spies so nobody finds out
     afterEach(cleanUpSpies);
 
-    it('should run all validations against a field if the address is valid', () => {
-      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-      const instance = tree.getMountedInstance();
+    it.only('should run all validations against a field if the address is valid', () => {
+      const tree = mount(<AddressSection {...defaultProps}/>);
 
-      instance.handleChange('city', 'Elsweyre');
-      instance.dirtyInput('city');
+      // Start editing
+      tree.find('button.usa-button-outline').simulate('click');
+
+      // Change the city and hope the validation runs
+      tree.find('input[name="city"]').simulate('change', { target: { value: 'Elsweyre' } });
+
       expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.true;
     });
 
