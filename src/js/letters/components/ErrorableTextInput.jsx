@@ -74,7 +74,7 @@ class ErrorableTextInput extends React.Component {
           autoComplete={this.props.autocomplete}
           type={this.props.type}
           maxLength={this.props.charMax}
-          value={this.props.value}
+          value={this.props.value || ''}
           onChange={this.handleChange}
           onBlur={this.props.onBlur}/>
         {maxCharacters}
