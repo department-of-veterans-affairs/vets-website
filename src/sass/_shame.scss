@@ -217,6 +217,14 @@ input[type="checkbox"], input[type="radio"] {
   left: auto;
 }
 
+// USWDS uses this:
+// [hidden] { display: none !important; }
+// However, some apps set the property to false and expect the element to be visible.
+// So, we do this shameful override to get around it.
+[hidden=false]{
+  display: block !important;
+}
+
 // Overrides so that the left/right padding matches the Foundation grid.
 // Without this, using the USA grid causes alignment issues other components
 // on the page that use the Foundation grid.
