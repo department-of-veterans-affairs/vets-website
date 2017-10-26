@@ -29,7 +29,7 @@ There are many ways for Veterans to make health care appointments.
 </div>
 
 <ul>
-<li>If you don’t have VA health care benefits, you can apply now. <a href='/health-care/eligibility/'>Apply for VA health care.</a></li>
+<li>If you don’t have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a></li>
 <li>If you’re having a medical emergency, please call <a href='tel:+1-911'>911</a> or call the Veterans Crisis Line at <a href='tel:+1-800-273-8255'>1-800-273-8255</a>, then press 1.</li>
 </ul>
 
