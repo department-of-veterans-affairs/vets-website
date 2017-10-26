@@ -279,7 +279,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(Promise.resolve({
         ok: true,
         json: () => ({
-          form_data: { field: 'foo' }, // eslint-disable-line camelcase
+          formData: { field: 'foo' }, // eslint-disable-line camelcase
           metadata: {
             version: 0
           }

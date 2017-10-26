@@ -2,6 +2,9 @@
 // be included with babel-polyfill but only this import allowed
 // them to be recognized in phantomjs/e2e tests
 import 'core-js';
+import '../../sass/messaging/messaging.scss';
+import '../common';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, useRouterHistory } from 'react-router';
@@ -14,9 +17,6 @@ import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 import { updateRoute } from './actions';
-
-require('../../sass/messaging/messaging.scss');
-require('../common');  // Bring in the common javascript.
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

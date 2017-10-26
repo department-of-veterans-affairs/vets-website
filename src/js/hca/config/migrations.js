@@ -111,7 +111,9 @@ export default [
     // because we don't know for sure what they meant to pick
     return {
       formData: newFormData,
-      metadata: _.set('returnUrl', '/va-benefits/basic-information', metadata)
+      metadata: metadata.prefill
+        ? metadata
+        : _.set('returnUrl', '/va-benefits/basic-information', metadata)
     };
   }
 ];

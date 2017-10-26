@@ -11,9 +11,6 @@ module.exports = E2eHelpers.createE2eTest(
     RxHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
 
-    // Test flow for unauthed and LOA1 users
-    LoginHelpers.testUnauthedUserFlow(client, '/health-care/prescriptions');
-
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/health-care/prescriptions', 3)
       .assert.title('Refill Prescriptions: Vets.gov')

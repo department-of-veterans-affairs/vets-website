@@ -5,7 +5,7 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
+export function AppContent({ children, isDataAvailable }) {
   const unregistered = isDataAvailable === false;
   let view;
 
@@ -27,7 +27,7 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-class LettersApp extends React.Component {
+export class LettersApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
