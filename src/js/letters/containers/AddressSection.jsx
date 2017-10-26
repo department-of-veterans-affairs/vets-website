@@ -173,6 +173,7 @@ export class AddressSection extends React.Component {
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
     });
+    scrollToTop();
   }
 
   startEditing = () => {
