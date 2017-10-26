@@ -2,7 +2,7 @@ function toggleClass(element, className) {
   element.classList.toggle(className);
 }
 function openState(element) {
-  element.setAttribute('hidden', false);
+  element.removeAttribute('hidden');
   element.setAttribute('data-state', 'open');
 }
 function closeState(element) {
