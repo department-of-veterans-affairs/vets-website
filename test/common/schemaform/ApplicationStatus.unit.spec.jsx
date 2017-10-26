@@ -137,7 +137,7 @@ describe('schemaform <ApplicationStatus>', () => {
     );
 
     expect(tree.subTree('.usa-alert-info')).to.not.be.false;
-    expect(tree.subTree('.usa-alert-info').text()).to.contain('more than one in progress form');
+    expect(tree.subTree('.usa-alert-info').text()).to.contain('more than one in-progress form');
   });
 });
 
