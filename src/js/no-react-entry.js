@@ -9,18 +9,18 @@ const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 
 // No-react styles.
-require('../sass/no-react.scss');
+import '../sass/no-react.scss';
 
-require('./common');
+import './common';
 
 // Used in the footer.
-require('./legacy/menu.js');
+import './legacy/menu.js';
 
 // New navigation menu
-require('./legacy/mega-menu.js');
+import './legacy/mega-menu.js';
 
 // New sidebar menu
-require('./legacy/sidebar-navigation.js');
+import './legacy/sidebar-navigation.js';
 
 const store = createCommonStore();
 createLoginWidget(store);
