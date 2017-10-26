@@ -2,11 +2,15 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Education Benefits Eligibility 
-includes_edu_wizard: true
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
@@ -77,10 +81,7 @@ Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be a
 </div>
 </div>
 
-### Ready to apply?
-
-<div class="wizard-anchor">
-</div>
+<div id="react-applicationStatus"></div>
 
 [Learn about the application process](/education/apply).
 

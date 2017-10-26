@@ -1,11 +1,13 @@
 import createCommonStore from './common/store';
 import createLoginWidget from './login/login-entry';
 import createApplicationStatus from './common/components/createApplicationStatus';
+import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
 
-const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
 const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/', '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/']);
+const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+
 // No-react styles.
 import '../sass/no-react.scss';
 
@@ -19,10 +21,6 @@ import './legacy/mega-menu.js';
 
 // New sidebar menu
 import './legacy/sidebar-navigation.js';
-
-if (wizardPages.has(location.pathname)) {
-  require('./edu-benefits/education-wizard.js');
-}
 
 const store = createCommonStore();
 createLoginWidget(store);
@@ -39,7 +37,10 @@ if (healthcarePages.has(location.pathname)) {
     additionalText: 'You can start your online application right now.',
     applyLink: '/health-care/apply/',
     applyText: 'Apply for Health Care Benefits'
-  }, 'hca-start-text');
+  });
+}
+if (eduPages.has(location.pathname)) {
+  createEducationApplicationStatus(store);
 }
 if (burialPages.has(location.pathname)) {
   createApplicationStatus(store, {
