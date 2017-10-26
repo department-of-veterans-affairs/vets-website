@@ -307,7 +307,7 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return <div>{addressContent}</div>;
+    return <div aria-live="polite">{addressContent}</div>;
   }
 }
 
