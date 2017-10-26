@@ -210,10 +210,9 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
-        // 'X-Key-Inflection': 'camel',
+        'X-Key-Inflection': 'camel',
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
@@ -250,7 +249,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
           formId,
-          formData: resBody.form_data,
+          formData: resBody.formData,
           metadata: resBody.metadata
         };
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
