@@ -22,7 +22,8 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
-          startText={'Start the pension application'}
+          startClass="no-text-transform"
+          startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the 21-527EZ form to apply for pension benefits.
@@ -78,7 +79,8 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
-          startText={'Start the pension application'}
+          startClass="no-text-transform"
+          startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the 21-527EZ form to apply for pension benefits.

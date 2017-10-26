@@ -111,6 +111,7 @@ export default class SaveInProgressIntro extends React.Component {
         <FormStartControls
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
+          startClass={this.props.startClass}
           startText={this.props.startText}
           startPage={this.props.pageList[1].path}
           formId={this.props.formId}
@@ -138,6 +139,8 @@ SaveInProgressIntro.propTypes = {
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
+  startClass: PropTypes.string,
+  startText: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired
 };
 
