@@ -20,7 +20,7 @@ export default function createEducationApplicationStatus(store) {
             stayAfterDelete
             applyRender={() => (
               <div>
-                <h3>Ready to Apply?</h3>
+                <h3>Ready to apply?</h3>
                 <EducationWizard/>
               </div>
             )}/>
