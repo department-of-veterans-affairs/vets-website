@@ -1,12 +1,9 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import SkinDeep from 'skin-deep';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cloneDeep } from 'lodash';
 
-import { getFormDOM } from '../../util/schemaform-utils';
 import { AddressSection } from '../../../src/js/letters/containers/AddressSection';
 import { ADDRESS_TYPES } from '../../../src/js/letters/utils/constants';
 
@@ -280,40 +277,48 @@ describe('<AddressSection>', () => {
     // Spy on all the validation functions!
     beforeEach(spyOnValidators);
 
-    // Clean up the spies so nobody finds out
+    // Extract the spies so nobody finds out
     afterEach(cleanUpSpies);
 
-    it.only('should run all validations against a field if the address is valid', () => {
+    it('should run all validations against a field if the address is valid', () => {
       const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
       tree.find('button.usa-button-outline').simulate('click');
 
-      // Change the city and hope the validation runs
+      // Change the city and blur for the validation to run
       tree.find('input[name="city"]').simulate('change', { target: { value: 'Elsweyre' } });
+      tree.find('input[name="city"]').simulate('blur');
 
       expect(AddressSection.fieldValidations.city.every(validator => validator.called)).to.be.true;
     });
 
     it('should return the first error message it finds', () => {
-      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-      const instance = tree.getMountedInstance();
+      const tree = mount(<AddressSection {...defaultProps}/>);
 
-      instance.handleChange('city', '');
-      instance.dirtyInput('city');
+      // Start editing
+      tree.find('button.usa-button-outline').simulate('click');
+
+      // Change the city and blur for the validation to run
+      tree.find('input[name="city"]').simulate('change', { target: { value: '' } });
+      tree.find('input[name="city"]').simulate('blur');
+
       // The required validator (first in the list) should return an error message and no other validators should run
       expect(AddressSection.fieldValidations.city[0].called).to.be.true;
       expect(AddressSection.fieldValidations.city.slice(1).every(validator => !validator.called)).to.be.true;
     });
 
     it('should run validations on modified fields only', () => {
-      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-      const instance = tree.getMountedInstance();
+      const tree = mount(<AddressSection {...defaultProps}/>);
 
-      const fieldsToModify = ['city', 'stateCode'];
+      // Start editing
+      tree.find('button.usa-button-outline').simulate('click');
+
+      const fieldsToModify = ['city', 'addressOne'];
       fieldsToModify.forEach(field => {
-        instance.handleChange(field, '');
-        instance.dirtyInput(field);
+        const input = tree.find(`input[name="${field}"]`);
+        input.simulate('change', { target: { value: '' } });
+        input.simulate('blur');
       });
 
       Object.keys(AddressSection.fieldValidations).forEach((key) => {
@@ -327,31 +332,28 @@ describe('<AddressSection>', () => {
     });
 
     it('should run validation against dropdowns immediately', () => {
-      const tree = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-      const form = getFormDOM(tree);
+      const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
-      form.click('.usa-button-outline');
+      tree.find('.usa-button-outline').simulate('click');
 
       // Sanity check - Start with no errors
-      expect(() => form.findElement('.usa-input-error')).to.throw();
+      expect(tree.find('.usa-input-error')).to.have.lengthOf(0);
 
       // Select no state and expect a validation error
-      form.fillData('[name="state"]', '');
-      expect(form.getElement('.usa-input-error').textContent).to.contain('Please select a state');
+      tree.find('select[name="state"]').simulate('change', { target: { value: '' } });
+      expect(tree.find('.usa-input-error').text()).to.contain('Please select a state');
 
       // Select no country and expect a validation error
       // Note: When we select no country, the state error should disappear, so we have to
       //  make sure we're getting the _right_ error message
-      form.fillData('[name="country"]', '');
-      expect(form.getElement('.usa-input-error').textContent).to.contain('Please select a country');
+      tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
+      expect(tree.find('.usa-input-error').text()).to.contain('Please select a country');
     });
 
     it('should run validations on all fields before saving the address', () => {
-      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
-      const instance = tree.getMountedInstance();
-
-      instance.saveAddress();
+      const tree = shallow(<AddressSection {...defaultProps}/>);
+      tree.instance().saveAddress();
 
       Object.keys(AddressSection.fieldValidations).forEach((key) => {
         expect(AddressSection.fieldValidations[key].some(v => v.called)).to.be.true;
