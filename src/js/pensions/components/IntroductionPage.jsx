@@ -36,7 +36,7 @@ class IntroductionPage extends React.Component {
               <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number or VA file number (required)</li>
-                <li>Military history —— information like service dates, discharge character and rank that's commonly found on the DD214 or other separation documents (required)</li>
+                <li>Military history (required)</li>
                 <li>Financial information—and your dependents’ financial information (required)</li>
                 <li>Bank account direct deposit information</li>
                 <li>Medical information</li>
@@ -63,7 +63,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
               <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message that you can print.</p>
+              <p>After submitting the form, you'll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
