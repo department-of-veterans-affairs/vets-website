@@ -2,11 +2,15 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Education Benefits Application Process
-includes_edu_wizard: true
 display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 2
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Find the right VA education benefits for you, and apply to start getting help paying tuition. We can also help you find the right school or training program.
 ---
 <div class="va-introtext">
@@ -35,10 +39,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 </div>
 
-### Ready to apply?
-
-<div class="wizard-anchor">
-</div>
+<div id="react-applicationStatus"></div>
 
 ### Other ways to apply
 
