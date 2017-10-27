@@ -258,15 +258,55 @@ const formConfig = {
                 veteran: _.merge(veteranUI, {
                   'ui:order': [
                     '*',
-                    'isDeceased',
+                    'placeOfBirth',
+                    'gender',
                     'maritalStatus',
+                    'militaryStatus',
+                    'isDeceased',
                     'dateOfDeath'
                   ],
-                  currentName: fullNameUI,
-                  ssn: ssnDashesUI,
-                  dateOfBirth: currentOrPastDateUI('Date of birth'),
+                  currentName: _.merge(fullNameUI, {
+                    first: {
+                      'ui:title': 'Sponsor\'s first name'
+                    },
+                    last: {
+                      'ui:title': 'Sponsor\'s last name'
+                    },
+                    middle: {
+                      'ui:title': 'Sponsor\'s middle name'
+                    },
+                    suffix: {
+                      'ui:title': 'Sponsor\'s suffix'
+                    },
+                    maiden: {
+                      'ui:title': 'Sponsor\'s maiden name'
+                    }
+                  }),
+                  militaryServiceNumber: {
+                    'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
+                  },
+                  vaClaimNumber: {
+                    'ui:title': 'Sponsor\'s VA claim number (if known)'
+                  },
+                  ssn: {
+                    ...ssnDashesUI,
+                    'ui:title': 'Sponsor\'s social security number'
+                  },
+                  dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
+                  placeOfBirth: {
+                    'ui:title': 'Sponsor\'s place of birth'
+                  },
+                  gender: {
+                    'ui:title': 'Sponsor\'s gender'
+                  },
+                  maritalStatus: {
+                    'ui:title': 'Sponsor\'s marital status'
+                  },
+                  militaryStatus: {
+                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                  },
                   isDeceased: {
-                    'ui:title': 'Is the sponsor deceased?',
+                    'ui:title': 'Has the sponsor died?',
                     'ui:widget': 'radio',
                     'ui:options': {
                       labels: {
@@ -276,21 +316,12 @@ const formConfig = {
                       }
                     }
                   },
-                  maritalStatus: {
-                    'ui:options': {
-                      expandUnder: 'isDeceased',
-                      expandUnderCondition: 'no'
-                    }
-                  },
-                  dateOfDeath: _.merge(currentOrPastDateUI('Date of death'), {
+                  dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
                     'ui:options': {
                       expandUnder: 'isDeceased',
                       expandUnderCondition: 'yes'
                     }
-                  }),
-                  militaryStatus: {
-                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)'
-                  }
+                  })
                 })
               }
             }
@@ -305,6 +336,12 @@ const formConfig = {
                   properties: {
                     veteran: {
                       type: 'object',
+                      required: [
+                        'ssn',
+                        'gender',
+                        'militaryStatus',
+                        'isDeceased'
+                      ],
                       properties: _.pick([
                         'currentName',
                         'ssn',
