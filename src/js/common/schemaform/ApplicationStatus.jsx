@@ -7,7 +7,7 @@ import { formLinks, formTitles } from '../../user-profile/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import Modal from '../../common/components/Modal';
-import { removeFormApi } from '../../common/schemaform/sip-api';
+import { removeSavedForm } from '../../user-profile/actions';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {
@@ -41,13 +41,17 @@ export class ApplicationStatus extends React.Component {
     });
   }
 
-  removeForm = () => {
+  removeForm = (formId) => {
     this.setState({ modalOpen: false, loading: true });
-    removeFormApi(this.props.formId)
+    this.props.removeSavedForm(formId)
       // Swallow any errors and redirect anyway
       .catch(x => x)
       .then(() => {
-        window.location.href = formLinks[this.props.formId];
+        if (!this.props.stayAfterDelete) {
+          window.location.href = formLinks[formId];
+        } else {
+          this.setState({ modalOpen: false, loading: false });
+        }
       });
   }
 
@@ -56,7 +60,7 @@ export class ApplicationStatus extends React.Component {
   }
 
   render() {
-    const { formId, profile, login, applyLink, applyText, showApplyButton } = this.props;
+    const { formIds, profile, login, applyText, showApplyButton, applyRender, formType, applyLink } = this.props;
     if (profile.loading || this.state.loading) {
       const message = profile.loading
         ? 'Checking your application status.'
@@ -69,7 +73,20 @@ export class ApplicationStatus extends React.Component {
       );
     }
 
-    const savedForm = profile.savedForms.find(({ form }) => form === formId);
+    let savedForm;
+    let formId;
+    let multipleForms = false;
+    if (formIds) {
+      const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
+      if (matchingForms.length) {
+        savedForm = matchingForms.sort(({ metadata }) => -1 * metadata.last_updated)[0];
+        formId = savedForm.form;
+        multipleForms = matchingForms.length > 1;
+      }
+    } else {
+      savedForm = profile.savedForms.find(({ form }) => form === this.props.formId);
+      formId = savedForm ? savedForm.form : null;
+    }
 
     if (login.currentlyLoggedIn && savedForm) {
       const { last_updated: lastSaved, expires_at: expirationTime } = savedForm.metadata;
@@ -94,6 +111,7 @@ export class ApplicationStatus extends React.Component {
               <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
             </p>
             <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
+            {multipleForms && <p className="no-bottom-margin">You have more than one in-progress {formType} form. <a href="/profile">View and manage your forms on your Account page</a>.</p>}
             <Modal
               cssClass="va-modal-large"
               id="start-over-modal"
@@ -102,7 +120,7 @@ export class ApplicationStatus extends React.Component {
               <h4>Starting over will delete your in-progress form.</h4>
               <p>Are you sure you want to start over?</p>
               <ProgressButton
-                onButtonClick={this.removeForm}
+                onButtonClick={() => this.removeForm(formId)}
                 buttonText="Start Over"
                 buttonClass="usa-button-primary"/>
               <ProgressButton
@@ -115,7 +133,9 @@ export class ApplicationStatus extends React.Component {
       }
     }
 
-    if (showApplyButton) {
+    if (showApplyButton && applyRender) {
+      return applyRender();
+    } else if (showApplyButton) {
       return (
         <div itemScope itemType="http://schema.org/Question">
           <h3 itemProp="name">Ready to apply?</h3>
@@ -131,14 +151,17 @@ export class ApplicationStatus extends React.Component {
         </div>
       );
     }
+
     return null;
   }
 }
 
 ApplicationStatus.propTypes = {
-  formId: PropTypes.string.isRequired,
+  formId: PropTypes.string,
+  formType: PropTypes.string,
   applyLink: PropTypes.string,
-  applyText: PropTypes.string.isRequired,
+  applyRender: PropTypes.func,
+  applyText: PropTypes.string,
   additionalText: PropTypes.string,
   login: PropTypes.shape({
     currentlyLoggedIn: PropTypes.bool.isRequired
@@ -146,7 +169,8 @@ ApplicationStatus.propTypes = {
   profile: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     savedForms: PropTypes.array.isRequired
-  })
+  }),
+  stayAfterDelete: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -158,4 +182,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ApplicationStatus);
+const mapDispatchToProps = {
+  removeSavedForm
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationStatus);
