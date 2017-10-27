@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { scrollToFirstError } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
@@ -64,6 +64,9 @@ export class AddressSection extends React.Component {
     }
   }
 
+  componentDidMount() {
+    focusElement('h1');
+  }
 
   /* editableAddress is initialized from redux store in the constructor
    * but the prop it initializes from is not available at time of mounting, which means users
@@ -163,6 +166,7 @@ export class AddressSection extends React.Component {
       errorMessages: {}
     });
     this.props.saveAddress(this.state.editableAddress);
+    scrollToTop();
   }
 
   handleCancel = () => {

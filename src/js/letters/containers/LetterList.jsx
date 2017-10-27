@@ -71,7 +71,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content">
+      <div className="step-content" aria-live="polite">
         <p>
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>

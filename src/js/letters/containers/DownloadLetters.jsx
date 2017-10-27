@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
-import Scroll from 'react-scroll';
 
 import FormTitle from '../../common/schemaform/FormTitle';
 import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
@@ -9,24 +8,10 @@ import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true
-  });
-};
-
 export class DownloadLetters extends React.Component {
   constructor() {
     super();
     this.navigateToLetterList = this.navigateToLetterList.bind(this);
-  }
-
-  componentDidUpdate() {
-    scrollToTop();
   }
 
   navigateToLetterList() {
@@ -47,7 +32,6 @@ export class DownloadLetters extends React.Component {
 
     return (
       <div className="usa-width-three-fourths letters">
-        <Element name="topScrollElement"/>
         <FormTitle title="VA Letters and Documents"/>
         <div className="va-introtext">
           <p>
