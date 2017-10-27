@@ -154,9 +154,6 @@ export const veteranUI = {
         O: 'Retired Reserve/National Guard',
         I: 'Death Related to Inactive Duty Training',
         X: 'Other'
-      },
-      nestedContent: {
-        X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
       }
     }
   }

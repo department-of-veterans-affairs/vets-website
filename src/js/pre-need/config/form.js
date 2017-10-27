@@ -304,6 +304,11 @@ const formConfig = {
                   },
                   militaryStatus: {
                     'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                    'ui:options': {
+                      nestedContent: {
+                        X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
+                      }
+                    }
                   },
                   isDeceased: {
                     'ui:title': 'Has the sponsor died?',
