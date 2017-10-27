@@ -110,7 +110,7 @@ class AddFilesForm extends React.Component {
               <div className="document-title-row">
                 <div className="document-title-text-container">
                   <div>
-                    <h4 className="document-title">{file.name}</h4>
+                    <span className="document-title">{file.name}</span>
                   </div>
                   <div>
                     {displayFileSize(file.size)}
