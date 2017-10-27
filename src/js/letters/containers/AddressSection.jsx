@@ -11,7 +11,6 @@ import {
   isMilitaryAddress,
   isInternationalAddress,
   addressUpdateUnavailable,
-  invalidAddressProperty,
   inferAddressType,
   resetDisallowedAddressFields
 } from '../utils/helpers';
@@ -26,7 +25,6 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
-import { AVAILABILITY_STATUSES } from '../utils/constants';
 
 // The address is empty if every field except type is falsey.
 // NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
@@ -291,11 +289,8 @@ export class AddressSection extends React.Component {
 
     let addressContent;
     // If countries and states are not available when they try to update their address,
-    // or if the fetch for address failed,
     // they will see this warning message instead of the address fields.
-    if (this.props.addressAvailability === AVAILABILITY_STATUSES.unavailable) {
-      addressContent = invalidAddressProperty;
-    } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+    if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
         <div className="step-content">
           {addressUpdateUnavailable}
