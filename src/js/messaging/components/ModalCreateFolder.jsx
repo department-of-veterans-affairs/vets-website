@@ -59,7 +59,7 @@ class ModalCreateFolder extends React.Component {
               disabled={error.hasError || !this.props.newFolderName.dirty}
               type="submit">Create</button>
             <button
-              className="usa-button-secondary"
+              className="usa-button-outline"
               onClick={this.props.onClose}
               type="button">Cancel</button>
           </div>

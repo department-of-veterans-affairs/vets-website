@@ -49,7 +49,7 @@ function completeServicePeriods(client, data) {
 
     // Keep adding them until we're finished.
     if (index < data.toursOfDuty.length - 1) {
-      client.click('.usa-button-secondary.va-growable-add-btn');
+      client.click('.usa-button-outline.va-growable-add-btn');
     }
   });
 }
@@ -61,7 +61,7 @@ function completePreviousNames(client, data) {
       client.fillName(`root_previousNames_${index}`, name);
 
       if (index < data.previousNames.length - 1) {
-        client.click('.usa-button-secondary.va-growable-add-btn');
+        client.click('.usa-button-outline.va-growable-add-btn');
       }
     });
   } else {

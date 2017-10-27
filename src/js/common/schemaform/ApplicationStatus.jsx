@@ -108,7 +108,7 @@ export class ApplicationStatus extends React.Component {
               <a className="usa-button-primary" href={`${formLinks[formId]}resume`}>
                 Continue Your Application
               </a>
-              <button className="usa-button-secondary" onClick={this.toggleModal}>Start Over</button>
+              <button className="usa-button-outline" onClick={this.toggleModal}>Start Over</button>
             </p>
             <p className="no-bottom-margin">Your saved application <strong>will expire on {expirationDate.format('M/D/YYYY')}.</strong></p>
             {multipleForms && <p className="no-bottom-margin">You have more than one in-progress {formType} form. <a href="/profile">View and manage your forms on your Account page</a>.</p>}
@@ -126,7 +126,7 @@ export class ApplicationStatus extends React.Component {
               <ProgressButton
                 onButtonClick={this.toggleModal}
                 buttonText="Cancel"
-                buttonClass="usa-button-secondary"/>
+                buttonClass="usa-button-outline"/>
             </Modal>
           </div>
         );

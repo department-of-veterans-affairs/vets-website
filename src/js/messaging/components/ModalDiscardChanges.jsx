@@ -23,7 +23,7 @@ class ModalDiscardChanges extends React.Component {
         <div className="va-modal-button-group">
           <button>Discard changes</button>
           <button
-            className="usa-button-secondary"
+            className="usa-button-outline"
             type="button"
             onClick={this.props.onClose}>
             Cancel

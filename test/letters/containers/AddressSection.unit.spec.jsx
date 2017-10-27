@@ -124,7 +124,7 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
   });
@@ -137,7 +137,7 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
@@ -153,11 +153,11 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
@@ -169,7 +169,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
     expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
   });
 
@@ -192,10 +192,10 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     // Try to save
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
     expect(saveSpy.called).to.be.false;
   });
 
@@ -205,7 +205,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     // Clear out country to get a validation error
     tree.fillData('[name="country"]', '');
@@ -220,7 +220,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-secondary');
+    tree.click('button.usa-button-outline');
 
     // Clear out country to get a validation error
     tree.fillData('[name="country"]', '');
@@ -330,7 +330,7 @@ describe('<AddressSection>', () => {
       const form = getFormDOM(tree);
 
       // Start editing
-      form.click('.usa-button-secondary');
+      form.click('.usa-button-outline');
 
       // Sanity check - Start with no errors
       expect(() => form.findElement('.usa-input-error')).to.throw();

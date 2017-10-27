@@ -78,7 +78,7 @@ export class EmailNotifications extends React.Component {
         {
           isSaveable &&
           (<button
-            className="usa-button-secondary"
+            className="usa-button-outline"
             type="button"
             onClick={() => this.setState({ discardChanges: true })}>
             Cancel
