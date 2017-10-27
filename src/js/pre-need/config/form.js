@@ -543,7 +543,9 @@ const formConfig = {
               items: {
                 'ui:title': claimantHeader,
                 'ui:description': SupportingDocumentsDescription,
-                attachments: fileUploadUI('Select files to upload')
+                attachments: _.merge(fileUploadUI('Select files to upload'), {
+                  endpoint: ''
+                })
               }
             }
           },
