@@ -183,8 +183,8 @@ const formConfig = {
                       properties: _.pick([
                         'militaryServiceNumber',
                         'vaClaimNumber',
-                        'gender',
                         'placeOfBirth',
+                        'gender',
                         'maritalStatus',
                         'militaryStatus'
                       ], _.set('militaryStatus.enum', [
@@ -261,15 +261,6 @@ const formConfig = {
                 'ui:title': claimantHeader,
                 'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
                 veteran: _.merge(veteranUI, {
-                  'ui:order': [
-                    '*',
-                    'placeOfBirth',
-                    'gender',
-                    'maritalStatus',
-                    'militaryStatus',
-                    'isDeceased',
-                    'dateOfDeath'
-                  ],
                   currentName: _.merge(fullNameUI, {
                     first: {
                       'ui:title': 'Sponsor\'s first name'
@@ -349,6 +340,7 @@ const formConfig = {
                       required: [
                         'ssn',
                         'gender',
+                        'maritalStatus',
                         'militaryStatus',
                         'isDeceased'
                       ],
@@ -356,14 +348,14 @@ const formConfig = {
                         'currentName',
                         'ssn',
                         'dateOfBirth',
-                        'dateOfDeath',
                         'militaryServiceNumber',
                         'vaClaimNumber',
-                        'gender',
                         'placeOfBirth',
+                        'gender',
                         'maritalStatus',
                         'militaryStatus',
-                        'isDeceased'
+                        'isDeceased',
+                        'dateOfDeath',
                       ], veteran.properties)
                     }
                   }
