@@ -30,8 +30,6 @@ export class Main extends React.Component {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
-    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-    // this.props.getAddressSuccessAction();
     this.props.getAddressCountries();
     this.props.getAddressStates();
   }
@@ -41,6 +39,11 @@ export class Main extends React.Component {
     // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
     if (lettersAvailability === awaitingResponse || addressAvailability === awaitingResponse) {
       return awaitingResponse;
+    }
+
+    // If address isn't available, take the whole system down
+    if (addressAvailability === unavailable) {
+      return backendServiceError;
     }
 
     return lettersAvailability;
@@ -117,8 +120,6 @@ const mapDispatchToProps = {
   getMailingAddress,
   getAddressCountries,
   getAddressStates,
-  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
