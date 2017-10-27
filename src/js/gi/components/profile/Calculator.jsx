@@ -48,7 +48,7 @@ export class Calculator extends React.Component {
 
     return (
       <div className="eligibility-details">
-        <button onClick={this.toggleEligibilityForm} className="usa-button-secondary">
+        <button onClick={this.toggleEligibilityForm} className="usa-button-outline">
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
         {expanded ?
@@ -70,7 +70,7 @@ export class Calculator extends React.Component {
       <div className="calculator-inputs">
         <button
           onClick={this.toggleCalculatorForm}
-          className="usa-button-secondary">
+          className="usa-button-outline">
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
         {expanded ?

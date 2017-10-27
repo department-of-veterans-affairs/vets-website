@@ -39,7 +39,7 @@ class ConfirmationPage extends React.Component {
     const name = form.data.veteranFullName;
 
     const docExplanation = this.state.isExpanded
-      ? (<div className="usa-accordion-content" aria-hidden="false">
+      ? (<div className="usa-accordion-content">
         <p>In the future, you might need a copy of your DD 2863 (National Call to Service (NCS) Election of Options).</p>
         <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site</a>.</p>
       </div>)

@@ -36,20 +36,20 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Update address and cancel
     client
-      .click('.usa-button-secondary')
+      .click('.usa-button-outline')
       .expect.element('select').to.be.present.before(Timeouts.normal);
 
     client
       .setValue('select[name="country"]', 'United Kingdom')
       .clearValue('input[name="city"]')
       .fill('input[name="city"]', 'Stratford-upon-Avon')
-      .click('.usa-button-secondary')
+      .click('.usa-button-outline')
       .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
     // Update address and save
     client
-      .click('.usa-button-secondary')
+      .click('.usa-button-outline')
       .expect.element('select').to.be.present.before(Timeouts.normal);
 
     client

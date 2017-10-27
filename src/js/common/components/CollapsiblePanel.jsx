@@ -39,7 +39,7 @@ export default class CollapsiblePanel extends React.Component {
 
     if (this.state.open) {
       pageContent = (
-        <div className="usa-accordion-content" aria-hidden="false">
+        <div className="usa-accordion-content">
           {this.props.children}
         </div>
       );

@@ -52,7 +52,7 @@ class LoginModal extends React.Component {
         <button className="usa-button-primary full-width" onClick={this.handleLogin}>Sign in</button>
       </div>
       <div className="usa-width-one-fourth">
-        <button className="usa-button-secondary full-width" onClick={this.props.onClose}>Cancel</button>
+        <button className="usa-button-outline full-width" onClick={this.props.onClose}>Cancel</button>
       </div>
     </div>);
 

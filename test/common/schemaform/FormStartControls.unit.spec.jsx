@@ -98,7 +98,7 @@ describe('Schemaform <FormStartControls>', () => {
         fetchInProgressForm={fetchSpy}/>
     );
     const findDOM = findDOMNode(tree);
-    findDOM.querySelector('.usa-button-secondary').click();
+    findDOM.querySelector('.usa-button-outline').click();
 
     expect(routerSpy.push.calledWith(startPage));
   });
@@ -159,7 +159,7 @@ describe('Schemaform <FormStartControls>', () => {
     );
     const formDOM = getFormDOM(tree);
     document.body.appendChild(formDOM);
-    formDOM.click('.usa-button-secondary');
+    formDOM.click('.usa-button-outline');
 
     expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
 

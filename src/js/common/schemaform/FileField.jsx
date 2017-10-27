@@ -123,7 +123,7 @@ export default class FileField extends React.Component {
                     <div className="schemaform-file-list-buttons">
                       <button
                         onClick={() => this.editFile(index)}
-                        className="usa-button usa-button-secondary schemaform-file-remove-button"
+                        className="usa-button usa-button-outline schemaform-file-remove-button"
                         type="button">
                         Edit
                       </button>
@@ -147,7 +147,7 @@ export default class FileField extends React.Component {
                     {errors.length === 0 &&
                       <button
                         onClick={() => this.editFile(index, false)}
-                        className="usa-button usa-button-secondary schemaform-file-remove-button"
+                        className="usa-button usa-button-outline schemaform-file-remove-button"
                         type="button">
                         Cancel
                       </button>
@@ -171,7 +171,7 @@ export default class FileField extends React.Component {
               tabIndex="0"
               id={`${idSchema.$id}_add_label`}
               htmlFor={idSchema.$id}
-              className="usa-button usa-button-secondary">
+              className="usa-button usa-button-outline">
               {files.length > 0 ? uiOptions.addAnotherLabel : 'Upload'}
             </label>
             <input

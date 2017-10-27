@@ -50,7 +50,7 @@ class ErrorableFileInput extends React.Component {
             {requiredSpan}
           </label>
           {errorSpan}
-          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-secondary">{this.props.buttonText}</label>
+          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
           <input
             multiple={this.props.multiple}
             style={{ display: 'none' }}

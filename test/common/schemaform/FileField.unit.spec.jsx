@@ -57,7 +57,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.subTree('li').text()).to.contain('Test file name');
-    expect(tree.subTree('.usa-button-secondary').text()).to.contain('Edit');
+    expect(tree.subTree('.usa-button-outline').text()).to.contain('Edit');
   });
 
   it('should render uploading', () => {
@@ -198,7 +198,7 @@ describe('Schemaform <FileField>', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.click('button.usa-button-secondary');
+    formDOM.click('button.usa-button-outline');
 
     const buttons = formDOM.querySelectorAll('.usa-button');
     expect(buttons.length).to.equal(2);
@@ -233,7 +233,7 @@ describe('Schemaform <FileField>', () => {
 
     expect(formDOM.querySelectorAll('li')).not.to.be.empty;
 
-    formDOM.click('button.usa-button-secondary');
+    formDOM.click('button.usa-button-outline');
     formDOM.click('.va-growable-background a');
 
     expect(formDOM.querySelectorAll('li')).to.be.empty;

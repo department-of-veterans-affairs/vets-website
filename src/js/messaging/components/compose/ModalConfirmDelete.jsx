@@ -24,7 +24,7 @@ class ModalConfirmDelete extends React.Component {
         <div className="va-modal-button-group">
           <button type="submit" onClick={this.handleDelete}>Yes, delete forever</button>
           <button
-            className="usa-button-secondary"
+            className="usa-button-outline"
             onClick={this.props.onClose}
             type="button">Cancel</button>
         </div>

@@ -58,7 +58,7 @@ class ConfirmationPage extends React.Component {
     const benefitsRelinquished = _.get('data.view:benefitsRelinquishedContainer.benefitsRelinquished', form);
 
     const docExplanation = this.state.isExpanded
-      ? (<div className="usa-accordion-content" aria-hidden="false">
+      ? (<div className="usa-accordion-content">
         <p>In the future, you might need:</p>
         <ul>
           <li>Your reserve kicker</li>

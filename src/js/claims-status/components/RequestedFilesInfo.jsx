@@ -26,7 +26,7 @@ export default class RequestedFilesInfo extends React.Component {
                 <DueDate date={item.suspenseDate}/>
               </div>
               <div className="button-container">
-                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-secondary view-details-button" to={`your-claims/${id}/document-request/${item.trackedItemId}`}>View Details</Link>
+                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/document-request/${item.trackedItemId}`}>View Details</Link>
               </div>
             </div>
           ))}
@@ -39,7 +39,7 @@ export default class RequestedFilesInfo extends React.Component {
                 <div className="claims-optional-desc"><strong>Optional</strong> - We requested this from others, but you may upload it if you have it.</div>
               </div>
               <div className="button-container">
-                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-secondary view-details-button" to={`your-claims/${id}/document-request/${item.trackedItemId}`}>View Details</Link>
+                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/document-request/${item.trackedItemId}`}>View Details</Link>
               </div>
             </div>
           ))}
@@ -53,7 +53,7 @@ export default class RequestedFilesInfo extends React.Component {
                 <p className="additional-evidence-desc">Do you have more evidence to submit that supports your claim? Upload it here now.</p>
               </div>
               <div className="button-container">
-                <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-secondary view-details-button" to={`your-claims/${id}/additional-evidence`}>View Details</Link>
+                <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/additional-evidence`}>View Details</Link>
               </div>
             </div>
           </div>
