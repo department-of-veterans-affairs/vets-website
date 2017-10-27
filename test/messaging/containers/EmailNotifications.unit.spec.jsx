@@ -43,7 +43,7 @@ describe('<EmailNotifications>', () => {
     const formButtons = tree.dive(['.msg-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button-disabled']);
     expect(saveButton.text()).to.eql('Save changes');
-    expect(formButtons.subTree('.usa-button-outline')).to.not.be.ok;
+    expect(formButtons.subTree('.usa-button-secondary')).to.not.be.ok;
   });
 
   it('should enable save button and show cancel button if email is modified', () => {
@@ -57,7 +57,7 @@ describe('<EmailNotifications>', () => {
     );
     const formButtons = tree.dive(['.msg-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
-    const cancelButton = formButtons.dive(['.usa-button-outline']);
+    const cancelButton = formButtons.dive(['.usa-button-secondary']);
     expect(saveButton.text()).to.eql('Save changes');
     expect(saveButton.props.disabled).to.be.false;
     expect(cancelButton.text()).to.eql('Cancel');
@@ -74,7 +74,7 @@ describe('<EmailNotifications>', () => {
     );
     const formButtons = tree.dive(['.msg-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
-    const cancelButton = formButtons.dive(['.usa-button-outline']);
+    const cancelButton = formButtons.dive(['.usa-button-secondary']);
     expect(saveButton.text()).to.eql('Save changes');
     expect(saveButton.props.disabled).to.be.false;
     expect(cancelButton.text()).to.eql('Cancel');

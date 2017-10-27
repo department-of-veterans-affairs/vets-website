@@ -201,8 +201,38 @@ body {
     }
 
     .usa-width-three-fourths {
-      margin-right: 2.35765%;
       width: 74.41059%;
+    }
+  }
+}
+
+// USWDS override so that checkboxes aren't offscreen
+// At some point between 0.10 and 1.4, USWDS modified radio/checkbox style
+// so be position: absolute, and left: -999em. This isn't compatible with our
+// e2e test cases, because Nightwatch can't find the elements on screen.
+input[type="checkbox"], input[type="radio"] {
+  margin-left: -2rem;
+  opacity: 0;
+  position: absolute;
+  left: auto;
+}
+
+// USWDS uses this:
+// [hidden] { display: none !important; }
+// However, some apps set the property to false and expect the element to be visible.
+// So, we do this shameful override to get around it.
+[hidden=false]{
+  display: block !important;
+}
+
+// USWDS adds an increased margin for submit buttons, which break out grid display when we have a
+// back button on the left and a submit on the right.
+form {
+  [type=submit] {
+    @include media($medium-screen) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      width: 100%;
     }
   }
 }

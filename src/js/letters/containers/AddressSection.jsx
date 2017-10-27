@@ -267,7 +267,7 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required/>
           <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
-          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
+          <button className="usa-button-secondary" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
     } else if (this.props.savePending) {
@@ -283,7 +283,7 @@ export class AddressSection extends React.Component {
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
           {this.props.canUpdate &&
-            <button className="usa-button-outline" onClick={this.startEditing}>Edit</button>
+            <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
           }
         </div>
       );

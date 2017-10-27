@@ -41,7 +41,7 @@ class ConfirmationPage extends React.Component {
     const benefit = form.data.benefit;
 
     const docExplanation = this.state.isExpanded
-      ? (<div className="usa-accordion-content">
+      ? (<div className="usa-accordion-content" aria-hidden="false">
         <p>In the future, you might need:</p>
         <ul>
           <li>Your reserve kicker</li>
