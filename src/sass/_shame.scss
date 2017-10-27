@@ -225,6 +225,18 @@ input[type="checkbox"], input[type="radio"] {
   display: block !important;
 }
 
+// USWDS adds an increased margin for submit buttons, which break out grid display when we have a
+// back button on the left and a submit on the right.
+form {
+  [type=submit] {
+    @include media($medium-screen) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      width: 100%;
+    }
+  }
+}
+
 // Overrides so that the left/right padding matches the Foundation grid.
 // Without this, using the USA grid causes alignment issues other components
 // on the page that use the Foundation grid.
