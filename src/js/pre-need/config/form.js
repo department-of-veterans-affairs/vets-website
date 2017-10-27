@@ -175,6 +175,11 @@ const formConfig = {
                   properties: {
                     veteran: {
                       type: 'object',
+                      required: [
+                        'gender',
+                        'maritalStatus',
+                        'militaryStatus'
+                      ],
                       properties: _.pick([
                         'militaryServiceNumber',
                         'vaClaimNumber',
