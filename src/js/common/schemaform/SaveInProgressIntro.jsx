@@ -105,6 +105,7 @@ export default class SaveInProgressIntro extends React.Component {
     if (this.props.resumeOnly && !savedForm) {
       return null;
     }
+
     return (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
