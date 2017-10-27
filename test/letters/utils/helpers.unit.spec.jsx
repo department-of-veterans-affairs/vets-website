@@ -166,7 +166,7 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe.only('military to generic', () => {
+  describe('military to generic', () => {
     const militaryAddress = {
       addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
       addressOne: '57 COLUMBUS STRASSA',
