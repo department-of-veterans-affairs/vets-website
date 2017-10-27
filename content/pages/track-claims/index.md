@@ -3,6 +3,8 @@ title: Track Claims
 entryname: claims-status
 layout: page-react.html
 description: Log in to your Vets.gov account to track the status of your VA claims and appeals.
+in_maintenance: true
+maintenance_line1: We’re sorry. The claim status application is currently down while we fix a few things. We’ll be back up as soon as we can.
 ---
 <div id="main">
   <div class="section">

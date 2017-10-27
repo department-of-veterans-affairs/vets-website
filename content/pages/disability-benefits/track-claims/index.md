@@ -7,6 +7,8 @@ gatePage: true
 collection: [disability, disabilityBeta]
 order: 5
 includeBreadcrumbs: true
+in_maintenance: true
+maintenance_line1: We’re sorry. The claim status application is currently down while we fix a few things. We’ll be back up as soon as we can.
 ---
 <div id="main">
   <div class="section">
