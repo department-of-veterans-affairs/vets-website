@@ -346,13 +346,11 @@ export function resetDisallowedAddressFields(address) {
  * @returns a cloned object with no empty properties
  */
 export const stripEmpties = (input) => {
-  const newObject = {};
-  const pushToNewObject = (key) => {
-    newObject[key] = input[key];
-  };
-  const notEmpty = (key) => (input[key].length > 0);
+  const newObject = { ...input };
+  const deleteProperty = (key) => (delete newObject[key]);
+  const isEmpty = (key) => (input[key].length === 0);
   Object.keys(input)
-    .filter(notEmpty)
-    .forEach(pushToNewObject);
+    .filter(isEmpty)
+    .forEach(deleteProperty);
   return newObject;
 };
