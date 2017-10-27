@@ -90,7 +90,7 @@ class AddFilesForm extends React.Component {
         <div>
           <ErrorableFileInput
             errorMessage={this.getErrorMessage()}
-            label={<h5 className="claims-upload-input-title">Select files to upload</h5>}
+            label={<span className="claims-upload-input-title">Select files to upload</span>}
             accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onChange={this.add}
             buttonText="Add Files"

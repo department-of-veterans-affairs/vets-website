@@ -41,7 +41,6 @@
   }
 }
 
-
 .claim-list-item-container {
   background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
@@ -62,7 +61,8 @@
   padding: 0;
 }
 
-.communications, .status {
+.communications,
+.status {
   margin: 0 0 0.5em;
 }
 
@@ -82,7 +82,9 @@
   display: block;
   color: inherit;
 
-  &:visited, &:hover, &:active {
+  &:visited,
+  &:hover,
+  &:active {
     color: inherit;
     text-decoration: none;
     background-color: inherit;
@@ -140,7 +142,8 @@
     background: $color-inset-bg;
   }
 
-  &.soc, &.ssoc {
+  &.soc,
+  &.ssoc {
     background: $color-gibill-accent;
     padding-left: 2.5em;
 
@@ -161,7 +164,8 @@
 }
 
 .claims-first-paragraph {
-  .event-description &, .last-status-header + & {
+  .event-description &,
+  .last-status-header + & {
     margin-top: 0;
   }
 }
@@ -255,14 +259,13 @@
   }
 }
 
-
 .clearfix:after {
   content: " ";
   visibility: hidden;
   display: block;
   height: 0;
   clear: both;
- }
+}
 
 .loading-message-center-spinner {
   > img {
@@ -348,6 +351,9 @@ p.first-of-type {
 }
 
 .claims-upload-input-title {
+  font-size: 1.15em;
+  line-height: 1.5;
+  font-weight: bold;
   padding-bottom: 0 !important;
 }
 
@@ -444,7 +450,7 @@ h1:focus {
 }
 
 .va-nav-breadcrumbs:focus {
-  outline: none
+  outline: none;
 }
 
 .notification-close {
@@ -594,7 +600,8 @@ h1:focus {
     }
   }
 
-  > .section-current:not(.last), > .section-complete:not(.last) {
+  > .section-current:not(.last),
+  > .section-complete:not(.last) {
     cursor: pointer;
   }
 }
