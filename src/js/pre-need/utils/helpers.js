@@ -120,12 +120,12 @@ export const veteranUI = {
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)'
   },
+  placeOfBirth: {
+    'ui:title': 'Place of birth'
+  },
   gender: {
     'ui:title': 'Gender',
     'ui:widget': 'radio'
-  },
-  placeOfBirth: {
-    'ui:title': 'Place of birth'
   },
   maritalStatus: {
     'ui:title': 'Marital status',
@@ -154,6 +154,9 @@ export const veteranUI = {
         O: 'Retired Reserve/National Guard',
         I: 'Death Related to Inactive Duty Training',
         X: 'Other'
+      },
+      nestedContent: {
+        X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
       }
     }
   }
