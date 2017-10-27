@@ -354,3 +354,22 @@ export const stripEmpties = (input) => {
     .forEach(deleteProperty);
   return newObject;
 };
+
+/**
+ * Takes an address object as returned from vets-api and translates its properties to
+ * generic properties that are consumed by the front end
+ * @param {Object} address an address object as formatted by vets-api
+ * @returns {Object} shallow clone of address with military properties swapped for generics
+ */
+export const militaryToGeneric = (address) => {
+  if (address.type !== ADDRESS_TYPES.military) {
+    return { ...address };
+  }
+  const genericAddress = { ...address };
+  genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
+  genericAddress.stateCode = genericAddress.militaryStateCode;
+  genericAddress.countryName = 'USA';
+  delete genericAddress.militaryPostOfficeTypeCode;
+  delete genericAddress.militaryStateCode;
+  return genericAddress;
+};

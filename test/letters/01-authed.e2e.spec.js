@@ -58,8 +58,9 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('select[name="state"]', LettersHelpers.newAddress.state)
       .clearValue('input[name="postalCode"]')
       .fill('input[name="postalCode"]', LettersHelpers.newAddress.zipCode)
-      .click('.usa-button-primary')
-      .waitForElementVisible('.city-state', Timeouts.slow) // loading spinner shows until success
+      .pause(10000)
+      .click('.usa-button-primary') // submits new data
+      .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain('Chicago, Illinois 60602');
 
     client

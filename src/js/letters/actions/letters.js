@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
-import { apiRequest, stripEmpties } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties, militaryToGeneric } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -83,17 +83,17 @@ export function getMailingAddress() {
       // on fetch success
       (response) => {
         const responseCopy = Object.assign({}, response);
-        const addressCopy = Object.assign({}, response.data.attributes.address);
         // Translate military-only fields into generic ones; we'll translate
         // them back later if necessary
-        if (addressCopy.type === ADDRESS_TYPES.military) {
-          addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
-          addressCopy.stateCode = addressCopy.militaryStateCode;
-          addressCopy.countryName = 'USA';
-          delete addressCopy.militaryPostOfficeTypeCode;
-          delete addressCopy.militaryStateCode;
-        }
-        responseCopy.data.attributes.address = addressCopy;
+        responseCopy.data.attributes.address = militaryToGeneric(response.data.attributes.address);
+        // if (addressCopy.type === ADDRESS_TYPES.military) {
+        //   addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
+        //   addressCopy.stateCode = addressCopy.militaryStateCode;
+        //   addressCopy.countryName = 'USA';
+        //   delete addressCopy.militaryPostOfficeTypeCode;
+        //   delete addressCopy.militaryStateCode;
+        // }
+        // responseCopy.data.attributes.address = addressCopy;
         return dispatch({
           type: GET_ADDRESS_SUCCESS,
           data: responseCopy
@@ -243,14 +243,15 @@ export function saveAddress(address) {
       settings,
       (response) => {
         // translate military addresses back to front end address
-        const responseAddress = Object.assign({}, response.data.attributes.address);
-        if (transformedAddress.type === ADDRESS_TYPES.military) {
-          responseAddress.city = responseAddress.militaryPostOfficeTypeCode;
-          responseAddress.stateCode = responseAddress.militaryStateCode;
-          responseAddress.countryName = 'USA';
-          delete responseAddress.militaryPostOfficeTypeCode;
-          delete responseAddress.militaryStateCode;
-        }
+        const responseAddress = militaryToGeneric(response.data.attributes.address);
+        // const responseAddress = Object.assign({}, response.data.attributes.address);
+        // if (transformedAddress.type === ADDRESS_TYPES.military) {
+        //   responseAddress.city = responseAddress.militaryPostOfficeTypeCode;
+        //   responseAddress.stateCode = responseAddress.militaryStateCode;
+        //   responseAddress.countryName = 'USA';
+        //   delete responseAddress.militaryPostOfficeTypeCode;
+        //   delete responseAddress.militaryStateCode;
+        // }
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
           const mismatchError = new Error('letters-address-update addresses don\'t match');
           Raven.captureException(mismatchError, { submitted: address, returned: responseAddress });
