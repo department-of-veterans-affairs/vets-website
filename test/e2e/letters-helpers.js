@@ -83,7 +83,7 @@ const newAddress = {
         addressThree: '',
         addressTwo: 'BEN FRANKLIN VILLAGE',
         city: 'Chicago',
-        state: 'IL',
+        stateCode: 'IL',
         type: 'DOMESTIC',
         zipCode: '60602',
         zipSuffix: ''
