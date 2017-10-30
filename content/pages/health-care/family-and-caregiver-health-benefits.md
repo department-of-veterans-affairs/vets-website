@@ -4,6 +4,7 @@ template: detail-page
 title: Family and Caregiver Health Benefits
 display_title:
 collection: healthCare
+children: healthCareCoverageFamily
 order: 9
 ---
 
