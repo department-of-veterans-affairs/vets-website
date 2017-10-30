@@ -324,7 +324,7 @@ export class AddressSection extends React.Component {
     return (
       <div>
         <Element name="addressScrollElement"/>
-        <div aria-live="polite">
+        <div aria-live="polite" aria-relevant="additions">
           {addressContent}
         </div>
       </div>
