@@ -151,7 +151,13 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {},
+          initialData: {
+            veteranFullName: {
+              first: 'Sam',
+              last: 'Gordon'
+            },
+            lastServiceBranch: 'army'
+          },
           uiSchema: {
             veteranFullName: _.merge(fullNameUI, {
               last: {
@@ -371,6 +377,10 @@ const formConfig = {
               'ui:options': {
                 labels: dischargeTypeLabels
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true,
+              prefillMessage: 'military'
             },
             'ui:validations': [
               validateServiceDates
