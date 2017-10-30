@@ -9,9 +9,9 @@
   margin-bottom: 2em;
 }
 
-.claim-file-border {
+.help-heading {
   border-bottom: 3px solid $color-primary;
-  margin: 0.3em 0;
+  margin: 0 0 0.3em;
   font-size: 1.35em;
   line-height: 1.5;
   font-weight: bold;
@@ -238,25 +238,19 @@
   margin-left: 3.25rem;
 }
 
-.ask-va-questions {
-  .talk {
-    margin: 0.5em 0;
-    padding: 0;
-  }
-  .phone-number {
-    margin: 0.5em 0;
-    a {
-      font-weight: bold;
-      text-decoration: none;
-      margin: 0.5em 0;
-    }
-  }
+.talk {
+  margin: 0.5em 0;
+  padding: 0;
 }
 
-.ask-va-questions.claims-sidebar-box {
-  h2 {
-    margin-top: 0;
-  }
+.phone-number {
+  margin: 0.5em 0;
+}
+
+.phone-number-link {
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0.5em 0;
 }
 
 .clearfix:after {
