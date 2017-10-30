@@ -16,14 +16,14 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     // Combined claim link
-     client
-       .click('a.claims-combined')
-       .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
-     client
-       .expect.element('.claims-status-upload-header').text.to.equal('A note about consolidated claims');
-     client
-       .click('.va-modal-close')
-       .waitForElementNotPresent('.claims-status-upload-header', Timeouts.normal);
+    client
+      .click('a.claims-combined')
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+    client
+      .expect.element('.claims-status-upload-header').text.to.equal('A note about consolidated claims');
+    client
+      .click('.va-modal-close')
+      .waitForElementNotPresent('.claims-status-upload-header', Timeouts.normal);
 
     // Verify text on page
     client
