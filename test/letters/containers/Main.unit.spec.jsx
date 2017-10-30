@@ -75,11 +75,10 @@ describe('<Main>', () => {
     expect(childText).to.equal(testText);
   });
 
-  it('renders its children when letters is available but address is unavailable', () => {
+  it('renders a system down message when letters is available but address is unavailable', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: available, addressAvailability: unavailable });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    const childText = tree.subTree('span').text();
-    expect(childText).to.equal(testText);
+    expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('shows a system down message for backend service error', () => {
