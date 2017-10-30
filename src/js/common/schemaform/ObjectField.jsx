@@ -147,7 +147,7 @@ class ObjectField extends React.Component {
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
     const uiOptions = uiSchema['ui:options'] || {};
-    const prefillMessage = uiOptions.prefillMessage === 'military' ? 'We‘ve prefilled some of your military service details from your account. If you need to correct anything, you can edit the form fields below.' : 'We‘ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below.';
+    const prefillMessage = uiOptions.prefillMessage === 'military' ? 'We’ve prefilled some of your military service details from your account. If you need to correct anything, you can edit the form fields below.' : 'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below.';
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
