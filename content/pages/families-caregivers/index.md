@@ -14,7 +14,7 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 </div>
 
 ### Health Care Benefits
-If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-and-caregiver-health-benefits/). 
+If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/). 
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
@@ -100,7 +100,7 @@ If you need help with your daily activities—or you’re housebound—you may a
 #### Survivor and Dependent Benefits
 If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral service. [Find out if you qualify for survivor and dependent benefits]( /burials-and-memorials/survivor-and-dependent-benefits/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/survivor-and-dependent-benefits/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
 <br>
 
 ### Housing Assistance
@@ -116,7 +116,7 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 <br>
 
 ### Caregiver Support
-If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for a range of supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/comprehensive-assistance-to-family-caregivers/).
+If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for a range of supportive benefits and services through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers/).
 
 Your Veteran may also qualify for assisted living, residential (live-in), or home health care through VA. This may include support for you as the caregiver if you need skilled help or a break so you can work, travel, or run errands. [Learn more about these long-term care services]( /health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
