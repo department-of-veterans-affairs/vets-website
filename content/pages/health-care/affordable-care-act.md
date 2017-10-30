@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: The Affordable Care Act and You
 display_title:
-collection: family-and-caregiver-benefits
-order: 5
+collection: healthCare
+order: 9
 ---
 
 <div class="va-introtext">
