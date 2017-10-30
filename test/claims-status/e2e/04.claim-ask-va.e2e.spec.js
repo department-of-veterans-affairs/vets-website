@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
       // I have no idea why this pause is required, but it sure is
       .pause(2000)
       .click('.claims-alert-status a')
-      .waitForElementPresent('.request-decision-button', Timeouts.normal);
+      .waitForElementPresent('.usa-button-outline', Timeouts.normal);
 
 
     // click on disabled button
