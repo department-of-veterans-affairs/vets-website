@@ -20,7 +20,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.claim-title', Timeouts.slow);
 
     client
-      .expect.element('.claim-decision-is-ready').to.be.visible;
+      .expect.element('.usa-alert').to.be.visible;
 
     client
       .expect.element('.disability-benefits-timeline').not.to.be.present;
