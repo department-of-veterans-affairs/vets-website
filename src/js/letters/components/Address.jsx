@@ -20,7 +20,7 @@ class Address extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('select');
+    focusElement('h5');
   }
 
   getAdjustedStateNames = () => {

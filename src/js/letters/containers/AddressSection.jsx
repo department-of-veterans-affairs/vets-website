@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
+import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
@@ -62,10 +62,6 @@ export class AddressSection extends React.Component {
       // If we start with an empty address, go straight to editing
       this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
     }
-  }
-
-  componentDidMount() {
-    focusElement('h1');
   }
 
   /* editableAddress is initialized from redux store in the constructor
@@ -273,6 +269,7 @@ export class AddressSection extends React.Component {
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
+          <h5>Edit Address</h5>
           <Address
             onInput={this.handleChange}
             onBlur={this.dirtyInput}
@@ -294,6 +291,7 @@ export class AddressSection extends React.Component {
     } else {
       addressFields = (
         <div>
+          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
@@ -317,7 +315,6 @@ export class AddressSection extends React.Component {
       addressContent = (
         <AddressContent
           saveError={this.props.saveAddressError}
-          name={(this.props.recipientName || '').toLowerCase()}
           addressObject={addressContentLines}>
           {addressFields}
         </AddressContent>
