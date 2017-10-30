@@ -224,7 +224,7 @@ class ArrayField extends React.Component {
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            {showReviewButton && <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
+                            {showReviewButton && <button type="button" className="usa-button-secondary float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
                           </div>
                         </div>
                       </SchemaForm>

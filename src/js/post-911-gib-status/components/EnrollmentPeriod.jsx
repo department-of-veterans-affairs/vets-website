@@ -43,7 +43,7 @@ class EnrollmentPeriod extends React.Component {
     );
 
     const changes = this.state.historyExpanded ? (
-      <div className="usa-accordion-content">
+      <div className="usa-accordion-content" aria-hidden="false">
         {amendments.map((amendment, index) => {
           return (
             <div key={`amendment-${index}`}>
