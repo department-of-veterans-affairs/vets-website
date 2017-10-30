@@ -4,7 +4,7 @@ template: detail-page
 title: The Affordable Care Act and You
 display_title:
 collection: healthCare
-order: 9
+order: 10
 ---
 
 <div class="va-introtext">

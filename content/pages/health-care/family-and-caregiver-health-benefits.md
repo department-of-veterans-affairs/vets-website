@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Family and Caregiver Health Benefits
 display_title:
-collection: family-and-caregiver-benefits
-order: 2
+collection: healthCare
+order: 9
 ---
 
 <div class="va-introtext">
