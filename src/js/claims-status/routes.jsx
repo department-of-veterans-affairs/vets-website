@@ -5,7 +5,6 @@ import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import ClaimPage from './containers/ClaimPage.jsx';
 import ClaimStatusPage from './containers/ClaimStatusPage.jsx';
 import AppealStatusPage from './containers/AppealStatusPage.jsx';
-import AppealLearnMorePage from './components/AppealLearnMorePage.jsx';
 import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
@@ -36,10 +35,6 @@ const routes = [
       component={AppealStatusPage}
       key=":id/status"
       path=":id/status"/>,
-    <Route
-      component={AppealLearnMorePage}
-      key="/appeals/learn-more"
-      path="/appeals/learn-more"/>,
   </Route>,
   <Route
     component={ClaimPage}
