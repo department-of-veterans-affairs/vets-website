@@ -237,7 +237,7 @@ export function saveAddress(address) {
         const responseAddress = militaryToGeneric(response.data.attributes.address);
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
           const mismatchError = new Error('letters-address-update addresses don\'t match');
-          Raven.captureException(mismatchError, { submitted: address, returned: responseAddress });
+          Raven.captureException(mismatchError);
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
