@@ -103,18 +103,6 @@ const newAddress = {
   }
 };
 
-// const newAddress = {
-//   addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-//   addressOne: '57 COLUMBUS STRASSA',
-//   addressThree: '',
-//   addressTwo: 'BEN FRANKLIN VILLAGE',
-//   city: 'Chicago',
-//   state: 'IL',
-//   type: 'DOMESTIC',
-//   zipCode: '60602',
-//   zipSuffix: ''
-// };
-
 const countries = {
   data: {
     attributes: {
