@@ -19,7 +19,7 @@ describe('<DetailsPage>', () => {
       <DetailsPage
         claim={claim}/>
     );
-    expect(tree.subTree('.claim-contentions-list').text()).to.contain('Condition 1Condition 2');
+    expect(tree.subTree('.claim-detail-list').text()).to.contain('Condition 1Condition 2');
   });
 
   it('should render not available with an empty contention list', () => {
@@ -33,6 +33,6 @@ describe('<DetailsPage>', () => {
       <DetailsPage
         claim={claim}/>
     );
-    expect(tree.subTree('.claim-contentions-list').text()).to.contain('Not Available');
+    expect(tree.subTree('.claim-details').text()).to.contain('Not Available');
   });
 });

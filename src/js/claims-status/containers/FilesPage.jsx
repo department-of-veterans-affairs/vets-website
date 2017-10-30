@@ -7,7 +7,7 @@ import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
-import { clearNotification } from '../actions';
+import { clearNotification } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
@@ -66,7 +66,7 @@ class FilesPage extends React.Component {
               optionalFiles={optionalFiles}/>}
           {showDecision && <AskVAToDecide id={this.props.params.id}/>}
           <div className="submitted-files-list">
-            <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
+            <h2 className="claim-file-border">Documents filed</h2>
             {documentsTurnedIn.length === 0
               ? <div className="no-documents-turned-in"><p>You haven’t turned in any documents to VA.</p></div>
               : null}

@@ -23,7 +23,7 @@ import {
   setFieldsDirty,
   resetUploads,
   clearNotification
-} from '../actions';
+} from '../actions/index.jsx';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });

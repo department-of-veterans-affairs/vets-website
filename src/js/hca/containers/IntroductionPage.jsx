@@ -61,6 +61,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           {...this.props.saveInProgressActions}

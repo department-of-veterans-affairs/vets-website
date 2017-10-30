@@ -6,6 +6,11 @@ display_title: Education
 permalink: /education/index.html
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 description: Find out which VA education benefits you may qualify for through the GI Bill and other educational assistance programs—and start your online application today.
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Apply for Education Benefits
     links:
@@ -42,3 +47,4 @@ majorlinks:
 We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
 
 </div>
+<div id="react-applicationStatus" data-hide-apply-button></div>

@@ -1,4 +1,7 @@
 import 'core-js';
+import '../common';
+import '../../sass/claims-status.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
@@ -9,13 +12,10 @@ import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
 import initReact from '../common/init-react';
 import createCommonStore from '../common/store';
 import routes from './routes.jsx';
-import { setLastPage } from './actions';
+import { setLastPage } from './actions/index.jsx';
 import { basename } from './utils/page';
 import reducer from './reducers';
 import createLoginWidget from '../login/login-entry';
-
-require('../common');  // Bring in the common javascript.
-require('../../sass/claims-status.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);

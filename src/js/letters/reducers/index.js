@@ -6,32 +6,33 @@ import {
   optionsToAlwaysDisplay
 } from '../utils/helpers.jsx';
 import {
+  AVAILABILITY_STATUSES,
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  INVALID_ADDRESS_PROPERTY,
-  GET_LETTERS_FAILURE,
-  GET_LETTERS_SUCCESS,
+  DOWNLOAD_STATUSES,
   GET_ADDRESS_FAILURE,
   GET_ADDRESS_SUCCESS,
-  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
-  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
-  GET_LETTER_PDF_DOWNLOADING,
-  GET_LETTER_PDF_SUCCESS,
-  GET_LETTER_PDF_FAILURE,
-  LETTER_ELIGIBILITY_ERROR,
-  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  AVAILABILITY_STATUSES,
-  DOWNLOAD_STATUSES,
-  SAVE_ADDRESS_PENDING,
-  SAVE_ADDRESS_SUCCESS,
-  SAVE_ADDRESS_FAILURE,
   GET_ADDRESS_COUNTRIES_SUCCESS,
   GET_ADDRESS_COUNTRIES_FAILURE,
   GET_ADDRESS_STATES_SUCCESS,
-  GET_ADDRESS_STATES_FAILURE
+  GET_ADDRESS_STATES_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+  GET_LETTERS_FAILURE,
+  GET_LETTERS_SUCCESS,
+  GET_LETTER_PDF_DOWNLOADING,
+  GET_LETTER_PDF_SUCCESS,
+  GET_LETTER_PDF_FAILURE,
+  INVALID_ADDRESS_PROPERTY,
+  LETTER_ELIGIBILITY_ERROR,
+  REQUEST_OPTIONS,
+  SAVE_ADDRESS_PENDING,
+  SAVE_ADDRESS_SUCCESS,
+  SAVE_ADDRESS_FAILURE,
+  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
 } from '../utils/constants';
 
-const initialState = {
+export const initialState = {
   countries: [],
   countriesAvailable: false,
   states: [],
@@ -41,6 +42,7 @@ const initialState = {
   letterDownloadStatus: {},
   fullName: {},
   address: {},
+  addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   optionsAvailable: false,
   requestOptions: {},
   serviceInfo: [],
@@ -80,18 +82,24 @@ function letters(state = initialState, action) {
         ...state,
         address: attributes.address,
         canUpdate: attributes.controlInformation.canUpdate,
-        addressAvailable: true
+        addressAvailability: AVAILABILITY_STATUSES.available
       };
     }
     case GET_ADDRESS_FAILURE:
-      return _.set('addressAvailable', false, state);
+      return _.set('addressAvailability', AVAILABILITY_STATUSES.unavailable, state);
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
-    // Gather all possible displayed options that the user may toggle on/off.
+      // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
-        if ((optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false)) &&
-            !possibleOptions.includes[key]) {
+        if (
+          // the option should always be displayed or vets-api says it is available
+          (optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false))
+          // and the option is not yet in the possibleOptions array
+          && !possibleOptions.includes[key]
+          // and the option is a customization option that vets-api supports
+          && REQUEST_OPTIONS[key]
+        ) {
           possibleOptions.push(key);
         }
       });

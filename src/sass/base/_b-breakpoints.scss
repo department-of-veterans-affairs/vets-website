@@ -1,9 +1,13 @@
 //===========================
 // Additional breakpoints
-// 
+//
 // Moved here from b-variables file so that we can load this partial
 // after USWDS variables and before other partials.
 //===========================
+// @media single-keyword helpers
+$small: new-breakpoint(min-width $small-screen $grid-columns-small);
+$medium: new-breakpoint(min-width $medium-screen $grid-columns-medium);
+$large: new-breakpoint(min-width $large-screen $grid-columns-large);
 
 $xsmall-screen:       320px; // QVGA display
 $medium-large-screen: 768px;

@@ -21,7 +21,10 @@ import {
   medicalCenterLabels,
   financialDisclosureText,
   incomeDescription,
-  disclosureWarning
+  disclosureWarning,
+  expensesGreaterThanIncomeWarning,
+  expensesLessThanIncome,
+  deductibleExpensesDescription
 } from '../helpers';
 
 import migrations from './migrations';
@@ -30,22 +33,22 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
-import ChildView from '../components/ChildView';
+import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
-import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childIncomeUiSchema } from '../definitions/child';
+import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
 import { validateServiceDates, validateMarriageDate } from '../validation';
 
-const childSchema = createChildSchema(fullSchemaHca);
-const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
+const dependentSchema = createDependentSchema(fullSchemaHca);
+const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
 
 const {
@@ -78,9 +81,7 @@ const {
   vaMedicalFacility,
   isEssentialAcaCoverage,
   wantsInitialVaContact,
-  isVaServiceConnected,
-  compensableVaServiceConnected,
-  receivesVaPension,
+  vaCompensationType,
   discloseFinancialInformation,
   spouseFullName,
   spouseSocialSecurityNumber,
@@ -90,7 +91,7 @@ const {
   cohabitedLastYear,
   provideSupportLastYear,
   spousePhone,
-  children,
+  dependents,
   veteranGrossIncome,
   veteranNetIncome,
   veteranOtherIncome,
@@ -120,8 +121,9 @@ const formConfig = {
   submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-',
   formId: '1010ez',
-  version: 1,
+  version: 4,
   migrations,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
     noAuth: 'Please sign in again to resume your application for health care.'
@@ -139,7 +141,7 @@ const formConfig = {
     fullName: _.set('properties.middle.maxLength', 30, fullName),
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
-    child: childSchema,
+    dependent: dependentSchema,
     monetaryValue,
   },
   chapters: {
@@ -449,26 +451,24 @@ const formConfig = {
           title: 'VA benefits',
           uiSchema: {
             'ui:title': 'Current compensation',
-            compensableVaServiceConnected: {
-              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 10%, 20%, 30%, or 40%?',
-              'ui:widget': 'yesNo'
-            },
-            isVaServiceConnected: {
-              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 50% or more?',
-              'ui:widget': 'yesNo'
-            },
-            receivesVaPension: {
-              'ui:title': 'Do you receive a VA pension?',
-              'ui:widget': 'yesNo'
+            vaCompensationType: {
+              'ui:title': 'Which type of VA compensation do you currently receive?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  lowDisability: 'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
+                  highDisability: 'Service-connected disability pay for a 50% or higher disability rating',
+                  pension: 'VA pension',
+                  none: 'I don’t receive any VA pay'
+                }
+              }
             }
           },
           schema: {
             type: 'object',
-            required: ['isVaServiceConnected', 'compensableVaServiceConnected', 'receivesVaPension'],
+            required: ['vaCompensationType'],
             properties: {
-              compensableVaServiceConnected,
-              isVaServiceConnected,
-              receivesVaPension
+              vaCompensationType
             }
           }
         }
@@ -577,22 +577,22 @@ const formConfig = {
             }
           }
         },
-        childInformation: {
-          path: 'household-information/child-information',
+        dependentInformation: {
+          path: 'household-information/dependent-information',
           title: 'Dependent information',
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
-            'view:reportChildren': {
+            'view:reportDependents': {
               'ui:title': 'Do you have any dependents to report?',
               'ui:widget': 'yesNo'
             },
-            children: {
-              items: childUI,
+            dependents: {
+              items: dependentUI,
               'ui:options': {
-                expandUnder: 'view:reportChildren',
+                expandUnder: 'view:reportDependents',
                 itemName: 'Dependent',
                 hideTitle: true,
-                viewField: ChildView
+                viewField: DependentView
               },
               'ui:errorMessages': {
                 minItems: 'You must add at least one dependent.'
@@ -601,10 +601,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['view:reportChildren'],
+            required: ['view:reportDependents'],
             properties: {
-              'view:reportChildren': { type: 'boolean' },
-              children: _.assign(children, {
+              'view:reportDependents': { type: 'boolean' },
+              dependents: _.assign(dependents, {
                 minItems: 1
               })
             }
@@ -637,12 +637,11 @@ const formConfig = {
                 'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
               })
             },
-            children: {
-              // 'ui:title': 'Child income',
+            dependents: {
               'ui:field': 'BasicArrayField',
-              items: childIncomeUiSchema,
+              items: dependentIncomeUiSchema,
               'ui:options': {
-                hideIf: (formData) => !_.get('children.length', formData)
+                hideIf: (formData) => !_.get('dependents.length', formData)
               }
             }
           },
@@ -651,7 +650,7 @@ const formConfig = {
             required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
             definitions: {
               // Override the default schema and use only the income fields
-              child: childIncomeSchema
+              dependent: dependentIncomeSchema
             },
             properties: {
               veteranGrossIncome,
@@ -665,7 +664,7 @@ const formConfig = {
                   spouseOtherIncome
                 }
               },
-              children: _.merge(children, {
+              dependents: _.merge(dependents, {
                 minItems: 1
               })
             }
@@ -677,10 +676,16 @@ const formConfig = {
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
-            'ui:description': 'Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.',
+            'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
             deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
-            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.')
+            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
+            'view:expensesIncomeWarning': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -688,7 +693,11 @@ const formConfig = {
             properties: {
               deductibleMedicalExpenses,
               deductibleFuneralExpenses,
-              deductibleEducationExpenses
+              deductibleEducationExpenses,
+              'view:expensesIncomeWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }

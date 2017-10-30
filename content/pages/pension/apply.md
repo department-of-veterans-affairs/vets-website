@@ -6,10 +6,10 @@ concurrence: ""
 order: 2
 children: pensionApplication
 widgets:
-  - root: react-pensionApplicationStatus
+  - root: react-applicationStatus
     timeout: 20
     loadingMessage: Checking your application status.
-    errorMessage: <strong>We're sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -36,9 +36,7 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-### Ready to apply?
-
-<div id="react-pensionApplicationStatus">
+<div id="react-applicationStatus">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
 

@@ -22,6 +22,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .axeCheck('document');
 
   client
+    .expect.element('.card.information').to.be.present;
+
+  client
     .url(`${E2eHelpers.baseUrl}${formLinks['21P-527EZ']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
+
+import { scrollToFirstError } from '../../common/utils/helpers';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
   getStateName,
@@ -12,7 +14,7 @@ import {
   invalidAddressProperty,
   inferAddressType,
   resetDisallowedAddressFields
-} from '../utils/helpers.jsx';
+} from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
@@ -24,14 +26,13 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+import { AVAILABILITY_STATUSES } from '../utils/constants';
 
-const fieldValidations = {
-  addressOne: addressOneValidations,
-  zipCode: postalCodeValidations,
-  stateCode: stateValidations,
-  countryName: countryValidations,
-  city: cityValidations
-};
+// The address is empty if every field except type is falsey.
+// NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
+function isAddressEmpty(address) {
+  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (nextField === 'type' || !address[nextField]), true);
+}
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -49,6 +50,8 @@ export class AddressSection extends React.Component {
     // savedAddress values
     if (Object.keys(this.state.editableAddress).length > 0) {
       this.state.hasLoadedAddress = true;
+      // If we start with an empty address, go straight to editing
+      this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
     }
   }
 
@@ -60,21 +63,26 @@ export class AddressSection extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
-      this.setState({ hasLoadedAddress: true, editableAddress: nextProps.savedAddress });
+      this.setState({
+        hasLoadedAddress: true,
+        editableAddress: nextProps.savedAddress,
+        // If we recieve an empty address, start editing
+        isEditingAddress: isAddressEmpty(nextProps.savedAddress)
+      });
     }
   }
 
   /**
    * Runs all the validations against the address passed as a prop for a given field.
    *
-   * @param {String} fieldName              The name of the address field to validate.
-   *                                         Maps to the fieldValidations key.
-   * @param {Object} fullAddress            Contains the full mailing address.
-   * @return {String|undefined}             If there's a validation error, return the
-   *                                         error message. If not, return undefined.
+   * @param {String} fieldName    The name of the address field to validate.
+   *                               Maps to the fieldValidations key.
+   * @param {Object} fullAddress  Contains the full mailing address.
+   * @return {String|undefined}   If there's a validation error, return the
+   *                               error message. If not, return undefined.
    */
   validateField = (fieldName, fullAddress) => {
-    const validations = fieldValidations[fieldName];
+    const validations = AddressSection.fieldValidations[fieldName];
     // If there is no validations array for that field, assume it has no validations
     if (!validations) {
       return undefined;
@@ -96,21 +104,21 @@ export class AddressSection extends React.Component {
   /**
    * Runs validation for all fields, returning a complete errorMessages object.
    *
-   * @param {Object} address                The complete address as it appears while
-   *                                         editing it.
-   * @param {Boolean} shouldValidateAll Because we'll need to update the error
-   *                                         messages on multiple fields sometimes,
-   *                                         we need to run validations on all fields.
-   *                                         This ensures that we only run validation
-   *                                         if the field has been modified.
-   *                                         saveAddress will need to validate all
-   *                                         fields regardless of whether they've been
-   *                                         modified.
+   * @param {Object} address             The complete address as it appears while
+   *                                      editing it.
+   * @param {Boolean} shouldValidateAll  Because we'll need to update the error
+   *                                      messages on multiple fields sometimes,
+   *                                      we need to run validations on all fields.
+   *                                      This ensures that we only run validation
+   *                                      if the field has been modified.
+   *                                      saveAddress will need to validate all
+   *                                      fields regardless of whether they've been
+   *                                      modified.
    * @return {Object}  Holds all the error messages for all the fields that have them.
    */
   validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
     const errorMessages = {};
-    Object.keys(fieldValidations).forEach((fieldName) => {
+    Object.keys(AddressSection.fieldValidations).forEach((fieldName) => {
       // Only validate the field if it's been modified
       if (fieldsToValidate[fieldName] || shouldValidateAll) {
         errorMessages[fieldName] = this.validateField(fieldName, address);
@@ -131,13 +139,14 @@ export class AddressSection extends React.Component {
       // If we had any errors, make sure to validate them from here on out so we don't loose them
       const fieldsToValidate = Object.assign({}, this.state.fieldsToValidate);
 
-      // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read 
+      // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read
       Object.keys(errorMessages).forEach(key => fieldsToValidate[key] = true); // eslint-disable-line no-return-assign
+
+      scrollToFirstError();
 
       this.setState({ errorMessages, fieldsToValidate });
       return;
     }
-
 
     this.setState({
       isEditingAddress: false,
@@ -148,6 +157,7 @@ export class AddressSection extends React.Component {
   }
 
   handleCancel = () => {
+    window.dataLayer.push({ event: 'letter-update-address-cancel' });
     this.setState({
       isEditingAddress: false,
       errorMessages: {},
@@ -156,17 +166,36 @@ export class AddressSection extends React.Component {
     });
   }
 
+  startEditing = () => {
+    window.dataLayer.push({ event: 'letter-update-address-started' });
+    this.setState({ isEditingAddress: true });
+  }
 
-  handleChange = (fieldName, update) => {
+  dirtyInput = (fieldName) => {
     let fieldsToValidate = this.state.fieldsToValidate;
-    // When a field is changed, make sure we validate it
+    // When a field is blurred, add it to the fields we want to validate
     if (!fieldsToValidate[fieldName]) {
-      // If we set state here, the validation won't run when the field is modified the first time
-      // This is because the state won't be updated in time for validateAll to catch it
-      fieldsToValidate =  Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
-    }
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
 
+      // Make sure to _actually_ validate it
+      const errorMessages = this.validateAll(this.state.editableAddress, fieldsToValidate);
+      this.setState({
+        fieldsToValidate,
+        errorMessages
+      });
+    }
+  }
+
+  /**
+   * Handles changing input from the Address component.
+   * @param {String}  fieldName   The name of the field that's changing
+   * @param {String}  update      The new value of the field
+   * @param {Boolean} forceDirty  Whether to set the field as dirty immediately before validation.
+   *                              Useful for select fields which don't trigger the onBlur event.
+   */
+  handleChange = (fieldName, update, forceDirty = false) => {
     let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
+    let fieldsToValidate = this.state.fieldsToValidate;
     // if country is changing we should clear the state
     if (fieldName === 'countryName') {
       address.stateCode = '';
@@ -181,13 +210,18 @@ export class AddressSection extends React.Component {
       address = resetDisallowedAddressFields(address);
     }
 
+    // Force the input to dirty if necessary
+    if (forceDirty && !fieldsToValidate[fieldName]) {
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
+    }
+
     // Update the error messages
     // TODO: This might get super slow, so we can debounce the validation if necessary...probably
     const errorMessages = this.validateAll(address, fieldsToValidate);
     this.setState({
+      fieldsToValidate,
       editableAddress: address,
       errorMessages,
-      fieldsToValidate
     });
   }
 
@@ -226,23 +260,30 @@ export class AddressSection extends React.Component {
         <div>
           <Address
             onInput={this.handleChange}
+            onBlur={this.dirtyInput}
             address={this.state.editableAddress}
             errorMessages={this.state.errorMessages}
             countries={this.props.countries}
             states={this.props.states}
             required/>
           <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
-          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
+          <button className="usa-button-secondary" onClick={this.handleCancel}>Cancel</button>
+        </div>
+      );
+    } else if (this.props.savePending) {
+      addressFields = (
+        <div>
+          <LoadingIndicator message="Updating your address..."/>
         </div>
       );
     } else {
       addressFields = (
         <div>
-          <div className="letters-address">{streetAddress}</div>
-          <div className="letters-address">{cityStatePostal}</div>
-          <div className="letters-address">{country}</div>
+          <div className="letters-address street">{streetAddress}</div>
+          <div className="letters-address city-state">{cityStatePostal}</div>
+          <div className="letters-address country">{country}</div>
           {this.props.canUpdate &&
-            <button className="usa-button-outline" onClick={() => this.setState({ isEditingAddress: true })}>Edit</button>
+            <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
           }
         </div>
       );
@@ -250,8 +291,9 @@ export class AddressSection extends React.Component {
 
     let addressContent;
     // If countries and states are not available when they try to update their address,
+    // or if the fetch for address failed,
     // they will see this warning message instead of the address fields.
-    if (isEmpty(address)) {
+    if (this.props.addressAvailability === AVAILABILITY_STATUSES.unavailable) {
       addressContent = invalidAddressProperty;
     } else if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
@@ -270,17 +312,40 @@ export class AddressSection extends React.Component {
       );
     }
 
-    return addressContent;
+    return <div>{addressContent}</div>;
   }
 }
 
+// For testing purposes; we need to wrap the validators in spies--the same instances that are called in here
+AddressSection.fieldValidations = {
+  addressOne: addressOneValidations,
+  zipCode: postalCodeValidations,
+  stateCode: stateValidations,
+  countryName: countryValidations,
+  city: cityValidations
+};
+
 function mapStateToProps(state) {
-  const { fullName, address, canUpdate, countries, countriesAvailable, states, statesAvailable, saveAddressError } = state.letters;
+  const {
+    fullName,
+    address,
+    addressAvailability,
+    canUpdate,
+    countries,
+    countriesAvailable,
+    states,
+    statesAvailable,
+    saveAddressError,
+    savePending
+  } = state.letters;
+
   return {
     recipientName: fullName,
     canUpdate,
     savedAddress: address,
+    addressAvailability,
     saveAddressError,
+    savePending,
     countries,
     countriesAvailable,
     states,

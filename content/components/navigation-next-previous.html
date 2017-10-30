@@ -6,7 +6,7 @@
 
 Requires a collection.
 
-  - To define a collection, edit `script/build.js`. Look for the line that 
+  - To define a collection, edit `script/build.js`. Look for the line that
     begins `smith.use(collections`
 
   - Collections are global, and available in a `collections` object.
@@ -24,7 +24,7 @@ Requires a collection.
     {% if previous != empty %}
     <li class="va-navigation-nextprevious-previous">
       <strong>Previous</strong>
-      <a href="/{{ previous.path }}">
+      <a href="/{{ previous.path }}" onClick="window.dataLayer.push({ event: 'nav-prev-link-clicked' });">
         {% if previous.display_title %}
           {{ previous.display_title }}
         {% else %}
@@ -37,7 +37,7 @@ Requires a collection.
     {% if next != empty %}
     <li class="va-navigation-nextprevious-next">
       <strong>Next</strong>
-      <a href="/{{ next.path }}"> 
+      <a href="/{{ next.path }}" onClick="window.dataLayer.push({ event: 'nav-next-link-clicked' });"> 
         {% if next.display_title %}
           {{ next.display_title }}
         {% else %}

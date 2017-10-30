@@ -9,7 +9,7 @@ export function removeFormApi(formId) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      // 'X-Key-Inflection': 'camel',
+      'X-Key-Inflection': 'camel',
       Authorization: `Token token=${userToken}`
     },
   }).then((res) => {
@@ -32,15 +32,13 @@ export function removeFormApi(formId) {
 }
 
 export function saveFormApi(formId, formData, version, returnUrl, savedAt, trackingPrefix) {
-  // Double stringify because of api reasons. Olive Branch issues, methinks.
-  // TODO: Stop double stringifying
   const body = JSON.stringify({
-    metadata: JSON.stringify({
+    metadata: {
       version,
       returnUrl,
       savedAt
-    }),
-    formData: JSON.stringify(formData)
+    },
+    formData
   });
 
   const userToken = sessionStorage.userToken;

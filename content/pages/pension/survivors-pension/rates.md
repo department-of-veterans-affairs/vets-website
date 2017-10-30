@@ -13,10 +13,10 @@ If you qualify for survivors pension benefits, the amount you get will be based 
 
 - **Your countable income** is how much you earn, including your salary, investment and retirement payments, and any income you may have from your dependents. Some expenses, like non-reimbursable medical expenses (paid medical expenses not covered by your insurance provider), may reduce your countable income.
 
-- **Your MAPR amount** is the maximum amount of pension payable to a Veteran, surviving spouse, or child. Your MAPR is based on how many dependents you have and whether you qualify for Housebound or Aid and Attendance (A&A) benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
+- **Your MAPR amount** is the maximum amount of pension payable to a Veteran, surviving spouse, or child. Your MAPR is based on how many dependents you have and whether you qualify for Housebound or Aid and Attendance benefits. MAPRs are adjusted each year for cost-of-living increases. You can find your current MAPR amount using the tables below.
 
 **Example:**
-You’re a qualified surviving spouse with 1 dependent child. You also qualify for A&A benefits. Your yearly income is $10,000.
+You’re a qualified surviving spouse with 1 dependent child. You also qualify for Aid and Attendance benefits. Your yearly income is $10,000.
 
 Your MAPR amount = $16,506 <br>
 Your yearly income = $10,000 <br>
@@ -32,14 +32,14 @@ Your VA pension = $6,506 for the year (or $542 paid each month)
 
 | **If you have 1 dependent child and…** | **Your MAPR amount is:** | 
 | --- | --- | 
-| You don’t qualify for Housebound or A&A benefits | $11,330 | 
+| You don’t qualify for Housebound or Aid and Attendance benefits | $11,330 | 
 | You qualify for Housebound benefits | $13,249| 
-| You qualify for A&A benefits| $16,506| 
-| You qualify for A&A benefits **and** you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $17,006 | 
+| You qualify for Aid and Attendance benefits| $16,506| 
+| You qualify for Aid and Attendance benefits **and** you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $17,006 | 
 
 **Notes:** 
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
-- **If you have more than 1 child**, add $2,205 to your MAPR amount for each additional child. 
+- **If you have more than one child**, add $2,205 to your MAPR amount for each additional child. 
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
@@ -47,10 +47,10 @@ Your VA pension = $6,506 for the year (or $542 paid each month)
 
 | **If you have no dependents and…** | **Your MAPR amount is:** |
 | --- | --- |
-| You don’t qualify for Housebound or A&A benefits | $8,656 |
+| You don’t qualify for Housebound or Aid and Attendance benefits | $8,656 |
 | You qualify for Housebound benefits | $10,580 | 
-| You qualify for A&A benefits | $13,836 | 
-| You qualify for A&A benefits and you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $14,397 |
+| You qualify for Aid and Attendance benefits | $13,836 | 
+| You qualify for Aid and Attendance benefits and you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $14,397 |
 
 **Notes:**
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.

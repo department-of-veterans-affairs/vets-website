@@ -46,9 +46,9 @@ describe('<SubmittedTrackedItem>', () => {
         item={item}/>
     );
 
-    expect(tree.everySubTree('.submission-item')).not.to.be.empty;
-    expect(tree.subTree('.submission-item').text()).contain('File: testfile.pdf');
-    expect(tree.subTree('.submission-item').text()).contain('Type: Test Type');
+    expect(tree.everySubTree('.submission-description')).not.to.be.empty;
+    expect(tree.everySubTree('.submission-description')[1].text()).contain('File: testfile.pdf');
+    expect(tree.everySubTree('.submission-description')[1].text()).contain('Type: Test Type');
   });
   it('should render item with multiple docs', () => {
     const item = {
@@ -75,7 +75,8 @@ describe('<SubmittedTrackedItem>', () => {
         item={item}/>
     );
 
-    expect(tree.everySubTree('.submission-item').length).to.equal(2);
+    // two docs plus one description
+    expect(tree.everySubTree('.submission-description').length).to.equal(item.documents.length + 1);
   });
   it('should render reviewed item', () => {
     const item = {

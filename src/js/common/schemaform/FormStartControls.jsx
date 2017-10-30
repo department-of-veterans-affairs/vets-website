@@ -57,7 +57,7 @@ class FormStartControls extends React.Component {
           {!this.props.resumeOnly && <ProgressButton
             onButtonClick={this.toggleModal}
             buttonText="Start Over"
-            buttonClass="usa-button-outline"/>}
+            buttonClass="usa-button-secondary"/>}
           <Modal
             cssClass="va-modal-large"
             id="start-over-modal"
@@ -72,7 +72,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.toggleModal}
               buttonText="Cancel"
-              buttonClass="usa-button-outline"/>
+              buttonClass="usa-button-secondary"/>
           </Modal>
         </div>
       );
@@ -82,7 +82,7 @@ class FormStartControls extends React.Component {
       <div>
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
-          buttonText="Get Started"
+          buttonText={this.props.startText || 'Get Started'}
           buttonClass="usa-button-primary"
           afterText="»"/>
       </div>
@@ -92,7 +92,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
-  migrations: PropTypes.array.isRequired,
+  migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
@@ -100,6 +100,7 @@ FormStartControls.propTypes = {
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
+  startText: PropTypes.string,
   resumeOnly: PropTypes.bool
 };
 

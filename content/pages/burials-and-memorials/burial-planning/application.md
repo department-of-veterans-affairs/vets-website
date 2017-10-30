@@ -5,7 +5,7 @@ layout: page-react.html
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
       <li><a href="/burials-and-memorials/burial-planning">Burial Planning</a></li>
@@ -15,10 +15,10 @@ layout: page-react.html
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
-        <h3>Please wait while we load the application for you.</h3>
-        <img src="/img/preloader-primary-darkest.gif" alt="Loading">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
+        </div>
       </div>
     </div>
   </div>
 </div>
-

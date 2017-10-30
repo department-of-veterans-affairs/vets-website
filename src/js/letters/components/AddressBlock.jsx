@@ -7,8 +7,7 @@ const AddressBlock = ({ name, children }) => (
       {children}
     </div>
     <p>
-      A correct address is not required, but keeping it up to date can help you
-      on Vets.gov.
+      When you download a letter, it will show this address. If this address is incorrect you may want to update it, but your letter will still be valid even with the incorrect address.
     </p>
   </div>
 );

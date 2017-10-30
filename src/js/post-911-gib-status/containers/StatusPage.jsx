@@ -48,6 +48,12 @@ class StatusPage extends React.Component {
         {introText}
         {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
+        <h4>How can I see my Post-9/11 GI Bill benefit payments?</h4>
+        <div>
+          If you've received education benefit payments through this program, <a target="_blank"
+            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history">
+          you can see your payment history on eBenefits</a>.
+        </div>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>

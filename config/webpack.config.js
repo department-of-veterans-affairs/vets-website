@@ -4,8 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
-const bourbon = require('bourbon').includePaths;
-const neat = require('bourbon-neat').includePaths;
+// const bourbon = require('bourbon').includePaths;
+// const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -16,13 +16,18 @@ const timestamp = new Date().getTime();
 
 const entryFiles = {
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
-  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
+  '1990-edu-benefits': './src/js/edu-benefits/1990/edu-benefits-entry.jsx',
+  '1990e-edu-benefits': './src/js/edu-benefits/1990e/edu-benefits-entry.jsx',
+  '1990n-edu-benefits': './src/js/edu-benefits/1990n/edu-benefits-entry.jsx',
+  '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
+  '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
+  '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
@@ -113,8 +118,8 @@ const configGenerator = (options) => {
                 loader: 'sass-loader',
                 options: {
                   includePaths: [
-                    bourbon,
-                    neat,
+                    // bourbon,
+                    // neat,
                     '~/uswds/src/stylesheets&sourceMap'
                   ],
                   sourceMap: true,

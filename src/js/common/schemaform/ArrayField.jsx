@@ -255,7 +255,7 @@ export default class ArrayField extends React.Component {
                             {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-outline float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button className="usa-button-secondary float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
                         </div>}
                     </div>
@@ -272,7 +272,7 @@ export default class ArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index)}/>
                   </div>
                   <div className="small-3 columns">
-                    <button className="usa-button-outline float-right" onClick={() => this.handleEdit(index)}>Edit</button>
+                    <button className="usa-button-secondary float-right" onClick={() => this.handleEdit(index)}>Edit</button>
                   </div>
                 </div>
               </div>
@@ -281,7 +281,7 @@ export default class ArrayField extends React.Component {
           <button
             type="button"
             className={classNames(
-              'usa-button-outline',
+              'usa-button-secondary',
               'va-growable-add-btn',
               {
                 'usa-button-disabled': !this.props.formData
