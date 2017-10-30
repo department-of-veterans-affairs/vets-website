@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Bereavement Counseling
 display_title:
-order: 3
+order: 6
+collection: burials
 relatedlinks:
   - heading: Other helpful information
     links:
