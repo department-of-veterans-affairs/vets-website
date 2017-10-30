@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 display_title:
-collection: family-and-caregiver-benefits
-order: 4
+concurrence: complete
+order: 2
 ---
 <div class="va-introtext">
 

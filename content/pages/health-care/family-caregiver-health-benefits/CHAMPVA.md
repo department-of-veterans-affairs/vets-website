@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: CHAMPVA
 display_title:
-collection: family-and-caregiver-benefits
-order: 3
+concurrence: complete
+order: 1
 ---
 
 <div class="va-introtext">
