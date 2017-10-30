@@ -50,7 +50,7 @@ export default class CollapsiblePanel extends React.Component {
         <Element name={`collapsible-panel-${this.id}-scroll-element`}/>
         <div className="accordion-header clearfix">
           <button
-            className="usa-button-unstyled"
+            className="usa-accordion-button"
             aria-expanded={this.state.open ? 'true' : 'false'}
             aria-controls={`collapsible-${this.id}`}
             onClick={this.toggleChapter}>
