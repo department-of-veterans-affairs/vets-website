@@ -65,4 +65,4 @@ There are many government and private resources available to you as you make thi
 #### Homeless Veterans
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.
 
-For information on all available VA benefits, contact VA career-and-training specialists at 1-800-827-1000.
+For information on all available VA benefits, contact VA career-and-training specialists at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).

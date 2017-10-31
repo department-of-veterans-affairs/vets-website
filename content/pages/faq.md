@@ -20,7 +20,7 @@ display_title: Frequently Asked Questions
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
-                  Please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+                  Please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
                 </p>
               </div>
             </div>
@@ -120,7 +120,7 @@ display_title: Frequently Asked Questions
                     </button>
                     <div id="dbq6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you're having trouble verifying your identity online through ID.me, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+                        <p>If you're having trouble verifying your identity online through ID.me, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p>
                         <p>If you get an error code from ID.me, please write it down and read it to the Help Desk.</p>
                         <p>Right now, you can only verify your identity online for Vets.gov. But soon, we'll have in-person identity proofing options at VA facilities and other locations.</p>
                       </div>
