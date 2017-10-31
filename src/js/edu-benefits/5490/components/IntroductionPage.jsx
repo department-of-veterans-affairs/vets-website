@@ -17,11 +17,15 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for education benefits as an eligible dependent"/>
         <p>Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          resumeOnly
+          startText="Start the Education Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}>
+          Please complete the 22-5490 form to apply for education benefits.
+        </SaveInProgressIntro>
+        <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -56,12 +60,12 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-          pageList={this.props.route.pageList}
+          buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the Education Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 22-5490 form to apply for education benefits.
-        </SaveInProgressIntro>
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018"/>
         </div>
