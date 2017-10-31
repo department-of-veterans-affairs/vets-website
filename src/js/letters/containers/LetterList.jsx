@@ -80,9 +80,11 @@ export class LetterList extends React.Component {
         {eligibilityMessage}
 
         <br/>
-        <h4>Can’t find what you’re looking for?</h4>
         <p>
-          This system doesn’t include every VA letter. Find out how to access other VA letters and documents you might need.
+          A lot of people come to this page looking for their Post-9/11 GI Bill statement of
+          benefits, their Certificate of Eligibility (COE) for home loan benefits, and their DD214.
+          We don’t have these documents available here yet, but if you’re eligible for them, you
+          can get them through these links:
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill statement of benefits.</strong></a></li>
