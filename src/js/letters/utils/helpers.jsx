@@ -22,19 +22,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
 
-export const invalidAddressProperty = (
-  <div id="invalidAddress">
-    <div className="usa-alert usa-alert-error">
-      <div className="usa-alert-body">
-        <h2 className="usa-alert-heading">Address unavailable</h2>
-        <p className="usa-alert-text">
-          We’re encountering an error with your address information. This is not required for your letters, but if you’d like to see the address we have on file, or to update it, please visit <a href="/" target="_blank">this link</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
 export const addressUpdateUnavailable = (
   <div>
     <div className="usa-alert usa-alert-warning">
@@ -339,3 +326,37 @@ export function resetDisallowedAddressFields(address) {
 
   return newAddress;
 }
+
+/**
+ * Traverses a single-level object and removes its zero-length own-enumerable properties
+ * @param {Object} input an object with no nested properties
+ * @returns a cloned object with no empty properties
+ */
+export const stripEmpties = (input) => {
+  const newObject = { ...input };
+  const deleteProperty = (key) => (delete newObject[key]);
+  const isEmpty = (key) => (input[key].length === 0);
+  Object.keys(input)
+    .filter(isEmpty)
+    .forEach(deleteProperty);
+  return newObject;
+};
+
+/**
+ * Takes an address object as returned from vets-api and translates its properties to
+ * generic properties that are consumed by the front end
+ * @param {Object} address an address object as formatted by vets-api
+ * @returns {Object} shallow clone of address with military properties swapped for generics
+ */
+export const militaryToGeneric = (address) => {
+  if (address.type !== ADDRESS_TYPES.military) {
+    return { ...address };
+  }
+  const genericAddress = { ...address };
+  genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
+  genericAddress.stateCode = genericAddress.militaryStateCode;
+  genericAddress.countryName = 'USA';
+  delete genericAddress.militaryPostOfficeTypeCode;
+  delete genericAddress.militaryStateCode;
+  return genericAddress;
+};
