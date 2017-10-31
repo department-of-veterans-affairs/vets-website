@@ -30,7 +30,7 @@ If you’re the current or surviving spouse or child of a disabled or deceased V
 
 ### The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 
-If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-to-family-caregivers/).
+If you’re a family member who’s caring for a disabled Veteran who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers. [Find out if you qualify for this program—and how to apply](/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers/).
 
 <br>
 
