@@ -42,9 +42,11 @@ import {
  */
 let oldFetch;
 let oldSessionStorage;
+let oldWindow;
 const setup = () => {
   oldSessionStorage = global.sessionStorage;
   oldFetch = global.fetch;
+  oldWindow = global.window;
   global.sessionStorage = {
     userToken: '123abc'
   };
@@ -54,10 +56,16 @@ const setup = () => {
     ok: true,
     json: () => Promise.resolve({})
   }));
+  global.window.dataLayer = [];
+  global.window.URL = {
+    createObjectURL: () => { },
+    revokeObjectURL: () => { }
+  };
 };
 const teardown = () => {
   global.fetch = oldFetch;
   global.sessionStorage = oldSessionStorage;
+  global.window = oldWindow;
 };
 const getState = () => ({});
 
@@ -391,28 +399,14 @@ describe('getBenefitSummaryOptions', () => {
   });
 });
 
-describe.only('getLetterPdf', () => {
+describe('getLetterPdf', () => {
   beforeEach(setup);
   afterEach(teardown);
-
-  // const civilSLetter = {
-  //   letterName: 'Civil Service Preference Letter',
-  //   letterType: LETTER_TYPES.civilService,
-  //   letterOptions: {
-  //     // Opts only relevant for BSL but ATM required in every download link
-  //     militaryService: true,
-  //     monthlyAward: true,
-  //     serviceConnectedEvaluation: true,
-  //     chapter35Eligibility: true,
-  //     serviceConnectedDisabilities: true
-  //   }
-  // };
 
   const benefitSLetter = {
     letterName: 'Benefit Summary Letter',
     letterType: LETTER_TYPES.benefitSummary,
     letterOptions: {
-      // Opts only relevant for BSL but ATM required in every download link
       militaryService: true,
       monthlyAward: true,
       serviceConnectedEvaluation: true,
@@ -440,25 +434,16 @@ describe.only('getLetterPdf', () => {
       ok: true,
       blob: () => Promise.resolve({ test: '123 testing' })
     }));
-    const oldWindow = cloneDeep(global.window);
-    global.window.URL = {
-      createObjectURL: () => { },
-      revokeObjectURL: () => { }
-    };
-
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
-      }).then(() => {
-        global.window = oldWindow;
-        done();
-      }, done);
+      }).then(done, done);
   });
 
-  it('dispatches DOWNLOAD_FAILED if download or fetch fails', (done) => {
+  it('dispatches FAILURE action if download fails', (done) => {
     global.fetch.returns(Promise.reject(new Error('Oops, this failed')));
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
@@ -466,7 +451,7 @@ describe.only('getLetterPdf', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+        expect(action.type).to.equal(GET_LETTER_PDF_FAILURE);
       }).then(done, done);
   });
 });
