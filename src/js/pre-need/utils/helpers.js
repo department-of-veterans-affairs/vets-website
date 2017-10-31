@@ -31,13 +31,25 @@ export function transform(formConfig, form) {
   const matchClaimant = name => a => formatName(a.claimant.name) === name;
   const formCopy = Object.assign({}, form);
 
-  // Fill in veteran info in each application
-  // where the sponsor is another claimant.
   formCopy.applications = formCopy.applications.map(application => {
+    // Fill in veteran info that veterans didn't need to enter separately.
+    if (isVeteran(application)) {
+      return merge('veteran', {
+        address: application.claimant.address,
+        currentName: application.claimant.name,
+        dateOfBirth: application.claimant.dateOfBirth,
+        ssn: application.claimant.ssn,
+        isDeceased: 'no'
+      }, application);
+    }
+
+    // Fill in veteran info in each application
+    // where the sponsor is another claimant.
     const sponsorName = application['view:sponsor'];
     if (sponsorName !== 'Other') {
       const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-      return set('veteran', veteranApplication.veteran, application);
+      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+      return set('veteran', veteran, application);
     }
 
     return application;
@@ -71,6 +83,28 @@ export function transform(formConfig, form) {
 export const fullMaidenNameUI = merge(fullNameUI, {
   maiden: { 'ui:title': 'Maiden name' },
 });
+
+export class GetFormHelp extends React.Component {
+  render() {
+    return (
+      <div>
+        <p className="talk">For other benefit-related questions, please call VA Benefits and Services:</p>
+        <p className="phone-number">
+          <a href="tel:+1-800-827-1000">1-800-827-1000</a><br/>
+          Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET)<br/>
+          For Telecommunications Relay Service (TRS): dial <a href="tel:711">711</a>
+        </p>
+
+        <p className="talk">For questions about eligibility for burial in a VA national cemetery, please call the National Cemetery Scheduling Office:</p>
+        <p className="phone-number">
+          <a href="tel:+1-800-535-1117">1-800-535-1117</a><br/>
+          7 days a week, 8:00 a.m. - 7:30 p.m. (ET)<br/>
+          Select option 3 to speak to someone in Eligibility
+        </p>
+      </div>
+    );
+  }
+}
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -108,12 +142,12 @@ export const veteranUI = {
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)'
   },
+  placeOfBirth: {
+    'ui:title': 'Place of birth'
+  },
   gender: {
     'ui:title': 'Gender',
     'ui:widget': 'radio'
-  },
-  placeOfBirth: {
-    'ui:title': 'Place of birth'
   },
   maritalStatus: {
     'ui:title': 'Marital status',

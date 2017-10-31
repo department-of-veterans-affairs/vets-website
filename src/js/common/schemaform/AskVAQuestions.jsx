@@ -7,12 +7,14 @@ function AskVAQuestions(props) {
         <div className="ask-va-questions help-sidebar-box">
           <h2 className="help-h2-border help-h2">Need Help?</h2>
           {props.children}
-          <p className="talk">To report a problem with this form,<br/>
-          call the Vets.gov Technical Help Desk:</p>
+          <p className="talk">
+            To report a problem with this form,
+            please call the Vets.gov Technical Help Desk:
+          </p>
           <p className="phone-number">
             <a href="tel:+1-855-574-7286">1-855-574-7286</a><br/>
-            TTY: <a href="tel:+18008778339">1-800-877-8339</a><br/>
-            Monday - Friday, 8:00 a.m. - 8:00 p.m. ET
+            TTY: <a href="tel:+1-800-877-8339">1-800-877-8339</a><br/>
+            Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET)
           </p>
         </div>
       </div>
