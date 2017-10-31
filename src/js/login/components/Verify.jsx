@@ -100,8 +100,8 @@ class Verify extends React.Component {
                 <h4>Having trouble verifying your identity?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
-                  We're here Monday – Friday, 8:00am – 8:00pm (ET).
+                  Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
+                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
                 </p>
               </div>
             </div>

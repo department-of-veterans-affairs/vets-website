@@ -21,7 +21,7 @@ class ErrorView extends React.Component {
       title = 'We couldn’t access your health tools';
       detail = (
         <p>
-          We’re sorry. We can’t seem to give you access to this site’s tools for managing your health and benefits online right now. Please <a onClick={() => { window.location.reload(true); }}>try again</a> in a few minutes. If it still doesn’t work, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-877-8339). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          We’re sorry. We can’t seem to give you access to this site’s tools for managing your health and benefits online right now. Please <a onClick={() => { window.location.reload(true); }}>try again</a> in a few minutes. If it still doesn’t work, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
     }

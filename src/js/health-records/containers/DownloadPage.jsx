@@ -23,7 +23,7 @@ export class DownloadPage extends React.Component {
         <div>
           <h4>Couldn’t generate your records</h4>
           <p>
-            Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
+            Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
           </p>
         </div>
       );
