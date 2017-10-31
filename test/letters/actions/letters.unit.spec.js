@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { cloneDeep } from 'lodash';
 
 import {
   ADDRESS_TYPES,
@@ -13,10 +14,13 @@ import {
   GET_ADDRESS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
+  GET_LETTER_PDF_DOWNLOADING,
+  GET_LETTER_PDF_SUCCESS,
+  GET_LETTER_PDF_FAILURE,
   GET_LETTERS_SUCCESS,
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
-  // LETTER_TYPES,
+  LETTER_TYPES,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
   SAVE_ADDRESS_SUCCESS,
@@ -26,7 +30,7 @@ import {
   getLetterList,
   getMailingAddress,
   getBenefitSummaryOptions,
-  // getLetterPdf,
+  getLetterPdf,
   saveAddress,
   getAddressCountries,
   getAddressStates,
@@ -387,7 +391,7 @@ describe('getBenefitSummaryOptions', () => {
   });
 });
 
-describe.skip('getLetterPdf', () => {
+describe.only('getLetterPdf', () => {
   beforeEach(setup);
   afterEach(teardown);
 
@@ -404,32 +408,67 @@ describe.skip('getLetterPdf', () => {
   //   }
   // };
 
-  // const benefitSLetter = {
-  //   letterName: 'Benefit Summary Letter',
-  //   letterType: LETTER_TYPES.benefitSummary,
-  //   letterOptions: {
-  //     // Opts only relevant for BSL but ATM required in every download link
-  //     militaryService: true,
-  //     monthlyAward: true,
-  //     serviceConnectedEvaluation: true,
-  //     chapter35Eligibility: true,
-  //     serviceConnectedDisabilities: true
-  //   }
-  // };
+  const benefitSLetter = {
+    letterName: 'Benefit Summary Letter',
+    letterType: LETTER_TYPES.benefitSummary,
+    letterOptions: {
+      // Opts only relevant for BSL but ATM required in every download link
+      militaryService: true,
+      monthlyAward: true,
+      serviceConnectedEvaluation: true,
+      chapter35Eligibility: true,
+      serviceConnectedDisabilities: true
+    }
+  };
 
-  it('sets up fetch for benefit summary letter', () => {});
+  it('dispatches download pending action first', (done) => {
+    const { letterType, letterName, letterOptions } = benefitSLetter;
+    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_LETTER_PDF_DOWNLOADING);
+        expect(action.data).to.equal(letterType);
+      }).then(done, done);
+  });
 
-  it('sets up fetch for non-benefit-summary letters', () => {});
+  it('dispatches SUCCESS action when fetch succeeds', (done) => {
+    const { letterType, letterName, letterOptions } = benefitSLetter;
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/octet-stream' },
+      ok: true,
+      blob: () => Promise.resolve({ test: '123 testing' })
+    }));
+    const oldWindow = cloneDeep(global.window);
+    global.window.URL = {
+      createObjectURL: () => { },
+      revokeObjectURL: () => { }
+    };
 
-  it('dispatches PENDING action when download initiated', () => {});
+    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+      }).then(() => {
+        global.window = oldWindow;
+        done();
+      }, done);
+  });
 
-  it('handles ie10 stuff', () => {});
-
-  it('downloads stuff conditionally', () => {});
-
-  it('dispatches DOWNLOAD_SUCCESS once download succeeds', () => {});
-
-  it('dispatches DOWNLOAD_FAILED if download or fetch fails', () => {});
+  it('dispatches DOWNLOAD_FAILED if download or fetch fails', (done) => {
+    global.fetch.returns(Promise.reject(new Error('Oops, this failed')));
+    const { letterType, letterName, letterOptions } = benefitSLetter;
+    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+      }).then(done, done);
+  });
 });
 
 describe('getAddressCountries', () => {
