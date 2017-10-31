@@ -91,7 +91,7 @@ export class LetterList extends React.Component {
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>If you have any questions, please call the Vets.gov Help Desk:<br>
+          <div>If you have any questions, please call the Vets.gov Help Desk:<br/>
             <a href="tel:855-574-7286">1-855-574-7286</a>, TTY <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
           </div>
         </div>
