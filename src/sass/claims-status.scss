@@ -429,6 +429,7 @@
   > .va-tab-trigger {
     @media (max-width: $small-screen) {
       display: inline-block;
+      height: 100%;
       width: 100%;
     }
   }
