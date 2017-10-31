@@ -57,7 +57,7 @@ export class LetterList extends React.Component {
           <div className="usa-alert-body">
             <h2 className="usa-alert-heading">Some letters may not be available</h2>
             <p className="usa-alert-text">
-              One of our systems appears to be down. If you believe you‘re missing a
+              One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.
             </p>
           </div>
