@@ -53,8 +53,8 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application. Bring this to the VA certifying official at your school.</li></ul>
-              <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
+              <p>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application. Bring this to the VA certifying official at your school.</p>
+              <p>If your application wasn’t approved, you’ll get a denial letter in the mail.</p>
             </li>
           </ol>
         </div>
