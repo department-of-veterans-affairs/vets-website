@@ -10,7 +10,6 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import { validateMatch } from '../../common/schemaform/validation';
-import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -19,6 +18,7 @@ import ClaimantView from '../components/ClaimantView';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import {
+  GetFormHelp,
   claimantHeader,
   formatName,
   isVeteran,
