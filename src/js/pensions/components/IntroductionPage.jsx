@@ -20,10 +20,14 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
-          resumeOnly
+          startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}>
+          Please complete the 21-527EZ form to apply for pension benefits.
+        </SaveInProgressIntro>
+        <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -49,13 +53,8 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <h6>Aid and Attendance and Housebound benefits</h6>
-              If you need help with daily activities or you’re housebound, you may qualify for Aid and Attendance and Housebound benefits in addition to your pension benefits.<br/>
-              <a href="/pension/aid-attendance-housebound/" target="_blank">Find out if you're eligible</a>.<br/><br/>
-              <ul>
-                <li>To submit a claim for Aid and Attendance or Housebound benefits in addition to your pension claim, please have your doctor complete an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">Download VA Form 21-2680</a></li>
-                <li>In addition to your claim for Aid and Attendance or Housebound benefits, if you live in a nursing home, please have the nursing home fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0779). Turn in the completed form with your claim. <a href="http://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">Download VA Form 21-0779</a></li>
-              </ul>
+              <p><strong>You might quality for Aid and Attendance and Housebound benefits</strong></p>
+              <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about Aid and Attendance and Housebound Benefits</a>.<br/><br/>
               <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/rates" target="_blank">Find out how we decide pension rates.</a>
@@ -77,12 +76,11 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          buttonOnly
           pageList={this.props.route.pageList}
+          startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 21-527EZ form to apply for pension benefits.
-        </SaveInProgressIntro>
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>

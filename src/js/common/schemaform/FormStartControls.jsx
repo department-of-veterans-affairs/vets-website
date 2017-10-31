@@ -82,7 +82,7 @@ class FormStartControls extends React.Component {
       <div>
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
-          buttonText="Get Started"
+          buttonText={this.props.startText || 'Get Started'}
           buttonClass="usa-button-primary"
           afterText="»"/>
       </div>
@@ -100,6 +100,7 @@ FormStartControls.propTypes = {
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
+  startText: PropTypes.string,
   resumeOnly: PropTypes.bool
 };
 

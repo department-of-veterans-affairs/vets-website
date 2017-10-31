@@ -41,7 +41,6 @@
   }
 }
 
-
 .claim-list-item-container {
   background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
@@ -62,7 +61,8 @@
   padding: 0;
 }
 
-.communications, .status {
+.communications,
+.status {
   margin: 0 0 0.5em;
 }
 
@@ -82,7 +82,9 @@
   display: block;
   color: inherit;
 
-  &:visited, &:hover, &:active {
+  &:visited,
+  &:hover,
+  &:active {
     color: inherit;
     text-decoration: none;
     background-color: inherit;
@@ -140,7 +142,8 @@
     background: $color-inset-bg;
   }
 
-  &.soc, &.ssoc {
+  &.soc,
+  &.ssoc {
     background: $color-gibill-accent;
     padding-left: 2.5em;
 
@@ -161,7 +164,8 @@
 }
 
 .claims-first-paragraph {
-  .event-description &, .last-status-header + & {
+  .event-description &,
+  .last-status-header + & {
     margin-top: 0;
   }
 }
@@ -255,14 +259,13 @@
   }
 }
 
-
 .clearfix:after {
   content: " ";
   visibility: hidden;
   display: block;
   height: 0;
   clear: both;
- }
+}
 
 .loading-message-center-spinner {
   > img {
@@ -288,15 +291,17 @@ p.first-of-type {
 
 .file-requirements {
   margin-bottom: 1.5em;
-  .file-requirement-header {
-    font-weight: bold;
-    margin-bottom: 0;
-  }
-  .file-requirement-text {
-    margin: 0;
-    &:last-child {
-      margin-bottom: 1em;
-    }
+}
+
+.file-requirement-header {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.file-requirement-text {
+  margin: 0;
+  &:last-child {
+    margin-bottom: 1em;
   }
 }
 
@@ -304,24 +309,19 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-text-container {
-    padding-right: 1em;
-    word-break: break-all;
-    .document-size-text {
-      p {
-        margin: 0;
-      }
-    }
-  }
-  .remove-document-button {
-    > button {
-      margin: 0;
-      font-weight: bold;
-    }
-  }
   &:focus {
     outline: none;
   }
+}
+
+.document-title-text-container {
+  padding-right: 1em;
+  word-break: break-all;
+}
+
+.remove-document-button {
+  margin: 0;
+  font-weight: bold;
 }
 
 .document-title-row {
@@ -329,10 +329,11 @@ p.first-of-type {
   justify-content: space-between;
 }
 
-#content .section {
-  .document-title-header > .title {
-    padding: 0;
-  }
+.document-title {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+  padding: 0;
 }
 
 .disability-claims-warning {
@@ -346,13 +347,15 @@ p.first-of-type {
   margin-bottom: 1.5em;
 }
 
-.claims-upload-input {
-  h5 {
-    padding-bottom: 0 !important;
-  }
-  .usa-input-error-message {
-    margin-bottom: 1em;
-  }
+.claims-upload-input-error-message {
+  margin-bottom: 1em;
+}
+
+.claims-upload-input-title {
+  font-size: 1.15em;
+  line-height: 1.5;
+  font-weight: bold;
+  padding-bottom: 0 !important;
 }
 
 .claim-container {
@@ -448,7 +451,7 @@ h1:focus {
 }
 
 .va-nav-breadcrumbs:focus {
-  outline: none
+  outline: none;
 }
 
 .notification-close {
@@ -598,7 +601,8 @@ h1:focus {
     }
   }
 
-  > .section-current:not(.last), > .section-complete:not(.last) {
+  > .section-current:not(.last),
+  > .section-complete:not(.last) {
     cursor: pointer;
   }
 }

@@ -108,10 +108,11 @@ export default class SaveInProgressIntro extends React.Component {
 
     return (
       <div>
-        {this.getAlert(savedForm)}
+        {!this.props.buttonOnly && this.getAlert(savedForm)}
         <FormStartControls
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
+          startText={this.props.startText}
           startPage={this.props.pageList[1].path}
           formId={this.props.formId}
           returnUrl={this.props.returnUrl}
@@ -127,6 +128,7 @@ export default class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
+  buttonOnly: PropTypes.bool,
   prefillEnabled: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   messages: PropTypes.object,
@@ -137,6 +139,7 @@ SaveInProgressIntro.propTypes = {
   pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
+  startText: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired
 };
 

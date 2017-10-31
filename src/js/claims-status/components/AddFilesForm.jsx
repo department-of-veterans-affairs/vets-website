@@ -76,8 +76,8 @@ class AddFilesForm extends React.Component {
   }
   render() {
     return (
-      <div className="upload-files">
-        <div className="mail-or-fax-files">
+      <div>
+        <div>
           <p><a href onClick={(evt) => {
             evt.preventDefault();
             window.dataLayer.push({
@@ -90,12 +90,12 @@ class AddFilesForm extends React.Component {
         <div>
           <ErrorableFileInput
             errorMessage={this.getErrorMessage()}
-            label={<h5>Select files to upload</h5>}
+            label={<span className="claims-upload-input-title">Select files to upload</span>}
             accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onChange={this.add}
             buttonText="Add Files"
             name="fileUpload"
-            additionalClass="claims-upload-input"/>
+            additionalErrorClass="claims-upload-input-error-message"/>
         </div>
         <div className="file-requirements">
           <p className="file-requirement-header">Accepted file types:</p>
@@ -109,15 +109,15 @@ class AddFilesForm extends React.Component {
             <div className="document-title-size">
               <div className="document-title-row">
                 <div className="document-title-text-container">
-                  <div className="document-title-header">
-                    <h4 className="title">{file.name}</h4>
+                  <div>
+                    <span className="document-title">{file.name}</span>
                   </div>
-                  <div className="document-size-text">
+                  <div>
                     {displayFileSize(file.size)}
                   </div>
                 </div>
-                <div className="remove-document-button">
-                  <button className="usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
+                <div>
+                  <button className="remove-document-button usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
                 </div>
               </div>
               <div className="clearfix"></div>
@@ -133,7 +133,7 @@ class AddFilesForm extends React.Component {
             </div>
           </div>
         ))}
-        <div className="file-review">
+        <div>
           <button
             className="usa-button"
             onClick={this.submit}>

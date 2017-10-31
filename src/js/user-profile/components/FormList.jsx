@@ -43,11 +43,11 @@ class FormList extends React.Component {
          <p>If you delete this application, the information you entered will be lost.</p>
          <ProgressButton
            onButtonClick={this.removeForm}
-           buttonText="Yes, delete it"
+           buttonText="Yes, Delete It"
            buttonClass="usa-button-primary"/>
          <ProgressButton
            onButtonClick={this.toggleModal}
-           buttonText="No, keep it"
+           buttonText="No, Keep It"
            buttonClass="usa-button-outline"/>
        </Modal>
      </div>

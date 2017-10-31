@@ -26,16 +26,16 @@ module.exports = E2eHelpers.createE2eTest(
     // go to additional evidence page
     client
       .click('.additional-evidence-alert .usa-button')
-      .waitForElementVisible('.upload-files', Timeouts.normal)
+      .waitForElementVisible('.file-requirements', Timeouts.normal)
       .axeCheck('.main');
 
     client.assert.urlContains('additional-evidence');
 
     client
-      .expect.element('.upload-files button.usa-button').text.to.equal('Submit Files for Review');
+      .expect.element('button.usa-button').text.to.equal('Submit Files for Review');
 
     client
-      .click('.upload-files button.usa-button')
+      .click('button.usa-button')
       .waitForElementPresent('.usa-input-error', Timeouts.normal);
 
     client
