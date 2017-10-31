@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { cloneDeep } from 'lodash';
 
 import {
   ADDRESS_TYPES,
