@@ -31,6 +31,9 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect.element('.claims-alert-status').to.be.visible;
 
+    client
+      .expect.element('.claims-alert-status').text.to.contain('Ask for your Claim Decision');
+
     // click on link to page
     client
       // I have no idea why this pause is required, but it sure is
