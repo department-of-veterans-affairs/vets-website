@@ -25,7 +25,7 @@ display_title: Request Discharge Updates and Corrections
                   Reading the guidance on this page will help you understand what information to include for a strong application. Depending on the complexity of your case, you may consider finding someone to help you put it together (for example a lawyer or <a href="https://www.benefits.va.gov/vso/varo.asp">Veteran Service Organization</a>).
                 </p>
                 <p>
-                  Also, the Department of Defense (DoD0 has specific guidance to carefully consider discharges connected to:
+                  Also, the Department of Defense (DoD) has specific guidance to carefully consider discharges connected to:
                 </p>
                 <ul>
                   <li>Mental health conditions, including post-traumatic stress disorder (PTSD) </li>

@@ -1,5 +1,5 @@
 import '../common';
-import '../../sass/health-records/health-records.scss';
+import '../../sass/discharge-wizard.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
