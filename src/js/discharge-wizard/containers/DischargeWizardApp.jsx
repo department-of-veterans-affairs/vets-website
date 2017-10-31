@@ -3,7 +3,13 @@ import React from 'react';
 class DischargeWizardApp extends React.Component {
   render() {
     return (
-      <h1>DischargeWizardApp</h1>
+      <div>
+        <div className="row">
+          <div className="columns small-12">
+            <h1>Upgrading Your Discharge Status: What to know</h1>
+          </div>
+        </div>
+      </div>
     );
   }
 }
