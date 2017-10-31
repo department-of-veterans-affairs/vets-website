@@ -132,7 +132,7 @@ class AppealStatusPage extends React.Component {
                   <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
                   {status.description}
                   <p>
-                    <a href="/disability-benefits-beta/claims-appeal/">Learn more about the appeals process</a>.
+                    <a href="/disability-benefits/claims-appeal/">Learn more about the appeals process</a>.
                   </p>
                 </div>
               </div>
