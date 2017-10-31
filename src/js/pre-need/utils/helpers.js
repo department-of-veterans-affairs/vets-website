@@ -85,7 +85,7 @@ export class GetFormHelp extends React.Component {
 
         <p className="help-talk">For questions about eligibility for burial in a VA national cemetery, please call the National Cemetery Scheduling Office:</p>
         <p className="help-phone-number">
-          <a classNAme="help-phone-number-link" href="tel:+1-800-535-1117">1-800-535-1117</a><br/>
+          <a className="help-phone-number-link" href="tel:+1-800-535-1117">1-800-535-1117</a><br/>
           7 days a week, 8:00 a.m. - 7:30 p.m. (ET)<br/>
           Select option 3 to speak to someone in Eligibility
         </p>
