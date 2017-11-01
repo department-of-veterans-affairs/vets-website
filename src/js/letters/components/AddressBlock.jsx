@@ -1,9 +1,8 @@
 import React from 'react';
 
-const AddressBlock = ({ name, children }) => (
+const AddressBlock = ({ children }) => (
   <div>
     <div className="address-block">
-      <h5 className="letters-address">{name}</h5>
       {children}
     </div>
     <p>

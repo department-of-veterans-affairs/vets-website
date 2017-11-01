@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -25,6 +26,16 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('addressScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  });
+};
 
 // The address is empty if every field except type is falsey.
 // NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
@@ -52,7 +63,6 @@ export class AddressSection extends React.Component {
       this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
     }
   }
-
 
   /* editableAddress is initialized from redux store in the constructor
    * but the prop it initializes from is not available at time of mounting, which means users
@@ -152,6 +162,7 @@ export class AddressSection extends React.Component {
       errorMessages: {}
     });
     this.props.saveAddress(this.state.editableAddress);
+    scrollToTop();
   }
 
   handleCancel = () => {
@@ -162,11 +173,13 @@ export class AddressSection extends React.Component {
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
     });
+    scrollToTop();
   }
 
   startEditing = () => {
     window.dataLayer.push({ event: 'letter-update-address-started' });
     this.setState({ isEditingAddress: true });
+    scrollToTop();
   }
 
   dirtyInput = (fieldName) => {
@@ -256,6 +269,7 @@ export class AddressSection extends React.Component {
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
+          <h5>Edit Address</h5>
           <Address
             onInput={this.handleChange}
             onBlur={this.dirtyInput}
@@ -277,6 +291,7 @@ export class AddressSection extends React.Component {
     } else {
       addressFields = (
         <div>
+          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
@@ -300,14 +315,20 @@ export class AddressSection extends React.Component {
       addressContent = (
         <AddressContent
           saveError={this.props.saveAddressError}
-          name={(this.props.recipientName || '').toLowerCase()}
           addressObject={addressContentLines}>
           {addressFields}
         </AddressContent>
       );
     }
 
-    return <div>{addressContent}</div>;
+    return (
+      <div>
+        <Element name="addressScrollElement"/>
+        <div aria-live="polite" aria-relevant="additions">
+          {addressContent}
+        </div>
+      </div>
+    );
   }
 }
 

@@ -6,10 +6,15 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
+import { focusElement } from '../../common/utils/helpers';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
+  componentDidMount() {
+    focusElement('.nav-header');
+  }
+
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
@@ -66,7 +71,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content">
+      <div className="step-content" aria-live="polite">
         <p>
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>
