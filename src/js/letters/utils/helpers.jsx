@@ -45,7 +45,7 @@ export const addressUpdateUnavailable = (
 export const recordsNotFound = (
   <div id="records-not-found">
     <header>
-      <h1>We couldn't find your VA letters or documents</h1>
+      <h1>We couldn’t find your VA letters or documents</h1>
     </header>
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
