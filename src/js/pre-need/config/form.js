@@ -178,70 +178,72 @@ const formConfig = {
           path: 'sponsor-information',
           uiSchema: {
             'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
-            veteran: _.merge(veteranUI, {
-              currentName: _.merge(fullNameUI, {
-                first: {
-                  'ui:title': 'Sponsor\'s first name'
-                },
-                last: {
-                  'ui:title': 'Sponsor\'s last name'
-                },
-                middle: {
-                  'ui:title': 'Sponsor\'s middle name'
-                },
-                suffix: {
-                  'ui:title': 'Sponsor\'s suffix'
-                },
-                maiden: {
-                  'ui:title': 'Sponsor\'s maiden name'
-                }
-              }),
-              militaryServiceNumber: {
-                'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
-              },
-              vaClaimNumber: {
-                'ui:title': 'Sponsor\'s VA claim number (if known)'
-              },
-              ssn: {
-                ...ssnDashesUI,
-                'ui:title': 'Sponsor\'s social security number'
-              },
-              dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
-              placeOfBirth: {
-                'ui:title': 'Sponsor\'s place of birth'
-              },
-              gender: {
-                'ui:title': 'Sponsor\'s gender'
-              },
-              maritalStatus: {
-                'ui:title': 'Sponsor\'s marital status'
-              },
-              militaryStatus: {
-                'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
-                'ui:options': {
-                  nestedContent: {
-                    X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
+            application: {
+              veteran: _.merge(veteranUI, {
+                currentName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Sponsor\'s first name'
+                  },
+                  last: {
+                    'ui:title': 'Sponsor\'s last name'
+                  },
+                  middle: {
+                    'ui:title': 'Sponsor\'s middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Sponsor\'s suffix'
+                  },
+                  maiden: {
+                    'ui:title': 'Sponsor\'s maiden name'
                   }
-                }
-              },
-              isDeceased: {
-                'ui:title': 'Has the sponsor died?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    yes: 'Yes',
-                    no: 'No',
-                    unsure: 'I don\'t know'
+                }),
+                militaryServiceNumber: {
+                  'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
+                },
+                vaClaimNumber: {
+                  'ui:title': 'Sponsor\'s VA claim number (if known)'
+                },
+                ssn: {
+                  ...ssnDashesUI,
+                  'ui:title': 'Sponsor\'s social security number'
+                },
+                dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
+                placeOfBirth: {
+                  'ui:title': 'Sponsor\'s place of birth'
+                },
+                gender: {
+                  'ui:title': 'Sponsor\'s gender'
+                },
+                maritalStatus: {
+                  'ui:title': 'Sponsor\'s marital status'
+                },
+                militaryStatus: {
+                  'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                  'ui:options': {
+                    nestedContent: {
+                      X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
+                    }
                   }
-                }
-              },
-              dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
-                'ui:options': {
-                  expandUnder: 'isDeceased',
-                  expandUnderCondition: 'yes'
-                }
+                },
+                isDeceased: {
+                  'ui:title': 'Has the sponsor died?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No',
+                      unsure: 'I don\'t know'
+                    }
+                  }
+                },
+                dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
+                  'ui:options': {
+                    expandUnder: 'isDeceased',
+                    expandUnderCondition: 'yes'
+                  }
+                })
               })
-            })
+            }
           },
           schema: {
             type: 'object',
