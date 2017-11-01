@@ -21,7 +21,7 @@ Georgia, North Carolina, Puerto Rico, U.S. Virgin Islands
 </p>
 <p>P.O. Box 100022<br>
 Decatur, GA 30031-7022<br>
-<a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>)
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -35,7 +35,7 @@ Decatur, GA 30033<br>
 Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, Virginia, foreign schools
 <p>P.O. Box 4616<br>
 Buffalo, NY 14240-4616<br>
-<a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>)
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -49,7 +49,7 @@ Alabama, Alaska, Arizona, Arkansas, California, Florida, Hawaii, Idaho, Louisian
 </p>
 <p>P.O. Box 8888<br>
 Muskogee, OK 74402-8888<br>
-<a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>)
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -63,7 +63,7 @@ Colorado, Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Minnesota, Missou
 </p>
 <p>P.O. Box 66830<br>
 St. Louis, MO 63166-6830<br>
-<a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>)
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 
