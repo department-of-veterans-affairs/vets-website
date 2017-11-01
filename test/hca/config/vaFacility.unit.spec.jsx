@@ -25,7 +25,7 @@ describe('Hca VA facility', () => {
     expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(1);
   });
 
-  it('should not submit empty form', () => {
+  it('should submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -35,12 +35,9 @@ describe('Hca VA facility', () => {
         uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
-
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
   });
 
   it('should set center list by state', () => {
