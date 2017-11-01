@@ -433,9 +433,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingDocumentsDescription,
             application: {
-              attachments: _.merge(fileUploadUI('Select files to upload'), {
-                endpoint: ''
-              })
+              attachments: fileUploadUI('Select files to upload')
             }
           },
           schema: {
