@@ -21,11 +21,11 @@ majorlinks:
   - heading: Explore Other Ways to Start a Career
     links:
     - url: /employment/job-seekers/start
-      title: Start or Grow Your Business
-      description:
+      title: Register Your Veteran-Owned Small Business
+      description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
     - url: /employment/job-seekers/family-members
       title: Explore Resources for Military and Veteran Family Members
-      description:
+      description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
   - heading: Learn New Skills Using Online Resources
     links:
     - url: https://veterans.linkedin.com/
