@@ -62,7 +62,7 @@ export class LetterList extends React.Component {
           <div className="usa-alert-body">
             <h2 className="usa-alert-heading">Some letters may not be available</h2>
             <p className="usa-alert-text">
-              One of our systems appears to be down. If you believe you are missing a
+              One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.
             </p>
           </div>
@@ -98,9 +98,9 @@ export class LetterList extends React.Component {
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>If you have any questions, please call the Vets.gov Help Desk:</div>
-          <div><a href="tel:855-574-7286">1-855-574-7286</a></div>
-          <div>Monday - Friday, 8 a.m. - 8 p.m. (ET)</div>
+          <div>If you have any questions, please call the VA Benefits Help Desk:</div>
+          <div><a href="tel:1-800-827-1000">1-800-827-1000</a></div>
+          <div>Monday - Friday, 8 a.m. - 9 p.m. (ET)</div>
         </div>
       </div>
     );
