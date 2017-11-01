@@ -52,6 +52,10 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
+const emptyObjectSchema = {
+  type: 'object',
+  properties: {}
+};
 
 const {
   mothersMaidenName,
@@ -503,10 +507,7 @@ const formConfig = {
             required: ['discloseFinancialInformation'],
             properties: {
               discloseFinancialInformation,
-              'view:noDiscloseWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:noDiscloseWarning': emptyObjectSchema
             }
           }
         },
@@ -708,20 +709,11 @@ const formConfig = {
             required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
             properties: {
               deductibleMedicalExpenses,
-              'view:expensesIncomeWarning1': {
-                type: 'object',
-                properties: {}
-              },
+              'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
-              'view:expensesIncomeWarning2': {
-                type: 'object',
-                properties: {}
-              },
+              'view:expensesIncomeWarning2': emptyObjectSchema,
               deductibleEducationExpenses,
-              'view:expensesIncomeWarning3': {
-                type: 'object',
-                properties: {}
-              }
+              'view:expensesIncomeWarning3': emptyObjectSchema
             }
           }
         }
@@ -884,10 +876,7 @@ const formConfig = {
                   })
                 }
               },
-              'view:locator': {
-                type: 'object',
-                properties: {}
-              },
+              'view:locator': emptyObjectSchema,
               wantsInitialVaContact
             }
           }
