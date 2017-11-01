@@ -414,6 +414,19 @@ describe('getLetterPdf', () => {
     }
   };
 
+  const civilSLetter = {
+    letterName: 'Civil Service Preference Letter',
+    letterType: LETTER_TYPES.civilService,
+    letterOptions: {
+      // Opts only relevant for BSL but ATM required in every download link
+      militaryService: true,
+      monthlyAward: true,
+      serviceConnectedEvaluation: true,
+      chapter35Eligibility: true,
+      serviceConnectedDisabilities: true
+    }
+  };
+
   it('dispatches download pending action first', (done) => {
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
@@ -426,13 +439,13 @@ describe('getLetterPdf', () => {
       }).then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds', (done) => {
-    const { letterType, letterName, letterOptions } = benefitSLetter;
+  it('dispatches SUCCESS action when fetch succeeds for BSL', (done) => {
     global.fetch.returns(Promise.resolve({
       headers: { get: () => 'application/octet-stream' },
       ok: true,
       blob: () => Promise.resolve({ test: '123 testing' })
     }));
+    const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
@@ -440,6 +453,44 @@ describe('getLetterPdf', () => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
       }).then(done, done);
+  });
+
+  it('dispatches SUCCESS action when fetch succeeds for non-BSL', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/octet-stream' },
+      ok: true,
+      blob: () => Promise.resolve({ test: '123 testing' })
+    }));
+    const { letterType, letterName, letterOptions } = civilSLetter;
+    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+      }).then(done, done);
+  });
+
+  it('dispatches SUCCESS action when fetch succeeds on IE10', (done) => {
+    const ieDownloadSpy = sinon.spy();
+    const blobObj = { test: '123 testing' };
+    global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/octet-stream' },
+      ok: true,
+      blob: () => Promise.resolve(blobObj)
+    }));
+    const { letterType, letterName, letterOptions } = civilSLetter;
+    const thunk = getLetterPdf(letterType, letterName, letterOptions);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        const msBlobArgs = ieDownloadSpy.firstCall.args;
+        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+        expect(msBlobArgs).to.have.members([blobObj, `${letterName}.pdf`]);
+      }).then(done, done);
+
   });
 
   it('dispatches FAILURE action if download fails', (done) => {
