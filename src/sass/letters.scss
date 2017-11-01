@@ -36,10 +36,6 @@
     h5 {
       color: $color-primary-darker;
       padding: 0;
-
-      &:focus {
-        outline: none;
-      }
     }
 
     button {
@@ -49,6 +45,10 @@
 
   .letters-address {
     text-transform: capitalize;
+  }
+
+  .view-letters-button {
+    margin: 2em 0;
   }
 
   .accordion-header > button {
