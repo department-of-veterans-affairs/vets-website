@@ -107,7 +107,7 @@ To learn more about how we can help you access opportunities:
 - Call the OSDBU Call Center at 866-584-2344 anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
 - Email us at osdbu@va.gov<br>
 
-To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website] https://www.va.gov/OSDBU/index.asp). 
+To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
 
 </div>
 <br>
