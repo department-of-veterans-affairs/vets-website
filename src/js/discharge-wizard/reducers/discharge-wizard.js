@@ -1,3 +1,5 @@
+import { DW_UPDATE_FIELD } from '../actions';
+import _ from 'lodash';
 
 const initialState = {
   reason: null, // 1
@@ -14,6 +16,8 @@ const initialState = {
 
 function dischargeWizard(state = initialState, action) {
   switch (action.type) {
+    case DW_UPDATE_FIELD:
+      return _.set(action.key, action.value, state);
     default:
       return state;
   }
