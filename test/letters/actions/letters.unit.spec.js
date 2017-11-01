@@ -60,8 +60,21 @@ const getState = () => ({});
 describe('saveAddress', () => {
   const frontEndAddress = {
     type: ADDRESS_TYPES.military,
-    city: 'apo',
-    state: 'secret'
+    city: 'APO',
+    stateCode: 'AE',
+    countryName: 'USA'
+  };
+
+  const successResponse = {
+    data: {
+      attributes: {
+        address: {
+          type: frontEndAddress.type,
+          militaryPostOfficeTypeCode: frontEndAddress.city,
+          militaryStateCode: frontEndAddress.stateCode,
+        }
+      }
+    }
   };
 
   beforeEach(setup);
@@ -77,7 +90,22 @@ describe('saveAddress', () => {
       }).then(done, done);
   });
 
+  it('dispatches SAVE_ADDRESS_FAILURE when addresses do not match', (done) => {
+    const thunk = saveAddress(frontEndAddress);
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
+      }).then(done, done);
+  });
+
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(successResponse)
+    }));
     const thunk = saveAddress(frontEndAddress);
     const dispatch = sinon.spy();
     thunk(dispatch, getState)

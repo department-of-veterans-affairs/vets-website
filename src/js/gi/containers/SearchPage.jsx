@@ -148,7 +148,7 @@ export class SearchPage extends React.Component {
     // Filter button on mobile.
     const filterButton =
       (<button
-        className="filter-button usa-button-outline"
+        className="filter-button usa-button-secondary"
         onClick={this.props.toggleFilter}>Filter</button>);
 
     if (search.inProgress) {

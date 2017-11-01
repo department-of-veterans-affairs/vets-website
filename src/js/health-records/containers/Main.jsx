@@ -313,7 +313,7 @@ export class Main extends React.Component {
                 disabled={noValuesChecked || hasCustomDateErrors}>
                 Submit
               </button>
-              <a className="usa-button usa-button-outline" href="/health-care" role="button">Cancel</a>
+              <a className="usa-button usa-button-secondary" href="/health-care" role="button">Cancel</a>
             </div>
           </form>
         </div>

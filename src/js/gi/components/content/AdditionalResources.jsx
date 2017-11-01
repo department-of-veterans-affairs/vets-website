@@ -9,7 +9,12 @@ export const AdditionalResourcesLinks = () => (
     </p>
     <p>
       <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-        Choose a school guide
+        Get help choosing a school
+      </a>
+    </p>
+    <p>
+      <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp" target="_blank">
+        Submit a complaint through our Feedback System
       </a>
     </p>
     <p>

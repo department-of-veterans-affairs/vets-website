@@ -1,11 +1,9 @@
 .va-alert {
-  background-size: 1.5em;
-  background-position: 1.25rem 2.2rem;
   color: $color-gray-dark !important;
   position: relative;
 
   &-title, h5 {
-    // Duplicating this rule  and abusing !important until 
+    // Duplicating this rule  and abusing !important until
     // #content .section h5 gets cleared up.
     color: $color-gray-dark !important;
     padding-bottom: 0 !important;
@@ -16,11 +14,6 @@
     font: inherit;
     color: inherit;
   }
-}
-
-.va-alert-body {
-  padding-left: 2.5rem;
-  padding-right: 3.5rem;
 }
 
 .va-alert-close {

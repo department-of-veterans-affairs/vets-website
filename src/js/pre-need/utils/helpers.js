@@ -31,13 +31,25 @@ export function transform(formConfig, form) {
   const matchClaimant = name => a => formatName(a.claimant.name) === name;
   const formCopy = Object.assign({}, form);
 
-  // Fill in veteran info in each application
-  // where the sponsor is another claimant.
   formCopy.applications = formCopy.applications.map(application => {
+    // Fill in veteran info that veterans didn't need to enter separately.
+    if (isVeteran(application)) {
+      return merge('veteran', {
+        address: application.claimant.address,
+        currentName: application.claimant.name,
+        dateOfBirth: application.claimant.dateOfBirth,
+        ssn: application.claimant.ssn,
+        isDeceased: 'no'
+      }, application);
+    }
+
+    // Fill in veteran info in each application
+    // where the sponsor is another claimant.
     const sponsorName = application['view:sponsor'];
     if (sponsorName !== 'Other') {
       const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-      return set('veteran', veteranApplication.veteran, application);
+      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+      return set('veteran', veteran, application);
     }
 
     return application;
@@ -130,12 +142,12 @@ export const veteranUI = {
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)'
   },
+  placeOfBirth: {
+    'ui:title': 'Place of birth'
+  },
   gender: {
     'ui:title': 'Gender',
     'ui:widget': 'radio'
-  },
-  placeOfBirth: {
-    'ui:title': 'Place of birth'
   },
   maritalStatus: {
     'ui:title': 'Marital status',

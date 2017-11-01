@@ -61,12 +61,12 @@ const serviceVerificationLetterContent = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-text">
-          You can now use the Service Verification and Benefit Summary Letter in place of your Service Verification Letter.
+          You can now use your Benefit Summary letter instead of this Service Verification letter.
         </p>
       </div>
     </div>
     <p>
-      This letter shows your branch of service, date entered on active duty, and date discharged from active duty.
+      This letter shows your branch of service, the date you started active duty, and the date you were discharged from active duty.
     </p>
   </div>
 );
@@ -326,3 +326,37 @@ export function resetDisallowedAddressFields(address) {
 
   return newAddress;
 }
+
+/**
+ * Traverses a single-level object and removes its zero-length own-enumerable properties
+ * @param {Object} input an object with no nested properties
+ * @returns a cloned object with no empty properties
+ */
+export const stripEmpties = (input) => {
+  const newObject = { ...input };
+  const deleteProperty = (key) => (delete newObject[key]);
+  const isEmpty = (key) => (input[key].length === 0);
+  Object.keys(input)
+    .filter(isEmpty)
+    .forEach(deleteProperty);
+  return newObject;
+};
+
+/**
+ * Takes an address object as returned from vets-api and translates its properties to
+ * generic properties that are consumed by the front end
+ * @param {Object} address an address object as formatted by vets-api
+ * @returns {Object} shallow clone of address with military properties swapped for generics
+ */
+export const militaryToGeneric = (address) => {
+  if (address.type !== ADDRESS_TYPES.military) {
+    return { ...address };
+  }
+  const genericAddress = { ...address };
+  genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
+  genericAddress.stateCode = genericAddress.militaryStateCode;
+  genericAddress.countryName = 'USA';
+  delete genericAddress.militaryPostOfficeTypeCode;
+  delete genericAddress.militaryStateCode;
+  return genericAddress;
+};

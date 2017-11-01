@@ -170,7 +170,7 @@ export default class AdditionalSourcesField extends React.Component {
                         </div>
                         <div className="small-6 right columns">
                           <button
-                            className="usa-button-outline float-right"
+                            className="usa-button-secondary float-right"
                             type="button"
                             onClick={() => this.handleRemove(index)}>
                             Cancel
@@ -202,7 +202,7 @@ export default class AdditionalSourcesField extends React.Component {
           })}
           {!hasItemsBeingEdited && <button
             type="button"
-            className="usa-button-outline pensions-sources-add-btn"
+            className="usa-button-secondary pensions-sources-add-btn"
             onClick={this.handleAdd}>
             Add Another Source
           </button>}

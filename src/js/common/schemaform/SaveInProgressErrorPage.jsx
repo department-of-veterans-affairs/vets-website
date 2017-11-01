@@ -21,7 +21,7 @@ import { toggleLoginModal } from '../../login/actions';
 //  to handle save errors as well if we need it to.
 class SaveInProgressErrorPage extends React.Component {
   getBackButton = (primary = false) => {
-    const buttonClass = primary ? 'usa-button-primary' : 'usa-button-outline';
+    const buttonClass = primary ? 'usa-button-primary' : 'usa-button-secondary';
     return (
       <ProgressButton
         onButtonClick={this.goBack}
