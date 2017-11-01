@@ -114,8 +114,8 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 ### Take a different approach to starting your career
 
-- Start or grow [your own business](/employment/job-seekers/start/).
-- Evaluate [non-traditional programs](/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
+- If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business. [Register your business now](/employment/job-seekers/start/).
+- If you need more training or job experience, evaluate non-traditional programs like apprenticeships, work study, and on-the-job training. [Explore non-traditional programs](/education/work-learn/job-and-apprenticeship/).
 
 <br>
 
