@@ -17,7 +17,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 <div class="feature" markdown="1">
 
-### Can I register my business through the Vets First Verification Program? 
+### Can I register my business through the Vets First Verification Program?
 
 #### You may qualify to register your business as a Veteran-Owned Small Business (VOSB) if you’re a Veteran and you (or another Veteran):
 
@@ -32,6 +32,8 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 - Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
 - Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
+
+<br>
 
 #### You may qualify to register as a Service-Disabled Veteran-Owned Small Business (SDVOSB) if you meet all the requirements listed above and you (or another Veteran owner of the business) has:
 
