@@ -35,7 +35,7 @@ const {
   hasCurrentlyBuried,
   currentlyBuriedPersons,
   attachments
-} = fullSchemaPreNeed.properties;
+} = fullSchemaPreNeed.properties.application.properties;
 
 const {
   fullName,
