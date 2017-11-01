@@ -11,9 +11,6 @@ module.exports = E2eHelpers.createE2eTest(
     RxHelpers.initApplicationSubmitMock(token);
     AccountCreationHelpers.initMHVTermsMocks(token);
 
-    // Test flow for unauthed and LOA1 users
-    LoginHelpers.testUnauthedUserFlow(client, '/health-care/prescriptions');
-
     // Ensure active page renders
     LoginHelpers.logIn(token, client, '/health-care/prescriptions', 3)
       .assert.title('Refill Prescriptions: Vets.gov')
@@ -37,7 +34,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure glossary modal can be dismissed
     client
-      .click('.va-modal-button-group button')
+      .click('.va-modal-close')
       .expect.element('#rx-glossary-modal').to.not.be.present;
     client
       .click('button.rx-prescription-button')

@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
-  FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions';
+  FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -17,7 +17,8 @@ const initialState = {
   sortProperty: 'phaseChangeDate',
   consolidatedModal: false,
   show30DayNotice: true,
-  loading: false,
+  claimsLoading: false,
+  appealsLoading: false
 };
 
 // We want to sort claims without dates below claims with dates
@@ -100,7 +101,7 @@ export default function claimsReducer(state = initialState, action) {
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
         pages: getTotalPages(visibleList),
-        loading: false,
+        claimsLoading: false,
       });
     }
     case SET_APPEALS: {
@@ -111,7 +112,7 @@ export default function claimsReducer(state = initialState, action) {
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
         pages: getTotalPages(visibleList),
-        loading: false,
+        appealsLoading: false,
       });
     }
     case FILTER_CLAIMS: {
@@ -146,15 +147,15 @@ export default function claimsReducer(state = initialState, action) {
       return _.set('show30DayNotice', false, state);
     }
     case FETCH_APPEALS: {
-      return _.set('loading', true, state);
+      return _.set('appealsLoading', true, state);
     }
     case FETCH_CLAIMS: {
-      return _.set('loading', true, state);
+      return _.set('claimsLoading', true, state);
     }
     case SET_CLAIMS_UNAVAILABLE:
-      return _.set('loading', false, state);
+      return _.set('claimsLoading', false, state);
     case SET_APPEALS_UNAVAILABLE:
-      return _.set('loading', false, state);
+      return _.set('appealsLoading', false, state);
     default:
       return state;
   }

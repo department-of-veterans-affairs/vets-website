@@ -82,7 +82,7 @@ describe('Schemaform <SaveFormLink>', () => {
         toggleLoginModal={toggleLoginModalSpy}/>
     );
 
-    expect(tree.text()).to.contain('having some issues');
+    expect(tree.text()).to.contain('Something went wrong');
     expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
   });
   it('should show client error message', () => {

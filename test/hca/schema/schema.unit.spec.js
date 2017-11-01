@@ -36,7 +36,7 @@ describe('hca schema tests', () => {
           expect(data.spouseAddress.zipcode).to.not.be.empty;
           expect(typeof data.spouseAddress.postalCode).to.equal('undefined');
         }
-        expect(typeof data.children).not.to.equal('undefined');
+        expect(typeof data.dependents).not.to.equal('undefined');
         expect(result.valid).to.be.true;
       });
     });

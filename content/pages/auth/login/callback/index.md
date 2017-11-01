@@ -8,8 +8,9 @@ entryname: auth
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
-        <h3>Please wait while we log you in.</h3>
-        <img src="/img/preloader-primary-darkest.gif" alt="Loading">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="lease wait while we log you in." tabIndex="0"></div> Please wait while we log you in.
+        </div>
       </div>
     </div>
   </div>

@@ -29,7 +29,7 @@ class ModalConfirmSave extends React.Component {
         <div className="va-modal-button-group">
           <button type="submit">Save as draft</button>
           <button
-            className="usa-button-outline"
+            className="usa-button-secondary"
             onClick={this.props.onClose}
             type="button">Cancel</button>
         </div>

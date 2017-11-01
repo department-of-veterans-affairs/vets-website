@@ -30,14 +30,12 @@ describe('<ErrorableRadioButtons>', () => {
       <ErrorableRadioButtons label="my label" options={options} value={makeField('test')} onValueChange={(_update) => {}}/>);
 
     // Ensure label text is correct.
-    const labels = tree.everySubTree('label');
-    expect(labels).to.have.lengthOf(3);
-    expect(labels[0].text()).to.equal('my label');
+    expect(tree.subTree('legend').text()).to.equal('my label');
 
     // Ensure label htmlFor is attached to label id.
     const inputs = tree.everySubTree('input');
     expect(inputs).to.have.lengthOf(2);
     expect(inputs[0].props.id).to.not.be.undefined;
-    expect(inputs[0].props.id).to.equal(labels[1].props.htmlFor);
+    expect(inputs[0].props.id).to.equal(tree.everySubTree('label')[0].props.htmlFor);
   });
 });

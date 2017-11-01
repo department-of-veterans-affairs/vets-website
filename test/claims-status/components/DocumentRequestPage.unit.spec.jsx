@@ -175,7 +175,11 @@ describe('<DocumentRequestPage>', () => {
       attributes: {}
     };
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
+      replace: sinon.spy()
+    };
+    const params = {
+      id: 339
     };
     const getClaimDetail = sinon.spy();
     const resetUploads = sinon.spy();
@@ -188,6 +192,7 @@ describe('<DocumentRequestPage>', () => {
         uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
         router={router}
+        params={params}
         getClaimDetail={getClaimDetail}
         resetUploads={resetUploads}/>
     );

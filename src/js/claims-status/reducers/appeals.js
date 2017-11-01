@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import {
   SET_APPEALS,
   SET_APPEALS_UNAVAILABLE,
-} from '../actions';
+} from '../actions/index.jsx';
 
 const initialState = {
   available: true,

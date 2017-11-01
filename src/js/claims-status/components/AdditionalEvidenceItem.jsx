@@ -8,14 +8,14 @@ export default function AdditionalEvidenceItem({ item }) {
   const itemDate = getItemDate(item);
   return (
     <div className="submitted-file-list-item">
-      <p className="submission-file-type additional-evidence">Additional evidence</p>
-      <p className="submission-item">
+      <h3 className="submission-file-type additional-evidence">Additional evidence</h3>
+      <p className="submission-description">
         <span className="claim-item-label">File:</span> {item.filename}<br/>
         <span className="claim-item-label">Type:</span> {item.fileType}
       </p>
       <div>
-        <h6>Submitted</h6>
-        {!!itemDate && <p className="submission-date">{moment(itemDate).format('MMM D, YYYY')}</p>}
+        <strong className="submission-status">Submitted</strong>
+        {!!itemDate && <span className="submission-date">{moment(itemDate).format('MMM D, YYYY')}</span>}
       </div>
     </div>
   );

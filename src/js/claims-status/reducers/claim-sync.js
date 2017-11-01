@@ -5,7 +5,7 @@ import {
   SET_CLAIMS,
   SET_CLAIMS_UNAVAILABLE,
   SET_UNAUTHORIZED
-} from '../actions';
+} from '../actions/index.jsx';
 
 const initialState = {
   synced: true,

@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // test start over, but all it really does is fetch the form again
     client
-      .click('.usa-button-outline')
+      .click('.usa-button-secondary')
       .waitForElementVisible('.va-modal', Timeouts.normal)
       .click('.va-modal .usa-button-primary');
 

@@ -4,7 +4,7 @@ export const AdditionalResourcesLinks = () => (
   <div>
     <p>
       <a href="/education/tools-programs/careerscope" target="_blank">
-        Explore your career
+        Get started with CareerScope
       </a>
     </p>
     <p>

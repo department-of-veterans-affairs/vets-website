@@ -72,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(2)', 'progress-segment-complete');
 
     // VA Benefits Basic Info page.
-    client.waitForElementVisible('label[for="root_compensableVaServiceConnectedYes"]', Timeouts.normal);
+    client.waitForElementVisible('label[for="root_vaCompensationType_0"]', Timeouts.normal);
     HcaHelpers.completeVaBenefits(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
@@ -94,12 +94,12 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
 
-    // Child Information Page
-    client.expect.element('label[for="root_view:reportChildrenYes"]').to.be.visible;
-    HcaHelpers.completeChildInformation(client, testData.data);
+    // Dependent Information Page
+    client.expect.element('label[for="root_view:reportDependentsYes"]').to.be.visible;
+    HcaHelpers.completeDependentInformation(client, testData.data);
     client.axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/dependent-information');
 
     // Annual Income Page
     client.expect.element('input[name="root_veteranGrossIncome"]').to.be.visible;
@@ -152,7 +152,7 @@ module.exports = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
-    client.expect.element('.success-alert-box').to.be.visible;
+    client.expect.element('.confirmation-page-title').to.be.visible;
 
     client.axeCheck('.main');
 

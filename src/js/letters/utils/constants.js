@@ -1,34 +1,40 @@
 // Action types
+// getLetterList() actions
 export const BACKEND_AUTHENTICATION_ERROR = 'BACKEND_AUTHENTICATION_ERROR'; // 403
-export const INVALID_ADDRESS_PROPERTY = 'INVALID_ADDRESS_PROPERTY'; // 422
-export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR';  // 502
 export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR'; // 503 or 504
-
 export const GET_LETTERS_FAILURE = 'GET_LETTERS_FAILURE';
 export const GET_LETTERS_SUCCESS = 'GET_LETTERS_SUCCESS';
+export const INVALID_ADDRESS_PROPERTY = 'INVALID_ADDRESS_PROPERTY'; // 422
+export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR';  // 502
 
+// getMailingAddress() actions
 export const GET_ADDRESS_FAILURE = 'GET_ADDRESS_FAILURE';
 export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS';
 
+// getAddressCountries() actions
+export const GET_ADDRESS_COUNTRIES_FAILURE = 'GET_ADDRESS_COUNTRIES_FAILURE';
+export const GET_ADDRESS_COUNTRIES_SUCCESS = 'GET_ADDRESS_COUNTRIES_SUCCESS';
+
+// getAddressStates() actions
+export const GET_ADDRESS_STATES_FAILURE = 'GET_ADDRESS_STATES_FAILURE';
+export const GET_ADDRESS_STATES_SUCCESS = 'GET_ADDRESS_STATES_SUCCESS';
+
+// getBenefitSummaryOptions() actions
 export const GET_BENEFIT_SUMMARY_OPTIONS_FAILURE = 'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE';
 export const GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS = 'GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS';
-export const GET_LETTER_PDF_DOWNLOADING = 'GET_LETTER_PDF_DOWNLOADING';
 
-export const GET_LETTER_PDF_FAILURE = 'GET_LETTER_PDF_FAILURE';
-export const GET_LETTER_PDF_SUCCESS = 'GET_LETTER_PDF_SUCCESS';
-
-export const UPDATE_BENFIT_SUMMARY_REQUEST_OPTION = 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION';
-
-export const UPDATE_ADDRESS = 'UPDATE_ADDRESS';
-
+// saveAddress() actions
 export const SAVE_ADDRESS_PENDING = 'SAVE_ADDRESS_PENDING';
 export const SAVE_ADDRESS_SUCCESS = 'SAVE_ADDRESS_SUCCESS';
 export const SAVE_ADDRESS_FAILURE = 'SAVE_ADDRESS_FAILURE';
 
-export const GET_ADDRESS_COUNTRIES_SUCCESS = 'GET_ADDRESS_COUNTRIES_SUCCESS';
-export const GET_ADDRESS_COUNTRIES_FAILURE = 'GET_ADDRESS_COUNTRIES_FAILURE';
-export const GET_ADDRESS_STATES_SUCCESS = 'GET_ADDRESS_STATES_SUCCESS';
-export const GET_ADDRESS_STATES_FAILURE = 'GET_ADDRESS_STATES_FAILURE';
+// getLetterPdf() actions
+export const GET_LETTER_PDF_DOWNLOADING = 'GET_LETTER_PDF_DOWNLOADING';
+export const GET_LETTER_PDF_FAILURE = 'GET_LETTER_PDF_FAILURE';
+export const GET_LETTER_PDF_SUCCESS = 'GET_LETTER_PDF_SUCCESS';
+
+// updateBenefitSummaryRequestOption() actions
+export const UPDATE_BENFIT_SUMMARY_REQUEST_OPTION = 'UPDATE_BENFIT_SUMMARY_REQUEST_OPTION';
 
 export const AVAILABILITY_STATUSES = Object.freeze({
   awaitingResponse: 'awaitingResponse',
@@ -58,11 +64,28 @@ export const LETTER_TYPES = Object.freeze({
   benefitVerification: 'benefit_verification'
 });
 
+// Benefit options returned from vets-api, used in UI
 export const BENEFIT_OPTIONS = Object.freeze({
   awardEffectiveDate: 'awardEffectiveDate',
   monthlyAwardAmount: 'monthlyAwardAmount',
   serviceConnectedPercentage: 'serviceConnectedPercentage',
 
+  hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
+  hasServiceConnectedDisabilities: 'hasServiceConnectedDisabilities',
+  hasSurvivorsIndemnityCompensationAward: 'hasSurvivorsIndemnityCompensationAward',
+  hasSurvivorsPensionAward: 'hasSurvivorsPensionAward',
+  hasAdaptedHousing: 'hasAdaptedHousing',
+  hasChapter35Eligibility: 'hasChapter35Eligibility',
+  hasDeathResultOfDisability: 'hasDeathResultOfDisability',
+  hasIndividualUnemployabilityGranted: 'hasIndividualUnemployabilityGranted',
+  hasSpecialMonthlyCompensation: 'hasSpecialMonthlyCompensation',
+});
+
+// Benefit Summary Letter request customization options, subset of BENEFIT_OPTIONS
+// Currently only key removed is awardEffectiveDate
+export const REQUEST_OPTIONS = Object.freeze({
+  monthlyAwardAmount: 'monthlyAwardAmount',
+  serviceConnectedPercentage: 'serviceConnectedPercentage',
   hasNonServiceConnectedPension: 'hasNonServiceConnectedPension',
   hasServiceConnectedDisabilities: 'hasServiceConnectedDisabilities',
   hasSurvivorsIndemnityCompensationAward: 'hasSurvivorsIndemnityCompensationAward',

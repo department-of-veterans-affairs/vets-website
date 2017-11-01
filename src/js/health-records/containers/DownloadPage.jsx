@@ -72,7 +72,7 @@ export class DownloadPage extends React.Component {
           <Link className="usa-button" to="/" onClick={this.props.closeModal}>
             Yes, continue
           </Link>
-          <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+          <button onClick={this.props.closeModal} className="usa-button-secondary">Cancel</button>
         </div>
       </div>);
     };
@@ -96,7 +96,7 @@ export class DownloadPage extends React.Component {
             <button onClick={continueClick}>
               Yes, continue
             </button>
-            <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+            <button onClick={this.props.closeModal} className="usa-button-secondary">Cancel</button>
           </div>
         </div>);
       };

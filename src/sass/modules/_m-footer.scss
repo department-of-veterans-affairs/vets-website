@@ -12,14 +12,14 @@
 
   .va-flex {
     flex-wrap: wrap;
-
+    padding-left: 0.9375rem;
     @include media($medium-large-screen) {
       flex-wrap: nowrap;
     }
   }
 }
 
-.footer-inner {
+  .footer-inner {
   padding: 2rem 1rem 0;
 }
 
@@ -117,6 +117,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 10rem;
+  padding-left: 0.9375rem;
 
   @include media($medium-large-screen) {
     flex-wrap: nowrap;

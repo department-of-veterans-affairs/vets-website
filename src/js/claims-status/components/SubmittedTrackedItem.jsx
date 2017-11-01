@@ -9,11 +9,11 @@ export default function SubmittedTrackedItem({ item }) {
   const reviewed = hasBeenReviewed(item);
   return (
     <div className="submitted-file-list-item">
-      <p className="submission-file-type">{item.displayName}</p>
-      <p>{truncateDescription(item.description)}</p>
+      <h3 className="submission-file-type">{item.displayName}</h3>
+      <p className="submission-description">{truncateDescription(item.description)}</p>
       {item.documents
         ? item.documents.map((doc, index) => (
-          <div key={index} className="submission-item">
+          <div key={index} className="submission-description">
             <span className="claim-item-label">File:</span> {doc.filename}<br/>
             <span className="claim-item-label">Type:</span> {doc.fileType}
           </div>)
@@ -21,17 +21,17 @@ export default function SubmittedTrackedItem({ item }) {
         : null}
       {closed &&
         <div>
-          <h6>No longer needed</h6>
+          <span className="submission-status">No longer needed</span>
         </div>}
       {!closed && reviewed &&
         <div>
-          <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-          <p className="submission-date reviewed-file">{moment(getItemDate(item)).format('MMM D, YYYY')}</p>
+          <span className="submission-status reviewed-file"><i className="fa fa-check-circle submission-icon"></i>Reviewed by VA</span>
+          <span className="submission-date reviewed-file">{moment(getItemDate(item)).format('MMM D, YYYY')}</span>
         </div>}
       {!closed && !reviewed &&
         <div>
-          <h6>Submitted</h6>
-          <p className="submission-date">{moment(getItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
+          <span className="submission-status">Submitted</span>
+          <span className="submission-date">{moment(getItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</span>
         </div>}
     </div>
   );

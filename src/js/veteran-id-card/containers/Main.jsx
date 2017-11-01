@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
-import { initiateIdRequest } from '../actions';
+import { initiateIdRequest, timeoutRedirect } from '../actions';
 import { messages } from '../config';
 import AlertBox from '../../common/components/AlertBox';
 
@@ -17,6 +17,7 @@ class Main extends React.Component {
   componentDidUpdate() {
     if (this.props.vicUrl) {
       document.getElementById('vicForm').submit();
+      setTimeout(this.props.timeoutRedirect, 10000);
     }
   }
 
@@ -40,7 +41,7 @@ class Main extends React.Component {
   }
 
   renderButton() {
-    if (this.props.fetching || this.props.vicUrl) {
+    if ((this.props.fetching || this.props.vicUrl) && !this.props.vicError) {
       return (
         <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
           Redirecting...
@@ -51,6 +52,23 @@ class Main extends React.Component {
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
         Apply for a Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
+    );
+  }
+
+  renderVicError() {
+    const content = (
+      <div>
+        <h4>We're sorry. Something went wrong when loading the page.</h4>
+        <div>
+          <p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).</p>
+        </div>
+      </div>
+    );
+    return (
+      <AlertBox
+        content={content}
+        isVisible
+        status="error"/>
     );
   }
 
@@ -91,6 +109,7 @@ class Main extends React.Component {
           <div>
             {this.renderButton()}
             <div>{message}</div>
+            {this.props.vicError && this.renderVicError()}
           </div>
           {this.renderVicForm()}
         </div>
@@ -121,6 +140,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   initiateIdRequest,
+  timeoutRedirect,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

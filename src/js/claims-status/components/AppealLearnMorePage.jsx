@@ -4,7 +4,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 
 export default function AppealListItem() {
   return (
-    <div className="your-claims">
+    <div className="claims-container">
       <div className="row">
         <div>
           <h1>Appeals</h1>

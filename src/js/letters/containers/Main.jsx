@@ -15,40 +15,63 @@ import {
   getAddressStates
 } from '../actions/letters';
 
+const {
+  awaitingResponse,
+  available,
+  backendServiceError,
+  backendAuthenticationError,
+  invalidAddressProperty,
+  unavailable,
+  letterEligibilityError
+} = AVAILABILITY_STATUSES;
+
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
-    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-    // this.props.getAddressSuccessAction();
     this.props.getAddressCountries();
     this.props.getAddressStates();
+  }
+
+
+  appAvailability(lettersAvailability, addressAvailability) {
+    // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
+    if (lettersAvailability === awaitingResponse || addressAvailability === awaitingResponse) {
+      return awaitingResponse;
+    }
+
+    // If address isn't available, take the whole system down
+    if (addressAvailability === unavailable) {
+      return backendServiceError;
+    }
+
+    return lettersAvailability;
   }
 
   render() {
     let appContent;
 
-    switch (this.props.lettersAvailability) {
-      case AVAILABILITY_STATUSES.available:
+    switch (this.appAvailability(this.props.lettersAvailability, this.props.addressAvailability)) {
+      case available:
         appContent = this.props.children;
         break;
-      case AVAILABILITY_STATUSES.awaitingResponse:
+      case awaitingResponse:
         appContent = <LoadingIndicator message="Loading your letters..."/>;
         break;
-      case AVAILABILITY_STATUSES.backendServiceError:
+      case backendServiceError:
         appContent = systemDownMessage;
         break;
-      case AVAILABILITY_STATUSES.backendAuthenticationError:
+      case backendAuthenticationError:
         appContent = unableToFindRecordWarning;
         break;
-      case AVAILABILITY_STATUSES.invalidAddressProperty:
+      case invalidAddressProperty:
         appContent = systemDownMessage;
         break;
-      case AVAILABILITY_STATUSES.letterEligibilityError:
+      case letterEligibilityError:
         appContent = this.props.children;
         break;
-      case AVAILABILITY_STATUSES.unavailable:
+      case unavailable:
         appContent = (
           <div id="lettersUnavailable">
             <div className="usa-alert usa-alert-error" role="alert">
@@ -80,8 +103,9 @@ function mapStateToProps(state) {
   const letterState = state.letters;
   return {
     letters: letterState.letters,
-    destination: letterState.destination,
     lettersAvailability: letterState.lettersAvailability,
+    address: letterState.address,
+    addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
@@ -96,8 +120,6 @@ const mapDispatchToProps = {
   getMailingAddress,
   getAddressCountries,
   getAddressStates,
-  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
