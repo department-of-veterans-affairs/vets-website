@@ -18,9 +18,7 @@ import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import {
   GetFormHelp,
-  formatName,
   isVeteran,
-  requiresSponsorInfo,
   transform,
   fullMaidenNameUI,
   ssnDashesUI,
@@ -132,9 +130,8 @@ const formConfig = {
           }
         },
         applicantInformation2: {
-          title: item => formatName(item.claimant.name),
           path: 'applicant-information-2',
-          itemFilter: isVeteran,
+          depends: isVeteran,
           uiSchema: {
             application: {
               veteran: veteranUI
@@ -176,6 +173,7 @@ const formConfig = {
       pages: {
         sponsorInformation: {
           path: 'sponsor-information',
+          depends: (formData) => !isVeteran(formData),
           uiSchema: {
             'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
             application: {
@@ -286,7 +284,6 @@ const formConfig = {
       pages: {
         militaryHistory: {
           path: 'military-history',
-          itemFilter: requiresSponsorInfo,
           uiSchema: {
             application: {
               veteran: {
@@ -371,7 +368,6 @@ const formConfig = {
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
-          itemFilter: requiresSponsorInfo,
           uiSchema: {
             application: {
               claimant: {
@@ -486,7 +482,7 @@ const formConfig = {
               veteran: {
                 address: _.merge(address.uiSchema('Sponsor address'), {
                   'ui:options': {
-                    hideIf: (formData, index) => isVeteran(formData.applications[index])
+                    hideIf: isVeteran
                   }
                 })
               }
