@@ -175,11 +175,16 @@ const formConfig = {
                   properties: {
                     veteran: {
                       type: 'object',
+                      required: [
+                        'gender',
+                        'maritalStatus',
+                        'militaryStatus'
+                      ],
                       properties: _.pick([
                         'militaryServiceNumber',
                         'vaClaimNumber',
-                        'gender',
                         'placeOfBirth',
+                        'gender',
                         'maritalStatus',
                         'militaryStatus'
                       ], _.set('militaryStatus.enum', [
@@ -256,17 +261,53 @@ const formConfig = {
                 'ui:title': claimantHeader,
                 'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
                 veteran: _.merge(veteranUI, {
-                  'ui:order': [
-                    '*',
-                    'isDeceased',
-                    'maritalStatus',
-                    'dateOfDeath'
-                  ],
-                  currentName: fullNameUI,
-                  ssn: ssnDashesUI,
-                  dateOfBirth: currentOrPastDateUI('Date of birth'),
+                  currentName: _.merge(fullNameUI, {
+                    first: {
+                      'ui:title': 'Sponsor\'s first name'
+                    },
+                    last: {
+                      'ui:title': 'Sponsor\'s last name'
+                    },
+                    middle: {
+                      'ui:title': 'Sponsor\'s middle name'
+                    },
+                    suffix: {
+                      'ui:title': 'Sponsor\'s suffix'
+                    },
+                    maiden: {
+                      'ui:title': 'Sponsor\'s maiden name'
+                    }
+                  }),
+                  militaryServiceNumber: {
+                    'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
+                  },
+                  vaClaimNumber: {
+                    'ui:title': 'Sponsor\'s VA claim number (if known)'
+                  },
+                  ssn: {
+                    ...ssnDashesUI,
+                    'ui:title': 'Sponsor\'s social security number'
+                  },
+                  dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
+                  placeOfBirth: {
+                    'ui:title': 'Sponsor\'s place of birth'
+                  },
+                  gender: {
+                    'ui:title': 'Sponsor\'s gender'
+                  },
+                  maritalStatus: {
+                    'ui:title': 'Sponsor\'s marital status'
+                  },
+                  militaryStatus: {
+                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                    'ui:options': {
+                      nestedContent: {
+                        X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
+                      }
+                    }
+                  },
                   isDeceased: {
-                    'ui:title': 'Is the sponsor deceased?',
+                    'ui:title': 'Has the sponsor died?',
                     'ui:widget': 'radio',
                     'ui:options': {
                       labels: {
@@ -276,21 +317,12 @@ const formConfig = {
                       }
                     }
                   },
-                  maritalStatus: {
-                    'ui:options': {
-                      expandUnder: 'isDeceased',
-                      expandUnderCondition: 'no'
-                    }
-                  },
-                  dateOfDeath: _.merge(currentOrPastDateUI('Date of death'), {
+                  dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
                     'ui:options': {
                       expandUnder: 'isDeceased',
                       expandUnderCondition: 'yes'
                     }
-                  }),
-                  militaryStatus: {
-                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)'
-                  }
+                  })
                 })
               }
             }
@@ -305,18 +337,25 @@ const formConfig = {
                   properties: {
                     veteran: {
                       type: 'object',
+                      required: [
+                        'ssn',
+                        'gender',
+                        'maritalStatus',
+                        'militaryStatus',
+                        'isDeceased'
+                      ],
                       properties: _.pick([
                         'currentName',
                         'ssn',
                         'dateOfBirth',
-                        'dateOfDeath',
                         'militaryServiceNumber',
                         'vaClaimNumber',
-                        'gender',
                         'placeOfBirth',
+                        'gender',
                         'maritalStatus',
                         'militaryStatus',
-                        'isDeceased'
+                        'isDeceased',
+                        'dateOfDeath',
                       ], veteran.properties)
                     }
                   }
@@ -506,7 +545,9 @@ const formConfig = {
               items: {
                 'ui:title': claimantHeader,
                 'ui:description': SupportingDocumentsDescription,
-                attachments: fileUploadUI('Select files to upload')
+                attachments: _.merge(fileUploadUI('Select files to upload'), {
+                  endpoint: ''
+                })
               }
             }
           },
