@@ -205,6 +205,9 @@ const formConfig = {
                   labels: stateLabels
                 }
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
