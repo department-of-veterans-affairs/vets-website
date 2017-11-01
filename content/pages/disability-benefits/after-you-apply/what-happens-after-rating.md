@@ -21,7 +21,7 @@ If you haven’t gotten your decision notice:
 
 - [Check your status](/track-claims/), **or**
 - [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
-- Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>), **or**
+- Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
 - [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D)
 </div>
 
