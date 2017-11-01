@@ -148,20 +148,6 @@ smith.use(collections({
       name: 'Survivor and Dependent Benefits'
     }
   },
-  disabilityBeta: {
-    pattern: 'disability-benefits-beta/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Disability Benefits'
-    }
-  },
-  disabilityBetaClaimsAppeal: {
-    pattern: 'disability-benefits-beta/claims-appeal/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Appeals'
-    }
-  },
   disability: {
     pattern: 'disability-benefits/*.md',
     sortBy: 'order',

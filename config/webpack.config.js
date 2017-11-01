@@ -4,8 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
-const bourbon = require('bourbon').includePaths;
-const neat = require('bourbon-neat').includePaths;
+// const bourbon = require('bourbon').includePaths;
+// const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -118,8 +118,8 @@ const configGenerator = (options) => {
                 loader: 'sass-loader',
                 options: {
                   includePaths: [
-                    bourbon,
-                    neat,
+                    // bourbon,
+                    // neat,
                     '~/uswds/src/stylesheets&sourceMap'
                   ],
                   sourceMap: true,

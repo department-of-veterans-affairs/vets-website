@@ -73,7 +73,7 @@ class MessageSend extends React.Component {
             onClick={this.props.onSend}>{spinnerIcon} Send</button>
           <button
             disabled={isDisabled}
-            className="usa-button-outline msg-btn-save"
+            className="usa-button-secondary msg-btn-save"
             type="button"
             value="save"
             onClick={this.props.onSave}>Save As Draft</button>

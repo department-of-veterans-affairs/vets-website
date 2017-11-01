@@ -100,7 +100,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     if (this.props.optionsAvailable) {
       benefitSummaryContent = (
         <div>
-          <h2>Choose the information you want to include.</h2>
+          <h4>Choose the information you want to include.</h4>
           <h2>Military service information</h2>
           <p>
             Our records show the 3 most recent service periods. There may be additional service periods not shown here.

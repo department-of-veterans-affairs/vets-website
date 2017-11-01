@@ -6,10 +6,15 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
+import { focusElement } from '../../common/utils/helpers';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
+  componentDidMount() {
+    focusElement('.nav-header');
+  }
+
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
@@ -57,7 +62,7 @@ export class LetterList extends React.Component {
           <div className="usa-alert-body">
             <h2 className="usa-alert-heading">Some letters may not be available</h2>
             <p className="usa-alert-text">
-              One of our systems appears to be down. If you believe you are missing a
+              One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.
             </p>
           </div>
@@ -66,7 +71,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content">
+      <div className="step-content" aria-live="polite">
         <p>
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>
@@ -80,9 +85,11 @@ export class LetterList extends React.Component {
         {eligibilityMessage}
 
         <br/>
-        <h4>Can’t find what you’re looking for?</h4>
         <p>
-          This system doesn’t include every VA letter. Find out how to access other VA letters and documents you might need.
+          A lot of people come to this page looking for their Post-9/11 GI Bill statement of
+          benefits, their Certificate of Eligibility (COE) for home loan benefits, and their DD214.
+          We don’t have these documents available here yet, but if you’re eligible for them, you
+          can get them through these links:
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill statement of benefits.</strong></a></li>
@@ -91,9 +98,9 @@ export class LetterList extends React.Component {
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>If you have any questions, please call the Vets.gov Help Desk:</div>
-          <div><a href="tel:855-574-7286">1-855-574-7286</a></div>
-          <div>Monday - Friday, 8 a.m. - 8 p.m. (ET)</div>
+          <div>If you have any questions, please call the VA Benefits Help Desk:</div>
+          <div><a href="tel:1-800-827-1000">1-800-827-1000</a></div>
+          <div>Monday - Friday, 8 a.m. - 9 p.m. (ET)</div>
         </div>
       </div>
     );
