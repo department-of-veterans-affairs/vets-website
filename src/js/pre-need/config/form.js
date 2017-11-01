@@ -431,8 +431,8 @@ const formConfig = {
           path: 'supporting-documents',
           editModeOnReviewPage: true,
           uiSchema: {
+            'ui:description': SupportingDocumentsDescription,
             application: {
-              'ui:description': SupportingDocumentsDescription,
               attachments: _.merge(fileUploadUI('Select files to upload'), {
                 endpoint: ''
               })
@@ -533,23 +533,34 @@ const formConfig = {
           uiSchema: {
             application: {
               applicant: {
-                'ui:title': 'Who is filling out this form?',
-                'ui:options': {
-                  expandUnder: 'view:preparer',
-                  expandUnderCondition: 'Other'
-                },
-                name: _.merge(fullNameUI, {
-                  'ui:title': 'Preparer information',
-                  suffix: {
-                    'ui:options': {
-                      hideIf: () => true
+                applicantRelationshipToClaimant: {
+                  'ui:title': 'Who is filling out this form?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      Self: 'Myself',
+                      'Authorized Agent/Rep': 'Someone else'
                     }
                   }
-                }),
-                mailingAddress: address.uiSchema('Mailing address'),
-                'view:contactInfo': {
-                  'ui:title': 'Contact information',
-                  applicantPhoneNumber: phoneUI('Primary telephone number')
+                },
+                'view:applicantInfo': {
+                  'ui:options': {
+                    expandUnder: 'applicantRelationshipToClaimant',
+                    expandUnderCondition: 'Authorized Agent/Rep'
+                  },
+                  name: _.merge(fullNameUI, {
+                    'ui:title': 'Preparer information',
+                    suffix: {
+                      'ui:options': {
+                        hideIf: () => true
+                      }
+                    }
+                  }),
+                  mailingAddress: address.uiSchema('Mailing address'),
+                  'view:contactInfo': {
+                    'ui:title': 'Contact information',
+                    applicantPhoneNumber: phoneUI('Primary telephone number')
+                  }
                 }
               }
             }
@@ -563,14 +574,20 @@ const formConfig = {
                   applicant: {
                     type: 'object',
                     properties: {
+                      applicantRelationshipToClaimant: applicant.properties.applicantRelationshipToClaimant,
                       // TODO: Make fields required when expanded and not required when not.
-                      name: _.omit('required', fullName),
-                      mailingAddress: address.schema(fullSchemaPreNeed, /* true */),
-                      'view:contactInfo': {
+                      'view:applicantInfo': {
                         type: 'object',
-                        // required: ['applicantPhoneNumber'],
                         properties: {
-                          applicantPhoneNumber: applicant.properties.applicantPhoneNumber
+                          name: _.omit('required', fullName),
+                          mailingAddress: address.schema(fullSchemaPreNeed, /* true */),
+                          'view:contactInfo': {
+                            type: 'object',
+                            // required: ['applicantPhoneNumber'],
+                            properties: {
+                              applicantPhoneNumber: applicant.properties.applicantPhoneNumber
+                            }
+                          }
                         }
                       }
                     }
