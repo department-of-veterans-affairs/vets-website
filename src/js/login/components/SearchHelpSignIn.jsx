@@ -28,7 +28,7 @@ class SearchHelpSignIn extends React.Component {
     let content;
     const login = this.props.login;
 
-    if (login.currentlyLoggedIn) {
+    if (true) {
       const firstName = _.startCase(_.toLower(
         this.props.profile.userFullName.first || sessionStorage.userFirstName
       ));

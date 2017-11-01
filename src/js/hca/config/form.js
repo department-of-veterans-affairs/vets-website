@@ -156,6 +156,9 @@ const formConfig = {
               first: 'Sam',
               last: 'Gordon'
             },
+            dischargeType: 'honorable',
+            lastDischargeDate: '2000-01-02',
+            lastEntryDate: '1991-02-03',
             lastServiceBranch: 'army'
           },
           uiSchema: {
@@ -184,7 +187,10 @@ const formConfig = {
         birthInformation: {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
-          initialData: {},
+          initialData: {
+            veteranDateOfBirth: '1971-12-12',
+            veteranSocialSecurityNumber: '342342342'
+          },
           uiSchema: {
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: ssnUI,
